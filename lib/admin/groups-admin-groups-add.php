@@ -47,7 +47,7 @@ function groups_admin_groups_add() {
 		$parent_select .= '<option value="' . esc_attr( $group->group_id ) . '">' . wp_filter_nohtml_kses( $group->name ) . '</option>';
 	}
 	$parent_select .= '</select>';
-		
+
 	$output =
 		'<div class="manage-groups">' .
 		'<div>' .
@@ -75,6 +75,29 @@ function groups_admin_groups_add() {
 		'</div>' .
 	
 		'<div class="field">' .
+		'<label for="description-field" class="field-label description-field">' .__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</label>';
+		
+		$capability_table = _groups_get_tablename( "capability" );
+		$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+		
+		$output .= '<div class="select-capability-container" style="width:62%;">';
+		$output .= sprintf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
+		foreach( $capabilities as $capability ) {
+			$disabled = "";
+			if ( $capability->capability == Groups_Post_Access::READ_POST_CAPABILITY ) {
+				$disabled = ' disabled="disabled" ';
+			}
+			$output .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $disabled, wp_filter_nohtml_kses( $capability->capability ) );
+		}
+		$output .= '</select>';
+		$output .= '</div>';
+		
+		$output .= Groups_UIE::render_select( '.select.capability' );
+		
+		$output .= '</div>';
+		
+				
+		$output .= '<div class="field">' .
 		wp_nonce_field( 'groups-add', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
 		'<input class="button" type="submit" value="' . __( 'Add', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 		'<input type="hidden" value="add" name="action"/>' .
@@ -110,5 +133,17 @@ function groups_admin_groups_add_submit() {
 	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : null;
 	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
 	$name		= isset( $_POST['name-field'] ) ? $_POST['name-field'] : null;
-	return Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
+	
+	$group_id = Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
+	
+	if ($group_id) {
+		if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
+			$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
+			foreach( $read_caps as $read_cap ) {
+				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $read_cap ) );
+			}
+		}
+	}
+	
+	return $group_id;
 } // function groups_admin_groups_add_submit

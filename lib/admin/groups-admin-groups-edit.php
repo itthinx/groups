@@ -83,8 +83,45 @@ function groups_admin_groups_edit( $group_id ) {
 		'<label for="description-field" class="field-label description-field">' .__( 'Description', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . wp_filter_nohtml_kses( $description ) . '</textarea>' .
 		'</div>' .
-	
+		
+		
 		'<div class="field">' .
+		'<label for="description-field" class="field-label description-field">' .__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</label>';
+		
+		$capability_table = _groups_get_tablename( "capability" );
+		$group_capability_table = _groups_get_tablename( "group_capability" );
+		
+		$group_capabilities = $wpdb->get_results( $wpdb->prepare(
+				"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )",
+				Groups_Utility::id( $group_id )
+		) );
+		$group_capabilities_array = array();
+		if (count($group_capabilities)>0) {
+			foreach ($group_capabilities as $group_capability) {
+				$group_capabilities_array[] = $group_capability->capability_id;
+			}
+		}
+		
+		$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+		
+		$output .= '<div class="select-capability-container" style="width:62%;">';
+		$output .= sprintf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
+		foreach( $capabilities as $capability ) {
+			$selected = in_array( $capability->capability_id, $group_capabilities_array ) ? ' selected="selected" ' : '';
+			if ( $capability->capability == Groups_Post_Access::READ_POST_CAPABILITY ) {
+				$selected = ' disabled="disabled" ';
+			}
+			$output .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, wp_filter_nohtml_kses( $capability->capability ) );
+		}
+		$output .= '</select>';
+		$output .= '</div>';
+		
+		$output .= Groups_UIE::render_select( '.select.capability' );
+		
+		$output .= '</div>';
+		
+		
+		$output .= '<div class="field">' .
 		wp_nonce_field( 'groups-edit', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
 		'<input class="button" type="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 		'<input type="hidden" value="edit" name="action"/>' .
@@ -103,6 +140,7 @@ function groups_admin_groups_edit( $group_id ) {
  * Handle edit form submission.
  */
 function groups_admin_groups_edit_submit() {
+	global $wpdb;
 	
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
@@ -123,7 +161,36 @@ function groups_admin_groups_edit_submit() {
 		}
 		$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : null;
 		$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
-		return Groups_Group::update( compact( "group_id", "name", "parent_id", "description" ) );
+		$group_id = Groups_Group::update( compact( "group_id", "name", "parent_id", "description" ) );
+		
+		if ( $group_id ) {
+			$capability_table = _groups_get_tablename( "capability" );
+			$group_capability_table = _groups_get_tablename( "group_capability" );
+			
+			$group_capabilities = $wpdb->get_results( $wpdb->prepare(
+					"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )",
+					Groups_Utility::id( $group_id )
+			) );
+			$group_capabilities_array = array();
+			foreach ($group_capabilities as $group_capability) {
+				$group_capabilities_array[] = $group_capability->capability_id;
+			}
+			
+			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
+				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
+				// delete
+				foreach( $group_capabilities_array as $group_cap ) {
+					if ( !in_array($group_cap, $read_caps) )
+						Groups_Group_Capability::delete( $group_id, $group_cap );
+				}
+				// add
+				foreach( $read_caps as $read_cap ) {
+					if ( !in_array($read_cap, $group_capabilities_array) )
+						Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $read_cap ) );
+				}
+			}
+		}
+		return $group_id;		
 	} else {
 		return false;
 	}
