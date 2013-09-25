@@ -74,15 +74,17 @@ function groups_admin_groups() {
 					} else if ( isset( $_POST['remove'] ) ) {
 						$subaction = 'remove';
 					}
-					$capability_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null;
-					if ( is_array( $group_ids ) && ( $subaction !== null ) && ( $capability_id !== null ) ) {
+					$capabilities_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null;
+					if ( is_array( $group_ids ) && ( $subaction !== null ) && ( $capabilities_id !== null ) ) {
 						foreach ( $group_ids as $group_id ) {
 							switch ( $subaction ) {
 								case 'add' :
-									Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $capability_id ) );
+									foreach ( $capabilities_id as $capability_id )
+										Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $capability_id ) );
 									break;
 								case 'remove' :
-									Groups_Group_Capability::delete( $group_id, $capability_id );
+									foreach ( $capabilities_id as $capability_id )
+										Groups_Group_Capability::delete( $group_id, $capability_id );
 									break;
 							}
 						}
@@ -315,20 +317,23 @@ function groups_admin_groups() {
 		$output .= $pagination->pagination( 'top' );
 		$output .= '</div>';
 		$output .= '</form>';
-	}
-	
+	}	
 	
 	$capability_table = _groups_get_tablename( "capability" );
 	$group_capability_table = _groups_get_tablename( "group_capability" );
 	
 	// capabilities select
-	$capabilities_select = '<select name="capability_id">';
-	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );	
+	$capabilities_select = sprintf( '<select class="select capability" name="%s" multiple="multiple">', 'capability_id[]' );
 	foreach( $capabilities as $capability ) {
-		$capabilities_select .= '<option value="' . esc_attr( $capability->capability_id ) . '">' . wp_filter_nohtml_kses( $capability->capability ) . '</option>';
+		$disabled = "";
+		if ( $capability->capability == Groups_Post_Access::READ_POST_CAPABILITY ) {
+			$disabled = ' disabled="disabled" ';
+		}
+		$capabilities_select .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $disabled, wp_filter_nohtml_kses( $capability->capability ) );
 	}
-	$capabilities_select .= '</select>';
-	
+	$capabilities_select .= '</select>';	
+	$capabilities_select .= Groups_UIE::render_select( '.select.capability' );	
 	
 	$output .= '<form id="groups-action" method="post" action="">';
 	
