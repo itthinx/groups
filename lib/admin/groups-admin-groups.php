@@ -30,6 +30,7 @@ require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-add.php');
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-edit.php');
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-remove.php');
+require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-bulk.php');
 
 /**
  * Manage Groups: table of groups and add, edit, remove actions.
@@ -73,19 +74,41 @@ function groups_admin_groups() {
 						$subaction = 'add';
 					} else if ( isset( $_POST['remove'] ) ) {
 						$subaction = 'remove';
+					} else if ( isset( $_POST['bulk'] ) ) {
+						$subaction = 'bulk';
 					}
-					$capabilities_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null;
-					if ( is_array( $group_ids ) && ( $subaction !== null ) && ( $capabilities_id !== null ) ) {
+					if ( is_array( $group_ids ) && ( $subaction !== null ) ) {
 						foreach ( $group_ids as $group_id ) {
 							switch ( $subaction ) {
 								case 'add' :
-									foreach ( $capabilities_id as $capability_id )
-										Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $capability_id ) );
+									$capabilities_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null;
+									if ( $capabilities_id !== null ) {	
+										foreach ( $capabilities_id as $capability_id )
+											Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $capability_id ) );
+									}
 									break;
 								case 'remove' :
-									foreach ( $capabilities_id as $capability_id )
-										Groups_Group_Capability::delete( $group_id, $capability_id );
+									$capabilities_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null;
+									if ( $capabilities_id !== null ) {
+										foreach ( $capabilities_id as $capability_id )
+											Groups_Group_Capability::delete( $group_id, $capability_id );
+									}
 									break;
+								case 'bulk' :
+									$subbulkaction = null;
+									if ( isset( $_POST['bulk-action'] ) && ( $_POST['bulk-action'] !== '-1' ) ) {
+										$subbulkaction = $_POST['bulk-action'];
+									}
+									if ( $subbulkaction !== null ) {
+										$bulk_confirm = isset( $_POST['confirm'] ) ? true : false;
+										
+										if ( $bulk_confirm ) {
+											groups_admin_groups_bulk_remove_submit();
+										} else {
+											return groups_admin_groups_bulk_remove();
+										}
+									}
+									break;									
 							}
 						}
 					}
@@ -293,8 +316,8 @@ function groups_admin_groups() {
 			'</form>' .
 		'</div>';
 							
-	$output .= '
-		<div class="page-options">
+	$resultsperpage = '
+		<div class="manage-groups alignright">
 			<form id="setrowcount" action="" method="post">
 				<div>
 					<label for="row_count">' . __('Results per page', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
@@ -305,7 +328,7 @@ function groups_admin_groups() {
 			</form>
 		</div>
 		';
-		
+	
 	if ( $paginate ) {
 	  require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
 		$pagination = new Groups_Pagination( $count, null, $row_count );
@@ -318,6 +341,8 @@ function groups_admin_groups() {
 		$output .= '</div>';
 		$output .= '</form>';
 	}	
+	
+	$output .= $resultsperpage;
 	
 	$capability_table = _groups_get_tablename( "capability" );
 	$group_capability_table = _groups_get_tablename( "group_capability" );
@@ -334,19 +359,29 @@ function groups_admin_groups() {
 	}
 	$capabilities_select .= '</select>';	
 	$capabilities_select .= Groups_UIE::render_select( '.select.capability' );	
+	$capabilities_select .= Groups_UIE::enqueue('inline-select' );
 	
 	$output .= '<form id="groups-action" method="post" action="">';
 	
-	$output .= '<div class="tablenav top">';
-	$output .= '<div class="alignleft">';
-	$output .= __( "Apply capability to selected groups:", GROUPS_PLUGIN_DOMAIN );
+	$output .= '<div class="alignleft actions">';
+	$output .= '<select name="bulk-action">';
+	$output .= '<option selected="selected" value="-1">' . __("Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	$output .= '<option value="remove">' . __("Remove", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	$output .= '</select>';
+	$output .= '<input class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	$output .= '</div>';
+	
+	$output .= '<div class="separator"></div>';
+	
+	$output .= '<div class="inline-selectize">';
+	$output .= '<label class="" for="row_count">';
+	$output .= __( "Apply capability to selected groups:", GROUPS_PLUGIN_DOMAIN ) . '</label>';
 	$output .= $capabilities_select;
-	$output .= '<input class="button" type="submit" name="add" value="' . __( "Add", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-	$output .= '<input class="button" type="submit" name="remove" value="' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	$output .= '<input class="button " type="submit" name="add" value="' . __( "Add", GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	$output .= '<input class="button " type="submit" name="remove" value="' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '"/>';
 	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
-	$output .= '</div>'; // .alignleft
-	$output .= '</div>'; // .tablenav.top
+	$output .= '</div>'; 
 	
 	$output .= '
 		<table id="" class="wp-list-table widefat fixed" cellspacing="0">
@@ -432,7 +467,7 @@ function groups_admin_groups() {
 	$output .= '</table>';
 	
 	$output .= '</form>'; // #groups-action
-					
+
 	if ( $paginate ) {
 	  require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
 		$pagination = new Groups_Pagination($count, null, $row_count);

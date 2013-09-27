@@ -132,3 +132,54 @@ div.groups-footer form {
 	margin: 1em;
 	padding: 1em;
 }
+
+/* Groups 1.4 - new toolbar */
+
+.inline-selectize {
+    display: inline;
+    float: left;
+    padding-bottom: 1em;	
+    width: 45%;
+}
+
+.inline-selectize .button {
+	margin:0px 2px;
+	vertical-align: top;
+}
+
+.inline-selectize label {
+	vertical-align: top;
+}
+
+.inline-selectize .alignleft {
+	margin-left:5px;
+}
+
+.inline-selectize .selectize-control {
+	margin-left: 5px;
+	display:inline;
+	
+}
+.inline-selectize .selectize-input {
+	line-height: 15px;
+	padding: 3px;
+	width: 45%;
+	vertical-align: middle;
+	margin: 0px 5px;
+}
+
+.inline-selectize .selectize-dropdown, .selectize-input, .selectize-input input {
+	font-family: inherit;
+	font-size: inherit;
+}
+
+.separator {
+	border-left:1px solid #CCCCCC;
+	height:26px; 
+	float:left; 
+	margin:0px 10px;
+}
+
+#groups-action .actions select {
+	margin-right: 6px;
+}
