@@ -75,8 +75,8 @@ function groups_admin_groups_add() {
 		'</div>' .
 	
 		'<div class="field">' .
-		'<label for="description-field" class="field-label description-field">' .__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) .
-		'<span class="description">' . __(' ( These capabilities will be assigned to the group )', GROUPS_PLUGIN_DOMAIN). '</span></label>';
+		'<label for="description-field" class="field-label description-field">' .__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+		'<span class="description">' . __('These capabilities will be assigned to the group.', GROUPS_PLUGIN_DOMAIN). '</span>';
 	
 		$capability_table = _groups_get_tablename( "capability" );
 		$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
