@@ -74,24 +74,27 @@ function groups_admin_groups_add() {
 		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . wp_filter_nohtml_kses( $description ) . '</textarea>' .
 		'</div>' .
 	
-		'<div class="field">' .
-		'<label for="description-field" class="field-label description-field">' .__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
-		'<span class="description">' . __('These capabilities will be assigned to the group.', GROUPS_PLUGIN_DOMAIN). '</span>';
-	
+		'<div class="field">';
+	/*	
 		$capability_table = _groups_get_tablename( "capability" );
 		$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+		$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
 		
 		$output .= '<div class="select-capability-container" style="width:62%;">';
-		$output .= sprintf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
+		//$output .= printf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
 		foreach( $capabilities as $capability ) {
-			$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
+			$selected = in_array( $capability->capability, $applicable_read_caps ) ? ' selected="selected" ' : '';
+			if ( $capability->capability == Groups_Post_Access::READ_POST_CAPABILITY ) {
+				$selected .= ' disabled="disabled" ';
+			}
+			//$output .= printf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, wp_filter_nohtml_kses( $capability->capability ) );
 		}
-		$output .= '</select>';
+		//$output .= '</select>';
 		$output .= '</div>';
 		
-		$output .= Groups_UIE::render_select( '.select.capability' );
-		
-		$output .= '</div>';
+		//$output .= Groups_UIE::render_select( '.select.capability' );
+	*/	
+		$output .= '</div>' .
 		
 				
 		$output .= '<div class="field">' .
@@ -130,17 +133,5 @@ function groups_admin_groups_add_submit() {
 	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : null;
 	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
 	$name		= isset( $_POST['name-field'] ) ? $_POST['name-field'] : null;
-	
-	$group_id = Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
-	
-	if ($group_id) {
-		if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
-			$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
-			foreach( $read_caps as $read_cap ) {
-				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $read_cap ) );
-			}
-		}
-	}
-	
-	return $group_id;
+	return Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
 } // function groups_admin_groups_add_submit

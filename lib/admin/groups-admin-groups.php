@@ -351,11 +351,7 @@ function groups_admin_groups() {
 	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );	
 	$capabilities_select = sprintf( '<select class="select capability" name="%s" multiple="multiple">', 'capability_id[]' );
 	foreach( $capabilities as $capability ) {
-		$disabled = "";
-		if ( $capability->capability == Groups_Post_Access::READ_POST_CAPABILITY ) {
-			$disabled = ' disabled="disabled" ';
-		}
-		$capabilities_select .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $disabled, wp_filter_nohtml_kses( $capability->capability ) );
+		$capabilities_select .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
 	}
 	$capabilities_select .= '</select>';	
 	$capabilities_select .= Groups_UIE::render_select( '.select.capability' );	
