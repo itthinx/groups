@@ -32,6 +32,7 @@ class Groups_Admin_User_Profile {
 		add_action( 'edit_user_profile', array( __CLASS__, 'edit_user_profile' ) );
 		add_action( 'personal_options_update', array( __CLASS__, 'personal_options_update' ) );
 		add_action( 'edit_user_profile_update', array( __CLASS__, 'edit_user_profile_update' ) );
+		
 	}
 
 	/**
@@ -65,24 +66,22 @@ class Groups_Admin_User_Profile {
 	 */
 	public static function edit_user_profile( $user ) {
 		global $wpdb;
+		
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$output = '<h3>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
-				$output .= '<ul>';
+
+				$output .= sprintf( '<select class="select group" name="%s" multiple="multiple">', 'group_ids[]' );
 				foreach( $groups as $group ) {
 					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
-					$output .= '<li>';
-					$output .= '<label>';
-					$output .= sprintf( '<input type="checkbox" name="group_ids[]" value="%d" %s />', Groups_Utility::id( $group->group_id ), $is_member ? ' checked="checked" ' : '' );
-					$output .= ' ';
-					$output .= wp_filter_nohtml_kses( $group->name );
-					$output .= '</label>';
-					$output .= '</li>';
+					$output .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
 				}
-				$output .= '</ul>';
+				$output .= '</select>';
+				Groups_UIE::enqueue( 'select' );
+				$output .= Groups_UIE::render_select( '.select.group' );
 			}
 		}
 		echo $output;
