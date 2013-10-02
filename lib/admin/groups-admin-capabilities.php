@@ -335,13 +335,15 @@ function groups_admin_capabilities() {
 		';
 	
 	 $output .= '<form id="groups-action" method="post" action="">';
-	
+	 
+	 $output .= '<div class="tablenav top">';
 	 $output .= '<div class="alignleft actions">';
 	 $output .= '<select name="bulk-action">';
 	 $output .= '<option selected="selected" value="-1">' . __("Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
 	 $output .= '<option value="remove">' . __("Remove", GROUPS_PLUGIN_DOMAIN ) . '</option>';
 	 $output .= '</select>';
-	 $output .= '<input class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	 $output .= '<input id="doaction" class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	 $output .= '</div>';
 	 $output .= '</div>';
 	 $output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
 	 $output .= '<input type="hidden" name="action" value="groups-action"/>';
