@@ -138,8 +138,10 @@ div.groups-footer form {
 .inline-selectize {
     display: inline;
     float: left;
-    padding-bottom: 1em;	
-    width: 45%;
+    padding: 2px 0px;	
+    width: 650px;
+    margin-left: 10px;
+    
 }
 
 .inline-selectize .button {
@@ -163,14 +165,14 @@ div.groups-footer form {
 .inline-selectize .selectize-input {
 	line-height: 15px;
 	padding: 3px;
-	width: 45%;
+	width: 250px;
 	vertical-align: middle;
 	margin: 0px 5px;
 }
 
 .inline-selectize .selectize-dropdown, .selectize-input, .selectize-input input {
-	font-family: inherit;
-	font-size: inherit;
+	font-family: inherit !important;
+	font-size: inherit !important;
 }
 
 .separator {

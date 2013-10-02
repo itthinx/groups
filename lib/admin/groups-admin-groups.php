@@ -355,10 +355,10 @@ function groups_admin_groups() {
 	}
 	$capabilities_select .= '</select>';	
 	$capabilities_select .= Groups_UIE::render_select( '.select.capability' );	
-	$capabilities_select .= Groups_UIE::enqueue('inline-select' );
 	
 	$output .= '<form id="groups-action" method="post" action="">';
 	
+	$output .= '<div class="tablenav top">';
 	$output .= '<div class="alignleft actions">';
 	$output .= '<select name="bulk-action">';
 	$output .= '<option selected="selected" value="-1">' . __("Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
@@ -366,12 +366,14 @@ function groups_admin_groups() {
 	$output .= '</select>';
 	$output .= '<input class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
 	$output .= '</div>';
+	$output .= '</div>';
 	
-	$output .= '<div class="separator"></div>';
+//	$output .= '<div class="separator"></div>';
+	
 	
 	$output .= '<div class="inline-selectize">';
-	$output .= '<label class="" for="row_count">';
-	$output .= __( "Apply capability to selected groups:", GROUPS_PLUGIN_DOMAIN ) . '</label>';
+	$output .= '<div style="margin-top:3px; float:left;"><label>';
+	$output .= __( "Apply capability to selected groups:", GROUPS_PLUGIN_DOMAIN ) . '</label></div>';
 	$output .= $capabilities_select;
 	$output .= '<input class="button " type="submit" name="add" value="' . __( "Add", GROUPS_PLUGIN_DOMAIN ) . '"/>';
 	$output .= '<input class="button " type="submit" name="remove" value="' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '"/>';
