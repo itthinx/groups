@@ -135,51 +135,30 @@ div.groups-footer form {
 
 /* Groups 1.4 - new toolbar */
 
-.inline-selectize {
+.groups-bulk-container select {
+	margin: 1px 5px; 
+}
+
+.capabilities-select-container {
     display: inline;
     float: left;
     padding: 2px 0px;	
-/*    width: 650px;
-    margin-left: 10px;
-  */  
+    width: 25%;
 }
 
-.inline-selectize .button {
-	margin:0px 2px;
-	vertical-align: top;
-}
-
-.inline-selectize label {
-	vertical-align: top;
-}
-
-.inline-selectize .alignleft {
-/*	margin-left:5px;*/
-}
-
-.inline-selectize .selectize-control {
-/*	margin-left: 5px;*/
+.capabilities-select-container .selectize-control {
 	display:inline;
 	
 }
-.inline-selectize .selectize-input {
+.capabilities-select-container .selectize-input {
 	line-height: 15px;
 	padding: 3px;
-	width: 250px;
 	vertical-align: middle;
-/*	margin: 0px 5px;*/
 }
 
-.inline-selectize .selectize-dropdown, .selectize-input, .selectize-input input {
+.capabilities-select-container .selectize-dropdown, .selectize-input, .selectize-input input {
 	font-family: inherit !important;
 	font-size: inherit !important;
-}
-
-.separator {
-	border-left:1px solid #CCCCCC;
-	height:26px; 
-	float:left; 
-	margin:0px 10px;
 }
 
 #groups-action .actions select {

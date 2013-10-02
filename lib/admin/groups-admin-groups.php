@@ -70,36 +70,32 @@ function groups_admin_groups() {
 				if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) {
 					$group_ids = isset( $_POST['group_ids'] ) ? $_POST['group_ids'] : null;
 					$subaction = null;
-					if ( isset( $_POST['add'] ) ) {
-						$subaction = 'add';
-					} else if ( isset( $_POST['remove'] ) ) {
-						$subaction = 'remove';
-					} else if ( isset( $_POST['bulk'] ) ) {
-						$subaction = 'bulk';
+					if ( isset( $_POST['bulk'] ) ) {
+						$subaction = $_POST['bulk-action'];
 					}
 					if ( is_array( $group_ids ) && ( $subaction !== null ) ) {
 						foreach ( $group_ids as $group_id ) {
 							switch ( $subaction ) {
-								case 'add' :
+								case 'add-capability' :
 									$capabilities_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null;
 									if ( $capabilities_id !== null ) {	
 										foreach ( $capabilities_id as $capability_id )
 											Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $capability_id ) );
 									}
 									break;
-								case 'remove' :
+								case 'remove-capability' :
 									$capabilities_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null;
 									if ( $capabilities_id !== null ) {
 										foreach ( $capabilities_id as $capability_id )
 											Groups_Group_Capability::delete( $group_id, $capability_id );
 									}
 									break;
-								case 'bulk' :
-									$subbulkaction = null;
-									if ( isset( $_POST['bulk-action'] ) && ( $_POST['bulk-action'] !== '-1' ) ) {
-										$subbulkaction = $_POST['bulk-action'];
-									}
-									if ( $subbulkaction !== null ) {
+								case 'remove-group' :
+									//$subbulkaction = null;
+									//if ( isset( $_POST['bulk-action'] ) && ( $_POST['bulk-action'] !== '-1' ) ) {
+									//	$subbulkaction = $_POST['bulk-action'];
+									//}
+									//if ( $subbulkaction !== null ) {
 										$bulk_confirm = isset( $_POST['confirm'] ) ? true : false;
 										
 										if ( $bulk_confirm ) {
@@ -107,7 +103,7 @@ function groups_admin_groups() {
 										} else {
 											return groups_admin_groups_bulk_remove();
 										}
-									}
+									//}
 									break;									
 							}
 						}
@@ -349,7 +345,7 @@ function groups_admin_groups() {
 	
 	// capabilities select
 	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );	
-	$capabilities_select = sprintf( '<select class="select capability" name="%s" multiple="multiple">', 'capability_id[]' );
+	$capabilities_select = sprintf( '<select class="select capability" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s">', 'capability_id[]', __( "Capabilities...", GROUPS_PLUGIN_DOMAIN ) , __( "Capabilities...", GROUPS_PLUGIN_DOMAIN ) );
 	foreach( $capabilities as $capability ) {
 		$capabilities_select .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
 	}
@@ -359,25 +355,24 @@ function groups_admin_groups() {
 	$output .= '<form id="groups-action" method="post" action="">';
 	
 	$output .= '<div class="tablenav top">';
-	//$output .= '<div class="alignleft actions">';
 	
-	$output .= '<div class="inline-selectize">';
+	$output .= '<div class="groups-bulk-container">';
+	$output .= '<div class="capabilities-select-container">';
 	$output .= $capabilities_select;
 	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
-	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '</div>';
 	
 	$output .= '<select name="bulk-action">';
 	$output .= '<option selected="selected" value="-1">' . __("Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
-	$output .= '<option value="remove">' . __("Remove", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	$output .= '<option value="remove-group">' . __("Remove group", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	$output .= '<option value="add-capability">' . __("Add capability", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	$output .= '<option value="remove-capability">' . __("Remove capability", GROUPS_PLUGIN_DOMAIN ) . '</option>';
 	$output .= '</select>';
 	$output .= '<input id="doaction" class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-//	$output .= '</div>';
+	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '</div>';
 	
-//	$output .= '<div class="separator"></div>';
-	
-	
+	$output .= '</div>';
 	
 	$output .= '
 		<table id="" class="wp-list-table widefat fixed" cellspacing="0">

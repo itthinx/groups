@@ -71,7 +71,7 @@ function groups_admin_groups_bulk_remove() {
 	$output .= '<a class="cancel" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
 
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
-	$output .= '<input type="hidden" name="bulk-action" value="remove"/>';
+	$output .= '<input type="hidden" name="bulk-action" value="remove-group"/>';
 	$output .= '<input type="hidden" name="confirm" value="1"/>' .
 			wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
 	
