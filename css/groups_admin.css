@@ -139,9 +139,9 @@ div.groups-footer form {
     display: inline;
     float: left;
     padding: 2px 0px;	
-    width: 650px;
+/*    width: 650px;
     margin-left: 10px;
-    
+  */  
 }
 
 .inline-selectize .button {
@@ -154,11 +154,11 @@ div.groups-footer form {
 }
 
 .inline-selectize .alignleft {
-	margin-left:5px;
+/*	margin-left:5px;*/
 }
 
 .inline-selectize .selectize-control {
-	margin-left: 5px;
+/*	margin-left: 5px;*/
 	display:inline;
 	
 }

@@ -359,27 +359,25 @@ function groups_admin_groups() {
 	$output .= '<form id="groups-action" method="post" action="">';
 	
 	$output .= '<div class="tablenav top">';
-	$output .= '<div class="alignleft actions">';
+	//$output .= '<div class="alignleft actions">';
+	
+	$output .= '<div class="inline-selectize">';
+	$output .= $capabilities_select;
+	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
+	$output .= '<input type="hidden" name="action" value="groups-action"/>';
+	$output .= '</div>';
+	
 	$output .= '<select name="bulk-action">';
 	$output .= '<option selected="selected" value="-1">' . __("Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
 	$output .= '<option value="remove">' . __("Remove", GROUPS_PLUGIN_DOMAIN ) . '</option>';
 	$output .= '</select>';
 	$output .= '<input id="doaction" class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-	$output .= '</div>';
+//	$output .= '</div>';
 	$output .= '</div>';
 	
 //	$output .= '<div class="separator"></div>';
 	
 	
-	$output .= '<div class="inline-selectize">';
-	$output .= '<div style="margin-top:3px; float:left;"><label>';
-	$output .= __( "Apply capability to selected groups:", GROUPS_PLUGIN_DOMAIN ) . '</label></div>';
-	$output .= $capabilities_select;
-	$output .= '<input class="button " type="submit" name="add" value="' . __( "Add", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-	$output .= '<input class="button " type="submit" name="remove" value="' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
-	$output .= '<input type="hidden" name="action" value="groups-action"/>';
-	$output .= '</div>'; 
 	
 	$output .= '
 		<table id="" class="wp-list-table widefat fixed" cellspacing="0">
