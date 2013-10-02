@@ -91,19 +91,13 @@ function groups_admin_groups() {
 									}
 									break;
 								case 'remove-group' :
-									//$subbulkaction = null;
-									//if ( isset( $_POST['bulk-action'] ) && ( $_POST['bulk-action'] !== '-1' ) ) {
-									//	$subbulkaction = $_POST['bulk-action'];
-									//}
-									//if ( $subbulkaction !== null ) {
-										$bulk_confirm = isset( $_POST['confirm'] ) ? true : false;
-										
-										if ( $bulk_confirm ) {
-											groups_admin_groups_bulk_remove_submit();
-										} else {
-											return groups_admin_groups_bulk_remove();
-										}
-									//}
+									$bulk_confirm = isset( $_POST['confirm'] ) ? true : false;
+									
+									if ( $bulk_confirm ) {
+										groups_admin_groups_bulk_remove_submit();
+									} else {
+										return groups_admin_groups_bulk_remove();
+									}
 									break;									
 							}
 						}
