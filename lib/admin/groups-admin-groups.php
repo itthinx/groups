@@ -30,7 +30,6 @@ require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-add.php');
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-edit.php');
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-remove.php');
-require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-bulk.php');
 
 /**
  * Manage Groups: table of groups and add, edit, remove actions.

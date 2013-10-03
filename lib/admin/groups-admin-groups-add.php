@@ -82,17 +82,15 @@ function groups_admin_groups_add() {
 		$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
 		
 		$output .= '<div class="select-capability-container" style="width:62%;">';
-		$output .= sprintf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
+		$output .= sprintf( '<select class="select capability" name="%s" multiple="multiple">', 'capability_ids[]' );
 		foreach( $capabilities as $capability ) {
 			$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
 		}
 		$output .= '</select>';
 		$output .= '</div>';
 		
-		$output .= Groups_UIE::render_select( '.select.capability' );
-		
-		$output .= '</div>';
-		
+		$output .= Groups_UIE::render_select( '.select.capability' );		
+		$output .= '</div>';		
 				
 		$output .= '<div class="field">' .
 		wp_nonce_field( 'groups-add', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
@@ -134,8 +132,8 @@ function groups_admin_groups_add_submit() {
 	$group_id = Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
 	
 	if ($group_id) {
-		if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
-			$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
+		if ( !empty( $_POST['capability_ids'] ) ) {
+			$read_caps = $_POST['capability_ids'];
 			foreach( $read_caps as $read_cap ) {
 				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $read_cap ) );
 			}

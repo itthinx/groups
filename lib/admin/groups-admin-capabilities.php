@@ -28,7 +28,6 @@ require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities-add.php');
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities-edit.php');
 require_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities-remove.php');
-require_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities-bulk.php');
 
 /**
  * Manage capabilities: table of capabilities and add, edit, remove actions.
@@ -81,7 +80,6 @@ function groups_admin_capabilities() {
 									}
 									if ( $subbulkaction !== null ) {
 										$bulk_confirm = isset( $_POST['confirm'] ) ? true : false;
-										
 										if ( $bulk_confirm ) {
 											groups_admin_capabilities_bulk_remove_submit();
 										} else {
@@ -332,15 +330,14 @@ function groups_admin_capabilities() {
 				</div>
 			</form>
 		</div>
-		';
-	
+		';	
 	 $output .= '<form id="groups-action" method="post" action="">';
 	 
 	 $output .= '<div class="tablenav top">';
 	 $output .= '<div class="alignleft actions">';
 	 $output .= '<select name="bulk-action">';
-	 $output .= '<option selected="selected" value="-1">' . __("Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
-	 $output .= '<option value="remove">' . __("Remove", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	 $output .= '<option selected="selected" value="-1">' . __( "Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	 $output .= '<option value="remove">' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '</option>';
 	 $output .= '</select>';
 	 $output .= '<input id="doaction" class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
 	 $output .= '</div>';
