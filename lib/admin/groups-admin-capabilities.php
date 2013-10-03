@@ -92,7 +92,7 @@ function groups_admin_capabilities() {
 					}
 				}
 				break;
-			}
+		}
 	} else if ( isset ( $_GET['action'] ) ) {
 		// handle action request - show form
 		switch( $_GET['action'] ) {
