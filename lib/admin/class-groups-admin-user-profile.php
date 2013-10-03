@@ -32,7 +32,6 @@ class Groups_Admin_User_Profile {
 		add_action( 'edit_user_profile', array( __CLASS__, 'edit_user_profile' ) );
 		add_action( 'personal_options_update', array( __CLASS__, 'personal_options_update' ) );
 		add_action( 'edit_user_profile_update', array( __CLASS__, 'edit_user_profile_update' ) );
-		
 	}
 
 	/**
@@ -66,7 +65,6 @@ class Groups_Admin_User_Profile {
 	 */
 	public static function edit_user_profile( $user ) {
 		global $wpdb;
-		
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$output = '<h3>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
 			$user = new Groups_User( $user->ID );
