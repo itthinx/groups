@@ -329,7 +329,7 @@ function groups_admin_groups() {
 		$output .= $pagination->pagination( 'top' );
 		$output .= '</div>';
 		$output .= '</form>';
-	}	
+	}
 	
 	$output .= $resultsperpage;
 	
