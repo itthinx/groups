@@ -71,18 +71,15 @@ class Groups_Admin_User_Profile {
 			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
-				$output .= '<ul>';
+
+				$output .= sprintf( '<select class="select group" name="%s" multiple="multiple">', 'group_ids[]' );
 				foreach( $groups as $group ) {
 					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
-					$output .= '<li>';
-					$output .= '<label>';
-					$output .= sprintf( '<input type="checkbox" name="group_ids[]" value="%d" %s />', Groups_Utility::id( $group->group_id ), $is_member ? ' checked="checked" ' : '' );
-					$output .= ' ';
-					$output .= wp_filter_nohtml_kses( $group->name );
-					$output .= '</label>';
-					$output .= '</li>';
+					$output .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
 				}
-				$output .= '</ul>';
+				$output .= '</select>';
+				Groups_UIE::enqueue( 'select' );
+				$output .= Groups_UIE::render_select( '.select.group' );
 			}
 		}
 		echo $output;
@@ -114,7 +111,7 @@ class Groups_Admin_User_Profile {
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table" ) ) {
 				$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
 				foreach( $groups as $group ) {
-					if ( in_array( $group->group_id, $user_group_ids) ) {
+					if ( in_array( $group->group_id, $user_group_ids ) ) {
 						if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
 							Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group->group_id ) );
 						}

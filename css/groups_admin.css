@@ -132,3 +132,35 @@ div.groups-footer form {
 	margin: 1em;
 	padding: 1em;
 }
+
+/* Groups 1.4 - new toolbar */
+
+.groups-bulk-container select {
+	margin: 1px 5px; 
+}
+
+.capabilities-select-container {
+    display: inline;
+    float: left;
+    padding: 2px 0px;	
+    width: 25%;
+}
+
+.capabilities-select-container .selectize-control {
+	display:inline;
+	
+}
+.capabilities-select-container .selectize-input {
+	line-height: 15px;
+	padding: 3px;
+	vertical-align: middle;
+}
+
+.capabilities-select-container .selectize-dropdown, .selectize-input, .selectize-input input {
+	font-family: inherit !important;
+	font-size: inherit !important;
+}
+
+#groups-action .actions select {
+	margin-right: 6px;
+}
