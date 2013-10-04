@@ -106,47 +106,15 @@ class Groups_Help {
 	 * @param boolean $render
 	 */
 	public static function footer( $render = true ) {
-		$footer = '<div class="groups-footer">' .
-// 			'<p>' .
+		$footer =
+			'<div class="groups-footer">' .
 			__( 'Thank you for using <a href="http://www.itthinx.com/plugins/groups" target="_blank">Groups</a> by <a href="http://www.itthinx.com" target="_blank">itthinx</a>.', GROUPS_PLUGIN_DOMAIN ) .
-			' ' .
-			__( 'For consulting and development services related to Groups go <a href="http://www.itthinx.com/contact/" target="_blank">here</a>.', GROUPS_PLUGIN_DOMAIN ) .
-			' ' .
-			__( 'You can also support the project:', GROUPS_PLUGIN_DOMAIN ) .
-			self::donate( false ) .
-// 			'</p>' .
 			'</div>';
 		$footer = apply_filters( 'groups_footer', $footer );
 		if ( $render ) {
 			echo $footer;
 		} else {
 			return $footer;
-		}
-	}
-
-	/**
-	 * Render or return a donation button.
-	 * Thanks for supporting me!
-	 * @param boolean $render
-	 * @param boolean $small 
-	 */
-	public static function donate( $render = true, $small = false ) {
-		$donate =
-			'<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-			<input type="hidden" name="cmd" value="_donations">
-			<input type="hidden" name="business" value="paypal@itthinx.com">
-			<input type="hidden" name="lc" value="US">
-			<input type="hidden" name="item_name" value="Support WordPress Plugins from itthinx">
-			<input type="hidden" name="item_number" value="WordPress Plugins">
-			<input type="hidden" name="no_note" value="0">
-			<input type="hidden" name="currency_code" value="EUR">
-			<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHostedGuest">
-			<input type="submit" name="submit" value="Contribute" style="border:1px solid #ccc;border-radius:4px;cursor:pointer;padding:0;margin:0;color:#999;">
-			</form>';
-		if ( $render ) {
-			echo $donate;
-		} else {
-			return $donate;
 		}
 	}
 }

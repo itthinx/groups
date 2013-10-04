@@ -33,12 +33,12 @@ require_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities-remove.php');
  * Manage capabilities: table of capabilities and add, edit, remove actions.
  */
 function groups_admin_capabilities() {
-	
+
 	global $wpdb;
-	
+
 	$output = '';
 	$today = date( 'Y-m-d', time() );
-	
+
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 	}
@@ -66,28 +66,20 @@ function groups_admin_capabilities() {
 			case 'groups-action' :
 				if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) {
 					$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null;
-					$subaction = null;
-					if ( isset( $_POST['bulk'] ) ) {
-						$subaction = 'bulk';
-					}
-					if ( is_array( $capability_ids ) && ( $subaction !== null ) ) {
+					$bulk = isset( $_POST['bulk'] ) ? $_POST['bulk'] : null;
+					if ( is_array( $capability_ids ) && ( $bulk !== null ) ) {
 						foreach ( $capability_ids as $capability_id ) {
-							switch ( $subaction ) {
-								case 'bulk' :
-									$subbulkaction = null;
-									if ( isset( $_POST['bulk-action'] ) && ( $_POST['bulk-action'] !== '-1' ) ) {
-										$subbulkaction = $_POST['bulk-action'];
+							$bulk_action = isset( $_POST['bulk-action'] ) ? $_POST['bulk-action'] : null;
+							switch( $bulk_action ) {
+								case 'remove' :
+									if ( isset( $_POST['confirm'] ) ) {
+										groups_admin_capabilities_bulk_remove_submit();
+									} else {
+										return groups_admin_capabilities_bulk_remove();
 									}
-									if ( $subbulkaction !== null ) {
-										$bulk_confirm = isset( $_POST['confirm'] ) ? true : false;
-										if ( $bulk_confirm ) {
-											groups_admin_capabilities_bulk_remove_submit();
-										} else {
-											return groups_admin_capabilities_bulk_remove();
-										}
-									}
-									break;									
+									break;
 							}
+							break;
 						}
 					}
 				}
@@ -123,7 +115,7 @@ function groups_admin_capabilities() {
 				break;
 		}
 	}
-	
+
 	//
 	// capabilities table
 	//
@@ -136,11 +128,11 @@ function groups_admin_capabilities() {
 			wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 		}
 	}
-	
+
 	// filters
 	$capability_id = Groups_Options::get_user_option( 'capabilities_capability_id', null );
 	$capability	= Groups_Options::get_user_option( 'capabilities_capability', null );
-	
+
 	if ( isset( $_POST['clear_filters'] ) ) {
 		Groups_Options::delete_user_option( 'capabilities_capability_id' );
 		Groups_Options::delete_user_option( 'capabilities_capability' );
@@ -158,29 +150,29 @@ function groups_admin_capabilities() {
 			Groups_Options::update_user_option( 'capabilities_capability_id', $capability_id );
 		} else if ( isset( $_POST['capability_id'] ) ) { // empty && isset => '' => all
 			$capability_id = null;
-			Groups_Options::delete_user_option( 'capabilities_capability_id' );	
+			Groups_Options::delete_user_option( 'capabilities_capability_id' );
 		}
 	}
-	
+
 	if ( isset( $_POST['row_count'] ) ) {
 		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_NONCE_1], 'admin' ) ) {
 			wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 		}
 	}
-	
+
 	if ( isset( $_POST['paged'] ) ) {
 		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_NONCE_2], 'admin' ) ) {
 			wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 		}
 	}
-	
+
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$current_url = remove_query_arg( 'paged', $current_url );
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
-	
+
 	$capability_table = _groups_get_tablename( 'capability' );
-	
+
 	$output .=
 		'<div class="manage-capabilities">' .
 		'<div>' .
@@ -188,7 +180,7 @@ function groups_admin_capabilities() {
 		__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) .
 		'</h2>' .
 		'</div>';
-	
+
 	$output .=
 		'<div class="manage">' .
 		"<a title='" . __( 'Click to add a new capability', GROUPS_PLUGIN_DOMAIN ) . "' class='add button' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/add.png'/><span class='label'>" . __( 'New Capability', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
@@ -196,7 +188,7 @@ function groups_admin_capabilities() {
 		'</div>';
 
 	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
-	
+
 	if ($row_count <= 0) {
 		$row_count = Groups_Options::get_user_option( 'capabilities_per_page', GROUPS_CAPABILITIES_PER_PAGE );
 	} else {
@@ -209,8 +201,8 @@ function groups_admin_capabilities() {
 	$paged = isset( $_GET['paged'] ) ? intval( $_GET['paged'] ) : 0;
 	if ( $paged < 0 ) {
 		$paged = 0;
-	} 
-	
+	}
+
 	$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : null;
 	switch ( $orderby ) {
 		case 'capability_id' :
@@ -219,7 +211,7 @@ function groups_admin_capabilities() {
 		default:
 			$orderby = 'name';
 	}
-	
+
 	$order = isset( $_GET['order'] ) ? $_GET['order'] : null;
 	switch ( $order ) {
 		case 'asc' :
@@ -234,7 +226,7 @@ function groups_admin_capabilities() {
 			$order = 'ASC';
 			$switch_order = 'DESC';
 	}
-	
+
 	$filters = array();
 	$filter_params = array();
 	if ( $capability_id ) {
@@ -245,13 +237,13 @@ function groups_admin_capabilities() {
 		$filters[] = " $capability_table.capability LIKE '%%%s%%' ";
 		$filter_params[] = $capability;
 	}
-		
+
 	if ( !empty( $filters ) ) {
 		$filters = " WHERE " . implode( " AND ", $filters );
 	} else {
 		$filters = '';
 	}
-	
+
 	$count_query = $wpdb->prepare( "SELECT COUNT(*) FROM $capability_table $filters", $filter_params );
 	$count  = $wpdb->get_var( $count_query );
 	if ( $count > $row_count ) {
@@ -266,7 +258,7 @@ function groups_admin_capabilities() {
 	if ( $paged != 0 ) {
 		$offset = ( $paged - 1 ) * $row_count;
 	}
-	
+
 	$query = $wpdb->prepare(
 		"SELECT * FROM $capability_table
 		$filters
@@ -274,19 +266,19 @@ function groups_admin_capabilities() {
 		LIMIT $row_count OFFSET $offset",
 		$filter_params
 	);
-	
+
 	$results = $wpdb->get_results( $query, OBJECT );
 
 	$column_display_names = array(
 		'capability_id' => __( 'Id', GROUPS_PLUGIN_DOMAIN ),
 		'capability'	=> __( 'Capability', GROUPS_PLUGIN_DOMAIN ),
-		'description'   => __( 'Description', GROUPS_PLUGIN_DOMAIN ),		
+		'description'   => __( 'Description', GROUPS_PLUGIN_DOMAIN ),
 		'edit'		  => __( 'Edit', GROUPS_PLUGIN_DOMAIN ),
 		'remove'		=> __( 'Remove', GROUPS_PLUGIN_DOMAIN )
 	);
-	
+
 	$output .= '<div class="capabilities-overview">';
-	
+
 	$output .=
 		'<div class="filters">' .
 			'<label class="description" for="setfilters">' . __( 'Filters', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
@@ -305,7 +297,7 @@ function groups_admin_capabilities() {
 				'</p>' .
 			'</form>' .
 		'</div>';
-		
+
 	if ( $paginate ) {
 	  require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
 		$pagination = new Groups_Pagination( $count, null, $row_count );
@@ -318,41 +310,40 @@ function groups_admin_capabilities() {
 		$output .= '</div>';
 		$output .= '</form>';
 	}
-	
-	$output .= '
-		<div class="manage-groups alignright">
-			<form id="setrowcount" action="" method="post">
-				<div>
-					<label for="row_count">' . __( 'Results per page', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
-						'<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />
-					' . wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_NONCE_1, true, false ) . '
-					<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>
-				</div>
-			</form>
-		</div>
-		';	
-	 $output .= '<form id="groups-action" method="post" action="">';
-	 
-	 $output .= '<div class="tablenav top">';
-	 $output .= '<div class="alignleft actions">';
-	 $output .= '<select name="bulk-action">';
-	 $output .= '<option selected="selected" value="-1">' . __( "Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
-	 $output .= '<option value="remove">' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '</option>';
-	 $output .= '</select>';
-	 $output .= '<input id="doaction" class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-	 $output .= '</div>';
-	 $output .= '</div>';
-	 $output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
-	 $output .= '<input type="hidden" name="action" value="groups-action"/>';
-	
-	$output .= '
-		<table id="" class="wp-list-table widefat fixed" cellspacing="0">
-		<thead>
-			<tr>
-			';
-	
+
+	$output .= '<div class="page-options right">';
+	$output .= '<form id="setrowcount" action="" method="post">';
+	$output .= '<div>';
+	$output .= '<label for="row_count">' . __( 'Results per page', GROUPS_PLUGIN_DOMAIN ) . '</label>';
+	$output .= '<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />';
+	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_NONCE_1, true, false );
+	$output .= '<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	$output .= '</div>';
+	$output .= '</form>';
+	$output .= '</div>';
+
+	$output .= '<form id="groups-action" method="post" action="">';
+
+	$output .= '<div class="tablenav top">';
+	$output .= '<div class="capabilities-bulk-container">';
+	$output .= '<div class="alignleft actions">';
+	$output .= '<select name="bulk-action">';
+	$output .= '<option selected="selected" value="-1">' . __( "Bulk Actions", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	$output .= '<option value="remove">' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '</option>';
+	$output .= '</select>';
+	$output .= '<input class="button" type="submit" name="bulk" value="' . __( "Apply", GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	$output .= '</div>';
+	$output .= '</div>';
+	$output .= '</div>';
+	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
+	$output .= '<input type="hidden" name="action" value="groups-action"/>';
+
+	$output .= '<table id="" class="wp-list-table widefat fixed" cellspacing="0">';
+	$output .= '<thead>';
+	$output .= '<tr>';
+
 	$output .= '<th id="cb" class="manage-column column-cb check-column" scope="col"><input type="checkbox"></th>';
-	
+
 	foreach ( $column_display_names as $key => $column_display_name ) {
 		$options = array(
 			'orderby' => $key,
@@ -370,61 +361,61 @@ function groups_admin_capabilities() {
 		}
 		$output .= "<th scope='col' class='$class'>$column_display_name</th>";
 	}
-	
+
 	$output .= '</tr>
 		</thead>
 		<tbody>
 		';
-		
+
 	if ( count( $results ) > 0 ) {
 		for ( $i = 0; $i < count( $results ); $i++ ) {
-			
+
 			$result = $results[$i];
-			
+
 			$output .= '<tr class="' . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
-			
+
 			$output .= '<th class="check-column">';
 			$output .= '<input type="checkbox" value="' . esc_attr( $result->capability_id ) . '" name="capability_ids[]"/>';
 			$output .= '</th>';
-			
+
 			$output .= "<td class='capability-id'>";
 			$output .= $result->capability_id;
 			$output .= "</td>";
 			$output .= "<td class='capability'>" . stripslashes( wp_filter_nohtml_kses( $result->capability ) ) . "</td>";
 			$output .= "<td class='description'>" . stripslashes( wp_filter_nohtml_kses( $result->description ) ) . "</td>";
-						
+
 			$output .= "<td class='edit'>";
 			$output .= "<a href='" . esc_url( add_query_arg( 'paged', $paged, $current_url ) ) . "&action=edit&capability_id=" . $result->capability_id . "' alt='" . __( 'Edit', GROUPS_PLUGIN_DOMAIN) . "'><img src='". GROUPS_PLUGIN_URL ."images/edit.png'/></a>";
 			$output .= "</td>";
-			
+
 			$output .= "<td class='remove'>";
 			if ( $result->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) {
 				$output .= "<a href='" . esc_url( $current_url ) . "&action=remove&capability_id=" . $result->capability_id . "' alt='" . __( 'Remove', GROUPS_PLUGIN_DOMAIN) . "'><img src='". GROUPS_PLUGIN_URL ."images/remove.png'/></a>";
 			}
 			$output .= "</td>";
-			
+
 			$output .= '</tr>';
 		}
 	} else {
 		$output .= '<tr><td colspan="6">' . __( 'There are no results.', GROUPS_PLUGIN_DOMAIN ) . '</td></tr>';
 	}
-		
+
 	$output .= '</tbody>';
 	$output .= '</table>';
-	
+
 	 $output .= '</form>'; // #groups-action
-					
+
 	if ( $paginate ) {
 	  require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
 		$pagination = new Groups_Pagination($count, null, $row_count);
 		$output .= '<div class="tablenav bottom">';
 		$output .= $pagination->pagination( 'bottom' );
-		$output .= '</div>';			
+		$output .= '</div>';
 	}
 
 	$output .= '</div>'; // .capabilities-overview
 	$output .= '</div>'; // .manage-capabilities
-	
+
 	echo $output;
 	Groups_Help::footer();
 } // function groups_admin_capabilities()

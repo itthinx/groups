@@ -24,25 +24,25 @@
  * @param int $capability_id capability id
  */
 function groups_admin_capabilities_remove( $capability_id ) {
-	
+
 	global $wpdb;
-	
+
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 	}
-	
+
 	$capability = Groups_Capability::read( intval( $capability_id ) );
-	
+
 	if ( empty( $capability ) ) {
 		wp_die( __( 'No such capability.', GROUPS_PLUGIN_DOMAIN ) );
 	}
-	
+
 	$capability_table = _groups_get_tablename( 'capability' );
-		
+
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
-	
+
 	$output =
 		'<div class="manage-capabilities">' .
 		'<div>' .
@@ -64,9 +64,9 @@ function groups_admin_capabilities_remove( $capability_id ) {
 		'</div>' . // .capability.remove
 		'</form>' .
 		'</div>'; // .manage-capabilities
-	
+
 	echo $output;
-	
+
 	Groups_Help::footer();
 } // function groups_admin_capabilities_remove
 
@@ -74,19 +74,19 @@ function groups_admin_capabilities_remove( $capability_id ) {
  * Handle remove form submission.
  */
 function groups_admin_capabilities_remove_submit() {
-	
+
 	global $wpdb;
-	
+
 	$result = false;
-	
+
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 	}
-	
+
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'capabilities-remove' ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 	}
-	
+
 	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null;
 	$capability = Groups_Capability::read( $capability_id );
 	if ( $capability ) {
@@ -103,6 +103,8 @@ function groups_admin_capabilities_remove_submit() {
 function groups_admin_capabilities_bulk_remove() {
 
 	global $wpdb;
+
+	$output = '';
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
@@ -126,34 +128,37 @@ function groups_admin_capabilities_bulk_remove() {
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
-	$output =
-	'<div class="manage-capabilities">' .
-	'<div>' .
-	'<h2>' .
-	__( 'Remove capabilities', GROUPS_PLUGIN_DOMAIN ) .
-	'</h2>' .
-	'</div>';
+	$output .= '<div class="manage-capabilities">';
+	$output .= '<div>';
+	$output .= '<h2>';
+	$output .= __( 'Remove capabilities', GROUPS_PLUGIN_DOMAIN );
+	$output .= '</h2>';
+	$output .= '</div>';
 
 	$output .= '<form id="capabilities-action" method="post" action="">';
 	$output .= '<div class="capability remove">';
-
+	$output .= '<p>';
+	$output .= __( 'Please confirm to remove the following capabilities. This action cannot be undone.', GROUPS_PLUGIN_DOMAIN );
+	$output .= '</p>';
 	foreach ( $capabilities as $capability ) {
-		$output .= 	'<input id="capability_ids" name="capability_ids[]" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>' .
-				'<ul>' .
-				'<li>' . sprintf( __( 'Capability Name : %s', GROUPS_PLUGIN_DOMAIN ), wp_filter_nohtml_kses( $capability->capability ) ) . '</li>' .
-				'</ul> ';
+		$output .= 	'<input id="capability_ids" name="capability_ids[]" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>';
+		$output .= '<ul>';
+		$output .= '<li>';
+		$output .= sprintf( __( '<strong>%s</strong>', GROUPS_PLUGIN_DOMAIN ), wp_filter_nohtml_kses( $capability->capability ) );
+		$output .= '</li>';
+		$output .= '</ul>';
 	}
 	$output .= '<input class="button" type="submit" name="bulk" value="' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '"/>';
 	$output .= '<a class="cancel" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
 
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '<input type="hidden" name="bulk-action" value="remove"/>';
-	$output .= '<input type="hidden" name="confirm" value="1"/>' .
-			wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
+	$output .= '<input type="hidden" name="confirm" value="1"/>';
+	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
 
-	$output .= '</div>' .
-			'</form>' .
-			'</div>';
+	$output .= '</div>';
+	$output .= '</form>';
+	$output .= '</div>';
 
 	echo $output;
 
@@ -162,12 +167,13 @@ function groups_admin_capabilities_bulk_remove() {
 
 /**
  * Handle remove form submission.
+ * @return array of deleted capabilities' ids
  */
 function groups_admin_capabilities_bulk_remove_submit() {
 
 	global $wpdb;
 
-	$result = false;
+	$result = array();
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
@@ -178,13 +184,15 @@ function groups_admin_capabilities_bulk_remove_submit() {
 	}
 
 	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null;
+
 	if ( $capability_ids ) {
 		foreach ( $capability_ids as $capability_id ) {
 			$capability = Groups_Capability::read( $capability_id );
 			if ( $capability ) {
 				if ( $capability->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) {
-					$thisresult = Groups_Capability::delete( $capability_id );
-					$result = $result && $thisresult;
+					if ( Groups_Capability::delete( $capability_id ) ) {
+						$result[] = $capability->capability_id;
+					}
 				}
 			}
 		}
@@ -192,4 +200,3 @@ function groups_admin_capabilities_bulk_remove_submit() {
 
 	return $result;
 } // function groups_admin_capabilities_bulk_remove_submit
-?>

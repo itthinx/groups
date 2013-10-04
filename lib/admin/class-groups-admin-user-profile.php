@@ -32,6 +32,23 @@ class Groups_Admin_User_Profile {
 		add_action( 'edit_user_profile', array( __CLASS__, 'edit_user_profile' ) );
 		add_action( 'personal_options_update', array( __CLASS__, 'personal_options_update' ) );
 		add_action( 'edit_user_profile_update', array( __CLASS__, 'edit_user_profile_update' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
+	}
+
+	/**
+	 * Enqueues the select script on the user-edit and profile screens.
+	 */
+	public static function admin_enqueue_scripts() {
+		$screen = get_current_screen();
+		if ( isset( $screen->id ) ) {
+			switch( $screen->id ) {
+				case 'user-edit' :
+				case 'profile' :
+					require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
+					Groups_UIE::enqueue( 'select' );
+					break;
+			}
+		}
 	}
 
 	/**
@@ -71,20 +88,18 @@ class Groups_Admin_User_Profile {
 			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
-
-				$output .= sprintf( '<select class="select group" name="%s" multiple="multiple">', 'group_ids[]' );
+				$output .= '<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple">';
 				foreach( $groups as $group ) {
 					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
 					$output .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
 				}
 				$output .= '</select>';
-				Groups_UIE::enqueue( 'select' );
-				$output .= Groups_UIE::render_select( '.select.group' );
+				$output .= Groups_UIE::render_select( '#user-groups' );
 			}
+			echo $output;
 		}
-		echo $output;
 	}
-	
+
 	/**
 	 * Updates the group membership when a user's own profile is saved - but
 	 * for group admins on their own profile page only.
@@ -99,7 +114,7 @@ class Groups_Admin_User_Profile {
 			self::edit_user_profile_update( $user_id );
 		}
 	}
-	
+
 	/**
 	 * Updates the group membership.
 	 * @param int $user_id

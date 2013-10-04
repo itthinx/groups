@@ -239,6 +239,9 @@ function groups_admin_options() {
 	printf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
 	foreach( $capabilities as $capability ) {
 		$selected = in_array( $capability->capability, $applicable_read_caps ) ? ' selected="selected" ' : '';
+		if ( $capability->capability == Groups_Post_Access::READ_POST_CAPABILITY ) {
+			$selected .= ' disabled="disabled" ';
+		}
 		printf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, wp_filter_nohtml_kses( $capability->capability ) );
 	}
 	echo '</select>';

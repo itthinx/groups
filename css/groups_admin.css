@@ -89,8 +89,26 @@ div.capability.edit label {
 .capabilities-overview .page-options {
 	float: left;
 	display: inline;
-	width: 250px;
+	/*width: 250px;*/
 	padding-bottom: 1em;
+}
+.groups-overview .page-options.right,
+.capabilities-overview .page-options.right {
+	float: right;
+}
+.groups-overview .page-options label,
+.groups-overview .page-options input[type="text"],
+.groups-overview .page-options .button,
+.capabilities-overview .page-options label,
+.capabilities-overview .page-options input[type="text"],
+.capabilities-overview .page-options .button {
+	margin-right: 4px;
+	vertical-align: middle;
+}
+.groups-overview .page-options input[type="text"],
+.capabilities-overview .page-options input[type="text"] {
+	width: 2.8em;
+	text-align: center;
 }
 .groups-overview .tablenav.top,
 .capabilities-overview .tablenav.top {
@@ -104,7 +122,7 @@ div.capability.edit label {
 	padding-left: 16px ! important;
 }
 div.groups-footer {
-	padding-top: 4px;
+	padding-top: 16px;
 	color: #999;
 }
 div.groups-footer a {
@@ -133,34 +151,49 @@ div.groups-footer form {
 	padding: 1em;
 }
 
-/* Groups 1.4 - new toolbar */
-
-.groups-bulk-container select {
-	margin: 1px 5px; 
+.groups-bulk-container {
+	padding-bottom: 1em;
 }
-
-.capabilities-select-container {
-    display: inline;
-    float: left;
-    padding: 2px 0px;	
-    width: 25%;
+.groups-bulk-container,
+.capabilities-bulk-container,
+.tablenav .tablenav-pages {
+	line-height: 24px;
 }
-
-.capabilities-select-container .selectize-control {
-	display:inline;
-	
+.groups-bulk-container .capabilities-select-container {
+	width: 25%;
+	float: left;
+	vertical-align: middle;
 }
-.capabilities-select-container .selectize-input {
-	line-height: 15px;
-	padding: 3px;
+.groups-bulk-container .selectize-control,
+.groups-bulk-container select.bulk-action,
+.capabilities-bulk-container select.bulk-action {
+	margin-right: 4px;
+	vertical-align: middle;
+}
+.groups-bulk-container .selectize-input {
+	font-size: inherit;
+	line-height: 18px;
+	padding: 1px 1px 2px 1px;
+	vertical-align: middle;
+}
+.groups-bulk-container .selectize-input input[type="text"] {
+	font-size: inherit;
+	vertical-align: middle;
+}
+.groups-bulk-container .button,
+.capabilities-bulk-container .button {
 	vertical-align: middle;
 }
 
-.capabilities-select-container .selectize-dropdown, .selectize-input, .selectize-input input {
-	font-family: inherit !important;
-	font-size: inherit !important;
+.group.new .selectize-control,
+.group.edit .selectize-control,
+.groups-options .selectize-control {
+	padding: 2px;
 }
-
-#groups-action .actions select {
-	margin-right: 6px;
+.group.new .selectize-input,
+.group.edit .selectize-input,
+.groups-options .selectize-input {
+	font-size: inherit;
+	line-height: 18px;
+	padding: 2px;
 }

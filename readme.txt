@@ -368,6 +368,16 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.0 =
+* Added: Groups > Groups > Add / Edit group screens, allow to assign/modify the capabilities assigned to the group.
+* Added: Groups > Groups screen, allow to assign/remove multiple capabilities to multiple groups.
+* Added: Groups > Groups screen, allow to delete multiple groups as a bulk action.
+* Added: Groups > Capabilities screen, allow to delete multiple capabilities as a bulk action.
+* Improved: Groups > Options screen, using searchable select instead of checkboxes to enable capabilities for access restriction.
+* Improved: In user profiles, using a searchable select to modify group assignments.
+* Improved: Reduced the footer text in groups admin sections.
+* Improved: Admin CSS to make better use of screen real-estate and more coherent appearance with the new UI additions.
+
 = 1.3.14 =
 * Added the option to quick-create group and capability within the access restriction meta-box.
 * Added the option to show groups granting access per capability in the access restriction meta-box.
@@ -516,6 +526,9 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 * This is the first public beta release.
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+* This release brings User Interface improvements mainly directed at working with groups and capabilities. This includes bulk actions for groups and capabilities and capability assignments when editing groups along with other improvements.
 
 = 1.3.14 =
 * New useful features, UI and workflow improvements. Quick-create group and capability directly on posts (access restriction); groups are shown along with access restriction capabilities (can be toggled).
