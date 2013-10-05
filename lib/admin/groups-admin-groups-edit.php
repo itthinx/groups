@@ -111,7 +111,10 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '<div class="select-capability-container" style="width:62%;">';
 	$output .= '<label>';
 	$output .= __( 'Capabilities', GROUPS_PLUGIN_DOMAIN );
-	$output .= sprintf( '<select class="select capability" name="%s" multiple="multiple">', 'capability_ids[]' );
+	$output .= sprintf(
+		'<select class="select capability" name="capability_ids[]" multiple="multiple" placeholder="%s">',
+		__( 'Choose capabilities &hellip;', GROUPS_PLUGIN_DOMAIN )
+	);
 	foreach( $capabilities as $capability ) {
 		$selected = in_array( $capability->capability_id, $group_capabilities_array ) ? ' selected="selected" ' : '';
 		$output .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, wp_filter_nohtml_kses( $capability->capability ) );
@@ -120,7 +123,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '</label>';
 	$output .= '</div>'; // .select-capability-container
 	$output .= '<p class="description">';
-	$output .= __( 'Capabilities assigned to the group.', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'The chosen capabilities are assigned to the group.', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</p>';
 	$output .= '</div>'; // .field
 	$output .= Groups_UIE::render_select( '.select.capability' );

@@ -91,7 +91,10 @@ function groups_admin_groups_add() {
 	$output .= '<div class="select-capability-container" style="width:62%;">';
 	$output .= '<label>';
 	$output .= __( 'Capabilities', GROUPS_PLUGIN_DOMAIN );
-	$output .= sprintf( '<select class="select capability" name="%s" multiple="multiple">', 'capability_ids[]' );
+	$output .= sprintf(
+		'<select class="select capability" name="capability_ids[]" multiple="multiple" placeholder="%s">',
+		__( 'Choose capabilities &hellip;', GROUPS_PLUGIN_DOMAIN )
+	);
 	foreach( $capabilities as $capability ) {
 		$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
 	}
