@@ -32,6 +32,7 @@ class Groups_Admin_Users {
 	public static function init() {
 		// we hook this on admin_init so that current_user_can() is available
 		add_action( 'admin_init', array( __CLASS__, 'setup' ) );
+		
 	}
 	
 	/**
@@ -39,6 +40,9 @@ class Groups_Admin_Users {
 	 * Groups permissions.
 	 */
 	public static function setup() {
+		global $groups_version;
+		wp_enqueue_style( 'groups_admin', GROUPS_PLUGIN_URL . 'css/groups_admin.css', array(), $groups_version );
+		
 		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			// filters to display the user's groups
 			add_filter( 'manage_users_columns', array( __CLASS__, 'manage_users_columns' ) );
@@ -93,29 +97,42 @@ class Groups_Admin_Users {
 	 */
 	public static function admin_head() {
 		global $pagenow, $wpdb;
+		
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			
 			$group_table = _groups_get_tablename( "group" );
 			// groups select
-			$groups_select = "<select class='groups' style='float:none;' name='group_id'>";
-			$groups = $wpdb->get_results( "SELECT * FROM $group_table ORDER BY name" );
-			foreach( $groups as $group ) {
-				$groups_select .= "<option value='" . esc_attr( $group->group_id ) . "'>" . wp_filter_nohtml_kses( $group->name ) . "</option>";
+			$groups_table = _groups_get_tablename( 'group' );
+			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
+				$groups_select = sprintf(
+						'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+						esc_attr( __( 'Choose groups ...', GROUPS_PLUGIN_DOMAIN ) ) ,
+						esc_attr( __( 'Choose groups ...', GROUPS_PLUGIN_DOMAIN ) )
+				);
+				foreach( $groups as $group ) {
+					$is_member = false;
+					$groups_select .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
+				}
+				$groups_select .= '</select>';
+				
 			}
-			$groups_select .= "</select>";
 			
 			// we add this inside the form that contains the bulk
 			// action and role change buttons
-			$box = "<div class='alignleft actions' style='padding-left:1em'>";
-			$box .= "<input class='button' type='submit' name='add-to-group' value='" . __( "Add", GROUPS_PLUGIN_DOMAIN ) . "'/>";
-			$box .= "&nbsp;/&nbsp;";
-			$box .= "<input class='button' type='submit' name='remove-from-group' value='" . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . "'/>";
-			$box .= "&nbsp;";
-			$box .= __( 'selected to / from group:', GROUPS_PLUGIN_DOMAIN );
-			$box .= "&nbsp;";
-			$box .= "<label class='screen-reader-text' for='group_id'>" . __( 'Group', GROUPS_PLUGIN_DOMAIN ) . "</label>";
+			$box .= '<div class="groups-bulk-container">';
+			$box .= '<div class="capabilities-select-container">';
+			
 			$box .= $groups_select;
-			$box .= "</div>";
+			$box .= '</div>';
+			$box .= '<select class="groups-action" name="groups-action">';
+			$box .= '<option selected="selected" value="-1">' . __( 'Groups Actions', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+			$box .= '<option value="add-group">' . __( 'Add group', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+			$box .= '<option value="remove-group">' . __( 'Remove group', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+			$box .= '</select>';
+			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', GROUPS_PLUGIN_DOMAIN ) );
+			$box .= '</div>';
+			$box = str_replace('"', "'", $box );
+	
 			
 			$nonce = wp_nonce_field( 'user-group', 'bulk-user-group-nonce', true, false );
 			$nonce = str_replace('"', "'", $nonce );
@@ -133,6 +150,9 @@ class Groups_Admin_Users {
 			 ';
 			echo '</script>';
 			
+			Groups_UIE::enqueue( 'select' );
+			echo Groups_UIE::render_select( '#user-groups' );
+				
 			// .subsubsub rule added because with views_users() the list can get long
 			// icon distinguishes from role links
 			echo '<style type="text/css">';
@@ -149,6 +169,7 @@ class Groups_Admin_Users {
 	 */
 	public static function views_users( $views ) {
 		global $pagenow, $wpdb;
+		
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			$group_table = _groups_get_tablename( "group" );
 			$user_group_table = _groups_get_tablename( "user_group" );
@@ -177,31 +198,42 @@ class Groups_Admin_Users {
 	 */
 	public static function load_users() {
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			$group_id = isset( $_REQUEST['group_id'] ) ? $_REQUEST['group_id'] : null;
 			$users = isset( $_REQUEST['users'] ) ? $_REQUEST['users'] : null;
 			$action = null;
-			if ( !empty( $_REQUEST['add-to-group'] ) ) {
-				$action = 'add';
-			} else if ( !empty( $_REQUEST['remove-from-group'] ) ) {
-				$action = 'remove';
+			if ( !empty( $_REQUEST['groups'] ) ) {
+				if ( $_GET['groups-action'] == "add-group" ) {
+					$action = 'add';
+				} else if ( $_GET['groups-action'] == "remove-group" ) {
+					$action = 'remove';
+				}
 			}
-			if ( $group_id !== null && $users !== null && $action !== null ) {
+			if ( $users !== null && $action !== null ) {
 				if ( wp_verify_nonce( $_REQUEST['bulk-user-group-nonce'], 'user-group' ) ) {
 					foreach( $users as $user_id ) {
 						switch ( $action ) {
 							case 'add':
-								if ( !Groups_User_Group::read( $user_id, $group_id ) ) {
-									Groups_User_Group::create(
-										array(
-											'user_id' => $user_id,
-											'group_id' => $group_id
-										)
-									);
+								$groups_id = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
+								if ( $groups_id !== null ) {
+									foreach ( $groups_id as $group_id ) {
+										if ( !Groups_User_Group::read( $user_id, $group_id ) ) {
+											Groups_User_Group::create(
+												array(
+													'user_id' => $user_id,
+													'group_id' => $group_id
+												)
+											);
+										}
+									}
 								}
 								break;
 							case 'remove':
-								if ( Groups_User_Group::read( $user_id, $group_id ) ) {
-									Groups_User_Group::delete( $user_id, $group_id );
+								$groups_id = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
+								if ( $groups_id !== null ) {
+									foreach ( $groups_id as $group_id ) {
+										if ( Groups_User_Group::read( $user_id, $group_id ) ) {
+											Groups_User_Group::delete( $user_id, $group_id );
+										}
+									}
 								}
 								break;
 						}
