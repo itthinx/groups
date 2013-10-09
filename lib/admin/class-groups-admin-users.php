@@ -32,7 +32,6 @@ class Groups_Admin_Users {
 	public static function init() {
 		// we hook this on admin_init so that current_user_can() is available
 		add_action( 'admin_init', array( __CLASS__, 'setup' ) );
-		
 	}
 	
 	/**
@@ -97,7 +96,6 @@ class Groups_Admin_Users {
 	 */
 	public static function admin_head() {
 		global $pagenow, $wpdb;
-		
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			
 			$group_table = _groups_get_tablename( "group" );
@@ -169,7 +167,6 @@ class Groups_Admin_Users {
 	 */
 	public static function views_users( $views ) {
 		global $pagenow, $wpdb;
-		
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			$group_table = _groups_get_tablename( "group" );
 			$user_group_table = _groups_get_tablename( "user_group" );
