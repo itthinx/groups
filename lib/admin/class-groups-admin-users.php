@@ -119,7 +119,7 @@ class Groups_Admin_Users {
 			
 			// we add this inside the form that contains the bulk
 			// action and role change buttons
-			$box .= '<div class="groups-bulk-container">';
+			$box = '<div class="groups-bulk-container">';
 			$box .= '<div class="capabilities-select-container">';
 			
 			$box .= $groups_select;
