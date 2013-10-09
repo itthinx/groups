@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 /**
  * class-groups-admin-users.php
@@ -69,78 +68,6 @@ class Groups_Admin_Users {
 	 * @return WP_User_Query
 	 */
 	public static function pre_user_query( $user_query ) {
-=======
-<?php
-/**
- * class-groups-admin-users.php
- *
- * Copyright (c) 2012 "kento" Karim Rahimpur www.itthinx.com
- *
- * This code is released under the GNU General Public License.
- * See COPYRIGHT.txt and LICENSE.txt.
- *
- * This code is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * This header and all notices must be kept intact.
- *
- * @author Karim Rahimpur
- * @package groups
- * @since groups 1.0.0
- */
-
-/**
- * Users admin integration with Groups.
- */
-class Groups_Admin_Users {
-	
-	const GROUPS = 'groups_user_groups';
-	
-	/**
-	 * Hooks into filters to add the Groups column to the users table.
-	 */
-	public static function init() {
-		// we hook this on admin_init so that current_user_can() is available
-		add_action( 'admin_init', array( __CLASS__, 'setup' ) );
-	}
-	
-	/**
-	 * Adds the filters and actions only for users who have the right
-	 * Groups permissions.
-	 */
-	public static function setup() {
-		global $groups_version;
-		wp_enqueue_style( 'groups_admin', GROUPS_PLUGIN_URL . 'css/groups_admin.css', array(), $groups_version );
-		
-		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
-			// filters to display the user's groups
-			add_filter( 'manage_users_columns', array( __CLASS__, 'manage_users_columns' ) );
-			// args: unknown, string $column_name, int $user_id
-			add_filter( 'manage_users_custom_column', array( __CLASS__, 'manage_users_custom_column' ), 10, 3 );
-		}
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			if ( !is_network_admin() ) {
-				add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
-				// allow to add or remove selected users to groups
-				add_action( 'load-users.php', array( __CLASS__, 'load_users' ) );
-				// add links to filter users by group
-				add_filter( 'views_users', array( __CLASS__, 'views_users' ) );
-				// modify query to filter users by group
-				add_filter( 'pre_user_query', array( __CLASS__, 'pre_user_query' ) );
-			}
-		}
-	}
-	
-	/**
-	 * Modify query to filter users by group.
-	 * 
-	 * @param WP_User_Query $user_query
-	 * @return WP_User_Query
-	 */
-	public static function pre_user_query( $user_query ) {
->>>>>>> 69d8d2be3fe1c8c8877aa21ace1e4a07b59ccdbd
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			if ( isset( $_REQUEST['group'] ) ) {
@@ -157,7 +84,6 @@ class Groups_Admin_Users {
 						$include[] = 0;
 					}
 					$ids = implode( ',', wp_parse_id_list( $include ) );
-<<<<<<< HEAD
 					$user_query->query_where .= " AND $wpdb->users.ID IN ($ids)";
 				}
 			}
@@ -169,90 +95,6 @@ class Groups_Admin_Users {
 	 * Adds the group add/remove buttons after the last action box.
 	 */
 	public static function admin_head() {
-		global $pagenow, $wpdb;
-		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			
-			$group_table = _groups_get_tablename( "group" );
-			// groups select
-			$groups_table = _groups_get_tablename( 'group' );
-			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
-				$groups_select = sprintf(
-						'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-						esc_attr( __( 'Choose groups ...', GROUPS_PLUGIN_DOMAIN ) ) ,
-						esc_attr( __( 'Choose groups ...', GROUPS_PLUGIN_DOMAIN ) )
-				);
-				foreach( $groups as $group ) {
-					$is_member = false;
-					$groups_select .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
-				}
-				$groups_select .= '</select>';
-				
-			}
-			
-			// we add this inside the form that contains the bulk
-			// action and role change buttons
-			$box = '<div class="groups-bulk-container">';
-			$box .= '<div class="capabilities-select-container">';
-			
-			$box .= $groups_select;
-			$box .= '</div>';
-			$box .= '<select class="groups-action" name="groups-action">';
-			$box .= '<option selected="selected" value="-1">' . __( 'Groups Actions', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-			$box .= '<option value="add-group">' . __( 'Add group', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-			$box .= '<option value="remove-group">' . __( 'Remove group', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-			$box .= '</select>';
-			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', GROUPS_PLUGIN_DOMAIN ) );
-			$box .= '</div>';
-			$box = str_replace('"', "'", $box );
-	
-			
-			$nonce = wp_nonce_field( 'user-group', 'bulk-user-group-nonce', true, false );
-			$nonce = str_replace('"', "'", $nonce );
-			$box .= $nonce;
-			
-			// @todo replace when a hook allows us to add actions to the users table
-			// Another option is to extend the users table and implement it in extra_tablenav()
-			// but that would require either to replace the users admin screen with
-			// that extended one or create our own section, e.g. Groups > Users.
-			echo '<script type="text/javascript">';
-			echo '
-			jQuery(function(){
-			jQuery(".tablenav.top .alignleft.actions:last").after("' . $box . '");
-			 });
-			 ';
-			echo '</script>';
-			
-			Groups_UIE::enqueue( 'select' );
-			echo Groups_UIE::render_select( '#user-groups' );
-				
-			// .subsubsub rule added because with views_users() the list can get long
-			// icon distinguishes from role links
-			echo '<style type="text/css">';
-			echo '.subsubsub { white-space: normal; }';
-			echo 'a.group { background: url(' . GROUPS_PLUGIN_URL . '/images/groups-grey-8x8.png) transparent no-repeat left center; padding-left: 10px;}';
-			echo '</style>';
-		}
-	}
-	
-	/**
-	 * Hooked on filter in class-wp-list-table.php to add links that
-	 * filter by group.
-	 * @param array $views
-	 */
-	public static function views_users( $views ) {
-=======
-					$user_query->query_where .= " AND $wpdb->users.ID IN ($ids)";
-				}
-			}
-		}
-		return $user_query;
-	}
-	
-	/**
-	 * Adds the group add/remove buttons after the last action box.
-	 */
-	public static function admin_head() {
->>>>>>> 69d8d2be3fe1c8c8877aa21ace1e4a07b59ccdbd
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			
