@@ -163,11 +163,11 @@ class Groups_Admin_Users {
 			$box .= '</select>';
 			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', GROUPS_PLUGIN_DOMAIN ) );
 			$box .= '</div>';
-			$box = str_replace('"', "'", $box );
+			$box = str_replace( '"', "'", $box );
 	
 			
 			$nonce = wp_nonce_field( 'user-group', 'bulk-user-group-nonce', true, false );
-			$nonce = str_replace('"', "'", $nonce );
+			$nonce = str_replace( '"', "'", $nonce );
 			$box .= $nonce;
 			
 			// @todo replace when a hook allows us to add actions to the users table
