@@ -39,9 +39,6 @@ class Groups_Admin_Users {
 	 * Groups permissions.
 	 */
 	public static function setup() {
-		global $groups_version;
-		wp_enqueue_style( 'groups_admin', GROUPS_PLUGIN_URL . 'css/groups_admin.css', array(), $groups_version );
-		
 		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			// filters to display the user's groups
 			add_filter( 'manage_users_columns', array( __CLASS__, 'manage_users_columns' ) );
@@ -104,8 +101,8 @@ class Groups_Admin_Users {
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
 				$groups_select = sprintf(
 						'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-						esc_attr( __( 'Choose groups&hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-						esc_attr( __( 'Choose groups&hellip;', GROUPS_PLUGIN_DOMAIN ) )
+						esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
+						esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
 				);
 				foreach( $groups as $group ) {
 					$is_member = false;
@@ -115,9 +112,46 @@ class Groups_Admin_Users {
 				
 			}
 			
+			$box = '<style type="text/css">';
+			$box .= '
+				.groups-bulk-container {
+					padding-bottom: 1em;
+				}
+				.groups-bulk-container,
+				.capabilities-bulk-container,
+				.tablenav .tablenav-pages {
+					line-height: 24px;
+				}
+				.groups-bulk-container .capabilities-select-container {
+					width: 25%;
+					float: left;
+					vertical-align: middle;
+				}
+				.groups-bulk-container .selectize-control,
+				.groups-bulk-container select.bulk-action,
+				.capabilities-bulk-container select.bulk-action {
+					margin-right: 4px;
+					vertical-align: middle;
+				}
+				.groups-bulk-container .selectize-input {
+					font-size: inherit;
+					line-height: 18px;
+					padding: 1px 1px 2px 1px;
+					vertical-align: middle;
+				}
+				.groups-bulk-container .selectize-input input[type="text"] {
+					font-size: inherit;
+					vertical-align: middle;
+				}
+				.groups-bulk-container .button,
+				.capabilities-bulk-container .button {
+					vertical-align: middle;
+				}';
+			$box .= '</style>';
+			
 			// we add this inside the form that contains the bulk
 			// action and role change buttons
-			$box = '<div class="groups-bulk-container">';
+			$box .= '<div class="groups-bulk-container">';
 			$box .= '<div class="capabilities-select-container">';
 			
 			$box .= $groups_select;

@@ -90,8 +90,8 @@ class Groups_Admin_User_Profile {
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
 				$output .= sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-					esc_attr( __( 'Choose groups&hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-					esc_attr( __( 'Choose groups&hellip;', GROUPS_PLUGIN_DOMAIN ) )
+					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
+					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
 				);
 				foreach( $groups as $group ) {
 					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
