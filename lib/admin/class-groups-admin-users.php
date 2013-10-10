@@ -23,9 +23,9 @@
  * Users admin integration with Groups.
  */
 class Groups_Admin_Users {
-	
+
 	const GROUPS = 'groups_user_groups';
-	
+
 	/**
 	 * Hooks into filters to add the Groups column to the users table.
 	 */
@@ -33,7 +33,7 @@ class Groups_Admin_Users {
 		// we hook this on admin_init so that current_user_can() is available
 		add_action( 'admin_init', array( __CLASS__, 'setup' ) );
 	}
-	
+
 	/**
 	 * Adds the filters and actions only for users who have the right
 	 * Groups permissions.
@@ -57,7 +57,7 @@ class Groups_Admin_Users {
 			}
 		}
 	}
-	
+
 	/**
 	 * Modify query to filter users by group.
 	 * 
@@ -87,14 +87,14 @@ class Groups_Admin_Users {
 		}
 		return $user_query;
 	}
-	
+
 	/**
 	 * Adds the group add/remove buttons after the last action box.
 	 */
 	public static function admin_head() {
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			
+
 			$group_table = _groups_get_tablename( "group" );
 			// groups select
 			$groups_table = _groups_get_tablename( 'group' );
@@ -109,9 +109,9 @@ class Groups_Admin_Users {
 					$groups_select .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
 				}
 				$groups_select .= '</select>';
-				
+
 			}
-			
+
 			$box = '<style type="text/css">';
 			$box .= '
 				.groups-bulk-container {
@@ -148,12 +148,12 @@ class Groups_Admin_Users {
 					vertical-align: middle;
 				}';
 			$box .= '</style>';
-			
+
 			// we add this inside the form that contains the bulk
 			// action and role change buttons
 			$box .= '<div class="groups-bulk-container">';
 			$box .= '<div class="capabilities-select-container">';
-			
+
 			$box .= $groups_select;
 			$box .= '</div>';
 			$box .= '<select class="groups-action" name="groups-action">';
@@ -164,12 +164,11 @@ class Groups_Admin_Users {
 			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', GROUPS_PLUGIN_DOMAIN ) );
 			$box .= '</div>';
 			$box = str_replace( '"', "'", $box );
-	
-			
+
 			$nonce = wp_nonce_field( 'user-group', 'bulk-user-group-nonce', true, false );
 			$nonce = str_replace( '"', "'", $nonce );
 			$box .= $nonce;
-			
+
 			// @todo replace when a hook allows us to add actions to the users table
 			// Another option is to extend the users table and implement it in extra_tablenav()
 			// but that would require either to replace the users admin screen with
@@ -181,10 +180,10 @@ class Groups_Admin_Users {
 			 });
 			 ';
 			echo '</script>';
-			
+
 			Groups_UIE::enqueue( 'select' );
 			echo Groups_UIE::render_select( '#user-groups' );
-				
+
 			// .subsubsub rule added because with views_users() the list can get long
 			// icon distinguishes from role links
 			echo '<style type="text/css">';
@@ -193,7 +192,7 @@ class Groups_Admin_Users {
 			echo '</style>';
 		}
 	}
-	
+
 	/**
 	 * Hooked on filter in class-wp-list-table.php to add links that
 	 * filter by group.
@@ -223,7 +222,7 @@ class Groups_Admin_Users {
 		}
 		return $views;
 	}
-	
+
 	/**
 	 * Adds or removes users to/from groups.
 	 */
@@ -279,7 +278,7 @@ class Groups_Admin_Users {
 			}
 		}
 	}
-	
+
 	/**
 	 * Adds a new column to the users table to show the groups that users
 	 * belong to.
@@ -291,7 +290,7 @@ class Groups_Admin_Users {
 		$column_headers[self::GROUPS] = __( 'Groups', GROUPS_PLUGIN_DOMAIN );
 		return $column_headers;
 	}
-	
+
 	/**
 	 * Renders custom column content.
 	 * 
@@ -321,7 +320,7 @@ class Groups_Admin_Users {
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * usort helper
 	 * @param Groups_Group $o1
