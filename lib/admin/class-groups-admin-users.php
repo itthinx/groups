@@ -104,8 +104,8 @@ class Groups_Admin_Users {
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
 				$groups_select = sprintf(
 						'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-						esc_attr( __( 'Choose groups ...', GROUPS_PLUGIN_DOMAIN ) ) ,
-						esc_attr( __( 'Choose groups ...', GROUPS_PLUGIN_DOMAIN ) )
+						esc_attr( __( 'Choose groups&hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
+						esc_attr( __( 'Choose groups&hellip;', GROUPS_PLUGIN_DOMAIN ) )
 				);
 				foreach( $groups as $group ) {
 					$is_member = false;
@@ -209,9 +209,9 @@ class Groups_Admin_Users {
 					foreach( $users as $user_id ) {
 						switch ( $action ) {
 							case 'add':
-								$groups_id = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
-								if ( $groups_id !== null ) {
-									foreach ( $groups_id as $group_id ) {
+								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
+								if ( $group_ids !== null ) {
+									foreach ( $group_ids as $group_id ) {
 										if ( !Groups_User_Group::read( $user_id, $group_id ) ) {
 											Groups_User_Group::create(
 												array(
@@ -224,9 +224,9 @@ class Groups_Admin_Users {
 								}
 								break;
 							case 'remove':
-								$groups_id = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
-								if ( $groups_id !== null ) {
-									foreach ( $groups_id as $group_id ) {
+								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
+								if ( $group_ids !== null ) {
+									foreach ( $group_ids as $group_id ) {
 										if ( Groups_User_Group::read( $user_id, $group_id ) ) {
 											Groups_User_Group::delete( $user_id, $group_id );
 										}
