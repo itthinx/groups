@@ -171,9 +171,22 @@ function groups_admin_options() {
 	}
 	$caps_table .= '</tbody>';
 	$caps_table .= '</table>';
-	
+
 	$delete_data = Groups_Options::get_option( 'groups_delete_data', false );
-	
+
+	if ( isset( $_GET['dismiss-groups-extensions-box'] ) && isset( $_GET['groups-extensions-box-nonce'] ) && wp_verify_nonce( $_GET['groups-extensions-box-nonce'], 'dismiss-box' ) ) {
+		Groups_Options::update_user_option( 'show-extensions-box', false );
+	}
+	$extensions_box = '';
+	if ( Groups_Options::get_user_option( 'show-extensions-box', true ) ) {
+		$dismiss_url = wp_nonce_url( add_query_arg( 'dismiss-groups-extensions-box', '1', admin_url( 'admin.php?page=groups-admin-options' ) ), 'dismiss-box', 'groups-extensions-box-nonce' );
+		$extensions_box =
+			'<div id="groups-extensions-box">' .
+			__( 'Enhanced functionality is available via official <a href="http://www.itthinx.com/plugins/groups/">Extensions</a> for Groups.', GROUPS_PLUGIN_DOMAIN ) .
+			sprintf( '<a class="close" href="%s">x</a>', esc_url( $dismiss_url ) ) .
+			'</div>';
+	}
+
 	//
 	// print the options form
 	//
@@ -182,6 +195,7 @@ function groups_admin_options() {
 
 		'<p>' .
 		'<input class="button" type="submit" name="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		$extensions_box .
 		'</p>' .
 
 		'<div>' .

@@ -88,6 +88,9 @@ class Groups_Admin_User_Profile {
 			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
+				$output .= '<style type="text/css">';
+				$output .= '.groups .selectize-input { font-size: inherit; }';
+				$output .= '</style>';
 				$output .= sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
@@ -99,9 +102,7 @@ class Groups_Admin_User_Profile {
 				}
 				$output .= '</select>';
 				$output .= Groups_UIE::render_select( '#user-groups' );
-				
-				$output .= '<span class="description">' . __( "The chosen groups are assigned to the user.", GROUPS_PLUGIN_DOMAIN ) . '</span>';
-				
+				$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', GROUPS_PLUGIN_DOMAIN ) . '</p>';
 			}
 			echo $output;
 		}

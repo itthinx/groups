@@ -2,32 +2,26 @@
 Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
-Requires at least: 3.3
+Requires at least: 3.5
 Tested up to: 3.6.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv3
 
-Groups provides group-based user membership management, group-based capabilities and content access control.
+Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
 
 == Description ==
 
-Groups provides group-based user membership management, group-based capabilities and content access control.
-It integrates standard WordPress capabilities and application-specific capabilities along with an extensive API.
+Groups is designed as an efficient, powerful and flexible solution for group-oriented membership and content access control.
 
-### Extensions ###
+It provides group-based user membership management, group-based capabilities and access control for content, built on solid principles.
 
+Groups is light-weight and offers an easy user interface, while it acts as a framework and integrates standard WordPress capabilities and application-specific capabilities along with an extensive API.
 
-- [Groups Blog Protect](http://wordpress.org/extend/plugins/groups-blog-protect/) Protect access to blogs by group membership.
-- [Groups File Access](http://www.itthinx.com/plugins/groups-file-access/) Groups File Access is an extension that allows to provide file download links for authorized users. Access to files is restricted to users by their group membership.
-- [Groups Forums](http://www.itthinx.com/plugins/groups-forums/) A powerful and yet light-weight forum system.
-- [Groups Jigoshop](http://jigoshop.com/product/subscriptions/) Groups integration for Jigoshop that supports memberships and subscriptions.
-- [Groups Newsletters](http://www.itthinx.com/plugins/groups-newsletters/) Newsletter Campaigns for Subscribers and Groups.
-- [Groups Notifications](http://www.itthinx.com/plugins/groups-notifications/) Adds customizable notifications for events related to Groups.
-- [Groups PayPal](http://www.itthinx.com/plugins/groups-paypal/) Groups for PayPal allows to sell memberships and subscriptions with Groups.
-- [Groups Subscriptions](http://www.itthinx.com/plugins/groups-subscriptions/) A subscription framework for Groups used by other extensions.
-- [Groups WooCommerce](http://www.woothemes.com/extension/groups-woocommerce/) Groups for WooCommerce is a WordPress plugin that allows you to sell memberships.
-- [Groups 2 MailChimp](http://eggemplo.com/plugins/groups2mailchimp/) Synchronizes groups with MailChimp lists.
-- [Groups 404 Redirect](http://wordpress.org/extend/plugins/groups-404-redirect/) Redirects 404's caused by hits on pages that are protected by Groups.
+Enhanced functionality is available via official [extensions](http://www.itthinx.com/plugins/groups/) for Groups.
+
+### Documentation ###
+
+The official documentation is located at the [Groups documentation pages](http://www.itthinx.com/documentation/groups/).
 
 ### Features ###
 
@@ -113,188 +107,6 @@ Please try to solve problems there before you rate this plugin or say it doesn't
 
 Many thanks for your help!
 
-
-### Introduction ###
-
-#### Content Access Control ####
-
-##### Access restrictions on posts ####
-
-On posts an pages (and custom content types) a new meta box titled *Access restrictions* appears.
-By checking a capability under *Enforce read access*, you can restrict access to the post to groups and users who are members of a group with that capability.
-You need to assign this capability to a group and make users members of that group to allow them to see those posts.
-
-#### Content visibility for members and non-members ####
-
-The [groups_member] and [groups_non_member] shortcodes are used to limit visibility of content to users who *are* members of a group or users who *are not* members of a group. Multiple comma-separated groups can be specified.
-
-Example: Limiting visibility of enclosed content to registered users.
-
-[groups_member group="Registered"]
-
-Only registered users can see this text.
-
-[/groups_member]
-
-#### Content visibility based on capabilities ####
-
-The [groups_can] and [groups_can_not] shortcodes limit visibility of enclosed content to those users who *have* the capability or those who *do not have* it. Multiple capabilities can be given.
-
-Example: Showing enclosed content to users who can edit_posts (standard WordPress capability).
-
-[groups_can capability="edit_posts"]
-
-You can see this only if you have the edit_posts capability.
-
-[/groups_can]
-
-### Integration in the 'Users' menu: ###
-
-Users - group membership is managed from the standard Users admin view.
-Users are automatically added to the _Registered_ group. You can add multiple users to other groups here and also remove them.
-
-### Integration in user profiles: ###
-
-Group memberships can be shown on the user profile page and edited by users who can *Administer groups*.
-
-This option is disabled by default and can be enabled under *Groups > Options > User profiles*.
-
-### Sections in the 'Groups' menu: ###
-
-#### Groups ####
-
-Here you can:
-
-- add groups
-- remove groups
-- assign capabilities to groups
-
-#### Capabilities ####
-
-This is where you add, remove and manage capabilities.
-
-Capabilities can be assigned to groups and users (1). These capabilities include
-the *standard WordPress capabilities* but you can also define additional
-capabilities for your web-application.
-
-Groups defines the `groups_read_post` capability by default which can be
-used to restrict access to certain posts or pages to groups (and users)
-with that capability only. Additional capabilities can be identified on the
-*Groups > Options* admin screen that may be used to limit access.
-
-A user *must* be a member of a group that has the desired capability to restrict access. For example, in order to apply the `groups_read_post` capability, the user must belong to a group which has that capability assigned.
-
-(1) Assigning capabilities to users is not integrated in the user interface yet but can be done through API calls.
-
-#### Options ####
-
-##### Administrator override #####
-
-Administrator overrides can be turned off.
-
-##### Access restrictions #####
-
-Post types : Access restrictions can be enabled or disabled for standard (Post, Page and Media) and custom post types.
-Capabilities : Here specific capabilities can be enabled or disabled to restrict access to posts. The standard `groups_read_post` capability is enabled by default.
-
-Note that to apply an access restriction on a post, the user must belong to a group which has that capability.
-
-##### User profiles #####
-
-Groups can be shown in user profiles, users who can *Administer groups* can edit group memberships on a user's profile page.
-
-##### Tree view #####
-
-The tree view adds a menu item to the Groups menu which shows the group hierarchy.
-
-##### Permissions #####
-
-For each role these permissions can be set:
-
-* Access Groups: see information related to Groups.
-* Administer Groups: complete control over everything related to Groups.
-* Administer Groups plugin options: grants access to make changes on the *Groups > Options* admin section.
-
-##### Testing the plugin #####
-
-A convenient option is provided to delete all data that has been stored by the Groups plugin.
-This option is useful if you just need to start from fresh after you have been testing the plugin.
-
-### Shortcodes ###
-
-#### Limit content visibility ####
-
-These shortcodes are used to limit the visibility of the content they enclose:
-
-- [groups_member]
-- [groups_non_member]
-- [groups_can]
-- [groups_can_not]
-
-See above for examples and descriptions.
-
-#### Show group information ####
-
-- [groups_group_info]
-
-This shortcode takes the following attributes to show information about a group:
-
-- _group_ : (required) the group ID or name
-- _show_ : (required) what to show, accepted values are: _name_, _description_, _count_, _users_
-- _single_ : (optional) used when show="count" and there is 1 member in the group
-- _plural_ : (optional) used when show="count" and there is more than 1 member in the group, must contain %d to show the number of members
- 
-Examples:
-
-* [groups_group_info group="Registered" show="count"]
-
-* There [groups_group_info group="1" show="count" single="is one member" plural="are %d members"] in the [groups_group_info group="1" show="name"] group.
-
-#### Let a user join a group ####
-
-- [groups_join]
-
-This shortcode takes the following attributes to let a user join a specific group:
-
-- _group_ : (required) the group ID or name
-- _display_message_ : (optional) whether to show a confirmation after joining the group; accepted values: _true_, _false_; defaults to _true_
-- _display_is_member_ : (optional) whether to show that the user is a member of the group; accepted values: _true_, _false_; defaults to _false_
-- _submit_text_ : (optional) specify to change the button text; must contain %s to show the group name
-
-Example:
-
-* [group_join group="Cool"]
-
-#### Let a user leave a group ####
-
-- [groups_leave]
-
-This shortcode takes the following attributes to let a user leave a specific group:
-
-- _group_ : (required) the group ID or name
-- _display_message_ : (optional) whether to show a confirmation after leaving the group; accepted values: _true_, _false_; defaults to _true_
-- _submit_text_ : (optional) specify to change the button text; must contain %s to show the group name
-
-Example:
-
-* [groups_leave group="Cool"]
-
-#### Show user groups ####
-
-- [groups_user_groups]
-
-This shortcode lists the current user's or a specific user's groups.
-
-For detailed information about this shortcode, please refer to the [Groups plugin page](http://www.itthinx.com/plugins/groups/).
-
-#### Show site groups ####
-
-- [groups_groups]
-
-This shortcode lists the site's groups.
-
-For detailed information about this shortcode, please refer to the [Groups plugin page](http://www.itthinx.com/plugins/groups/).
-
 == Installation ==
 
 1. Upload or extract the `groups` folder to your site's `/wp-content/plugins/` directory. You can also use the *Add new* option found in the *Plugins* menu in WordPress.  
@@ -304,14 +116,11 @@ For detailed information about this shortcode, please refer to the [Groups plugi
 
 = Where is the documentation? =
 
-Most of the features are currently documented at the [Groups plugin page](http://www.itthinx.com/plugins/groups/).
-
-The official Groups documentation root is at the [Groups Documentation](http://www.itthinx.com/documentation/groups/) page.
-The documentation is a work in progress, if you don't find anything there yet but want to know about the API, please look at the code as it provides useful documentation on all functions.
+The official documentation is located at the [Groups documentation pages](http://www.itthinx.com/documentation/groups/).
 
 = I have a question, where do I ask? =
 
-You can leave a comment at the [Groups plugin page](http://www.itthinx.com/plugins/groups/).
+For questions directly related to Groups, you can leave a comment at the [Groups plugin page](http://www.itthinx.com/plugins/groups/).
 
 = I want Advanced and Premium members, where the Premium members can access everything that Advanced members can access. How can I do that? =
 
@@ -367,6 +176,12 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.4.1 =
+* Added: Better group-assignment on the Users admin screen, allows to assign/remove multiple users to/from multiple groups along with a better UI.
+* Changed: Groups requires at least WordPress 3.5 now, although this only affects the group-action functionality on the Users admin screen, the restrict_manage_users action which is now used to render the UI elements needed, was introduced with WordPress 3.5.
+* Added: Extensions box in Options.
+* Improved: Groups section in user profile with added description.
 
 = 1.4.0 =
 * Added: Groups > Groups > Add / Edit group screens, allow to assign/modify the capabilities assigned to the group.
@@ -526,6 +341,9 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 * This is the first public beta release.
 
 == Upgrade Notice ==
+
+= 1.4.1 =
+* From this release on, Groups requires at least WordPress 3.5. It includes improved group-actions for the Users admin screen, where multiple users can now be added to or removed from multiple groups at once.
 
 = 1.4.0 =
 * This release brings User Interface improvements mainly directed at working with groups and capabilities. This includes bulk actions for groups and capabilities and capability assignments when editing groups along with other improvements.

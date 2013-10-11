@@ -151,6 +151,28 @@ div.groups-footer form {
 	padding: 1em;
 }
 
+#groups-extensions-box {
+	position: relative;
+	float: right;
+	padding: 1em;
+	margin: 1em;
+	background-color: #eee;
+	border-radius: 4px;
+	color: #333;
+	border: 1px solid #ddd;
+	width: 256px;
+}
+#groups-extensions-box a.close {
+	color: #ccc;
+	line-height: 18px;
+	position: absolute;
+	right: 6px;
+	text-decoration: none;
+	top: 6px;
+	font-family: sans;
+	font-size: 11px;
+}
+
 .groups-bulk-container {
 	padding-bottom: 1em;
 }
