@@ -67,7 +67,7 @@ class Groups_Admin_Post_Columns {
 	 * @return array column headers
 	 */
 	public static function columns( $column_headers ) {
-		$column_headers[self::CAPABILITIES] = __( 'Capabilities', GROUPS_PLUGIN_DOMAIN );
+		$column_headers[self::CAPABILITIES] = sprintf( __( '<span title="%s">Access Restrictions</span>', GROUPS_PLUGIN_DOMAIN ), esc_attr( __( 'One ore more capabilities required to read the entry.', GROUPS_PLUGIN_DOMAIN ) ) );
 		return $column_headers;
 	}
 
