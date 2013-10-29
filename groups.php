@@ -27,7 +27,7 @@
  * Donate-Link: http://www.itthinx.com
  * License: GPLv3
  */
-define( 'GROUPS_CORE_VERSION', '1.4.1' );
+define( 'GROUPS_CORE_VERSION', '1.4.2' );
 define( 'GROUPS_FILE', __FILE__ );
 if ( !defined( 'GROUPS_CORE_DIR' ) ) {
 	define( 'GROUPS_CORE_DIR', WP_PLUGIN_DIR . '/groups' );
