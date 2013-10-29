@@ -60,8 +60,6 @@ if ( is_admin() ) {
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-posts.php' );
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-pages.php' );
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-media.php' );
-
-	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-custom-posts.php' );
 }
 
 // help
