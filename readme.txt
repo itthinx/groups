@@ -178,7 +178,6 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 == Changelog ==
 
 = 1.4.2 =
-
 * Added: Access restriction capabilities shown for enabled post types on overview screens.
 * WordPress 3.7 compatibility checked.
 
