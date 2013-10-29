@@ -177,6 +177,11 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.2 =
+
+* Added: Access restriction capabilities shown for enabled post types on overview screens.
+* WordPress 3.7 compatibility checked.
+
 = 1.4.1 =
 * Added: Better group-assignment on the Users admin screen, allows to assign/remove multiple users to/from multiple groups along with a better UI.
 * Changed: Groups requires at least WordPress 3.5 now, although this only affects the group-action functionality on the Users admin screen, the restrict_manage_users action which is now used to render the UI elements needed, was introduced with WordPress 3.5.
@@ -341,6 +346,8 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 * This is the first public beta release.
 
 == Upgrade Notice ==
+
+* Improved views regarding access restrictions which are now shown in overviews for enabled post types. Checked WordPress 3.7 compatibility.
 
 = 1.4.1 =
 * From this release on, Groups requires at least WordPress 3.5. It includes improved group-actions for the Users admin screen, where multiple users can now be added to or removed from multiple groups at once.
