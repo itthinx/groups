@@ -20,64 +20,44 @@
  */
 
 /**
- * Posts admin integration with Groups.
+ * Post column extensions.
  */
 class Groups_Admin_Post_Columns {
 
-	const GROUPS = 'groups_custom_post_groups';
-	
+	const CAPABILITIES = 'capabilities';
+
 	/**
-	 * Hooks into filters to add the Groups column to the posts table.
+	 * Adds an admin_init action.
 	 */
 	public static function init() {
-		// we hook this on admin_init so that current_user_can() is available
-		add_action( 'admin_init', array( __CLASS__, 'setup' ) );
+		add_action( 'admin_init', array( __CLASS__, 'admin_init' ) );
 	}
 
 	/**
 	 * Adds the filters and actions only for users who have the right
-	 * Groups permissions.
+	 * Groups permissions and for the post types that have access
+	 * restrictions enabled.
 	 */
-	public static function setup() {
+	public static function admin_init() {
 		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			$post_types = get_post_types( array( 'public' => true ) );
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-			
 			foreach ( $post_types as $post_type ) {
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-					if ( ($post_type == "attachment") ) {
-						// filters to display the media's groups
-						add_filter('manage_media_columns', array( __CLASS__, 'manage_edit_custom_posts_custom_columns' ) );
+					if ( ( $post_type == 'attachment' ) ) {
+						// filters to display the media's access restriction capabilities
+						add_filter( 'manage_media_columns', array( __CLASS__, 'columns' ) );
 						// args: string $column_name, int $media_id
-						add_action( 'manage_media_custom_column', array( __CLASS__, 'manage_custom_posts_posts_custom_column' ), 10, 2 );
+						add_action( 'manage_media_custom_column', array( __CLASS__, 'custom_column' ), 10, 2 );
 					} else {
-						// filters to display the posts's groups
-						add_filter('manage_edit-' . $post_type . '_columns', array( __CLASS__, 'manage_edit_custom_posts_custom_columns' ) );
+						// filters to display the posts' access restriction capabilities
+						add_filter( 'manage_' . $post_type . '_posts_columns', array( __CLASS__, 'columns' ) );
 						// args: string $column_name, int $post_id
-						add_action( 'manage_' . $post_type . '_posts_custom_column', array( __CLASS__, 'manage_custom_posts_posts_custom_column' ), 10, 2 );
+						add_action( 'manage_' . $post_type . '_posts_custom_column', array( __CLASS__, 'custom_column' ), 10, 2 );
 					}
 				}
 			}
 		}
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			if ( !is_network_admin() ) {
-				// styles
-				add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
-			}
-		}
-	}
-	
-	/**
-	 * Adds the groups css style.
-	 */
-	public static function admin_head() {
-	
-		global $pagenow;
-	
-			echo '<style type="text/css">';
-			echo '.column-' . self::GROUPS . ' { width: 15%; }';
-			echo '</style>';
-		
 	}
 
 	/**
@@ -86,8 +66,8 @@ class Groups_Admin_Post_Columns {
 	 * @param array $column_headers
 	 * @return array column headers
 	 */
-	public static function manage_edit_custom_posts_custom_columns( $column_headers ) {
-		$column_headers[self::GROUPS] = __( 'Capabilities', GROUPS_PLUGIN_DOMAIN );
+	public static function columns( $column_headers ) {
+		$column_headers[self::CAPABILITIES] = __( 'Capabilities', GROUPS_PLUGIN_DOMAIN );
 		return $column_headers;
 	}
 
@@ -98,12 +78,10 @@ class Groups_Admin_Post_Columns {
 	 * @param int $post_id
 	 * @return string custom column content
 	 */
-	public static function manage_custom_posts_posts_custom_column( $column_name, $post_id ) {
-		$output = "";
+	public static function custom_column( $column_name, $post_id ) {
+		$output = '';
 		switch ( $column_name ) {
-			case self::GROUPS :
-				$user = new Groups_User( get_current_user_id() );
-			
+			case self::CAPABILITIES :
 				$read_caps = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
 				$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
 				if ( count( $valid_read_caps ) > 0 ) {
@@ -112,17 +90,17 @@ class Groups_Admin_Post_Columns {
 						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 							if ( in_array( $valid_read_cap, $read_caps ) ) {
 								$output .= '<li>';
-								$output .= wp_filter_nohtml_kses( $capability->capability );
+								$output .= wp_strip_all_tags( $capability->capability );
 								$output .= '</li>';
 							}
 						}
 					}
 					$output .= '</ul>';
 				} else {
-					$output = __( '--', GROUPS_PLUGIN_DOMAIN );
+					$output .= __( '', GROUPS_PLUGIN_DOMAIN );
 				}
 				break;
-		}	
+		}
 		echo $output;
 	}
 }
