@@ -161,7 +161,7 @@ class Groups_Shortcodes {
 		}
 		if ( $user_id !== null ) {
 			$user = new Groups_User( $user_id );
-			$groups = $user->__get( 'groups' );
+			$groups = $user->groups;
 			if ( !empty( $groups ) ) {
 				switch( $options['order_by'] ) {
 					case 'group_id' :
@@ -193,10 +193,10 @@ class Groups_Shortcodes {
 						case 'list' :
 						case 'ul' :
 						case 'ol' :
-							$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->__get( 'name' ) . '</li>';
+							$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</li>';
 							break;
 						default :
-							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->__get( 'name' ) . '</div>';
+							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</div>';
 					}
 				}
 				switch( $options['format'] ) {
@@ -302,10 +302,10 @@ class Groups_Shortcodes {
 					case 'list' :
 					case 'ul' :
 					case 'ol' :
-						$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->__get( 'name' ) . '</li>';
+						$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</li>';
 						break;
 					default :
-						$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->__get( 'name' ) . '</div>';
+						$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</div>';
 				}
 			}
 			switch( $options['format'] ) {
