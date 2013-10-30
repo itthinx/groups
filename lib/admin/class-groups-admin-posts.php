@@ -51,7 +51,7 @@ class Groups_Admin_Posts {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : null; // @todo null or 'post' ?
+				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
 
 				if ( false ) { // @todo check that access restriction is enabled for the $post_type
 
@@ -83,7 +83,7 @@ class Groups_Admin_Posts {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : null; // @todo null or 'post' ?
+				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
 
 				if ( false ) { // @todo check that access restriction is enabled for the $post_type
 
