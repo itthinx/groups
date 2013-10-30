@@ -75,7 +75,7 @@ class Groups_Admin_Posts {
 	 * 
 	 * @param WP_Query $query query object passed by reference
 	 */
-	public static function parse_query( $query ) {
+	public static function parse_query( &$query ) {
 
 		global $pagenow;
 
@@ -89,7 +89,7 @@ class Groups_Admin_Posts {
 
 					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) ) {
 
-						$capability_id = intval( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] );
+						$capability_id = Groups_Utility::id( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] );
 
 						// modify the $query to take the access restriction filter into account
 
