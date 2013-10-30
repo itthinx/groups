@@ -74,9 +74,17 @@ class Groups_Admin_Posts {
 						esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
 						esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) )
 					);
-					$output .= sprintf( '<option value="%s">%s</option>', self::NOT_RESTRICTED, esc_attr( __( '(not restricted)', GROUPS_PLUGIN_DOMAIN ) ) );
+					
+					$previous_selected = array();
+					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) ) {
+						$previous_selected = $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY];
+					}
+					$selected = in_array( self::NOT_RESTRICTED, $previous_selected )?'selected="selected"':'';
+					$output .= sprintf( '<option value="%s" ' . $selected . ' >%s</option>', self::NOT_RESTRICTED, esc_attr( __( '(not restricted)', GROUPS_PLUGIN_DOMAIN ) ) );
+						
 					foreach( $applicable_read_caps as $capability ) {
-						$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability ), wp_filter_nohtml_kses( $capability ) );
+						$selected = in_array( $capability, $previous_selected )?'selected="selected"':'';
+						$output .= sprintf( '<option value="%s" ' . $selected . ' >%s</option>', esc_attr( $capability ), wp_filter_nohtml_kses( $capability ) );
 					}
 					$output .= '</select>';
 					$output .= Groups_UIE::render_select( '.select.capability' );
