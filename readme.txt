@@ -347,7 +347,7 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.4.2 =
-* Improved views regarding access restrictions which are now shown in overviews for enabled post types. Checked WordPress 3.7 compatibility.
+* Improved views regarding access restrictions which are now shown in overviews for enabled post types. Checked WordPress 3.7.1 compatibility.
 
 = 1.4.1 =
 * From this release on, Groups requires at least WordPress 3.5. It includes improved group-actions for the Users admin screen, where multiple users can now be added to or removed from multiple groups at once.
