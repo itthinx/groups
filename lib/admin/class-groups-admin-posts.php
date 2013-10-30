@@ -24,6 +24,8 @@
  */
 class Groups_Admin_Posts {
 
+	const NOT_RESTRICTED = "#";
+	
 	/**
 	 * Sets up an admin_init hook where our actions and filters are added.
 	 */
@@ -75,8 +77,9 @@ class Groups_Admin_Posts {
 							esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
 							esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) )
 					);
+					$output .= sprintf( '<option value="%s">%s</option>', self::NOT_RESTRICTED, esc_attr( __( "( Not restricted )", GROUPS_PLUGIN_DOMAIN ) ) );
 					foreach( $capabilities as $capability ) {
-						$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
+						$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability ), wp_filter_nohtml_kses( $capability->capability ) );
 					}
 					$output .= '</select>';
 					$output .= Groups_UIE::render_select( '.select.capability' );
@@ -111,23 +114,41 @@ class Groups_Admin_Posts {
 				
 					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) ) {
 
-						//$capability_id = Groups_Utility::id( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] );
-						$capability_id = $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY];
+						$include_unrestricted = false;
+						if ( in_array( self::NOT_RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) ) {
+							$include_unrestricted = true;
+						} 
+						$capabilities = array();
 						
-						ob_start();
-						var_dump($capability_id[0]);
-						$result = ob_get_clean();
-						error_log($result);
-						
-						// modify the $query to take the access restriction filter into account
-
-						//$query->query_vars['meta_key'] = Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY;
-						//$query->query_vars['meta_value'] = $capability_id;
-						$query->query_vars['meta_query'] = array ( array (
-								'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
-								'value' => array(intval($capability_id[0])),
-								'compare' => 'IN'
-								));
+						foreach ( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] as $capability ) {
+							if ( Groups_Capability::read_by_capability( $capability ) ) {
+								$capabilities[] = $capability;
+							}
+						}
+						if ( $include_unrestricted || !empty( $capabilities ) ) {
+							if ( $include_unrestricted ) {
+								$query->query_vars['meta_query'] = array (
+									'relation' => 'OR',
+									array (
+											'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+											'compare' => 'NOT EXISTS'
+									),
+									array (
+											'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+											'value' => $capabilities,
+											'compare' => 'IN'
+									)
+								);
+							} else {
+								$query->query_vars['meta_query'] = array (
+									array (
+											'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+											'value' => $capabilities,
+											'compare' => 'IN'
+									)
+								);
+							}
+						}
 					}
 				}
 			}
