@@ -56,6 +56,7 @@ if ( is_admin() ) {
 		require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-user-profile.php' );
 	}
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-users.php' );
+	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-posts.php' );
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-post-columns.php' );
 }
 
