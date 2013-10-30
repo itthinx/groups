@@ -207,7 +207,6 @@ class Groups_Access_Meta_Boxes {
 						} else {
 							$label_title = __( 'No groups grant access through this capability. To grant access to group members using this capability, you should assign it to a group and enable the capability for access restriction.', GROUPS_PLUGIN_DOMAIN );
 						}
-						$checked = in_array( $capability->capability, $read_caps ) ? ' checked="checked" ' : '';
 						$output .= sprintf( '<option value="%s" %s>', esc_attr( $capability->capability_id ), in_array( $capability->capability, $read_caps ) ? ' selected="selected" ' : '' );
 						$output .= wp_filter_nohtml_kses( $capability->capability );
 						if ( $show_groups ) {
@@ -528,7 +527,6 @@ class Groups_Access_Meta_Boxes {
 							} else {
 								$label_title = __( 'No groups grant access through this capability. To grant access to group members using this capability, you should assign it to a group and enable the capability for access restriction.', GROUPS_PLUGIN_DOMAIN );
 							}
-							$checked = in_array( $capability->capability, $read_caps ) ? ' checked="checked" ' : '';
 							$output .= sprintf( '<option value="%s" %s>', esc_attr( $capability->capability_id ), in_array( $capability->capability, $read_caps ) ? ' selected="selected" ' : '' );
 							$output .= wp_filter_nohtml_kses( $capability->capability );
 							if ( $show_groups ) {
