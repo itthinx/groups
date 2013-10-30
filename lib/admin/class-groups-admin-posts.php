@@ -74,7 +74,7 @@ class Groups_Admin_Posts {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				echo '<style type="text/css">';
-				echo '.groups-capabilities-container { display: inline-block; line-height: 24px; padding-bottom: 1em; vertical-align: top; margin-left: 1em; margin-right: 1em; }';
+				echo '.groups-capabilities-container { display: inline-block; line-height: 24px; padding-bottom: 1em; vertical-align: top; margin-left: 4px; margin-right: 4px; }';
 				echo '.groups-capabilities-container .groups-select-container { display: inline-block; vertical-align: top; }';
 				echo '.groups-capabilities-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
 				echo '.groups-capabilities-container .selectize-control { min-width: 128px; }';
