@@ -179,7 +179,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 = 1.4.2 =
 * Added: Access restriction capabilities shown for enabled post types on overview screens.
-* WordPress 3.7 compatibility checked.
+* WordPress 3.7.1 compatibility checked.
 
 = 1.4.1 =
 * Added: Better group-assignment on the Users admin screen, allows to assign/remove multiple users to/from multiple groups along with a better UI.
@@ -346,6 +346,7 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
+= 1.4.2 =
 * Improved views regarding access restrictions which are now shown in overviews for enabled post types. Checked WordPress 3.7 compatibility.
 
 = 1.4.1 =
