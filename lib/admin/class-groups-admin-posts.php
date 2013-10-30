@@ -60,26 +60,23 @@ class Groups_Admin_Posts {
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
 				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
-
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-				
+
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-				
+
 					$output = '';
 
-					$capability_table = _groups_get_tablename( "capability" );
-					
 					// capabilities select
-					$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+					$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
 					$output .= sprintf(
-							'<select class="select capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-							esc_attr( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ),
-							esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-							esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+						'<select class="select capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ),
+						esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
+						esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) )
 					);
-					$output .= sprintf( '<option value="%s">%s</option>', self::NOT_RESTRICTED, esc_attr( __( "( Not restricted )", GROUPS_PLUGIN_DOMAIN ) ) );
-					foreach( $capabilities as $capability ) {
-						$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability ), wp_filter_nohtml_kses( $capability->capability ) );
+					$output .= sprintf( '<option value="%s">%s</option>', self::NOT_RESTRICTED, esc_attr( __( '(not restricted)', GROUPS_PLUGIN_DOMAIN ) ) );
+					foreach( $applicable_read_caps as $capability ) {
+						$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability ), wp_filter_nohtml_kses( $capability ) );
 					}
 					$output .= '</select>';
 					$output .= Groups_UIE::render_select( '.select.capability' );
@@ -107,47 +104,65 @@ class Groups_Admin_Posts {
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
 				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
-
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-				
+
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-				
+
 					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) ) {
 
 						$include_unrestricted = false;
 						if ( in_array( self::NOT_RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) ) {
 							$include_unrestricted = true;
-						} 
+						}
+
 						$capabilities = array();
-						
 						foreach ( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] as $capability ) {
 							if ( Groups_Capability::read_by_capability( $capability ) ) {
 								$capabilities[] = $capability;
 							}
 						}
-						if ( $include_unrestricted || !empty( $capabilities ) ) {
+
+						if ( !empty( $capabilities ) ) {
 							if ( $include_unrestricted ) {
+								// meta_query does not handle a conjunction
+								// on the same meta field correctly
+								// (at least not up to WordPress 3.7.1)
+// 								$query->query_vars['meta_query'] = array (
+// 									'relation' => 'OR',
+// 									array (
+// 										'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+// 										'value' => $capabilities,
+// 										'compare' => 'IN'
+// 									),
+// 									array (
+// 										'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+// 										'compare' => 'NOT EXISTS'
+// 									)
+// 								);
+								// we'll limit it to show just unrestricted entries
+								// until the above is solved
 								$query->query_vars['meta_query'] = array (
-									'relation' => 'OR',
 									array (
-											'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
-											'compare' => 'NOT EXISTS'
-									),
-									array (
-											'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
-											'value' => $capabilities,
-											'compare' => 'IN'
+										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+										'compare' => 'NOT EXISTS'
 									)
 								);
 							} else {
 								$query->query_vars['meta_query'] = array (
 									array (
-											'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
-											'value' => $capabilities,
-											'compare' => 'IN'
+										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+										'value'   => $capabilities,
+										'compare' => 'IN'
 									)
 								);
 							}
+						} else if ( $include_unrestricted ) {
+							$query->query_vars['meta_query'] = array (
+								array (
+									'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+									'compare' => 'NOT EXISTS'
+								)
+							);
 						}
 					}
 				}
