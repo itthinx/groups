@@ -182,6 +182,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * WordPress 3.7.1 compatibility checked.
 * Fixed: Error caused by typo when obtaining group_ids_deep property for a Groups_User.
 * Changed: Replaced some __get calls by properties.
+* Added: Filter by access restriction capabilities for enabled post types on overview screens.
  
 = 1.4.1 =
 * Added: Better group-assignment on the Users admin screen, allows to assign/remove multiple users to/from multiple groups along with a better UI.
@@ -349,7 +350,7 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.4.2 =
-* Improved views regarding access restrictions which are now shown in overviews for enabled post types. Checked WordPress 3.7.1 compatibility.
+* Improved views and filters regarding access restrictions which are now shown in overviews for enabled post types. Checked WordPress 3.7.1 compatibility. Some bug fixes and internal improvements.
 
 = 1.4.1 =
 * From this release on, Groups requires at least WordPress 3.5. It includes improved group-actions for the Users admin screen, where multiple users can now be added to or removed from multiple groups at once.
