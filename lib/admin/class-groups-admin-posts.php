@@ -45,15 +45,26 @@ class Groups_Admin_Posts {
 	 */
 	public static function restrict_manage_posts() {
 
+		global $pagenow;
+
 		if ( is_admin() ) {
 
-			$output = '';
+			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-			// @todo print the access restriction filter field for post types that have it enabled
+				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : null; // @todo null or 'post' ?
 
-			// @todo for now, let's use as the field name : Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY
+				if ( false ) { // @todo check that access restriction is enabled for the $post_type
 
-			echo $output;
+					$output = '';
+
+					// @todo print the access restriction filter field for post types that have it enabled
+
+					// @todo for now, let's use as the field name : Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY
+
+					echo $output;
+				}
+
+			}
 		}
 
 	}
