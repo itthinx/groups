@@ -155,7 +155,7 @@ class Groups_User implements I_Capable {
 
 				case 'group_ids_deep' :
 					if ( $this->user !== null ) {
-						$groups_ids = wp_cache_get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP );
+						$group_ids = wp_cache_get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP );
 						if ( $group_ids === false ) {
 							$this->init_cache( $capability_ids, $capabilities, $group_ids );
 						}
