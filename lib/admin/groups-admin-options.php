@@ -84,8 +84,10 @@ function groups_admin_options() {
 			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
 				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
 				foreach( $read_caps as $read_cap ) {
-					if ( !in_array( $read_cap, $valid_read_caps ) && ( $valid_cap = Groups_Capability::read( $read_cap ) ) ) {
-						$valid_read_caps[] = $valid_cap->capability;
+					if ( $valid_cap = Groups_Capability::read( $read_cap ) ) {
+						if ( !in_array( $valid_cap->capability, $valid_read_caps ) ) {
+							$valid_read_caps[] = $valid_cap->capability;
+						}
 					}
 				}
 			}

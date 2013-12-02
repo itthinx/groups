@@ -43,6 +43,9 @@ class Groups_Admin_Posts {
 			add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
 			add_action( 'restrict_manage_posts', array( __CLASS__, 'restrict_manage_posts' ) );
 			add_filter( 'parse_query', array( __CLASS__, 'parse_query' ) );
+
+			add_action( 'bulk_edit_custom_box', array( __CLASS__, 'bulk_edit_custom_box' ), 10, 2);
+			add_action( 'save_post', array( __CLASS__, 'save_post' ) );
 		}
 	}
 
@@ -83,6 +86,7 @@ class Groups_Admin_Posts {
 				echo '.groups-capabilities-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; }';
 				echo '.groups-capabilities-container input.button { margin-top: 1px; vertical-align: top; }';
 				echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
+				echo '.wp-list-table td { overflow: visible; }'; // idem for bulk actions
 				echo '</style>';
 			}
 		}
@@ -140,6 +144,109 @@ class Groups_Admin_Posts {
 			}
 		}
 
+	}
+
+	/**
+	 * Bulk-edit access restriction capabilities.
+	 * 
+	 * @param string $column_name
+	 * @param string $post_type
+	 */
+	public static function bulk_edit_custom_box( $column_name, $post_type ) {
+
+		global $pagenow, $wpdb;
+
+		if ( $column_name == 'capabilities' ) {
+
+			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
+
+				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
+				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+
+				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
+
+					$output = '<fieldset class="inline-edit-col-right">';
+					$output .= '<div class="bulk-edit-groups">';
+
+					// capability/access restriction bulk actions added through extra_tablenav()
+					$output .= '<div id="capability-bulk-actions" class="capabilities-bulk-container" style="display:inline">';
+
+					$output .= '<label>';
+					$output .= '<span class="title">';
+					$output .= __( 'Access Restrictions', GROUPS_PLUGIN_DOMAIN );
+					$output .= '</span>';
+					$output .= '<select class="capabilities-action" name="capabilities-action">';
+					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+					$output .= '<option value="add-capability">' . __( 'Add restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+					$output .= '<option value="remove-capability">' . __( 'Remove restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+					$output .= '</label>';
+					$output .= '</select>';
+
+					$output .= '<div class="groups-capabilities-container">';
+					$valid_read_caps = Groups_Access_Meta_Boxes::get_valid_read_caps_for_user();
+					$output .= sprintf(
+						'<select class="select bulk-capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ_POST_CAPABILITY ),
+						esc_attr( __( 'Choose access restrictions &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
+						esc_attr( __( 'Choose access restrictions &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+					);
+
+					foreach( $valid_read_caps as $capability ) {
+						$output .= sprintf( '<option value="%s" >%s</option>', esc_attr( $capability ), wp_filter_nohtml_kses( $capability ) );
+					}
+					$output .= '</select>';
+					$output .= '</div>'; // .groups-capabilities-container
+					$output .= Groups_UIE::render_select( '.select.bulk-capability' );
+
+					$output .= '</div>'; // .capabilities-bulk-container
+
+					$output .= '</div>'; // .bulk-edit-groups
+					$output .= '</fieldset>'; // .inline-edit-col-right
+
+					$output .= wp_nonce_field( 'post-capability', 'bulk-post-capability-nonce', true, false );
+
+					echo $output;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Handles access restriction capability modifications from bulk-editing.
+	 * This is called once for each post that is included in bulk-editing.
+	 * The fields that are handled here are rendered through the
+	 * bulk_edit_custom_box() method in this class.
+	 * 
+	 * @param int $post_id
+	 */
+	public static function save_post( $post_id ) {
+		if ( isset( $_REQUEST['capabilities-action'] ) ) {
+			if ( wp_verify_nonce( $_REQUEST['bulk-post-capability-nonce'], 'post-capability' ) ) {
+				$field = Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ_POST_CAPABILITY;
+				if ( !empty( $_REQUEST[$field] ) && is_array( $_REQUEST[$field] ) ) {
+					if ( Groups_Access_Meta_Boxes::user_can_restrict() ) {
+						$valid_read_caps = Groups_Access_Meta_Boxes::get_valid_read_caps_for_user();
+						foreach( $_REQUEST[$field] as $capability_name ) {
+							if ( $capability = Groups_Capability::read_by_capability( $capability_name ) ) {
+								if ( in_array( $capability->capability, $valid_read_caps ) ) {
+									switch( $_REQUEST['capabilities-action'] ) {
+										case 'add-capability' :
+											Groups_Post_Access::create( array(
+												'post_id' => $post_id,
+												'capability' => $capability->capability
+											) );
+											break;
+										case 'remove-capability' :
+											Groups_Post_Access::delete( $post_id, $capability->capability );
+											break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**

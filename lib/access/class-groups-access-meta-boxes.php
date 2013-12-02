@@ -33,19 +33,26 @@ class Groups_Access_Meta_Boxes {
 	const SHOW_GROUPS    = 'access-meta-box-show-groups';
 
 	/**
-	 * Hooks for capabilities meta box and saving options.
+	 * Sets up an init hook where actions and filters are added.
 	 */
 	public static function init() {
+		add_action( 'init', array( __CLASS__, 'wp_init' ) );
+	}
 
-		require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
+	/**
+	 * Hooks for capabilities meta box and saving options.
+	 */
+	public static function wp_init() {
+		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
+			require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
 
-		add_action( 'add_meta_boxes', array( __CLASS__, "add_meta_boxes" ), 10, 2 );
-		add_action( 'save_post', array( __CLASS__, "save_post" ), 10, 2 );
-		add_filter( 'wp_insert_post_empty_content', array( __CLASS__, 'wp_insert_post_empty_content' ), 10, 2 );
+			add_action( 'add_meta_boxes', array( __CLASS__, "add_meta_boxes" ), 10, 2 );
+			add_action( 'save_post', array( __CLASS__, "save_post" ), 10, 2 );
+			add_filter( 'wp_insert_post_empty_content', array( __CLASS__, 'wp_insert_post_empty_content' ), 10, 2 );
 
-		add_action( 'attachment_fields_to_edit', array( __CLASS__, 'attachment_fields_to_edit' ), 10, 2 );
-		add_action( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), 10, 2 );
-
+			add_action( 'attachment_fields_to_edit', array( __CLASS__, 'attachment_fields_to_edit' ), 10, 2 );
+			add_action( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), 10, 2 );
+		}
 	}
 
 	/**
@@ -603,7 +610,7 @@ class Groups_Access_Meta_Boxes {
 	 * that can be used to restrict access to posts.
 	 * @return boolean
 	 */
-	private static function user_can_restrict() {
+	public static function user_can_restrict() {
 		$has_read_cap = false;
 		$user = new Groups_User( get_current_user_id() );
 		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
@@ -621,7 +628,7 @@ class Groups_Access_Meta_Boxes {
 	/**
 	 * @return array of valid read capabilities for the current or given user
 	 */
-	private static function get_valid_read_caps_for_user( $user_id = null ) {
+	public static function get_valid_read_caps_for_user( $user_id = null ) {
 		$result = array();
 		$user = new Groups_User( $user_id === null ? get_current_user_id() : $user_id );
 		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );

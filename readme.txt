@@ -177,6 +177,12 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.3 =
+* Added: Bulk editing (add/remove) of post access restriction capabilities.
+* Fixed: A typo in the Access Restriction column's tooltip text.
+* Fixed: Validation of access restriction capabilities when saved on options admin screen.
+* Changed: Users must now have the groups_access capability to be able to use the access restriction meta box on posts.
+
 = 1.4.2 =
 * Added: Access restriction capabilities shown for enabled post types on overview screens.
 * WordPress 3.7.1 compatibility checked.
@@ -348,6 +354,9 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 * This is the first public beta release.
 
 == Upgrade Notice ==
+
+= 1.4.3 =
+* Added bulk editing (add/remove) of post access restriction capabilities, restricted use of access restriction box on posts, fixed some bugs.
 
 = 1.4.2 =
 * Improved views and filters regarding access restrictions which are now shown in overviews for enabled post types. Checked WordPress 3.7.1 compatibility. Some bug fixes and internal improvements.
