@@ -179,8 +179,8 @@ class Groups_Admin_Posts {
 					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', GROUPS_PLUGIN_DOMAIN ) . '</option>';
 					$output .= '<option value="add-capability">' . __( 'Add restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
 					$output .= '<option value="remove-capability">' . __( 'Remove restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-					$output .= '</label>';
 					$output .= '</select>';
+					$output .= '</label>';
 
 					$output .= '<div class="groups-capabilities-container">';
 					$valid_read_caps = Groups_Access_Meta_Boxes::get_valid_read_caps_for_user();
