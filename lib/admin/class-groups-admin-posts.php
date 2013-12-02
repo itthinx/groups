@@ -171,7 +171,7 @@ class Groups_Admin_Posts {
 					// capability/access restriction bulk actions added through extra_tablenav()
 					$output .= '<div id="capability-bulk-actions" class="capabilities-bulk-container" style="display:inline">';
 
-					$output .= '<label>';
+					$output .= '<label style="display:inline;">';
 					$output .= '<span class="title">';
 					$output .= __( 'Access Restrictions', GROUPS_PLUGIN_DOMAIN );
 					$output .= '</span>';
