@@ -84,7 +84,23 @@ class Groups_Post_Access {
 		if ( isset( $args[0] ) ) {
 			if ( strpos( $cap, 'edit_' ) === 0 || strpos( $cap, 'delete_' ) === 0 ) {
 				if ( $post_type = get_post_type( $args[0] ) ) {
-					if ( $cap === "edit_$post_type" || $cap === "delete_$post_type" ) {
+
+					$edit_post_type   = 'edit_' . $post_type;
+					$delete_post_type = 'delete_' . $post_type;
+					if ( $post_type_object = get_post_type_object( $post_type ) ) {
+						if ( !isset( $post_type_object->capabilities ) ) {
+							$post_type_object->capabilities = array();
+						}
+						$caps_object = get_post_type_capabilities( $post_type_object );
+						if ( isset( $caps_object->edit_post ) ) {
+							$edit_post_type = $caps_object->edit_post;
+						}
+						if ( isset( $caps_object->delete_post ) ) {
+							$delete_post_type = $caps_object->delete_post;
+						}
+					}
+
+					if ( $cap === $edit_post_type || $cap === $delete_post_type ) {
 						$post_id = $args[0];
 						if ( !self::user_can_read_post( $post_id, $user_id ) ) {
 							$caps[] = 'do_not_allow';

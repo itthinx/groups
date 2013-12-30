@@ -351,7 +351,22 @@ class Groups_Access_Meta_Boxes {
 							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
 							// If the post ID is not provided, it will throw:
 							// PHP Notice:  Undefined offset: 0 in /var/www/groups-forums/wp-includes/capabilities.php on line 1067 
-							if ( current_user_can( 'edit_'.$post_type, $post_id ) ) {
+							$edit_post_type = 'edit_' . $post_type;
+							if ( $post_type_object = get_post_type_object( $post_type ) ) {
+								if ( !isset( $post_type_object->capabilities ) ) {
+									// get_post_type_capabilities() (WP 3.8) will throw a warning
+									// when trying to merge the missing property otherwise. It's either a
+									// bug or the function's documentation should make it clear that you
+									// have to provide that.
+									$post_type_object->capabilities = array();
+									$caps_object = get_post_type_capabilities( $post_type_object );
+									if ( isset( $caps_object->edit_post ) ) {
+										$edit_post_type = $caps_object->edit_post;
+									}
+								}
+							}
+
+							if ( current_user_can( $edit_post_type, $post_id ) ) {
 								// quick-create ?
 								if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 									if ( !empty( $_POST['quick-group-capability'] ) ) {
