@@ -85,6 +85,7 @@ class Groups_Admin_Posts {
 				echo '.groups-capabilities-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
 				echo '.groups-capabilities-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; }';
 				echo '.groups-capabilities-container input.button { margin-top: 1px; vertical-align: top; }';
+				echo '.inline-edit-row fieldset .capabilities-bulk-container label span.title { min-width: 5em; padding: 2px 1em; width: auto; }';
 				echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
 				echo '.wp-list-table td { overflow: visible; }'; // idem for bulk actions
 				echo '</style>';

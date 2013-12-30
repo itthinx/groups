@@ -75,8 +75,9 @@ function groups_admin_options() {
 			
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			$post_types = get_post_types( array( 'public' => true ) );
+			$selected_post_types = is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array();
 			foreach( $post_types as $post_type ) {
-				$post_types_option[$post_type]['add_meta_box'] = in_array( $post_type, $_POST['add_meta_boxes'] );
+				$post_types_option[$post_type]['add_meta_box'] = in_array( $post_type, $selected_post_types );
 			}
 			Groups_Options::update_option( Groups_Post_Access::POST_TYPES, $post_types_option );
 			
