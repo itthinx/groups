@@ -294,23 +294,25 @@ class Groups_User implements I_Capable {
 				}
 			}
 
-			// Get all capabilities from the WP_User object.
-			$role_caps = $this->user->get_role_caps();
-			if ( !empty( $role_caps ) && is_array( $role_caps ) ) {
-				$caps = array();
-				foreach( $role_caps as $role_cap => $has ) {
-					if ( !in_array( $role_cap, $capabilities ) ) {
-						$caps[] = "'" . $role_cap . "'";
+			if ( apply_filters( 'groups_user_add_role_capabilities', true ) ) {
+				// Get all capabilities from the WP_User object.
+				$role_caps = $this->user->get_role_caps();
+				if ( !empty( $role_caps ) && is_array( $role_caps ) ) {
+					$caps = array();
+					foreach( $role_caps as $role_cap => $has ) {
+						if ( !in_array( $role_cap, $capabilities ) ) {
+							$caps[] = "'" . $role_cap . "'";
+						}
 					}
-				}
-				if ( !empty( $caps ) ) {
-					// Retrieve the capabilities and only add those that are
-					// recognized. Note that this also effectively filters out
-					// all roles and that this is desired.
-					if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN (" . implode( ',', $caps ) . ")" ) ) {
-						foreach( $role_capabilities as $role_capability ) {
-							$capabilities[]   = $role_capability->capability;
-							$capability_ids[] = $role_capability->capability_id;
+					if ( !empty( $caps ) ) {
+						// Retrieve the capabilities and only add those that are
+						// recognized. Note that this also effectively filters out
+						// all roles and that this is desired.
+						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN (" . implode( ',', $caps ) . ")" ) ) {
+							foreach( $role_capabilities as $role_capability ) {
+								$capabilities[]   = $role_capability->capability;
+								$capability_ids[] = $role_capability->capability_id;
+							}
 						}
 					}
 				}
