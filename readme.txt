@@ -177,6 +177,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.5 =
+* Using a WordPress API function get_post_type_capabilities() instead of semi-hardcoded capabilities for access restriction checks (affects CPTs).
+
 = 1.4.4 =
 * WordPress 3.8 compatibility checked.
 * Fixed: Access restriction options per post type when none is checked.
@@ -358,6 +361,9 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 * This is the first public beta release.
 
 == Upgrade Notice ==
+
+= 1.4.5 =
+* Fixed incompatible access restriction checks on some custom post types.
 
 = 1.4.4 =
 * WordPress 3.8 compatibility checked and fixed a minor bug.
