@@ -359,10 +359,10 @@ class Groups_Access_Meta_Boxes {
 									// bug or the function's documentation should make it clear that you
 									// have to provide that.
 									$post_type_object->capabilities = array();
-									$caps_object = get_post_type_capabilities( $post_type_object );
-									if ( isset( $caps_object->edit_post ) ) {
-										$edit_post_type = $caps_object->edit_post;
-									}
+								}
+								$caps_object = get_post_type_capabilities( $post_type_object );
+								if ( isset( $caps_object->edit_post ) ) {
+									$edit_post_type = $caps_object->edit_post;
 								}
 							}
 
