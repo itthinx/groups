@@ -300,7 +300,7 @@ class Groups_User implements I_Capable {
 				if ( !empty( $role_caps ) && is_array( $role_caps ) ) {
 					$caps = array();
 					foreach( $role_caps as $role_cap => $has ) {
-						if ( !in_array( $role_cap, $capabilities ) ) {
+						if ( $has && !in_array( $role_cap, $capabilities ) ) {
 							$caps[] = "'" . $role_cap . "'";
 						}
 					}
