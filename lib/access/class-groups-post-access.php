@@ -247,6 +247,9 @@ class Groups_Post_Access {
 			if ( self::user_can_read_post( $post->ID ) ) {
 				$result = $output;
 			}
+		} else {
+			// not a post, don't interfere
+			$result = $output;
 		}
 		return $result;
 	}
@@ -264,6 +267,9 @@ class Groups_Post_Access {
 			if ( self::user_can_read_post( $post->ID ) ) {
 				$result = $output;
 			}
+		} else {
+			// not a post, don't interfere
+			$result = $output;
 		}
 		return $result;
 	}
