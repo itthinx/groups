@@ -18,6 +18,11 @@
  * @package groups
  * @since groups 1.0.0
  */
+
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 define( 'GROUPS_CAPABILITIES_PER_PAGE', 10 );
 define( 'GROUPS_ADMIN_CAPABILITIES_NONCE_1', 'groups-cap-nonce-1');
 define( 'GROUPS_ADMIN_CAPABILITIES_NONCE_2', 'groups-cap-nonce-2');

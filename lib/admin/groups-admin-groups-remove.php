@@ -19,6 +19,10 @@
  * @since groups 1.1.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Shows form to confirm removal of a group.
  * @param int $group_id group id

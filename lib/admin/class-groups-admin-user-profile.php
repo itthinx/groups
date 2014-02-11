@@ -19,6 +19,10 @@
  * @since groups 1.3.11
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Show group info on user profile pages and let admins edit group membership.
  */

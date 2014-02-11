@@ -19,6 +19,10 @@
  * @since groups 1.0.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Shows form to confirm capability deletion.
  * @param int $capability_id capability id

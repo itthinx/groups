@@ -19,6 +19,10 @@
  * @since groups 1.0.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // startup
 global $groups_version, $groups_admin_messages;
 

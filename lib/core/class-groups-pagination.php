@@ -19,6 +19,10 @@
  * @since groups 1.0.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Pagination based on WP_List_Table.
  */

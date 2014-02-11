@@ -19,6 +19,10 @@
  * @since groups 1.1.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Show add group form.
  */

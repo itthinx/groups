@@ -18,6 +18,11 @@
  * @package groups
  * @since groups 1.0.0
  */
+
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 require_once( GROUPS_CORE_LIB . "/interface-i-capable.php" );
 
 /**

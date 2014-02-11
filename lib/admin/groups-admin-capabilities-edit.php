@@ -19,6 +19,10 @@
  * @since groups 1.0.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Show edit capability form.
  * @param int $capability_id capability id

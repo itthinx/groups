@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 3.5
-Tested up to: 3.8
+Tested up to: 3.8.1
 Stable tag: 1.4.6
 License: GPLv3
 
@@ -176,6 +176,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.4.7 =
+* Security improvement: plugin files accessed directly exit
 
 = 1.4.6.1 =
 * Fixed: Don't interfere with output when there is no post (the_content and get_the_excerpt filters)

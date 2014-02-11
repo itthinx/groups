@@ -19,6 +19,10 @@
  * @since groups 1.0.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // admin defines
 define( 'GROUPS_GROUPS_PER_PAGE', 10 );
 define( 'GROUPS_ADMIN_GROUPS_NONCE_1', 'groups-nonce-1');

@@ -19,6 +19,10 @@
  * @since groups 1.4.2
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Post column extensions.
  */

@@ -19,6 +19,10 @@
  * @since groups 1.3.14
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * User Interface Extensions.
  * 
