@@ -177,6 +177,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.6.1 =
+* Fixed: Don't interfere with output when there is no post (the_content and get_the_excerpt filters)
+
 = 1.4.6 =
 * Security fix : Certain capabilities could be granted to users instead of being denied with a change introduced in version 1.4.5. Roles with negated capabilities would effectively grant these capabilities to the user.
 
