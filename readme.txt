@@ -179,6 +179,8 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 = 1.4.8 =
 * Fixed: A closing tag in the group list on the user profile.
+* Fixed: Help wording.
+* Improved: Capabilities in the Access Restrictions column are sorted for more consistent display.
 
 = 1.4.7 =
 * Security improvement: plugin files accessed directly exit
