@@ -59,8 +59,9 @@ function groups_admin_groups_add() {
 	$output .= '<h2>';
 	$output .= __( 'Add a new group', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</h2>';
-	$output .= Groups_Admin::get_groups_notices();
 	$output .= '</div>';
+
+	$output .= Groups_Admin::render_messages();
 
 	$output .= '<form id="add-group" action="' . $current_url . '" method="post">';
 	$output .= '<div class="group new">';
@@ -161,9 +162,9 @@ function groups_admin_groups_add_submit() {
 		}
 	} else {
 		if ( !$name ) {
-			Groups_Admin::add_groups_notice( '<div class="error">' .  __( "Name is empty.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
+			Groups_Admin::add_message( __( 'The name must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
 		} else if ( Groups_Group::read_by_name( $name ) ) {
-			Groups_Admin::add_groups_notice( '<div class="error">' .  sprintf( __( "The %s group already exists.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ) . '</div>' );
+			Groups_Admin::add_message( sprintf( __( 'The %s group already exists.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ), 'error' );
 		}
 	}
 

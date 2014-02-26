@@ -51,7 +51,7 @@ function groups_admin_capabilities_add() {
 				__( 'Add a new capability', GROUPS_PLUGIN_DOMAIN ) .
 			'</h2>' .
 		'</div>' .
-		Groups_Admin::get_groups_notices() .
+		Groups_Admin::render_messages() .
 		'<form id="add-capability" action="' . $current_url . '" method="post">' .
 		'<div class="capability new">' .
 		
@@ -102,9 +102,9 @@ function groups_admin_capabilities_add_submit() {
 	$capability_id = Groups_Capability::create( compact( "capability", "description" ) );
 	if ( !$capability_id ) {
 		if ( !$capability ) {
-			Groups_Admin::add_groups_notice( '<div class="error">' .  __( "Name is empty.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
+			Groups_Admin::add_message( __( 'The name must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
 		} else if ( Groups_Capability::read_by_capability( $capability ) ) {
-			Groups_Admin::add_groups_notice( '<div class="error">' .  sprintf( __( "The %s capability already exists.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $capability ) ) ) ) . '</div>' );
+			Groups_Admin::add_message( sprintf( __( 'The %s capability already exists.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $capability ) ) ) ), 'error' );
 		}
 	}
 	return $capability_id;

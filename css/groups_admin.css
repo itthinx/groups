@@ -228,3 +228,7 @@ div.groups-footer form {
 	line-height: 18px;
 	padding: 2px;
 }
+
+.groups.messages {
+	padding: 1em 0;
+}

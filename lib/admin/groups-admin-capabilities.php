@@ -59,7 +59,7 @@ function groups_admin_capabilities() {
 					return groups_admin_capabilities_add();
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
-					Groups_Admin::add_groups_notice( '<div class="updated">' . sprintf( __( "The %s capability has been created.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) . '</div>' );
+					Groups_Admin::add_message( sprintf( __( 'The %s capability has been created.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) );
 				}
 				break;
 			case 'edit' :
@@ -67,12 +67,12 @@ function groups_admin_capabilities() {
 					return groups_admin_capabilities_edit( $_POST['capability-id-field'] );
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
-					Groups_Admin::add_groups_notice( '<div class="updated">' . sprintf( __( "The %s capability has been updated.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) . '</div>' );
+					Groups_Admin::add_message( sprintf( __( 'The %s capability has been updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) );
 				}
 				break;
 			case 'remove' :
 				if ( $capability_id = groups_admin_capabilities_remove_submit() ) {
-					Groups_Admin::add_groups_notice( '<div class="updated">' . __( "The capability has been deleted.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
+					Groups_Admin::add_message( __( 'The capability has been deleted.', GROUPS_PLUGIN_DOMAIN ) );
 				}
 				break;
 			// bulk actions on groups: capabilities
@@ -194,7 +194,7 @@ function groups_admin_capabilities() {
 		'</h2>' .
 		'</div>';
 	
-	$output .= Groups_Admin::get_groups_notices();
+	$output .= Groups_Admin::render_messages();
 	
 	$output .=
 		'<div class="manage">' .
