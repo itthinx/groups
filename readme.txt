@@ -185,6 +185,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Fixed: Stripping added slashes from groups and capabilities displayed.
 * Added: Feedback when groups and capabilities are created, updated or removed in admin.
 * Added: group and exclude_group attributes for the [groups_user_groups] shortcode.
+* Improved: Replaced remnant CR LF line-endings in code.
 
 = 1.4.7 =
 * Security improvement: plugin files accessed directly exit
