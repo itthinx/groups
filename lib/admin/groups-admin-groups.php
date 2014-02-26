@@ -73,8 +73,7 @@ function groups_admin_groups() {
 				break;
 			case 'remove' :
 				if ( $group_id = groups_admin_groups_remove_submit() ) {
-				 	$group = Groups_Group::read($group_id);
-					Groups_Admin::add_groups_notice( '<div class="updated">' . sprintf( __( "The %s group has been deleted.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) . '</div>' );
+					Groups_Admin::add_groups_notice( '<div class="updated">' . __( "The group has been deleted.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
 				}
 				break;
 			// bulk actions on groups: add capabilities, remove capabilities, remove groups
