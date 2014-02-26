@@ -69,6 +69,25 @@ class Groups_Admin {
 		Groups_UIE::enqueue( 'select' );
 	}
 
+	public static function add_groups_notice( $message ) {
+		global $groups_groups_messages;
+		if ( empty( $groups_groups_messages ) ) {
+			$groups_groups_messages = array();
+		}
+		$groups_groups_messages[] = $message;
+	}
+	
+	public static function get_groups_notices() {
+		global $groups_groups_messages;
+		$output = "";
+		if ( !empty( $groups_groups_messages ) ) {
+			foreach ( $groups_groups_messages as $msg ) {
+				$output .= $msg;
+			}
+		}
+		return $output;
+	}
+	
 	/**
 	 * Prints admin notices.
 	 */

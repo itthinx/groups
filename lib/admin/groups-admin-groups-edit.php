@@ -78,7 +78,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '<label for="name-field" class="field-label first required">';
 	$output .= __( 'Name', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</label>';
-	$output .= '<input ' . $name_readonly . ' id="name-field" name="name-field" class="namefield" type="text" value="' . esc_attr( $name ) . '"/>';
+	$output .= '<input ' . $name_readonly . ' id="name-field" name="name-field" class="namefield" type="text" value="' . esc_attr( stripslashes( $name ) ) . '"/>';
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
@@ -93,7 +93,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .=  __( 'Description', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</label>';
 	$output .= '<textarea id="description-field" name="description-field" rows="5" cols="45">';
-	$output .= wp_filter_nohtml_kses( $description );
+	$output .= stripslashes( wp_filter_nohtml_kses( $description ) );
 	$output .= '</textarea>';
 	$output .= '</div>';
 
