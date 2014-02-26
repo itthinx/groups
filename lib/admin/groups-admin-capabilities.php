@@ -72,8 +72,7 @@ function groups_admin_capabilities() {
 				break;
 			case 'remove' :
 				if ( $capability_id = groups_admin_capabilities_remove_submit() ) {
-					$capability = Groups_Capability::read( $capability_id );
-					Groups_Admin::add_groups_notice( '<div class="updated">' . sprintf( __( "The %s capability has been deleted.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) . '</div>' );
+					Groups_Admin::add_groups_notice( '<div class="updated">' . __( "The capability has been deleted.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
 				}
 				break;
 			// bulk actions on groups: capabilities
