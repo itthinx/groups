@@ -57,6 +57,8 @@ function groups_admin_capabilities_edit( $capability_id ) {
 				__( 'Edit a capability', GROUPS_PLUGIN_DOMAIN ) .
 			'</h2>' .
 		'</div>' .
+
+		Groups_Admin::render_messages() .
 	
 		'<form id="edit-capability" action="' . $current_url . '" method="post">' .
 		'<div class="capability edit">' .
@@ -91,15 +93,17 @@ function groups_admin_capabilities_edit( $capability_id ) {
  * Handle edit form submission.
  */
 function groups_admin_capabilities_edit_submit() {
-	
+
+	$result = false;
+
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 	}
-	
+
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'capabilities-edit' ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 	}
-	
+
 	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null;
 	$capability = Groups_Capability::read( $capability_id );
 	if ( $capability ) {
@@ -109,10 +113,17 @@ function groups_admin_capabilities_edit_submit() {
 		} else {
 			$capability = Groups_Post_Access::READ_POST_CAPABILITY;
 		}
-		$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
-		return Groups_Capability::update( compact( "capability_id", "capability", "description" ) );
-	} else {
-		return false;
+		if ( !empty( $capability ) ) {
+			$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
+			$capability_id = Groups_Capability::update( compact( "capability_id", "capability", "description" ) );
+			if ( $capability_id ) {
+				$result = $capability_id;
+			} else {
+				Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability could not be updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability ) ) ), 'error' );
+			}
+		} else {
+			Groups_Admin::add_message( __( 'The <em>Capability</em> must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
+		}
 	}
-	
+	return $result;
 } // function groups_admin_capabilities_edit_submit

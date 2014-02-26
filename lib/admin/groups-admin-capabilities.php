@@ -59,7 +59,7 @@ function groups_admin_capabilities() {
 					return groups_admin_capabilities_add();
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
-					Groups_Admin::add_message( sprintf( __( 'The %s capability has been created.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability has been created.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) );
 				}
 				break;
 			case 'edit' :
@@ -67,7 +67,7 @@ function groups_admin_capabilities() {
 					return groups_admin_capabilities_edit( $_POST['capability-id-field'] );
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
-					Groups_Admin::add_message( sprintf( __( 'The %s capability has been updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability has been updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) );
 				}
 				break;
 			case 'remove' :
