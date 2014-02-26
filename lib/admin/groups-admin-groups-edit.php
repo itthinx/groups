@@ -70,6 +70,8 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '</h2>';
 	$output .= '</div>';
 
+	$output .= Groups_Admin::render_messages();
+
 	$output .= '<form id="edit-group" action="' . $current_url . '" method="post">';
 	$output .= '<div class="group edit">';
 	$output .= '<input id="group-id-field" name="group-id-field" type="hidden" value="' . esc_attr( intval( $group_id ) ) . '"/>';
@@ -172,6 +174,24 @@ function groups_admin_groups_edit_submit() {
 		}
 		$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : null;
 		$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
+
+		if ( empty( $name ) ) {
+			Groups_Admin::add_message( __( 'The <em>Name</em> must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
+			return false;
+		}
+
+		if ( $other_group = Groups_Group::read_by_name( $name ) ) {
+			if ( $other_group->group_id != $group_id ) {
+				Groups_Admin::add_message(
+					sprintf(
+						__( 'The <em>%s</em> group already exists and cannot be used to name this one.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $other_group->name ) )
+					),
+					'error'
+				);
+				return false;
+			}
+		}
+
 		$group_id = Groups_Group::update( compact( "group_id", "name", "parent_id", "description" ) );
 
 		if ( $group_id ) {
