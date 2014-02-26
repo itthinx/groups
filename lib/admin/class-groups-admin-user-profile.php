@@ -73,7 +73,7 @@ class Groups_Admin_User_Profile {
 					foreach( $groups as $group ) {
 						$output .= '<li>' . wp_filter_nohtml_kses( $group->name ) . '</li>';
 					}
-					$output .= '<ul>';
+					$output .= '</ul>';
 				}
 			}
 			echo $output;

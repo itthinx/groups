@@ -58,7 +58,7 @@ function groups_admin_capabilities_remove( $capability_id ) {
 		'<div class="capability remove">' .
 		'<input id="capability-id-field" name="capability-id-field" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>' .
 		'<ul>' .
-		'<li>' . sprintf( __( 'Capability : %s', GROUPS_PLUGIN_DOMAIN ), wp_filter_nohtml_kses( $capability->capability ) ) . '</li>' .
+		'<li>' . sprintf( __( 'Capability : %s', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) . '</li>' .
 		'</ul> ' .
 		wp_nonce_field( 'capabilities-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
 		'<input class="button" type="submit" value="' . __( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '"/>' .

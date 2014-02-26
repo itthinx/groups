@@ -29,6 +29,12 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Admin {
 
 	/**
+	 * Holds admin messages.
+	 * @var string
+	 */
+	private static $messages = array();
+
+	/**
 	 * Sets up action hooks.
 	 */
 	public static function init() {
@@ -67,6 +73,41 @@ class Groups_Admin {
 		// this one's currently empty
 		//wp_enqueue_script( 'groups_admin', GROUPS_PLUGIN_URL . 'js/groups_admin.js', array( ), $groups_version );
 		Groups_UIE::enqueue( 'select' );
+	}
+
+	/**
+	 * Add a message to the list of messages displayed in the admin sections.
+	 * The message is filtered using wp_filter_kses() and wrapped in a div
+	 * with class 'updated' for messages of type 'info' and 'error' for
+	 * those of type 'error'.
+	 * 
+	 * @param string $message the message
+	 * @param string $type type of message, defaults to 'info'
+	 * @uses wp_filter_kses()
+	 */
+	public static function add_message( $message, $type = 'info' ) {
+		$class = 'updated';
+		switch( $type ) {
+			case 'error' :
+				$class = 'error';
+		}
+		self::$messages[] = '<div class="'.$class.'">' .  balanceTags( stripslashes( wp_filter_kses( $message ) ), true ) . '</div>';
+	}
+
+	/**
+	 * Returns the list of messages as a string.
+	 * An empty string is returned if there are no messages.
+	 * 
+	 * @return string
+	 */
+	public static function render_messages() {
+		$output = '';
+		if ( !empty( self::$messages ) ) {
+			$output .= '<div class="groups messages">';
+			$output .= implode( '', self::$messages );
+			$output .= '</div>';
+		}
+		return $output;
 	}
 
 	/**

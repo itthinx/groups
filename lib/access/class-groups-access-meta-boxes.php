@@ -106,7 +106,7 @@ class Groups_Access_Meta_Boxes {
 								__( 'Use the <em>Access restrictions</em> box to limit the visibility of posts, pages and other post types.', GROUPS_PLUGIN_DOMAIN ) .
 								'</p>' .
 								'<p>' .
-								__( 'You can select one or more capabilities that enabled for access restriction.', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'You can select one or more capabilities that are enabled for access restriction.', GROUPS_PLUGIN_DOMAIN ) .
 								' ' .
 								__( 'Note that you must be a member of a group that has such a capability assigned.', GROUPS_PLUGIN_DOMAIN ) .
 								'</p>' .

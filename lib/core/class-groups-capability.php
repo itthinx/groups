@@ -245,7 +245,7 @@ class Groups_Capability {
 					$old_capability->description,
 					Groups_Utility::id( $capability_id )
 				) );
-				if ( ( $rows !== false ) && ( $rows > 0 ) ) {
+				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
 					do_action( "groups_updated_capability", $result );
 				}

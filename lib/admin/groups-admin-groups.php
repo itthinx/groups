@@ -56,17 +56,25 @@ function groups_admin_groups() {
 		//  handle action submit - do it
 		switch( $_POST['action'] ) {
 			case 'add' :
-				if ( !groups_admin_groups_add_submit() ) {
+				if ( !( $group_id = groups_admin_groups_add_submit() ) ) {
 					return groups_admin_groups_add();
+				} else {
+					$group = Groups_Group::read( $group_id );
+					Groups_Admin::add_message( sprintf( __( "The <em>%s</em> group has been created.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
 				}
 				break;
 			case 'edit' :
-				if ( !groups_admin_groups_edit_submit() ) {
+				if ( !( $group_id = groups_admin_groups_edit_submit() ) ) {
 					return groups_admin_groups_edit( $_POST['group-id-field'] );
+				} else {
+					$group = Groups_Group::read( $group_id );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group has been updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
 				}
 				break;
 			case 'remove' :
-				groups_admin_groups_remove_submit();
+				if ( $group_id = groups_admin_groups_remove_submit() ) {
+					Groups_Admin::add_message( __( 'The group has been deleted.', GROUPS_PLUGIN_DOMAIN ) );
+				}
 				break;
 			// bulk actions on groups: add capabilities, remove capabilities, remove groups
 			case 'groups-action' :
@@ -192,6 +200,8 @@ function groups_admin_groups() {
 		__( 'Groups', GROUPS_PLUGIN_DOMAIN ) .
 		'</h2>' .
 		'</div>';
+
+	$output .= Groups_Admin::render_messages();
 
 	$output .=
 		'<div class="manage">' .

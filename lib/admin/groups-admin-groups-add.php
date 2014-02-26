@@ -61,6 +61,8 @@ function groups_admin_groups_add() {
 	$output .= '</h2>';
 	$output .= '</div>';
 
+	$output .= Groups_Admin::render_messages();
+
 	$output .= '<form id="add-group" action="' . $current_url . '" method="post">';
 	$output .= '<div class="group new">';
 
@@ -68,7 +70,7 @@ function groups_admin_groups_add() {
 	$output .= '<label for="name-field" class="field-label first required">';
 	$output .= __( 'Name', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</label>';
-	$output .= '<input id="name-field" name="name-field" class="namefield" type="text" value="' . esc_attr( $name ) . '"/>';
+	$output .= '<input id="name-field" name="name-field" class="namefield" type="text" value="' . esc_attr( stripslashes( $name ) ) . '"/>';
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
@@ -83,7 +85,7 @@ function groups_admin_groups_add() {
 	$output .= __( 'Description', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</label>';
 	$output .= '<textarea id="description-field" name="description-field" rows="5" cols="45">';
-	$output .= wp_filter_nohtml_kses( $description );
+	$output .= stripslashes( wp_filter_nohtml_kses( $description ) );
 	$output .= '</textarea>';
 	$output .= '</div>';
 
@@ -157,6 +159,12 @@ function groups_admin_groups_add_submit() {
 			foreach( $caps as $cap ) {
 				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
 			}
+		}
+	} else {
+		if ( !$name ) {
+			Groups_Admin::add_message( __( 'The name must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
+		} else if ( Groups_Group::read_by_name( $name ) ) {
+			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group already exists.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ), 'error' );
 		}
 	}
 

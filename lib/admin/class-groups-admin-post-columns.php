@@ -93,6 +93,7 @@ class Groups_Admin_Post_Columns {
 				$read_caps = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
 				$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
 				if ( count( $valid_read_caps ) > 0 ) {
+					sort( $valid_read_caps );
 					$output = '<ul>';
 					foreach( $valid_read_caps as $valid_read_cap ) {
 						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {

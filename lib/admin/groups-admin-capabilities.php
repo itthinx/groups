@@ -55,17 +55,25 @@ function groups_admin_capabilities() {
 		//  handle action submit - do it
 		switch( $_POST['action'] ) {
 			case 'add' :
-				if ( !groups_admin_capabilities_add_submit() ) {
+				if ( !( $capability_id = groups_admin_capabilities_add_submit() ) ) {
 					return groups_admin_capabilities_add();
+				} else {
+					$capability = Groups_Capability::read( $capability_id );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability has been created.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) );
 				}
 				break;
 			case 'edit' :
-				if ( !groups_admin_capabilities_edit_submit() ) {
+				if ( !( $capability_id = groups_admin_capabilities_edit_submit() ) ) {
 					return groups_admin_capabilities_edit( $_POST['capability-id-field'] );
+				} else {
+					$capability = Groups_Capability::read( $capability_id );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability has been updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) );
 				}
 				break;
 			case 'remove' :
-				groups_admin_capabilities_remove_submit();
+				if ( $capability_id = groups_admin_capabilities_remove_submit() ) {
+					Groups_Admin::add_message( __( 'The capability has been deleted.', GROUPS_PLUGIN_DOMAIN ) );
+				}
 				break;
 			// bulk actions on groups: capabilities
 			case 'groups-action' :
@@ -185,7 +193,9 @@ function groups_admin_capabilities() {
 		__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) .
 		'</h2>' .
 		'</div>';
-
+	
+	$output .= Groups_Admin::render_messages();
+	
 	$output .=
 		'<div class="manage">' .
 		"<a title='" . __( 'Click to add a new capability', GROUPS_PLUGIN_DOMAIN ) . "' class='add button' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/add.png'/><span class='label'>" . __( 'New Capability', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
