@@ -221,8 +221,7 @@ div.groups-footer form {
 }
 
 .capabilities-overview .edit, .capabilities-overview .remove , .capabilities-overview .capability_id {
-	width:5%;
-	min-width: 12em;
+	width:10%;
 }
 
 .groups-overview .group_id, .groups-overview .edit, .groups-overview .remove {
