@@ -109,17 +109,26 @@ function groups_admin_capabilities_edit_submit() {
 	if ( $capability ) {
 		$capability_id	= $capability->capability_id;
 		if ( $capability->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) {
-			$capability = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : null;
+			$capability_field = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : null;
 		} else {
-			$capability = Groups_Post_Access::READ_POST_CAPABILITY;
+			$capability_field = Groups_Post_Access::READ_POST_CAPABILITY;
 		}
-		if ( !empty( $capability ) ) {
-			$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
-			$capability_id = Groups_Capability::update( compact( "capability_id", "capability", "description" ) );
-			if ( $capability_id ) {
-				$result = $capability_id;
-			} else {
-				Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability could not be updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability ) ) ), 'error' );
+		if ( !empty( $capability_field ) ) {
+			$update = true;
+			if ( $other_capability = Groups_Capability::read_by_capability( $capability_field ) ) {
+				if ( $other_capability->capability_id != $capability_id ) {
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability already exists and cannot be assigned to this one.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $other_capability->capability ) ) ), 'error' );
+					$update = false;
+				}
+			}
+			if ( $update ) {
+				$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
+				$capability_id = Groups_Capability::update( array( 'capability_id' => $capability_id, 'capability' => $capability_field, 'description' => $description ) );
+				if ( $capability_id ) {
+					$result = $capability_id;
+				} else {
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability could not be updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability ) ) ), 'error' );
+				}
 			}
 		} else {
 			Groups_Admin::add_message( __( 'The <em>Capability</em> must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
