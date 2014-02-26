@@ -164,7 +164,7 @@ function groups_admin_groups_add_submit() {
 		if ( !$name ) {
 			Groups_Admin::add_message( __( 'The name must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
 		} else if ( Groups_Group::read_by_name( $name ) ) {
-			Groups_Admin::add_message( sprintf( __( 'The %s group already exists.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ), 'error' );
+			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group already exists.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ), 'error' );
 		}
 	}
 

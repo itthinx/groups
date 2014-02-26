@@ -60,7 +60,7 @@ function groups_admin_groups() {
 					return groups_admin_groups_add();
 				} else {
 					$group = Groups_Group::read( $group_id );
-					Groups_Admin::add_message( sprintf( __( "The %s group has been created.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
+					Groups_Admin::add_message( sprintf( __( "The <em>%s</em> group has been created.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
 				}
 				break;
 			case 'edit' :
@@ -68,7 +68,7 @@ function groups_admin_groups() {
 					return groups_admin_groups_edit( $_POST['group-id-field'] );
 				} else {
 					$group = Groups_Group::read( $group_id );
-					Groups_Admin::add_message( sprintf( __( 'The %s group has been updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group has been updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
 				}
 				break;
 			case 'remove' :
