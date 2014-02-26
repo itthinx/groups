@@ -116,6 +116,15 @@ div.capability.edit label {
 	width: 250px;
 }
 
+.groups-overview th.edit,
+.groups-overview th.group_id,
+.groups-overview th.remove,
+.capabilities-overview th.capability_id,
+.capabilities-overview th.edit,
+.capabilities-overview th.remove {
+	width:10%;
+}
+
 .manage-groups .required,
 .manage-capabilities .required {
 	background: url(../images/required.png) transparent no-repeat left center;
@@ -218,12 +227,4 @@ div.groups-footer form {
 	font-size: inherit;
 	line-height: 18px;
 	padding: 2px;
-}
-
-.capabilities-overview .edit, .capabilities-overview .remove , .capabilities-overview .capability_id {
-	width:10%;
-}
-
-.groups-overview .group_id, .groups-overview .edit, .groups-overview .remove {
-	width:10%;
 }

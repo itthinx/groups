@@ -181,6 +181,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Fixed: A closing tag in the group list on the user profile.
 * Fixed: Help wording.
 * Improved: Capabilities in the Access Restrictions column are sorted for more consistent display.
+* Improved: Reduced ID, Edit and Remove column widths on Groups and Capabilities screens.
+* Fixed: Stripping added slashes from groups and capabilities displayed.
+* Added: Feedback when groups and capabilities are created, updated or removed in admin.
+* Added: group and exclude_group attributes for the [groups_user_groups] shortcode.
 
 = 1.4.7 =
 * Security improvement: plugin files accessed directly exit
