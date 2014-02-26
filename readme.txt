@@ -384,7 +384,7 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.4.8 =
-* 
+* Several minor fixes and giving more feedback on the admin side for groups and capabilities.
 
 = 1.4.7 =
 * This update provides a low-priority security improvement and a fix related to output obtained through the_content and get_the_excerpt filters.
