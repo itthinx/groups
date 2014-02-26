@@ -186,6 +186,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Added: Feedback when groups and capabilities are created, updated or removed in admin.
 * Added: group and exclude_group attributes for the [groups_user_groups] shortcode.
 * Improved: Replaced remnant CR LF line-endings in code.
+* Fixed: Handling updates to a capability when the capability field is empty.
+* Fixed: Handling updates to a group when the name field is empty.
+* Fixed: Don't allow to use the name of another existing group when updating a group.
+* Fixed: Don't allow to use the name of another existing capability when updating one.
 
 = 1.4.7 =
 * Security improvement: plugin files accessed directly exit
