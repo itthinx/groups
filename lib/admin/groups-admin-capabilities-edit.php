@@ -64,12 +64,12 @@ function groups_admin_capabilities_edit( $capability_id ) {
 		
 		'<div class="field">' .
 		'<label for="capability-field" class="field-label first required">' .__( 'Capability', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
-		'<input ' . $capability_readonly . ' id="capability-field" name="capability-field" class="capability-field" type="text" value="' . esc_attr( $capability_capability ) . '"/>' .
+		'<input ' . $capability_readonly . ' id="capability-field" name="capability-field" class="capability-field" type="text" value="' . esc_attr( stripslashes( $capability_capability ) ) . '"/>' .
 		'</div>' .
 			
 		'<div class="field">' .
 		'<label for="description-field" class="field-label description-field">' .__( 'Description', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
-		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . wp_filter_nohtml_kses( $description ) . '</textarea>' .
+		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . stripslashes( wp_filter_nohtml_kses( $description ) ) . '</textarea>' .
 		'</div>' .
 	
 		'<div class="field">' .

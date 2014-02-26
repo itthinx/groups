@@ -51,18 +51,18 @@ function groups_admin_capabilities_add() {
 				__( 'Add a new capability', GROUPS_PLUGIN_DOMAIN ) .
 			'</h2>' .
 		'</div>' .
-	
+		Groups_Admin::get_groups_notices() .
 		'<form id="add-capability" action="' . $current_url . '" method="post">' .
 		'<div class="capability new">' .
 		
 		'<div class="field">' .
 		'<label for="capability-field" class="field-label first required">' .__( 'Capability', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
-		'<input id="name-field" name="capability-field" class="capability-field" type="text" value="' . esc_attr( $capability ) . '"/>' .
+		'<input id="name-field" name="capability-field" class="capability-field" type="text" value="' . esc_attr( stripslashes( $capability ) ) . '"/>' .
 		'</div>' .
 		
 		'<div class="field">' .
 		'<label for="description-field" class="field-label description-field">' .__( 'Description', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
-		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . wp_filter_nohtml_kses( $description ) . '</textarea>' .
+		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . stripslashes( wp_filter_nohtml_kses( $description ) ) . '</textarea>' .
 		'</div>' .
 	
 		'<div class="field">' .
@@ -99,5 +99,13 @@ function groups_admin_capabilities_add_submit() {
 	$capability  = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : null; 
 	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
 	
-	return Groups_Capability::create( compact( "capability", "description" ) );
+	$capability_id = Groups_Capability::create( compact( "capability", "description" ) );
+	if ( !$capability_id ) {
+		if ( !$capability ) {
+			Groups_Admin::add_groups_notice( '<div class="error">' .  __( "Name is empty.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
+		} else if ( Groups_Capability::read_by_capability( $capability ) ) {
+			Groups_Admin::add_groups_notice( '<div class="error">' .  sprintf( __( "The %s capability already exists.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $capability ) ) ) ) . '</div>' );
+		}
+	}
+	return $capability_id;
 } // function groups_admin_capabilities_add_submit

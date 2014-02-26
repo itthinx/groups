@@ -219,3 +219,11 @@ div.groups-footer form {
 	line-height: 18px;
 	padding: 2px;
 }
+
+.capabilities-overview .edit, .capabilities-overview .remove , .capabilities-overview .capability_id {
+	width:10%;
+}
+
+.groups-overview .group_id, .groups-overview .edit, .groups-overview .remove {
+	width:10%;
+}

@@ -142,7 +142,9 @@ class Groups_Shortcodes {
 				'list_class' => 'groups',
 				'item_class' => 'name',
 				'order_by' => 'name',
-				'order' => 'ASC'
+				'order' => 'ASC',
+				'group' => null,
+				'exclude_group' => null
 			),
 			$atts
 		);
@@ -166,7 +168,46 @@ class Groups_Shortcodes {
 		if ( $user_id !== null ) {
 			$user = new Groups_User( $user_id );
 			$groups = $user->groups;
+			
 			if ( !empty( $groups ) ) {
+			// group attr
+				if ( $options['group'] !== null ) {
+					$groups = array();
+					$groups_incl = explode( ",", $options['group'] );
+					foreach ( $groups_incl as $group_incl ) {
+						$group = trim( $group_incl );
+						$current_group = Groups_Group::read( $group );
+						if ( !$current_group ) {
+							$current_group = Groups_Group::read_by_name( $group );
+						}
+						if ( $current_group ) {
+							if ( Groups_User_Group::read( $user_id, $current_group->group_id ) ) {
+								$groups[] = $current_group;
+							}
+						}
+					}
+				}
+				// exclude_group attr
+				if ( $options['exclude_group'] !== null ) {
+					$groups_excl = explode( ",", $options['exclude_group'] );
+					foreach ( $groups_excl as $key => $group_excl ) {
+						$group = trim( $group_excl );
+						$current_group = Groups_Group::read( $group );
+						if ( !$current_group ) {
+							$current_group = Groups_Group::read_by_name( $group );
+						}
+						if ( $current_group ) {
+							$groups_excl[$key] = $current_group->group_id;
+						} else {
+							unset( $groups_excl[$key] );
+						}
+					}
+					foreach ( $groups as $key => $group ) {
+						if ( in_array( $group->group_id, $groups_excl ) ) {
+							unset( $groups[$key] );
+						}
+					}
+				}
 				switch( $options['order_by'] ) {
 					case 'group_id' :
 						usort( $groups, array( __CLASS__, 'sort_id' ) );

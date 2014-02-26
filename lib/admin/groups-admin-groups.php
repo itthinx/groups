@@ -56,17 +56,25 @@ function groups_admin_groups() {
 		//  handle action submit - do it
 		switch( $_POST['action'] ) {
 			case 'add' :
-				if ( !groups_admin_groups_add_submit() ) {
+				if ( !( $group_id = groups_admin_groups_add_submit() ) ) {
 					return groups_admin_groups_add();
+				} else {
+					$group = Groups_Group::read($group_id);
+					Groups_Admin::add_groups_notice( '<div class="updated">' . sprintf( __( "The %s group has been created.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) . '</div>' );
 				}
 				break;
 			case 'edit' :
-				if ( !groups_admin_groups_edit_submit() ) {
+				if ( !( $group_id = groups_admin_groups_edit_submit() ) ) {
 					return groups_admin_groups_edit( $_POST['group-id-field'] );
+				} else {
+					$group = Groups_Group::read($group_id);
+					Groups_Admin::add_groups_notice( '<div class="updated">' . sprintf( __( "The %s group has been updated.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) . '</div>' );
 				}
 				break;
 			case 'remove' :
-				groups_admin_groups_remove_submit();
+				if ( $group_id = groups_admin_groups_remove_submit() ) {
+					Groups_Admin::add_groups_notice( '<div class="updated">' . __( "The group has been deleted.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
+				}
 				break;
 			// bulk actions on groups: add capabilities, remove capabilities, remove groups
 			case 'groups-action' :
@@ -193,6 +201,8 @@ function groups_admin_groups() {
 		'</h2>' .
 		'</div>';
 
+	$output .= Groups_Admin::get_groups_notices();
+	
 	$output .=
 		'<div class="manage">' .
 		"<a title='" . __( 'Click to add a new group', GROUPS_PLUGIN_DOMAIN ) . "' class='add button' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL ."images/add.png'/><span class='label'>" . __( 'New Group', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
