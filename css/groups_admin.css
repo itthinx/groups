@@ -219,3 +219,26 @@ div.groups-footer form {
 	line-height: 18px;
 	padding: 2px;
 }
+
+.capabilities-overview .edit, .capabilities-overview .remove , .capabilities-overview .capability_id {
+	width:5%;
+	min-width: 12em;
+}
+
+.groups-overview .edit, .groups-overview .remove, .groups-overview .group_id {
+	width:5%;
+	min-width: 12em;
+}
+
+/* testing ... */
+.groups-overview .capabilities:hover{
+	overflow: visible; 
+	white-space: normal; 
+	width: auto;
+}
+
+.capabilities-overview .capability:hover{
+	overflow: visible; 
+	white-space: normal; 
+	width: auto;
+}
