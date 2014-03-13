@@ -414,4 +414,43 @@ class Groups_Group implements I_Capable {
 		}
 		return $result;
 	}
+	
+	/**
+	 * Get a groups id array.
+	 * 
+	 * @return Array with groups id or empty array if there isn't groups
+	 */
+	public static function get_groups_id () {
+		$result = array();
+		$groups = self::get_groups( array( 'fields' => 'group_id' ) );
+		
+		if ( sizeof( $groups )>0 ) {
+			foreach ( $groups as $group ) {
+				$result[] = $group['group_id'];
+			}
+		}
+		return $result;
+	}
+	
+	/**
+	 * Get a groups array.
+	 *  
+	 * @param Array $args
+	 * - ['fields'] string with fields to get separated by comma. If empty then get all fields.
+	 * 
+	 * @return Array of associative array with groups data. 
+	 */
+	public static function get_groups ( $args = null ) {
+		global $wpdb;
+
+		$strfields = "*";
+		if ( isset( $args['fields'] ) ) {
+			$strfields = $args['fields'];
+		}
+		
+		$groups_table = _groups_get_tablename( 'group' );
+		$groups = $wpdb->get_results( "SELECT $strfields FROM $groups_table", ARRAY_A );
+		
+		return $groups;
+	}
 }
