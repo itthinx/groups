@@ -416,40 +416,61 @@ class Groups_Group implements I_Capable {
 	}
 	
 	/**
-	 * Get a groups id array.
-	 * 
-	 * @return Array with groups id or empty array if there isn't groups
-	 */
-	public static function get_groups_id () {
-		$result = array();
-		$groups = self::get_groups( array( 'fields' => 'group_id' ) );
-		
-		if ( sizeof( $groups )>0 ) {
-			foreach ( $groups as $group ) {
-				$result[] = $group['group_id'];
-			}
-		}
-		return $result;
-	}
-	
-	/**
 	 * Get a groups array.
 	 *  
 	 * @param Array $args
 	 * - ['fields'] string with fields to get separated by comma. If empty then get all fields.
+	 * - ['order_by'] string Groups_Group property valid.
+	 * - ['order'] string ASC or DESC. Only applied if 'order_by' is set.
+	 * - ['parent_id'] int where parent_id
 	 * 
 	 * @return Array of associative array with groups data. 
 	 */
-	public static function get_groups ( $args = null ) {
+	public static function get_groups ( $args = array() ) {
 		global $wpdb;
 
-		$strfields = "*";
-		if ( isset( $args['fields'] ) ) {
-			$strfields = $args['fields'];
+		extract( $args );
+		
+		if ( !isset( $fields ) ) {
+			$fields = "*";
+		} else {
+			$array_fields = explode( ",",sanitize_text_field( $fields ) );
+			$fields = "";
+			foreach ( $array_fields as $field ) {
+				//if ( Groups_Group::__get( trim( $field ) ) !== null ) {
+					$fields .= "," . trim( $field );
+				//}
+			}
+			if ( strlen( $fields )>0 ) {
+				$fields = substr( $fields, 1 );
+			}
+		}
+		
+		if ( !isset( $order_by ) ) {
+			$order_by = "";
+		} else {
+			$order_by = sanitize_text_field( $order_by );
+			//if ( Groups_Group::__get( $order_by ) == null ) {
+			//	$order_by = "";
+			//} else {
+				$order = "";
+				if ( !isset( $order ) || ( !( $order == "ASC" ) && !( $order == "DESC" ) ) ) {
+					$order = "DESC";
+				}
+				$order_by = $wpdb->prepare( "ORDER BY %s %s", array( $order_by, $order ) );
+			//}
+		}
+		
+		$where = "";
+		if ( isset( $parent_id ) ) {
+			$parent_id = sanitize_text_field( $parent_id );
+			if ( is_numeric ( $parent_id ) ) {
+				$where .= $wpdb->prepare( "WHERE parent_id=%s", array( $parent_id ) );
+			}
 		}
 		
 		$groups_table = _groups_get_tablename( 'group' );
-		$groups = $wpdb->get_results( "SELECT $strfields FROM $groups_table", ARRAY_A );
+		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT %s FROM $groups_table $where $order_by", array( $fields ) ), ARRAY_A );
 		
 		return $groups;
 	}
