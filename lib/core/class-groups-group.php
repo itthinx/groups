@@ -416,6 +416,32 @@ class Groups_Group implements I_Capable {
 	}
 	
 	/**
+	 * Get group ids array.
+	 *
+	 * @param Array $args
+	 * - ['order_by'] string Groups_Group property valid.
+	 * - ['order'] string ASC or DESC. Only applied if 'order_by' is set.
+	 * - ['parent_id'] int where parent_id
+	 *
+	 * @return Array with group ids
+	 *
+	 * @since groups 1.4.9
+	 */
+	public static function get_group_ids ( $args= array() ) {
+		$result = array();
+		
+		$args['fields'] = 'group_id';
+		$array_groups = self::get_groups( $args );
+		if ( sizeof( $array_groups )>0 ) {
+			foreach ( $array_groups as $group ) {
+				$result[] = $group->group_id;
+			}
+		}
+		
+		return $result;
+	}
+	
+	/**
 	 * Get a groups array.
 	 *  
 	 * @param Array $args
@@ -424,7 +450,9 @@ class Groups_Group implements I_Capable {
 	 * - ['order'] string ASC or DESC. Only applied if 'order_by' is set.
 	 * - ['parent_id'] int where parent_id
 	 * 
-	 * @return Array of associative array with groups data. 
+	 * @return Array of group objects.
+	 * 
+	 * @since groups 1.4.9
 	 */
 	public static function get_groups ( $args = array() ) {
 		global $wpdb;
@@ -437,9 +465,16 @@ class Groups_Group implements I_Capable {
 			$array_fields = explode( ",",sanitize_text_field( $fields ) );
 			$fields = "";
 			foreach ( $array_fields as $field ) {
-				//if ( Groups_Group::__get( trim( $field ) ) !== null ) {
-					$fields .= "," . trim( $field );
-				//}
+				switch( trim( $field ) ) {
+					case "group_id" :
+					case "parent_id" :
+					case "creator_id" :
+					case "datetime" :
+					case "name" :
+					case "description" :
+						$fields .= "," . trim( $field );
+						break;
+				}
 			}
 			if ( strlen( $fields )>0 ) {
 				$fields = substr( $fields, 1 );
@@ -450,15 +485,23 @@ class Groups_Group implements I_Capable {
 			$order_by = "";
 		} else {
 			$order_by = sanitize_text_field( $order_by );
-			//if ( Groups_Group::__get( $order_by ) == null ) {
-			//	$order_by = "";
-			//} else {
-				$order = "";
-				if ( !isset( $order ) || ( !( $order == "ASC" ) && !( $order == "DESC" ) ) ) {
-					$order = "DESC";
-				}
-				$order_by = $wpdb->prepare( "ORDER BY %s %s", array( $order_by, $order ) );
-			//}
+			switch( trim( $field ) ) {
+				case "group_id" :
+				case "parent_id" :
+				case "creator_id" :
+				case "datetime" :
+				case "name" :
+				case "description" :
+					$order = "";
+					if ( !isset( $order ) || ( !( $order == "ASC" ) && !( $order == "DESC" ) ) ) {
+						$order = "DESC";
+					}
+					$order_by = $wpdb->prepare( "ORDER BY %s %s", array( $order_by, $order ) );
+					break;
+				default :
+					$order_by = "";
+					break;
+			}
 		}
 		
 		$where = "";
@@ -470,7 +513,7 @@ class Groups_Group implements I_Capable {
 		}
 		
 		$groups_table = _groups_get_tablename( 'group' );
-		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT %s FROM $groups_table $where $order_by", array( $fields ) ), ARRAY_A );
+		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT %s FROM $groups_table $where $order_by", array( $fields ) ) );
 		
 		return $groups;
 	}
