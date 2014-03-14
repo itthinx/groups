@@ -422,6 +422,10 @@ class Groups_Group implements I_Capable {
 	 * - ['order_by'] string Groups_Group property valid.
 	 * - ['order'] string ASC or DESC. Only applied if 'order_by' is set.
 	 * - ['parent_id'] int where parent_id
+	 * - ['include'] string with ids to include separated by comma.
+	 * - ['include_by_name'] string with group names to include separated by comma.
+	 * - ['exclude'] string with ids to exclude separated by comma.
+	 * - ['exclude_by_name'] string with group names to exclude separated by comma.
 	 *
 	 * @return Array with group ids
 	 *
@@ -449,6 +453,10 @@ class Groups_Group implements I_Capable {
 	 * - ['order_by'] string Groups_Group property valid.
 	 * - ['order'] string ASC or DESC. Only applied if 'order_by' is set.
 	 * - ['parent_id'] int where parent_id
+	 * - ['include'] string with ids to include separated by comma.
+	 * - ['include_by_name'] string with group names to include separated by comma.
+	 * - ['exclude'] string with ids to exclude separated by comma.
+	 * - ['exclude_by_name'] string with group names to exclude separated by comma.
 	 * 
 	 * @return Array of group objects.
 	 * 
@@ -496,7 +504,7 @@ class Groups_Group implements I_Capable {
 					if ( !isset( $order ) || ( !( $order == "ASC" ) && !( $order == "DESC" ) ) ) {
 						$order = "DESC";
 					}
-					$order_by = $wpdb->prepare( "ORDER BY %s %s", array( $order_by, $order ) );
+					$order_by = $wpdb->prepare( "ORDER BY %s $order", array( $order_by ) );
 					break;
 				default :
 					$order_by = "";
@@ -512,9 +520,107 @@ class Groups_Group implements I_Capable {
 			}
 		}
 		
-		$groups_table = _groups_get_tablename( 'group' );
-		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT %s FROM $groups_table $where $order_by", array( $fields ) ) );
+		// include
+		$where_include = "";
+		if ( !isset( $include ) ) {
+			$include = "";
+		} else {
+			$array_include = explode( ",", sanitize_text_field( $include ) );
+			$include = "";
+			foreach ( $array_include as $include_id ) {
+				$include .= "," . trim( $include_id );
+			}
+			if ( strlen( $include )>0 ) {
+				$include = substr( $include, 1 );
+			}
+			
+			$where_include = "group_id IN ($include)";
+		}
 		
+		// include_by_name
+		$where_include_by_name = "";
+		if ( !isset( $include_by_name ) ) {
+			$include_by_name = "";
+		} else {
+			$array_include = explode( ",", sanitize_text_field( $include_by_name ) );
+			$include_by_name = "";
+			foreach ( $array_include as $include_name ) {
+				$include_by_name .= "," . $wpdb->prepare( "%s", array( trim( $include_name ) ) );
+			}
+			if ( strlen( $include_by_name )>0 ) {
+				$include_by_name = substr( $include_by_name, 1 );
+			}
+			
+			$where_include_by_name = " name IN ($include_by_name)";
+		}
+		
+		// adding includes ...
+		if ( ( $where_include !== "" ) || ( $where_include_by_name !== "" ) ) {
+			if ( $where == "" ) {
+				$where .= "WHERE ";
+			} else {
+				$where .= " AND ";
+			}
+		}
+		if ( ( $where_include !== "" ) && ( $where_include_by_name !== "" ) ) {
+			$where .= "(";
+		}
+		if ( $where_include !== "" ) {
+			$where .= $where_include;
+		}
+		if ( ( $where_include !== "" ) && ( $where_include_by_name !== "" ) ) {
+			$where .= " OR ";
+		}
+		if ( $where_include_by_name !== "" ) {
+			$where .= $where_include_by_name;
+		}
+		if ( ( $where_include !== "" ) && ( $where_include_by_name !== "" ) ) {
+			$where .= ")";
+		}
+		
+		// exclude
+		if ( !isset( $exclude ) ) {
+			$exclude = "";
+		} else {
+			$array_exclude = explode( ",", sanitize_text_field( $exclude ) );
+			$exclude = "";
+			foreach ( $array_exclude as $exclude_id ) {
+				$exclude .= "," . trim( $exclude_id );
+			}
+			if ( strlen( $exclude )>0 ) {
+				$exclude = substr( $exclude, 1 );
+			}
+				
+			if ( $where == "" ) {
+				$where = "WHERE group_id NOT IN ($exclude)";
+			} else {
+				$where .= " AND group_id NOT IN ($exclude)";
+			}
+		}
+		
+		// exclude
+		if ( !isset( $exclude_by_name ) ) {
+			$exclude_by_name = "";
+		} else {
+			$array_exclude = explode( ",", sanitize_text_field( $exclude_by_name ) );
+			$exclude_by_name = "";
+			foreach ( $array_exclude as $exclude_name ) {
+				$exclude_by_name .= "," . $wpdb->prepare( "%s", array( trim( $exclude_name ) ) );
+			}
+			if ( strlen( $exclude_by_name )>0 ) {
+				$exclude_by_name = substr( $exclude_by_name, 1 );
+			}
+		
+			if ( $where == "" ) {
+				$where = "WHERE name NOT IN ($exclude_by_name)";
+			} else {
+				$where .= " AND name NOT IN ($exclude_by_name)";
+			}
+		}
+		
+		$groups_table = _groups_get_tablename( 'group' );
+		$groups = $wpdb->get_results( "SELECT $fields FROM $groups_table $where $order_by" );
+
 		return $groups;
 	}
 }
