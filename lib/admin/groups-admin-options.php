@@ -32,13 +32,13 @@ define( 'GROUPS_ADMIN_OPTIONS_NONCE', 'groups-admin-nonce' );
  * Options admin screen.
  */
 function groups_admin_options() {
-	
+
 	global $wpdb, $wp_roles;
-	
+
 	if ( !current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 	}
-	
+
 	$is_sitewide_plugin = false;
 	if ( is_multisite() ) {
 		$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins', array() );
@@ -51,13 +51,13 @@ function groups_admin_options() {
 		GROUPS_ADMINISTER_GROUPS  => __( 'Administer Groups', GROUPS_PLUGIN_DOMAIN ),
 		GROUPS_ADMINISTER_OPTIONS => __( 'Administer Groups plugin options', GROUPS_PLUGIN_DOMAIN ),
 	);
-	
+
 	//
 	// handle options form submission
 	//
 	if ( isset( $_POST['submit'] ) ) {
 		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
-			
+
 			// admin override
 			if ( empty( $_POST[GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE] ) ) {
 				$admin_override = false;
@@ -67,7 +67,7 @@ function groups_admin_options() {
 			// Don't move this to the plugin options, access will be faster
 			add_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, $admin_override ); // WP 3.3.1 : update alone wouldn't create the option when value is false
 			update_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, $admin_override );
-			
+
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			$post_types = get_post_types( array( 'public' => true ) );
 			$selected_post_types = is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array();
@@ -75,7 +75,7 @@ function groups_admin_options() {
 				$post_types_option[$post_type]['add_meta_box'] = in_array( $post_type, $selected_post_types );
 			}
 			Groups_Options::update_option( Groups_Post_Access::POST_TYPES, $post_types_option );
-			
+
 			$valid_read_caps = array( Groups_Post_Access::READ_POST_CAPABILITY );
 			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
 				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
@@ -88,17 +88,17 @@ function groups_admin_options() {
 				}
 			}
 			Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $valid_read_caps );
-			
+
 			// tree view
 			if ( !empty( $_POST[GROUPS_SHOW_TREE_VIEW] ) ) {
 				Groups_Options::update_option( GROUPS_SHOW_TREE_VIEW, true );
 			} else {
 				Groups_Options::update_option( GROUPS_SHOW_TREE_VIEW, false );
 			}
-			
+
 			// show in user profiles
 			Groups_Options::update_option( GROUPS_SHOW_IN_USER_PROFILE, !empty( $_POST[GROUPS_SHOW_IN_USER_PROFILE] ) );
-			
+
 			// roles & capabilities
 			$rolenames = $wp_roles->get_names();
 			foreach ( $rolenames as $rolekey => $rolename ) {
@@ -113,7 +113,7 @@ function groups_admin_options() {
 				}
 			}
 			Groups_Controller::assure_capabilities();
-			
+
 			if ( !$is_sitewide_plugin ) {
 				// delete data
 				if ( !empty( $_POST['delete-data'] ) ) {
@@ -125,7 +125,7 @@ function groups_admin_options() {
 			Groups_Admin::add_message( __( 'Options saved.', GROUPS_PLUGIN_DOMAIN ) );
 		}
 	}
-	
+
 	echo '<div class="groups-options">';
 
 	echo
@@ -134,12 +134,12 @@ function groups_admin_options() {
 		'</h2>';
 
 	echo Groups_Admin::render_messages();
-	
+
 	$admin_override = get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT );
-	
+
 	$show_tree_view = Groups_Options::get_option( GROUPS_SHOW_TREE_VIEW, GROUPS_SHOW_TREE_VIEW_DEFAULT );
 	$show_in_user_profile = Groups_Options::get_option( GROUPS_SHOW_IN_USER_PROFILE, GROUPS_SHOW_IN_USER_PROFILE_DEFAULT );
-	
+
 	$rolenames = $wp_roles->get_names();
 	$caps_table = '<table class="groups-permissions">';
 	$caps_table .= '<thead>';
@@ -150,9 +150,9 @@ function groups_admin_options() {
 	foreach ( $caps as $cap ) {
 		$caps_table .= '<td class="cap">';
 		$caps_table .= $cap;
-		$caps_table .= '</td>';				
+		$caps_table .= '</td>';
 	}
-	
+
 	$caps_table .= '</tr>';
 	$caps_table .= '</thead>';
 	$caps_table .= '<tbody>';
@@ -163,7 +163,7 @@ function groups_admin_options() {
 		$caps_table .= translate_user_role( $rolename );
 		$caps_table .= '</td>';
 		foreach ( $caps as $capkey => $capname ) {
-						
+
 			if ( $role->has_cap( $capkey ) ) {
 				$checked = ' checked="checked" ';
 			} else {
@@ -214,14 +214,14 @@ function groups_admin_options() {
 		 __( 'Administrators override all access permissions derived from Groups capabilities.', GROUPS_PLUGIN_DOMAIN ) .
 		 '</label>' .
 		'</p>';
-	
+
 	echo '<h3>' . __( 'Access restricions', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
-	
+
 	echo '<h4>' . __( 'Post types', GROUPS_PLUGIN_DOMAIN ) . '</h4>';
-	
+
 	echo
 		'<p class="description">' .  __( 'Show access restrictions for these post types.', GROUPS_PLUGIN_DOMAIN ) . '</p>';
-	
+
 	$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 	$post_types = get_post_types( array( 'public' => true ) );
 	echo '<ul>';
@@ -246,7 +246,7 @@ function groups_admin_options() {
 		__( 'This determines for which post types access restriction settings are offered.', GROUPS_PLUGIN_DOMAIN ) . '<br/>' .
 		__( 'Disabling this setting for a post type does not remove existing access restrictions on individual posts of that type.', GROUPS_PLUGIN_DOMAIN ) . '<br/>' .
 		'</p>';
-	
+
 
 	echo '<h4>' . __( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</h4>';
 
@@ -279,7 +279,7 @@ function groups_admin_options() {
 		__( 'Show groups in user profiles.', GROUPS_PLUGIN_DOMAIN ) .
 		'</label>' .
 		'</p>';
-	
+
 	echo
 		'<h3>' . __( 'Tree view', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
 		'<p>' .
@@ -288,7 +288,7 @@ function groups_admin_options() {
 		__( 'Show the Groups tree view.', GROUPS_PLUGIN_DOMAIN ) .
 		'</label>' .
 		'</p>';
-		
+
 	echo
 		'<h3>' . __( 'Permissions', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
 		'<p>' . __( 'These permissions apply to Groups management. They do not apply to access permissions derived from Groups capabilities.', GROUPS_PLUGIN_DOMAIN ) . '</p>' .
@@ -318,7 +318,7 @@ function groups_admin_options() {
 		'</p>' .
 		'</div>' .
 		'</form>';
-	
+
 	echo '</div>'; // .groups-options
 	Groups_Help::footer();
 }
@@ -352,7 +352,7 @@ function groups_network_admin_options() {
 
 	// options form
 	echo
-		'<form action="" name="options" method="post">' .		
+		'<form action="" name="options" method="post">' .
 		'<div>' .
 		'<h3>' . __( 'Network deactivation and data persistence', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
 		'<p>' .
