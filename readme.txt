@@ -177,6 +177,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.9 =
+* Fixed: Tree view doesn't appear/disappear in menu directly after setting the option.
+* Improved: Feedback when options have been saved.
+
 = 1.4.8 =
 * Fixed: A closing tag in the group list on the user profile.
 * Fixed: Help wording.
