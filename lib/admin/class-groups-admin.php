@@ -146,7 +146,11 @@ class Groups_Admin {
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 		
-		$show_tree_view = Groups_Options::get_option( GROUPS_SHOW_TREE_VIEW, GROUPS_SHOW_TREE_VIEW_DEFAULT );
+		if ( isset( $_POST[GROUPS_ADMIN_OPTIONS_NONCE] ) && wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
+			$show_tree_view = empty( $_REQUEST[GROUPS_SHOW_TREE_VIEW] )?false:true;
+		} else {
+			$show_tree_view = Groups_Options::get_option( GROUPS_SHOW_TREE_VIEW, GROUPS_SHOW_TREE_VIEW_DEFAULT );
+		}
 		if ( $show_tree_view ) {
 			include_once( GROUPS_ADMIN_LIB . '/groups-admin-tree-view.php');
 			$page = add_submenu_page(

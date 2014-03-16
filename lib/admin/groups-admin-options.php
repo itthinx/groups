@@ -46,15 +46,6 @@ function groups_admin_options() {
 		$is_sitewide_plugin = in_array( 'groups/groups.php', $active_sitewide_plugins );
 	}
 
-	echo '<div class="groups-options">';
-
-	echo
-		'<div>' .
-		'<h2>' .
-		__( 'Groups options', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>' .
-		'</div>';
-
 	$caps = array(
 		GROUPS_ACCESS_GROUPS	  => __( 'Access Groups', GROUPS_PLUGIN_DOMAIN ),
 		GROUPS_ADMINISTER_GROUPS  => __( 'Administer Groups', GROUPS_PLUGIN_DOMAIN ),
@@ -131,8 +122,20 @@ function groups_admin_options() {
 					Groups_Options::update_option( 'groups_delete_data', false );
 				}
 			}
+			Groups_Admin::add_groups_notice( '<div class="updated">' . __( "Options saved.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
 		}
 	}
+	
+	echo '<div class="groups-options">';
+	
+	echo
+	'<div>' .
+	'<h2>' .
+	__( 'Groups options', GROUPS_PLUGIN_DOMAIN ) .
+	'</h2>' .
+	'</div>';
+	
+	echo Groups_Admin::get_groups_notices();
 	
 	$admin_override = get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT );
 	
