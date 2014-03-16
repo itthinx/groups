@@ -127,14 +127,12 @@ function groups_admin_options() {
 	}
 	
 	echo '<div class="groups-options">';
-	
+
 	echo
-	'<div>' .
-	'<h2>' .
-	__( 'Groups options', GROUPS_PLUGIN_DOMAIN ) .
-	'</h2>' .
-	'</div>';
-	
+		'<h2>' .
+		__( 'Groups options', GROUPS_PLUGIN_DOMAIN ) .
+		'</h2>';
+
 	echo Groups_Admin::render_messages();
 	
 	$admin_override = get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT );
