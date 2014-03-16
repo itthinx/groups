@@ -204,12 +204,14 @@ div.groups-footer form {
 .groups-bulk-container .selectize-input {
 	font-size: inherit;
 	line-height: 18px;
-	padding: 1px 1px 2px 1px;
+	padding: 0;
 	vertical-align: middle;
 }
 .groups-bulk-container .selectize-input input[type="text"] {
 	font-size: inherit;
 	vertical-align: middle;
+	height: 28px;
+	line-height: 28px;
 }
 .groups-bulk-container .button,
 .capabilities-bulk-container .button {
@@ -231,4 +233,18 @@ div.groups-footer form {
 
 .groups.messages {
 	padding: 1em 0;
+}
+
+@media screen and ( max-width: 782px ) {
+	.groups-bulk-container .selectize-input {
+		padding: 2px;
+	}
+	.groups-bulk-container .selectize-input .item,
+	.groups-bulk-container .selectize-dropdown-content .option {
+		font-size: 16px;
+	}
+	.groups-bulk-container .selectize-input input[type="text"] {
+		height: 32px;
+		font-size: 16px;
+	}
 }
