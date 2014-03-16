@@ -122,7 +122,7 @@ function groups_admin_options() {
 					Groups_Options::update_option( 'groups_delete_data', false );
 				}
 			}
-			Groups_Admin::add_groups_notice( '<div class="updated">' . __( "Options saved.", GROUPS_PLUGIN_DOMAIN ) . '</div>' );
+			Groups_Admin::add_message( __( "Options saved.", GROUPS_PLUGIN_DOMAIN ) );
 		}
 	}
 	
@@ -135,7 +135,7 @@ function groups_admin_options() {
 	'</h2>' .
 	'</div>';
 	
-	echo Groups_Admin::get_groups_notices();
+	echo Groups_Admin::render_messages();
 	
 	$admin_override = get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT );
 	
