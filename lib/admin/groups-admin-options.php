@@ -122,7 +122,7 @@ function groups_admin_options() {
 					Groups_Options::update_option( 'groups_delete_data', false );
 				}
 			}
-			Groups_Admin::add_message( __( "Options saved.", GROUPS_PLUGIN_DOMAIN ) );
+			Groups_Admin::add_message( __( 'Options saved.', GROUPS_PLUGIN_DOMAIN ) );
 		}
 	}
 	
