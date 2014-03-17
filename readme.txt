@@ -181,6 +181,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Fixed: Tree view doesn't appear/disappear in menu directly after setting the option.
 * Improved: Feedback when options have been saved.
 * Improved: UI size adjustments.
+* Added: New API methods Groups_Group::get_group_ids() and Groups_Group::get_groups().
 
 = 1.4.8 =
 * Fixed: A closing tag in the group list on the user profile.
