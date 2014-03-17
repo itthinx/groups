@@ -394,6 +394,9 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
+= 1.4.9 =
+* UI improvements and API additions.
+
 = 1.4.8 =
 * Several minor fixes and giving more feedback on the admin side for groups and capabilities.
 
