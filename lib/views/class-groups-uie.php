@@ -120,5 +120,17 @@ class Groups_UIE {
 		return $output;
 	}
 
+	public static function render_add_titles( $selector ) {
+		$output = '<script type="text/javascript">';
+		$output .= 'if ( typeof jQuery !== "undefined" ) {';
+		$output .= sprintf( 'jQuery("%s").each(', $selector );
+		$output .= 'function(){';
+		$output .= 'jQuery(this).attr("title", jQuery(this).text());'; // @todo improve for lists, paragraphs, breaks
+		$output .= '}';
+		$output .= ');';
+		$output .= '}';
+		$output .= '</script>';
+	return $output;
+	}
 }
 Groups_UIE::init();

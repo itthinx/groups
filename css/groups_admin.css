@@ -125,6 +125,15 @@ div.capability.edit label {
 	width:10%;
 }
 
+.groups-overview td.capabilities,
+.capabilities-overview td.capability {
+	text-overflow: ellipsis;
+}
+
+.groups-overview td.capabilities ul {
+	margin: 0;
+}
+
 .manage-groups .required,
 .manage-capabilities .required {
 	background: url(../images/required.png) transparent no-repeat left center;
