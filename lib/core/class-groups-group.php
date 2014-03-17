@@ -414,4 +414,205 @@ class Groups_Group implements I_Capable {
 		}
 		return $result;
 	}
+
+	/**
+	 * Returns an array of group IDs.
+	 * 
+	 * If no arguments are passed, IDs for all existing groups are returned.
+	 *
+	 * @param array $args
+	 * - ['order_by'] string a Groups_Group property
+	 * - ['order'] string ASC or DESC. Only applied if 'order_by' is set.
+	 * - ['parent_id'] int retrieve groups whose parent is indicated by this ID
+	 * - ['include'] array|string with one or more IDs of groups to include, separated by comma
+	 * - ['include_by_name'] array|string with one ore more group names of groups to include, separated by comma
+	 * - ['exclude'] array|string with one or more IDs of groups to exclude, separated by comma
+	 * - ['exclude_by_name'] array|string with one ore more group names of groups to exclude, separated by comma
+	 *
+	 * @return array of int with group IDs
+	 *
+	 * @since groups 1.4.9
+	 */
+	public static function get_group_ids( $args = array() ) {
+		$result = array();
+		$args['fields'] = 'group_id';
+		$groups = self::get_groups( $args );
+		if ( sizeof( $groups ) > 0 ) {
+			foreach ( $groups as $group ) {
+				$result[] = $group->group_id;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns an array of database results by querying the group table.
+	 *  
+	 * @param Array $args
+	 * - ['fields'] string with fields to get separated by comma. If empty then get all fields.
+	 * - ['order_by'] string a Groups_Group property
+	 * - ['order'] string ASC or DESC. Only applied if 'order_by' is set.
+	 * - ['parent_id'] int retrieve groups whose parent is indicated by this ID
+	 * - ['include'] array|string with one or more IDs of groups to include, separated by comma
+	 * - ['include_by_name'] array|string with one ore more group names of groups to include, separated by comma
+	 * - ['exclude'] array|string with one or more IDs of groups to exclude, separated by comma
+	 * - ['exclude_by_name'] array|string with one ore more group names of groups to exclude, separated by comma
+	 * 
+	 * @return array of int with group IDs
+	 * 
+	 * @since groups 1.4.9
+	 */
+	public static function get_groups( $args = array() ) {
+		global $wpdb;
+
+		extract( $args );
+
+		if ( !isset( $fields ) ) {
+			$fields = "*";
+		} else {
+			$array_fields = explode( ',', sanitize_text_field( $fields ) );
+			$fields = "";
+			foreach ( $array_fields as $field ) {
+				switch( trim( $field ) ) {
+					case 'group_id' :
+					case 'parent_id' :
+					case 'creator_id' :
+					case 'datetime' :
+					case 'name' :
+					case 'description' :
+						$fields .= ',' . trim( $field );
+						break;
+				}
+			}
+			if ( strlen( $fields ) > 0 ) {
+				$fields = substr( $fields, 1 );
+			}
+		}
+
+		if ( !isset( $order_by ) ) {
+			$order_by = "";
+		} else {
+			$order_by = sanitize_text_field( $order_by );
+			switch( trim( $field ) ) {
+				case 'group_id' :
+				case 'parent_id' :
+				case 'creator_id' :
+				case 'datetime' :
+				case 'name' :
+				case 'description' :
+					$order = '';
+					if ( !isset( $order ) || ( !( $order == 'ASC' ) && !( $order == 'DESC' ) ) ) {
+						$order = 'DESC';
+					}
+					$order_by = $wpdb->prepare( " ORDER BY %s $order ", array( $order_by ) );
+					break;
+				default :
+					$order_by = '';
+					break;
+			}
+		}
+
+		$where = '';
+		if ( isset( $parent_id ) ) {
+			$parent_id = sanitize_text_field( $parent_id );
+			if ( is_numeric ( $parent_id ) ) {
+				$where .= $wpdb->prepare( " WHERE parent_id=%s ", array( $parent_id ) );
+			}
+		}
+
+		//
+		// include by group ID
+		//
+		$where_include = '';
+		$include       = !empty( $include ) ? $include : null;
+		if ( !empty( $include ) && !is_array( $include ) && is_string( $include ) ) {
+			$include = explode( ',', $include );
+		}
+		if ( count( $include ) > 0 ) {
+			$include = implode( ',', array_map( 'intval', array_map( 'trim', $include ) ) );
+			if ( strlen( $include ) > 0 ) {
+				$where_include = " group_id IN ($include) ";
+			}
+		}
+
+		//
+		// include by group name
+		//
+		$where_include_by_name = '';
+		$include_by_name       = !empty( $include_by_name ) ? $include_by_name : null;
+		if ( !empty( $include_by_name ) && !is_array( $include_by_name ) && is_string( $include_by_name ) ) {
+			$include_by_name = explode( ',', $include_by_name );
+		}
+		if ( count( $include_by_name ) > 0 ) {
+			$include_by_name = "'" . implode( "','", array_map( 'esc_sql', array_map( 'trim', $include_by_name ) ) ) . "'";
+			if ( strlen( $include_by_name ) > 0 ) {
+				$where_include_by_name = " name IN ($include_by_name) ";
+			}
+		}
+
+		// adding includes ...
+		if ( ( $where_include !== '' ) || ( $where_include_by_name !== '' ) ) {
+			if ( $where == '' ) {
+				$where .= " WHERE ";
+			} else {
+				$where .= " AND ";
+			}
+		}
+		if ( ( $where_include !== "" ) && ( $where_include_by_name !== "" ) ) {
+			$where .= "(";
+		}
+		if ( $where_include !== "" ) {
+			$where .= $where_include;
+		}
+		if ( ( $where_include !== "" ) && ( $where_include_by_name !== "" ) ) {
+			$where .= " OR ";
+		}
+		if ( $where_include_by_name !== "" ) {
+			$where .= $where_include_by_name;
+		}
+		if ( ( $where_include !== "" ) && ( $where_include_by_name !== "" ) ) {
+			$where .= ")";
+		}
+
+		//
+		// exclude
+		//
+		$exclude = !empty( $exclude ) ? $exclude : null;
+		if ( !empty( $exclude ) && !is_array( $exclude ) && is_string( $exclude ) ) {
+			$exclude = explode( ',', $exclude );
+		}
+		if ( count( $exclude ) > 0 ) {
+			$exclude = implode( ',', array_map( 'intval', array_map( 'trim', $exclude ) ) );
+			if ( strlen( $exclude ) > 0 ) {
+				if ( empty( $where ) ) {
+					$where = " WHERE group_id NOT IN ($exclude) ";
+				} else {
+					$where .= " AND group_id NOT IN ($exclude) ";
+				}
+			}
+		}
+
+		//
+		// exclude by group name
+		//
+		$exclude_by_name = !empty( $exclude_by_name ) ? $exclude_by_name : null;
+		if ( !empty( $exclude_by_name ) && !is_array( $exclude_by_name ) && is_string( $exclude_by_name ) ) {
+			$exclude_by_name = explode( ',', $exclude_by_name );
+		}
+		if ( count( $exclude_by_name ) > 0 ) {
+			$exclude_by_name = "'" . implode( "','", array_map( 'esc_sql', array_map( 'trim', $exclude_by_name ) ) ) . "'";
+			if ( strlen( $exclude_by_name ) > 0 ) {
+				if ( empty( $where ) ) {
+					$where = " WHERE name NOT IN ($exclude_by_name) "; 
+				} else {
+					$where .= " AND name NOT IN ($exclude_by_name) ";
+				}
+			}
+		}
+
+		$groups_table = _groups_get_tablename( 'group' );
+		$groups = $wpdb->get_results( "SELECT $fields FROM $groups_table $where $order_by" );
+
+		return $groups;
+	}
 }

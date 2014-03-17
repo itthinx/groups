@@ -138,7 +138,7 @@ class Groups_Admin_Users {
 			echo '.groups-bulk-container .selectize-control { min-width: 128px; }';
 			echo '.groups-bulk-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }';
 			echo '.groups-bulk-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
-			echo '.groups-bulk-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; }';
+			echo '.groups-bulk-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; height: 24px; }';
 			echo '.groups-bulk-container input.button { margin-top: 1px; vertical-align: top; }';
 			echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
 			echo '</style>';

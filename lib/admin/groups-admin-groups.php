@@ -460,6 +460,8 @@ function groups_admin_groups() {
 	$output .= '</tbody>';
 	$output .= '</table>';
 
+	$output .= Groups_UIE::render_add_titles( '.groups-overview table td' );
+
 	$output .= '</form>'; // #groups-action
 
 	if ( $paginate ) {

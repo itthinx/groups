@@ -177,6 +177,13 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.9 =
+* Fixed: Tree view doesn't appear/disappear in menu directly after setting the option.
+* Improved: Feedback when options have been saved.
+* Improved: UI size adjustments.
+* Added: New API methods Groups_Group::get_group_ids() and Groups_Group::get_groups().
+* Improved: groups and capabilities table cell titles and ellipsis added.
+
 = 1.4.8 =
 * Fixed: A closing tag in the group list on the user profile.
 * Fixed: Help wording.
@@ -386,6 +393,9 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 * This is the first public beta release.
 
 == Upgrade Notice ==
+
+= 1.4.9 =
+* UI improvements and API additions.
 
 = 1.4.8 =
 * Several minor fixes and giving more feedback on the admin side for groups and capabilities.
