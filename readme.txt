@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 3.5
-Tested up to: 3.8.1
+Tested up to: 3.8.2
 Stable tag: 1.4.9
 License: GPLv3
 
@@ -176,6 +176,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.4.10 =
+* Improved: code documentation
+* WordPress 3.8.2 compatibility checked
 
 = 1.4.9 =
 * Fixed: Tree view doesn't appear/disappear in menu directly after setting the option.
@@ -393,6 +397,9 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 * This is the first public beta release.
 
 == Upgrade Notice ==
+
+= 1.4.10 =
+* WordPress 3.8.3 compatibility checked and improvements.
 
 = 1.4.9 =
 * UI improvements and API additions.
