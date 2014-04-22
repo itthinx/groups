@@ -66,8 +66,8 @@ class Groups_WordPress {
 	 * Extend user capabilities with Groups user capabilities.
 	 * 
 	 * @param array $allcaps the capabilities the user has
-	 * @param unknown_type $caps
-	 * @param unknown_type $args
+	 * @param array $caps the requested capabilities
+	 * @param array $args capability context which can provide the requested capability as $args[0], the user ID as $args[1] and the related object's ID as $args[2]
 	 */
 	public static function user_has_cap( $allcaps, $caps, $args ) {
 		$user_id = isset( $args[1] ) ? $args[1] : null;

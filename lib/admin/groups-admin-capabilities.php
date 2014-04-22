@@ -242,8 +242,8 @@ function groups_admin_capabilities() {
 			$switch_order = 'DESC';
 	}
 
-	$filters = array();
-	$filter_params = array();
+	$filters = array( " 1=%d " );
+	$filter_params = array( 1 );
 	if ( $capability_id ) {
 		$filters[] = " $capability_table.capability_id = %d ";
 		$filter_params[] = $capability_id;
