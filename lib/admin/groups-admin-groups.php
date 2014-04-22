@@ -248,8 +248,8 @@ function groups_admin_groups() {
 			$switch_order = 'DESC';
 	}
 
-	$filters = array();
-	$filter_params = array();
+	$filters = array( " 1=%d " );
+	$filter_params = array( 1 );
 	if ( $group_id ) {
 		$filters[] = " $group_table.group_id = %d ";
 		$filter_params[] = $group_id;

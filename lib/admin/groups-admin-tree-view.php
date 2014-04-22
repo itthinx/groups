@@ -27,33 +27,29 @@ if ( !defined( 'ABSPATH' ) ) {
  * Tree view : a simple tree view
  */
 function groups_admin_tree_view() {
-	
+
 	global $wpdb;
-	
+
 	$output = '';
 	$today = date( 'Y-m-d', time() );
-	
+
 	if ( !current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
 	}
-		
+
 	$output .=
 		'<div class="groups-tree-view">' .
-		'<div>' .
 		'<h2>' .
 		__( 'Tree of Groups', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>' .
-		'</div>';
+		'</h2>';
 
 	$tree = Groups_Utility::get_group_tree();
 	$tree_output = '';
 	Groups_Utility::render_group_tree( $tree, $tree_output );
 	$output .= $tree_output;
-	
-	$output .= '</div>'; // .groups-overview
-	$output .= '</div>'; // .manage-groups
-	
+
+	$output .= '</div>'; // .groups-tree-view
+
 	echo $output;
 	Groups_Help::footer();
 } // function groups_admin_tree_view()
-?>
