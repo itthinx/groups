@@ -41,6 +41,7 @@ class Groups_Access_Meta_Boxes {
 	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'wp_init' ) );
+		add_action( 'admin_init', array(__CLASS__,'admin_init' ) );
 	}
 
 	/**
@@ -57,6 +58,25 @@ class Groups_Access_Meta_Boxes {
 			add_action( 'attachment_fields_to_edit', array( __CLASS__, 'attachment_fields_to_edit' ), 10, 2 );
 			add_action( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), 10, 2 );
 		}
+	}
+
+	/**
+	 * Hooked on admin_init to register our action on admin_enqueue_scripts.
+	 */
+	public static function admin_init() {
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
+	}
+
+	/**
+	 * Hooked on admin_enqueue_scripts to timely enqueue resources required
+	 * on the media upload / attachment popup.
+	 */
+	public static function admin_enqueue_scripts() {
+		global $pagenow;
+		if ( $pagenow == 'upload.php' ) {
+			Groups_UIE::enqueue( 'select' );
+		}
+		
 	}
 
 	/**

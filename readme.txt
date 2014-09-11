@@ -177,6 +177,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.12 =
+* Fixes missing selectize Javascript for the media uploader's attachment popup.
+
 = 1.4.11 =
 * WordPress 4.0 compatible.
 
@@ -402,6 +405,9 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 * This is the first public beta release.
 
 == Upgrade Notice ==
+
+= 1.4.12 =
+* Fixes a missing resource required for access restrictions in the media uploader.
 
 = 1.4.11 =
 * WordPress 4.0 compatible.
