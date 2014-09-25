@@ -46,13 +46,14 @@ class Groups_Registered {
 		} else {
 			$group_id = $group->group_id;
 		}
-
-		$user_group_table = _groups_get_tablename( 'user_group' );
-		$wpdb->query( "INSERT IGNORE INTO $user_group_table
-				SELECT ID, $group_id from $wpdb->users `u`
-				JOIN $wpdb->usermeta `um` ON
-					`um`.`user_id` = `u`.`ID`
-					AND `um`.`meta_key` = '{$wpdb->prefix}capabilities';" );
+		if ( $group_id ) {
+			$user_group_table = _groups_get_tablename( 'user_group' );
+			$wpdb->query( "INSERT IGNORE INTO $user_group_table
+					SELECT ID, $group_id from $wpdb->users `u`
+					JOIN $wpdb->usermeta `um` ON
+						`um`.`user_id` = `u`.`ID`
+						AND `um`.`meta_key` = '{$wpdb->prefix}capabilities';" );
+		}
 	}
 
 	/**
