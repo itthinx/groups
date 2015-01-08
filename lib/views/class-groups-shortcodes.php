@@ -126,6 +126,7 @@ class Groups_Shortcodes {
 	 * - "item_class" : defaults to "name"
 	 * - "order_by"   : defaults to "name", also accepts "group_id"
 	 * - "order"      : default to "ASC", also accepts "asc", "desc" and "DESC"
+	 * - "leavebutton": Set to true/1/whatever to add a "leave group"-button next to each listed group
 	 * 
 	 * @param array $atts attributes
 	 * @param string $content not used
@@ -144,6 +145,7 @@ class Groups_Shortcodes {
 				'order_by' => 'name',
 				'order' => 'ASC',
 				'group' => null,
+				'leavebutton' => null,
 				'exclude_group' => null
 			),
 			$atts
@@ -234,14 +236,31 @@ class Groups_Shortcodes {
 						$output .= '<div class="' . esc_attr( $options['list_class'] ) . '">';
 				}
 				foreach( $groups as $group ) {
+
+					if ($options['leavebutton'] ) {
+	                                	// Build the leave-button
+						$submit_text = __( 'Leave the %s group', GROUPS_PLUGIN_DOMAIN );
+						$submit_text = sprintf( $submit_text, wp_filter_nohtml_kses( $group->name ) );
+                				$nonce_action = 'groups_action';
+                				$nonce        = 'nonce_leave';
+                                        	$leavebutton = '<div class="groups-join">';
+                                        	$leavebutton .= '<form action="#" method="post">';
+                                        	$leavebutton .= '<input type="hidden" name="groups_action" value="leave" />';
+                                        	$leavebutton .= '<input type="hidden" name="group_id" value="' . esc_attr( $group->group_id ) . '" />';
+                                        	$leavebutton .= '<input type="submit" value="' . $submit_text . '" />';
+                                        	$leavebutton .=  wp_nonce_field( $nonce_action, $nonce, true, false );
+                                        	$leavebutton .= '</form>';
+                                        	$leavebutton .= '</div>';
+					}
+
 					switch( $options['format'] ) {
 						case 'list' :
 						case 'ul' :
 						case 'ol' :
-							$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</li>';
+							$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . $leavebutton . '</li>';
 							break;
 						default :
-							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</div>';
+							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . $leavebutton . '</div>';
 					}
 				}
 				switch( $options['format'] ) {
@@ -290,6 +309,8 @@ class Groups_Shortcodes {
 	 * - "item_class" : defaults to "name"
 	 * - "order_by"   : defaults to "name", also accepts "group_id"
 	 * - "order"      : default to "ASC", also accepts "asc", "desc" and "DESC"
+	 * - "joinbutton" : set to true/1/whatever to add a "join group" button next to each group
+	 * - "exclude_excisting" : set to true/1/whatever to not list groups the logged in user is already part of (most useful together with joinbutton)
 	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
@@ -304,7 +325,9 @@ class Groups_Shortcodes {
 				'list_class' => 'groups',
 				'item_class' => 'name',
 				'order_by' => 'name',
-				'order' => 'ASC'
+				'order' => 'ASC',
+				'joinbutton' => null,
+				'exclude_excisting' => null
 			),
 			$atts
 		);
@@ -341,16 +364,59 @@ class Groups_Shortcodes {
 				default :
 					$output .= '<div class="' . esc_attr( $options['list_class'] ) . '">';
 			}
+
+			// Check if we're asked to skip groups the user is already member of
+			if ($options['exclude_excisting']) {
+
+				// Load users groups into an array
+				$user_id = get_current_user_id();
+	                        $user = new Groups_User( $user_id );
+                        	$users_groups = $user->groups;
+
+				// Build array with only group ids of users groups (probably a better way to do this)
+				$users_groups_ids;
+				foreach ($users_groups as $gruppe) {
+					$users_groups_ids[] = $gruppe->group_id;
+				}
+			}
+
+
+
 			foreach( $groups as $group ) {
 				$group = new Groups_Group( $group->group_id );
+
+				// Skip this group if it's in the exclude list
+				// (Building the "id only" array above makes this process easier - but probably a better way to do this)
+				if ($options['exclude_excisting']) {
+					if (in_array($group->group_id,$users_groups_ids))
+						continue; // skip to next group in complete array if user is already member
+				}
+
+				// Build the join-button if we're asked to
+				if ($options['joinbutton']) {
+                                                $nonce_action = 'groups_action';
+                                                $nonce        = 'nonce_join';
+					$submit_text = __( 'Join the %s group', GROUPS_PLUGIN_DOMAIN );
+					$submit_text = sprintf( $submit_text, wp_filter_nohtml_kses( $group->name ) );
+                                        $leavebutton = '<div class="groups-join">';
+                                        $leavebutton .= '<form action="#" method="post">';
+                                        $leavebutton .= '<input type="hidden" name="groups_action" value="join" />';
+                                        $leavebutton .= '<input type="hidden" name="group_id" value="' . esc_attr( $group->group_id ) . '" />';
+                                        $leavebutton .= '<input type="submit" value="' . $submit_text . '" />';
+                                        $leavebutton .=  wp_nonce_field( $nonce_action, $nonce, true, false );
+                                        $leavebutton .= '</form>';
+                                        $leavebutton .= '</div>';
+					}
+				// End joinbutton
+
 				switch( $options['format'] ) {
 					case 'list' :
 					case 'ul' :
 					case 'ol' :
-						$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</li>';
+						$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . $leavebutton . '</li>';
 						break;
 					default :
-						$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</div>';
+						$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . $leavebutton . '</div>';
 				}
 			}
 			switch( $options['format'] ) {
