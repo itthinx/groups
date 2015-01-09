@@ -489,22 +489,31 @@ class Groups_Group implements I_Capable {
 			}
 		}
 
+		if ( !isset( $order ) ) {
+			$order = '';
+		} else {
+			$order = strtoupper( sanitize_text_field( trim( $order ) ) );
+			switch( $order ) {
+				case 'ASC' :
+				case 'DESC' :
+					break;
+				default :
+					$order = 'ASC';
+			}
+		}
+
 		if ( !isset( $order_by ) ) {
 			$order_by = "";
 		} else {
 			$order_by = sanitize_text_field( $order_by );
-			switch( trim( $field ) ) {
+			switch( trim( $order_by ) ) {
 				case 'group_id' :
 				case 'parent_id' :
 				case 'creator_id' :
 				case 'datetime' :
 				case 'name' :
 				case 'description' :
-					$order = '';
-					if ( !isset( $order ) || ( !( $order == 'ASC' ) && !( $order == 'DESC' ) ) ) {
-						$order = 'DESC';
-					}
-					$order_by = $wpdb->prepare( " ORDER BY %s $order ", array( $order_by ) );
+					$order_by = " ORDER BY $order_by $order ";
 					break;
 				default :
 					$order_by = '';

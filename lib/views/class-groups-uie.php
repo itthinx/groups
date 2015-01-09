@@ -93,9 +93,10 @@ class Groups_UIE {
 	 * @param string $selector identifying the select, default: select.groups-uie
 	 * @param boolean $script render the script, default: true
 	 * @param boolean $on_document_ready whether to trigger on document ready, default: true
+	 * @param boolean $create allow to create items, default: false (only with selectize)
 	 * @return string HTML
 	 */
-	public static function render_select( $selector = 'select.groups-uie', $script = true, $on_document_ready = true ) {
+	public static function render_select( $selector = 'select.groups-uie', $script = true, $on_document_ready = true, $create = false ) {
 		$output = '';
 		if ( $script ) {
 			$output .= '<script type="text/javascript">';
@@ -108,7 +109,11 @@ class Groups_UIE {
 					$output .= sprintf( 'jQuery("%s").chosen({width:"100%%",search_contains:true});', $selector );
 					break;
 				case 'selectize' :
-					$output .= sprintf( 'jQuery("%s").selectize({plugins: ["remove_button"]});', $selector );
+					$output .= sprintf(
+						'jQuery("%s").selectize({%splugins: ["remove_button"]});',
+						$selector,
+						$create ? 'create:true,' : ''
+					);
 					break;
 			}
 			if ( $on_document_ready ) {

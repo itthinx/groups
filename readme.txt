@@ -177,6 +177,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 2.0.0 =
+* Optimized the approach to restrict read access on posts using groups rather than access restriction capabilities.
+* Fixed the order_by and order parameters in Groups_Group::get_groups()
+
 = 1.4.13 =
 * WordPress 4.1 compatible.
 

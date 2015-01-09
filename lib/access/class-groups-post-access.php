@@ -35,6 +35,7 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Post_Access {
 	
 	const POSTMETA_PREFIX = 'groups-';
+	const READ            = 'read';
 	
 	const READ_POST_CAPABILITY = "groups_read_post";
 	const READ_POST_CAPABILITY_NAME = "Read Post";
@@ -337,13 +338,36 @@ class Groups_Post_Access {
 	}
 	
 	/**
-	 * Currently does nothing, always returns false.
+	 * Update the post access restrictions.
+	 * 
+	 * $map must provide the post_id and groups_read holding group IDs that restrict read access.
 	 * 
 	 * @param array $map
-	 * @return false
+	 * @return array of group ids, false on failure
 	 */
 	public static function update( $map ) {
-		return false;
+		extract( $map );
+		$result = false;
+		if ( !empty( $post_id ) ) {
+			if ( empty( $groups_read ) || !is_array( $groups_read ) ) {
+				$groups_read = array();
+			}
+			$groups_read = array_map( 'intval', $groups_read );
+			$current_groups_read = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
+			$current_groups_read = array_map( 'intval', $current_groups_read );
+			foreach( $groups_read as $group_id ) {
+				if ( !in_array( $group_id, $current_groups_read ) ) {
+					add_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
+				}
+			}
+			foreach( $current_groups_read as $group_id ) {
+				if ( !in_array( $group_id, $groups_read ) ) {
+					delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
+				}
+			}
+			$result = array_map( 'intval', get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ ) );
+		}
+		return $result;
 	}
 	
 	/**
