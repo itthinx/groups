@@ -119,12 +119,77 @@ class Groups_Post_Access {
 
 	/**
 	 * Filters out posts that the user should not be able to access.
-	 * 
+	 *
 	 * @param string $where current where conditions
 	 * @param WP_Query $query current query
 	 * @return string modified $where
 	 */
 	public static function posts_where( $where, &$query ) {
+
+		global $wpdb;
+
+		$user_id = get_current_user_id();
+
+		// this only applies to logged in users
+		if ( $user_id ) {
+			// if administrators can override access, don't filter
+			if ( get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT ) ) {
+				if ( user_can( $user_id, 'administrator' ) ) {
+					return $where;
+				}
+			}
+		}
+
+		// 1. Get all the groups that the user belongs to, including those that are inherited:
+		$group_ids = array();
+		if ( $user = new Groups_User( $user_id ) ) {
+			$group_ids_deep = $user->group_ids_deep;
+			if ( is_array( $group_ids_deep ) ) {
+				$group_ids = $group_ids_deep;
+			}
+		}
+
+		if ( count( $group_ids ) > 0 ) {
+			$group_ids = "'" . implode( "','", $group_ids ) . "'";
+		} else {
+			$group_ids = '\'\'';
+		}
+
+		// 2. Filter the posts that require a capability that the user doesn't
+		// have, or in other words: exclude posts that the user must NOT access:
+	
+		// The following is not correct in that it requires the user to have ALL capabilities:
+		// 		$where .= sprintf(
+		// 			" AND {$wpdb->posts}.ID NOT IN (SELECT DISTINCT ID FROM $wpdb->posts LEFT JOIN $wpdb->postmeta on {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value NOT IN (%s) ) ",
+		// 			self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY,
+		// 			$caps
+		// 		);
+
+		// This allows the user to access posts where the posts are not restricted or where
+		// the user has ANY of the capabilities:
+		$where .= sprintf(
+				" AND {$wpdb->posts}.ID IN " .
+				" ( " .
+				"   SELECT ID FROM $wpdb->posts WHERE ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts without access restriction
+				"   UNION ALL " . // we don't care about duplicates here, just make it quick
+				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any capability the user has
+				" ) ",
+				self::POSTMETA_PREFIX . self::READ,
+				self::POSTMETA_PREFIX . self::READ,
+				$group_ids
+		);
+
+		return $where;
+	}
+
+	/**
+	 * Filters out posts that the user should not be able to access.
+	 * 
+	 * @param string $where current where conditions
+	 * @param WP_Query $query current query
+	 * @return string modified $where
+	 */
+	public static function _old_posts_where( $where, &$query ) {
 
 		global $wpdb;
 
@@ -398,7 +463,43 @@ class Groups_Post_Access {
 	public static function get_read_post_capabilities( $post_id ) {
 		return get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY );
 	}
-	
+
+	/**
+	 * Returns a list of group IDs that grant read access to the post.
+	 *
+	 * @param int $post_id
+	 * @return array of int, group IDs
+	 */
+	public static function get_read_group_ids( $post_id ) {
+		return get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
+	}
+
+	/**
+	 * Returns true if the user is allowed to read the post.
+	 *
+	 * @param int $post_id post id
+	 * @param int $user_id user id or null for current user
+	 * @return boolean true if user can read the post
+	 */
+	public static function user_can_read_post( $post_id, $user_id = null ) {
+		$result = false;
+		if ( !empty( $post_id ) ) {
+			if ( $user_id === null ) {
+				$user_id = get_current_user_id();
+			}
+			$groups_user = new Groups_User( $user_id );
+			$group_ids   = self::get_read_group_ids( $post_id );
+			if ( empty( $group_ids ) ) {
+				$result = true;
+			} else {
+				$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
+				$result = !empty( $ids );
+			}
+		}
+		error_log(__METHOD__ . ' post_id = '.var_export($post_id,true). ' result = ' . var_export( $result, true )); // @todo remove
+		return $result;
+	}
+
 	/**
 	 * Returns true if the user has any of the capabilities that grant access to the post.
 	 * 
@@ -406,7 +507,7 @@ class Groups_Post_Access {
 	 * @param int $user_id user id or null for current user 
 	 * @return boolean true if user can read the post
 	 */
-	public static function user_can_read_post( $post_id, $user_id = null ) {
+	public static function _old_user_can_read_post( $post_id, $user_id = null ) {
 		$result = false;
 		if ( !empty( $post_id ) ) {
 			if ( $user_id === null ) {

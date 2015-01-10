@@ -536,8 +536,6 @@ class Groups_Access_Meta_Boxes {
 											$datetime	= date( 'Y-m-d H:i:s', time() );
 											$name		= ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
 
-											error_log( var_export( $name, true )); // @todo remove
-
 											if ( strlen( $name ) > 0 ) {
 												if ( !( $group = Groups_Group::read_by_name( $name ) ) ) {
 													if ( $group_id = Groups_Group::create( compact( 'creator_id', 'datetime', 'name' ) ) ) {
