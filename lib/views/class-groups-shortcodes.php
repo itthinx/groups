@@ -146,6 +146,7 @@ class Groups_Shortcodes {
 				'order' => 'ASC',
 				'group' => null,
 				'leavebutton' => null,
+				'submit_text'       => __( 'Leave the %s group', GROUPS_PLUGIN_DOMAIN ),
 				'exclude_group' => null
 			),
 			$atts
@@ -235,20 +236,59 @@ class Groups_Shortcodes {
 					default :
 						$output .= '<div class="' . esc_attr( $options['list_class'] ) . '">';
 				}
+
+
+				// check if we're asked to leave a group
+                                $submitted     = false;
+                                $invalid_nonce = false;
+
+				$specific_nonce = 'nonce_leave-' . $_POST['group_id'];
+				$nonce_action = 'groups_action';
+
+                                if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'leave' ) {
+                                        $submitted = true;
+                                        if ( !wp_verify_nonce( $_POST[$specific_nonce], $nonce_action ) ) {
+                                                $invalid_nonce = true;
+                                        }
+                                }
+                                if ( $submitted && !$invalid_nonce ) {
+					$users_groups_ids[] = $_POST['group_id'];
+				}
+
+				// check if we're asked to join a group
+                                $submitted     = false;
+                                $invalid_nonce = false;
+
+                                $specific_nonce = 'nonce_join-' . $_POST['group_id'];
+                                $nonce_action = 'groups_action';
+
+                                if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'join' ) {
+                                        $submitted = true;
+                                        if ( !wp_verify_nonce( $_POST[$specific_nonce], $nonce_action ) ) {
+                                                $invalid_nonce = true;
+                                        }
+                                }
+                                if ( $submitted && !$invalid_nonce ) {
+					$groups[] = Groups_Group::read( $_POST['group_id'] );
+                                }
+
+				// Loop through the groups
 				foreach( $groups as $group ) {
+   						if (in_array($group->group_id,$users_groups_ids))
+	                                                continue; // skip to next group in complete array if user left this group now
 
 					if ($options['leavebutton'] ) {
 	                                	// Build the leave-button
-						$submit_text = __( 'Leave the %s group', GROUPS_PLUGIN_DOMAIN );
-						$submit_text = sprintf( $submit_text, wp_filter_nohtml_kses( $group->name ) );
+						$submit_text = sprintf( $options['submit_text'], wp_filter_nohtml_kses( $group->name ) );
                 				$nonce_action = 'groups_action';
-                				$nonce        = 'nonce_leave';
+                				$nonce        = 'nonce_leave-' . $group->group_id;
                                         	$leavebutton = '<div class="groups-join">';
                                         	$leavebutton .= '<form action="#" method="post">';
                                         	$leavebutton .= '<input type="hidden" name="groups_action" value="leave" />';
                                         	$leavebutton .= '<input type="hidden" name="group_id" value="' . esc_attr( $group->group_id ) . '" />';
                                         	$leavebutton .= '<input type="submit" value="' . $submit_text . '" />';
                                         	$leavebutton .=  wp_nonce_field( $nonce_action, $nonce, true, false );
+						$leavebutton .= " -- NONCE: nonce_action: " . $nonce_action . ",  nonce: " . $nonce . "<br>";
                                         	$leavebutton .= '</form>';
                                         	$leavebutton .= '</div>';
 					}
@@ -327,6 +367,7 @@ class Groups_Shortcodes {
 				'order_by' => 'name',
 				'order' => 'ASC',
 				'joinbutton' => null,
+				'submit_text'       => __( 'Join the %s group', GROUPS_PLUGIN_DOMAIN ),
 				'exclude_excisting' => null
 			),
 			$atts
@@ -380,13 +421,45 @@ class Groups_Shortcodes {
 				}
 			}
 
+			// Check if we were  asked to join a group. If so, omit that group from the listing
+                                $submitted     = false;
+                                $invalid_nonce = false;
 
+				$specific_nonce = 'nonce_join-' . $_POST['group_id'];
+				$nonce_action = 'groups_action';
+
+                                if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'join' ) {
+                                        $submitted = true;
+                                        if ( !wp_verify_nonce( $_POST[$specific_nonce], $nonce_action ) ) {
+                                                $invalid_nonce = true;
+                                        }
+                                }
+                                if ( $submitted && !$invalid_nonce ) {
+					$users_groups_ids[] = $_POST['group_id'];
+				}
+
+			// Check if we're asked to leave a group. If so, include that group in this list
+                                $submitted     = false;
+                                $invalid_nonce = false;
+
+                                $specific_nonce = 'nonce_leave-' . $_POST['group_id'];
+                                $nonce_action = 'groups_action';
+
+                                if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'leave' ) {
+                                        $submitted = true;
+                                        if ( !wp_verify_nonce( $_POST[$specific_nonce], $nonce_action ) ) {
+                                                $invalid_nonce = true;
+                                        }
+                                }
+                                if ( $submitted && !$invalid_nonce ) {
+                                        $groups[] = Groups_Group::read( $_POST['group_id'] );
+                                }
 
 			foreach( $groups as $group ) {
 				$group = new Groups_Group( $group->group_id );
 
 				// Skip this group if it's in the exclude list
-				// (Building the "id only" array above makes this process easier - but probably a better way to do this)
+				// (Building the "id only" array above makes this process easier - but there's probably an even better way to do this)
 				if ($options['exclude_excisting']) {
 					if (in_array($group->group_id,$users_groups_ids))
 						continue; // skip to next group in complete array if user is already member
@@ -395,9 +468,8 @@ class Groups_Shortcodes {
 				// Build the join-button if we're asked to
 				if ($options['joinbutton']) {
                                                 $nonce_action = 'groups_action';
-                                                $nonce        = 'nonce_join';
-					$submit_text = __( 'Join the %s group', GROUPS_PLUGIN_DOMAIN );
-					$submit_text = sprintf( $submit_text, wp_filter_nohtml_kses( $group->name ) );
+                                                $nonce        = 'nonce_join-' . $group->group_id;
+					$submit_text = sprintf( $options['submit_text'], wp_filter_nohtml_kses( $group->name ) );
                                         $leavebutton = '<div class="groups-join">';
                                         $leavebutton .= '<form action="#" method="post">';
                                         $leavebutton .= '<input type="hidden" name="groups_action" value="join" />';
@@ -443,9 +515,6 @@ class Groups_Shortcodes {
 	 * @param string $content not used
 	 */
 	public static function groups_join( $atts, $content = null ) {
-		$nonce_action = 'groups_action';
-		$nonce        = 'nonce_join';
-		$output       = "";
 
 		$options = shortcode_atts(
 			array(
@@ -458,6 +527,13 @@ class Groups_Shortcodes {
 		);
 		extract( $options );
 
+                $output       = "";
+                $nonce_action = 'groups_action';
+                        if ( $_POST['group_id'] ) {
+                                $nonce        = 'nonce_join-' . $_POST['group_id']; }
+                        else {
+                                $nonce        = 'nonce_join-' . $options['group']; }
+
 		if ( $display_message === 'false' ) {
 			$display_message = false;
 		}
@@ -465,7 +541,13 @@ class Groups_Shortcodes {
 			$display_is_member = true;
 		}
 
-		$group = trim( $options['group'] );
+		if ( $_POST['group_id'] ) {
+			$group = $_POST['group_id'];
+		}
+		else {
+			$group = trim( $options['group'] );
+		}
+
 		$current_group = Groups_Group::read( $group );
 		if ( !$current_group ) {
 			$current_group = Groups_Group::read_by_name( $group );
@@ -528,9 +610,6 @@ class Groups_Shortcodes {
 	 * @param string $content not used
 	 */
 	public static function groups_leave( $atts, $content = null ) {
-		$nonce_action = 'groups_action';
-		$nonce        = 'nonce_leave';
-		$output       = "";
 
 		$options = shortcode_atts(
 			array(
@@ -541,6 +620,13 @@ class Groups_Shortcodes {
 			$atts
 		);
 		extract( $options );
+
+		$output       = "";
+		$nonce_action = 'groups_action';
+			if ( $_POST['group_id'] ) {
+				$nonce        = 'nonce_leave-' . $_POST['group_id']; }
+			else {
+				$nonce        = 'nonce_leave-' . $options['group']; }
 
 		if ( $display_message === 'false' ) {
 			$display_message = false;
