@@ -56,8 +56,8 @@ class Groups_Access_Meta_Boxes {
 		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
 
-			add_action( 'add_meta_boxes', array( __CLASS__, "add_meta_boxes" ), 10, 2 );
-			add_action( 'save_post', array( __CLASS__, "save_post" ), 10, 2 );
+			add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ), 10, 2 );
+			add_action( 'save_post', array( __CLASS__, 'save_post' ), 10, 2 );
 			add_filter( 'wp_insert_post_empty_content', array( __CLASS__, 'wp_insert_post_empty_content' ), 10, 2 );
 
 			add_action( 'attachment_fields_to_edit', array( __CLASS__, 'attachment_fields_to_edit' ), 10, 2 );
@@ -93,38 +93,25 @@ class Groups_Access_Meta_Boxes {
 		if ( $post_type_object && $post_type != 'attachment' ) {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-				if ( $wp_version < 3.3 ) {
-					$post_types = get_post_types();
-					foreach ( $post_types as $post_type ) {
-						add_meta_box(
-							"groups-access",
-							__( "Access restrictions", GROUPS_PLUGIN_DOMAIN ),
-							array( __CLASS__, "capability" ),
-							$post_type,
-							"side",
-							"high"
-						);
-					}
-				} else {
-					add_meta_box(
-						"groups-access",
-						__( "Access restrictions", GROUPS_PLUGIN_DOMAIN ),
-						array( __CLASS__, "capability" ),
-						null,
-						"side",
-						"high"
-					);
 
-					// @todo do we want this for < 3.3 too ?
+// 					add_meta_box(
+// 						"groups-access",
+// 						__( "Access restrictions", GROUPS_PLUGIN_DOMAIN ),
+// 						array( __CLASS__, "capability" ),
+// 						null,
+// 						"side",
+// 						"high"
+// 					);
+
 					add_meta_box(
-						"groups-permissions",
-						__( "Groups", GROUPS_PLUGIN_DOMAIN ),
+						'groups-permissions',
+						__( 'Groups', GROUPS_PLUGIN_DOMAIN ),
 						array( __CLASS__, 'groups' ),
 						null,
-						"side",
-						"high"
+						'side',
+						'high'
 					);
-				}
+
 
 				Groups_UIE::enqueue( 'select' );
 
