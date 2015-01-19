@@ -37,6 +37,9 @@ class Groups_Post_Access {
 	const POSTMETA_PREFIX = 'groups-';
 	const READ            = 'read';
 	
+	const CACHE_GROUP     = 'groups';
+	const CAN_READ_POST   = 'can_read_post';
+	
 	const READ_POST_CAPABILITY = "groups_read_post";
 	const READ_POST_CAPABILITY_NAME = "Read Post";
 	const READ_POST_CAPABILITIES = 'read_post_capabilities';
@@ -70,7 +73,7 @@ class Groups_Post_Access {
 		add_filter( "get_the_excerpt", array( __CLASS__, "get_the_excerpt" ), 1 );
 		add_filter( "the_content", array( __CLASS__, "the_content" ), 1 );
 		// edit & delete post
-		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
+// 		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
 		// @todo these could be interesting to add later ...
 		// add_filter( "plugin_row_meta", array( __CLASS__, "plugin_row_meta" ), 1 );
 		// add_filter( "posts_join_paged", array( __CLASS__, "posts_join_paged" ), 1 );
@@ -79,6 +82,9 @@ class Groups_Post_Access {
 
 	/**
 	 * Restrict access to edit or delete posts based on the post's access restrictions.
+	 * 
+	 * @todo move to Pro
+	 * 
 	 * @param array $caps
 	 * @param string $cap
 	 * @param int $user_id
@@ -86,6 +92,12 @@ class Groups_Post_Access {
 	 * @return array
 	 */
 	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
+		
+		error_log(__METHOD__ .' caps = ' . var_export($caps,true)); // @todo remove
+		error_log(__METHOD__ .' cap = ' . var_export($cap,true)); // @todo remove
+		error_log(__METHOD__ .' user_id = ' . var_export($user_id,true)); // @todo remove
+		error_log(__METHOD__ .' args = ' . var_export($args,true)); // @todo remove
+		
 		if ( isset( $args[0] ) ) {
 			if ( strpos( $cap, 'edit_' ) === 0 || strpos( $cap, 'delete_' ) === 0 ) {
 				if ( $post_type = get_post_type( $args[0] ) ) {
@@ -114,6 +126,7 @@ class Groups_Post_Access {
 				}
 			}
 		}
+		error_log(__METHOD__ .' caps = ' . var_export($caps,true)); // @todo remove
 		return $caps;
 	}
 
@@ -128,58 +141,64 @@ class Groups_Post_Access {
 
 		global $wpdb;
 
-		$user_id = get_current_user_id();
+		if ( apply_filters( 'groups_post_access_posts_where_apply', !is_admin(), $where, $query ) ) {
 
-		// this only applies to logged in users
-		if ( $user_id ) {
-			// if administrators can override access, don't filter
-			if ( get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT ) ) {
-				if ( user_can( $user_id, 'administrator' ) ) {
-					return $where;
+			error_log(__METHOD__.' where = '.var_export($where,true)); // @todo remove
+	
+			$user_id = get_current_user_id();
+	
+			// this only applies to logged in users
+			if ( $user_id ) {
+				// if administrators can override access, don't filter
+				if ( get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT ) ) {
+					if ( user_can( $user_id, 'administrator' ) ) {
+						return $where;
+					}
 				}
 			}
-		}
-
-		// 1. Get all the groups that the user belongs to, including those that are inherited:
-		$group_ids = array();
-		if ( $user = new Groups_User( $user_id ) ) {
-			$group_ids_deep = $user->group_ids_deep;
-			if ( is_array( $group_ids_deep ) ) {
-				$group_ids = $group_ids_deep;
-			}
-		}
-
-		if ( count( $group_ids ) > 0 ) {
-			$group_ids = "'" . implode( "','", $group_ids ) . "'";
-		} else {
-			$group_ids = '\'\'';
-		}
-
-		// 2. Filter the posts that require a capability that the user doesn't
-		// have, or in other words: exclude posts that the user must NOT access:
 	
-		// The following is not correct in that it requires the user to have ALL capabilities:
-		// 		$where .= sprintf(
-		// 			" AND {$wpdb->posts}.ID NOT IN (SELECT DISTINCT ID FROM $wpdb->posts LEFT JOIN $wpdb->postmeta on {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value NOT IN (%s) ) ",
-		// 			self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY,
-		// 			$caps
-		// 		);
+			// 1. Get all the groups that the user belongs to, including those that are inherited:
+			$group_ids = array();
+			if ( $user = new Groups_User( $user_id ) ) {
+				$group_ids_deep = $user->group_ids_deep;
+				if ( is_array( $group_ids_deep ) ) {
+					$group_ids = $group_ids_deep;
+				}
+			}
+	
+			if ( count( $group_ids ) > 0 ) {
+				$group_ids = "'" . implode( "','", $group_ids ) . "'";
+			} else {
+				$group_ids = '\'\'';
+			}
+	
+			// 2. Filter the posts that require a capability that the user doesn't
+			// have, or in other words: exclude posts that the user must NOT access:
+		
+			// The following is not correct in that it requires the user to have ALL capabilities:
+			// 		$where .= sprintf(
+			// 			" AND {$wpdb->posts}.ID NOT IN (SELECT DISTINCT ID FROM $wpdb->posts LEFT JOIN $wpdb->postmeta on {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value NOT IN (%s) ) ",
+			// 			self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY,
+			// 			$caps
+			// 		);
+	
+			// This allows the user to access posts where the posts are not restricted or where
+			// the user has ANY of the capabilities:
+			$where .= sprintf(
+					" AND {$wpdb->posts}.ID IN " .
+					" ( " .
+					"   SELECT ID FROM $wpdb->posts WHERE ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts without access restriction
+					"   UNION ALL " . // we don't care about duplicates here, just make it quick
+					"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any capability the user has
+					" ) ",
+					self::POSTMETA_PREFIX . self::READ,
+					self::POSTMETA_PREFIX . self::READ,
+					$group_ids
+			);
+			
+		}
 
-		// This allows the user to access posts where the posts are not restricted or where
-		// the user has ANY of the capabilities:
-		$where .= sprintf(
-				" AND {$wpdb->posts}.ID IN " .
-				" ( " .
-				"   SELECT ID FROM $wpdb->posts WHERE ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts without access restriction
-				"   UNION ALL " . // we don't care about duplicates here, just make it quick
-				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any capability the user has
-				" ) ",
-				self::POSTMETA_PREFIX . self::READ,
-				self::POSTMETA_PREFIX . self::READ,
-				$group_ids
-		);
-
-		return $where;
+		return apply_filters( 'groups_post_access_posts_where', $where, $query );
 	}
 
 	/**
@@ -482,22 +501,38 @@ class Groups_Post_Access {
 	 * @return boolean true if user can read the post
 	 */
 	public static function user_can_read_post( $post_id, $user_id = null ) {
+
 		$result = false;
-		if ( !empty( $post_id ) ) {
-			if ( $user_id === null ) {
-				$user_id = get_current_user_id();
-			}
-			$groups_user = new Groups_User( $user_id );
-			$group_ids   = self::get_read_group_ids( $post_id );
-			if ( empty( $group_ids ) ) {
-				$result = true;
-			} else {
-				$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
-				$result = !empty( $ids );
+
+		if ( is_admin() ) {
+			$result = true;
+		} else {
+			if ( !empty( $post_id ) ) {
+				if ( $user_id === null ) {
+					$user_id = get_current_user_id();
+				}
+
+				$result = wp_cache_get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP, false, $found );
+
+				if ( $found === false ) {
+					$groups_user = new Groups_User( $user_id );
+					$group_ids   = self::get_read_group_ids( $post_id );
+					if ( empty( $group_ids ) ) {
+						$result = true;
+					} else {
+						$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
+						$result = !empty( $ids );
+					}
+
+					wp_cache_set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );
+
+				}
 			}
 		}
+
 		error_log(__METHOD__ . ' post_id = '.var_export($post_id,true). ' result = ' . var_export( $result, true )); // @todo remove
-		return $result;
+
+		return apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
 	}
 
 	/**
