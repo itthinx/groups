@@ -156,7 +156,7 @@ class Groups_Registered {
 	 * @param int $user_id
 	 * @param WP_string $role
 	 */
-	function add_user_to_blog( $user_id, $role, $blog_id ) {
+	public static function add_user_to_blog( $user_id, $role, $blog_id ) {
 		
 		if ( is_multisite() ) {
 			Groups_Controller::switch_to_blog( $blog_id );
