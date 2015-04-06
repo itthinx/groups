@@ -185,6 +185,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Added caching for results obtained in Groups_Post_Access::user_can_read_post(...).
 * Added the groups_post_access_user_can_read_post filter.
 * Admin override is disabled by default (existing installs need to disable manually if options were saved).
+* Swedish translation by [Andréas Lundgren](http://adevade.com) added.
 
 = 1.4.13 =
 * WordPress 4.1 compatible.
