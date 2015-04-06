@@ -177,6 +177,14 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.4.14 =
+* Now not using Groups' the_posts filter by default as results are already filtered by Groups' posts_where filter.
+* Added the groups_filter_the_posts filter which can be used to 'reactivate' Groups' the_posts filter where needed.
+* Added caching for capabilities read by capability name.
+* Added caching for groups read by name.
+* Added caching for results obtained in Groups_Post_Access::user_can_read_post(...).
+* Added the groups_post_access_user_can_read_post filter.
+
 = 1.4.13 =
 * WordPress 4.1 compatible.
 
