@@ -241,6 +241,8 @@ class Groups_Group implements I_Capable {
 			if ( !$error ) {
 				if ( $wpdb->insert( $group_table, $data, $formats ) ) {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
+						// must clear cache for this name in case it has been requested previously as it now exists
+						wp_cache_delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
 						do_action( "groups_created_group", $result );
 					}
 				}
