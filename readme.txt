@@ -21,7 +21,7 @@ Enhanced functionality is available via official [extensions](http://www.itthinx
 
 ### Documentation ###
 
-The official documentation is located at the [Groups documentation pages](http://www.itthinx.com/documentation/groups/).
+The official documentation is located at the [Groups documentation pages](http://docs.itthinx.com/document/groups/).
 
 ### Features ###
 
@@ -116,7 +116,7 @@ Many thanks for your help!
 
 = Where is the documentation? =
 
-The official documentation is located at the [Groups documentation pages](http://www.itthinx.com/documentation/groups/).
+The official documentation is located at the [Groups documentation pages](http://docs.itthinx.com/document/groups/).
 
 = I have a question, where do I ask? =
 
@@ -160,7 +160,7 @@ The Groups plugin provides an extensive framework to handle memberships, group-b
 
 The API documentation is available here: [Groups API](http://api.itthinx.com/groups).
 
-Also refer to the official [Groups](http://www.itthinx.com/plugins/groups/) plugin page and the [Groups documentation](http://www.itthinx.com/documentation/groups/) pages.
+Also refer to the official [Groups](http://www.itthinx.com/plugins/groups/) plugin page and the [Groups documentation](http://docs.itthinx.com/document/groups/) pages.
 
 == Screenshots ==
 
