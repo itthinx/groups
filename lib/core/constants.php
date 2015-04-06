@@ -79,7 +79,7 @@ define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE', 'groups-admin-override' );
 /**
  * @var string admin override option default setting
  */
-define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT', true );
+define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT', false );
 
 /**
  * @var string read post capabilities option
