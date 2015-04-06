@@ -36,6 +36,9 @@ class Groups_Post_Access {
 	
 	const POSTMETA_PREFIX = 'groups-';
 	
+	const CACHE_GROUP     = 'groups';
+	const CAN_READ_POST   = 'can_read_post';
+	
 	const READ_POST_CAPABILITY = "groups_read_post";
 	const READ_POST_CAPABILITY_NAME = "Read Post";
 	const READ_POST_CAPABILITIES = 'read_post_capabilities';
@@ -63,7 +66,9 @@ class Groups_Post_Access {
 		// post access
 		add_filter( 'posts_where', array( __CLASS__, 'posts_where' ), 10, 2 );
 		add_filter( 'get_pages', array( __CLASS__, "get_pages" ), 1 );
-		add_filter( 'the_posts', array( __CLASS__, "the_posts" ), 1, 2 );
+		if ( apply_filters( 'groups_filter_the_posts', false ) ) {
+			add_filter( 'the_posts', array( __CLASS__, "the_posts" ), 1, 2 );
+		}
 		add_filter( 'wp_get_nav_menu_items', array( __CLASS__, "wp_get_nav_menu_items" ), 1, 3 );
 		// content access
 		add_filter( "get_the_excerpt", array( __CLASS__, "get_the_excerpt" ), 1 );
@@ -388,17 +393,22 @@ class Groups_Post_Access {
 			if ( $user_id === null ) {
 				$user_id = get_current_user_id();
 			}
-			$groups_user = new Groups_User( $user_id );
-			$read_caps = self::get_read_post_capabilities( $post_id );
-			if ( !empty( $read_caps ) ) {
-				foreach( $read_caps as $read_cap ) {
-					if ( $groups_user->can( $read_cap ) ) {
-						$result = true;
-						break;
+			$result = wp_cache_get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP, false, $found );
+			if ( $found === false ) {
+				$groups_user = new Groups_User( $user_id );
+				$read_caps = self::get_read_post_capabilities( $post_id );
+				if ( !empty( $read_caps ) ) {
+					foreach( $read_caps as $read_cap ) {
+						if ( $groups_user->can( $read_cap ) ) {
+							$result = true;
+							break;
+						}
 					}
+				} else {
+					$result = true;
 				}
-			} else {
-				$result = true;
+				$result = apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
+				wp_cache_set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );
 			}
 		}
 		return $result;
