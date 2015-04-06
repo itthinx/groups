@@ -155,6 +155,8 @@ class Groups_Capability {
 				$capability_table = _groups_get_tablename( 'capability' );
 				if ( $wpdb->insert( $capability_table, $data, $formats ) ) {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
+						// read_by_capability above created a cache entry which needs to be reset
+						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $capability, self::CACHE_GROUP );
 						do_action( "groups_created_capability", $result );
 					}
 				}
