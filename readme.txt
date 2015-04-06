@@ -419,6 +419,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.4.14 =
-
-Due to changes in this version, it's important to **make a backup** of the site & database, test the site, extensions & theme **prior to updating**.
-This version adds performance improvements & defaults admin override to disabled. Disable under *Groups > Options > Administrator Access Override*.
+Due to changes in this version, it's important to **make a backup** of the site & database, test the site, extensions & theme prior to updating.
+It improves performance & disables admin override by default (disable manually under Groups > Options > Administrator Access Override).
