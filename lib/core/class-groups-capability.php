@@ -254,8 +254,10 @@ class Groups_Capability {
 				) );
 				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
-					wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_capability->name, self::CACHE_GROUP );
-					if ( isset( $old_name ) ) {
+					if ( !empty( $old_capability ) && !empty( $old_capability->name ) ) {
+						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_capability->name, self::CACHE_GROUP );
+					}
+					if ( !empty( $old_name ) ) {
 						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_name, self::CACHE_GROUP );
 					}
 					do_action( "groups_updated_capability", $result );
@@ -285,7 +287,9 @@ class Groups_Capability {
 				Groups_Utility::id( $capability_id )
 			) ) ) {
 				$result = $capability_id;
-				wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $capability->name, self::CACHE_GROUP );
+				if ( !empty( $capability->name ) ) {
+					wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $capability->name, self::CACHE_GROUP );
+				}
 				do_action( "groups_deleted_capability", $result );
 			}
 		}
