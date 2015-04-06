@@ -27,7 +27,10 @@ if ( !defined( 'ABSPATH' ) ) {
  * Capability OPM
  */
 class Groups_Capability {
-	
+
+	const CACHE_GROUP        = 'groups';
+	const READ_BY_CAPABILITY = 'read_by_capability';
+
 	/**
 	 * @var persisted capability object
 	 */
@@ -191,20 +194,23 @@ class Groups_Capability {
 	 */
 	public static function read_by_capability( $capability ) {
 		global $wpdb;
-		$result = false;
-		
-		$capability_table = _groups_get_tablename( 'capability' );
-		$capability = $wpdb->get_row( $wpdb->prepare(
-			"SELECT * FROM $capability_table WHERE capability = %s",
-			$capability
-		) );
-		if ( isset( $capability->capability_id ) ) {
-			$result = $capability;
+		$_capability = $capability;
+		$result = wp_cache_get( self::READ_BY_CAPABILITY . '_' . $_capability, self::CACHE_GROUP, false, $found );
+		if ( $found === false ) {
+			$result = false;
+			$capability_table = _groups_get_tablename( 'capability' );
+			$capability = $wpdb->get_row( $wpdb->prepare(
+				"SELECT * FROM $capability_table WHERE capability = %s",
+				$capability
+			) );
+			if ( isset( $capability->capability_id ) ) {
+				$result = $capability;
+			}
+			wp_cache_set( self::READ_BY_CAPABILITY . '_' . $_capability, $result, self::CACHE_GROUP );
 		}
 		return $result;
 	}
-	
-	
+
 	/**
 	 * Update capability.
 	 * 
@@ -231,6 +237,7 @@ class Groups_Capability {
 					$old_capability->object = $object;
 				}
 				if ( isset( $name ) ) {
+					$old_name = $old_capability->name;
 					$old_capability->name = $name;
 				}
 				if ( isset( $description ) ) {
@@ -247,6 +254,10 @@ class Groups_Capability {
 				) );
 				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
+					wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_capability->name, self::CACHE_GROUP );
+					if ( isset( $old_name ) ) {
+						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_name, self::CACHE_GROUP );
+					}
 					do_action( "groups_updated_capability", $result );
 				}
 			}
@@ -274,6 +285,7 @@ class Groups_Capability {
 				Groups_Utility::id( $capability_id )
 			) ) ) {
 				$result = $capability_id;
+				wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $capability->name, self::CACHE_GROUP );
 				do_action( "groups_deleted_capability", $result );
 			}
 		}
