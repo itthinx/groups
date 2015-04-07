@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 3.5
-Tested up to: 4.1
+Tested up to: 4.1.1
 Stable tag: 1.4.14
 License: GPLv3
 
@@ -176,6 +176,12 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.4.15 =
+* Due to changes in versions 1.4.14 and 1.4.15, it's important to **MAKE A BACKUP** of the site & database, test the site, extensions & theme PRIOR to updating.
+* Fixes a cache incompatibility with caching mechanisms that do not implement wp_cache_get()'s function signature fully.
+This addresses cases specifically where the fourth parameter $found is not initialized as expected upon return.
+The performance improvements included in this release are lessened with caching plugins that fail to implement the return value disambiguation via $found.
 
 = 1.4.14 =
 * Now not using Groups' the_posts filter by default as results are already filtered by Groups' posts_where filter.
@@ -419,6 +425,6 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.4.14 =
-Due to changes in this version, it's important to **make a backup** of the site & database, test the site, extensions & theme prior to updating.
-It improves performance & disables admin override by default (disable manually under Groups > Options > Administrator Access Override).
+= 1.4.15 =
+Fixes a cache incompatibility with some object caching implementations.
+Due to changes in versions 1.4.14 and 1.4.15, it's important to **MAKE A BACKUP** of the site & database, test the site, extensions & theme PRIOR to updating.

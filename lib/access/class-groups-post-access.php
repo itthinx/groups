@@ -393,6 +393,7 @@ class Groups_Post_Access {
 			if ( $user_id === null ) {
 				$user_id = get_current_user_id();
 			}
+			$found = false;
 			$result = wp_cache_get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP, false, $found );
 			if ( $found === false ) {
 				$groups_user = new Groups_User( $user_id );

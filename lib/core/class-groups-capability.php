@@ -197,6 +197,7 @@ class Groups_Capability {
 	public static function read_by_capability( $capability ) {
 		global $wpdb;
 		$_capability = $capability;
+		$found = false;
 		$result = wp_cache_get( self::READ_BY_CAPABILITY . '_' . $_capability, self::CACHE_GROUP, false, $found );
 		if ( $found === false ) {
 			$result = false;

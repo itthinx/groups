@@ -280,6 +280,7 @@ class Groups_Group implements I_Capable {
 	 */
 	public static function read_by_name( $name ) {
 		global $wpdb;
+		$found = false;
 		$result = wp_cache_get( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP, false, $found );
 		if ( $found === false ) {
 			$result = false;
