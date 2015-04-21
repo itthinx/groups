@@ -169,7 +169,7 @@ class Groups_Controller {
 				name          VARCHAR(100) DEFAULT NULL,
 				description   LONGTEXT DEFAULT NULL,
 				PRIMARY KEY   (capability_id),
-				UNIQUE INDEX  capability_n (capability(20)),
+				UNIQUE INDEX  capability (capability(20)),
 				INDEX         capability_kco (capability(20),class(20),object(20))
 			) $charset_collate;";
 		}
@@ -269,6 +269,10 @@ class Groups_Controller {
 					if ( strcmp( $previous_version, '1.1.6' ) < 0 ) {
 						Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
 						$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = %s", Groups_Post_Access::READ_POST_CAPABILITY, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ) );
+					}
+					if ( strcmp( $previous_version, '1.5.0' ) < 0 ) {
+						$capability_table = _groups_get_tablename( 'capability' );
+						$queries[] = "ALTER TABLE $capability_table DROP INDEX capability, ADD UNIQUE INDEX capability(capability(20));";
 					}
 				}
 		} // switch
