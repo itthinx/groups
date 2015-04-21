@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 3.5
-Tested up to: 4.1.1
+Tested up to: 4.2
 Stable tag: 1.4.15
 License: GPLv3
 
@@ -176,6 +176,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.5.0 =
+* Reduced the index size on the capability row of the capability table.
 
 = 1.4.15 =
 * Due to changes in versions 1.4.14 and 1.4.15, it's important to **MAKE A BACKUP** of the site & database, test the site, extensions & theme PRIOR to updating.
@@ -425,6 +428,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.4.15 =
-Fixes a cache incompatibility with some object caching implementations.
-Due to changes in versions 1.4.14 and 1.4.15, it's important to **MAKE A BACKUP** of the site & database, test the site, extensions & theme PRIOR to updating.
+= 1.5.0 =
+This release is required for compatibility with WordPress 4.2 and above (uses a reduced index size on a database table).

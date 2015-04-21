@@ -163,12 +163,13 @@ class Groups_Controller {
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) != $capability_table ) {
 			$queries[] = "CREATE TABLE $capability_table (
 				capability_id BIGINT(20) UNSIGNED NOT NULL auto_increment,
-				capability    VARCHAR(255) UNIQUE NOT NULL,
+				capability    VARCHAR(255) NOT NULL,
 				class         VARCHAR(255) DEFAULT NULL,
 				object        VARCHAR(255) DEFAULT NULL,
 				name          VARCHAR(100) DEFAULT NULL,
 				description   LONGTEXT DEFAULT NULL,
 				PRIMARY KEY   (capability_id),
+				UNIQUE INDEX  capability_n (capability(20)),
 				INDEX         capability_kco (capability(20),class(20),object(20))
 			) $charset_collate;";
 		}
@@ -210,7 +211,7 @@ class Groups_Controller {
 		// add WordPress capabilities
 		Groups_WordPress::activate();
 		// ... end of plugin activation work.
-	} 
+	}
 	
 	/**
 	 * Checks current version and triggers update if needed.
