@@ -178,6 +178,8 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 == Changelog ==
 
 = 1.5.0 =
+* Please **MAKE A BACKUP** of your site and database PRIOR to updating.
+* WordPress 4.2 compatible.
 * Reduced the index size on the capability row of the capability table.
 
 = 1.4.15 =
@@ -429,4 +431,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.5.0 =
+Please **MAKE A BACKUP** of your site and database PRIOR to updating.
 This release is required for compatibility with WordPress 4.2 and above (uses a reduced index size on a database table).
