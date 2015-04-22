@@ -163,12 +163,13 @@ class Groups_Controller {
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) != $capability_table ) {
 			$queries[] = "CREATE TABLE $capability_table (
 				capability_id BIGINT(20) UNSIGNED NOT NULL auto_increment,
-				capability    VARCHAR(255) UNIQUE NOT NULL,
+				capability    VARCHAR(255) NOT NULL,
 				class         VARCHAR(255) DEFAULT NULL,
 				object        VARCHAR(255) DEFAULT NULL,
 				name          VARCHAR(100) DEFAULT NULL,
 				description   LONGTEXT DEFAULT NULL,
 				PRIMARY KEY   (capability_id),
+				UNIQUE INDEX  capability (capability(20)),
 				INDEX         capability_kco (capability(20),class(20),object(20))
 			) $charset_collate;";
 		}
@@ -210,7 +211,7 @@ class Groups_Controller {
 		// add WordPress capabilities
 		Groups_WordPress::activate();
 		// ... end of plugin activation work.
-	} 
+	}
 	
 	/**
 	 * Checks current version and triggers update if needed.
@@ -268,6 +269,10 @@ class Groups_Controller {
 					if ( strcmp( $previous_version, '1.1.6' ) < 0 ) {
 						Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
 						$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = %s", Groups_Post_Access::READ_POST_CAPABILITY, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ) );
+					}
+					if ( strcmp( $previous_version, '1.5.0' ) < 0 ) {
+						$capability_table = _groups_get_tablename( 'capability' );
+						$queries[] = "ALTER TABLE $capability_table DROP INDEX capability, ADD UNIQUE INDEX capability(capability(20));";
 					}
 				}
 		} // switch
