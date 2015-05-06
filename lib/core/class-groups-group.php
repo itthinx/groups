@@ -89,6 +89,51 @@ class Groups_Group implements I_Capable {
 						}
 					}
 					break;
+				case 'capabilities_deep' :
+					$capability_ids = $this->capability_ids_deep;
+					$result = array();
+					foreach( $capability_ids as $capability_id ) {
+						$result[] = new Groups_Capability( $capability_id );
+					}
+					break;
+				case 'capability_ids_deep' :
+					$capability_ids = array();
+					$group_table = _groups_get_tablename( "group" );
+					$group_capability_table = _groups_get_tablename( "group_capability" );
+					// Find this group's and all its parent groups' capabilities.
+					$group_ids  = array( Groups_Utility::id( $this->group->group_id ) );
+					$iterations = 0;
+					$old_group_ids_count = 0;
+					$all_groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
+					while( ( $iterations < $all_groups ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
+						$iterations++;
+						$old_group_ids_count = count( $group_ids );
+						$id_list = implode( ",", $group_ids );
+						$parent_group_ids = $wpdb->get_results(
+							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)"
+						);
+						if ( $parent_group_ids ) {
+							foreach( $parent_group_ids as $parent_group_id ) {
+								$parent_group_id = Groups_Utility::id( $parent_group_id->parent_id );
+								if ( !in_array( $parent_group_id, $group_ids ) ) {
+									$group_ids[] = $parent_group_id;
+								}
+							}
+						}
+					}
+					if ( count( $group_ids ) > 0 ) {
+						$id_list = implode( ",", $group_ids );
+						$rows = $wpdb->get_results(
+							"SELECT DISTINCT capability_id FROM $group_capability_table WHERE group_id IN ($id_list)"
+						);
+						if ( $rows ) {
+							foreach ( $rows as $row ) {
+								$capability_ids[] = $row->capability_id;
+							}
+						}
+					}
+					$result = $capability_ids;
+					break;
 				case 'users' :
 					$user_group_table = _groups_get_tablename( "user_group" );
 					$users = $wpdb->get_results( $wpdb->prepare(
@@ -194,7 +239,7 @@ class Groups_Group implements I_Capable {
 		global $wpdb;
 		extract( $map );
 		$result = false;
-		$error = false;		
+		$error = false;
 		
 		if ( !empty( $name ) ) {
 			

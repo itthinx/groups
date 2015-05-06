@@ -125,7 +125,8 @@ class Groups_UIE {
 		$output .= 'if ( typeof jQuery !== "undefined" ) {';
 		$output .= sprintf( 'jQuery("%s").each(', $selector );
 		$output .= 'function(){';
-		$output .= 'jQuery(this).attr("title", jQuery(this).text());'; // @todo improve for lists, paragraphs, breaks
+		$output .= 'var title = jQuery(this).html().replace( /(<\/[^>]+>)/igm , "$1 ");';
+		$output .= 'jQuery(this).attr("title", this.innerText || jQuery(jQuery.parseHTML(title)).text().replace(/\s+/igm, " ") );';
 		$output .= '}';
 		$output .= ');';
 		$output .= '}';

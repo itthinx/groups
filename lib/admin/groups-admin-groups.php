@@ -426,14 +426,23 @@ function groups_admin_groups() {
 			$output .= "<td class='group-description'>" . stripslashes( wp_filter_nohtml_kses( $result->description ) ) . "</td>";
 
 			$output .= '<td class="capabilities">';
-			$group_capabilities = $wpdb->get_results( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )",
-				Groups_Utility::id( $result->group_id )
-			) );
-			if ( count( $group_capabilities ) > 0 ) {
+			
+			$group = new Groups_Group( $result->group_id );
+			$group_capabilities = $group->capabilities;
+			$group_capabilities_deep = $group->capabilities_deep;
+			
+			if ( count( $group_capabilities_deep ) > 0 ) {
 				$output .= '<ul>';
-				foreach ( $group_capabilities as $group_capability ) {
-					$output .= '<li>' . wp_filter_nohtml_kses( $group_capability->capability ) . '</li>';
+				foreach ( $group_capabilities_deep as $group_capability ) {
+					$output .= '<li>';
+					$class = '';
+					if ( !in_array( $group_capability, $group_capabilities)) {
+						$class = 'inherited';
+					}
+					$output .= sprintf( '<span class="%s">', $class );
+					$output .= wp_filter_nohtml_kses( $group_capability->capability->capability );
+					$output .= '</span>';
+					$output .= '</li>';
 				}
 				$output .= '</ul>';
 			} else {

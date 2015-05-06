@@ -134,6 +134,10 @@ div.capability.edit label {
 	margin: 0;
 }
 
+.groups-overview td.capabilities span.inherited {
+	font-style: italic;
+}
+
 .manage-groups .required,
 .manage-capabilities .required {
 	background: url(../images/required.png) transparent no-repeat left center;
