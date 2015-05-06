@@ -491,8 +491,8 @@ function groups_admin_groups() {
 
 /**
  * usort helper
- * @param Groups_Group $o1
- * @param Groups_Group $o2
+ * @param Groups_Capability $o1
+ * @param Groups_Capability $o2
  * @return int strcmp result for group names
  */
 function groups_admin_sort_capabilities_by_capability( $o1, $o2 ) {
