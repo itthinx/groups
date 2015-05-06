@@ -426,11 +426,12 @@ function groups_admin_groups() {
 			$output .= "<td class='group-description'>" . stripslashes( wp_filter_nohtml_kses( $result->description ) ) . "</td>";
 
 			$output .= '<td class="capabilities">';
-			
+
 			$group = new Groups_Group( $result->group_id );
 			$group_capabilities = $group->capabilities;
 			$group_capabilities_deep = $group->capabilities_deep;
-			
+			usort( $group_capabilities_deep, 'groups_admin_sort_capabilities_by_capability' );
+
 			if ( count( $group_capabilities_deep ) > 0 ) {
 				$output .= '<ul>';
 				foreach ( $group_capabilities_deep as $group_capability ) {
@@ -487,4 +488,14 @@ function groups_admin_groups() {
 	echo $output;
 	Groups_Help::footer();
 } // function groups_admin_groups()
+
+/**
+ * usort helper
+ * @param Groups_Group $o1
+ * @param Groups_Group $o2
+ * @return int strcmp result for group names
+ */
+function groups_admin_sort_capabilities_by_capability( $o1, $o2 ) {
+	return strcmp( $o1->capability->capability, $o2->capability->capability );
+}
 ?>
