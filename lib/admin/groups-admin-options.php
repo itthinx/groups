@@ -202,7 +202,7 @@ function groups_admin_options() {
 		'<form action="" name="options" method="post">' .
 
 		'<p>' .
-		'<input class="button" type="submit" name="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" name="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 		$extensions_box .
 		'</p>' .
 
@@ -314,7 +314,7 @@ function groups_admin_options() {
 	echo
 		'<p>' .
 		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) .
-		'<input class="button" type="submit" name="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" name="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 		'</p>' .
 		'</div>' .
 		'</form>';
