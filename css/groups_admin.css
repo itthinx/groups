@@ -55,6 +55,9 @@
 div.field {
 	padding-bottom: 0.62em;
 }
+div.field a.cancel {
+	vertical-align: middle;
+}
 div.field input[type="submit"],
 div.group.remove input[type="submit"],
 div.capability.remove input[type="submit"] {
