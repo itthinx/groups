@@ -69,7 +69,7 @@ function groups_admin_capabilities_add() {
 		wp_nonce_field( 'capabilities-add', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
 		'<input class="button button-primary" type="submit" value="' . __( 'Add', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 		'<input type="hidden" value="add" name="action"/>' .
-		'<a class="cancel" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
+		'<a class="cancel button" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
 		'</div>' .
 		'</div>' . // .capability.new
 		'</form>' .
