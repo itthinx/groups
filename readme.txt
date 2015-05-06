@@ -181,6 +181,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Improved internal definitions to use API function instead of WP_CONTENT_DIR
   and WP_CONTENT_URL constants.
 * Now showing inherited capabilities for groups.
+* Added ABSPATH check to plugin main file.
 
 = 1.5.1 =
 * Please **MAKE A BACKUP** of your site and database PRIOR to updating.
@@ -441,4 +442,4 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.5.2 =
-This release improves some internal constant definitions and shows inherited capabilities for groups.
+This release improves some internal definitions and now shows inherited capabilities for groups.

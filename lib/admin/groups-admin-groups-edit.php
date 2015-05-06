@@ -145,7 +145,7 @@ function groups_admin_groups_edit( $group_id ) {
 		$inherited_caps = array();
 		foreach ( $group_capabilities_deep as $group_capability ) {
 			$class = '';
-			if ( !in_array( $group_capability, $group_capabilities)) {
+			if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
 				$inherited_caps[] = wp_filter_nohtml_kses( $group_capability->capability->capability );
 			}
 		}

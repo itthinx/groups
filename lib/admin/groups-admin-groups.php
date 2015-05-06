@@ -437,7 +437,7 @@ function groups_admin_groups() {
 				foreach ( $group_capabilities_deep as $group_capability ) {
 					$output .= '<li>';
 					$class = '';
-					if ( !in_array( $group_capability, $group_capabilities)) {
+					if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
 						$class = 'inherited';
 					}
 					$output .= sprintf( '<span class="%s">', $class );
