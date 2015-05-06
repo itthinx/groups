@@ -76,7 +76,7 @@ function groups_admin_capabilities_edit( $capability_id ) {
 	
 		'<div class="field">' .
 		wp_nonce_field( 'capabilities-edit', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button" type="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 		'<input type="hidden" value="edit" name="action"/>' .
 		'<a class="cancel" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
 		'</div>' .
