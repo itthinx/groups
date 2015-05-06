@@ -2,9 +2,9 @@
 Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
-Requires at least: 3.5
-Tested up to: 4.2
-Stable tag: 1.5.1
+Requires at least: 4.0
+Tested up to: 4.2.1
+Stable tag: 1.5.2
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -176,6 +176,11 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.5.2 =
+* Improved internal definitions to use API function instead of WP_CONTENT_DIR
+  and WP_CONTENT_URL constants.
+* Now showing inherited capabilities for groups.
 
 = 1.5.1 =
 * Please **MAKE A BACKUP** of your site and database PRIOR to updating.
@@ -435,6 +440,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.5.1 =
-Please **MAKE A BACKUP** of your site and database PRIOR to updating.
-This release is required for compatibility with WordPress 4.2 and above (uses a reduced index size on a database table).
+= 1.5.2 =
+This release improves some internal constant definitions and shows inherited capabilities for groups.
