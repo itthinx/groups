@@ -220,7 +220,7 @@ div.groups-footer form {
 .groups-bulk-container .selectize-input {
 	font-size: inherit;
 	line-height: 18px;
-	padding: 0;
+	padding: 0 4px;
 	vertical-align: middle;
 }
 .groups-bulk-container .selectize-input input[type="text"] {

@@ -182,6 +182,8 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
   and WP_CONTENT_URL constants.
 * Now showing inherited capabilities for groups.
 * Added ABSPATH check to plugin main file.
+* Improved the UI rendering cancel links as buttons.
+* Improved the UI adding some space on capability selector box.
 
 = 1.5.1 =
 * Please **MAKE A BACKUP** of your site and database PRIOR to updating.
@@ -442,4 +444,4 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.5.2 =
-This release improves some internal definitions and now shows inherited capabilities for groups.
+This release improves some user interface elements, some internal definitions and now shows inherited capabilities for groups.
