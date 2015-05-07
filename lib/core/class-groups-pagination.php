@@ -166,4 +166,3 @@ class Groups_Pagination {
 		}
 	}
 }
-?>
