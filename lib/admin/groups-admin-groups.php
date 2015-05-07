@@ -489,6 +489,7 @@ function groups_admin_groups() {
 	Groups_Help::footer();
 } // function groups_admin_groups()
 
+if ( !function_exists( 'groups_admin_sort_capabilities_by_capability' ) ) {
 /**
  * usort helper
  * @param Groups_Capability $o1
@@ -498,4 +499,4 @@ function groups_admin_groups() {
 function groups_admin_sort_capabilities_by_capability( $o1, $o2 ) {
 	return strcmp( $o1->capability->capability, $o2->capability->capability );
 }
-?>
+}
