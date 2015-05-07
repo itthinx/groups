@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Pagination based on WP_List_Table.
  */
 class Groups_Pagination {
-	
+
 	/**
 	 * 
 	 * @param int $total_items how many items there are to display
@@ -43,7 +43,7 @@ class Groups_Pagination {
 			)
 		);
 	}
-	
+
 	/**
 	 * Get the current page number
 	 * @return int the current page number
@@ -54,14 +54,14 @@ class Groups_Pagination {
 			if ( preg_match( "/(\/page\/)(\d+)/", $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $matches ) ) {
 				$pagenum = absint( $matches[2] );
 			}
-		}		
+		}
 
-		if( isset( $this->_pagination_args['total_pages'] ) && $pagenum > $this->_pagination_args['total_pages'] )
+		if( isset( $this->_pagination_args['total_pages'] ) && $pagenum > $this->_pagination_args['total_pages'] ) {
 			$pagenum = $this->_pagination_args['total_pages'];
-
+		}
 		return max( 1, $pagenum );
 	}
-	
+
 	/**
 	 * An internal method that sets all the necessary pagination arguments
 	 *
@@ -87,7 +87,7 @@ class Groups_Pagination {
 	 * @param boolean $echo displays if true, otherwise returns
 	 */
 	function pagination( $which, $echo = false ) {
-	
+
 		if ( empty( $this->_pagination_args ) )
 			return;
 
@@ -103,7 +103,7 @@ class Groups_Pagination {
 
 		// needs to remove rewritten added page
 		$current_url = preg_replace( "/\/page\/\d+/", "", $current_url );
-		
+
 		$page_links = array();
 
 		$disable_first = $disable_last = '';
