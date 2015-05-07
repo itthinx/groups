@@ -184,6 +184,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Added ABSPATH check to plugin main file.
 * Improved the UI rendering cancel links as buttons.
 * Improved the UI adding some space on capability selector box.
+* Fixed a pagination issue when the page number is indicated on the Groups or Capabilities screen.
 
 = 1.5.1 =
 * Please **MAKE A BACKUP** of your site and database PRIOR to updating.

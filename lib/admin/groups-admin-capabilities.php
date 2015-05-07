@@ -213,7 +213,7 @@ function groups_admin_capabilities() {
 	if ( $offset < 0 ) {
 		$offset = 0;
 	}
-	$paged = isset( $_GET['paged'] ) ? intval( $_GET['paged'] ) : 0;
+	$paged = isset( $_REQUEST['paged'] ) ? intval( $_REQUEST['paged'] ) : 0;
 	if ( $paged < 0 ) {
 		$paged = 0;
 	}
