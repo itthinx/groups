@@ -179,6 +179,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 = 1.5.3 =
 * Added a comparison method for groups and capabilities.
+* Updated the documentation link in the help content.
 
 = 1.5.2 =
 * Improved internal definitions to use API function instead of WP_CONTENT_DIR
