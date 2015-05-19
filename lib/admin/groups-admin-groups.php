@@ -430,7 +430,7 @@ function groups_admin_groups() {
 			$group = new Groups_Group( $result->group_id );
 			$group_capabilities = $group->capabilities;
 			$group_capabilities_deep = $group->capabilities_deep;
-			usort( $group_capabilities_deep, 'groups_admin_sort_capabilities_by_capability' );
+			usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
 
 			if ( count( $group_capabilities_deep ) > 0 ) {
 				$output .= '<ul>';
@@ -488,15 +488,3 @@ function groups_admin_groups() {
 	echo $output;
 	Groups_Help::footer();
 } // function groups_admin_groups()
-
-if ( !function_exists( 'groups_admin_sort_capabilities_by_capability' ) ) {
-/**
- * usort helper
- * @param Groups_Capability $o1
- * @param Groups_Capability $o2
- * @return int strcmp result for group names
- */
-function groups_admin_sort_capabilities_by_capability( $o1, $o2 ) {
-	return strcmp( $o1->capability->capability, $o2->capability->capability );
-}
-}
