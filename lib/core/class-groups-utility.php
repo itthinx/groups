@@ -115,4 +115,23 @@ class Groups_Utility {
 		}
 		$output .= '</ul>';
 	}
+
+	/**
+	 * Compares the two object's names, used for groups and
+	 * capabilities, i.e. Groups_Group and Groups_Capability can be compared
+	 * if both are of the same class. Otherwise this will return 0.
+	 * 
+	 * @param Groups_Group|Groups_Capability $o1
+	 * @param Groups_Group|Groups_Capability $o2 must match the class of $o1
+	 * @return number
+	 */
+	public static function cmp( $o1, $o2 ) {
+		$result = 0;
+		if ( $o1 instanceof Groups_Group && $o2 instanceof Groups_Group ) {
+			$result = strcmp( $o1->name, $o2->name );
+		} else if ( $o1 instanceof Groups_Capability && $o2 instanceof Groups_Capability ) {
+			$result = strcmp( $o1->capability->capability, $o2->capability->capability );
+		}
+		return $result;
+	}
 }

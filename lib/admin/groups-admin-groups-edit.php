@@ -138,7 +138,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$group_capabilities = $group_object->capabilities;
 	$group_capabilities_deep = $group_object->capabilities_deep;
 	if ( ( count( $group_capabilities_deep ) - count( $group_capabilities ) ) > 0 ) {
-		usort( $group_capabilities_deep, 'groups_admin_sort_capabilities_by_capability' );
+		usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
 		$output .= '<div class="field">';
 		$output .= __( 'Inherited capabilities:', GROUPS_PLUGIN_DOMAIN );
 		$output .= ' ';
@@ -248,15 +248,3 @@ function groups_admin_groups_edit_submit() {
 	}
 
 } // function groups_admin_groups_edit_submit
-
-if ( !function_exists( 'groups_admin_sort_capabilities_by_capability' ) ) {
-/**
- * usort helper
- * @param Groups_Capability $o1
- * @param Groups_Capability $o2
- * @return int strcmp result for group names
- */
-function groups_admin_sort_capabilities_by_capability( $o1, $o2 ) {
-	return strcmp( $o1->capability->capability, $o2->capability->capability );
-}
-}
