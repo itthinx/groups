@@ -1,0 +1,477 @@
+# Copyright (C) 2012 itthinx
+# This file is distributed under the same license as the Groups package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Groups 1.2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-26 11:22+0200\n"
+"PO-Revision-Date: 2015-06-10 14:19+0100\n"
+"Last-Translator: Carsten <carsten@presis.nl>\n"
+"Language-Team: \n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.8.1\n"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-pagination.php:136
+#, php-format
+msgctxt "paging"
+msgid "%1$s of %2$s"
+msgstr "%1$s van %2$s"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:182
+msgid "--"
+msgstr "--"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:216
+msgid "A minimum set of permissions will be preserved."
+msgstr "Een minimale set van rechten zal worden behouden."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:55
+msgid "Access Groups"
+msgstr "Toegangsgroepen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/groups-tests.php:382
+#: /var/www/groups/wp-content/plugins/groups/lib/core/groups-tests.php:388
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:35
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:248
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:31
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:108
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:112
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:31
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:83
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:87
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:45
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:116
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:147
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:153
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-tree-view.php:33
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:31
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:83
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:87
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:30
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:101
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:105
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:43
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:114
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:145
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:151
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:30
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:88
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:92
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:31
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:92
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:96
+msgid "Access denied."
+msgstr "Geen toegang."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:180
+msgid "Access restricions"
+msgstr "Toegangsrestricties"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:52
+#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:62
+msgid "Access restrictions"
+msgstr "Toegangsrestricties"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:76
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:174
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:334
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:79
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:172
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:66
+msgid "Add"
+msgstr "Toevoegen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:47
+msgid "Add a new capability"
+msgstr "Nieuw recht toevoegen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:55
+msgid "Add a new group"
+msgstr "Nieuwe groep toevoegen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:56
+msgid "Administer Groups"
+msgstr "Beheer groepen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:57
+msgid "Administer Groups plugin options"
+msgstr "Beheer Groep plugin opties"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:172
+msgid "Administrator Access Override"
+msgstr "Beheer overschrijving van toegang"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:176
+msgid "Administrators override all access permissions derived from Groups capabilities."
+msgstr "Beheerders kunnen alle toegangsrechten van Groepen overschrijven."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:282
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:296
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:279
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:293
+msgid "Apply"
+msgstr "Toepassen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:332
+msgid "Apply capability to selected groups:"
+msgstr "Recht toepassen op geselecteerde groepen:"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:282
+msgid ""
+"CAUTION: If this option is active while the plugin is deactivated, ALL plugin "
+"settings and data will be DELETED for <strong>all sites</strong>. If you are going to "
+"use this option, now would be a good time to make a backup. By enabling this option "
+"you agree to be solely responsible for any loss of data or any other consequences "
+"thereof."
+msgstr ""
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:230
+msgid ""
+"CAUTION: If this option is active while the plugin is deactivated, ALL plugin "
+"settings and data will be DELETED. If you are going to use this option, now would be "
+"a good time to make a backup. By enabling this option you agree to be solely "
+"responsible for any loss of data or any other consequences thereof."
+msgstr ""
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:91
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:62
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:62
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:81
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:68
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:75
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:65
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:263
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:117
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:166
+msgid "Capabilities"
+msgstr "Rechten"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:259
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:274
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:55
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:62
+msgid "Capability"
+msgstr "Recht"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:57
+#, php-format
+msgid "Capability : %s"
+msgstr "Recht: %s"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:272
+msgid "Capability Id"
+msgstr "Recht Id"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:283
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:280
+msgid "Clear"
+msgstr "Reset"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:172
+msgid "Click to add a new capability"
+msgstr "Klik om een nieuw recht toe te voegen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:174
+msgid "Click to add a new group"
+msgstr "Klik om een nieuwe groep toevoegen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:222
+msgid "Deactivation and data persistence"
+msgstr "Deactivatie en blijvendheid van data "
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:279
+msgid "Delete all Groups plugin data for ALL sites on network deactivation"
+msgstr "Verwijder alle Groups plugin data voor ALLE sites bij netwerk deactivatie"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:226
+msgid "Delete all Groups plugin data on deactivation"
+msgstr "Verwijder alle Groups plugin data bij deactivatie"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:83
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:262
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:73
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:260
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:60
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:67
+msgid "Description"
+msgstr "Beschrijving"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:264
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:406
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:261
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:387
+msgid "Edit"
+msgstr "Bewerk"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:53
+msgid "Edit a capability"
+msgstr "Bewerk een mogelijkheid"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:64
+msgid "Edit a group"
+msgstr "Bewerk een groep"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:98
+msgid "Enforce read access"
+msgstr "Leestoegang afdwingen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:272
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:269
+msgid "Filters"
+msgstr "Filters"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:113
+msgid ""
+"For consulting and development services related to Groups go <a href=\"http://www."
+"itthinx.com/contact/\" target=\"_blank\">here</a>."
+msgstr ""
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:82
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:261
+msgid "Group"
+msgstr "Groep"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:275
+msgid "Group Id"
+msgstr "Groep Id"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:277
+msgid "Group Name"
+msgstr "Groepnaam"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:57
+#, php-format
+msgid "Group Name : %s"
+msgstr "Groepnaam: %s"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:57
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:62
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:63
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:152
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:168
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:86
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:87
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:153
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:154
+msgid "Groups"
+msgstr "Groepen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:116
+msgid "Groups Capabilities"
+msgstr "Groep mogelijkheden"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:254
+msgid "Groups network options"
+msgstr "Groepen netwerk opties"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:50
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:129
+msgid "Groups options"
+msgstr "Groepopties"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:86
+msgid ""
+"Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</strong> "
+"groups."
+msgstr ""
+"Hier kun groepen worden <strong>toegevoegd</strong>, <strong>bewerkt</strong> en "
+"verwijderd</strong>."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:260
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:258
+msgid "Id"
+msgstr "Id"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:218
+msgid "If you lock yourself out, please ask an administrator to help."
+msgstr "Als je jezelf hebt uitgesloten vraag dan de beheerder om hulp."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:183
+msgid ""
+"Include these capabilities to enforce read access on posts. The selected capabilities "
+"will be offered to restrict access to posts."
+msgstr ""
+
+#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:344
+msgid "Join the %s group"
+msgstr "Deelnemen aan groep %s"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:428
+msgid "Leave the %s group"
+msgstr "Verlaat de groep %s"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:73
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:63
+msgid "Name"
+msgstr "Naam"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:276
+msgid "Network deactivation and data persistence"
+msgstr "Netwerk deactivatie en blijvendheid van data "
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:172
+msgid "New Capability"
+msgstr "Nieuw recht"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:174
+msgid "New Group"
+msgstr "Nieuwe groep"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:37
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:37
+msgid "No such capability."
+msgstr "Dit recht bestaat niet"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:37
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:37
+msgid "No such group."
+msgstr "Deze groep bestaat niet"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:118
+msgid ""
+"Only groups or users that have one of the selected capabilities are allowed to read "
+"this %s."
+msgstr ""
+"Alleen groepen of gebruikers met één van de geselecteerde rechten kunnen dit / deze "
+"%s lezen."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:64
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:130
+msgid "Options"
+msgstr "Opties"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:78
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:68
+msgid "Parent"
+msgstr "Ouder"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:212
+msgid "Permissions"
+msgstr "Toestemmingen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:87
+msgid "Post"
+msgstr "Bericht"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-post-access.php:44
+msgid "Read Post"
+msgstr "Lees bericht"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/auto/class-groups-registered.php:59
+msgid "Registered"
+msgstr "Geregistreerd"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:78
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:60
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:265
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:335
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:411
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:60
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:262
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:392
+msgid "Remove"
+msgstr "Verwijder"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:50
+msgid "Remove a capability"
+msgstr "Verwijder mogelijkheid"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:50
+msgid "Remove a group"
+msgstr "Verwijder een groep"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:293
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:290
+msgid "Results per page"
+msgstr "Resultaten per page"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:129
+msgid "Role"
+msgstr "Rol"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:236
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:286
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:89
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:73
+msgid "Save"
+msgstr "Opslaan"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:208
+msgid "Show the Groups tree view."
+msgstr "Toon de groepen in boomweergave"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:111
+msgid ""
+"Thank you for using <a href=\"http://www.itthinx.com/plugins/groups\" target=\"_blank"
+"\">Groups</a> by <a href=\"http://www.itthinx.com\" target=\"_blank\">itthinx</a>."
+msgstr ""
+"Bedankt voor het gebruiken van <a href=\"http://www.itthinx.com/plugins/groups\" "
+"target=\"_blank\">Groups</a> door <a href=\"http://www.itthinx.com\" target=\"_blank"
+"\">itthinx</a>."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:81
+msgid ""
+"The complete documentation is available on the <a href=\"http://www.itthinx.com/"
+"plugins/groups\" target=\"_blank\">Groups plugin page</a>"
+msgstr ""
+"De complete handleiding is te lezen op de <a href=\"http://www.itthinx.com/plugins/"
+"groups\" target=\"_blank\">Groups plugin pagina</a>"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:418
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:399
+msgid "There are no results."
+msgstr "Er zijn geen resultaten"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:213
+msgid ""
+"These permissions apply to Groups management. They do not apply to access permissions "
+"derived from Groups capabilities."
+msgstr ""
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:401
+msgid "This group has no capabilities."
+msgstr "Deze groep heeft geen rechten"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:102
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:103
+msgid "Tree"
+msgstr "Boomweergave"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-tree-view.php:40
+msgid "Tree of Groups"
+msgstr "Boom van Groepen"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:204
+msgid "Tree view"
+msgstr "Boom"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:402
+#, php-format
+msgid "You are a member of the %s group."
+msgstr "Je bent lid van de groep %s."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:115
+msgid "You can also support the project:"
+msgstr "Je kunt ook het project steunen:"
+
+#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:397
+#, php-format
+msgid "You have joined the %s group."
+msgstr "Je bent aangemeld bij de groep %s."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:473
+#, php-format
+msgid "You have left the %s group."
+msgstr "Je hebt de groep %s verlaten."
+
+#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:80
+msgid "selected to / from group:"
+msgstr "Select naar / van groep:"
