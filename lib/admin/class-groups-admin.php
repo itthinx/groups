@@ -42,6 +42,7 @@ class Groups_Admin {
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 		add_action( 'network_admin_menu', array( __CLASS__, 'network_admin_menu' ) );
+		add_filter( 'plugin_action_links_'. plugin_basename( GROUPS_FILE ), array( __CLASS__, 'plugin_action_links' ) );
 	}
 
 	/**
@@ -217,8 +218,30 @@ class Groups_Admin {
 		$pages[] = $page;
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
-		
+
 		do_action( 'groups_network_admin_menu', $pages );
+	}
+
+	/**
+	 * Adds plugin links.
+	 *
+	 * @param array $links
+	 * @param array $links with additional links
+	 */
+	public static function plugin_action_links( $links ) {
+		if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+			array_unshift(
+				$links,
+				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin-options' ) . '">' . __( 'Options', GROUPS_PLUGIN_DOMAIN ) . '</a>'
+			);
+		}
+		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+			array_unshift(
+				$links,
+				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin' ) . '">' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</a>'
+			);
+		}
+		return $links;
 	}
 }
 Groups_Admin::init();
