@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-22 15:49+0200\n"
-"PO-Revision-Date: 2015-06-22 20:20+0100\n"
+"POT-Creation-Date: 2015-06-22 21:23+0200\n"
+"PO-Revision-Date: 2015-06-22 22:04+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
 "X-Generator: Poedit 1.7.6\n"
 
 #: lib/core/class-groups-pagination.php:140
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: lib/admin/class-groups-admin.php:175
+#: lib/admin/class-groups-admin.php:186
 #: lib/admin/groups-admin-capabilities.php:193
 #: lib/admin/groups-admin-groups-add.php:99
 #: lib/admin/groups-admin-groups-edit.php:119
@@ -477,15 +477,29 @@ msgstr "Gruppenname : %s"
 #: lib/admin/class-groups-admin-user-profile.php:66
 #: lib/admin/class-groups-admin-user-profile.php:90
 #: lib/admin/class-groups-admin-users.php:302
-#: lib/admin/class-groups-admin.php:139 lib/admin/class-groups-admin.php:140
-#: lib/admin/class-groups-admin.php:211 lib/admin/class-groups-admin.php:212
-#: lib/admin/class-groups-admin.php:241 lib/admin/groups-admin-groups.php:200
+#: lib/admin/class-groups-admin.php:222 lib/admin/class-groups-admin.php:223
+#: lib/admin/class-groups-admin.php:252 lib/admin/groups-admin-groups.php:200
 #: lib/core/class-groups-help.php:61 lib/core/class-groups-help.php:66
 #: lib/core/class-groups-help.php:67
 msgid "Groups"
 msgstr "Groups"
 
-#: lib/admin/class-groups-admin.php:174
+#: lib/admin/class-groups-admin.php:133
+msgctxt "menu item title"
+msgid "Groups"
+msgstr "Gruppen"
+
+#: lib/admin/class-groups-admin.php:151
+msgctxt "menu-title"
+msgid "Groups"
+msgstr "Groups"
+
+#: lib/admin/class-groups-admin.php:150
+msgctxt "page-title"
+msgid "Groups"
+msgstr "Gruppen"
+
+#: lib/admin/class-groups-admin.php:185
 msgid "Groups Capabilities"
 msgstr "Gruppenkapazitäten"
 
@@ -493,7 +507,7 @@ msgstr "Gruppenkapazitäten"
 msgid "Groups network options"
 msgstr "Groups Netzwerkoptionen"
 
-#: lib/admin/class-groups-admin.php:187 lib/admin/groups-admin-options.php:133
+#: lib/admin/class-groups-admin.php:198 lib/admin/groups-admin-options.php:133
 msgid "Groups options"
 msgstr "Groups Optionen"
 
@@ -643,7 +657,7 @@ msgstr ""
 "Nur Gruppen oder Benutzer die eine der gewählten Kapazitäten haben ist es "
 "gestattet diese(n) %s zu lesen."
 
-#: lib/admin/class-groups-admin.php:188 lib/admin/class-groups-admin.php:235
+#: lib/admin/class-groups-admin.php:199 lib/admin/class-groups-admin.php:246
 #: lib/core/class-groups-help.php:68
 msgid "Options"
 msgstr "Optionen"
@@ -910,7 +924,7 @@ msgstr ""
 msgid "This group has no capabilities."
 msgstr "Diese Gruppe hat keine Kapazitäten."
 
-#: lib/admin/class-groups-admin.php:160 lib/admin/class-groups-admin.php:161
+#: lib/admin/class-groups-admin.php:171 lib/admin/class-groups-admin.php:172
 msgid "Tree"
 msgstr "Baum"
 
