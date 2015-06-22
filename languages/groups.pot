@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2015-06-22 15:49+0200\n"
+        "POT-Creation-Date: 2015-06-22 21:23+0200\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -226,7 +226,7 @@ msgstr  ""
 msgid   "Cancel"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:175
+#: lib/admin/class-groups-admin.php:186
 #: lib/admin/groups-admin-capabilities.php:193
 #: lib/admin/groups-admin-groups-add.php:99
 #: lib/admin/groups-admin-groups-edit.php:119
@@ -415,15 +415,29 @@ msgstr  ""
 #: lib/admin/class-groups-admin-user-profile.php:66
 #: lib/admin/class-groups-admin-user-profile.php:90
 #: lib/admin/class-groups-admin-users.php:302
-#: lib/admin/class-groups-admin.php:139 lib/admin/class-groups-admin.php:140
-#: lib/admin/class-groups-admin.php:211 lib/admin/class-groups-admin.php:212
-#: lib/admin/class-groups-admin.php:241 lib/admin/groups-admin-groups.php:200
+#: lib/admin/class-groups-admin.php:222 lib/admin/class-groups-admin.php:223
+#: lib/admin/class-groups-admin.php:252 lib/admin/groups-admin-groups.php:200
 #: lib/core/class-groups-help.php:61 lib/core/class-groups-help.php:66
 #: lib/core/class-groups-help.php:67
 msgid   "Groups"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:174
+#: lib/admin/class-groups-admin.php:133
+msgctxt "menu item title"
+msgid   "Groups"
+msgstr  ""
+
+#: lib/admin/class-groups-admin.php:151
+msgctxt "menu-title"
+msgid   "Groups"
+msgstr  ""
+
+#: lib/admin/class-groups-admin.php:150
+msgctxt "page-title"
+msgid   "Groups"
+msgstr  ""
+
+#: lib/admin/class-groups-admin.php:185
 msgid   "Groups Capabilities"
 msgstr  ""
 
@@ -431,7 +445,7 @@ msgstr  ""
 msgid   "Groups network options"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:187 lib/admin/groups-admin-options.php:133
+#: lib/admin/class-groups-admin.php:198 lib/admin/groups-admin-options.php:133
 msgid   "Groups options"
 msgstr  ""
 
@@ -556,7 +570,7 @@ msgid   "Only groups or users that have one of the selected capabilities are "
         "allowed to read this %s."
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:188 lib/admin/class-groups-admin.php:235
+#: lib/admin/class-groups-admin.php:199 lib/admin/class-groups-admin.php:246
 #: lib/core/class-groups-help.php:68
 msgid   "Options"
 msgstr  ""
@@ -802,7 +816,7 @@ msgstr  ""
 msgid   "This group has no capabilities."
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:160 lib/admin/class-groups-admin.php:161
+#: lib/admin/class-groups-admin.php:171 lib/admin/class-groups-admin.php:172
 msgid   "Tree"
 msgstr  ""
 
