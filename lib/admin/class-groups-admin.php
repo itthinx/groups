@@ -29,6 +29,13 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Admin {
 
 	/**
+	 * The position of the Groups menu.
+	 * 
+	 * @var int
+	 */
+	const MENU_POSITION = 42;
+
+	/**
 	 * Holds admin messages.
 	 * @var string
 	 */
@@ -152,7 +159,8 @@ class Groups_Admin {
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_admin_groups' ),
-			GROUPS_PLUGIN_URL . '/images/groups.png'
+			GROUPS_PLUGIN_URL . '/images/groups.png',
+			self::MENU_POSITION
 		);
 		$pages[] = $page;
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
