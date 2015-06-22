@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-22 15:49+0200\n"
-"PO-Revision-Date: 2015-06-22 19:44+0100\n"
+"PO-Revision-Date: 2015-06-22 20:20+0100\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -889,60 +889,68 @@ msgstr "Es liegen keine Resultate vor."
 
 #: lib/admin/groups-admin-groups-add.php:111
 msgid "These capabilities will be assigned to the group."
-msgstr ""
+msgstr "Diese Kapazitäten werden der Gruppe zugewiesen."
 
 #: lib/admin/groups-admin-options.php:294
 msgid ""
 "These permissions apply to Groups management. They do not apply to access "
 "permissions derived from Groups capabilities."
 msgstr ""
+"Diese Berechtigungen dienen der Verwaltung von Groups. Sie finden keine "
+"Anwendung bei Berechtigungen die von Groups Kapazitäten abgeleitet werden."
 
 #: lib/admin/groups-admin-options.php:246
 msgid ""
 "This determines for which post types access restriction settings are offered."
 msgstr ""
+"Dies bestimmt für welche Beitragstypen Einstellungen zur Zugangsbeschränkung "
+"angeboten werden."
 
 #: lib/admin/groups-admin-groups.php:450
 msgid "This group has no capabilities."
-msgstr ""
+msgstr "Diese Gruppe hat keine Kapazitäten."
 
 #: lib/admin/class-groups-admin.php:160 lib/admin/class-groups-admin.php:161
 msgid "Tree"
-msgstr ""
+msgstr "Baum"
 
 #: lib/admin/groups-admin-tree-view.php:43
 msgid "Tree of Groups"
-msgstr ""
+msgstr "Gruppenbaum"
 
 #: lib/admin/groups-admin-options.php:284
 msgid "Tree view"
-msgstr ""
+msgstr "Baumansicht"
 
 #: lib/access/class-groups-access-meta-boxes.php:152
 msgid ""
 "Try the quick-create field first. Unless you need a more complex setup, "
 "there is no reason to go this way instead."
 msgstr ""
+"Probieren Sie das Instant-Feld zuerst aus. Es gibt keinen Grund diesen Weg "
+"zu gehen, ausser Sie benötigen eine komplexere Einrichtung."
 
 #: lib/access/class-groups-access-meta-boxes.php:211
 #: lib/access/class-groups-access-meta-boxes.php:212
 #: lib/access/class-groups-access-meta-boxes.php:550
 msgid "Type and choose &hellip;"
-msgstr ""
+msgstr "Tippen und wählen &hellip;"
 
 #: lib/access/class-groups-access-meta-boxes.php:126
 msgid ""
 "Use the <em>Access restrictions</em> box to limit the visibility of posts, "
 "pages and other post types."
 msgstr ""
+"Verwenden Sie das Kästchen <em>Zugangsbeschränkungen</em> um die "
+"Sichtbarkeit von Beiträgen, Seiten und anderen Beitragstypen einzuschränken."
 
 #: lib/admin/groups-admin-options.php:275
 msgid "User profiles"
-msgstr ""
+msgstr "Benutzerprofile"
 
 #: lib/access/class-groups-access-meta-boxes.php:140
 msgid "Using the quick-create field"
-msgstr ""
+msgstr "Verwendung des Instant-Feldes"
 
 #: lib/access/class-groups-access-meta-boxes.php:145
 msgid ""
@@ -955,11 +963,20 @@ msgid ""
 "capability is enabled to enforce read access. In order to be able to use the "
 "capability, your user account will be assigned to the group."
 msgstr ""
+"Mit dem Instant-Feld können Gruppen und Kapazitäten erstellt werden. Die "
+"Kapazität wird der Gruppe zugewiesen und zur Zugriffsbeschränkung aktiviert. "
+"Gruppennamen unterscheiden Groß- und Kleinschreibung, der Name der Kapazität "
+"ist die Version des Gruppennamens in Kleinschreibung. Existiert die Gruppe "
+"bereits, dann wird die Kapazität erstellt und der bestehenden Gruppe "
+"zugewiesen. Existiert die Kapazität bereits, dann wird sie der Gruppe "
+"zugewiesen. Existieren beide, dann wird die Kapazität zur "
+"Zugriffsbeschränkung aktiviert. Um die Kapazität verwenden zu können, wird "
+"ihr Benutzerkonto der Gruppe hinzugefügt."
 
 #: lib/views/class-groups-shortcodes.php:447
 #, php-format
 msgid "You are a member of the %s group."
-msgstr ""
+msgstr "Sie sind Mitglied der Gruppe %s."
 
 #: lib/access/class-groups-access-meta-boxes.php:313
 msgid ""
@@ -972,29 +989,42 @@ msgid ""
 "enabled to enforce read access. In order to be able to use the capability, "
 "your user account will be assigned to the group."
 msgstr ""
+"Sie können hier eine neue Gruppe und Kapazität erstellen. Die Kapazität wird "
+"der Gruppe zugewiesen und zur Zugriffsbeschränkung aktiviert. Gruppennamen "
+"unterscheiden Groß- und Kleinschreibung, der Name der Kapazität ist die "
+"Version des Gruppennamens in Kleinschreibung. Existiert die Gruppe bereits, "
+"dann wird die Kapazität erstellt und der bestehenden Gruppe zugewiesen. "
+"Existiert die Kapazität bereits, dann wird sie der Gruppe zugewiesen. "
+"Existieren beide, dann wird die Kapazität zur Zugriffsbeschränkung "
+"aktiviert. Um die Kapazität verwenden zu können, wird ihr Benutzerkonto der "
+"Gruppe hinzugefügt."
 
 #: lib/access/class-groups-access-meta-boxes.php:129
 msgid ""
 "You can select one or more capabilities that are enabled for access "
 "restriction."
 msgstr ""
+"Sie können eine oder mehrere Kapazitäten auswählen die zur "
+"Zugriffsbeschränkung aktiviert sind."
 
 #: lib/access/class-groups-access-meta-boxes.php:291
 msgid "You cannot set any access restrictions."
-msgstr ""
+msgstr "Sie können keine Zugriffsbeschränkungen setzen."
 
 #: lib/views/class-groups-shortcodes.php:442
 #, php-format
 msgid "You have joined the %s group."
-msgstr ""
+msgstr "Sie sind der Gruppe %s beigetreten."
 
 #: lib/views/class-groups-shortcodes.php:518
 #, php-format
 msgid "You have left the %s group."
-msgstr ""
+msgstr "Sie haben die Gruppe %s verlassen."
 
 #: lib/access/class-groups-access-meta-boxes.php:297
 msgid ""
 "You must be in a group that has at least one capability enabled to enforce "
 "read access."
 msgstr ""
+"Sie müssen in einer Gruppe sein die zumindest eine Kapazität hat die zur "
+"Zugriffsbeschränkung aktiviert ist."
