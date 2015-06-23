@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-22 15:58+0100\n"
-"PO-Revision-Date: 2015-06-23 15:24+0100\n"
+"POT-Creation-Date: 2015-06-23 15:37+0100\n"
+"PO-Revision-Date: 2015-06-23 15:38+0100\n"
 "Last-Translator: Gemma\n"
 "Language-Team: itthinx.com\n"
 "Language: es_ES\n"
@@ -250,7 +250,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: lib/admin/class-groups-admin.php:175
+#: lib/admin/class-groups-admin.php:186
 #: lib/admin/groups-admin-capabilities.php:193
 #: lib/admin/groups-admin-groups-add.php:99
 #: lib/admin/groups-admin-groups-edit.php:119
@@ -468,15 +468,29 @@ msgstr "Nombre del Grupo : %s"
 #: lib/admin/class-groups-admin-user-profile.php:66
 #: lib/admin/class-groups-admin-user-profile.php:90
 #: lib/admin/class-groups-admin-users.php:302
-#: lib/admin/class-groups-admin.php:139 lib/admin/class-groups-admin.php:140
-#: lib/admin/class-groups-admin.php:211 lib/admin/class-groups-admin.php:212
-#: lib/admin/class-groups-admin.php:241 lib/admin/groups-admin-groups.php:200
+#: lib/admin/class-groups-admin.php:222 lib/admin/class-groups-admin.php:223
+#: lib/admin/class-groups-admin.php:252 lib/admin/groups-admin-groups.php:200
 #: lib/core/class-groups-help.php:61 lib/core/class-groups-help.php:66
 #: lib/core/class-groups-help.php:67
 msgid "Groups"
 msgstr "Groups"
 
-#: lib/admin/class-groups-admin.php:174
+#: lib/admin/class-groups-admin.php:133
+msgctxt "menu item title"
+msgid "Groups"
+msgstr "Grupos"
+
+#: lib/admin/class-groups-admin.php:151
+msgctxt "menu-title"
+msgid "Groups"
+msgstr "Groups"
+
+#: lib/admin/class-groups-admin.php:150
+msgctxt "page-title"
+msgid "Groups"
+msgstr "Grupos"
+
+#: lib/admin/class-groups-admin.php:185
 msgid "Groups Capabilities"
 msgstr "Capacidades de los Grupos"
 
@@ -484,7 +498,7 @@ msgstr "Capacidades de los Grupos"
 msgid "Groups network options"
 msgstr "Opciones de red para Grupos"
 
-#: lib/admin/class-groups-admin.php:187 lib/admin/groups-admin-options.php:133
+#: lib/admin/class-groups-admin.php:198 lib/admin/groups-admin-options.php:133
 msgid "Groups options"
 msgstr "Opciones de Groups"
 
@@ -628,7 +642,7 @@ msgstr ""
 "Sólo los grupos o usuarios que tienen alguna de las capacidades "
 "seleccionadas pueden leer este %s."
 
-#: lib/admin/class-groups-admin.php:188 lib/admin/class-groups-admin.php:235
+#: lib/admin/class-groups-admin.php:199 lib/admin/class-groups-admin.php:246
 #: lib/core/class-groups-help.php:68
 msgid "Options"
 msgstr "Opciones"
@@ -891,7 +905,7 @@ msgstr ""
 msgid "This group has no capabilities."
 msgstr "Este grupo no tiene capacidades."
 
-#: lib/admin/class-groups-admin.php:160 lib/admin/class-groups-admin.php:161
+#: lib/admin/class-groups-admin.php:171 lib/admin/class-groups-admin.php:172
 msgid "Tree"
 msgstr "Árbol"
 
