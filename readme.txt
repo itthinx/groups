@@ -183,6 +183,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Added the German translation.
 * Updated the Spanish translation.
 * Updated the Groups menu position.
+* Removed empty strings from translation.
 
 = 1.5.5 =
 * Added administrative links to the plugin entry.
