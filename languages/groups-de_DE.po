@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-22 21:23+0200\n"
-"PO-Revision-Date: 2015-06-23 15:16+0100\n"
+"PO-Revision-Date: 2015-06-23 15:24+0100\n"
 "Last-Translator: \n"
 "Language-Team: itthinx.com\n"
 "Language: de_DE\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.6\n"
+"X-Generator: Poedit 1.8.1\n"
 
 #: lib/core/class-groups-pagination.php:140
 #, php-format
