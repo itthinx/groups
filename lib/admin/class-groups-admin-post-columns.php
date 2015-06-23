@@ -106,7 +106,7 @@ class Groups_Admin_Post_Columns {
 					}
 					$output .= '</ul>';
 				} else {
-					$output .= __( '', GROUPS_PLUGIN_DOMAIN );
+					$output .= '';
 				}
 				break;
 		}

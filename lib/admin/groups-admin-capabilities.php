@@ -199,7 +199,7 @@ function groups_admin_capabilities() {
 	$output .=
 		'<div class="manage">' .
 		"<a title='" . __( 'Click to add a new capability', GROUPS_PLUGIN_DOMAIN ) . "' class='add button' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/add.png'/><span class='label'>" . __( 'New Capability', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
-		"<a title='" . __( 'Click to refresh capabilities', GROUPS_PLUGIN_DOMAIN ) . "' class='refresh button' href='" . esc_url( wp_nonce_url( $current_url, 'refresh' ) ) . "&action=refresh'><img class='icon' alt='" . __( 'Refresh', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/refresh.png'/><span class='label'>" . __( '', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
+		"<a title='" . __( 'Click to refresh capabilities', GROUPS_PLUGIN_DOMAIN ) . "' class='refresh button' href='" . esc_url( wp_nonce_url( $current_url, 'refresh' ) ) . "&action=refresh'><img class='icon' alt='" . __( 'Refresh', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/refresh.png'/><span class='label'></span></a>" .
 		'</div>';
 
 	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;

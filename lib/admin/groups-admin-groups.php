@@ -197,7 +197,7 @@ function groups_admin_groups() {
 		'<div class="manage-groups">' .
 		'<div>' .
 		'<h2>' .
-		__( 'Groups', GROUPS_PLUGIN_DOMAIN ) .
+		_x( 'Groups', 'page-title', GROUPS_PLUGIN_DOMAIN ) .
 		'</h2>' .
 		'</div>';
 

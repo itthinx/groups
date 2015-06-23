@@ -29,6 +29,13 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Admin {
 
 	/**
+	 * The position of the Groups menu.
+	 * 
+	 * @var int
+	 */
+	const MENU_POSITION = 38.381;
+
+	/**
 	 * Holds admin messages.
 	 * @var string
 	 */
@@ -40,6 +47,7 @@ class Groups_Admin {
 	public static function init() {
 		add_action( 'admin_init', array( __CLASS__, 'admin_init' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
+		add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 		add_action( 'network_admin_menu', array( __CLASS__, 'network_admin_menu' ) );
 		add_filter( 'plugin_action_links_'. plugin_basename( GROUPS_FILE ), array( __CLASS__, 'plugin_action_links' ) );
@@ -124,6 +132,16 @@ class Groups_Admin {
 	}
 
 	/**
+	 * Use a context-sensitive menu item title.
+	 */
+	public static function admin_head() {
+		global $submenu;
+		if ( isset( $submenu['groups-admin'] ) ) {
+			$submenu['groups-admin'][0][0] = _x( 'Groups', 'menu item title', GROUPS_PLUGIN_DOMAIN );
+		}
+	}
+
+	/**
 	 * Admin menu.
 	 */
 	public static function admin_menu() {
@@ -136,12 +154,13 @@ class Groups_Admin {
 
 		// main
 		$page = add_menu_page(
-			__( 'Groups', GROUPS_PLUGIN_DOMAIN ),
-			__( 'Groups', GROUPS_PLUGIN_DOMAIN ),
+			_x( 'Groups', 'page-title', GROUPS_PLUGIN_DOMAIN ),
+			_x( 'Groups', 'menu-title', GROUPS_PLUGIN_DOMAIN ),
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_admin_groups' ),
-			GROUPS_PLUGIN_URL . '/images/groups.png'
+			GROUPS_PLUGIN_URL . '/images/groups.png',
+			self::MENU_POSITION
 		);
 		$pages[] = $page;
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );

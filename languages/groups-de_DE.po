@@ -1,34 +1,36 @@
-# Copyright (C) 2012 itthinx
-# This file is distributed under the same license as the Groups package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Groups\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-22 15:58+0100\n"
+"POT-Creation-Date: 2015-06-22 21:23+0200\n"
 "PO-Revision-Date: 2015-06-23 15:24+0100\n"
-"Last-Translator: Gemma\n"
+"Last-Translator: \n"
 "Language-Team: itthinx.com\n"
-"Language: es_ES\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 1.8.1\n"
 
 #: lib/core/class-groups-pagination.php:140
 #, php-format
 msgctxt "paging"
 msgid "%1$s of %2$s"
-msgstr "%1$s de %2$s"
+msgstr "%1$s von %2$s"
 
 #: lib/admin/class-groups-admin-posts.php:184
 msgid "&mdash; No Change &mdash;"
-msgstr "&mdash; Sin cambios &mdash;"
+msgstr "&mdash; Ohne Änderung &mdash;"
 
 #: lib/admin/class-groups-admin-posts.php:136
 msgid "(only unrestricted)"
-msgstr "(sin restricción)"
+msgstr "(ohne Beschränkung)"
 
 #: lib/admin/class-groups-admin-users.php:329
 msgid "--"
@@ -38,13 +40,13 @@ msgstr "--"
 #, php-format
 msgid "1 item"
 msgid_plural "%s items"
-msgstr[0] "1 elemento"
-msgstr[1] "%s elementos"
+msgstr[0] "1 Element"
+msgstr[1] "%s Elemente"
 
 #: lib/admin/class-groups-admin-post-columns.php:76
 #, php-format
 msgid "<span title=\"%s\">Access Restrictions</span>"
-msgstr "<span title=\"%s\">Restricción de Acceso</span>"
+msgstr "<span title=\"%s\">Zugangsbeschränkungen</span>"
 
 #: lib/admin/groups-admin-capabilities-remove.php:151
 #: lib/admin/groups-admin-groups-remove.php:155
@@ -58,25 +60,25 @@ msgid ""
 "assigned are shown within parenthesis. You can choose a capability by typing "
 "part of the group's or the capability's name."
 msgstr ""
-"<sup>*</sup> En cada capacidad, los grupos que tienen las capacidades "
-"asignadas se muestran entre paréntesis. Puedes elegir una capacidad "
-"escribiendo parte del nombre del grupo o de la capacidad."
+"<sup>*</sup> Für jede Kapazität werden Gruppen die diese innehaben in "
+"Klammern gezeigt. Schreiben Sie einen Teil des Namens der Kapazität oder der "
+"Gruppe um eine Kapazität auszuwählen."
 
 #: lib/admin/groups-admin-capabilities.php:126
 msgid "A Duck!"
-msgstr "Un Pato!"
+msgstr "Eine Ente!"
 
 #: lib/admin/groups-admin-options.php:297
 msgid "A minimum set of permissions will be preserved."
-msgstr "Se preservarán un mínimo de permisos."
+msgstr "Ein Minimalsatz von Genehmigungen wird beibehalten."
 
 #: lib/admin/groups-admin-options.php:50
 msgid "Access Groups"
-msgstr "Acceder a Groups"
+msgstr "Zugang zu Groups"
 
 #: lib/admin/class-groups-admin-posts.php:181
 msgid "Access Restrictions"
-msgstr "Restricción de Acceso"
+msgstr "Zugangsbeschränkungen"
 
 #: lib/admin/groups-admin-capabilities-add.php:34
 #: lib/admin/groups-admin-capabilities-add.php:92
@@ -113,11 +115,11 @@ msgstr "Restricción de Acceso"
 #: lib/admin/groups-admin-tree-view.php:37 lib/test/groups-tests.php:385
 #: lib/test/groups-tests.php:391
 msgid "Access denied."
-msgstr "Acceso denegado."
+msgstr "Zugriff verweigert."
 
 #: lib/admin/groups-admin-options.php:218
 msgid "Access restricions"
-msgstr "Restricciones de acceso"
+msgstr "Zugangsbeschränkungen"
 
 #: lib/access/class-groups-access-meta-boxes.php:96
 #: lib/access/class-groups-access-meta-boxes.php:106
@@ -125,67 +127,67 @@ msgstr "Restricciones de acceso"
 #: lib/access/class-groups-access-meta-boxes.php:123
 #: lib/access/class-groups-access-meta-boxes.php:602
 msgid "Access restrictions"
-msgstr "Restricciones de acceso"
+msgstr "Zugangsbeschränkungen"
 
 #: lib/admin/class-groups-admin-posts.php:124
 #: lib/admin/class-groups-admin-posts.php:125
 msgid "Access restrictions &hellip;"
-msgstr "Restricción de acceso &hellip;"
+msgstr "Zugangsbeschränkungen &hellip;"
 
 #: lib/admin/groups-admin-capabilities-add.php:70
 #: lib/admin/groups-admin-capabilities.php:201
 #: lib/admin/groups-admin-groups-add.php:119
 #: lib/admin/groups-admin-groups.php:208
 msgid "Add"
-msgstr "Añadir"
+msgstr "Neu"
 
 #: lib/admin/groups-admin-capabilities-add.php:51
 msgid "Add a new capability"
-msgstr "Añadir una nueva capacidad"
+msgstr "Neue Kapazität hinzufügen"
 
 #: lib/admin/groups-admin-groups-add.php:60
 msgid "Add a new group"
-msgstr "Añadir un nuevo grupo"
+msgstr "Neue Gruppe hinzufügen"
 
 #: lib/admin/groups-admin-groups.php:375
 msgid "Add capability"
-msgstr "Añadir capacidad"
+msgstr "Neue Kapazität"
 
 #: lib/admin/class-groups-admin-posts.php:185
 msgid "Add restriction"
-msgstr "Añadir restricción"
+msgstr "Beschränkung hinzufügen"
 
 #: lib/admin/class-groups-admin-users.php:182
 msgid "Add to group"
-msgstr "Añadir a grupo"
+msgstr "Zur Gruppe hinzufügen"
 
 #: lib/access/class-groups-access-meta-boxes.php:149
 msgid ""
 "Adding the group and capability manually and enabling it for access "
 "restriction"
 msgstr ""
-"Añadir el grupo y la capacidad manualmente y activarlos para restricción de "
-"acceso"
+"Gruppe und Kapazität manuell hinzufügen und zur Zugriffsbeschränkung "
+"aktivieren"
 
 #: lib/admin/groups-admin-options.php:51
 msgid "Administer Groups"
-msgstr "Administrar Groups"
+msgstr "Groups Verwalten"
 
 #: lib/admin/groups-admin-options.php:52
 msgid "Administer Groups plugin options"
-msgstr "Administrar opciones de Groups"
+msgstr "Groups Plugin Optionen verwalten"
 
 #: lib/admin/groups-admin-options.php:210
 msgid "Administrator Access Override"
-msgstr "Acceso general del Administrador"
+msgstr "Administrator-Zugriffsüberbrückung"
 
 #: lib/admin/groups-admin-options.php:214
 msgid ""
 "Administrators override all access permissions derived from Groups "
 "capabilities."
 msgstr ""
-"Los administradores heredan todos los permisos de acceso derivados de las "
-"capacidades de Grupos."
+"Verwalter (mit der Administrator Rolle) können alle Zugriffsrechte "
+"überbrücken."
 
 #: lib/admin/class-groups-admin-users.php:185
 #: lib/admin/groups-admin-capabilities.php:309
@@ -194,20 +196,21 @@ msgstr ""
 #: lib/admin/groups-admin-groups.php:316 lib/admin/groups-admin-groups.php:342
 #: lib/admin/groups-admin-groups.php:378
 msgid "Apply"
-msgstr "Aplicar"
+msgstr "Anwenden"
 
 #: lib/access/class-groups-access-meta-boxes.php:159
 msgid ""
 "Become a member of the <em>Premium</em> group - this is required so you can "
 "choose the <em>premium</em> capability to restrict access to a post."
 msgstr ""
-"Hazte miembro del grupo <em>Premium</em> - esto es necesario para que puedas "
-"elegir la capacidad <em>premium</em> para restringir acceso a la entrada."
+"Werden Sie Mitglied der <em>Premium</em> Gruppe - dies ist nötig um die "
+"<em>premium</em> Kapazität auswählen zu können mit der Zugang zu einem "
+"Beitrag beschränkt wird."
 
 #: lib/admin/groups-admin-capabilities.php:346
 #: lib/admin/groups-admin-groups.php:373
 msgid "Bulk Actions"
-msgstr "Acciones en Lote"
+msgstr "Aktion wählen"
 
 #: lib/admin/groups-admin-options.php:363
 msgid ""
@@ -217,12 +220,13 @@ msgid ""
 "By enabling this option you agree to be solely responsible for any loss of "
 "data or any other consequences thereof."
 msgstr ""
-"ATENCIÓN: Si esta opción está activada al desactivar este plugin, TODOS los "
-"tributos y datos del plugin se BORRARÁN para <strong>todos los sitios </"
-"strong>. Si vas a usar esta opción, es conveniente que hagas antes un "
-"backup. Al habilitar esta opción aceptas estar de acuerdo en asumir toda "
-"responsabilidad por la pérdida de cualquier dato o cualquier otra "
-"consecuencia."
+"ACHTUNG: Is diese Option aktiviert während das Plugin deaktiviert wird, dann "
+"werden ALLE Einstellungen und Daten des Plugins GELÖSCHT für <strong>alle "
+"Sites</strong>. Wenn Sie diese Option anwenden möchten, dann wäre jetzt ein "
+"guter Zeitpunkt um eine Sicherheitskopie anzulegen. Sollten Sie diese Option "
+"aktivieren, dann erklären Sie sich damit einverstanden alleine "
+"verantwortlich für etwaige Datenverluste sowie jede weitere Konsequenzen zu "
+"sein."
 
 #: lib/admin/groups-admin-options.php:311
 msgid ""
@@ -232,12 +236,12 @@ msgid ""
 "you agree to be solely responsible for any loss of data or any other "
 "consequences thereof."
 msgstr ""
-"ATENCIÓN: Si esta opción está activada al desactivar este plugin, TODOS los "
-"tributos y datos del plugin se BORRARÁN para <strong>todos los sitios </"
-"strong>. Si vas a usar esta opción, es conveniente que hagas antes un "
-"backup. Al habilitar esta opción aceptas estar de acuerdo en asumir toda "
-"responsabilidad por la pérdida de cualquier dato o cualquier otra "
-"consecuencia."
+"ACHTUNG: Is diese Option aktiviert während das Plugin deaktiviert wird, dann "
+"werden ALLE Einstellungen und Daten des Plugins GELÖSCHT. Wenn Sie diese "
+"Option anwenden möchten, dann wäre jetzt ein guter Zeitpunkt um eine "
+"Sicherheitskopie anzulegen. Sollten Sie diese Option aktivieren, dann "
+"erklären Sie sich damit einverstanden alleine verantwortlich für etwaige "
+"Datenverluste sowie jede weitere Konsequenzen zu sein."
 
 #: lib/admin/groups-admin-capabilities-add.php:72
 #: lib/admin/groups-admin-capabilities-edit.php:81
@@ -248,53 +252,53 @@ msgstr ""
 #: lib/admin/groups-admin-groups-remove.php:66
 #: lib/admin/groups-admin-groups-remove.php:160
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Abbrechen"
 
-#: lib/admin/class-groups-admin.php:175
+#: lib/admin/class-groups-admin.php:186
 #: lib/admin/groups-admin-capabilities.php:193
 #: lib/admin/groups-admin-groups-add.php:99
 #: lib/admin/groups-admin-groups-edit.php:119
 #: lib/admin/groups-admin-groups.php:297
 #: lib/admin/groups-admin-options.php:251 lib/core/class-groups-help.php:69
 msgid "Capabilities"
-msgstr "Capacidades"
+msgstr "Kapazitäten"
 
 #: lib/admin/groups-admin-groups.php:354 lib/admin/groups-admin-groups.php:355
 msgid "Capabilities &hellip;"
-msgstr "Capacidades &hellip;"
+msgstr "Kapazitäten &hellip;"
 
 #: lib/admin/groups-admin-capabilities-add.php:59
 #: lib/admin/groups-admin-capabilities-edit.php:68
 #: lib/admin/groups-admin-capabilities.php:289
 #: lib/admin/groups-admin-capabilities.php:304
 msgid "Capability"
-msgstr "Capacidad"
+msgstr "Kapazität"
 
 #: lib/admin/groups-admin-capabilities-remove.php:61
 #, php-format
 msgid "Capability : %s"
-msgstr "Capacidad : %s"
+msgstr "Kapazität : %s"
 
 #: lib/admin/groups-admin-capabilities.php:302
 msgid "Capability Id"
-msgstr "Id de la capacidad"
+msgstr "Kapazitäts-Id"
 
 #: lib/admin/class-groups-admin-posts.php:195
 #: lib/admin/class-groups-admin-posts.php:196
 msgid "Choose access restrictions &hellip;"
-msgstr "Elegir restricciones de acceso"
+msgstr "Zugriffsbeschränkungen auswählen &hellip;"
 
 #: lib/admin/groups-admin-groups-add.php:102
 #: lib/admin/groups-admin-groups-edit.php:122
 msgid "Choose capabilities &hellip;"
-msgstr "Elegir capacidades &hellip;"
+msgstr "Kapazitäten auswählen &hellip;"
 
 #: lib/admin/class-groups-admin-user-profile.php:100
 #: lib/admin/class-groups-admin-user-profile.php:101
 #: lib/admin/class-groups-admin-users.php:164
 #: lib/admin/class-groups-admin-users.php:165
 msgid "Choose groups &hellip;"
-msgstr "Elegir grupos &hellip;"
+msgstr "Gruppen auswählen &hellip;"
 
 #: lib/access/class-groups-access-meta-boxes.php:213
 #: lib/access/class-groups-access-meta-boxes.php:551
@@ -304,44 +308,48 @@ msgid ""
 "available yet, you can use the quick-create box to create a group and "
 "capability enabled for access restriction on the fly."
 msgstr ""
-"Elegir una o más capacidades para restringir acceso. Los grupos que conceden "
-"acceso a través de las capacidades se muestran entre paréntesis. Si aún no "
-"hubiese capacidades disponibles, puedes usar la caja de creación instantánea "
-"para crear un grupo y una capacidad sobre la marcha."
+"Wählen Sie eine oder mehrere Kapazitäten zur Zugriffsbeschränkung aus. "
+"Gruppen die durch ihre Kapazitäten den Zugriff beschränken, werden in "
+"Klammern angezeigt. Sind noch keine Kapazitäten vorhanden, können Sie das "
+"Instant-Kästchen verwenden, um eine Gruppe und zugehörige Kapazität spontan "
+"zu erstellen."
 
 #: lib/admin/groups-admin-capabilities.php:310
 #: lib/admin/groups-admin-groups.php:317
 msgid "Clear"
-msgstr "Limpiar"
+msgstr "Säubern"
 
 #: lib/admin/groups-admin-capabilities.php:201
 msgid "Click to add a new capability"
-msgstr "Haz click para añadir una nueva capacidad"
+msgstr "Klicken um eine neue Kapazität zu erstellen"
 
 #: lib/admin/groups-admin-groups.php:208
 msgid "Click to add a new group"
-msgstr "Haz click para añadir un nuevo grupo"
+msgstr "Klicken um eine neue Gruppe zu erstellen"
 
 #: lib/admin/groups-admin-capabilities.php:202
 msgid "Click to refresh capabilities"
-msgstr "Haz click para actualizar las capacidades"
+msgstr "Klicken um die Kapazitäten zu aktualisieren"
 
 #: lib/access/class-groups-access-meta-boxes.php:275
 msgid "Click to toggle the display of groups that grant the capabilities."
 msgstr ""
-"Haz click para cambiar el despliegue de grupos que otorga las capacidades"
+"Klicken zum Umschalten, ob gewährende Gruppen zu den Kapazitäten angezeigt "
+"werden."
 
 #: lib/admin/groups-admin-options.php:303
 msgid "Deactivation and data persistence"
-msgstr "Desactivación y persistencia de los datos"
+msgstr "Deaktivierung und Datenpersistenz"
 
 #: lib/admin/groups-admin-options.php:360
 msgid "Delete all Groups plugin data for ALL sites on network deactivation"
-msgstr "Borrar todos los datos de los plugins al desactivar"
+msgstr ""
+"Alle Daten des Groups Plugins für ALLE Sites bei Netzwerkdeaktivierung "
+"löschen"
 
 #: lib/admin/groups-admin-options.php:307
 msgid "Delete all Groups plugin data on deactivation"
-msgstr "Borrar todos los datos de los plugin al desactivar"
+msgstr "Alle Daten des Groups Plugins bei deaktivierung löschen"
 
 #: lib/admin/groups-admin-capabilities-add.php:64
 #: lib/admin/groups-admin-capabilities-edit.php:73
@@ -350,151 +358,166 @@ msgstr "Borrar todos los datos de los plugin al desactivar"
 #: lib/admin/groups-admin-groups-edit.php:95
 #: lib/admin/groups-admin-groups.php:296
 msgid "Description"
-msgstr "Descripción"
+msgstr "Beschreibung"
 
 #: lib/admin/groups-admin-options.php:247
 msgid ""
 "Disabling this setting for a post type does not remove existing access "
 "restrictions on individual posts of that type."
 msgstr ""
-"Desactivar esta opción para un tipo de entrada no elimina las restricciones "
-"de acceso existentes en entradas individuales de ese tipo."
+"Wird diese Einstellung für einen Beitragstyp ausgeschaltet, dann werden "
+"bestehende Zugriffsbeschränkungen für einzelne Beiträge dieses Typs nicht "
+"aufgehoben."
 
 #: lib/admin/groups-admin-capabilities.php:291
 #: lib/admin/groups-admin-capabilities.php:403
 #: lib/admin/groups-admin-groups.php:298 lib/admin/groups-admin-groups.php:455
 msgid "Edit"
-msgstr "Editar"
+msgstr "Bearbeiten"
 
 #: lib/admin/groups-admin-capabilities-edit.php:57
 msgid "Edit a capability"
-msgstr "Editar una capacidad"
+msgstr "Kapazität bearbeiten"
 
 #: lib/admin/groups-admin-groups-edit.php:69
 msgid "Edit a group"
-msgstr "Editar un grupo"
+msgstr "Gruppe bearbeiten"
 
 #: lib/access/class-groups-access-meta-boxes.php:160
 msgid ""
 "Edit the post for which you want to restrict access and choose<sup>*</sup> "
 "the <em>premium</em> capability."
 msgstr ""
-"Edita la entrada a la cual quieres restringir acceso y elige la <sup>*</"
-"sup>capacidad <em>premium</em> ."
+"Bearbeiten Sie den Beitrag für den Sie Zugang beschränken möchten und "
+"wählen<sup>*</sup> Sie die <em>premium</em> Kapazität aus."
 
 #: lib/access/class-groups-access-meta-boxes.php:203
 #: lib/access/class-groups-access-meta-boxes.php:515
 msgid "Enforce read access"
-msgstr "Forzar permiso de lectura"
+msgstr "Lesezugriff beschränken"
 
 #: lib/admin/groups-admin-options.php:193
 msgid ""
 "Enhanced functionality is available via official <a href=\"http://www."
 "itthinx.com/plugins/groups/\">Extensions</a> for Groups."
 msgstr ""
-"Hay funciones avanzadas disponibles con las <a href=\"http://www.itthinx.com/"
-"plugins/groups/\">Extensiones</a> de Groups."
+"Zusätzliche Funktionen sind über offizielle <a href=\"http://www.itthinx.com/"
+"plugins/groups/\">Erweiterungen</a> für Groups erhältlich."
 
 #: lib/access/class-groups-access-meta-boxes.php:142
 msgid ""
 "Enter <em>Premium</em> in the quick-create field located in the Access "
 "restrictions panel and save or update the post (or hit Enter)."
 msgstr ""
-"Inserta <em>Premium</em> en la caja de creación instantánea que encontrarás "
-"en el panel de Restricción de Acceso y guarda o actualiza la entrada (o "
-"pulsa Entrar)."
+"Geben Sie <em>Premium</em> im Instant-Feld ein, welches sich in der "
+"Schaltfläche der Zugangsbeschränkungen befindet, Speichern bzw. "
+"Aktualisieren Sie den Beitrag."
 
 #: lib/access/class-groups-access-meta-boxes.php:134
 msgid "Example:"
-msgstr "Ejemplo:"
+msgstr "Beispiel:"
 
 #: lib/admin/groups-admin-capabilities.php:299
 #: lib/admin/groups-admin-groups.php:306
 msgid "Filters"
-msgstr "Filtros"
+msgstr "Filter"
 
 #: lib/access/class-groups-access-meta-boxes.php:156
 msgid ""
 "Go to <strong>Groups > Capabilities</strong> and add the <em>premium</em> "
 "capability."
 msgstr ""
-"Dirígete a <strong>Groups > Capacidades</strong> y añade la capacidad "
-"<em>premium</em>."
+"Gehen Sie auf <strong>Groups > Kapazitäten</strong> und fügen Sie die "
+"Kapazität <em>premium</em> hinzu."
 
 #: lib/access/class-groups-access-meta-boxes.php:155
 msgid ""
 "Go to <strong>Groups > Groups</strong> and add the <em>Premium</em> group."
 msgstr ""
-"Dirígete a <strong>Groups > Grupos</strong> y añade el grupo <em>Premium</"
-"em>."
+"Gehen Sie auf <strong>Groups > Gruppen</strong> und fügen Sie die Gruppe "
+"<em>Premium</em> hinzu."
 
 #: lib/access/class-groups-access-meta-boxes.php:157
 msgid ""
 "Go to <strong>Groups > Groups</strong> and assign the <em>premium</em> "
 "capability to the <em>Premium</em> group."
 msgstr ""
-"Dirígete a <strong>Groups > Grupos</strong> y asigna la capacidad "
-"<em>premium</em> al grupo <em>Premium</em>."
+"Gehen Sie auf <strong>Groups > Gruppen</strong> und weisen Sie die Kapazität "
+"<em>premium</em> der Gruppe <em>Premium</em> zu."
 
 #: lib/access/class-groups-access-meta-boxes.php:158
 msgid ""
 "Go to <strong>Groups > Options</strong> and enable the <em>premium</em> "
 "capability to restrict access."
 msgstr ""
-"Dirígete a <strong>Groups > Opciones</strong> y activa la capacidad "
-"<em>premium</em> para restringir acceso."
+"Gehen Sie auf <strong>Groups > Optionen</strong> und aktivieren Sie die "
+"Kapazität <em>premium</em> zur Zugangsbeschränkung."
 
 #: lib/admin/groups-admin-groups.php:295
 msgid "Group"
-msgstr "Grupo"
+msgstr "Gruppe"
 
 #: lib/admin/class-groups-admin-users.php:181
 msgid "Group Actions"
-msgstr "Acciones de Grupo"
+msgstr "Gruppenaktionen"
 
 #: lib/admin/groups-admin-groups.php:309
 msgid "Group Id"
-msgstr "Id del Grupo"
+msgstr "Gruppen-Id"
 
 #: lib/admin/groups-admin-groups.php:311
 msgid "Group Name"
-msgstr "Nombre del Grupo"
+msgstr "Gruppenname"
 
 #: lib/admin/groups-admin-groups-remove.php:61
 #, php-format
 msgid "Group Name : %s"
-msgstr "Nombre del Grupo : %s"
+msgstr "Gruppenname : %s"
 
 #: lib/admin/class-groups-admin-user-profile.php:66
 #: lib/admin/class-groups-admin-user-profile.php:90
 #: lib/admin/class-groups-admin-users.php:302
-#: lib/admin/class-groups-admin.php:139 lib/admin/class-groups-admin.php:140
-#: lib/admin/class-groups-admin.php:211 lib/admin/class-groups-admin.php:212
-#: lib/admin/class-groups-admin.php:241 lib/admin/groups-admin-groups.php:200
+#: lib/admin/class-groups-admin.php:222 lib/admin/class-groups-admin.php:223
+#: lib/admin/class-groups-admin.php:252 lib/admin/groups-admin-groups.php:200
 #: lib/core/class-groups-help.php:61 lib/core/class-groups-help.php:66
 #: lib/core/class-groups-help.php:67
 msgid "Groups"
 msgstr "Groups"
 
-#: lib/admin/class-groups-admin.php:174
+#: lib/admin/class-groups-admin.php:133
+msgctxt "menu item title"
+msgid "Groups"
+msgstr "Gruppen"
+
+#: lib/admin/class-groups-admin.php:151
+msgctxt "menu-title"
+msgid "Groups"
+msgstr "Groups"
+
+#: lib/admin/class-groups-admin.php:150
+msgctxt "page-title"
+msgid "Groups"
+msgstr "Gruppen"
+
+#: lib/admin/class-groups-admin.php:185
 msgid "Groups Capabilities"
-msgstr "Capacidades de los Grupos"
+msgstr "Gruppenkapazitäten"
 
 #: lib/admin/groups-admin-options.php:335
 msgid "Groups network options"
-msgstr "Opciones de red para Grupos"
+msgstr "Groups Netzwerkoptionen"
 
-#: lib/admin/class-groups-admin.php:187 lib/admin/groups-admin-options.php:133
+#: lib/admin/class-groups-admin.php:198 lib/admin/groups-admin-options.php:133
 msgid "Groups options"
-msgstr "Opciones de Groups"
+msgstr "Groups Optionen"
 
 #: lib/core/class-groups-help.php:90
 msgid ""
 "Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</"
 "strong> groups."
 msgstr ""
-"Aquí puedes <STRONG>añadir</STRONG>, <STRONG>editar</STRONG> y "
-"<STRONG>eliminar</STRONG> grupos."
+"Hier können Sie Gruppen <strong>hinzufügen</strong>, <strong>bearbeiten</"
+"strong> und <strong>löschen</strong>."
 
 #: lib/admin/groups-admin-capabilities.php:288
 #: lib/admin/groups-admin-groups.php:294
@@ -503,41 +526,44 @@ msgstr "Id"
 
 #: lib/admin/groups-admin-options.php:299
 msgid "If you lock yourself out, please ask an administrator to help."
-msgstr "Si te bloqueas a ti mismo, pide ayuda a un administrador."
+msgstr ""
+"Sollten Sie sich selbst ausschließen, so fragen Sie bitte einen Verwalter "
+"nach Hilfe."
 
 #: lib/admin/groups-admin-options.php:254
 msgid ""
 "Include these capabilities to enforce read access on posts. The selected "
 "capabilities will be offered to restrict access to posts."
 msgstr ""
-"Incluir estas capacidades para controlar el acceso a las entradas. Las "
-"capacidades seleccionadas se ofrecerán para restringir el acceso a entradas."
+"Diese Kapazitäten sollen zur Zugangsbeschränkung von Beitragen verfügbar "
+"sein. Die ausgewählten Kapazitäten stehen dann für die Beschränkung von "
+"Beiträgen zur Verfügung."
 
 #: lib/admin/groups-admin-groups-edit.php:143
 msgid "Inherited capabilities:"
-msgstr "Capacidades "
+msgstr "Geerbte Kapazitäten:"
 
 #: lib/views/class-groups-shortcodes.php:389
 #, php-format
 msgid "Join the %s group"
-msgstr "Unirse al grupo %s"
+msgstr "Der Gruppe %s beitreten"
 
 #: lib/views/class-groups-shortcodes.php:473
 #, php-format
 msgid "Leave the %s group"
-msgstr "Dejar el grupo %s"
+msgstr "Die Gruppe %s verlassen"
 
 #: lib/access/class-groups-access-meta-boxes.php:136
 msgid ""
 "Let's assume that you want to limit the visibility of a post to members of "
 "the <em>Premium</em> group."
 msgstr ""
-"Imaginemos que quieres limitar la visibilidad de una entrada a miembros del "
-"grupo <em>Premium</em>."
+"Angenommen Sie wollen einen Beitrag nur Mitgliedern der <em>Premium</em> "
+"Gruppe sichtbar machen."
 
 #: lib/access/class-groups-access-meta-boxes.php:513
 msgid "Media"
-msgstr "Multimedia"
+msgstr "Medien"
 
 #: lib/access/class-groups-access-meta-boxes.php:230
 #: lib/access/class-groups-access-meta-boxes.php:568
@@ -546,27 +572,28 @@ msgid "Members of the %1$s group can access this %2$s through this capability."
 msgid_plural ""
 "Members of the %1$s groups can access this %2$s through this capability."
 msgstr[0] ""
-"Miembros del grupo %1$s  pueden acceder a %2$s a través de esta capacidad."
+"Mitglieder der Gruppe %1$s können über diese Kapazität auf diese(n) %2$s "
+"zugreifen."
 msgstr[1] ""
-"Miembros de los grupos %1$s  pueden acceder a %2$s a través de esta "
-"capacidad."
+"Mitglieder der Gruppen %1$s können über diese Kapazität auf diese(n) %2$s "
+"zugreifen."
 
 #: lib/admin/groups-admin-groups-add.php:71
 #: lib/admin/groups-admin-groups-edit.php:81
 msgid "Name"
-msgstr "Nombre"
+msgstr "Name"
 
 #: lib/admin/groups-admin-options.php:357
 msgid "Network deactivation and data persistence"
-msgstr "Desactivación y persistencia de los datos"
+msgstr "Netzwerkdeaktivation und Datenpersistenz"
 
 #: lib/admin/groups-admin-capabilities.php:201
 msgid "New Capability"
-msgstr "Nueva capacidad"
+msgstr "Neue Kapazität"
 
 #: lib/admin/groups-admin-groups.php:208
 msgid "New Group"
-msgstr "Nuevo Grupo"
+msgstr "Neue Gruppe"
 
 #: lib/access/class-groups-access-meta-boxes.php:239
 #: lib/access/class-groups-access-meta-boxes.php:577
@@ -575,48 +602,50 @@ msgid ""
 "members using this capability, you should assign it to a group and enable "
 "the capability for access restriction."
 msgstr ""
-"Ningún grupo concede acceso a través de esta capacidad. Para conceder acceso "
-"a un grupo de miembros usando esta capacidad, debes asignársela a un grupo y "
-"activar la capacidad para la restricción de acceso."
+"Keine Gruppe gewährt Zugriff über diese Kapazität. Um Gruppenmitgliedern "
+"Zugriff über diese Kapazität zu gewähren, sollte sie einer Gruppe zugewiesen "
+"werden und zur Zugangsbeschränkung aktiviert werden."
 
 #: lib/admin/groups-admin-capabilities.php:123
 msgid "No new capabilities have been found."
-msgstr "No se han encontrado nuevas capacidades."
+msgstr "Es wurden keine neuen Kapazitäten gefunden."
 
 #: lib/admin/groups-admin-capabilities-remove.php:120
 msgid "No such capabilities."
-msgstr "No existen esas capacidades."
+msgstr "Solche Kapazitäten sind nicht vorhanden."
 
 #: lib/admin/groups-admin-capabilities-edit.php:41
 #: lib/admin/groups-admin-capabilities-remove.php:41
 msgid "No such capability."
-msgstr "No existe esa capacidad."
+msgstr "Diese Kapazität ist nicht vorhanden."
 
 #: lib/admin/groups-admin-groups-edit.php:43
 #: lib/admin/groups-admin-groups-remove.php:41
 msgid "No such group."
-msgstr "No existe ese grupo."
+msgstr "Diese Gruppe ist nicht vorhanden."
 
 #: lib/admin/groups-admin-groups-remove.php:120
 msgid "No such groups."
-msgstr "No existen esos grupos."
+msgstr "Solche Gruppen sind nicht vorhanden."
 
 #: lib/access/class-groups-access-meta-boxes.php:131
 msgid ""
 "Note that you must be a member of a group that has such a capability "
 "assigned."
-msgstr "Debes ser miembro de un grupo que tenga dicha capacidad asignada."
+msgstr ""
+"Beachten Sie, dass Sie Mitglied einer Gruppe die diese Kapazität hat sein "
+"müssen."
 
 #: lib/admin/groups-admin-capabilities.php:121
 #, php-format
 msgid "One capability has been added."
 msgid_plural "%d capabilities have been added."
-msgstr[0] "Se ha asignado una capacidad."
-msgstr[1] "Se han asignado %d capacidades."
+msgstr[0] "Eine Kapazität wurde hinzugefügt."
+msgstr[1] "%d Kapazitäten wurden hinzugefügt."
 
 #: lib/admin/class-groups-admin-post-columns.php:77
 msgid "One or more capabilities required to read the entry."
-msgstr "Se necesitan una o más capacidades para leer la entrada."
+msgstr "Eine oder mehr Kapazitäten sind benötigt um den Beitrag zu lesen."
 
 #: lib/access/class-groups-access-meta-boxes.php:271
 #: lib/access/class-groups-access-meta-boxes.php:598
@@ -625,65 +654,65 @@ msgid ""
 "Only groups or users that have one of the selected capabilities are allowed "
 "to read this %s."
 msgstr ""
-"Sólo los grupos o usuarios que tienen alguna de las capacidades "
-"seleccionadas pueden leer este %s."
+"Nur Gruppen oder Benutzer die eine der gewählten Kapazitäten haben ist es "
+"gestattet diese(n) %s zu lesen."
 
-#: lib/admin/class-groups-admin.php:188 lib/admin/class-groups-admin.php:235
+#: lib/admin/class-groups-admin.php:199 lib/admin/class-groups-admin.php:246
 #: lib/core/class-groups-help.php:68
 msgid "Options"
-msgstr "Opciones"
+msgstr "Optionen"
 
 #: lib/admin/groups-admin-options.php:125
 msgid "Options saved."
-msgstr "Opciones guardadas."
+msgstr "Optionen gespeichert."
 
 #: lib/admin/groups-admin-groups-add.php:78
 #: lib/admin/groups-admin-groups-edit.php:88
 msgid "Parent"
-msgstr "Padre"
+msgstr "Vorläufer"
 
 #: lib/admin/groups-admin-options.php:293
 msgid "Permissions"
-msgstr "Permisos"
+msgstr "Berechtigungen"
 
 #: lib/admin/groups-admin-groups-remove.php:148
 msgid ""
 "Please confirm removal of the following groups. This action cannot be undone."
 msgstr ""
-"Por favor confirma la eliminación de los siguientes grupos. Esta acción no "
-"se puede deshacer."
+"Bitte bestätigen Sie dass folgende Gruppen gelöscht werden. Diese Aktion "
+"kann nicht rückgängig gemacht werden."
 
 #: lib/admin/groups-admin-capabilities-remove.php:145
 msgid ""
 "Please confirm to remove the following capabilities. This action cannot be "
 "undone."
 msgstr ""
-"Por favor confirma la eliminación de las siguientes capacidades. Esta acción "
-"no se puede deshacer."
+"Bitte bestätigen Sie dass folgende Kapazitäten gelöscht werden. Diese Aktion "
+"kann nicht rückgängig gemacht werden."
 
 #: lib/access/class-groups-access-meta-boxes.php:188
 msgid "Post"
-msgstr "Entrada"
+msgstr "Beitrag"
 
 #: lib/admin/groups-admin-options.php:220
 msgid "Post types"
-msgstr "Tipos de entradas"
+msgstr "Beitragstypen"
 
 #: lib/access/class-groups-access-meta-boxes.php:309
 msgid "Quick-create group &amp; capability"
-msgstr "Crear al instante grupo y capacidad"
+msgstr "Instant Gruppe &amp; Kapazität"
 
 #: lib/access/class-groups-post-access.php:58
 msgid "Read Post"
-msgstr "Leer entrada"
+msgstr "Beitrag Lesen"
 
 #: lib/admin/groups-admin-capabilities.php:202
 msgid "Refresh"
-msgstr "Actualizar"
+msgstr "Aktualisieren"
 
 #: lib/auto/class-groups-registered.php:73
 msgid "Registered"
-msgstr "Registrado"
+msgstr "Registriert"
 
 #: lib/admin/groups-admin-capabilities-remove.php:64
 #: lib/admin/groups-admin-capabilities-remove.php:155
@@ -694,48 +723,48 @@ msgstr "Registrado"
 #: lib/admin/groups-admin-groups-remove.php:159
 #: lib/admin/groups-admin-groups.php:299 lib/admin/groups-admin-groups.php:460
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "Löschen"
 
 #: lib/admin/groups-admin-capabilities-remove.php:54
 msgid "Remove a capability"
-msgstr "Eliminar una capacidad"
+msgstr "Eine Kapazität löschen"
 
 #: lib/admin/groups-admin-groups-remove.php:54
 msgid "Remove a group"
-msgstr "Eliminar un grupo"
+msgstr "Eine Gruppe löschen"
 
 #: lib/admin/groups-admin-capabilities-remove.php:138
 msgid "Remove capabilities"
-msgstr "Eliminar capacidades"
+msgstr "Kapazitäten löschen"
 
 #: lib/admin/groups-admin-groups.php:376
 msgid "Remove capability"
-msgstr "Eliminar capacidad"
+msgstr "Kapazität löschen"
 
 #: lib/admin/class-groups-admin-users.php:183
 msgid "Remove from group"
-msgstr "Eliminar de un grupo"
+msgstr "Von der Gruppe entfernen"
 
 #: lib/admin/groups-admin-groups.php:374
 msgid "Remove group"
-msgstr "Eliminar grupo"
+msgstr "Gruppe entfernen"
 
 #: lib/admin/groups-admin-groups-remove.php:140
 msgid "Remove groups"
-msgstr "Eliminar grupos"
+msgstr "Gruppen entfernen"
 
 #: lib/admin/class-groups-admin-posts.php:186
 msgid "Remove restriction"
-msgstr "Eliminar restricción"
+msgstr "Beschränkung entfernen"
 
 #: lib/admin/groups-admin-capabilities.php:332
 #: lib/admin/groups-admin-groups.php:339
 msgid "Results per page"
-msgstr "Resultados por página"
+msgstr "Ergebnisse pro Seite"
 
 #: lib/admin/groups-admin-options.php:148
 msgid "Role"
-msgstr "Rol"
+msgstr "Rolle"
 
 #: lib/admin/groups-admin-capabilities-edit.php:79
 #: lib/admin/groups-admin-groups-edit.php:158
@@ -743,23 +772,23 @@ msgstr "Rol"
 #: lib/admin/groups-admin-options.php:317
 #: lib/admin/groups-admin-options.php:367
 msgid "Save"
-msgstr "Guardar"
+msgstr "Speichern"
 
 #: lib/admin/groups-admin-options.php:223
 msgid "Show access restrictions for these post types."
-msgstr "Mostrar restricciones de acceso para este tipo de entradas."
+msgstr "Zugangsbeschränkungen für diese Beitragstypen zeigen."
 
 #: lib/access/class-groups-access-meta-boxes.php:278
 msgid "Show groups"
-msgstr "Mostrar grupos"
+msgstr "Gruppen zeigen"
 
 #: lib/admin/groups-admin-options.php:279
 msgid "Show groups in user profiles."
-msgstr "Mostrar grupos en los perfiles de usuario."
+msgstr "Gruppen in Benutzerprofilen zeigen"
 
 #: lib/admin/groups-admin-options.php:288
 msgid "Show the Groups tree view."
-msgstr "Mostrar la vista en árbol de los Grupos."
+msgstr "Die Baumansicht von Groups anzeigen."
 
 #: lib/core/class-groups-help.php:115
 msgid ""
@@ -767,171 +796,175 @@ msgid ""
 "\"_blank\">Groups</a> by <a href=\"http://www.itthinx.com\" target=\"_blank"
 "\">itthinx</a>."
 msgstr ""
-"Gracias por usar <a href=\"http://www.itthinx.com/plugins/groups\" target="
-"\"_blank\">Groups</a> por <a href=\"http://www.itthinx.com\" target=\"_blank"
-"\">itthinx</a>."
+"Danke für Ihr Vertrauen in <a href=\"http://www.itthinx.com/plugins/groups\" "
+"target=\"_blank\">Groups</a> von <a href=\"http://www.itthinx.com\" target="
+"\"_blank\">itthinx</a>."
 
 #: lib/admin/groups-admin-capabilities-edit.php:120
 #, php-format
 msgid ""
 "The <em>%s</em> capability already exists and cannot be assigned to this one."
-msgstr "La capacidad <em>%s</em> ya existe y no puede ser asignada a ésta."
+msgstr ""
+"Die Kapazität <em>%s</em> existiert bereits und kann nicht dieser zugewiesen "
+"werden."
 
 #: lib/admin/groups-admin-capabilities-add.php:107
 #, php-format
 msgid "The <em>%s</em> capability already exists."
-msgstr "La capacidad <em>%s</em> ya existe."
+msgstr "Die Kapazität <em>%s</em> existiert bereits."
 
 #: lib/admin/groups-admin-capabilities-edit.php:130
 #, php-format
 msgid "The <em>%s</em> capability could not be updated."
-msgstr "La capacidad <em>%s</em> no pudo ser actualizada."
+msgstr "Die Kapazität <em>%s</em> konnte nicht aktualisiert werden."
 
 #: lib/admin/groups-admin-capabilities.php:62
 #, php-format
 msgid "The <em>%s</em> capability has been created."
-msgstr "Se ha creado la capacidad <em>%s</em>."
+msgstr "Die Kapazität <em>%s</em> wurde erstellt."
 
 #: lib/admin/groups-admin-capabilities.php:70
 #, php-format
 msgid "The <em>%s</em> capability has been updated."
-msgstr "Se ha actualizado la capacidad <em>%s</em>."
+msgstr "Die Kapazität <em>%s</em> wurde aktualisiert."
 
 #: lib/admin/groups-admin-groups-edit.php:206
 #, php-format
 msgid ""
 "The <em>%s</em> group already exists and cannot be used to name this one."
-msgstr "El grupo <em>%s</em>  ya existe y no se puede usar para nombrar éste."
+msgstr ""
+"Die Gruppe <em>%s</em> existiert bereits and kann nicht als Name für diese "
+"verwendet werden."
 
 #: lib/admin/groups-admin-groups-add.php:167
 #, php-format
 msgid "The <em>%s</em> group already exists."
-msgstr "El grupo <em>%s</em>  ya existe."
+msgstr "Die Gruppe <em>%s</em> existiert bereits."
 
 #: lib/admin/groups-admin-groups.php:63
 #, php-format
 msgid "The <em>%s</em> group has been created."
-msgstr "Se ha creado el grupo <em>%s</em> ."
+msgstr "Die Gruppe <em>%s</em> wurde erstellt."
 
 #: lib/admin/groups-admin-groups.php:71
 #, php-format
 msgid "The <em>%s</em> group has been updated."
-msgstr "Se ha actualizado el grupo <em>%s</em> ."
+msgstr "Die Gruppe <em>%s</em> wurde aktualisiert."
 
 #: lib/admin/groups-admin-capabilities-add.php:105
 #: lib/admin/groups-admin-capabilities-edit.php:134
 msgid "The <em>Capability</em> must not be empty."
-msgstr "La <em>Capacidad</em> no puede estar vacía."
+msgstr "Die <em>Kapazität</em> darf nicht leer sein."
 
 #: lib/admin/groups-admin-groups-edit.php:198
 msgid "The <em>Name</em> must not be empty."
-msgstr "El <em>Nombre</em> no puede estar vacío."
+msgstr "Der <em>Name</em> darf nicht leer sein."
 
 #: lib/admin/groups-admin-capabilities.php:75
 msgid "The capability has been deleted."
-msgstr "Se ha borrado la capacidad."
+msgstr "Die Kapazität wurde gelöscht."
 
 #: lib/admin/groups-admin-groups-edit.php:132
 msgid "The chosen capabilities are assigned to the group."
-msgstr "Las capacidades seleccionadas están asignadas al grupo."
+msgstr "Die ausgewählten Kapazitäten werden der Gruppe zugewiesen."
 
 #: lib/core/class-groups-help.php:85
 msgid ""
 "The complete documentation is available on the <a href=\"http://docs.itthinx."
 "com/document/groups\">Documentation</a> pages for Groups."
 msgstr ""
-"La documentación completa está disponible en las páginas de <a href=\"http://"
-"docs.itthinx.com/document/groups\">Documentación</a> de Groups."
+"Die vollständige Dokumentation ist auf den <a href=\"http://docs.itthinx.com/"
+"document/groups\">Documentation</a>-Seiten für Groups erhältlich."
 
 #: lib/admin/groups-admin-groups.php:76
 msgid "The group has been deleted."
-msgstr "Se ha borrado el grupo."
+msgstr "Die Gruppe wurde gelöscht."
 
 #: lib/access/class-groups-access-meta-boxes.php:147
 msgid "The manual way:"
-msgstr "La forma manual:"
+msgstr "Der manuelle Weg:"
 
 #: lib/admin/groups-admin-groups-add.php:165
 msgid "The name must not be empty."
-msgstr "El nombre no debe estar vacío."
+msgstr "Der Name darf nicht leer sein."
 
 #: lib/access/class-groups-access-meta-boxes.php:138
 msgid "The quick way:"
-msgstr "La forma rápida:"
+msgstr "Der schnelle Weg:"
 
 #: lib/admin/class-groups-admin-user-profile.php:109
 msgid "The user is a member of the chosen groups."
-msgstr "El usuario es miembro de los grupos seleccionados."
+msgstr "Der Benutzer ist Mitglied der ausgewählten Gruppen."
 
 #: lib/admin/groups-admin-capabilities.php:415
 #: lib/admin/groups-admin-groups.php:467
 msgid "There are no results."
-msgstr "No hay resultados."
+msgstr "Es liegen keine Resultate vor."
 
 #: lib/admin/groups-admin-groups-add.php:111
 msgid "These capabilities will be assigned to the group."
-msgstr "Estas capacidades se añadirán al grupo."
+msgstr "Diese Kapazitäten werden der Gruppe zugewiesen."
 
 #: lib/admin/groups-admin-options.php:294
 msgid ""
 "These permissions apply to Groups management. They do not apply to access "
 "permissions derived from Groups capabilities."
 msgstr ""
-"Estos permisos se aplican a la gestión de Grupos. No se aplican a los "
-"permisos de acceso derivados de las capacidades de Grupos."
+"Diese Berechtigungen dienen der Verwaltung von Groups. Sie finden keine "
+"Anwendung bei Berechtigungen die von Groups Kapazitäten abgeleitet werden."
 
 #: lib/admin/groups-admin-options.php:246
 msgid ""
 "This determines for which post types access restriction settings are offered."
 msgstr ""
-"Aquí se determina el tipo de entradas para el cual se ofrecerán las opciones "
-"de restricción de acceso."
+"Dies bestimmt für welche Beitragstypen Einstellungen zur Zugangsbeschränkung "
+"angeboten werden."
 
 #: lib/admin/groups-admin-groups.php:450
 msgid "This group has no capabilities."
-msgstr "Este grupo no tiene capacidades."
+msgstr "Diese Gruppe hat keine Kapazitäten."
 
-#: lib/admin/class-groups-admin.php:160 lib/admin/class-groups-admin.php:161
+#: lib/admin/class-groups-admin.php:171 lib/admin/class-groups-admin.php:172
 msgid "Tree"
-msgstr "Árbol"
+msgstr "Baum"
 
 #: lib/admin/groups-admin-tree-view.php:43
 msgid "Tree of Groups"
-msgstr "Árbol de Grupos"
+msgstr "Gruppenbaum"
 
 #: lib/admin/groups-admin-options.php:284
 msgid "Tree view"
-msgstr "Vista en árbol"
+msgstr "Baumansicht"
 
 #: lib/access/class-groups-access-meta-boxes.php:152
 msgid ""
 "Try the quick-create field first. Unless you need a more complex setup, "
 "there is no reason to go this way instead."
 msgstr ""
-"Prueba el campo de creación instantánea primero. A menos que necesites una "
-"configuración más compleja, no hay razón para que lo hagas de este otro modo."
+"Probieren Sie das Instant-Feld zuerst aus. Es gibt keinen Grund diesen Weg "
+"zu gehen, ausser Sie benötigen eine komplexere Einrichtung."
 
 #: lib/access/class-groups-access-meta-boxes.php:211
 #: lib/access/class-groups-access-meta-boxes.php:212
 #: lib/access/class-groups-access-meta-boxes.php:550
 msgid "Type and choose &hellip;"
-msgstr "Escribe y elige &hellip;"
+msgstr "Tippen und wählen &hellip;"
 
 #: lib/access/class-groups-access-meta-boxes.php:126
 msgid ""
 "Use the <em>Access restrictions</em> box to limit the visibility of posts, "
 "pages and other post types."
 msgstr ""
-"Usa la caja de <em>Restricciones de acceso</em> para limitar la visibilidad "
-"a entradas, páginas y otros tipos de entrada."
+"Verwenden Sie das Kästchen <em>Zugangsbeschränkungen</em> um die "
+"Sichtbarkeit von Beiträgen, Seiten und anderen Beitragstypen einzuschränken."
 
 #: lib/admin/groups-admin-options.php:275
 msgid "User profiles"
-msgstr "Perfiles de usuario"
+msgstr "Benutzerprofile"
 
 #: lib/access/class-groups-access-meta-boxes.php:140
 msgid "Using the quick-create field"
-msgstr "Usando el campo de creación instantánea"
+msgstr "Verwendung des Instant-Feldes"
 
 #: lib/access/class-groups-access-meta-boxes.php:145
 msgid ""
@@ -944,20 +977,20 @@ msgid ""
 "capability is enabled to enforce read access. In order to be able to use the "
 "capability, your user account will be assigned to the group."
 msgstr ""
-"Usando el campo de creación instantánea puedes crear un nuevo grupo y "
-"capacidad. La capacidad se asignará al grupo y se activará para ejecutar el "
-"permiso de lectura. Los nombres de grupo distinguen entre mayúsculas y "
-"minúsculas, el nombre de la capacidad es la versión en minúsculas del nombre "
-"del grupo. Si el grupo ya existe, se creará una nueva capacidad y se "
-"asignará al grupo existente. Si la capacidad ya existe, se asignará al "
-"grupo. Si ambos existen, la capacidad se activará para forzar el permiso de "
-"lectura. Para poder usar la capacidad, tu cuenta de usuario se asignará al "
-"grupo."
+"Mit dem Instant-Feld können Gruppen und Kapazitäten erstellt werden. Die "
+"Kapazität wird der Gruppe zugewiesen und zur Zugriffsbeschränkung aktiviert. "
+"Gruppennamen unterscheiden Groß- und Kleinschreibung, der Name der Kapazität "
+"ist die Version des Gruppennamens in Kleinschreibung. Existiert die Gruppe "
+"bereits, dann wird die Kapazität erstellt und der bestehenden Gruppe "
+"zugewiesen. Existiert die Kapazität bereits, dann wird sie der Gruppe "
+"zugewiesen. Existieren beide, dann wird die Kapazität zur "
+"Zugriffsbeschränkung aktiviert. Um die Kapazität verwenden zu können, wird "
+"ihr Benutzerkonto der Gruppe hinzugefügt."
 
 #: lib/views/class-groups-shortcodes.php:447
 #, php-format
 msgid "You are a member of the %s group."
-msgstr "Es miembro del grupo %s."
+msgstr "Sie sind Mitglied der Gruppe %s."
 
 #: lib/access/class-groups-access-meta-boxes.php:313
 msgid ""
@@ -970,54 +1003,42 @@ msgid ""
 "enabled to enforce read access. In order to be able to use the capability, "
 "your user account will be assigned to the group."
 msgstr ""
-"Puedes crear un nuevo grupo y capacidad aquí. La capacidad será asignada al "
-"grupo y activada para forzar el permiso de lectura. Los nombres de grupo "
-"distinguen entre mayúsculas y minúsculas, el nombre de la capacidad es la "
-"versión en minúsculas del nombre del grupo. Si el grupo ya existe, se creará "
-"una nueva capacidad y se asignará al grupo existente. Si la capacidad ya "
-"existe, se asignará al grupo. Si ambos existen, la capacidad se activará "
-"para forzar el permiso de lectura. Para poder usar la capacidad, tu cuenta "
-"de usuario se asignará al grupo."
+"Sie können hier eine neue Gruppe und Kapazität erstellen. Die Kapazität wird "
+"der Gruppe zugewiesen und zur Zugriffsbeschränkung aktiviert. Gruppennamen "
+"unterscheiden Groß- und Kleinschreibung, der Name der Kapazität ist die "
+"Version des Gruppennamens in Kleinschreibung. Existiert die Gruppe bereits, "
+"dann wird die Kapazität erstellt und der bestehenden Gruppe zugewiesen. "
+"Existiert die Kapazität bereits, dann wird sie der Gruppe zugewiesen. "
+"Existieren beide, dann wird die Kapazität zur Zugriffsbeschränkung "
+"aktiviert. Um die Kapazität verwenden zu können, wird ihr Benutzerkonto der "
+"Gruppe hinzugefügt."
 
 #: lib/access/class-groups-access-meta-boxes.php:129
 msgid ""
 "You can select one or more capabilities that are enabled for access "
 "restriction."
 msgstr ""
-"Puedes seleccionar una o más capacidades que están activadas para la "
-"restricción de acceso."
+"Sie können eine oder mehrere Kapazitäten auswählen die zur "
+"Zugriffsbeschränkung aktiviert sind."
 
 #: lib/access/class-groups-access-meta-boxes.php:291
 msgid "You cannot set any access restrictions."
-msgstr "No puedes establecer ninguna restricción de acceso."
+msgstr "Sie können keine Zugriffsbeschränkungen setzen."
 
 #: lib/views/class-groups-shortcodes.php:442
 #, php-format
 msgid "You have joined the %s group."
-msgstr "Se ha unido al grupo %s."
+msgstr "Sie sind der Gruppe %s beigetreten."
 
 #: lib/views/class-groups-shortcodes.php:518
 #, php-format
 msgid "You have left the %s group."
-msgstr "Ha dejado el grupo %s."
+msgstr "Sie haben die Gruppe %s verlassen."
 
 #: lib/access/class-groups-access-meta-boxes.php:297
 msgid ""
 "You must be in a group that has at least one capability enabled to enforce "
 "read access."
 msgstr ""
-"Debes pertenecer a un grupo que tenga al menos una capacidad activada para "
-"forzar el permiso de lectura."
-
-#~ msgid "Apply capability to selected groups:"
-#~ msgstr "Aplicar la capacidad a los grupos seleccionados:"
-
-#~ msgid ""
-#~ "The complete documentation is available on the <a href=\"http://www."
-#~ "itthinx.com/plugins/groups\" target=\"_blank\">Groups plugin page</a>"
-#~ msgstr ""
-#~ "La documentación completa está disponible en la página <a href=\"http://"
-#~ "www.itthinx.com/plugins/groups\" target=\"_blank\">Groups plugin</a>"
-
-#~ msgid "selected to / from group:"
-#~ msgstr "seleccionado por/ para el grupo:"
+"Sie müssen in einer Gruppe sein die zumindest eine Kapazität hat die zur "
+"Zugriffsbeschränkung aktiviert ist."
