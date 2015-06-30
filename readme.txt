@@ -475,4 +475,4 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.7.0 =
-This release adds the [groups_login] and [groups_logout] shortcodes and the French translation.
+This release adds the [groups_login] and [groups_logout] shortcodes, the French translation and fixes issues with capabilities. Please back up your site and database before updating.
