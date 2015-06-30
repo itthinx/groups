@@ -103,6 +103,7 @@ Please try to solve problems there before you rate this plugin or say it doesn't
 ### Translations ###
 
 Dutch translation by [Carsten Alsemgeest](http://presis.nl),
+French translation by [Stéphane Passedouet](http://www.pheeric.com),
 German translation by [itthinx](http://www.itthinx.com),
 Lithuanian translation by [Vincent G](http://www.Host1Free.com),
 Spanish translation by [Juan Amor](http://www.lamadjinpa.es),
