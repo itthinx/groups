@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -103,6 +103,7 @@ Please try to solve problems there before you rate this plugin or say it doesn't
 ### Translations ###
 
 Dutch translation by [Carsten Alsemgeest](http://presis.nl),
+French translation by [Stéphane Passedouet](http://www.pheeric.com),
 German translation by [itthinx](http://www.itthinx.com),
 Lithuanian translation by [Vincent G](http://www.Host1Free.com),
 Spanish translation by [Juan Amor](http://www.lamadjinpa.es),
@@ -179,6 +180,16 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.7.0 =
+* Added the French translation.
+* Added the [groups_login] shortcode.
+* Added the [groups_logout] shortcode.
+* Updated the German translation.
+* Updated the Spanish translation.
+* Added the groups_deleted_capability_capability action.
+* Fixed an issue with deleted capabilities restricting access to posts.
+* Fixed cache entries for capabilities.
 
 = 1.6.0 =
 * Added the German translation.
@@ -463,5 +474,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.6.0 =
-This release adds the German translation and has an updated Spanish translation.
+= 1.7.0 =
+This release adds the [groups_login] and [groups_logout] shortcodes, the French translation and fixes issues with capabilities. Please back up your site and database before updating.

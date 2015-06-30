@@ -32,6 +32,10 @@ class Groups_Shortcodes {
 	 * Adds shortcodes.
 	 */
 	public static function init() {
+		// login
+		add_shortcode( 'groups_login', array( __CLASS__, 'groups_login' ) );
+		// logout
+		add_shortcode( 'groups_logout', array( __CLASS__, 'groups_logout' ) );
 		// group info
 		add_shortcode( 'groups_group_info', array( __CLASS__, 'groups_group_info' ) );
 		// user groups
@@ -43,7 +47,83 @@ class Groups_Shortcodes {
 		// leave a group
 		add_shortcode( 'groups_leave',  array( __CLASS__, 'groups_leave' ) );
 	}
-	
+
+	/**
+	 * Renders the Groups login form.
+	 * 
+	 * The user is redirected to the current page after login by default.
+	 * The user can be redirected to a specific URL after login by
+	 * indicating the <code>redirect</code> attribute.
+	 *
+	 * @param array $atts
+	 * @param string $content
+	 * @return string the rendered form or empty
+	 */
+	public static function groups_login( $atts, $content = null ) {
+		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		extract(
+			shortcode_atts(
+				array(
+					'redirect'        => $current_url,
+					'show_logout'     => 'no'
+				),
+				$atts
+			)
+		);
+		$redirect    = trim( $redirect );
+		$show_logout = trim( strtolower( $show_logout ) );
+		$output      = '';
+		if ( !is_user_logged_in() ) {
+			$output .= wp_login_form(
+				array(
+					'echo'     => false,
+					'redirect' => $redirect
+				)
+			);
+		} else {
+			if ( $show_logout == 'yes' ) {
+				$output .= self::groups_logout(
+					array(
+						'redirect' => $redirect
+					)
+				);
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Renders the Groups logout link.
+	 * 
+	 * The link is rendered if the user is logged in.
+	 * The user is redirected to the current page after logout by default.
+	 * The user can be redirected to a specific URL after logout by
+	 * indicating the <code>redirect</code> attribute.
+	 *
+	 * @param array $atts
+	 * @param string $content not used
+	 * @return string logout link, is empty if not logged in
+	 */
+	public static function groups_logout( $atts, $content = null ) {
+		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		extract(
+			shortcode_atts(
+				array(
+					'redirect' => $current_url
+				),
+				$atts
+			)
+		);
+		$redirect = trim( $redirect );
+		$output   = '';
+		if ( is_user_logged_in() ) {
+			$output .= sprintf( '<a href="%s">', esc_url( wp_logout_url( $redirect ) ) );
+			$output .= __( 'Log out', GROUPS_PLUGIN_DOMAIN );
+			$output .= '</a>';
+		}
+		return $output;
+	}
+
 	/**
 	 * Renders information about a group.
 	 * Attributes:

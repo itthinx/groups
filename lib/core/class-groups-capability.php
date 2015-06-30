@@ -231,6 +231,7 @@ class Groups_Capability {
 			$old_capability = Groups_Capability::read( $capability_id );
 			if ( $old_capability ) {
 				if ( isset( $capability ) ) {
+					$old_capability_capability = $old_capability->capability;
 					$old_capability->capability = $capability;
 				}
 				if ( isset( $class ) ) {
@@ -257,11 +258,11 @@ class Groups_Capability {
 				) );
 				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
-					if ( !empty( $old_capability ) && !empty( $old_capability->name ) ) {
-						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_capability->name, self::CACHE_GROUP );
+					if ( !empty( $old_capability ) && !empty( $old_capability->capability ) ) {
+						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_capability->capability, self::CACHE_GROUP );
 					}
-					if ( !empty( $old_name ) ) {
-						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_name, self::CACHE_GROUP );
+					if ( !empty( $old_capability_capability ) ) {
+						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_capability_capability, self::CACHE_GROUP );
 					}
 					do_action( "groups_updated_capability", $result );
 				}
@@ -290,8 +291,9 @@ class Groups_Capability {
 				Groups_Utility::id( $capability_id )
 			) ) ) {
 				$result = $capability_id;
-				if ( !empty( $capability->name ) ) {
-					wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $capability->name, self::CACHE_GROUP );
+				if ( !empty( $capability->capability ) ) {
+					wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $capability->capability, self::CACHE_GROUP );
+					do_action( 'groups_deleted_capability_capability', $capability->capability );
 				}
 				do_action( "groups_deleted_capability", $result );
 			}

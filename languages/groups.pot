@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2015-06-22 21:23+0200\n"
+        "POT-Creation-Date: 2015-06-30 20:07+0200\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -226,7 +226,7 @@ msgstr  ""
 msgid   "Cancel"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:186
+#: lib/admin/class-groups-admin.php:194
 #: lib/admin/groups-admin-capabilities.php:193
 #: lib/admin/groups-admin-groups-add.php:99
 #: lib/admin/groups-admin-groups-edit.php:119
@@ -415,29 +415,28 @@ msgstr  ""
 #: lib/admin/class-groups-admin-user-profile.php:66
 #: lib/admin/class-groups-admin-user-profile.php:90
 #: lib/admin/class-groups-admin-users.php:302
-#: lib/admin/class-groups-admin.php:222 lib/admin/class-groups-admin.php:223
-#: lib/admin/class-groups-admin.php:252 lib/admin/groups-admin-groups.php:200
-#: lib/core/class-groups-help.php:61 lib/core/class-groups-help.php:66
-#: lib/core/class-groups-help.php:67
+#: lib/admin/class-groups-admin.php:230 lib/admin/class-groups-admin.php:231
+#: lib/admin/class-groups-admin.php:260 lib/core/class-groups-help.php:61
+#: lib/core/class-groups-help.php:66 lib/core/class-groups-help.php:67
 msgid   "Groups"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:133
+#: lib/admin/class-groups-admin.php:140
 msgctxt "menu item title"
 msgid   "Groups"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:151
+#: lib/admin/class-groups-admin.php:158
 msgctxt "menu-title"
 msgid   "Groups"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:150
+#: lib/admin/class-groups-admin.php:157 lib/admin/groups-admin-groups.php:200
 msgctxt "page-title"
 msgid   "Groups"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:185
+#: lib/admin/class-groups-admin.php:193
 msgid   "Groups Capabilities"
 msgstr  ""
 
@@ -445,7 +444,7 @@ msgstr  ""
 msgid   "Groups network options"
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:198 lib/admin/groups-admin-options.php:133
+#: lib/admin/class-groups-admin.php:206 lib/admin/groups-admin-options.php:133
 msgid   "Groups options"
 msgstr  ""
 
@@ -472,12 +471,12 @@ msgstr  ""
 msgid   "Inherited capabilities:"
 msgstr  ""
 
-#: lib/views/class-groups-shortcodes.php:389
+#: lib/views/class-groups-shortcodes.php:469
 #, php-format
 msgid   "Join the %s group"
 msgstr  ""
 
-#: lib/views/class-groups-shortcodes.php:473
+#: lib/views/class-groups-shortcodes.php:553
 #, php-format
 msgid   "Leave the %s group"
 msgstr  ""
@@ -485,6 +484,10 @@ msgstr  ""
 #: lib/access/class-groups-access-meta-boxes.php:136
 msgid   "Let's assume that you want to limit the visibility of a post to "
         "members of the <em>Premium</em> group."
+msgstr  ""
+
+#: lib/views/class-groups-shortcodes.php:121
+msgid   "Log out"
 msgstr  ""
 
 #: lib/access/class-groups-access-meta-boxes.php:513
@@ -570,7 +573,7 @@ msgid   "Only groups or users that have one of the selected capabilities are "
         "allowed to read this %s."
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:199 lib/admin/class-groups-admin.php:246
+#: lib/admin/class-groups-admin.php:207 lib/admin/class-groups-admin.php:254
 #: lib/core/class-groups-help.php:68
 msgid   "Options"
 msgstr  ""
@@ -816,7 +819,7 @@ msgstr  ""
 msgid   "This group has no capabilities."
 msgstr  ""
 
-#: lib/admin/class-groups-admin.php:171 lib/admin/class-groups-admin.php:172
+#: lib/admin/class-groups-admin.php:179 lib/admin/class-groups-admin.php:180
 msgid   "Tree"
 msgstr  ""
 
@@ -864,7 +867,7 @@ msgid   "Using the quick-create field, you can create a new group and "
         "capability, your user account will be assigned to the group."
 msgstr  ""
 
-#: lib/views/class-groups-shortcodes.php:447
+#: lib/views/class-groups-shortcodes.php:527
 #, php-format
 msgid   "You are a member of the %s group."
 msgstr  ""
@@ -890,12 +893,12 @@ msgstr  ""
 msgid   "You cannot set any access restrictions."
 msgstr  ""
 
-#: lib/views/class-groups-shortcodes.php:442
+#: lib/views/class-groups-shortcodes.php:522
 #, php-format
 msgid   "You have joined the %s group."
 msgstr  ""
 
-#: lib/views/class-groups-shortcodes.php:518
+#: lib/views/class-groups-shortcodes.php:598
 #, php-format
 msgid   "You have left the %s group."
 msgstr  ""
