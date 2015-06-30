@@ -185,6 +185,8 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Added the French translation.
 * Added the [groups_login] shortcode.
 * Added the [groups_logout] shortcode.
+* Updated the German translation.
+* Updated the Spanish translation.
 
 = 1.6.0 =
 * Added the German translation.

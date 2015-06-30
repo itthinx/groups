@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-22 21:23+0200\n"
-"PO-Revision-Date: 2015-06-23 15:24+0100\n"
+"POT-Creation-Date: 2015-06-30 20:07+0200\n"
+"PO-Revision-Date: 2015-06-30 20:08+0200\n"
 "Last-Translator: \n"
 "Language-Team: itthinx.com\n"
 "Language: de_DE\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.2\n"
 
 #: lib/core/class-groups-pagination.php:140
 #, php-format
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: lib/admin/class-groups-admin.php:186
+#: lib/admin/class-groups-admin.php:194
 #: lib/admin/groups-admin-capabilities.php:193
 #: lib/admin/groups-admin-groups-add.php:99
 #: lib/admin/groups-admin-groups-edit.php:119
@@ -477,29 +477,28 @@ msgstr "Gruppenname : %s"
 #: lib/admin/class-groups-admin-user-profile.php:66
 #: lib/admin/class-groups-admin-user-profile.php:90
 #: lib/admin/class-groups-admin-users.php:302
-#: lib/admin/class-groups-admin.php:222 lib/admin/class-groups-admin.php:223
-#: lib/admin/class-groups-admin.php:252 lib/admin/groups-admin-groups.php:200
-#: lib/core/class-groups-help.php:61 lib/core/class-groups-help.php:66
-#: lib/core/class-groups-help.php:67
+#: lib/admin/class-groups-admin.php:230 lib/admin/class-groups-admin.php:231
+#: lib/admin/class-groups-admin.php:260 lib/core/class-groups-help.php:61
+#: lib/core/class-groups-help.php:66 lib/core/class-groups-help.php:67
 msgid "Groups"
 msgstr "Groups"
 
-#: lib/admin/class-groups-admin.php:133
+#: lib/admin/class-groups-admin.php:140
 msgctxt "menu item title"
 msgid "Groups"
 msgstr "Gruppen"
 
-#: lib/admin/class-groups-admin.php:151
+#: lib/admin/class-groups-admin.php:158
 msgctxt "menu-title"
 msgid "Groups"
 msgstr "Groups"
 
-#: lib/admin/class-groups-admin.php:150
+#: lib/admin/class-groups-admin.php:157 lib/admin/groups-admin-groups.php:200
 msgctxt "page-title"
 msgid "Groups"
 msgstr "Gruppen"
 
-#: lib/admin/class-groups-admin.php:185
+#: lib/admin/class-groups-admin.php:193
 msgid "Groups Capabilities"
 msgstr "Gruppenkapazitäten"
 
@@ -507,7 +506,7 @@ msgstr "Gruppenkapazitäten"
 msgid "Groups network options"
 msgstr "Groups Netzwerkoptionen"
 
-#: lib/admin/class-groups-admin.php:198 lib/admin/groups-admin-options.php:133
+#: lib/admin/class-groups-admin.php:206 lib/admin/groups-admin-options.php:133
 msgid "Groups options"
 msgstr "Groups Optionen"
 
@@ -543,12 +542,12 @@ msgstr ""
 msgid "Inherited capabilities:"
 msgstr "Geerbte Kapazitäten:"
 
-#: lib/views/class-groups-shortcodes.php:389
+#: lib/views/class-groups-shortcodes.php:469
 #, php-format
 msgid "Join the %s group"
 msgstr "Der Gruppe %s beitreten"
 
-#: lib/views/class-groups-shortcodes.php:473
+#: lib/views/class-groups-shortcodes.php:553
 #, php-format
 msgid "Leave the %s group"
 msgstr "Die Gruppe %s verlassen"
@@ -560,6 +559,10 @@ msgid ""
 msgstr ""
 "Angenommen Sie wollen einen Beitrag nur Mitgliedern der <em>Premium</em> "
 "Gruppe sichtbar machen."
+
+#: lib/views/class-groups-shortcodes.php:121
+msgid "Log out"
+msgstr "Abmelden"
 
 #: lib/access/class-groups-access-meta-boxes.php:513
 msgid "Media"
@@ -657,7 +660,7 @@ msgstr ""
 "Nur Gruppen oder Benutzer die eine der gewählten Kapazitäten haben ist es "
 "gestattet diese(n) %s zu lesen."
 
-#: lib/admin/class-groups-admin.php:199 lib/admin/class-groups-admin.php:246
+#: lib/admin/class-groups-admin.php:207 lib/admin/class-groups-admin.php:254
 #: lib/core/class-groups-help.php:68
 msgid "Options"
 msgstr "Optionen"
@@ -924,7 +927,7 @@ msgstr ""
 msgid "This group has no capabilities."
 msgstr "Diese Gruppe hat keine Kapazitäten."
 
-#: lib/admin/class-groups-admin.php:171 lib/admin/class-groups-admin.php:172
+#: lib/admin/class-groups-admin.php:179 lib/admin/class-groups-admin.php:180
 msgid "Tree"
 msgstr "Baum"
 
@@ -987,7 +990,7 @@ msgstr ""
 "Zugriffsbeschränkung aktiviert. Um die Kapazität verwenden zu können, wird "
 "ihr Benutzerkonto der Gruppe hinzugefügt."
 
-#: lib/views/class-groups-shortcodes.php:447
+#: lib/views/class-groups-shortcodes.php:527
 #, php-format
 msgid "You are a member of the %s group."
 msgstr "Sie sind Mitglied der Gruppe %s."
@@ -1025,12 +1028,12 @@ msgstr ""
 msgid "You cannot set any access restrictions."
 msgstr "Sie können keine Zugriffsbeschränkungen setzen."
 
-#: lib/views/class-groups-shortcodes.php:442
+#: lib/views/class-groups-shortcodes.php:522
 #, php-format
 msgid "You have joined the %s group."
 msgstr "Sie sind der Gruppe %s beigetreten."
 
-#: lib/views/class-groups-shortcodes.php:518
+#: lib/views/class-groups-shortcodes.php:598
 #, php-format
 msgid "You have left the %s group."
 msgstr "Sie haben die Gruppe %s verlassen."
