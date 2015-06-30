@@ -183,6 +183,8 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 = 1.7.0 =
 * Added the French translation.
+* Added the [groups_login] shortcode.
+* Added the [groups_logout] shortcode.
 
 = 1.6.0 =
 * Added the German translation.
@@ -468,4 +470,4 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.7.0 =
-This release adds the French translation.
+This release adds the [groups_login] and [groups_logout] shortcodes and the French translation.
