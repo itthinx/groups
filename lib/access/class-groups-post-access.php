@@ -79,6 +79,7 @@ class Groups_Post_Access {
 		// add_filter( "plugin_row_meta", array( __CLASS__, "plugin_row_meta" ), 1 );
 		// add_filter( "posts_join_paged", array( __CLASS__, "posts_join_paged" ), 1 );
 		// add_filter( "posts_where_paged", array( __CLASS__, "posts_where_paged" ), 1 );
+		add_action( 'groups_deleted_capability_capability', array( __CLASS__, 'groups_deleted_capability_capability' ) );
 	}
 
 	/**
@@ -413,6 +414,16 @@ class Groups_Post_Access {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Hooks into groups_deleted_capability_capability to remove existing access
+	 * restrictions based on the deleted capability.
+	 * 
+	 * @param string $name of the deleted capability
+	 */
+	public static function groups_deleted_capability_capability( $capability ) {
+		delete_metadata( 'post', null, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY, $capability, true );
 	}
 
 }

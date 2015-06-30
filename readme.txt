@@ -187,6 +187,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Added the [groups_logout] shortcode.
 * Updated the German translation.
 * Updated the Spanish translation.
+* Added the groups_deleted_capability_capability action.
+* Fixed an issue with deleted capabilities restricting access to posts.
+* Fixed cache entries for capabilities.
 
 = 1.6.0 =
 * Added the German translation.
