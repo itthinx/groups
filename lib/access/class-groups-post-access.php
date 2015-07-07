@@ -92,9 +92,7 @@ class Groups_Post_Access {
 	 * @return array
 	 */
 	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
-		// We are only interested in good calls that provide
-		// the post ID in $args[0]. 
-		if ( isset( $args[0] ) && is_numeric( $args[0] ) ) {
+		if ( isset( $args[0] ) ) {
 			if ( strpos( $cap, 'edit_' ) === 0 || strpos( $cap, 'delete_' ) === 0 ) {
 				if ( $post_type = get_post_type( $args[0] ) ) {
 
@@ -114,9 +112,16 @@ class Groups_Post_Access {
 					}
 
 					if ( $cap === $edit_post_type || $cap === $delete_post_type ) {
-						$post_id = $args[0];
-						if ( !self::user_can_read_post( $post_id, $user_id ) ) {
-							$caps[] = 'do_not_allow';
+						$post_id = null;
+						if ( is_numeric( $args[0] ) ) {
+							$post_id = $args[0]; 
+						} else if ( $args[0] instanceof WP_Post ) {
+							$post_id = $post->ID;
+						}
+						if ( $post_id ) {
+							if ( !self::user_can_read_post( $post_id, $user_id ) ) {
+								$caps[] = 'do_not_allow';
+							}
 						}
 					}
 				}
