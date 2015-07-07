@@ -84,6 +84,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Restrict access to edit or delete posts based on the post's access restrictions.
+	 * 
 	 * @param array $caps
 	 * @param string $cap
 	 * @param int $user_id
@@ -111,9 +112,16 @@ class Groups_Post_Access {
 					}
 
 					if ( $cap === $edit_post_type || $cap === $delete_post_type ) {
-						$post_id = $args[0];
-						if ( !self::user_can_read_post( $post_id, $user_id ) ) {
-							$caps[] = 'do_not_allow';
+						$post_id = null;
+						if ( is_numeric( $args[0] ) ) {
+							$post_id = $args[0]; 
+						} else if ( $args[0] instanceof WP_Post ) {
+							$post_id = $post->ID;
+						}
+						if ( $post_id ) {
+							if ( !self::user_can_read_post( $post_id, $user_id ) ) {
+								$caps[] = 'do_not_allow';
+							}
 						}
 					}
 				}

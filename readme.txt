@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -180,6 +180,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.7.1 =
+* Fixes an issue with map_meta_cap filtering where no valid post ID is provided.
 
 = 1.7.0 =
 * Added the French translation.
@@ -474,5 +477,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.7.0 =
-This release adds the [groups_login] and [groups_logout] shortcodes, the French translation and fixes issues with capabilities. Please back up your site and database before updating.
+= 1.7.1 =
+This release fixes an issue with a PHP error thrown under circumstances related to third-party plugins.
