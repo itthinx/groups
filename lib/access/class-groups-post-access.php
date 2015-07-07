@@ -84,6 +84,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Restrict access to edit or delete posts based on the post's access restrictions.
+	 * 
 	 * @param array $caps
 	 * @param string $cap
 	 * @param int $user_id
@@ -91,7 +92,9 @@ class Groups_Post_Access {
 	 * @return array
 	 */
 	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
-		if ( isset( $args[0] ) ) {
+		// We are only interested in good calls that provide
+		// the post ID in $args[0]. 
+		if ( isset( $args[0] ) && is_numeric( $args[0] ) ) {
 			if ( strpos( $cap, 'edit_' ) === 0 || strpos( $cap, 'delete_' ) === 0 ) {
 				if ( $post_type = get_post_type( $args[0] ) ) {
 
