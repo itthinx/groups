@@ -33,7 +33,7 @@ class Groups_Admin {
 	 * 
 	 * @var int
 	 */
-	const MENU_POSITION = 38.381;
+	const MENU_POSITION = '38.381';
 
 	/**
 	 * Holds admin messages.
