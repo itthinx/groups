@@ -185,6 +185,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * WordPress 4.3 compatibility tested.
 * Updated the menu position constant (string instead of number).
 * Removed translation of the Groups menu title (related to a consistent appearance and would also be affected by a a core bug).
+* Fixed padding for the header checkbox on the Groups and Capabilities screens.
 
 = 1.7.1 =
 * Fixes an issue with map_meta_cap filtering where no valid post ID is provided.
@@ -483,4 +484,4 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.7.2 =
-This release has been tested with WordPress 4.3 and contains minor internal changes related to the Groups menu.
+This release has been tested with WordPress 4.3 and contains minor internal changes related to the Groups menu, Groups and Capabilities screens.
