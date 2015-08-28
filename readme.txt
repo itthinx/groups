@@ -482,5 +482,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.7.1 =
-This release fixes an issue with a PHP error thrown under circumstances related to third-party plugins.
+= 1.7.2 =
+This release has been tested with WordPress 4.3 and contains minor internal changes related to the Groups menu.
