@@ -3,8 +3,8 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.2.2
-Stable tag: 1.7.1
+Tested up to: 4.3
+Stable tag: 1.7.2
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -180,6 +180,12 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.7.2 =
+* WordPress 4.3 compatibility tested.
+* Updated the menu position constant (string instead of number).
+* Removed translation of the Groups menu title (related to a consistent appearance and would also be affected by a a core bug).
+* Fixed padding for the header checkbox on the Groups and Capabilities screens.
 
 = 1.7.1 =
 * Fixes an issue with map_meta_cap filtering where no valid post ID is provided.
@@ -477,5 +483,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.7.1 =
-This release fixes an issue with a PHP error thrown under circumstances related to third-party plugins.
+= 1.7.2 =
+This release has been tested with WordPress 4.3 and contains minor internal changes related to the Groups menu, Groups and Capabilities screens.

@@ -118,7 +118,10 @@ div.capability.edit label {
 	display: inline;
 	width: 250px;
 }
-
+.groups-overview th.check-column,
+.capabilities-overview th.check-column {
+	padding: 10px 0 0 3px;
+}
 .groups-overview th.edit,
 .groups-overview th.group_id,
 .groups-overview th.remove,

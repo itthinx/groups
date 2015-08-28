@@ -33,7 +33,7 @@ class Groups_Admin {
 	 * 
 	 * @var int
 	 */
-	const MENU_POSITION = 38.381;
+	const MENU_POSITION = '38.381';
 
 	/**
 	 * Holds admin messages.
@@ -155,7 +155,7 @@ class Groups_Admin {
 		// main
 		$page = add_menu_page(
 			_x( 'Groups', 'page-title', GROUPS_PLUGIN_DOMAIN ),
-			_x( 'Groups', 'menu-title', GROUPS_PLUGIN_DOMAIN ),
+			'Groups', // don't translate, reasons: a) Groups menu title consistency and b) http://core.trac.wordpress.org/ticket/18857 translation affects $screen->id
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_admin_groups' ),
