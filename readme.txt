@@ -181,6 +181,11 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.7.2 =
+* WordPress 4.3 compatibility tested.
+* Updated the menu position constant (string instead of number).
+* Removed translation of the Groups menu title (related to a consistent appearance and would also be affected by a a core bug).
+
 = 1.7.1 =
 * Fixes an issue with map_meta_cap filtering where no valid post ID is provided.
 
