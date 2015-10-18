@@ -149,6 +149,7 @@ class Groups_Admin {
 		include_once( GROUPS_ADMIN_LIB . '/groups-admin-groups.php');
 		include_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities.php');
 		include_once( GROUPS_ADMIN_LIB . '/groups-admin-options.php');
+		include_once( GROUPS_ADMIN_LIB . '/groups-admin-add-ons.php');
 
 		$pages = array();
 
@@ -208,6 +209,19 @@ class Groups_Admin {
 			GROUPS_ADMINISTER_OPTIONS,
 			'groups-admin-options',
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_options' )
+		);
+		$pages[] = $page;
+		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
+		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
+
+		// add-ons
+		$page = add_submenu_page(
+			'groups-admin',
+			__( 'Groups Add-Ons', GROUPS_PLUGIN_DOMAIN ),
+			__( 'Add-Ons', GROUPS_PLUGIN_DOMAIN ),
+			GROUPS_ACCESS_GROUPS,
+			'groups-admin-add-ons',
+			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_add_ons' )
 		);
 		$pages[] = $page;
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
