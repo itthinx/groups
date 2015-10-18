@@ -181,6 +181,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.8.0 =
+* WordPress 4.3.1 compatibility tested.
+* Add-ons section added.
+
 = 1.7.2 =
 * WordPress 4.3 compatibility tested.
 * Updated the menu position constant (string instead of number).
@@ -483,5 +487,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.7.2 =
-This release has been tested with WordPress 4.3 and contains minor internal changes related to the Groups menu, Groups and Capabilities screens.
+= 1.8.0 =
+This release has been tested with WordPress 4.3.1 and includes a section for recommended add-ons.
