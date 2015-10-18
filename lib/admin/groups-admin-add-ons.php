@@ -116,6 +116,51 @@ function groups_admin_add_ons() {
 			'url'     => 'http://www.itthinx.com/shop/woocommerce-group-coupons/',
 			'index'   => 100
 		),
+		'woocommerce-groups-newsletters' => array(
+			'title'   => 'WooCommerce Groups Newsletters',
+			'content' => 'The WooCommerce Groups Newsletters extension lets customers subscribe to newsletters at checkout.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-groups-newsletters.png',
+			'url'     => 'http://www.itthinx.com/shop/woocommerce-groups-newsletters/',
+			'index'   => 100
+		),
+	);
+	usort( $entries, 'groups_admin_add_ons_sort' );
+
+	echo '<ul class="add-ons">';
+	foreach( $entries as $key => $entry ) {
+		echo '<li class="add-on">';
+		echo sprintf( '<a href="%s">', $entry['url'] );
+		echo '<h3>';
+		echo sprintf( '<img src="%s"/>', $entry['image'] );
+		echo $entry['title'];
+		echo '</h3>';
+		echo '<p>';
+		echo $entry['content'];
+		echo '</p>';
+		echo '</a>';
+		echo '</li>'; // .add-on
+	}
+	echo '</ul>'; // .add-ons
+
+	echo '<h2>';
+	echo __( 'Recommended plugins by itthinx', GROUPS_PLUGIN_DOMAIN );
+	echo '</h2>';
+
+	$entries = array(
+		'affiliates-pro' => array(
+			'title'   => 'Affiliates Pro',
+			'content' => 'Boost Sales with Affiliate Marketing for your WordPress site.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/affiliates-pro.png',
+			'url'     => 'http://www.itthinx.com/shop/affiliates-pro/',
+			'index'   => 100
+		),
+		'affiliates-enterprise' => array(
+			'title'   => 'Affiliates Enterprise',
+			'content' => 'Affiliates Enterprise provides an affiliate management system for sellers, shops and developers, who want to boost sales with their own affiliate program. Features affiliate campaigns, tracking pixels and multiple tiers.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/affiliates-enterprise.png',
+			'url'     => 'http://www.itthinx.com/shop/affiliates-enterprise/',
+			'index'   => 100
+		),
 	);
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
@@ -137,9 +182,6 @@ function groups_admin_add_ons() {
 
 	echo '</div>'; // .groups-admin-add-ons
 
-// 	echo '<h2>';
-// 	echo __( 'Recommended plugins by itthinx', GROUPS_PLUGIN_DOMAIN );
-// 	echo '</h2>';
 	Groups_Help::footer();
 }
 
