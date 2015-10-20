@@ -63,7 +63,7 @@ function groups_admin_groups_add() {
 
 	$output .= Groups_Admin::render_messages();
 
-	$output .= '<form id="add-group" action="' . $current_url . '" method="post">';
+	$output .= '<form id="add-group" action="' . esc_url( $current_url ) . '" method="post">';
 	$output .= '<div class="group new">';
 
 	$output .= '<div class="field">';
@@ -118,7 +118,7 @@ function groups_admin_groups_add() {
 	$output .= wp_nonce_field( 'groups-add', GROUPS_ADMIN_GROUPS_NONCE, true, false );
 	$output .= '<input class="button button-primary" type="submit" value="' . __( 'Add', GROUPS_PLUGIN_DOMAIN ) . '"/>';
 	$output .= '<input type="hidden" value="add" name="action"/>';
-	$output .= '<a class="cancel button" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
+	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
 	$output .= '</div>';
 	$output .= '</div>'; // .group.new
 	$output .= '</form>';
