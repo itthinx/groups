@@ -72,7 +72,7 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$output .= Groups_Admin::render_messages();
 
-	$output .= '<form id="edit-group" action="' . $current_url . '" method="post">';
+	$output .= '<form id="edit-group" action="' . esc_url( $current_url ) . '" method="post">';
 	$output .= '<div class="group edit">';
 	$output .= '<input id="group-id-field" name="group-id-field" type="hidden" value="' . esc_attr( intval( $group_id ) ) . '"/>';
 
@@ -157,7 +157,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= wp_nonce_field( 'groups-edit', GROUPS_ADMIN_GROUPS_NONCE, true, false );
 	$output .= '<input class="button button-primary" type="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>';
 	$output .= '<input type="hidden" value="edit" name="action"/>';
-	$output .= '<a class="cancel button" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
+	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
 	$output .= '</div>';
 	$output .= '</div>'; // .group.edit
 	$output .= '</form>';

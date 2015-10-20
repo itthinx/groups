@@ -54,7 +54,7 @@ function groups_admin_capabilities_remove( $capability_id ) {
 				__( 'Remove a capability', GROUPS_PLUGIN_DOMAIN ) .
 			'</h2>' .
 		'</div>' .
-		'<form id="remove-capability" action="' . $current_url . '" method="post">' .
+		'<form id="remove-capability" action="' . esc_url( $current_url ) . '" method="post">' .
 		'<div class="capability remove">' .
 		'<input id="capability-id-field" name="capability-id-field" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>' .
 		'<ul>' .
@@ -63,7 +63,7 @@ function groups_admin_capabilities_remove( $capability_id ) {
 		wp_nonce_field( 'capabilities-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
 		'<input class="button button-primary" type="submit" value="' . __( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 		'<input type="hidden" value="remove" name="action"/>' .
-		'<a class="cancel button" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
+		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
 		'</div>' .
 		'</div>' . // .capability.remove
 		'</form>' .
@@ -153,7 +153,7 @@ function groups_admin_capabilities_bulk_remove() {
 		$output .= '</ul>';
 	}
 	$output .= '<input class="button button-primary" type="submit" name="bulk" value="' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-	$output .= '<a class="cancel button" href="' . $current_url . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
+	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
 
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '<input type="hidden" name="bulk-action" value="remove"/>';
