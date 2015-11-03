@@ -19,6 +19,10 @@
  * @since groups 1.9.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Cache entry encapsulation.
  * 

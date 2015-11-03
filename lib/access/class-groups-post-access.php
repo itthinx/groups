@@ -402,9 +402,16 @@ class Groups_Post_Access {
 			if ( $user_id === null ) {
 				$user_id = get_current_user_id();
 			}
-			$found = false;
-			$result = wp_cache_get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP, false, $found );
-			if ( $found === false ) {
+			// @todo remove
+			//$found = false;
+			//$result = wp_cache_get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP, false, $found );
+			//if ( $found === false ) {
+			$cached = Groups_Cache::get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP );
+			if ( $cached !== null ) {
+error_log( var_export($cached,true)); // @todo remove
+				$result = $cached->value;
+				unset( $cached ) ;
+			} else {
 				$groups_user = new Groups_User( $user_id );
 				$read_caps = self::get_read_post_capabilities( $post_id );
 				if ( !empty( $read_caps ) ) {
@@ -418,7 +425,9 @@ class Groups_Post_Access {
 					$result = true;
 				}
 				$result = apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
-				wp_cache_set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );
+				// @todo remove
+				//wp_cache_set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );
+				Groups_Cache::set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );
 			}
 		}
 		return $result;

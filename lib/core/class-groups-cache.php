@@ -19,6 +19,10 @@
  * @since groups 1.9.0
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Cache service.
  * 
@@ -65,4 +69,3 @@ class Groups_Cache {
 	}
 
 }
-Groups_Cache::init();
