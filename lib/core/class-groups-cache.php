@@ -48,6 +48,7 @@ class Groups_Cache {
 	 * @return Groups_Cache_Object|null returns a cache object on hit, null on cache miss
 	 */
 	public static function get( $key, $group = self::CACHE_GROUP ) {
+		$found = null;
 		$value = wp_cache_get( $key, $group, false, $found );
 		if ( !( $value instanceof Groups_Cache_Object ) ) {
 			$value = null;
