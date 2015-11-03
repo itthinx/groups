@@ -69,4 +69,14 @@ class Groups_Cache {
 		return wp_cache_set( $key, $object, $group );
 	}
 
+	/**
+	 * Delete a cache entry.
+	 * 
+	 * @param string $key
+	 * @param string $group
+	 * @return true if successful, otherwise false
+	 */
+	public static function delete( $key, $group = self::CACHE_GROUP ) {
+		return wp_cache_delete( $key, $group );
+	}
 }

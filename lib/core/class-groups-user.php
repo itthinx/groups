@@ -68,14 +68,15 @@ class Groups_User implements I_Capable {
 	 * @param int $user_id
 	 */
 	public static function clear_cache( $user_id ) {
-		
-		
-		// @todo remove and use new methods in Groups_Cache
-		
 		// be lazy, clear the entries so they are rebuilt when requested
-		wp_cache_delete( self::CAPABILITIES . $user_id, self::CACHE_GROUP );
-		wp_cache_delete( self::CAPABILITY_IDS . $user_id, self::CACHE_GROUP );
-		wp_cache_delete( self::GROUP_IDS . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::CAPABILITIES . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::CAPABILITIES_BASE . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::CAPABILITY_IDS . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::CAPABILITY_IDS_BASE . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::GROUP_IDS . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::GROUP_IDS_BASE . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::GROUPS . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::GROUPS_BASE . $user_id, self::CACHE_GROUP );
 	}
 
 	/**
@@ -246,6 +247,20 @@ class Groups_User implements I_Capable {
 							}
 						}
 						Groups_Cache::set( self::GROUPS_BASE . $this->user->ID, $result, self::CACHE_GROUP );
+					}
+					break;
+
+				case 'groups_deep' :
+					$cached = Groups_Cache::get( self::GROUPS . $this->user->ID, self::CACHE_GROUP );
+					if ( $cached !== null ) {
+						$result = $cached->value;
+						unset( $cached );
+					} else {
+						$result = array();
+						foreach( $this->group_ids_deep as $group_id ) {
+							$result[] = new Groups_Group( $group_id );
+						}
+						Groups_Cache::set( self::GROUPS . $this->user->ID, $result, self::CACHE_GROUP );
 					}
 					break;
 
