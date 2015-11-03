@@ -408,7 +408,6 @@ class Groups_Post_Access {
 			//if ( $found === false ) {
 			$cached = Groups_Cache::get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP );
 			if ( $cached !== null ) {
-error_log( var_export($cached,true)); // @todo remove
 				$result = $cached->value;
 				unset( $cached ) ;
 			} else {

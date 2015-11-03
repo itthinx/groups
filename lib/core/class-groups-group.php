@@ -325,9 +325,15 @@ class Groups_Group implements I_Capable {
 	 */
 	public static function read_by_name( $name ) {
 		global $wpdb;
-		$found = false;
-		$result = wp_cache_get( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP, false, $found );
-		if ( $found === false ) {
+		// @todo remove
+		//$found = false;
+		//$result = wp_cache_get( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP, false, $found );
+		//if ( $found === false ) {
+		$cached = Groups_Cache::get( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$result = $cached->value;
+			unset( $cached );
+		} else {
 			$result = false;
 			$group_table = _groups_get_tablename( 'group' );
 			$group = $wpdb->get_row( $wpdb->prepare(
@@ -337,7 +343,9 @@ class Groups_Group implements I_Capable {
 			if ( isset( $group->group_id ) ) {
 				$result = $group;
 			}
-			wp_cache_set( self::READ_BY_NAME . '_' . $name, $result, self::CACHE_GROUP );
+			// @todo remove
+			//wp_cache_set( self::READ_BY_NAME . '_' . $name, $result, self::CACHE_GROUP );
+			Groups_Cache::set( self::READ_BY_NAME . '_' . $name, $result, self::CACHE_GROUP );
 		}
 		return $result;
 	}

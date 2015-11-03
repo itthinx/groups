@@ -197,9 +197,15 @@ class Groups_Capability {
 	public static function read_by_capability( $capability ) {
 		global $wpdb;
 		$_capability = $capability;
-		$found = false;
-		$result = wp_cache_get( self::READ_BY_CAPABILITY . '_' . $_capability, self::CACHE_GROUP, false, $found );
-		if ( $found === false ) {
+		// @todo remove
+		//$found = false;
+		//$result = wp_cache_get( self::READ_BY_CAPABILITY . '_' . $_capability, self::CACHE_GROUP, false, $found );
+		//if ( $found === false ) {
+		$cached = Groups_Cache::get( self::READ_BY_CAPABILITY . '_' . $_capability, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$result = $cached->value;
+			unset( $cached );
+		} else {
 			$result = false;
 			$capability_table = _groups_get_tablename( 'capability' );
 			$capability = $wpdb->get_row( $wpdb->prepare(
@@ -209,7 +215,9 @@ class Groups_Capability {
 			if ( isset( $capability->capability_id ) ) {
 				$result = $capability;
 			}
-			wp_cache_set( self::READ_BY_CAPABILITY . '_' . $_capability, $result, self::CACHE_GROUP );
+			// @todo remove
+			//wp_cache_set( self::READ_BY_CAPABILITY . '_' . $_capability, $result, self::CACHE_GROUP );
+			Groups_Cache::set( self::READ_BY_CAPABILITY . '_' . $_capability, $result, self::CACHE_GROUP );
 		}
 		return $result;
 	}
