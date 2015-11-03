@@ -31,10 +31,15 @@ require_once( GROUPS_CORE_LIB . "/class-groups-capability.php" );
  */
 class Groups_User implements I_Capable {
 
-	const CACHE_GROUP    = 'groups';
-	const CAPABILITIES   = 'capabilities';
-	const CAPABILITY_IDS = 'capability_ids';
-	const GROUP_IDS      = 'group_ids';
+	const CACHE_GROUP         = 'groups';
+	const CAPABILITIES        = 'capabilities';
+	const CAPABILITIES_BASE   = 'capabilities_base';
+	const CAPABILITY_IDS      = 'capability_ids';
+	const CAPABILITY_IDS_BASE = 'capability_ids_base';
+	const GROUP_IDS           = 'group_ids';
+	const GROUP_IDS_BASE      = 'group_ids_base';
+	const GROUPS              = 'groups';
+	const GROUPS_BASE         = 'groups_base';
 
 	/**
 	 * User object.
@@ -63,6 +68,10 @@ class Groups_User implements I_Capable {
 	 * @param int $user_id
 	 */
 	public static function clear_cache( $user_id ) {
+		
+		
+		// @todo remove and use new methods in Groups_Cache
+		
 		// be lazy, clear the entries so they are rebuilt when requested
 		wp_cache_delete( self::CAPABILITIES . $user_id, self::CACHE_GROUP );
 		wp_cache_delete( self::CAPABILITY_IDS . $user_id, self::CACHE_GROUP );
@@ -113,24 +122,28 @@ class Groups_User implements I_Capable {
 		global $wpdb;
 		$result = null;
 
-		// @todo Do we need to maintain the current semantics of "capabilities" and "groups" as direct properties of the object?
-
 		if ( $this->user !== null ) {
 
 			switch ( $name ) {
 
 				case 'capability_ids' :
-					// @todo get from cache
-					$user_capability_table = _groups_get_tablename( "user_capability" );
-					$rows = $wpdb->get_results( $wpdb->prepare(
-						"SELECT capability_id FROM $user_capability_table WHERE user_id = %d",
-						Groups_Utility::id( $this->user->ID )
-					) );
-					if ( $rows ) {
-						$result = array();
-						foreach ( $rows as $row ) {
-							$result[] = $row->capability_id;
+					$cached = Groups_Cache::get( self::CAPABILITY_IDS_BASE . $this->user->ID, self::CACHE_GROUP );
+					if ( $cached !== null ) {
+						$result = $cached->value;
+						unset( $cached );
+					} else {
+						$user_capability_table = _groups_get_tablename( "user_capability" );
+						$rows = $wpdb->get_results( $wpdb->prepare(
+							"SELECT capability_id FROM $user_capability_table WHERE user_id = %d",
+							Groups_Utility::id( $this->user->ID )
+						) );
+						if ( $rows ) {
+							$result = array();
+							foreach ( $rows as $row ) {
+								$result[] = $row->capability_id;
+							}
 						}
+						Groups_Cache::set( self::CAPABILITY_IDS_BASE . $this->user->ID, $result, self::CACHE_GROUP );
 					}
 					break;
 
@@ -148,17 +161,23 @@ class Groups_User implements I_Capable {
 					break;
 
 				case 'group_ids' :
-					// @todo get from cache
-					$user_group_table = _groups_get_tablename( "user_group" );
-					$rows = $wpdb->get_results( $wpdb->prepare(
+					$cached = Groups_Cache::get( self::GROUP_IDS_BASE . $this->user->ID, self::CACHE_GROUP );
+					if ( $cached !== null ) {
+						$result = $cached->value;
+						unset( $cached );
+					} else {
+						$user_group_table = _groups_get_tablename( "user_group" );
+						$rows = $wpdb->get_results( $wpdb->prepare(
 							"SELECT group_id FROM $user_group_table WHERE user_id = %d",
 							Groups_Utility::id( $this->user->ID )
-					) );
-					if ( $rows ) {
-						$result = array();
-						foreach( $rows as $row ) {
-							$result[] = $row->group_id;
+						) );
+						if ( $rows ) {
+							$result = array();
+							foreach( $rows as $row ) {
+								$result[] = $row->group_id;
+							}
 						}
+						Groups_Cache::set( self::GROUP_IDS_BASE . $this->user->ID, $result, self::CACHE_GROUP );
 					}
 					break;
 
@@ -175,18 +194,24 @@ class Groups_User implements I_Capable {
 					}
 					break;
 
-				case "capabilities" :
-					// @todo get from cache
-					$user_capability_table = _groups_get_tablename( "user_capability" );
-					$rows = $wpdb->get_results( $wpdb->prepare(
-						"SELECT capability_id FROM $user_capability_table WHERE user_id = %d",
-						Groups_Utility::id( $this->user->ID )
-					) );
-					if ( $rows ) {
-						$result = array();
-						foreach ( $rows as $row ) {
-							$result[] = new Groups_Capability( $row->capability_id );
+				case 'capabilities' :
+					$cached = Groups_Cache::get( self::CAPABILITIES_BASE . $this->user->ID, self::CACHE_GROUP );
+					if ( $cached !== null ) {
+						$result = $cached->value;
+						unset( $cached );
+					} else {
+						$user_capability_table = _groups_get_tablename( "user_capability" );
+						$rows = $wpdb->get_results( $wpdb->prepare(
+							"SELECT capability_id FROM $user_capability_table WHERE user_id = %d",
+							Groups_Utility::id( $this->user->ID )
+						) );
+						if ( $rows ) {
+							$result = array();
+							foreach ( $rows as $row ) {
+								$result[] = new Groups_Capability( $row->capability_id );
+							}
 						}
+						Groups_Cache::set( self::CAPABILITIES_BASE . $this->user->ID, $result, self::CACHE_GROUP );
 					}
 					break;
 
@@ -203,18 +228,24 @@ class Groups_User implements I_Capable {
 					}
 					break;
 
-				case "groups" :
-					// @todo get from cache
-					$user_group_table = _groups_get_tablename( "user_group" );
-					$rows = $wpdb->get_results( $wpdb->prepare(
-						"SELECT group_id FROM $user_group_table WHERE user_id = %d",
-						Groups_Utility::id( $this->user->ID )
-					) );
-					if ( $rows ) {
-						$result = array();
-						foreach( $rows as $row ) {
-							$result[] = new Groups_Group( $row->group_id );
+				case 'groups' :
+					$cached = Groups_Cache::get( self::GROUPS_BASE . $this->user->ID, self::CACHE_GROUP );
+					if ( $cached !== null ) {
+						$result = $cached->value;
+						unset( $cached );
+					} else {
+						$user_group_table = _groups_get_tablename( "user_group" );
+						$rows = $wpdb->get_results( $wpdb->prepare(
+							"SELECT group_id FROM $user_group_table WHERE user_id = %d",
+							Groups_Utility::id( $this->user->ID )
+						) );
+						if ( $rows ) {
+							$result = array();
+							foreach( $rows as $row ) {
+								$result[] = new Groups_Group( $row->group_id );
+							}
 						}
+						Groups_Cache::set( self::GROUPS_BASE . $this->user->ID, $result, self::CACHE_GROUP );
 					}
 					break;
 
