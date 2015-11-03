@@ -136,9 +136,6 @@ class Groups_User implements I_Capable {
 
 				case 'capability_ids_deep' :
 					if ( $this->user !== null ) {
-						// @todo remove
-						//$capability_ids = wp_cache_get( self::CAPABILITY_IDS . $this->user->ID, self::CACHE_GROUP );
-						//if ( $capability_ids === false ) {
 						$cached = Groups_Cache::get( self::CAPABILITY_IDS . $this->user->ID, self::CACHE_GROUP );
 						if ( $cached !== null ) {
 							$capability_ids = $cached->value;
@@ -167,9 +164,6 @@ class Groups_User implements I_Capable {
 
 				case 'group_ids_deep' :
 					if ( $this->user !== null ) {
-						// @todo remove
-						//$group_ids = wp_cache_get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP );
-						//if ( $group_ids === false ) {
 						$cached = Groups_Cache::get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP );
 						if ( $cached !== null ) {
 							$group_ids = $cached->value;
@@ -198,9 +192,6 @@ class Groups_User implements I_Capable {
 
 				case 'capabilities_deep' :
 					if ( $this->user !== null ) {
-						// @todo remove
-						//$capabilities = wp_cache_get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
-						//if ( $capabilities === false ) {
 						$cached = Groups_Cache::get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
 						if ( $cached !== null ) {
 							$capabilities = $cached->value;
@@ -254,9 +245,6 @@ class Groups_User implements I_Capable {
 				$capability_id = null;
 				if ( is_numeric( $capability ) ) {
 					$capability_id = Groups_Utility::id( $capability );
-					// @todo remove
-					//$capability_ids = wp_cache_get( self::CAPABILITY_IDS . $this->user->ID, self::CACHE_GROUP );
-					//if ( $capability_ids === false ) {
 					$cached = Groups_Cache::get( self::CAPABILITY_IDS . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
 						$capability_ids = $cached->value;
@@ -266,9 +254,6 @@ class Groups_User implements I_Capable {
 					}
 					$result = in_array( $capability_id, $capability_ids );
 				} else if ( is_string( $capability ) ) {
-					// @todo remove
-					//$capabilities = wp_cache_get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
-					//if ( $capabilities === false ) {
 					$cached = Groups_Cache::get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
 						$capabilities = $cached->value;
@@ -301,8 +286,6 @@ class Groups_User implements I_Capable {
 		$capability_ids = array();
 		$group_ids      = array();
 
-		// @todo remove
-		//if ( ( $this->user !== null ) && ( wp_cache_get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP ) === false ) ) {
 		if ( ( $this->user !== null ) && ( Groups_Cache::get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP ) === null ) ) {
 			$group_table            = _groups_get_tablename( "group" );
 			$capability_table       = _groups_get_tablename( "capability" );
@@ -398,10 +381,6 @@ class Groups_User implements I_Capable {
 					
 				}
 			}
-			// @todo remove
-			//wp_cache_set( self::CAPABILITIES . $this->user->ID, $capabilities, self::CACHE_GROUP );
-			//wp_cache_set( self::CAPABILITY_IDS . $this->user->ID, $capability_ids, self::CACHE_GROUP );
-			//wp_cache_set( self::GROUP_IDS . $this->user->ID, $group_ids, self::CACHE_GROUP );
 			Groups_Cache::set( self::CAPABILITIES . $this->user->ID, $capabilities, self::CACHE_GROUP );
 			Groups_Cache::set( self::CAPABILITY_IDS . $this->user->ID, $capability_ids, self::CACHE_GROUP );
 			Groups_Cache::set( self::GROUP_IDS . $this->user->ID, $group_ids, self::CACHE_GROUP );
