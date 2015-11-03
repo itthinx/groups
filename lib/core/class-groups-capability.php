@@ -156,7 +156,7 @@ class Groups_Capability {
 				if ( $wpdb->insert( $capability_table, $data, $formats ) ) {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
 						// read_by_capability above created a cache entry which needs to be reset
-						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $capability, self::CACHE_GROUP );
+						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $capability, self::CACHE_GROUP );
 						do_action( "groups_created_capability", $result );
 					}
 				}
@@ -261,10 +261,10 @@ class Groups_Capability {
 				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
 					if ( !empty( $old_capability ) && !empty( $old_capability->capability ) ) {
-						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_capability->capability, self::CACHE_GROUP );
+						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability->capability, self::CACHE_GROUP );
 					}
 					if ( !empty( $old_capability_capability ) ) {
-						wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $old_capability_capability, self::CACHE_GROUP );
+						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability_capability, self::CACHE_GROUP );
 					}
 					do_action( "groups_updated_capability", $result );
 				}
@@ -294,7 +294,7 @@ class Groups_Capability {
 			) ) ) {
 				$result = $capability_id;
 				if ( !empty( $capability->capability ) ) {
-					wp_cache_delete( self::READ_BY_CAPABILITY . '_' . $capability->capability, self::CACHE_GROUP );
+					Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $capability->capability, self::CACHE_GROUP );
 					do_action( 'groups_deleted_capability_capability', $capability->capability );
 				}
 				do_action( "groups_deleted_capability", $result );
