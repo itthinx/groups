@@ -45,6 +45,9 @@ if ( !function_exists( 'is_user_member_of_blog' ) ) {
  * Load core :
  */
 
+require_once GROUPS_CORE_LIB . '/class-groups-cache.php';
+require_once GROUPS_CORE_LIB . '/class-groups-cache-object.php';
+
 require_once( GROUPS_CORE_LIB . '/class-groups-utility.php' );
 
 // options
