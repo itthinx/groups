@@ -88,16 +88,19 @@ class Groups_User_Group {
 	 * @return true on success, otherwise false
 	 */
 	public static function create( $map ) {
-		
+
 		global $wpdb;
 		extract( $map );
 		$result = false;
 
 		// avoid nonsense requests
-//		if ( !empty( $user_id ) && !empty( $group_id ) ) {
-		if ( !empty( $group_id ) ) {			
+		if ( !empty( $group_id ) ) {
 			// make sure user and group exist
-			if ( ( false !== Groups_Utility::id( $user_id ) ) && ( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->users WHERE ID = %d", $user_id ) ) > 0 ) && ( $group = Groups_Group::read( $group_id ) ) ) {
+			if (
+				( false !== Groups_Utility::id( $user_id ) ) &&
+				( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->users WHERE ID = %d", $user_id ) ) > 0 ) &&
+				( $group = Groups_Group::read( $group_id ) )
+			) {
 				// only allow to add users to groups if they belong to the
 				// group's blog or we have the anonymous user
 				if ( is_user_member_of_blog( Groups_Utility::id( $user_id ) ) || ( Groups_Utility::id( $user_id ) === 0 ) ) {
