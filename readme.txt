@@ -185,6 +185,8 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Added own cache encapsulation to guard against flaws in outdated cache implementations.
 * Added new user group property to obtain hierarchical groups.
 * Improved user properties to use own caching.
+* Fixed media field filters wrongly declared as actions.
+* Fixed the version comparison operation.
 
 = 1.8.1 =
 * Fixed potential XSS vulnerabilities related to the unescaped use of the $_SERVER['REQUEST_URI'] in some forms.
