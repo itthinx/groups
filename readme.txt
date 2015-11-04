@@ -498,4 +498,4 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.9.0 =
-This release introduces improved caching mechanisms which may result in performance improvements for some setups.
+This release fixes bugs and introduces improved caching mechanisms which may result in performance improvements for some setups.
