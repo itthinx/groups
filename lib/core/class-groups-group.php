@@ -287,7 +287,7 @@ class Groups_Group implements I_Capable {
 				if ( $wpdb->insert( $group_table, $data, $formats ) ) {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
 						// must clear cache for this name in case it has been requested previously as it now exists
-						wp_cache_delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
+						Groups_Cache::delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
 						do_action( "groups_created_group", $result );
 					}
 				}
@@ -325,9 +325,11 @@ class Groups_Group implements I_Capable {
 	 */
 	public static function read_by_name( $name ) {
 		global $wpdb;
-		$found = false;
-		$result = wp_cache_get( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP, false, $found );
-		if ( $found === false ) {
+		$cached = Groups_Cache::get( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$result = $cached->value;
+			unset( $cached );
+		} else {
 			$result = false;
 			$group_table = _groups_get_tablename( 'group' );
 			$group = $wpdb->get_row( $wpdb->prepare(
@@ -337,7 +339,7 @@ class Groups_Group implements I_Capable {
 			if ( isset( $group->group_id ) ) {
 				$result = $group;
 			}
-			wp_cache_set( self::READ_BY_NAME . '_' . $name, $result, self::CACHE_GROUP );
+			Groups_Cache::set( self::READ_BY_NAME . '_' . $name, $result, self::CACHE_GROUP );
 		}
 		return $result;
 	}
@@ -421,10 +423,10 @@ class Groups_Group implements I_Capable {
 			}
 			$result = $group_id;
 			if ( !empty( $name ) ) {
-				wp_cache_delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
+				Groups_Cache::delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
 			}
 			if ( !empty( $old_group ) && !empty( $old_group->name ) ) {
-				wp_cache_delete( self::READ_BY_NAME . '_' . $old_group->name, self::CACHE_GROUP );
+				Groups_Cache::delete( self::READ_BY_NAME . '_' . $old_group->name, self::CACHE_GROUP );
 			}
 			do_action( "groups_updated_group", $result );
 		}
@@ -472,7 +474,7 @@ class Groups_Group implements I_Capable {
 			) ) ) {
 				$result = $group->group_id;
 				if ( !empty( $group->name ) ) {
-					wp_cache_delete( self::READ_BY_NAME . '_' . $group->name, self::CACHE_GROUP );
+					Groups_Cache::delete( self::READ_BY_NAME . '_' . $group->name, self::CACHE_GROUP );
 				}
 				do_action( "groups_deleted_group", $result );
 			}

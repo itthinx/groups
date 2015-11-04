@@ -220,7 +220,7 @@ class Groups_Controller {
 		global $groups_version, $groups_admin_messages;
 		$previous_version = get_option( 'groups_plugin_version', null );
 		$groups_version = GROUPS_CORE_VERSION;
-		if ( strcmp( $previous_version, $groups_version ) < 0 ) {
+		if ( version_compare( $previous_version, $groups_version ) < 0 ) {
 			if ( self::update( $previous_version ) ) {
 				update_option( 'groups_plugin_version', $groups_version );
 			} else {
@@ -266,11 +266,11 @@ class Groups_Controller {
 				break;
 			default :
 				if ( !empty( $previous_version ) ) {
-					if ( strcmp( $previous_version, '1.1.6' ) < 0 ) {
+					if ( version_compare( $previous_version, '1.1.6' ) < 0 ) {
 						Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
 						$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = %s", Groups_Post_Access::READ_POST_CAPABILITY, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ) );
 					}
-					if ( strcmp( $previous_version, '1.5.1' ) < 0 ) {
+					if ( version_compare( $previous_version, '1.5.1' ) < 0 ) {
 						$capability_table = _groups_get_tablename( 'capability' );
 						$queries[] = "ALTER TABLE $capability_table DROP INDEX capability, ADD UNIQUE INDEX capability(capability(100));";
 					}
