@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
 Tested up to: 4.3.1
-Stable tag: 1.8.1
+Stable tag: 1.9.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -180,6 +180,11 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.9.0 =
+* Added own cache encapsulation to guard against flaws in outdated cache implementations.
+* Added new user group property to obtain hierarchical groups.
+* Improved user properties to use own caching.
 
 = 1.8.1 =
 * Fixed potential XSS vulnerabilities related to the unescaped use of the $_SERVER['REQUEST_URI'] in some forms.
@@ -490,5 +495,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.8.1 =
-Security Release : This release fixes potential XSS vulnerabilities.
+= 1.9.0 =
+This release introduces improved caching mechanisms which may result in performance improvements for some setups.
