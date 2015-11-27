@@ -83,8 +83,6 @@ function groups_admin_capabilities_edit( $capability_id ) {
 		'</div>'; // .manage-capabilities
 
 		echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_capabilities_edit
 
 /**

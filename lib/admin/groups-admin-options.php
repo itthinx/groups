@@ -320,7 +320,6 @@ function groups_admin_options() {
 		'</form>';
 
 	echo '</div>'; // .groups-options
-	Groups_Help::footer();
 }
 
 function groups_network_admin_options() {
@@ -368,5 +367,4 @@ function groups_network_admin_options() {
 		'</p>' .
 		'</div>' .
 		'</form>';
-	Groups_Help::footer();
 }

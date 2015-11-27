@@ -421,5 +421,4 @@ function groups_admin_capabilities() {
 	$output .= '</div>'; // .manage-capabilities
 
 	echo $output;
-	Groups_Help::footer();
 } // function groups_admin_capabilities()

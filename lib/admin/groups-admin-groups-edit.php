@@ -162,8 +162,6 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '</div>'; // .manage-groups
 
 	echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_groups_edit
 
 /**

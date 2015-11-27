@@ -181,8 +181,6 @@ function groups_admin_add_ons() {
 	echo '</ul>'; // .add-ons
 
 	echo '</div>'; // .groups-admin-add-ons
-
-	Groups_Help::footer();
 }
 
 function groups_admin_add_ons_sort( $e1, $e2 ) {

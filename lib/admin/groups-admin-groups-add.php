@@ -123,8 +123,6 @@ function groups_admin_groups_add() {
 	$output .= '</div>'; // .manage-groups
 
 	echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_groups_add
 
 /**

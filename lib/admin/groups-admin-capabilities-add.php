@@ -74,8 +74,6 @@ function groups_admin_capabilities_add() {
 		'</div>'; // .manage-capabilities
 
 		echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_capabilities_add
 
 /**

@@ -476,5 +476,4 @@ function groups_admin_groups() {
 	$output .= '</div>'; // .manage-groups
 
 	echo $output;
-	Groups_Help::footer();
 } // function groups_admin_groups()

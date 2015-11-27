@@ -68,8 +68,6 @@ function groups_admin_groups_remove( $group_id ) {
 		'</div>'; // .manage-groups
 
 	echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_groups_remove
 
 /**
