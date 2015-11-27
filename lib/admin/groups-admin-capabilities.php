@@ -279,7 +279,7 @@ function groups_admin_capabilities() {
 	$results = $wpdb->get_results( $query, OBJECT );
 
 	$column_display_names = array(
-		'capability_id' => __( 'Id', GROUPS_PLUGIN_DOMAIN ),
+		'capability_id' => __( 'ID', GROUPS_PLUGIN_DOMAIN ),
 		'capability'	=> __( 'Capability', GROUPS_PLUGIN_DOMAIN ),
 		'description'   => __( 'Description', GROUPS_PLUGIN_DOMAIN )
 	);
@@ -288,20 +288,18 @@ function groups_admin_capabilities() {
 
 	$output .=
 		'<div class="filters">' .
-			'<label class="description" for="setfilters">' . __( 'Filters', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 			'<form id="setfilters" action="" method="post">' .
-				'<p>' .
-				'<label class="capability-id-filter" for="capability_id">' . __( 'Capability Id', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+				'<fieldset>' .
+				'<legend>' . __( 'Filter By:', GROUPS_PLUGIN_DOMAIN ) . '</legend>' .
+				'<label class="capability-id-filter" for="capability_id">' . __( 'Capability ID', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="capability-id-filter" name="capability_id" type="text" value="' . esc_attr( $capability_id ) . '"/>' .
 				'<label class="capability-filter" for="capability">' . __( 'Capability', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="capability-filter" name="capability" type="text" value="' . $capability . '"/>' .
-				'</p>' .
-				'<p>' .
 				wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE, true, false ) .
-				'<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+				'<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>&nbsp;' .
 				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
-				'</p>' .
+				'</fieldset>' .
 			'</form>' .
 		'</div>';
 
