@@ -1,19 +1,19 @@
 <?php
 /**
  * groups-admin-groups.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.0.0
@@ -194,19 +194,13 @@ function groups_admin_groups() {
 	$group_table = _groups_get_tablename( 'group' );
 
 	$output .=
-		'<div class="manage-groups">' .
-		'<div>' .
-		'<h2>' .
+		'<div class="manage-groups wrap">' .
+		'<h1>' .
 		_x( 'Groups', 'page-title', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>' .
-		'</div>';
+		" <a title='" . __( 'Click to add a new group', GROUPS_PLUGIN_DOMAIN ) . "' class='page-title-action' href='" . esc_url( $current_url ) . "&action=add'><span class='label'>" . __( 'Add New Group', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
+		'</h1>';
 
 	$output .= Groups_Admin::render_messages();
-
-	$output .=
-		'<div class="manage">' .
-		"<a title='" . __( 'Click to add a new group', GROUPS_PLUGIN_DOMAIN ) . "' class='add button' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL ."images/add.png'/><span class='label'>" . __( 'New Group', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
-		'</div>';
 
 	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
 
@@ -222,7 +216,7 @@ function groups_admin_groups() {
 	$paged = isset( $_REQUEST['paged'] ) ? intval( $_REQUEST['paged'] ) : 0;
 	if ( $paged < 0 ) {
 		$paged = 0;
-	} 
+	}
 
 	$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : null;
 	switch ( $orderby ) {
