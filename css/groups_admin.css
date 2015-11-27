@@ -286,23 +286,23 @@ div.groups-footer form {
 	background-color: #fff;
 	border: 1px solid #ccc;
 }
-.groups-admin-add-ons h3 {
+.groups-admin-add-ons .add-ons h3 {
 	margin: 0;
 	display: block;
 	clear: both;
 }
-.groups-admin-add-ons h3 img {
+.groups-admin-add-ons .add-ons h3 img {
 	vertical-align: middle;
 	margin: 0 8px 0 0;
 	display: block;
 	float: left;
 }
-.groups-admin-add-ons a {
+.groups-admin-add-ons .add-ons a {
 	text-decoration: none;
 	display: block;
 	overflow: hidden;
 }
-.groups-admin-add-ons p {
+.groups-admin-add-ons .add-ons p {
 	margin: 0;
 	padding-top: 8px;
 	clear: both;

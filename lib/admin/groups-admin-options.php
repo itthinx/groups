@@ -1,19 +1,19 @@
 <?php
 /**
  * groups-admin-options.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.0.0
@@ -126,12 +126,12 @@ function groups_admin_options() {
 		}
 	}
 
-	echo '<div class="groups-options">';
+	echo '<div class="groups-options wrap">';
 
 	echo
-		'<h2>' .
-		__( 'Groups options', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>';
+		'<h1>' .
+		__( 'Groups Options', GROUPS_PLUGIN_DOMAIN ) .
+		'</h1>';
 
 	echo Groups_Admin::render_messages();
 
@@ -169,7 +169,7 @@ function groups_admin_options() {
 			} else {
 				$checked = '';
 			}
-			 
+
 			$caps_table .= '<td class="checkbox">';
 			$role_cap_id = $rolekey.'-'.$capkey;
 			$caps_table .= '<input type="checkbox" name="' . $role_cap_id . '" id="' . $role_cap_id . '" ' . $checked . '/>';
