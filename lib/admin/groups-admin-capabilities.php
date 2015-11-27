@@ -118,9 +118,9 @@ function groups_admin_capabilities() {
 				if ( check_admin_referer( 'refresh' ) ) {
 					$n = Groups_WordPress::refresh_capabilities();
 					if ( $n > 0 ) {
-						$output .= '<div class="info">' . sprintf( _n( 'One capability has been added.', '%d capabilities have been added.', $n, GROUPS_PLUGIN_DOMAIN ), $n ) . '</div>';
+						$output .= '<div class="updated fade"><p>' . sprintf( _n( 'One capability has been added.', '%d capabilities have been added.', $n, GROUPS_PLUGIN_DOMAIN ), $n ) . '</p></div>';
 					} else {
-						$output .= '<div class="info">' . __( 'No new capabilities have been found.', GROUPS_PLUGIN_DOMAIN ) .  '</div>';
+						$output .= '<div class="updated fade"><p>' . __( 'No new capabilities have been found.', GROUPS_PLUGIN_DOMAIN ) .  '</p></div>';
 					}
 				} else {
 					wp_die( __( 'A Duck!', GROUPS_PLUGIN_DOMAIN ) );
