@@ -1,19 +1,19 @@
 <?php
 /**
  * groups-admin-capabilities.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.0.0
@@ -187,20 +187,14 @@ function groups_admin_capabilities() {
 	$capability_table = _groups_get_tablename( 'capability' );
 
 	$output .=
-		'<div class="manage-capabilities">' .
-		'<div>' .
-		'<h2>' .
+		'<div class="manage-capabilities wrap">' .
+		'<h1>' .
 		__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>' .
-		'</div>';
-	
+		" <a title='" . __( 'Click to add a new capability', GROUPS_PLUGIN_DOMAIN ) . "' class='page-title-action' href='" . esc_url( $current_url ) . "&action=add'><span class='label'>" . __( 'Add New Capability', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
+		" <a title='" . __( 'Click to refresh capabilities', GROUPS_PLUGIN_DOMAIN ) . "' class='page-title-action' href='" . esc_url( wp_nonce_url( $current_url, 'refresh' ) ) . "&action=refresh'><span class='label'>" . __( 'Refresh Capabilities', GROUPS_PLUGIN_DOMAIN ) . "</span></a>" .
+		'</h1>';
+
 	$output .= Groups_Admin::render_messages();
-	
-	$output .=
-		'<div class="manage">' .
-		"<a title='" . __( 'Click to add a new capability', GROUPS_PLUGIN_DOMAIN ) . "' class='add button' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/add.png'/><span class='label'>" . __( 'New Capability', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
-		"<a title='" . __( 'Click to refresh capabilities', GROUPS_PLUGIN_DOMAIN ) . "' class='refresh button' href='" . esc_url( wp_nonce_url( $current_url, 'refresh' ) ) . "&action=refresh'><img class='icon' alt='" . __( 'Refresh', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/refresh.png'/><span class='label'></span></a>" .
-		'</div>';
 
 	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
 
