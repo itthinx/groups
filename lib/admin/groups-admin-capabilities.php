@@ -281,9 +281,7 @@ function groups_admin_capabilities() {
 	$column_display_names = array(
 		'capability_id' => __( 'Id', GROUPS_PLUGIN_DOMAIN ),
 		'capability'	=> __( 'Capability', GROUPS_PLUGIN_DOMAIN ),
-		'description'   => __( 'Description', GROUPS_PLUGIN_DOMAIN ),
-		'edit'		  => __( 'Edit', GROUPS_PLUGIN_DOMAIN ),
-		'remove'		=> __( 'Remove', GROUPS_PLUGIN_DOMAIN )
+		'description'   => __( 'Description', GROUPS_PLUGIN_DOMAIN )
 	);
 
 	$output .= '<div class="capabilities-overview">';
@@ -379,6 +377,14 @@ function groups_admin_capabilities() {
 	if ( count( $results ) > 0 ) {
 		for ( $i = 0; $i < count( $results ); $i++ ) {
 
+			// Construct the "edit" URL.
+			$edit_url = add_query_arg( 'capability_id', intval( $result->capability_id ), add_query_arg( 'action', 'edit', add_query_arg( 'paged', $paged, $current_url ) ) );
+			// Construct the "delete" URL.
+			$delete_url = add_query_arg( 'capability_id', intval( $result->capability_id ), add_query_arg( 'action', 'remove', add_query_arg( 'paged', $paged, $current_url ) ) );
+
+			// Construct row actions for this group.
+			$row_actions = '<div class="row-actions">' . '<span class="edit"><a href="' . esc_url( $edit_url ) . '">' . __( 'Edit', GROUPS_PLUGIN_DOMAIN ) . '</a> | </span><span class="trash"><a href="' . esc_url( $delete_url ) . '" class="submitdelete">' . __( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '</a></span>' . '</div><!--/.row-actions-->' . "\n";
+
 			$result = $results[$i];
 
 			$output .= '<tr class="' . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
@@ -390,18 +396,8 @@ function groups_admin_capabilities() {
 			$output .= "<td class='capability-id'>";
 			$output .= $result->capability_id;
 			$output .= "</td>";
-			$output .= "<td class='capability'>" . stripslashes( wp_filter_nohtml_kses( $result->capability ) ) . "</td>";
+			$output .= "<td class='capability'>" . '<a href="' . esc_url( $edit_url ) . '">' . stripslashes( wp_filter_nohtml_kses( $result->capability ) ) . '</a>' . $row_actions . "</td>";
 			$output .= "<td class='description'>" . stripslashes( wp_filter_nohtml_kses( $result->description ) ) . "</td>";
-
-			$output .= "<td class='edit'>";
-			$output .= "<a href='" . esc_url( add_query_arg( 'paged', $paged, $current_url ) ) . "&action=edit&capability_id=" . $result->capability_id . "' alt='" . __( 'Edit', GROUPS_PLUGIN_DOMAIN) . "'><img src='". GROUPS_PLUGIN_URL ."images/edit.png'/></a>";
-			$output .= "</td>";
-
-			$output .= "<td class='remove'>";
-			if ( $result->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) {
-				$output .= "<a href='" . esc_url( $current_url ) . "&action=remove&capability_id=" . $result->capability_id . "' alt='" . __( 'Remove', GROUPS_PLUGIN_DOMAIN) . "'><img src='". GROUPS_PLUGIN_URL ."images/remove.png'/></a>";
-			}
-			$output .= "</td>";
 
 			$output .= '</tr>';
 		}
