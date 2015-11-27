@@ -376,6 +376,7 @@ function groups_admin_capabilities() {
 
 	if ( count( $results ) > 0 ) {
 		for ( $i = 0; $i < count( $results ); $i++ ) {
+			$result = $results[$i];
 
 			// Construct the "edit" URL.
 			$edit_url = add_query_arg( 'capability_id', intval( $result->capability_id ), add_query_arg( 'action', 'edit', add_query_arg( 'paged', $paged, $current_url ) ) );
@@ -384,8 +385,6 @@ function groups_admin_capabilities() {
 
 			// Construct row actions for this group.
 			$row_actions = '<div class="row-actions">' . '<span class="edit"><a href="' . esc_url( $edit_url ) . '">' . __( 'Edit', GROUPS_PLUGIN_DOMAIN ) . '</a> | </span><span class="trash"><a href="' . esc_url( $delete_url ) . '" class="submitdelete">' . __( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '</a></span>' . '</div><!--/.row-actions-->' . "\n";
-
-			$result = $results[$i];
 
 			$output .= '<tr class="' . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
 
