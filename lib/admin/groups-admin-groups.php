@@ -285,7 +285,7 @@ function groups_admin_groups() {
 	$results = $wpdb->get_results( $query, OBJECT );
 
 	$column_display_names = array(
-		'group_id'	 => __( 'Id', GROUPS_PLUGIN_DOMAIN ),
+		'group_id'	 => __( 'ID', GROUPS_PLUGIN_DOMAIN ),
 		'name'		 => __( 'Group', GROUPS_PLUGIN_DOMAIN ),
 		'description'  => __( 'Description', GROUPS_PLUGIN_DOMAIN ),
 		'capabilities' => __( 'Capabilities', GROUPS_PLUGIN_DOMAIN )
@@ -295,20 +295,18 @@ function groups_admin_groups() {
 
 	$output .=
 		'<div class="filters">' .
-			'<label class="description" for="setfilters">' . __( 'Filters', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 			'<form id="setfilters" action="" method="post">' .
-				'<p>' .
-				'<label class="group-id-filter" for="group_id">' . __( 'Group Id', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+				'<fieldset>' .
+				'<legend>' . __( 'Filter By:', GROUPS_PLUGIN_DOMAIN ) . '</legend>' .
+				'<label class="group-id-filter" for="group_id">' . __( 'Group ID', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="group-id-filter" name="group_id" type="text" value="' . esc_attr( $group_id ) . '"/>' .
 				'<label class="group-name-filter" for="group_name">' . __( 'Group Name', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="group-name-filter" name="group_name" type="text" value="' . $group_name . '"/>' .
-				'</p>' .
-				'<p>' .
 				wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_FILTER_NONCE, true, false ) .
-				'<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+				'<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>&nbsp;' .
 				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
-				'</p>' .
+				'</fieldset>' .
 			'</form>' .
 		'</div>';
 
