@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Help renderer.
  */
 class Groups_Help {
-	
+
 	/**
 	 * Help setup.
 	 */
@@ -39,11 +39,15 @@ class Groups_Help {
 				include_once( GFA_VIEWS_LIB . '/class-gfa-help.php' );
 			}
 		}
+
+		if ( is_admin() && isset( $_GET['page'] ) && 'groups-' == substr( $_GET['page'], 0, 7 ) ) {
+			add_filter( 'admin_footer_text', array( __CLASS__, 'add_groups_footer' ) );
+		}
 	}
-	
+
 	/**
 	 * Adds contextual help to Groups admin screens.
-	 * 
+	 *
 	 * @param array $pages admin pages
 	 */
 	public static function groups_admin_menu( $pages ) {
@@ -51,7 +55,7 @@ class Groups_Help {
 			add_action( 'load-' . $page, array( __CLASS__, 'contextual_help' ) );
 		}
 	}
-	
+
 	/**
 	 * Adds help to an admin screen.
 	 */
@@ -106,13 +110,30 @@ class Groups_Help {
 	}
 
 	/**
+	 * Add Groups footer text to the main WordPress footer text.
+	 * @param string $footer_text Existing WordPress footer text.
+	 */
+	public static function add_groups_footer ( $footer_text ) {
+		$footer_text .= ' ' . Groups_Help::get_groups_footer_text();
+		return $footer_text;
+	}
+
+	/**
+	 * Return the Groups footer text.
+	 * @return string Groups footer text.
+	 */
+	public static function get_groups_footer_text () {
+		return apply_filters( 'groups_footer_text', '<em>' . __( 'Thank you for using <a href="http://www.itthinx.com/plugins/groups" target="_blank">Groups</a> by <a href="http://www.itthinx.com" target="_blank">itthinx</a>.</em>', GROUPS_PLUGIN_DOMAIN ) );
+	}
+
+	/**
 	 * Returns or renders the footer.
 	 * @param boolean $render
 	 */
 	public static function footer( $render = true ) {
 		$footer =
 			'<div class="groups-footer">' .
-			__( 'Thank you for using <a href="http://www.itthinx.com/plugins/groups" target="_blank">Groups</a> by <a href="http://www.itthinx.com" target="_blank">itthinx</a>.', GROUPS_PLUGIN_DOMAIN ) .
+			Groups_Help::get_groups_footer_text() .
 			'</div>';
 		$footer = apply_filters( 'groups_footer', $footer );
 		if ( $render ) {
