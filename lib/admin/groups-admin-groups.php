@@ -288,9 +288,7 @@ function groups_admin_groups() {
 		'group_id'	 => __( 'Id', GROUPS_PLUGIN_DOMAIN ),
 		'name'		 => __( 'Group', GROUPS_PLUGIN_DOMAIN ),
 		'description'  => __( 'Description', GROUPS_PLUGIN_DOMAIN ),
-		'capabilities' => __( 'Capabilities', GROUPS_PLUGIN_DOMAIN ),
-		'edit'		 => __( 'Edit', GROUPS_PLUGIN_DOMAIN ),
-		'remove'	   => __( 'Remove', GROUPS_PLUGIN_DOMAIN )
+		'capabilities' => __( 'Capabilities', GROUPS_PLUGIN_DOMAIN )
 	);
 
 	$output .= '<div class="groups-overview">';
@@ -386,7 +384,7 @@ function groups_admin_groups() {
 			'order' => $switch_order
 		);
 		$class = $key;
-		if ( !in_array($key, array( 'capabilities', 'edit', 'remove' ) ) ) {
+		if ( !in_array($key, array( 'capabilities' ) ) ) {
 			if ( strcmp( $key, $orderby ) == 0 ) {
 				$lorder = strtolower( $order );
 				$class = "$key manage-column sorted $lorder";
@@ -407,6 +405,14 @@ function groups_admin_groups() {
 
 			$result = $results[$i];
 
+			// Construct the "edit" URL.
+			$edit_url = add_query_arg( 'group_id', intval( $result->group_id ), add_query_arg( 'action', 'edit', add_query_arg( 'paged', $paged, $current_url ) ) );
+			// Construct the "delete" URL.
+			$delete_url = add_query_arg( 'group_id', intval( $result->group_id ), add_query_arg( 'action', 'remove', add_query_arg( 'paged', $paged, $current_url ) ) );
+
+			// Construct row actions for this group.
+			$row_actions = '<div class="row-actions">' . '<span class="edit"><a href="' . esc_url( $edit_url ) . '">' . __( 'Edit', GROUPS_PLUGIN_DOMAIN ) . '</a> | </span><span class="trash"><a href="' . esc_url( $delete_url ) . '" class="submitdelete">' . __( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '</a></span>' . '</div><!--/.row-actions-->' . "\n";
+
 			$output .= '<tr class="' . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
 
 			$output .= '<th class="check-column">';
@@ -416,7 +422,7 @@ function groups_admin_groups() {
 			$output .= "<td class='group-id'>";
 			$output .= $result->group_id;
 			$output .= "</td>";
-			$output .= "<td class='group-name'>" . stripslashes( wp_filter_nohtml_kses( $result->name ) ) . "</td>";
+			$output .= "<td class='group-name'>" . '<a href="' . esc_url( $edit_url ) . '">' . stripslashes( wp_filter_nohtml_kses( $result->name ) ) . '</a>' . $row_actions . "</td>";
 			$output .= "<td class='group-description'>" . stripslashes( wp_filter_nohtml_kses( $result->description ) ) . "</td>";
 
 			$output .= '<td class="capabilities">';
@@ -446,16 +452,6 @@ function groups_admin_groups() {
 				$output .= __( 'This group has no capabilities.', GROUPS_PLUGIN_DOMAIN );
 			}
 			$output .= '</td>';
-
-			$output .= "<td class='edit'>";
-			$output .= "<a href='" . esc_url( add_query_arg( 'paged', $paged, $current_url ) ) . "&action=edit&group_id=" . $result->group_id . "' alt='" . __( 'Edit', GROUPS_PLUGIN_DOMAIN) . "'><img src='". GROUPS_PLUGIN_URL ."images/edit.png'/></a>";
-			$output .= "</td>";
-
-			$output .= "<td class='remove'>";
-			if ( $result->name !== Groups_Registered::REGISTERED_GROUP_NAME ) {
-				$output .= "<a href='" . esc_url( $current_url ) . "&action=remove&group_id=" . $result->group_id . "' alt='" . __( 'Remove', GROUPS_PLUGIN_DOMAIN) . "'><img src='". GROUPS_PLUGIN_URL ."images/remove.png'/></a>";
-			}
-			$output .= "</td>";
 
 			$output .= '</tr>';
 		}
