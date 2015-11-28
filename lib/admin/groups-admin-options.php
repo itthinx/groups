@@ -207,7 +207,7 @@ function groups_admin_options() {
 		'</p>' .
 
 		'<div>' .
-		'<h3>' . __( 'Administrator Access Override', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
+		'<h2>' . __( 'Administrator Access Override', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
 		'<p>' .
 		'<label>' .
 		'<input name="' . GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE . '" type="checkbox" ' . ( $admin_override ? 'checked="checked"' : '' ) . '/>' .
@@ -215,9 +215,9 @@ function groups_admin_options() {
 		 '</label>' .
 		'</p>';
 
-	echo '<h3>' . __( 'Access restricions', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
+	echo '<h2>' . __( 'Access restricions', GROUPS_PLUGIN_DOMAIN ) . '</h2>';
 
-	echo '<h4>' . __( 'Post types', GROUPS_PLUGIN_DOMAIN ) . '</h4>';
+	echo '<h3>' . __( 'Post types', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
 
 	echo
 		'<p class="description">' .  __( 'Show access restrictions for these post types.', GROUPS_PLUGIN_DOMAIN ) . '</p>';
@@ -248,7 +248,7 @@ function groups_admin_options() {
 		'</p>';
 
 
-	echo '<h4>' . __( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</h4>';
+	echo '<h3>' . __( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
 
 	echo '<p class="description">' .
 		__( 'Include these capabilities to enforce read access on posts. The selected capabilities will be offered to restrict access to posts.', GROUPS_PLUGIN_DOMAIN ) .
@@ -272,7 +272,7 @@ function groups_admin_options() {
 	echo Groups_UIE::render_select( '.select.capability' );
 
 	echo
-		'<h3>' . __( 'User profiles', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
+		'<h2>' . __( 'User profiles', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
 		'<p>' .
 		'<label>' .
 		'<input name="' . GROUPS_SHOW_IN_USER_PROFILE . '" type="checkbox" ' . ( $show_in_user_profile ? 'checked="checked"' : '' ) . '/>' .
@@ -281,7 +281,7 @@ function groups_admin_options() {
 		'</p>';
 
 	echo
-		'<h3>' . __( 'Tree view', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
+		'<h2>' . __( 'Tree view', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
 		'<p>' .
 		'<label>' .
 		'<input name="' . GROUPS_SHOW_TREE_VIEW . '" type="checkbox" ' . ( $show_tree_view ? 'checked="checked"' : '' ) . '/>' .
@@ -290,7 +290,7 @@ function groups_admin_options() {
 		'</p>';
 
 	echo
-		'<h3>' . __( 'Permissions', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
+		'<h2>' . __( 'Permissions', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
 		'<p>' . __( 'These permissions apply to Groups management. They do not apply to access permissions derived from Groups capabilities.', GROUPS_PLUGIN_DOMAIN ) . '</p>' .
 		$caps_table .
 		'<p class="description">' .
@@ -300,7 +300,7 @@ function groups_admin_options() {
 		'</p>';
 	if ( !$is_sitewide_plugin ) {
 		echo
-			'<h3>' . __( 'Deactivation and data persistence', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
+			'<h2>' . __( 'Deactivation and data persistence', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
 			'<p>' .
 			'<label>' .
 			'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
@@ -354,7 +354,7 @@ function groups_network_admin_options() {
 	echo
 		'<form action="" name="options" method="post">' .
 		'<div>' .
-		'<h3>' . __( 'Network deactivation and data persistence', GROUPS_PLUGIN_DOMAIN ) . '</h3>' .
+		'<h2>' . __( 'Network deactivation and data persistence', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
 		'<p>' .
 		'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
 		'<label for="delete-data">' . __( 'Delete all Groups plugin data for ALL sites on network deactivation', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
