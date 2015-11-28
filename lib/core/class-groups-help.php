@@ -113,6 +113,11 @@ class Groups_Help {
 		$footer =
 			'<div class="groups-footer">' .
 			__( 'Thank you for using <a href="http://www.itthinx.com/plugins/groups" target="_blank">Groups</a> by <a href="http://www.itthinx.com" target="_blank">itthinx</a>.', GROUPS_PLUGIN_DOMAIN ) .
+			' ' .
+			sprintf(
+				__( 'Please give it a <a href="%s">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating.', GROUPS_PLUGIN_DOMAIN ),
+				esc_attr( 'http://wordpress.org/support/view/plugin-reviews/groups?filter=5#postform' )
+			) .
 			'</div>';
 		$footer = apply_filters( 'groups_footer', $footer );
 		if ( $render ) {

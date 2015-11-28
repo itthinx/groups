@@ -187,6 +187,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Fixed a representation issue for the lower group selector on the Users screen.
 * Updated the page headings to use h1 instead of h2.
 * Added the is_member method to Groups_User.
+* Updated the footer.
 
 = 1.9.0 =
 * Added own cache encapsulation to guard against flaws in outdated cache implementations.
