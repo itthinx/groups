@@ -185,6 +185,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * WordPress 4.4 compatible.
 * Updated selectize.js to 0.12.1 (standalone).
 * Fixed a representation issue for the lower group selector on the Users screen.
+* Updated the page headings to use h1 instead of h2.
 
 = 1.9.0 =
 * Added own cache encapsulation to guard against flaws in outdated cache implementations.
@@ -503,4 +504,4 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.9.1 =
-This release is compatible with WordPress 4.4.
+This release is compatible with WordPress 4.4 and has a few minor visual improvements.

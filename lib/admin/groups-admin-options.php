@@ -129,9 +129,9 @@ function groups_admin_options() {
 	echo '<div class="groups-options">';
 
 	echo
-		'<h2>' .
+		'<h1>' .
 		__( 'Groups options', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>';
+		'</h1>';
 
 	echo Groups_Admin::render_messages();
 
@@ -331,9 +331,9 @@ function groups_network_admin_options() {
 
 	echo
 		'<div>' .
-		'<h2>' .
+		'<h1>' .
 		__( 'Groups network options', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>' .
+		'</h1>' .
 		'</div>';
 
 	// handle options form submission

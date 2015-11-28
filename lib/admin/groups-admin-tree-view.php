@@ -39,9 +39,9 @@ function groups_admin_tree_view() {
 
 	$output .=
 		'<div class="groups-tree-view">' .
-		'<h2>' .
+		'<h1>' .
 		__( 'Tree of Groups', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>';
+		'</h1>';
 
 	$tree = Groups_Utility::get_group_tree();
 	$tree_output = '';

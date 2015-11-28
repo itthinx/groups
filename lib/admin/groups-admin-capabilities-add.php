@@ -47,9 +47,9 @@ function groups_admin_capabilities_add() {
 	$output =
 		'<div class="manage-capabilities">' .
 		'<div>' .
-			'<h2>' .
+			'<h1>' .
 				__( 'Add a new capability', GROUPS_PLUGIN_DOMAIN ) .
-			'</h2>' .
+			'</h1>' .
 		'</div>' .
 		Groups_Admin::render_messages() .
 		'<form id="add-capability" action="' . esc_url( $current_url ) . '" method="post">' .

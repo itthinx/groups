@@ -189,9 +189,9 @@ function groups_admin_capabilities() {
 	$output .=
 		'<div class="manage-capabilities">' .
 		'<div>' .
-		'<h2>' .
+		'<h1>' .
 		__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>' .
+		'</h1>' .
 		'</div>';
 	
 	$output .= Groups_Admin::render_messages();

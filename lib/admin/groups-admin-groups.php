@@ -196,9 +196,9 @@ function groups_admin_groups() {
 	$output .=
 		'<div class="manage-groups">' .
 		'<div>' .
-		'<h2>' .
+		'<h1>' .
 		_x( 'Groups', 'page-title', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>' .
+		'</h1>' .
 		'</div>';
 
 	$output .= Groups_Admin::render_messages();

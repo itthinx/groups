@@ -56,9 +56,9 @@ function groups_admin_groups_add() {
 
 	$output .= '<div class="manage-groups">';
 	$output .= '<div>';
-	$output .= '<h2>';
+	$output .= '<h1>';
 	$output .= __( 'Add a new group', GROUPS_PLUGIN_DOMAIN );
-	$output .= '</h2>';
+	$output .= '</h1>';
 	$output .= '</div>';
 
 	$output .= Groups_Admin::render_messages();

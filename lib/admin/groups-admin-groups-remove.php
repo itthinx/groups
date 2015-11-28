@@ -50,9 +50,9 @@ function groups_admin_groups_remove( $group_id ) {
 	$output =
 		'<div class="manage-groups">' .
 		'<div>' .
-		'<h2>' .
+		'<h1>' .
 		__( 'Remove a group', GROUPS_PLUGIN_DOMAIN ) .
-		'</h2>' .
+		'</h1>' .
 		'</div>' .
 		'<form id="remove-group" action="' . esc_url( $current_url ) . '" method="post">' .
 		'<div class="group remove">' .
@@ -136,9 +136,9 @@ function groups_admin_groups_bulk_remove() {
 
 	$output .= '<div class="manage-groups">';
 	$output .= '<div>';
-	$output .= '<h2>';
+	$output .= '<h1>';
 	$output .= __( 'Remove groups', GROUPS_PLUGIN_DOMAIN );
-	$output .= '</h2>';
+	$output .= '</h1>';
 	$output .= '</div>';
 
 	$output .= '<form id="groups-action" method="post" action="">';

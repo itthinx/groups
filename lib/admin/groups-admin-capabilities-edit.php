@@ -53,9 +53,9 @@ function groups_admin_capabilities_edit( $capability_id ) {
 	$output =
 		'<div class="manage-capabilities">' .
 		'<div>' .
-			'<h2>' .
+			'<h1>' .
 				__( 'Edit a capability', GROUPS_PLUGIN_DOMAIN ) .
-			'</h2>' .
+			'</h1>' .
 		'</div>' .
 
 		Groups_Admin::render_messages() .

@@ -50,9 +50,9 @@ function groups_admin_capabilities_remove( $capability_id ) {
 	$output =
 		'<div class="manage-capabilities">' .
 		'<div>' .
-			'<h2>' .
+			'<h1>' .
 				__( 'Remove a capability', GROUPS_PLUGIN_DOMAIN ) .
-			'</h2>' .
+			'</h1>' .
 		'</div>' .
 		'<form id="remove-capability" action="' . esc_url( $current_url ) . '" method="post">' .
 		'<div class="capability remove">' .
@@ -134,9 +134,9 @@ function groups_admin_capabilities_bulk_remove() {
 
 	$output .= '<div class="manage-capabilities">';
 	$output .= '<div>';
-	$output .= '<h2>';
+	$output .= '<h1>';
 	$output .= __( 'Remove capabilities', GROUPS_PLUGIN_DOMAIN );
-	$output .= '</h2>';
+	$output .= '</h1>';
 	$output .= '</div>';
 
 	$output .= '<form id="capabilities-action" method="post" action="">';

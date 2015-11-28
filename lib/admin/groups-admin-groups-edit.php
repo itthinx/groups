@@ -65,9 +65,9 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$output .= '<div class="manage-groups">';
 	$output .= '<div>';
-	$output .= '<h2>';
+	$output .= '<h1>';
 	$output .= __( 'Edit a group', GROUPS_PLUGIN_DOMAIN );
-	$output .= '</h2>';
+	$output .= '</h1>';
 	$output .= '</div>';
 
 	$output .= Groups_Admin::render_messages();
