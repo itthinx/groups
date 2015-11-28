@@ -150,7 +150,14 @@ class Groups_Admin_Users {
 	 */
 	public static function restrict_manage_users() {
 
-		global $pagenow, $wpdb;
+		global $pagenow, $wpdb, $groups_select_user_groups_index;
+
+		// We don't handle multiple instances so don't render another.
+		if ( !isset( $groups_select_user_groups_index ) ) {
+			$groups_select_user_groups_index = 0;
+		} else {
+			return '';
+		}
 
 		$output = '';
 
