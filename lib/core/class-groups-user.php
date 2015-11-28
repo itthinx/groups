@@ -316,6 +316,27 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
+	 * Returns true if the user belongs to the group.
+	 * 
+	 * @param int $group_id
+	 * @return boolean
+	 */
+	public function is_member( $group_id ) {
+		$result = false;
+		if ( $this->user !== null ) {
+			if ( isset( $this->user->ID ) ) {
+				$user_group = Groups_User_Group::read(
+					Groups_Utility::id( $this->user->ID ),
+					Groups_Utility::id( $group_id )
+				);
+				$result = $user_group !== false;
+				unset( $user_group );
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Builds the cache entries for user groups and capabilities if needed.
 	 * The cache entries are built only if they do not already exist.
 	 * If you want them rebuilt, delete them before calling.
