@@ -3,8 +3,8 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.3.1
-Stable tag: 1.9.0
+Tested up to: 4.4
+Stable tag: 1.9.1
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -180,6 +180,11 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.9.1 =
+* WordPress 4.4 compatible.
+* Updated selectize.js to 0.12.1 (standalone).
+* Fixed a representation issue for the lower group selector on the Users screen.
 
 = 1.9.0 =
 * Added own cache encapsulation to guard against flaws in outdated cache implementations.
@@ -497,5 +502,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.9.0 =
-This release fixes bugs and introduces improved caching mechanisms which may result in performance improvements for some setups.
+= 1.9.1 =
+This release is compatible with WordPress 4.4.
