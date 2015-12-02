@@ -80,6 +80,9 @@ class Groups_Post_Access {
 		// add_filter( "posts_join_paged", array( __CLASS__, "posts_join_paged" ), 1 );
 		// add_filter( "posts_where_paged", array( __CLASS__, "posts_where_paged" ), 1 );
 		add_action( 'groups_deleted_capability_capability', array( __CLASS__, 'groups_deleted_capability_capability' ) );
+		// get_adjacent_post filters
+		add_filter( 'get_previous_post_where', array( __CLASS__, 'get_adjacent_post_where' ), 10, 3 );
+		add_filter( 'get_next_post_where', array( __CLASS__, 'get_adjacent_post_where' ), 10, 3 );
 	}
 
 	/**
@@ -194,6 +197,62 @@ class Groups_Post_Access {
 			$caps
 		);
 
+		return $where;
+	}
+
+	/**
+	 * Filter adjacent post (previous/next) that the user should not be able to access.
+	 * @param string $where current where conditions
+	 * @param unknown $in_same_term
+	 * @param unknown $excluded_terms
+	 * @return string modified $where
+	 */
+	public static function get_adjacent_post_where ( $where, $in_same_term, $excluded_terms ) {
+		global $wpdb;
+
+		$user_id = get_current_user_id();
+
+		// this only applies to logged in users
+		if ( $user_id ) {
+			// if administrators can override access, don't filter
+			if ( get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT ) ) {
+				if ( user_can( $user_id, 'administrator' ) ) {
+					return $where;
+				}
+			}
+		}
+
+		// 1. Get all the capabilities that the user has, including those that are inherited:
+		$caps = array();
+		if ( $user = new Groups_User( $user_id ) ) {
+			$capabilities = $user->capabilities_deep;
+			if ( is_array( $capabilities ) ) {
+				foreach ( $capabilities as $capability ) {
+					$caps[] = "'". $capability . "'";
+				}
+			}
+		}
+
+		if ( count( $caps ) > 0 ) {
+			$caps = implode( ',', $caps );
+		} else {
+			$caps = '\'\'';
+		}
+
+		// This allows the user to access posts where the posts are not restricted or where
+		// the user has ANY of the capabilities:
+		$where .= sprintf(
+				" AND p.ID IN " .
+				" ( " .
+				"   SELECT ID FROM $wpdb->posts WHERE ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts without access restriction
+				"   UNION ALL " . // we don't care about duplicates here, just make it quick
+				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any capability the user has
+				" ) ",
+				self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY,
+				self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY,
+				$caps
+		);
+	
 		return $where;
 	}
 
