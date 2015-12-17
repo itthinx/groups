@@ -113,6 +113,11 @@ function groups_admin_groups_add() {
 
 	$output .= Groups_UIE::render_select( '.select.capability' );
 	$output .= '</div>';
+	
+	$custom_output = apply_filters( "groups_admin_groups_add", $output, $group_id );
+	if($custom_output) {
+		$output = $custom_output;
+	}
 
 	$output .= '<div class="field">';
 	$output .= wp_nonce_field( 'groups-add', GROUPS_ADMIN_GROUPS_NONCE, true, false );
@@ -152,7 +157,7 @@ function groups_admin_groups_add_submit() {
 	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : null;
 
 	$group_id = Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
-
+	do_action( "groups_admin_groups_add_submit", $_POST, $group_id );
 	if ( $group_id ) {
 		if ( !empty( $_POST['capability_ids'] ) ) {
 			$caps = $_POST['capability_ids'];
