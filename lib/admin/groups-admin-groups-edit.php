@@ -152,6 +152,11 @@ function groups_admin_groups_edit( $group_id ) {
 		$output .= implode( ' ', $inherited_caps );
 		$output .= '</div>';
 	}
+	
+	$custom_output = apply_filters( "groups_admin_groups_edit", $output, $group_id );
+	if($custom_output) {
+		$output = $custom_output;
+	}
 
 	$output .= '<div class="field">';
 	$output .= wp_nonce_field( 'groups-edit', GROUPS_ADMIN_GROUPS_NONCE, true, false );
@@ -184,6 +189,7 @@ function groups_admin_groups_edit_submit() {
 
 	$group_id = isset( $_POST['group-id-field'] ) ? $_POST['group-id-field'] : null;
 	$group = Groups_Group::read( $group_id );
+	do_action( "groups_admin_groups_edit_submit", $_POST, $group_id );
 	if ( $group ) {
 		$group_id = $group->group_id;
 		if ( $group->name !== Groups_Registered::REGISTERED_GROUP_NAME ) {
