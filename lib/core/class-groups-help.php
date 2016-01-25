@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Help renderer.
  */
 class Groups_Help {
-	
+
 	/**
 	 * Help setup.
 	 */
@@ -39,11 +39,13 @@ class Groups_Help {
 				include_once( GFA_VIEWS_LIB . '/class-gfa-help.php' );
 			}
 		}
+
+		add_filter( 'admin_footer_text', array( __CLASS__, 'admin_footer_text' ) );
 	}
-	
+
 	/**
 	 * Adds contextual help to Groups admin screens.
-	 * 
+	 *
 	 * @param array $pages admin pages
 	 */
 	public static function groups_admin_menu( $pages ) {
@@ -51,7 +53,7 @@ class Groups_Help {
 			add_action( 'load-' . $page, array( __CLASS__, 'contextual_help' ) );
 		}
 	}
-	
+
 	/**
 	 * Adds help to an admin screen.
 	 */
@@ -106,7 +108,31 @@ class Groups_Help {
 	}
 
 	/**
+	 * Provides the footer text for Groups on relevant screens.
+	 *
+	 * @param string $footer_text
+	 * @return mixed
+	 */
+	public static function admin_footer_text( $text ) {
+		if ( function_exists( 'get_current_screen' ) ) {
+			$current_screen = get_current_screen();
+			if (
+				isset( $current_screen->id ) &&
+				(
+					stripos( $current_screen->id, 'groups-' ) === 0 ||
+					stripos( $current_screen->id, 'groups_' ) === 0 ||
+					stripos( $current_screen->id, 'toplevel_page_groups' ) === 0
+				)
+			) {
+				$text = self::footer( false );
+			}
+		}
+		return $text;
+	}
+
+	/**
 	 * Returns or renders the footer.
+	 *
 	 * @param boolean $render
 	 */
 	public static function footer( $render = true ) {

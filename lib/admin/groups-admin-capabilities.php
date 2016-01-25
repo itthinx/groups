@@ -1,19 +1,19 @@
 <?php
 /**
  * groups-admin-capabilities.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.0.0
@@ -118,9 +118,9 @@ function groups_admin_capabilities() {
 				if ( check_admin_referer( 'refresh' ) ) {
 					$n = Groups_WordPress::refresh_capabilities();
 					if ( $n > 0 ) {
-						$output .= '<div class="info">' . sprintf( _n( 'One capability has been added.', '%d capabilities have been added.', $n, GROUPS_PLUGIN_DOMAIN ), $n ) . '</div>';
+						$output .= '<div class="updated fade"><p>' . sprintf( _n( 'One capability has been added.', '%d capabilities have been added.', $n, GROUPS_PLUGIN_DOMAIN ), $n ) . '</p></div>';
 					} else {
-						$output .= '<div class="info">' . __( 'No new capabilities have been found.', GROUPS_PLUGIN_DOMAIN ) .  '</div>';
+						$output .= '<div class="updated fade"><p>' . __( 'No new capabilities have been found.', GROUPS_PLUGIN_DOMAIN ) .  '</p></div>';
 					}
 				} else {
 					wp_die( __( 'A Duck!', GROUPS_PLUGIN_DOMAIN ) );
@@ -187,20 +187,14 @@ function groups_admin_capabilities() {
 	$capability_table = _groups_get_tablename( 'capability' );
 
 	$output .=
-		'<div class="manage-capabilities">' .
-		'<div>' .
+		'<div class="manage-capabilities wrap">' .
 		'<h1>' .
 		__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) .
-		'</h1>' .
-		'</div>';
-	
+		" <a title='" . __( 'Click to add a new capability', GROUPS_PLUGIN_DOMAIN ) . "' class='page-title-action' href='" . esc_url( $current_url ) . "&action=add'><span class='label'>" . __( 'Add New Capability', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
+		" <a title='" . __( 'Click to refresh capabilities', GROUPS_PLUGIN_DOMAIN ) . "' class='page-title-action' href='" . esc_url( wp_nonce_url( $current_url, 'refresh' ) ) . "&action=refresh'><span class='label'>" . __( 'Refresh Capabilities', GROUPS_PLUGIN_DOMAIN ) . "</span></a>" .
+		'</h1>';
+
 	$output .= Groups_Admin::render_messages();
-	
-	$output .=
-		'<div class="manage">' .
-		"<a title='" . __( 'Click to add a new capability', GROUPS_PLUGIN_DOMAIN ) . "' class='add button' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/add.png'/><span class='label'>" . __( 'New Capability', GROUPS_PLUGIN_DOMAIN) . "</span></a>" .
-		"<a title='" . __( 'Click to refresh capabilities', GROUPS_PLUGIN_DOMAIN ) . "' class='refresh button' href='" . esc_url( wp_nonce_url( $current_url, 'refresh' ) ) . "&action=refresh'><img class='icon' alt='" . __( 'Refresh', GROUPS_PLUGIN_DOMAIN) . "' src='". GROUPS_PLUGIN_URL . "images/refresh.png'/><span class='label'></span></a>" .
-		'</div>';
 
 	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
 
@@ -285,31 +279,27 @@ function groups_admin_capabilities() {
 	$results = $wpdb->get_results( $query, OBJECT );
 
 	$column_display_names = array(
-		'capability_id' => __( 'Id', GROUPS_PLUGIN_DOMAIN ),
+		'capability_id' => __( 'ID', GROUPS_PLUGIN_DOMAIN ),
 		'capability'	=> __( 'Capability', GROUPS_PLUGIN_DOMAIN ),
-		'description'   => __( 'Description', GROUPS_PLUGIN_DOMAIN ),
-		'edit'		  => __( 'Edit', GROUPS_PLUGIN_DOMAIN ),
-		'remove'		=> __( 'Remove', GROUPS_PLUGIN_DOMAIN )
+		'description'   => __( 'Description', GROUPS_PLUGIN_DOMAIN )
 	);
 
 	$output .= '<div class="capabilities-overview">';
 
 	$output .=
 		'<div class="filters">' .
-			'<label class="description" for="setfilters">' . __( 'Filters', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 			'<form id="setfilters" action="" method="post">' .
-				'<p>' .
-				'<label class="capability-id-filter" for="capability_id">' . __( 'Capability Id', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+				'<fieldset>' .
+				'<legend>' . __( 'Filter By:', GROUPS_PLUGIN_DOMAIN ) . '</legend>' .
+				'<label class="capability-id-filter" for="capability_id">' . __( 'Capability ID', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="capability-id-filter" name="capability_id" type="text" value="' . esc_attr( $capability_id ) . '"/>' .
 				'<label class="capability-filter" for="capability">' . __( 'Capability', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="capability-filter" name="capability" type="text" value="' . $capability . '"/>' .
-				'</p>' .
-				'<p>' .
 				wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE, true, false ) .
-				'<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+				'<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>&nbsp;' .
 				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
-				'</p>' .
+				'</fieldset>' .
 			'</form>' .
 		'</div>';
 
@@ -384,8 +374,15 @@ function groups_admin_capabilities() {
 
 	if ( count( $results ) > 0 ) {
 		for ( $i = 0; $i < count( $results ); $i++ ) {
-
 			$result = $results[$i];
+
+			// Construct the "edit" URL.
+			$edit_url = add_query_arg( 'capability_id', intval( $result->capability_id ), add_query_arg( 'action', 'edit', add_query_arg( 'paged', $paged, $current_url ) ) );
+			// Construct the "delete" URL.
+			$delete_url = add_query_arg( 'capability_id', intval( $result->capability_id ), add_query_arg( 'action', 'remove', add_query_arg( 'paged', $paged, $current_url ) ) );
+
+			// Construct row actions for this group.
+			$row_actions = '<div class="row-actions">' . '<span class="edit"><a href="' . esc_url( $edit_url ) . '">' . __( 'Edit', GROUPS_PLUGIN_DOMAIN ) . '</a> | </span><span class="trash"><a href="' . esc_url( $delete_url ) . '" class="submitdelete">' . __( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '</a></span>' . '</div><!--/.row-actions-->' . "\n";
 
 			$output .= '<tr class="' . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
 
@@ -396,18 +393,8 @@ function groups_admin_capabilities() {
 			$output .= "<td class='capability-id'>";
 			$output .= $result->capability_id;
 			$output .= "</td>";
-			$output .= "<td class='capability'>" . stripslashes( wp_filter_nohtml_kses( $result->capability ) ) . "</td>";
+			$output .= "<td class='capability'>" . '<a href="' . esc_url( $edit_url ) . '">' . stripslashes( wp_filter_nohtml_kses( $result->capability ) ) . '</a>' . $row_actions . "</td>";
 			$output .= "<td class='description'>" . stripslashes( wp_filter_nohtml_kses( $result->description ) ) . "</td>";
-
-			$output .= "<td class='edit'>";
-			$output .= "<a href='" . esc_url( add_query_arg( 'paged', $paged, $current_url ) ) . "&action=edit&capability_id=" . $result->capability_id . "' alt='" . __( 'Edit', GROUPS_PLUGIN_DOMAIN) . "'><img src='". GROUPS_PLUGIN_URL ."images/edit.png'/></a>";
-			$output .= "</td>";
-
-			$output .= "<td class='remove'>";
-			if ( $result->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) {
-				$output .= "<a href='" . esc_url( $current_url ) . "&action=remove&capability_id=" . $result->capability_id . "' alt='" . __( 'Remove', GROUPS_PLUGIN_DOMAIN) . "'><img src='". GROUPS_PLUGIN_URL ."images/remove.png'/></a>";
-			}
-			$output .= "</td>";
 
 			$output .= '</tr>';
 		}
@@ -434,5 +421,4 @@ function groups_admin_capabilities() {
 	$output .= '</div>'; // .manage-capabilities
 
 	echo $output;
-	Groups_Help::footer();
 } // function groups_admin_capabilities()

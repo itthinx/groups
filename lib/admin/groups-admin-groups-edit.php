@@ -1,19 +1,19 @@
 <?php
 /**
  * groups-admin-groups-edit.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.1.0
@@ -63,12 +63,10 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$name_readonly = ( $name !== Groups_Registered::REGISTERED_GROUP_NAME ) ? "" : ' readonly="readonly" ';
 
-	$output .= '<div class="manage-groups">';
-	$output .= '<div>';
+	$output .= '<div class="manage-groups wrap">';
 	$output .= '<h1>';
 	$output .= __( 'Edit a group', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</h1>';
-	$output .= '</div>';
 
 	$output .= Groups_Admin::render_messages();
 
@@ -164,8 +162,6 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '</div>'; // .manage-groups
 
 	echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_groups_edit
 
 /**
