@@ -328,7 +328,7 @@ function groups_admin_groups() {
 		'</div>';
 
 	if ( $paginate ) {
-	  require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
+		require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
 		$pagination = new Groups_Pagination( $count, null, $row_count );
 		$output .= '<form id="posts-filter" method="post" action="">';
 		$output .= '<div>';
@@ -382,7 +382,7 @@ function groups_admin_groups() {
 	$output .= '<option value="add-capability">' . esc_html( __( 'Add capability', GROUPS_PLUGIN_DOMAIN ) ) . '</option>';
 	$output .= '<option value="remove-capability">' . esc_html( __( 'Remove capability', GROUPS_PLUGIN_DOMAIN ) ) . '</option>';
 	$output .= '</select>';
-	$output .= sprintf( '<input class="button" type="submit" name="bulk" value="%s" />', __( 'Apply', GROUPS_PLUGIN_DOMAIN ) );
+	$output .= sprintf( '<input class="button" type="submit" name="bulk" value="%s" />', esc_attr( __( 'Apply', GROUPS_PLUGIN_DOMAIN ) ) );
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '</div>';
 	$output .= '</div>';
@@ -466,7 +466,8 @@ function groups_admin_groups() {
 					'<span class="remove trash">' .
 					'<a href="' . esc_url( $delete_url ) . '" class="submitdelete">' .
 					'<img src="' . GROUPS_PLUGIN_URL . 'images/remove.png"/>' .
-					__( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
+					__( 'Remove', GROUPS_PLUGIN_DOMAIN ) .
+					'</a>' .
 					'</span>';
 				}
 			$row_actions .= '</div>'; // .row-actions

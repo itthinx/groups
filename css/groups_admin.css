@@ -51,7 +51,11 @@
 .manage-groups a.add.page-title-action img.icon,
 .manage-groups a.refresh.page-title-action img.icon,
 .manage-groups .row-actions span.edit img,
-.manage-groups .row-actions span.remove img {
+.manage-groups .row-actions span.remove img,
+.manage-capabilities a.add.page-title-action img.icon,
+.manage-capabilities a.refresh.page-title-action img.icon,
+.manage-capabilities .row-actions span.edit img,
+.manage-capabilities .row-actions span.remove img {
 	vertical-align: sub;
 }
 .manage a.add .label {
