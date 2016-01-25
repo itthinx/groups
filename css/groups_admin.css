@@ -168,16 +168,16 @@ div.capability.edit label {
 	background: url(../images/required.png) transparent no-repeat left center;
 	padding-left: 16px ! important;
 }
-div.groups-footer {
+.groups-footer {
 	padding-top: 16px;
 	color: #999;
 }
-div.groups-footer a {
+.groups-footer a {
 	color: #777;
 	text-decoration: none;
 	font-weight: bold;
 }
-div.groups-footer form {
+.groups-footer form {
 	display: inline;
 }
 
