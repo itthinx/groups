@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.4
+Tested up to: 4.4.1
 Stable tag: 1.9.1
 License: GPLv3
 
@@ -180,6 +180,16 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.10.0 =
+* Adjusted the Groups and Capabilities screens' UI elements.
+* Reduced the filters section footprint on the Groups screen.
+* Reduced the filters section footprint on the Capabilities screen.
+* Fixed use of deprecated constructor in the Groups_Pagination class.
+* Fixed sorting by description and the sorting indicator on the Groups screen.
+* Fixed sorting by description and the sorting indicator on the Capabilities screen.
+* Fixed some code formatting issues including superfluous whitespace.
+* Improved the footer rendering and footprint.
 
 = 1.9.1 =
 * WordPress 4.4 compatible.
