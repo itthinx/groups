@@ -34,7 +34,7 @@ class Groups_Pagination {
 	 * @param int $total_pages how many pages there are, normally leave set to null
 	 * @param int $per_page how many results to show on each page
 	 */
-	function Groups_Pagination($total_items, $total_pages, $per_page) {
+	function __construct( $total_items, $total_pages, $per_page ) {
 		$this->set_pagination_args(
 			array(
 				'total_items' => $total_items,

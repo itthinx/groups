@@ -1,19 +1,19 @@
 <?php
 /**
  * groups-admin-add-ons.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.8.0
@@ -28,7 +28,7 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 function groups_admin_add_ons() {
 
-	echo '<div class="groups-admin-add-ons">';
+	echo '<div class="groups-admin-add-ons wrap">';
 
 	echo '<h1>';
 	echo __( 'Add-Ons', GROUPS_PLUGIN_DOMAIN );
@@ -181,8 +181,6 @@ function groups_admin_add_ons() {
 	echo '</ul>'; // .add-ons
 
 	echo '</div>'; // .groups-admin-add-ons
-
-	Groups_Help::footer();
 }
 
 function groups_admin_add_ons_sort( $e1, $e2 ) {
@@ -190,6 +188,6 @@ function groups_admin_add_ons_sort( $e1, $e2 ) {
 	$i2 = isset( $e2['index'] ) ? $e2['index'] : 0;
 	$t1 = isset( $e1['title'] ) ? $e1['title'] : '';
 	$t2 = isset( $e2['title'] ) ? $e2['title'] : '';
-	
+
 	return $i1 - $i2 + strnatcmp( $t1, $t2 );
 }

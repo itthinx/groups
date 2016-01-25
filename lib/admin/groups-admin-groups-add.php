@@ -1,19 +1,19 @@
 <?php
 /**
  * groups-admin-groups-add.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.1.0
@@ -54,12 +54,10 @@ function groups_admin_groups_add() {
 	}
 	$parent_select .= '</select>';
 
-	$output .= '<div class="manage-groups">';
-	$output .= '<div>';
+	$output .= '<div class="manage-groups wrap">';
 	$output .= '<h1>';
 	$output .= __( 'Add a new group', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</h1>';
-	$output .= '</div>';
 
 	$output .= Groups_Admin::render_messages();
 
@@ -125,8 +123,6 @@ function groups_admin_groups_add() {
 	$output .= '</div>'; // .manage-groups
 
 	echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_groups_add
 
 /**

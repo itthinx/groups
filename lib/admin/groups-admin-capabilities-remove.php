@@ -1,19 +1,19 @@
 <?php
 /**
  * groups-admin-capabilities-remove.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.0.0
@@ -48,12 +48,10 @@ function groups_admin_capabilities_remove( $capability_id ) {
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
 	$output =
-		'<div class="manage-capabilities">' .
-		'<div>' .
+		'<div class="manage-capabilities wrap">' .
 			'<h1>' .
 				__( 'Remove a capability', GROUPS_PLUGIN_DOMAIN ) .
 			'</h1>' .
-		'</div>' .
 		'<form id="remove-capability" action="' . esc_url( $current_url ) . '" method="post">' .
 		'<div class="capability remove">' .
 		'<input id="capability-id-field" name="capability-id-field" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>' .
@@ -70,8 +68,6 @@ function groups_admin_capabilities_remove( $capability_id ) {
 		'</div>'; // .manage-capabilities
 
 	echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_capabilities_remove
 
 /**
@@ -132,12 +128,10 @@ function groups_admin_capabilities_bulk_remove() {
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
-	$output .= '<div class="manage-capabilities">';
-	$output .= '<div>';
+	$output .= '<div class="manage-capabilities wrap">';
 	$output .= '<h1>';
 	$output .= __( 'Remove capabilities', GROUPS_PLUGIN_DOMAIN );
 	$output .= '</h1>';
-	$output .= '</div>';
 
 	$output .= '<form id="capabilities-action" method="post" action="">';
 	$output .= '<div class="capability remove">';
@@ -165,8 +159,6 @@ function groups_admin_capabilities_bulk_remove() {
 	$output .= '</div>';
 
 	echo $output;
-
-	Groups_Help::footer();
 } // function groups_admin_capabilities_bulk_remove
 
 /**
