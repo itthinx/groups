@@ -68,27 +68,27 @@ class Groups_Registered {
 	 * Initialize hooks that handle addition and removal of users and blogs.
 	 */
 	public static function init() {
-		
+
 		// For translation of the "Registered" group(s)
 		__( 'Registered', GROUPS_PLUGIN_DOMAIN );
 		 
 		// When a blog is added, create a new "Registered" group for that blog.
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 10, 2 );
-		
+
 		// Remove group when a blog is deleted? When a blog is deleted,
 		// Groups_Controller::delete_blog() takes appropriate action.
-		
+
 		// When a user is added, add it to the "Registered" group.
 		add_action( 'user_register', array( __CLASS__, 'user_register' ) );
-		
+
 		// Note : When a user is deleted this is handled from core.
 
 		// When a user is added to a blog, add it to the blog's "Registered" group.
 		add_action( 'add_user_to_blog', array( __CLASS__, 'add_user_to_blog' ), 10, 3 );
-		
+
 		// Note : When a user is removed from a blog it's handled from core.
 	}
-	
+
 	/**
 	 * Create "Registered" group for new blog and add its admin user.
 	 * 
@@ -120,14 +120,14 @@ class Groups_Registered {
 			Groups_Controller::restore_current_blog();
 		}
 	}
-	
+
 	/**
 	 * Assign a newly created user to its "Registered" group.
 	 * 
 	 * @param int $user_id
 	 */
 	public static function user_register( $user_id ) {
-		
+
 		$registered_group = Groups_Group::read_by_name( self::REGISTERED_GROUP_NAME );
 		if ( !$registered_group ) {
 			$registered_group_id = Groups_Group::create( array( "name" => self::REGISTERED_GROUP_NAME ) );
@@ -157,7 +157,7 @@ class Groups_Registered {
 			}
 		}
 	}
-	
+
 	/**
 	 * Assign a user to its "Registered" group for the given blog.
 	 *
@@ -166,13 +166,13 @@ class Groups_Registered {
 	 * @param int    $blog_id Blog ID.
 	 */
 	public static function add_user_to_blog( $user_id, $role, $blog_id ) {
-		
+
 		if ( is_multisite() ) {
 			Groups_Controller::switch_to_blog( $blog_id );
 		}
-		
+
 		global $wpdb;
-		
+
 		// Check if the group table exists, if it does not exist, we are
 		// probably here because the action has been triggered in the middle
 		// of wpmu_create_blog() before the wpmu_new_blog action has been
@@ -197,7 +197,7 @@ class Groups_Registered {
 				);
 			}
 		}
-		
+
 		if ( is_multisite() ) {
 			Groups_Controller::restore_current_blog();
 		}

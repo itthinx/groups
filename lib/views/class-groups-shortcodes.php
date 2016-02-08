@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Shortcode handlers
  */
 class Groups_Shortcodes {
-	
+
 	/**
 	 * Adds shortcodes.
 	 */
@@ -190,13 +190,13 @@ class Groups_Shortcodes {
 						}
 						$output .= '</ul>';
 					}
-					
+
 					break;
 			}
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Renders the current or a specific user's groups.
 	 * Attributes:
@@ -248,7 +248,7 @@ class Groups_Shortcodes {
 		if ( $user_id !== null ) {
 			$user = new Groups_User( $user_id );
 			$groups = $user->groups;
-			
+
 			if ( !empty( $groups ) ) {
 			// group attr
 				if ( $options['group'] !== null ) {
@@ -301,7 +301,7 @@ class Groups_Shortcodes {
 						$groups = array_reverse( $groups );
 						break;
 				}
-				
+
 				switch( $options['format'] ) {
 					case 'list' :
 					case 'ul' :
@@ -339,7 +339,7 @@ class Groups_Shortcodes {
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Group comparison by group_id.
 	 *
@@ -350,7 +350,7 @@ class Groups_Shortcodes {
 	public static function sort_id( $a, $b ) {
 		return $a->group_id - $b->group_id;
 	}
-	
+
 	/**
 	 * Group comparison by name.
 	 * 

@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Plugin controller
  */
 class Groups_Controller {
-	
+
 	/**
 	 * Cache-safe switching in case any multi-site hiccups might occur.
 	 * Clears the cache after switching to the given blog to avoid using
@@ -46,14 +46,14 @@ class Groups_Controller {
 			wp_cache_reset(); // deprecated in WP 3.5.0
 		}
 	}
-	
+
 	/**
 	 * Switch back to previous blog.
 	 */
 	public static function restore_current_blog() {
 		restore_current_blog();
 	}
-	
+
 	/**
 	 * Boot the plugin.
 	 * @see Groups_Registered::wpmu_new_blog()
@@ -62,13 +62,13 @@ class Groups_Controller {
 		register_activation_hook( GROUPS_FILE, array( __CLASS__, 'activate' ) );
 		register_deactivation_hook( GROUPS_FILE, array( __CLASS__, 'deactivate' ) );
 		add_action( 'init', array( __CLASS__, 'init' ) );
-		
+
 		// priority 9 because it needs to be called before Groups_Registered's
 		// wpmu_new_blog kicks in
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 9, 2 );
 		add_action( 'delete_blog', array( __CLASS__, 'delete_blog' ), 10, 2 );
 	}
-	
+
 	/**
 	 * Run activation for a newly created blog in a multisite environment.
 	 * 
@@ -84,7 +84,7 @@ class Groups_Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * Run deactivation for a blog that is about to be deleted in a multisite
 	 * environment.
@@ -101,7 +101,7 @@ class Groups_Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * Initialize.
 	 * Loads the plugin's translations.
@@ -110,7 +110,7 @@ class Groups_Controller {
 		load_plugin_textdomain( GROUPS_PLUGIN_DOMAIN, null, 'groups/languages' );
 		self::version_check();
 	}
-	
+
 	/**
 	 * Plugin activation.
 	 * @param boolean $network_wide
@@ -127,13 +127,13 @@ class Groups_Controller {
 			self::setup();
 		}
 	}
-	
+
 	/**
 	 * Plugin activation work.
 	 */
 	private static function setup() {
 		global $wpdb, $wp_roles;
-		
+
 		// create WP capabilities
 		Groups_Controller::set_default_capabilities();
 
@@ -145,7 +145,7 @@ class Groups_Controller {
 			$charset_collate .= " COLLATE $wpdb->collate";
 		}
 
-		// create tables	
+		// create tables
 		$group_table = _groups_get_tablename( 'group' );
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$group_table'" ) != $group_table ) {
 			$queries[] = "CREATE TABLE $group_table (
@@ -212,7 +212,7 @@ class Groups_Controller {
 		Groups_WordPress::activate();
 		// ... end of plugin activation work.
 	}
-	
+
 	/**
 	 * Checks current version and triggers update if needed.
 	 */
@@ -228,7 +228,7 @@ class Groups_Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * Update maintenance.
 	 */
@@ -283,7 +283,7 @@ class Groups_Controller {
 		}
 		return $result;
 	}
-	
+
 	/**
 	* Drop tables and clear data if the plugin is deactivated.
 	* This will happen only if the user chooses to delete data upon deactivation.
@@ -303,15 +303,15 @@ class Groups_Controller {
 			self::cleanup();
 		}
 	}
-	
+
 	/**
 	 * Plugin deactivation cleanup.
 	 * @param $drop overrides the groups_delete_data option, default is false
 	 */
 	private static function cleanup( $drop = false ) {
-		
+
 		global $wpdb, $wp_roles;
-		
+
 		$delete_data = Groups_Options::get_option( 'groups_delete_data', false );
 		if ( $delete_data || $drop ) {
 			foreach ( $wp_roles->role_objects as $role ) {
@@ -330,7 +330,7 @@ class Groups_Controller {
 			delete_option( 'groups_delete_data' );
 		}
 	}
-	
+
 	/**
 	 * Determines the default capabilities for the administrator role.
 	 * In lack of an administrator role, these capabilities are assigned
@@ -361,7 +361,7 @@ class Groups_Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * There must be at least one role with the minimum set of capabilities
 	 * to access and manage the Groups plugin's options.

@@ -27,21 +27,21 @@ if ( !defined( 'ABSPATH' ) ) {
  * Shortcode handlers.
  */
 class Groups_Access_Shortcodes {
-	
+
 	/**
 	 * Defines access shortcodes.
 	 */
 	public static function init() {
-		
+
 		// group restrictions
 		add_shortcode( 'groups_member', array( __CLASS__, 'groups_member' ) );
 		add_shortcode( 'groups_non_member', array( __CLASS__, 'groups_non_member' ) );
-		
+
 		// capabilities
 		add_shortcode( 'groups_can', array( __CLASS__, 'groups_can' ) );
 		add_shortcode( 'groups_can_not', array( __CLASS__, 'groups_can_not' ) );
 	}
-	
+
 	/**
 	 * Takes one attribute "group" which is a comma-separated list of group
 	 * names or ids (can be mixed).
@@ -79,7 +79,7 @@ class Groups_Access_Shortcodes {
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Takes one attribute "group" which is a comma-separated list of group
 	 * names or ids (can be mixed).
@@ -117,7 +117,7 @@ class Groups_Access_Shortcodes {
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Takes one attribute "capability" that must be a valid capability label
 	 * or a list of capabilities separated by comma.
@@ -149,7 +149,7 @@ class Groups_Access_Shortcodes {
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Takes one attribute "capability" that must be a valid capability label,
 	 * or a comma-separaed list of those.

@@ -27,14 +27,14 @@ if ( !defined( 'ABSPATH' ) ) {
  * Groups options handler
  */
 class Groups_Options {
-		
+
 	/**
 	 * Groups plugin option key.
 	 * 
 	 * @var string
 	 */
 	const option_key = 'groups_options'; 
-	
+
 	/**
 	 * General option index.
 	 * 
@@ -47,13 +47,13 @@ class Groups_Options {
 	 */
 	private function __construct() {
 	}
-	
+
 	/**
 	 * No cloning.
 	 */
 	private function __clone() {
 	}
-	
+
 	/**
 	 * Would be pointless.
 	 */
@@ -70,7 +70,7 @@ class Groups_Options {
 			add_option( self::option_key, $options, null, 'no' );
 		}
 	}
-	
+
 	/**
 	 * Returns the current Groups options and initializes them
 	 * through init() if needed.
@@ -84,7 +84,7 @@ class Groups_Options {
 		}
 		return $options;
 	}
-	
+
 	/**
 	 * Returns the value of a general setting.
 	 *
@@ -100,8 +100,8 @@ class Groups_Options {
 		}
 		return $value;
 	}
-	
-	
+
+
 	/**
 	 * Returns the value of a user setting.
 	 * 
@@ -127,7 +127,7 @@ class Groups_Options {
 		}
 		return $value;
 	}
-		
+
 	/**
 	 * Updates a general setting.
 	 *
@@ -139,7 +139,7 @@ class Groups_Options {
 		$options[self::general][$option] = $new_value;
 		update_option( self::option_key, $options );
 	}
-	
+
 	/**
 	 * Updates a user setting.
 	 *
@@ -148,21 +148,21 @@ class Groups_Options {
 	 * @param int $user_id update option for this user, defaults to null for current user
 	 */
 	public static function update_user_option( $option, $new_value, $user_id = null ) {
-		
+
 		if ( $user_id === null ) {
 			$current_user = wp_get_current_user();
 			if ( !empty( $current_user ) ) {
 				$user_id = $current_user->ID;
 			}
 		}
-		
+
 		if ( $user_id !== null ) {
 			$options = self::get_options();
 			$options[$user_id][$option] = $new_value;
 			update_option( self::option_key, $options );
 		}
 	}
-	
+
 	/**
 	 * Deletes a general setting.
 	 *
@@ -175,7 +175,7 @@ class Groups_Options {
 			update_option( self::option_key, $options );
 		}
 	}
-	
+
 	/**
 	 * Deletes a user setting.
 	 * 
@@ -183,14 +183,14 @@ class Groups_Options {
 	 * @param int $user_id delete option for this user, defaults to null for current user
 	 */
 	public static function delete_user_option( $option, $user_id = null ) {
-		
+
 		if ( $user_id === null ) {
 			$current_user = wp_get_current_user();
 			if ( !empty( $current_user ) ) {
 				$user_id = $current_user->ID;
 			}
 		}
-		
+
 		if ( $user_id !== null ) {
 			$options = self::get_options();
 			if ( isset( $options[$user_id][$option] ) ) {
@@ -199,7 +199,7 @@ class Groups_Options {
 			}
 		}
 	}
-	
+
 	/**
 	 * Deletes all settings - this includes user and general options.
 	 */

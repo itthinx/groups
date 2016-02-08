@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Utility functions.
  */
 class Groups_Utility {
-	
+
 	/**
 	 * Checks an id (0 is accepted => anonymous).
 	 * 
@@ -45,7 +45,7 @@ class Groups_Utility {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Returns an array of blog_ids for current blogs.
 	 * @return array of int with blog ids
@@ -68,12 +68,12 @@ class Groups_Utility {
 		}
 		return $result;
 	}
-	
-	
+
+
 	public static function get_group_tree( &$tree = null ) {
 		global $wpdb;
 		$group_table = _groups_get_tablename( 'group' );
-		
+
 		if ( $tree === null ) {
 			$tree = array();
 			$root_groups = $wpdb->get_results( "SELECT group_id FROM $group_table WHERE parent_id IS NULL" );
@@ -96,10 +96,10 @@ class Groups_Utility {
 				self::get_group_tree( $tree[$group_id] );
 			}
 		}
-		
+
 		return $tree;
 	}
-	
+
 	public static function render_group_tree( &$tree, &$output ) {
 		$output .= '<ul style="padding-left:1em">';
 		foreach( $tree as $group_id => $nodes ) {

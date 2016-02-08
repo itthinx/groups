@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Group Capability OPM
  */
 class Groups_Group_Capability {
-	
+
 	/**
 	 * Hook into appropriate actions when needed.
 	 * For now, this does nothing.
@@ -37,7 +37,7 @@ class Groups_Group_Capability {
 	public static function init() {
 		// Note that group-capabilities are deleted when a group is deleted.
 	}
-	
+
 	/**
 	 * Persist a group-capability relation.
 	 * 
@@ -45,7 +45,7 @@ class Groups_Group_Capability {
 	 * @return true on success, otherwise false
 	 */
 	public static function create( $map ) {
-		
+
 		global $wpdb;
 		extract( $map );
 		$result = false;
@@ -76,7 +76,7 @@ class Groups_Group_Capability {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Retrieve a group-capability relation.
 	 * 
@@ -87,7 +87,7 @@ class Groups_Group_Capability {
 	public static function read( $group_id, $capability_id ) {
 		global $wpdb;
 		$result = false;
-		
+
 		$group_capability_table = _groups_get_tablename( 'group_capability' );
 		$group_capability = $wpdb->get_row( $wpdb->prepare(
 			"SELECT * FROM $group_capability_table WHERE group_id = %d AND capability_id = %d",
@@ -99,7 +99,7 @@ class Groups_Group_Capability {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Update group-capability relation.
 	 * 
@@ -119,7 +119,7 @@ class Groups_Group_Capability {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Remove group-capability relation.
 	 * 
@@ -131,7 +131,7 @@ class Groups_Group_Capability {
 
 		global $wpdb;
 		$result = false;
-		
+
 		// avoid nonsense requests
 		if ( !empty( $group_id ) && !empty( $capability_id) ) {
 			// we can omit checking if the group and capability exist, to

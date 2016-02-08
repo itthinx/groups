@@ -95,7 +95,7 @@ class Groups_WordPress {
 	public static function activate() {
 		self::refresh_capabilities();
 	}
-	
+
 	/**
 	 * Refreshes Groups capabilities based on WordPress capabilities.
 	 * @return int number of capabilities added

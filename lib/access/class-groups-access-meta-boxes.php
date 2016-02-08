@@ -76,7 +76,6 @@ class Groups_Access_Meta_Boxes {
 		if ( $pagenow == 'upload.php' ) {
 			Groups_UIE::enqueue( 'select' );
 		}
-		
 	}
 
 	/**
@@ -251,7 +250,7 @@ class Groups_Access_Meta_Boxes {
 				}
 			}
 			$output .= '</select>';
-			
+
 			$output .= Groups_UIE::render_select( '.select.capability' );
 // 			$output .= '<script type="text/javascript">';
 // 			$output .= 'if (typeof jQuery !== "undefined"){';

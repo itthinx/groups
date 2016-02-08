@@ -27,12 +27,12 @@ if ( !defined( 'ABSPATH' ) ) {
  * User Group OPM.
  */
 class Groups_User_Group {
-	
+
 	/**
 	 * @var persisted object
 	 */
 	var $user_group = null;
-	
+
 	/**
 	 * Hook into appropriate actions.
 	 * @see wp_delete_user()
@@ -42,12 +42,12 @@ class Groups_User_Group {
 		// when a user is deleted, it must be removed from all groups it
 		// belongs to - triggered by wp_delete_user() and wpmu_delete_user()
 		add_action( "deleted_user", array( __CLASS__, "deleted_user" ) );
-		
+
 		// when a user is removed from a blog, the user must be removed
 		// from all groups in that blog that it belongs to
 		add_action( "remove_user_from_blog", array( __CLASS__, "remove_user_from_blog" ), 10, 2 );
 	}
-	
+
 	/**
 	 * Create by user and group id.
 	 * Must have been persisted.
@@ -57,7 +57,7 @@ class Groups_User_Group {
 	public function __construct( $user_id, $group_id ) {
 		$this->user_group = self::read( $user_id, $group_id );
 	}
-	
+
 	/**
 	 * Retrieve a property by name.
 	 * 
@@ -80,7 +80,7 @@ class Groups_User_Group {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Persist a user-group relation.
 	 * 
@@ -127,7 +127,7 @@ class Groups_User_Group {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Retrieve a user-group relation.
 	 * 
@@ -138,7 +138,7 @@ class Groups_User_Group {
 	public static function read( $user_id, $group_id ) {
 		global $wpdb;
 		$result = false;
-		
+
 		$user_group_table = _groups_get_tablename( 'user_group' );
 		$user_group = $wpdb->get_row( $wpdb->prepare(
 			"SELECT * FROM $user_group_table WHERE user_id = %d AND group_id = %d",
@@ -150,7 +150,7 @@ class Groups_User_Group {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Update user-group relation.
 	 * 
@@ -172,7 +172,7 @@ class Groups_User_Group {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Remove user-group relation.
 	 * 
@@ -184,7 +184,7 @@ class Groups_User_Group {
 
 		global $wpdb;
 		$result = false;
-		
+
 		// avoid nonsense requests
 //		if ( !empty( $user_id ) && !empty( $group_id ) ) {
 		if ( !empty( $group_id ) ) {
@@ -205,7 +205,7 @@ class Groups_User_Group {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Hooks into the deleted_user action to remove the deleted user from
 	 * all groups it belongs to.
@@ -214,7 +214,7 @@ class Groups_User_Group {
 	 */
 	public static function deleted_user( $user_id ) {
 		global $wpdb;
-		
+
 		$user_group_table = _groups_get_tablename( "user_group" );
 		$rows = $wpdb->get_results( $wpdb->prepare(
 			"SELECT * FROM $user_group_table WHERE user_id = %d",
@@ -228,7 +228,7 @@ class Groups_User_Group {
 			}
 		}
 	}
-	
+
 	/**
 	 * Hooks into the remove_user_from_blog action to remove the user
 	 * from groups that belong to that blog.
@@ -240,13 +240,13 @@ class Groups_User_Group {
 	 * @param int $blog_id
 	 */
 	public static function remove_user_from_blog( $user_id, $blog_id ) {
-		
+
 		if ( is_multisite() ) {
 			Groups_Controller::switch_to_blog( $blog_id );
 		}
-		
+
 		global $wpdb;
-		
+
 		$group_table = _groups_get_tablename( "group" );
 		$user_group_table = _groups_get_tablename( "user_group" );
 		// We can end up here while a blog is being deleted, in that case, 
@@ -254,7 +254,7 @@ class Groups_User_Group {
 		if ( ( $wpdb->get_var( "SHOW TABLES LIKE '" . $group_table . "'" ) == $group_table ) &&
 			( $wpdb->get_var( "SHOW TABLES LIKE '" . $user_group_table . "'" ) == $user_group_table )
 		) {
-		
+
 			$rows = $wpdb->get_results( $wpdb->prepare(
 				"SELECT * FROM $user_group_table
 				LEFT JOIN $group_table ON $user_group_table.group_id = $group_table.group_id
@@ -268,9 +268,9 @@ class Groups_User_Group {
 					self::delete( $row->user_id, $row->group_id );
 				}
 			}
-		
+
 		}
-		
+
 		if ( is_multisite() ) {
 			Groups_Controller::restore_current_blog();
 		}

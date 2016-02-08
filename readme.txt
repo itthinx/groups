@@ -187,6 +187,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 * Added the groups_admin_groups_add_submit_success action.
 * Added the groups_admin_groups_edit_form_after_fields filter.
 * Added the groups_admin_groups_edit_submit_success action.
+* Fixed some code formatting (tabs).
 
 = 1.10.0 =
 * Adjusted the Groups and Capabilities screens' UI elements.

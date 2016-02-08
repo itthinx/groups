@@ -445,7 +445,7 @@ class Groups_User implements I_Capable {
 							}
 						}
 					}
-					
+
 				}
 			}
 			Groups_Cache::set( self::CAPABILITIES . $this->user->ID, $capabilities, self::CACHE_GROUP );

@@ -37,7 +37,7 @@ class Groups_Group implements I_Capable {
 	 * @var Object Persisted group.
 	 */
 	var $group = null;
-		
+
 	/**
 	 * Create by group id.
 	 * Must have been persisted.
@@ -46,7 +46,7 @@ class Groups_Group implements I_Capable {
 	public function __construct( $group_id ) {
 		$this->group = self::read( $group_id );
 	}
-	
+
 	/**
 	 * Retrieve a property by name.
 	 *
@@ -151,7 +151,7 @@ class Groups_Group implements I_Capable {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see I_Capable::can()
@@ -160,13 +160,13 @@ class Groups_Group implements I_Capable {
 
 		global $wpdb;
 		$result = false;
-		
+
 		if ( $this->group !== null ) {
-			
+
 			$group_table = _groups_get_tablename( "group" );
 			$capability_table = _groups_get_tablename( "capability" );
 			$group_capability_table = _groups_get_tablename( "group_capability" );
-			
+
 			// determine capability id 
 			$capability_id = null;
 			if ( is_numeric( $capability ) ) {
@@ -177,7 +177,7 @@ class Groups_Group implements I_Capable {
 					$capability
 				) );
 			}
-			
+
 			if ( $capability_id !== null ) {
 				// check if the group itself can
 				$result = ( Groups_Group_Capability::read( $this->group->group_id, $capability_id ) !== false );
@@ -210,7 +210,7 @@ class Groups_Group implements I_Capable {
 							"SELECT capability_id FROM $group_capability_table WHERE capability_id = %d AND group_id IN ($id_list)",
 							Groups_Utility::id( $capability_id )
 						) );
-						
+
 						if ( count( $rows ) > 0 ) {
 							$result = true;
 						}
@@ -221,7 +221,7 @@ class Groups_Group implements I_Capable {
 		$result = apply_filters_ref_array( "groups_group_can", array( $result, &$this, $capability ) );
 		return $result;
 	}
-	
+
 	/**
 	 * Persist a group.
 	 * 
@@ -240,11 +240,11 @@ class Groups_Group implements I_Capable {
 		extract( $map );
 		$result = false;
 		$error = false;
-		
+
 		if ( !empty( $name ) ) {
-			
+
 			$group_table = _groups_get_tablename( "group" );
-			
+
 			$data = array( 'name' => $name );
 			$formats = array( '%s' );
 			if ( !isset( $creator_id ) ) {
@@ -295,7 +295,7 @@ class Groups_Group implements I_Capable {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Retrieve a group.
 	 * 
@@ -305,7 +305,7 @@ class Groups_Group implements I_Capable {
 	public static function read( $group_id ) {
 		global $wpdb;
 		$result = false;
-		
+
 		$group_table = _groups_get_tablename( 'group' );
 		$group = $wpdb->get_row( $wpdb->prepare(
 			"SELECT * FROM $group_table WHERE group_id = %d",
@@ -316,7 +316,7 @@ class Groups_Group implements I_Capable {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Retrieve a group by name.
 	 *
@@ -343,7 +343,7 @@ class Groups_Group implements I_Capable {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Update group.
 	 * 
@@ -351,11 +351,11 @@ class Groups_Group implements I_Capable {
 	 * @return group_id on success, otherwise false
 	 */
 	public static function update( $map ) {
-		
+
 		global $wpdb;
 		extract( $map );
 		$result = false;
-		
+
 		if ( isset( $group_id ) && !empty( $name ) ) {
 			$old_group = Groups_Group::read( $group_id );
 			$group_table = _groups_get_tablename( 'group' );
@@ -383,7 +383,7 @@ class Groups_Group implements I_Capable {
 				// P(g)  : parent of g
 				// --- 
 				// It must hold: !( P(g) in S*(g) )
-				
+
 				// Find all successors of this group
 				$groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
 				if ( $groups !== null ) {
@@ -392,10 +392,10 @@ class Groups_Group implements I_Capable {
 					$iterations		  = 0;
 					$old_group_ids_count = 0;
 					while( ( $iterations < $groups ) && ( count( $group_ids ) > 0 ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
-						
+
 						$iterations++;
 						$old_group_ids_count = count( $group_ids );
-						
+
 						$id_list	 = implode( ",", $group_ids );
 						// We can trust ourselves here, no need to use prepare()
 						// but careful if this query is modified!
@@ -432,7 +432,7 @@ class Groups_Group implements I_Capable {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Remove group and its relations.
 	 * 
@@ -443,30 +443,30 @@ class Groups_Group implements I_Capable {
 
 		global $wpdb;
 		$result = false;
-		
+
 		if ( $group = self::read( $group_id ) ) {
-			
+
 			// delete group-capabilities
 			$group_capability_table = _groups_get_tablename( 'group_capability' );
 			$wpdb->query( $wpdb->prepare(
 				"DELETE FROM $group_capability_table WHERE group_id = %d",
 				Groups_Utility::id( $group->group_id )
 			) );
-			
+
 			// delete group-users
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$wpdb->query( $wpdb->prepare(
 				"DELETE FROM $user_group_table WHERE group_id = %d",
 				$group->group_id
 			) );
-			
+
 			// set parent_id to null where this group is parent
 			$group_table = _groups_get_tablename( 'group' );
 			$wpdb->query( $wpdb->prepare(
 				"UPDATE $group_table SET parent_id = NULL WHERE parent_id = %d",
 				$group->group_id
 			) );
-			
+
 			// delete group
 			if ( $wpdb->query( $wpdb->prepare(
 				"DELETE FROM $group_table WHERE group_id = %d",

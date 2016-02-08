@@ -33,17 +33,17 @@ if ( !defined( 'ABSPATH' ) ) {
 if ( defined( 'ABSPATH' ) ) {
 
 	function groups_tests() {
-		
+
 		assert_options( ASSERT_ACTIVE, true );
 		assert_options( ASSERT_WARNING, true );
 		assert_options( ASSERT_BAIL, false );
-		
+
 		//
 		// PART 1 : create test data
 		//
-		
+
 		// *** groups ***
-		
+
 		// create valid test groups
 		//
 		//		  Fruits [dance] {foo}
@@ -54,7 +54,7 @@ if ( defined( 'ABSPATH' ) ) {
 		//
 		// All groups can dance.
 		// Only Sour and Lemon can sing.
-		$fruits_group_id = Groups_Group::create( array( 'name' => 'Fruits' ) );	
+		$fruits_group_id = Groups_Group::create( array( 'name' => 'Fruits' ) );
 		assert( '$fruits_group_id !== false' );
 		$sweet_group_id  = Groups_Group::create( array( 'name' => 'Sweet', 'parent_id' => $fruits_group_id ) );
 		assert( '$sweet_group_id !== false' );
@@ -64,43 +64,43 @@ if ( defined( 'ABSPATH' ) ) {
 		assert( '$lemon_group_id !== false' );
 		$banana_group_id = Groups_Group::create( array( 'name' => 'Banana', 'parent_id' => $sweet_group_id ) );
 		assert( '$banana_group_id !== false' );
-		
+
 		// fail to create group with missing name
 		$bogus_group_id = Groups_Group::create( array( ) );
 		assert( '$bogus_group_id === false; /* empty name */' );
-		
+
 		// fail to create group with wrong parent_id
 		$bogus_group_id = Groups_Group::create( array( 'name' => 'bogus', 'parent_id' => -1 ) );
 		assert( '$bogus_group_id === false; /* wrong parent_id */' );
-		
+
 		// *** capabilities ***
 		$sing_capability_id = Groups_Capability::create( array( 'capability' => 'sing' ) );
 		assert( '$sing_capability_id !== false' );
-		
+
 		$dance_capability_id = Groups_Capability::create( array( 'capability' => 'dance' ) );
 		assert( '$dance_capability_id !== false' );
-		
+
 		$clap_capability_id = Groups_Capability::create( array( 'capability' => 'clap' ) );
 		assert( '$clap_capability_id !== false' );
-		
+
 		// read capability by id
 		assert( 'Groups_Capability::read( $sing_capability_id )' );
-		
+
 		// read capability by unique label
 		assert( 'Groups_Capability::read_by_capability( "dance" )' );
-		
-		
+
+
 		// *** users *** 
-		
+
 		// create test users
 		$fooname = 'foo' . rand(0, 100);
 		$foo_user_id = wp_create_user( $fooname, 'foo', $fooname . '@example.com' );
 		assert( '$foo_user_id instanceof WP_Error === false');
-		
+
 		$barname = 'bar' . rand(0, 100);
 		$bar_user_id = wp_create_user( $barname, 'bar', $barname . '@example.com' );
 		assert( '$bar_user_id instanceof WP_Error === false');
-		
+
 		// this user is used to test the automatic resolution of its relationship
 		// with the banana group when the group is deleted
 		// it's also used to test automatic resolution of its "clap" capability
@@ -108,12 +108,12 @@ if ( defined( 'ABSPATH' ) ) {
 		$bazname = 'baz' . rand(0, 100);
 		$baz_user_id = wp_create_user( $bazname, 'baz', $bazname . '@example.com' );
 		assert( '$baz_user_id instanceof WP_Error === false');
-		
+
 		// this user is deleted, the group relation must be deleted automatically
 		$dolname = 'dol' . rand(0, 100);
 		$dol_user_id = wp_create_user( $dolname, 'dol', $dolname . ' @example.com' );
 		assert( '$dol_user_id instanceof WP_Error === false');
-		
+
 		// this user is a simple editor, used to test WordPress capabilities
 		$editorname = 'rotide' . rand(0, 100); 
 		$editor_user_id = wp_create_user( $editorname, 'rotide', $editorname . '@example.com' );
@@ -124,30 +124,30 @@ if ( defined( 'ABSPATH' ) ) {
 		} else {
 			$editor_user_id = false;
 		}
-		
+
 		// *** users & groups ***
-		
+
 		// add valid users to groups
 //		 echo "foo user id: $foo_user_id group: $fruits_group_id<br/>";
 		assert( 'Groups_User_Group::create(array( "user_id" => $foo_user_id, "group_id" => $fruits_group_id ) )' );
 		assert( 'Groups_User_Group::create(array( "user_id" => $bar_user_id, "group_id" => $lemon_group_id ) )' );
 		assert( 'Groups_User_Group::create(array( "user_id" => $baz_user_id, "group_id" => $banana_group_id ) )' );
 		assert( 'Groups_User_Group::create(array( "user_id" => $dol_user_id, "group_id" => $sweet_group_id ) )' );
-		
+
 		// add invalid user to group
 		assert( 'Groups_User_Group::create(array( "user_id" => -1, "group_id" => $sweet_group_id ) ) === false' );
-		
+
 		// add valid user to invalid group
 		assert( 'Groups_User_Group::create(array( "user_id" => $dol_user_id, "group_id" => -1 ) ) === false' );
-		
+
 		// define capabilities for groups
 		assert( 'Groups_Group_Capability::create( array( "group_id" => $fruits_group_id, "capability_id" => $dance_capability_id ) )' );
 		assert( 'Groups_Group_Capability::create( array( "group_id" => $sour_group_id, "capability_id" => $sing_capability_id ) )' );
-		
+
 		// define capabilities for users
 		assert( 'Groups_User_Capability::create( array( "user_id" => $foo_user_id, "capability_id" => $clap_capability_id ) )' );
 		assert( 'Groups_User_Capability::create( array( "user_id" => $baz_user_id, "capability_id" => $clap_capability_id ) )' );
-		
+
 		// check groups that can dance (all)
 		// just reading will not check the hierarchy of course ...
 		assert( 'Groups_Group_Capability::read( $fruits_group_id, $dance_capability_id )' );
@@ -161,14 +161,14 @@ if ( defined( 'ABSPATH' ) ) {
 		assert( 'Groups_Group_Capability::read( $banana_group_id, $sing_capability_id ) === false' );
 		assert( 'Groups_Group_Capability::read( $sour_group_id, $sing_capability_id )' );
 		assert( 'Groups_Group_Capability::read( $lemon_group_id, $sing_capability_id ) === false' );
-		
+
 		// hierarchical groups
 		$fruits_group = new Groups_Group( $fruits_group_id );
 		$sweet_group  = new Groups_Group( $sweet_group_id );
 		$banana_group = new Groups_Group( $banana_group_id );
 		$sour_group   = new Groups_Group( $sour_group_id );
 		$lemon_group  = new Groups_Group( $lemon_group_id );
-		
+
 		// retrieve users
 		assert( 'count( $fruits_group->users ) > 0' );
 
@@ -184,7 +184,7 @@ if ( defined( 'ABSPATH' ) ) {
 		assert( '$banana_group->can( $dance_capability_id )' );
 		assert( '$sour_group->can( $dance_capability_id )' );
 		assert( '$lemon_group->can( $dance_capability_id )' );
-		
+
 		// only sour and lemon can sing:
 		assert( '!$fruits_group->can( "sing" )' );
 		assert( '!$sweet_group->can( "sing" )' );
@@ -197,85 +197,85 @@ if ( defined( 'ABSPATH' ) ) {
 		assert( '!$banana_group->can( $sing_capability_id )' );
 		assert( '$sour_group->can( $sing_capability_id )' );
 		assert( '$lemon_group->can( $sing_capability_id )' );
-		
+
 		// no group can clap
 		assert( '!$fruits_group->can( $clap_capability_id )' );
 		assert( '!$sweet_group->can( $clap_capability_id )' );
 		assert( '!$banana_group->can( $clap_capability_id )' );
 		assert( '!$sour_group->can( $clap_capability_id )' );
 		assert( '!$lemon_group->can( $clap_capability_id )' );
-		
+
 		// user capabilities
 		$foo = new Groups_User( $foo_user_id );
 		$dol = new Groups_User( $dol_user_id );
 		$baz = new Groups_User( $baz_user_id );
 		$bar = new Groups_User( $bar_user_id );
-		
+
 		assert( '$foo->can( "dance" )' );
 		assert( '$dol->can( "dance" )' );
 		assert( '$baz->can( "dance" )' );
 		assert( '$bar->can( "dance" )' );
-		
+
 		assert( '$foo->can( $dance_capability_id )' );
 		assert( '$dol->can( $dance_capability_id )' );
 		assert( '$baz->can( $dance_capability_id )' );
 		assert( '$bar->can( $dance_capability_id )' );
-		
+
 		assert( '!$foo->can( "sing" )' );
 		assert( '!$dol->can( "sing" )' );
 		assert( '!$baz->can( "sing" )' );
 		assert( '$bar->can( "sing" )' );
-		
+
 		assert( '!$foo->can( $sing_capability_id )' );
 		assert( '!$dol->can( $sing_capability_id )' );
 		assert( '!$baz->can( $sing_capability_id )' );
 		assert( '$bar->can( $sing_capability_id )' );
-		
+
 		// only foo & baz can clap 
 		assert( '$foo->can( "clap" )' );
 		assert( '!$dol->can( "clap" )' );
 		assert( '$baz->can( "clap" )' );
 		assert( '!$bar->can( "clap" )' );
-		
+
 		assert( '$foo->can( $clap_capability_id )' );
 		assert( '!$dol->can( $clap_capability_id )' );
 		assert( '$baz->can( $clap_capability_id )' );
 		assert( '!$bar->can( $clap_capability_id )' );
-		
+
 		// user can not what is not defined
 		assert( '!$foo->can( null )' );
 		assert( '!$dol->can( null )' );
 		assert( '!$baz->can( null )' );
 		assert( '!$bar->can( null )' );
-		
+
 		assert( '!$foo->can( "bogus" )' );
 		assert( '!$dol->can( "bogus" )' );
 		assert( '!$baz->can( "bogus" )' );
 		assert( '!$bar->can( "bogus" )' );
-		
+
 		// groups can not what is not defined
 		assert( '!$fruits_group->can( null )' );
 		assert( '!$sweet_group->can( null )' );
 		assert( '!$banana_group->can( null )' );
 		assert( '!$sour_group->can( null )' );
 		assert( '!$lemon_group->can( null )' );
-		
+
 		assert( '!$fruits_group->can( "bogus" )' );
 		assert( '!$sweet_group->can( "bogus" )' );
 		assert( '!$banana_group->can( "bogus" )' );
 		assert( '!$sour_group->can( "bogus" )' );
 		assert( '!$lemon_group->can( "bogus" )' );
-		
+
 		// test WordPress capabilities
 		$administrator = new Groups_User( 1 );
 		assert( '$administrator->can( "activate_plugins" )' );
-		
+
 		if ( $editor_user_id ) {
 			$editor = new Groups_User( $editor_user_id );
 			assert( '$editor->can( "edit_posts" )' );
 			assert( '!$editor->can( "activate_plugins" )' );
 		}
-		
+
 		if ( is_multisite() ) {
 //			 $randext = rand( 0, 100 );
 //			 $wpmu_test_user_id = wp_create_user( 'wpmu_test_user' . $randext, 'wpmu_test_user' );
@@ -287,26 +287,26 @@ if ( defined( 'ABSPATH' ) ) {
 			// @todo check that new user is in "Registered" group
 			// @todo switch to current blog
 		}
-		
+
 		//
 		// PART 2 : delete test data
 		//
-		
+
 		if ( is_multisite() ) {
 			// @todo delete new blog
 		}
-		
+
 		// remove capabilities from groups
 		assert( 'Groups_Group_Capability::delete( $fruits_group_id, $dance_capability_id )' );
-		
+
 		// remove users from groups
 		assert( 'Groups_User_Group::delete($foo_user_id, $fruits_group_id)' );
 		assert( 'Groups_User_Group::delete($bar_user_id, $lemon_group_id)' );
 		// baz must be deleted from user_group when banana group is deleted
-		
+
 		// invalid remove user from group
 		assert( 'Groups_User_Group::delete($foo_user_id, $banana_group_id) === false' );
-		
+
 		// delete test users
 		include_once( ABSPATH . '/wp-admin/includes/user.php' );
 		if ( $foo_user_id && !( $foo_user_id instanceof WP_Error ) ) {
@@ -327,7 +327,7 @@ if ( defined( 'ABSPATH' ) ) {
 		}
 		// fail to delete inexisting capabilities
 		assert( 'Groups_Capability::delete( -1 ) === false' );
-		
+
 		// delete valid test capabilities
 		if ( $sing_capability_id ) {
 			assert( 'Groups_Capability::delete( $sing_capability_id ) !== false' );
@@ -342,17 +342,17 @@ if ( defined( 'ABSPATH' ) ) {
 		if ( $baz_user_id && !( $baz_user_id instanceof WP_Error ) ) {
 			assert( '!$baz->can( "clap" )' );
 		}
-		
+
 		// fail to delete inexisting group
 		assert( 'Groups_Group::delete( -1 ) === false' );
-	
+
 		// delete invalid test group if creation was successful
 		if ( $bogus_group_id ) {
 			assert( 'Groups_Group::delete( $bogus_group_id )' );
 		}
-		
+
 		// delete valid test groups
-		if ( $fruits_group_id ) {			
+		if ( $fruits_group_id ) {
 			assert( 'Groups_Group::delete( $fruits_group_id )' );
 		}
 		if ( $sweet_group_id ) {
@@ -414,10 +414,10 @@ if ( defined( 'ABSPATH' ) ) {
 					wp_nonce_field( 'run-tests', 'groups-test-nonce', true, true );
 					echo '</form>'; 
 			}
-			
+
 		}
 	} else {
 		echo 'The <i>Groups</i> plugin is not active, not running tests.';
 	}
-	
+
 } // ABSPATH defined

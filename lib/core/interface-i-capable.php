@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Capable interface OPM.
  */
 interface I_Capable {
-		
+
 	/**
 	 * Finds out if I have the given capability.
 	 * 

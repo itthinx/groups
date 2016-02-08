@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * User Capability OPM.
  */
 class Groups_User_Capability {
-	
+
 	/**
 	 * Hook into appropriate actions.
 	 *
@@ -42,7 +42,7 @@ class Groups_User_Capability {
 		// when a capability is deleted the relationship must also be resolved
 		add_action( 'groups_deleted_capability', array( __CLASS__, 'groups_deleted_capability' ) );
 	}
-	
+
 	/**
 	 * Persist a user-capability relation.
 	 * 
@@ -50,7 +50,7 @@ class Groups_User_Capability {
 	 * @return true on success, otherwise false
 	 */
 	public static function create( $map ) {
-		
+
 		global $wpdb;
 		extract( $map );
 		$result = false;
@@ -83,7 +83,7 @@ class Groups_User_Capability {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Retrieve a user-capability relation.
 	 * 
@@ -94,7 +94,7 @@ class Groups_User_Capability {
 	public static function read( $user_id, $capability_id ) {
 		global $wpdb;
 		$result = false;
-		
+
 		$user_capability_table = _groups_get_tablename( 'user_capability' );
 		$user_capability = $wpdb->get_row( $wpdb->prepare(
 			"SELECT * FROM $user_capability_table WHERE user_id = %d AND capability_id = %d",
@@ -106,7 +106,7 @@ class Groups_User_Capability {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Update user-capability relation.
 	 * 
@@ -127,7 +127,7 @@ class Groups_User_Capability {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Remove user-capability relation.
 	 * 
@@ -139,7 +139,7 @@ class Groups_User_Capability {
 
 		global $wpdb;
 		$result = false;
-		
+
 		// avoid nonsense requests
 //		if ( !empty( $user_id ) && !empty( $capability_id) ) {
 		if ( !empty( $capability_id) ) {
@@ -160,7 +160,7 @@ class Groups_User_Capability {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Hooks into the deleted_user action to remove the deleted user from
 	 * all capabilities it is related to.
@@ -169,7 +169,7 @@ class Groups_User_Capability {
 	 */
 	public static function deleted_user( $user_id ) {
 		global $wpdb;
-	
+
 		$user_capability_table = _groups_get_tablename( "user_capability" );
 		$rows = $wpdb->get_results( $wpdb->prepare(
 			"SELECT * FROM $user_capability_table WHERE user_id = %d",
@@ -183,7 +183,7 @@ class Groups_User_Capability {
 			}
 		}
 	}
-	
+
 	/**
 	 * Hooks into groups_deleted_capability to resolve all existing relations
 	 * between users and the deleted capability.
