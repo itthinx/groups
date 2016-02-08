@@ -183,6 +183,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 = 1.10.1 =
 * Fixed the French translation which introduced incorrect markup breaking the help button.
+* Added the groups_admin_groups_add_form_after_fields filter.
+* Added the groups_admin_groups_add_submit_success action.
+* Added the groups_admin_groups_edit_form_after_fields filter.
+* Added the groups_admin_groups_edit_submit_success action.
 
 = 1.10.0 =
 * Adjusted the Groups and Capabilities screens' UI elements.
@@ -519,4 +523,4 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 == Upgrade Notice ==
 
 = 1.10.1 =
-This release fixes the French translation.
+This release fixes the French translation and adds some administrative actions and filters.
