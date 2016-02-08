@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 20:09+0200\n"
-"PO-Revision-Date: 2015-06-30 20:09+0200\n"
+"PO-Revision-Date: 2016-02-08 11:32+0100\n"
 "Last-Translator: Stéphane PASSEDOUET <s.passedouet@pheeric.com>\n"
 "Language-Team: itthinx.com\n"
 "Language: fr_FR\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Poedit 1.8.2\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
@@ -124,8 +124,7 @@ msgstr "Restrictions d'Accès"
 #: lib/admin/groups-admin-groups-remove.php:189
 #: lib/admin/groups-admin-groups.php:49 lib/admin/groups-admin-groups.php:148
 #: lib/admin/groups-admin-groups.php:179 lib/admin/groups-admin-groups.php:185
-#: lib/admin/groups-admin-options.php:39
-#: lib/admin/groups-admin-options.php:329
+#: lib/admin/groups-admin-options.php:39 lib/admin/groups-admin-options.php:329
 #: lib/admin/groups-admin-tree-view.php:37 lib/test/groups-tests.php:385
 #: lib/test/groups-tests.php:391
 msgid "Access denied."
@@ -233,9 +232,9 @@ msgid ""
 "Become a member of the <em>Premium</em> group - this is required so you can "
 "choose the <em>premium</em> capability to restrict access to a post."
 msgstr ""
-"Devenez un membre du groupe <em>Premium</ em> - cela est nécessaire afin que "
-"vous puissiez choisir la capacité <em> Premium </ em> pour restreindre "
-"l'accès à une publication."
+"Devenez un membre du groupe <em>Premium</em> - cela est nécessaire afin que "
+"vous puissiez choisir la capacité <em>premium</em> pour restreindre l'accès "
+"à une publication."
 
 # @ groups
 #: lib/admin/groups-admin-capabilities.php:346
@@ -291,8 +290,8 @@ msgstr "Annuler"
 #: lib/admin/groups-admin-capabilities.php:193
 #: lib/admin/groups-admin-groups-add.php:99
 #: lib/admin/groups-admin-groups-edit.php:119
-#: lib/admin/groups-admin-groups.php:297
-#: lib/admin/groups-admin-options.php:251 lib/core/class-groups-help.php:69
+#: lib/admin/groups-admin-groups.php:297 lib/admin/groups-admin-options.php:251
+#: lib/core/class-groups-help.php:69
 msgid "Capabilities"
 msgstr "Capacités"
 
@@ -508,7 +507,7 @@ msgid ""
 "capability to the <em>Premium</em> group."
 msgstr ""
 "Allez à <strong>Groups > Groups</strong> et attribuez la capacité "
-"<em>premium</em> au groupe <em>premium</em>."
+"<em>premium</em> au groupe <em>Premium</em>."
 
 # @ groups
 #: lib/access/class-groups-access-meta-boxes.php:158
@@ -640,7 +639,7 @@ msgid ""
 "the <em>Premium</em> group."
 msgstr ""
 "Supposons que vous voulez limiter la visibilité d'une publication aux "
-"membres du groupe <em>Premium</ em>."
+"membres du groupe <em>Premium</em>."
 
 #: lib/views/class-groups-shortcodes.php:121
 msgid "Log out"
@@ -997,7 +996,7 @@ msgstr "La <em>Capacité</em> ne doit pas être vide."
 # @ groups
 #: lib/admin/groups-admin-groups-edit.php:198
 msgid "The <em>Name</em> must not be empty."
-msgstr "Le <em>Nom</ em> ne doit pas être vide."
+msgstr "Le <em>Nom</em> ne doit pas être vide."
 
 # @ groups
 #: lib/admin/groups-admin-capabilities.php:75
