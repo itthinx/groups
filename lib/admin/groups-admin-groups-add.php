@@ -42,7 +42,7 @@ function groups_admin_groups_add() {
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
 	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : '';
-	$name		= isset( $_POST['name-field'] ) ? $_POST['name-field'] : '';
+	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : '';
 	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
 
 	$group_table = _groups_get_tablename( 'group' );
@@ -111,11 +111,8 @@ function groups_admin_groups_add() {
 
 	$output .= Groups_UIE::render_select( '.select.capability' );
 	$output .= '</div>';
-	
-	$custom_output = apply_filters( "groups_admin_groups_add", $output, $group_id );
-	if($custom_output) {
-		$output = $custom_output;
-	}
+
+	$output .= apply_filters( 'groups_admin_groups_add_form_after_fields', '' );
 
 	$output .= '<div class="field">';
 	$output .= wp_nonce_field( 'groups-add', GROUPS_ADMIN_GROUPS_NONCE, true, false );
@@ -153,7 +150,6 @@ function groups_admin_groups_add_submit() {
 	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : null;
 
 	$group_id = Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
-	do_action( "groups_admin_groups_add_submit", $_POST, $group_id );
 	if ( $group_id ) {
 		if ( !empty( $_POST['capability_ids'] ) ) {
 			$caps = $_POST['capability_ids'];
@@ -161,6 +157,7 @@ function groups_admin_groups_add_submit() {
 				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
 			}
 		}
+		do_action( 'groups_admin_groups_add_submit_success', $group_id );
 	} else {
 		if ( !$name ) {
 			Groups_Admin::add_message( __( 'The name must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
