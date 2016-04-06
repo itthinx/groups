@@ -1,7 +1,7 @@
 
  Groups
  
- Copyright 2011-2015 "kento" (Karim Rahimpur) www.itthinx.com
+ Copyright 2011-2016 "kento" (Karim Rahimpur) www.itthinx.com
  
  The files COPYRIGHT.txt and LICENSE.txt as well as ALL NOTICES IN THE
  HEADERS OF ALL FILES MUST BE KEPT INTACT.

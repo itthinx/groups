@@ -3,8 +3,8 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.4.2
-Stable tag: 1.10.1
+Tested up to: 4.5
+Stable tag: 1.10.2
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -180,6 +180,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.10.2 =
+* Tested for WordPress 4.5.
 
 = 1.10.1 =
 * Fixed the French translation which introduced incorrect markup breaking the help button.
@@ -523,5 +526,6 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.10.1 =
-This release fixes the French translation and adds some administrative actions and filters.
+= 1.10.2 =
+Tested for WordPress 4.5.
+
