@@ -237,7 +237,11 @@ class Groups_Access_Meta_Boxes {
 						} else {
 							$label_title = __( 'No groups grant access through this capability. To grant access to group members using this capability, you should assign it to a group and enable the capability for access restriction.', GROUPS_PLUGIN_DOMAIN );
 						}
-						$output .= sprintf( '<option value="%s" %s>', esc_attr( $capability->capability_id ), in_array( $capability->capability, $read_caps ) ? ' selected="selected" ' : '' );
+
+						$esc_capability_id = esc_attr($capability->capability_id);
+						$selected = apply_filters( 'groups_edit_post_selected_caps', in_array( $capability->capability, $read_caps )? ' selected="selected" ': '', $capability->capability, $esc_capability_id, $read_caps );
+						
+						$output .= sprintf( '<option value="%s" %s>', $esc_capability_id, $selected );
 						$output .= wp_filter_nohtml_kses( $capability->capability );
 						if ( $show_groups ) {
 							if ( count( $group_names ) > 0 ) {
