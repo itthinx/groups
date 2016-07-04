@@ -533,5 +533,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.10.3 =
-This release adds a filter which can be used to modify selected access restriction capabilities.
+= 1.11.0 =
+This release adds the translation for Brazilian Portuguese.
