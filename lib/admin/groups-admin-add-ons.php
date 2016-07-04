@@ -68,7 +68,7 @@ function groups_admin_add_ons() {
 			'index'   => 100
 		),
 		'groups-newsletters' => array(
-			'title'   => 'Groups Newsletter',
+			'title'   => 'Groups Newsletters',
 			'content' => 'Newsletter Campaigns for Subscribers and Groups. Groups Newsletters helps you to communicate efficiently, providing targeted information to groups of recipients through automated campaigns.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-newsletters.png',
 			'url'     => 'http://www.itthinx.com/shop/groups-newsletters/',
