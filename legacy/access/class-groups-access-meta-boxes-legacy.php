@@ -41,7 +41,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'wp_init' ) );
-		add_action( 'admin_init', array(__CLASS__,'admin_init' ) );
+		add_action( 'admin_init', array( __CLASS__,'admin_init' ) );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 		global $wp_version;
 		$post_type_object = get_post_type_object( $post_type );
 		if ( $post_type_object && $post_type != 'attachment' ) {
-			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+			$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				if ( $wp_version < 3.3 ) {
 					$post_types = get_post_types();
@@ -201,8 +201,8 @@ class Groups_Access_Meta_Boxes_Legacy {
 			$user = new Groups_User( get_current_user_id() );
 			$output .= __( "Enforce read access", GROUPS_PLUGIN_DOMAIN );
 
-			$read_caps = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
-			$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+			$read_caps = get_post_meta( $post_id, Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
+			$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 			$output .= '<div class="select-capability-container">';
 			$output .= sprintf(
 				'<select class="select capability" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
@@ -375,7 +375,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 			$post_type = get_post_type( $post_id );
 			$post_type_object = get_post_type_object( $post_type );
 			if ( $post_type_object && $post_type != 'attachment' ) {
-				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_CAPABILITY ) ) {
 						$post_type = isset( $_POST["post_type"] ) ? $_POST["post_type"] : null;
@@ -433,11 +433,11 @@ class Groups_Access_Meta_Boxes_Legacy {
 													);
 												}
 												// enable the capability for access restriction
-												$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+												$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 												if ( !in_array( $capability->capability, $valid_read_caps ) ) {
 													$valid_read_caps[] = $capability->capability;
 												}
-												Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $valid_read_caps );
+												Groups_Options::update_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, $valid_read_caps );
 												// add the current user to the group
 												Groups_User_Group::create(
 													array(
@@ -462,12 +462,12 @@ class Groups_Access_Meta_Boxes_Legacy {
 									foreach( $valid_read_caps as $valid_read_cap ) {
 										if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 											if ( !empty( $_POST[self::CAPABILITY] ) && is_array( $_POST[self::CAPABILITY] ) && in_array( $capability->capability_id, $_POST[self::CAPABILITY] ) ) {
-												Groups_Post_Access::create( array(
+												Groups_Post_Access_Legacy::create( array(
 													'post_id' => $post_id,
 													'capability' => $capability->capability
 												) );
 											} else {
-												Groups_Post_Access::delete( $post_id, $capability->capability );
+												Groups_Post_Access_Legacy::delete( $post_id, $capability->capability );
 											}
 										}
 									}
@@ -514,7 +514,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 
 		Groups_UIE::enqueue( 'select' );
 
-		$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+		$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 		if ( !isset( $post_types_option['attachment']['add_meta_box'] ) || $post_types_option['attachment']['add_meta_box'] ) {
 			if ( self::user_can_restrict() ) {
 				$user = new Groups_User( get_current_user_id() );
@@ -522,7 +522,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 				$post_singular_name = __( 'Media', GROUPS_PLUGIN_DOMAIN );
 
 				$output .= __( "Enforce read access", GROUPS_PLUGIN_DOMAIN );
-				$read_caps = get_post_meta( $post->ID, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
+				$read_caps = get_post_meta( $post->ID, Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
 				$valid_read_caps = self::get_valid_read_caps_for_user();
 
 				// On attachments edited within the 'Insert Media' popup, the update is triggered too soon and we end up with only the last capability selected.
@@ -625,7 +625,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	 * @return array
 	 */
 	public static function attachment_fields_to_save( $post, $attachment ) {
-		$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+		$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 		if ( !isset( $post_types_option['attachment']['add_meta_box'] ) || $post_types_option['attachment']['add_meta_box'] ) {
 			// if we're here, we assume the user is allowed to edit attachments,
 			// but we still need to check if the user can restrict access
@@ -641,12 +641,12 @@ class Groups_Access_Meta_Boxes_Legacy {
 					foreach( $valid_read_caps as $valid_read_cap ) {
 						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 							if ( !empty( $attachment[self::CAPABILITY] ) && is_array( $attachment[self::CAPABILITY] ) && in_array( $capability->capability_id, $attachment[self::CAPABILITY] ) ) {
-								Groups_Post_Access::create( array(
+								Groups_Post_Access_Legacy::create( array(
 									'post_id' => $post_id,
 									'capability' => $capability->capability
 								) );
 							} else {
-								Groups_Post_Access::delete( $post_id, $capability->capability );
+								Groups_Post_Access_Legacy::delete( $post_id, $capability->capability );
 							}
 						}
 					}
@@ -664,7 +664,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	public static function user_can_restrict() {
 		$has_read_cap = false;
 		$user = new Groups_User( get_current_user_id() );
-		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 		foreach( $valid_read_caps as $valid_read_cap ) {
 			if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 				if ( $user->can( $capability->capability_id ) ) {
@@ -682,7 +682,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	public static function get_valid_read_caps_for_user( $user_id = null ) {
 		$result = array();
 		$user = new Groups_User( $user_id === null ? get_current_user_id() : $user_id );
-		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 		foreach( $valid_read_caps as $valid_read_cap ) {
 			if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 				if ( $user->can( $capability->capability ) ) {
@@ -693,4 +693,4 @@ class Groups_Access_Meta_Boxes_Legacy {
 		return $result;
 	}
 } 
-Groups_Access_Meta_Boxes::init();
+Groups_Access_Meta_Boxes_Legacy::init();

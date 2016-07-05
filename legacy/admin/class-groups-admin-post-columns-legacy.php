@@ -45,7 +45,7 @@ class Groups_Admin_Post_Columns_Legacy {
 	public static function admin_init() {
 		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			$post_types = get_post_types( array( 'public' => true ) );
-			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+			$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 			foreach ( $post_types as $post_type ) {
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 					if ( ( $post_type == 'attachment' ) ) {
@@ -90,8 +90,8 @@ class Groups_Admin_Post_Columns_Legacy {
 		$output = '';
 		switch ( $column_name ) {
 			case self::CAPABILITIES :
-				$read_caps = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
-				$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+				$read_caps = get_post_meta( $post_id, Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
+				$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 				if ( count( $valid_read_caps ) > 0 ) {
 					sort( $valid_read_caps );
 					$output = '<ul>';
@@ -113,4 +113,4 @@ class Groups_Admin_Post_Columns_Legacy {
 		echo $output;
 	}
 }
-Groups_Admin_Post_Columns::init();
+Groups_Admin_Post_Columns_Legacy::init();
