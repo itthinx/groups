@@ -30,11 +30,16 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Access_Meta_Boxes {
 
+	const CAPABILITY_NONCE = 'groups-meta-box-capability-nonce';
+	const SET_CAPABILITY   = 'set-capability';
+	const READ_ACCESS      = 'read-access';
+	const CAPABILITY       = 'capability';
+	const SHOW_GROUPS      = 'access-meta-box-show-groups';
+
 	const NONCE          = 'groups-meta-box-nonce';
-	const SET_CAPABILITY = 'set-capability';
-	const READ_ACCESS    = 'read-access';
-	const CAPABILITY     = 'capability';
-	const SHOW_GROUPS    = 'access-meta-box-show-groups';
+	const SET_GROUPS     = 'set-groups';
+	const GROUPS_READ    = 'groups-read';
+	const READ           = 'read';
 
 	/**
 	 * Sets up an init hook where actions and filters are added.
@@ -51,12 +56,12 @@ class Groups_Access_Meta_Boxes {
 		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
 
-			add_action( 'add_meta_boxes', array( __CLASS__, "add_meta_boxes" ), 10, 2 );
-			add_action( 'save_post', array( __CLASS__, "save_post" ), 10, 2 );
+			add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ), 10, 2 );
+			add_action( 'save_post', array( __CLASS__, 'save_post' ), 10, 2 );
 			add_filter( 'wp_insert_post_empty_content', array( __CLASS__, 'wp_insert_post_empty_content' ), 10, 2 );
 
-			add_filter( 'attachment_fields_to_edit', array( __CLASS__, 'attachment_fields_to_edit' ), 10, 2 );
-			add_filter( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), 10, 2 );
+			add_action( 'attachment_fields_to_edit', array( __CLASS__, 'attachment_fields_to_edit' ), 10, 2 );
+			add_action( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), 10, 2 );
 		}
 	}
 
@@ -87,33 +92,31 @@ class Groups_Access_Meta_Boxes {
 		if ( $post_type_object && $post_type != 'attachment' ) {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-				if ( $wp_version < 3.3 ) {
-					$post_types = get_post_types();
-					foreach ( $post_types as $post_type ) {
-						add_meta_box(
-							"groups-access",
-							__( "Access restrictions", GROUPS_PLUGIN_DOMAIN ),
-							array( __CLASS__, "capability" ),
-							$post_type,
-							"side",
-							"high"
-						);
-					}
-				} else {
+
+// 					add_meta_box(
+// 						"groups-access",
+// 						__( "Access restrictions", GROUPS_PLUGIN_DOMAIN ),
+// 						array( __CLASS__, "capability" ),
+// 						null,
+// 						"side",
+// 						"high"
+// 					);
+
 					add_meta_box(
-						"groups-access",
-						__( "Access restrictions", GROUPS_PLUGIN_DOMAIN ),
-						array( __CLASS__, "capability" ),
+						'groups-permissions',
+						__( 'Groups', GROUPS_PLUGIN_DOMAIN ),
+						array( __CLASS__, 'groups' ),
 						null,
-						"side",
-						"high"
+						'side',
+						'high'
 					);
-				}
+
 
 				Groups_UIE::enqueue( 'select' );
 
 				if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 					if ( $screen = get_current_screen() ) {
+						// @todo review help text for group-based access restrictions
 						$screen->add_help_tab( array(
 							'id'      => 'groups-access',
 							'title'   => __( 'Access restrictions', GROUPS_PLUGIN_DOMAIN ),
@@ -169,6 +172,115 @@ class Groups_Access_Meta_Boxes {
 	}
 
 	/**
+	 * Render meta box for groups.
+	 *
+	 * @see do_meta_boxes()
+	 *
+	 * @param Object $object
+	 * @param Object $box
+	 */
+	public static function groups( $object = null, $box = null ) {
+
+		$output = "";
+
+		$post_id   = isset( $object->ID ) ? $object->ID : null;
+		$post_type = isset( $object->post_type ) ? $object->post_type : null;
+		$post_singular_name = __( "Post", GROUPS_PLUGIN_DOMAIN );
+		if ( $post_type !== null ) {
+			$post_type_object = get_post_type_object( $post_type );
+			$labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
+			if ( $labels !== null ) {
+				if ( isset( $labels->singular_name ) )  {
+					$post_singular_name = __( $labels->singular_name );
+				}
+			}
+		}
+
+		$output .= wp_nonce_field( self::SET_GROUPS, self::NONCE, true, false );
+
+		$output .= apply_filters( 'groups_access_meta_boxes_groups_before_read_groups', '', $object, $box );
+
+		$output .= '<div class="select-read-groups-container">';
+
+		if ( true || self::user_can_restrict() ) { // @todo decide if it's sufficient to be able to edit the post to restrict access, if yes, then we can skip the conditional here (seems very reasonable)
+
+			$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+			$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
+
+			$read_help = sprintf(
+				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', GROUPS_PLUGIN_DOMAIN ),
+				$post_singular_name,
+				$post_singular_name,
+				$post_singular_name
+			);
+			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+				$read_help .= ' ' . __( 'You can create a new group by indicating the group\'s name.', GROUPS_PLUGIN_DOMAIN );
+			}
+
+			$output .= sprintf(
+				'<label title="%s">',
+				esc_attr( $read_help )
+			);
+			$output .= __( 'Read', GROUPS_PLUGIN_DOMAIN );
+			$output .= ' ';
+
+			$output .= sprintf(
+					'<select class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
+					self::GROUPS_READ . '[]',
+					esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
+					esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
+					esc_attr( $read_help )
+			);
+			$output .= '<option value=""></option>';
+			foreach( $groups as $group ) {
+				$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
+				$output .= wp_filter_nohtml_kses( $group->name );
+				$output .= '</option>';
+			}
+			$output .= '</select>';
+			$output .= '</label>';
+			$output .= Groups_UIE::render_select(
+				'.select.groups-read',
+				true,
+				true,
+				current_user_can( GROUPS_ADMINISTER_GROUPS )
+			);
+			$output .= '<p class="description">';
+			$output .= sprintf(
+				__( 'Restricts the visibility of this %s to members of the chosen groups.', GROUPS_PLUGIN_DOMAIN ),
+				$post_singular_name
+			);
+			$output .= '</p>';
+
+		} else {
+			
+			// @todo change this
+			
+			
+			$output .= '<p class="description">';
+			$output .= sprintf( __( 'You cannot set any access restrictions.', GROUPS_PLUGIN_DOMAIN ), $post_singular_name );
+			$style = 'cursor:help;vertical-align:middle;';
+			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+				$style = 'cursor:pointer;vertical-align:middle;';
+				$output .= sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=groups-admin-options' ) ) );
+			}
+			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You must be in a group that has at least one capability enabled to enforce read access.', GROUPS_PLUGIN_DOMAIN ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
+			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+				$output .= '</a>';
+			}
+			$output .= '</p>';
+		}
+
+		$output .= '</div>'; // .select-read-groups-container
+
+		$output .= apply_filters( 'groups_access_meta_boxes_groups_after_read_groups', '', $object, $box );
+
+		$output = apply_filters( 'groups_access_meta_boxes_groups', $output, $object, $box );
+
+		echo $output;
+	}
+
+	/**
 	 * Render meta box for capabilities.
 	 * 
 	 * @see do_meta_boxes()
@@ -195,7 +307,7 @@ class Groups_Access_Meta_Boxes {
 			}
 		}
 
-		$output .= wp_nonce_field( self::SET_CAPABILITY, self::NONCE, true, false );
+		$output .= wp_nonce_field( self::SET_CAPABILITY, self::CAPABILITY_NONCE, true, false );
 
 		if ( self::user_can_restrict() ) {
 			$user = new Groups_User( get_current_user_id() );
@@ -377,7 +489,67 @@ class Groups_Access_Meta_Boxes {
 			if ( $post_type_object && $post_type != 'attachment' ) {
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_CAPABILITY ) ) {
+
+					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) {
+
+						$post_type = isset( $_POST["post_type"] ) ? $_POST["post_type"] : null;
+						if ( $post_type !== null ) {
+
+							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
+							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
+							// If the post ID is not provided, it will throw:
+							// PHP Notice:  Undefined offset: 0 in /var/www/groups-forums/wp-includes/capabilities.php on line 1067
+							$edit_post_type = 'edit_' . $post_type;
+							if ( $post_type_object = get_post_type_object( $post_type ) ) {
+								if ( !isset( $post_type_object->capabilities ) ) {
+									// get_post_type_capabilities() (WP 3.8) will throw a warning
+									// when trying to merge the missing property otherwise. It's either a
+									// bug or the function's documentation should make it clear that you
+									// have to provide that.
+									$post_type_object->capabilities = array();
+								}
+								$caps_object = get_post_type_capabilities( $post_type_object );
+								if ( isset( $caps_object->edit_post ) ) {
+									$edit_post_type = $caps_object->edit_post;
+								}
+							}
+
+							if ( current_user_can( $edit_post_type, $post_id ) ) {
+
+								// @todo
+								$group_ids = array();
+								$submitted_group_ids = !empty( $_POST[self::GROUPS_READ] ) ? $_POST[self::GROUPS_READ] : array();
+
+								foreach( $submitted_group_ids as $group_id ) {
+									if ( is_numeric( $group_id ) ) {
+										$group_ids[] = $group_id;
+									} else {
+										if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+
+											$creator_id = get_current_user_id();
+											$datetime	= date( 'Y-m-d H:i:s', time() );
+											$name		= ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
+
+											if ( strlen( $name ) > 0 ) {
+												if ( !( $group = Groups_Group::read_by_name( $name ) ) ) {
+													if ( $group_id = Groups_Group::create( compact( 'creator_id', 'datetime', 'name' ) ) ) {
+														$group_ids[] = $group_id;
+													}
+												}
+											}
+										}
+									}
+								}
+
+								do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
+								$update_result = Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
+								do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
+
+							}
+						}
+					}
+
+					if ( isset( $_POST[self::CAPABILITY_NONCE] ) && wp_verify_nonce( $_POST[self::CAPABILITY_NONCE], self::SET_CAPABILITY ) ) {
 						$post_type = isset( $_POST["post_type"] ) ? $_POST["post_type"] : null;
 						if ( $post_type !== null ) {
 							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
