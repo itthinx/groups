@@ -182,6 +182,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
+= 1.11.1 =
+* Fixed the order_by and order parameters in Groups_Group::get_groups()
+
 = 1.11.0 =
 * Added the Brazilian Portuguese translation.
 
