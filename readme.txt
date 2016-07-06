@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
 Tested up to: 4.5.3
-Stable tag: 1.11.0
+Stable tag: 1.11.1
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -181,6 +181,9 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 8. More options.
 
 == Changelog ==
+
+= 1.11.1 =
+* Fixed the order_by and order parameters in Groups_Group::get_groups()
 
 = 1.11.0 =
 * Added the Brazilian Portuguese translation.
@@ -533,5 +536,5 @@ Some installations wouldn't work correctly, showing no capabilities and making i
 
 == Upgrade Notice ==
 
-= 1.11.0 =
-This release adds the translation for Brazilian Portuguese.
+= 1.11.1 =
+This release provides minor fixes in the API.
