@@ -2,6 +2,8 @@
 
 = 1.11.2 =
 * Updated the translation template.
+* Updated the German translation.
+* Moved the complete changelog out to changelog.txt.
 
 = 1.11.1 =
 * Fixed the order_by and order parameters in Groups_Group::get_groups()

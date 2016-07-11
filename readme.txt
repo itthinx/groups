@@ -184,6 +184,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 = 1.11.2 =
 * Updated the translation template.
+* Updated the German translation.
 * Moved the complete changelog out to changelog.txt.
 
 = 1.11.1 =
@@ -195,4 +196,4 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 == Upgrade Notice ==
 
 = 1.11.2 =
-This release provides an updated translation template.
+This release provides an updated translation template and updated German translation.
