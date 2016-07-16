@@ -1,5 +1,8 @@
 == Groups changelog.txt ==
 
+= 1.11.3 =
+* Updated the Spanish translation.
+
 = 1.11.2 =
 * Updated the translation template.
 * Updated the German translation.
