@@ -21,7 +21,7 @@
  * Plugin Name: Groups
  * Plugin URI: http://www.itthinx.com/plugins/groups
  * Description: Groups provides group-based user membership management, group-based capabilities and content access control.
- * Version: 1.11.3
+ * Version: 1.12.0
  * Author: itthinx
  * Author URI: http://www.itthinx.com
  * Donate-Link: http://www.itthinx.com
@@ -30,7 +30,7 @@
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'GROUPS_CORE_VERSION', '1.11.3' );
+define( 'GROUPS_CORE_VERSION', '1.12.0' );
 define( 'GROUPS_FILE', __FILE__ );
 if ( !defined( 'GROUPS_CORE_DIR' ) ) {
 	define( 'GROUPS_CORE_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -54,7 +54,7 @@ if ( !defined( 'GROUPS_WP_LIB' ) ) {
 	define( 'GROUPS_WP_LIB', GROUPS_CORE_DIR . '/lib/wp' );
 }
 if ( !defined( 'GROUPS_CORE_URL' ) ) {
-	define( '_GROUPS_CORE_URL', plugins_url( 'groups' ) );
+	define( 'GROUPS_CORE_URL', plugins_url( 'groups' ) );
 }
 require_once( GROUPS_CORE_LIB . '/constants.php' );
 require_once( GROUPS_CORE_LIB . '/wp-init.php');

@@ -182,21 +182,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
-= 1.11.3 =
-* Updated the Spanish translation.
-
-= 1.11.2 =
-* Updated the translation template.
-* Updated the German translation.
-* Moved the complete changelog out to changelog.txt.
-
-= 1.11.1 =
-* Fixed the order_by and order parameters in Groups_Group::get_groups()
-
-= 1.11.0 =
-* Added the Brazilian Portuguese translation.
+= 1.12.0 =
+* Fixed an issue where resource paths were not correct with customized WP_CONTENT_DIR, WP_CONTENT_URL, WP_PLUGIN_DIR and WP_PLUGIN_URL.
 
 == Upgrade Notice ==
 
-= 1.11.3 =
-This release provides an updated Spanish translation.
+= 1.12.0 =
+This release fixes issues with customized plugin and content directories.
