@@ -137,13 +137,13 @@ class Groups_Group implements I_Capable {
 				case 'users' :
 					$user_group_table = _groups_get_tablename( "user_group" );
 					$users = $wpdb->get_results( $wpdb->prepare(
-						"SELECT ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+						"SELECT $wpdb->users.* FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $users ) {
 						$result = array();
 						foreach( $users as $user ) {
-							$result[] = new Groups_User( $user->ID );
+							$result[] = new Groups_User( $user );
 						}
 					}
 					break;
