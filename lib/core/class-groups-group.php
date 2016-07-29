@@ -141,6 +141,7 @@ class Groups_Group implements I_Capable {
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $users ) {
+						$this->cache_meta_data( $users );
 						$result = array();
 						foreach( $users as $user ) {
 							$result[] = new Groups_User( $user );
@@ -150,6 +151,30 @@ class Groups_Group implements I_Capable {
 			}
 		}
 		return $result;
+	}
+
+	private function cache_meta_data( $users ) {
+		$users_to_cache = array();
+
+		// this usually makes only sense when we have a bunch of users
+		if ( empty( $users ) || is_wp_error( $users ) || count( $users ) < 3 ) {
+			return $users;
+		}
+
+		foreach( $users as $user ) {
+			if ( isset( $user->ID ) ) {
+				$users_to_cache[$user->ID] = 1;
+			}
+		}
+
+		if ( empty( $users_to_cache ) ) {
+			return $users;
+		}
+
+		update_meta_cache( 'user', array_keys( $users_to_cache ) );
+		unset( $users_to_cache );
+
+		return $users;
 	}
 
 	/**
