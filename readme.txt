@@ -3,7 +3,7 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.5.3
+Tested up to: 4.6
 Stable tag: 1.12.0
 License: GPLv3
 
@@ -182,10 +182,10 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 
 == Changelog ==
 
-= 1.12.0 =
-* Fixed an issue where resource paths were not correct with customized WP_CONTENT_DIR, WP_CONTENT_URL, WP_PLUGIN_DIR and WP_PLUGIN_URL.
+= 1.13.0 =
+* wp_count_posts
 
 == Upgrade Notice ==
 
-= 1.12.0 =
-This release fixes issues with customized plugin and content directories.
+= 1.13.0 =
+This release corrects an issue related to the post counts displayed based on the wp_count_posts filter.
