@@ -25,12 +25,6 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Post access restrictions.
- * 
- * @todo when wp_count_posts() provides reasonable filters, use them so that
- * the post counts displayed on top are in line with the actual posts that
- * are displayed in the table; same for wp_count_attachments()
- * @see http://core.trac.wordpress.org/ticket/16603
- * 
  */
 class Groups_Post_Access {
 
@@ -80,6 +74,8 @@ class Groups_Post_Access {
 		// add_filter( "posts_join_paged", array( __CLASS__, "posts_join_paged" ), 1 );
 		// add_filter( "posts_where_paged", array( __CLASS__, "posts_where_paged" ), 1 );
 		add_action( 'groups_deleted_capability_capability', array( __CLASS__, 'groups_deleted_capability_capability' ) );
+		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 );
+		// @todo add_filter( 'wp_count_attachments', array( __CLASS__, 'wp_count_attachments' ), 10, 2 );
 	}
 
 	/**
@@ -436,5 +432,38 @@ class Groups_Post_Access {
 		delete_metadata( 'post', null, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY, $capability, true );
 	}
 
+	/**
+	 * Hooked on wp_count_posts to correct the post counts.
+	 * 
+	 * @param object $counts An object containing the current post_type's post counts by status.
+	 * @param string $type the post type
+	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
+	 */
+	public static function wp_count_posts( $counts, $type, $perm ) {
+		foreach( $counts as $post_status => $count ) {
+			$query_args = array(
+				'fields'           => 'ids',
+				'post_type'        => $type,
+				'post_status'      => $post_status,
+				'numberposts'      => -1, // all
+				'suppress_filters' => 0
+			);
+			$posts = get_posts( $query_args );
+			$count = count( $posts );
+			unset( $posts );
+			$counts->$post_status = $count;
+		}
+		return $counts;
+	}
+
+	/**
+	 * @todo Hooked on wp_count_attachments to correct the counts.
+	 * 
+	 * @param object $counts An object containing the attachment counts by mime type.
+	 * @param string $mime_type The mime type pattern used to filter the attachments counted.
+	 */
+	public static function wp_count_attachments( $counts, $mime_type ) {
+		return $counts;
+	}
 }
 Groups_Post_Access::init();
