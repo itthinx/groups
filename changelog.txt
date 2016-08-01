@@ -1,5 +1,8 @@
 == Groups changelog.txt ==
 
+= 1.13.0 =
+* wp_count_posts
+
 = 1.12.0 =
 * Fixed an issue where resource paths were not correct with customized WP_CONTENT_DIR, WP_CONTENT_URL, WP_PLUGIN_DIR and WP_PLUGIN_URL.
 
