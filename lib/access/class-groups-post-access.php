@@ -75,7 +75,8 @@ class Groups_Post_Access {
 		// add_filter( "posts_where_paged", array( __CLASS__, "posts_where_paged" ), 1 );
 		add_action( 'groups_deleted_capability_capability', array( __CLASS__, 'groups_deleted_capability_capability' ) );
 		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 );
-		// @todo add_filter( 'wp_count_attachments', array( __CLASS__, 'wp_count_attachments' ), 10, 2 );
+		// @todo enable the filter and implement below if needed to correct attachment counts
+		// add_filter( 'wp_count_attachments', array( __CLASS__, 'wp_count_attachments' ), 10, 2 );
 	}
 
 	/**
@@ -457,7 +458,8 @@ class Groups_Post_Access {
 	}
 
 	/**
-	 * @todo Hooked on wp_count_attachments to correct the counts.
+	 * Would be hooked on wp_count_attachments to correct the counts but it's not actually
+	 * being used in the current media library.
 	 * 
 	 * @param object $counts An object containing the attachment counts by mime type.
 	 * @param string $mime_type The mime type pattern used to filter the attachments counted.
