@@ -183,7 +183,7 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 == Changelog ==
 
 = 1.13.0 =
-* wp_count_posts
+* Added a filter on wp_count_posts.
 
 == Upgrade Notice ==
 
