@@ -449,6 +449,12 @@ class Groups_Post_Access {
 				'numberposts'      => -1, // all
 				'suppress_filters' => 0
 			);
+			if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
+				$wc_order_statuses = array_keys( wc_get_order_statuses() );
+				if ( !in_array( $post_status, $wc_order_statuses ) ) {
+					$query_args['post_status'] = $wc_order_statuses;
+				}
+			}
 			$posts = get_posts( $query_args );
 			$count = count( $posts );
 			unset( $posts );
