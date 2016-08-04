@@ -449,10 +449,21 @@ class Groups_Post_Access {
 				'numberposts'      => -1, // all
 				'suppress_filters' => 0
 			);
+			// WooCommerce Orders
 			if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
 				$wc_order_statuses = array_keys( wc_get_order_statuses() );
 				if ( !in_array( $post_status, $wc_order_statuses ) ) {
-					$query_args['post_status'] = $wc_order_statuses;
+					// Skip getting the post count for this status as it's
+					// not a valid order status and WC would raise a PHP Notice.
+					continue;
+				}
+			}
+			// WooCommerce Subscriptions
+			if ( function_exists( 'wcs_get_subscription_statuses' ) && ( $type == 'shop_subscription' ) ) {
+				$wc_subscription_statuses = array_keys( wcs_get_subscription_statuses() );
+				if ( !in_array( $post_status, $wc_subscription_statuses ) ) {
+					// Skip as it's not a valid subscription status
+					continue;
 				}
 			}
 			$posts = get_posts( $query_args );
