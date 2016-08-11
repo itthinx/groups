@@ -41,7 +41,7 @@ define( 'GROUPS_PLUGIN_DIR', GROUPS_CORE_DIR );
 /**
  * @var string plugin url
  */
-define( 'GROUPS_PLUGIN_URL', plugin_dir_url( GROUPS_FILE ) );
+define( 'GROUPS_PLUGIN_URL', trailingslashit( GROUPS_CORE_URL ) );
 
 /**
  * @var string groups table prefix

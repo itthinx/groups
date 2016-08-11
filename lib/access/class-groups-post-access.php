@@ -25,12 +25,6 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Post access restrictions.
- * 
- * @todo when wp_count_posts() provides reasonable filters, use them so that
- * the post counts displayed on top are in line with the actual posts that
- * are displayed in the table; same for wp_count_attachments()
- * @see http://core.trac.wordpress.org/ticket/16603
- * 
  */
 class Groups_Post_Access {
 
@@ -85,7 +79,11 @@ class Groups_Post_Access {
 		// add_filter( "plugin_row_meta", array( __CLASS__, "plugin_row_meta" ), 1 );
 		// add_filter( "posts_join_paged", array( __CLASS__, "posts_join_paged" ), 1 );
 		// add_filter( "posts_where_paged", array( __CLASS__, "posts_where_paged" ), 1 );
+
 		add_action( 'groups_deleted_group', array( __CLASS__, 'groups_deleted_group' ) );
+		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 );
+		// @todo enable the filter and implement below if needed to correct attachment counts
+		// add_filter( 'wp_count_attachments', array( __CLASS__, 'wp_count_attachments' ), 10, 2 );
 	}
 
 	/**
@@ -504,6 +502,58 @@ class Groups_Post_Access {
 		if ( $group_id ) {
 			delete_metadata( 'post', null, self::POSTMETA_PREFIX . self::READ, $group_id, true );
 		}
+	}
+
+	/**
+	 * Hooked on wp_count_posts to correct the post counts.
+	 * 
+	 * @param object $counts An object containing the current post_type's post counts by status.
+	 * @param string $type the post type
+	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
+	 */
+	public static function wp_count_posts( $counts, $type, $perm ) {
+		foreach( $counts as $post_status => $count ) {
+			$query_args = array(
+				'fields'           => 'ids',
+				'post_type'        => $type,
+				'post_status'      => $post_status,
+				'numberposts'      => -1, // all
+				'suppress_filters' => 0
+			);
+			// WooCommerce Orders
+			if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
+				$wc_order_statuses = array_keys( wc_get_order_statuses() );
+				if ( !in_array( $post_status, $wc_order_statuses ) ) {
+					// Skip getting the post count for this status as it's
+					// not a valid order status and WC would raise a PHP Notice.
+					continue;
+				}
+			}
+			// WooCommerce Subscriptions
+			if ( function_exists( 'wcs_get_subscription_statuses' ) && ( $type == 'shop_subscription' ) ) {
+				$wc_subscription_statuses = array_keys( wcs_get_subscription_statuses() );
+				if ( !in_array( $post_status, $wc_subscription_statuses ) ) {
+					// Skip as it's not a valid subscription status
+					continue;
+				}
+			}
+			$posts = get_posts( $query_args );
+			$count = count( $posts );
+			unset( $posts );
+			$counts->$post_status = $count;
+		}
+		return $counts;
+	}
+
+	/**
+	 * Would be hooked on wp_count_attachments to correct the counts but it's not actually
+	 * being used in the current media library.
+	 * 
+	 * @param object $counts An object containing the attachment counts by mime type.
+	 * @param string $mime_type The mime type pattern used to filter the attachments counted.
+	 */
+	public static function wp_count_attachments( $counts, $mime_type ) {
+		return $counts;
 	}
 }
 Groups_Post_Access::init();
