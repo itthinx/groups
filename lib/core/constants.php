@@ -120,4 +120,4 @@ define( 'GROUPS_LEGACY_ENABLE', 'groups-legacy-enable' );
  * Default value for legacy support.
  * @var boolean
  */
-define( 'GROUPS_LEGACY_ENABLE_DEFAULT', false );
+define( 'GROUPS_LEGACY_ENABLE_DEFAULT', true );

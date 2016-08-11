@@ -56,6 +56,9 @@ require_once( GROUPS_CORE_LIB . '/class-groups-options.php' );
 // plugin control: activation, deactivation, ...
 require_once( GROUPS_CORE_LIB . '/class-groups-controller.php' );
 
+// legacy enabled?
+$groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS_LEGACY_ENABLE_DEFAULT );
+
 // admin
 if ( is_admin() ) {
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin.php' );
@@ -65,6 +68,10 @@ if ( is_admin() ) {
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-users.php' );
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-posts.php' );
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-post-columns.php' );
+	if ( $groups_legacy_enable ) {
+		require_once GROUPS_LEGACY_LIB . '/admin/class-groups-admin-posts-legacy.php';
+		require_once GROUPS_LEGACY_LIB . '/admin/class-groups-admin-post-columns-legacy.php';
+	}
 }
 
 // help
@@ -90,9 +97,15 @@ require_once( GROUPS_AUTO_LIB . '/class-groups-registered.php' );
  */
 
 require_once( GROUPS_ACCESS_LIB . '/class-groups-post-access.php' );
+if ( $groups_legacy_enable ) {
+	require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
+}
 
 if ( is_admin() ) {
 	require_once( GROUPS_ACCESS_LIB . '/class-groups-access-meta-boxes.php' );
+	if ( $groups_legacy_enable ) {
+		require_once( GROUPS_LEGACY_LIB . '/access/class-groups-access-meta-boxes-legacy.php' );
+	}
 }
 require_once( GROUPS_ACCESS_LIB . '/class-groups-access-shortcodes.php' );
 require_once( GROUPS_VIEWS_LIB . '/class-groups-shortcodes.php' );
