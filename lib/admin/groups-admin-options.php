@@ -283,7 +283,7 @@ function groups_admin_options() {
 			'</p>';
 	}
 
-	$groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, true );
+	$groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS_LEGACY_ENABLE_DEFAULT );
 	echo '<h2>' . __( 'Legacy Settings', GROUPS_PLUGIN_DOMAIN ) . '</h2>';
 	echo '<p>' .
 		'<label>' .

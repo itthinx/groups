@@ -226,6 +226,18 @@ class Groups_Controller {
 		global $groups_version, $groups_admin_messages;
 		$previous_version = get_option( 'groups_plugin_version', null );
 		$groups_version = GROUPS_CORE_VERSION;
+		// auto-enable legacy support on upgrade from Groups previous to 2.0.0
+		if ( $previous_version ) {
+			if ( version_compare( $previous_version, self::GROUPS_200 ) < 0 ) {
+				if ( Groups_Options::get_option( GROUPS_LEGACY_ENABLE ) === null ) {
+					Groups_Options::update_option( GROUPS_LEGACY_ENABLE, true );
+				}
+			}
+		}
+		// disable legacy support on new installations
+		if ( Groups_Options::get_option( GROUPS_LEGACY_ENABLE ) === null ) {
+			Groups_Options::update_option( GROUPS_LEGACY_ENABLE, false );
+		}
 		// run update procedure if newer version is installed
 		if ( version_compare( $previous_version, $groups_version ) < 0 ) {
 			if ( self::update( $previous_version ) ) {
@@ -280,10 +292,6 @@ class Groups_Controller {
 					if ( version_compare( $previous_version, '1.5.1' ) < 0 ) {
 						$capability_table = _groups_get_tablename( 'capability' );
 						$queries[] = "ALTER TABLE $capability_table DROP INDEX capability, ADD UNIQUE INDEX capability(capability(100));";
-					}
-					// auto-enable legacy support on upgrade from Groups previous to 2.0.0
-					if ( version_compare( $previous_version, self::GROUPS_200 ) < 0 ) {
-						Groups_Options::update_option( GROUPS_LEGACY_ENABLE, true );
 					}
 				}
 		} // switch

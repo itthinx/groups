@@ -112,6 +112,12 @@ define( 'GROUPS_SHOW_IN_USER_PROFILE_DEFAULT', false );
 
 /**
  * Whether legacy functions should be supported.
- * @var boolean
+ * @var string
  */
 define( 'GROUPS_LEGACY_ENABLE', 'groups-legacy-enable' );
+
+/**
+ * Default value for legacy support.
+ * @var boolean
+ */
+define( 'GROUPS_LEGACY_ENABLE_DEFAULT', false );
