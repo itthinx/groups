@@ -28,15 +28,48 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Post_Access {
 
+	/**
+	 * @var string
+	 */
 	const POSTMETA_PREFIX = 'groups-';
-	const READ            = 'read';
 
-	const CACHE_GROUP     = 'groups';
-	const CAN_READ_POST   = 'can_read_post';
+	/**
+	 * @var string
+	 */
+	const READ = 'read';
 
+	/**
+	 * @var string
+	 */
+	const CACHE_GROUP = 'groups';
+
+	/**
+	 * 
+	 * @var string
+	 */
+	const CAN_READ_POST = 'can_read_post';
+
+	/**
+	 * @deprecated
+	 * @var string
+	 */
 	const READ_POST_CAPABILITY = "groups_read_post";
+
+	/**
+	 * @deprecated
+	 * @var string
+	 */
 	const READ_POST_CAPABILITY_NAME = "Read Post";
+
+	/**
+	 * @deprecated
+	 * @var string
+	 */
 	const READ_POST_CAPABILITIES = 'read_post_capabilities';
+
+	/**
+	 * @var string
+	 */
 	const POST_TYPES = 'post_types';
 
 	/**

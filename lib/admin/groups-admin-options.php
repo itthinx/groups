@@ -76,19 +76,6 @@ function groups_admin_options() {
 			}
 			Groups_Options::update_option( Groups_Post_Access::POST_TYPES, $post_types_option );
 
-			$valid_read_caps = array( Groups_Post_Access::READ_POST_CAPABILITY );
-			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
-				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
-				foreach( $read_caps as $read_cap ) {
-					if ( $valid_cap = Groups_Capability::read( $read_cap ) ) {
-						if ( !in_array( $valid_cap->capability, $valid_read_caps ) ) {
-							$valid_read_caps[] = $valid_cap->capability;
-						}
-					}
-				}
-			}
-			Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $valid_read_caps );
-
 			// tree view
 			if ( !empty( $_POST[GROUPS_SHOW_TREE_VIEW] ) ) {
 				Groups_Options::update_option( GROUPS_SHOW_TREE_VIEW, true );
@@ -122,6 +109,14 @@ function groups_admin_options() {
 					Groups_Options::update_option( 'groups_delete_data', false );
 				}
 			}
+
+			// legacy enable ?
+			if ( !empty( $_POST[GROUPS_LEGACY_ENABLE] ) ) {
+				Groups_Options::update_option( GROUPS_LEGACY_ENABLE, true );
+			} else {
+				Groups_Options::update_option( GROUPS_LEGACY_ENABLE, false );
+			}
+
 			Groups_Admin::add_message( __( 'Options saved.', GROUPS_PLUGIN_DOMAIN ) );
 		}
 	}
@@ -247,30 +242,6 @@ function groups_admin_options() {
 		__( 'Disabling this setting for a post type does not remove existing access restrictions on individual posts of that type.', GROUPS_PLUGIN_DOMAIN ) . '<br/>' .
 		'</p>';
 
-
-	echo '<h3>' . __( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
-
-	echo '<p class="description">' .
-		__( 'Include these capabilities to enforce read access on posts. The selected capabilities will be offered to restrict access to posts.', GROUPS_PLUGIN_DOMAIN ) .
-		'</p>';
-
-	$capability_table = _groups_get_tablename( "capability" );
-	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
-	$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-	echo '<div class="select-capability-container" style="width:62%;">';
-	printf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
-	foreach( $capabilities as $capability ) {
-		$selected = in_array( $capability->capability, $applicable_read_caps ) ? ' selected="selected" ' : '';
-		if ( $capability->capability == Groups_Post_Access::READ_POST_CAPABILITY ) {
-			$selected .= ' disabled="disabled" ';
-		}
-		printf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, wp_filter_nohtml_kses( $capability->capability ) );
-	}
-	echo '</select>';
-	echo '</div>';
-
-	echo Groups_UIE::render_select( '.select.capability' );
-
 	echo
 		'<h2>' . __( 'User profiles', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
 		'<p>' .
@@ -311,6 +282,20 @@ function groups_admin_options() {
 			__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', GROUPS_PLUGIN_DOMAIN ) .
 			'</p>';
 	}
+
+	$groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, true );
+	echo '<h2>' . __( 'Legacy Settings', GROUPS_PLUGIN_DOMAIN ) . '</h2>';
+	echo '<p>' .
+		'<label>' .
+		'<input name="' . GROUPS_LEGACY_ENABLE . '" type="checkbox" ' . ( $groups_legacy_enable ? 'checked="checked"' : '' ) . '/>' .
+		__( 'Enable legacy access control based on capabilities.', GROUPS_PLUGIN_DOMAIN ) .
+		'</label>' .
+		'</p>';
+	if ( $groups_legacy_enable ) {
+		require_once GROUPS_LEGACY_LIB . '/admin/groups-admin-options-legacy.php';
+		do_action( 'groups_admin_options_legacy' );
+	}
+
 	echo
 		'<p>' .
 		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) .
@@ -322,6 +307,9 @@ function groups_admin_options() {
 	echo '</div>'; // .groups-options
 }
 
+/**
+ * Network administration options.
+ */
 function groups_network_admin_options() {
 
 	if ( !current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {

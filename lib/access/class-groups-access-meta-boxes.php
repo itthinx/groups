@@ -93,15 +93,6 @@ class Groups_Access_Meta_Boxes {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
-// 					add_meta_box(
-// 						"groups-access",
-// 						__( "Access restrictions", GROUPS_PLUGIN_DOMAIN ),
-// 						array( __CLASS__, "capability" ),
-// 						null,
-// 						"side",
-// 						"high"
-// 					);
-
 					add_meta_box(
 						'groups-permissions',
 						__( 'Groups', GROUPS_PLUGIN_DOMAIN ),
@@ -110,7 +101,6 @@ class Groups_Access_Meta_Boxes {
 						'side',
 						'high'
 					);
-
 
 				Groups_UIE::enqueue( 'select' );
 
@@ -276,174 +266,6 @@ class Groups_Access_Meta_Boxes {
 		$output .= apply_filters( 'groups_access_meta_boxes_groups_after_read_groups', '', $object, $box );
 
 		$output = apply_filters( 'groups_access_meta_boxes_groups', $output, $object, $box );
-
-		echo $output;
-	}
-
-	/**
-	 * Render meta box for capabilities.
-	 * 
-	 * @see do_meta_boxes()
-	 * 
-	 * @param Object $object
-	 * @param Object $box
-	 */
-	public static function capability( $object = null, $box = null ) {
-
-		$output = "";
-
-		$show_groups = Groups_Options::get_user_option( self::SHOW_GROUPS, true );
-
-		$post_id = isset( $object->ID ) ? $object->ID : null;
-		$post_type = isset( $object->post_type ) ? $object->post_type : null;
-		$post_singular_name = __( "Post", GROUPS_PLUGIN_DOMAIN );
-		if ( $post_type !== null ) {
-			$post_type_object = get_post_type_object( $post_type );
-			$labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
-			if ( $labels !== null ) {
-				if ( isset( $labels->singular_name ) )  {
-					$post_singular_name = __( $labels->singular_name );
-				}
-			}
-		}
-
-		$output .= wp_nonce_field( self::SET_CAPABILITY, self::CAPABILITY_NONCE, true, false );
-
-		if ( self::user_can_restrict() ) {
-			$user = new Groups_User( get_current_user_id() );
-			$output .= __( "Enforce read access", GROUPS_PLUGIN_DOMAIN );
-
-			$read_caps = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
-			$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-			$output .= '<div class="select-capability-container">';
-			$output .= sprintf(
-				'<select class="select capability" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
-				self::CAPABILITY . '[]',
-				__( 'Type and choose &hellip;', GROUPS_PLUGIN_DOMAIN),
-				__( 'Type and choose &hellip;', GROUPS_PLUGIN_DOMAIN),
-				__( 'Choose one or more capabilities to restrict access. Groups that grant access through the capabilities are shown in parenthesis. If no capabilities are available yet, you can use the quick-create box to create a group and capability enabled for access restriction on the fly.', GROUPS_PLUGIN_DOMAIN )
-			);
-			$output .= '<option value=""></option>';
-			foreach( $valid_read_caps as $valid_read_cap ) {
-				if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-					if ( $user->can( $capability->capability ) ) {
-						$c = new Groups_Capability( $capability->capability_id );
-						$groups = $c->groups;
-						$group_names = array();
-						if ( !empty( $groups ) ) {
-							foreach( $groups as $group ) {
-								$group_names[] = $group->name;
-							}
-						}
-						if ( count( $group_names ) > 0 ) {
-							$label_title = sprintf(
-								_n(
-									'Members of the %1$s group can access this %2$s through this capability.',
-									'Members of the %1$s groups can access this %2$s through this capability.',
-									count( $group_names ),
-									GROUPS_PLUGIN_DOMAIN
-								),
-								wp_filter_nohtml_kses( implode( ',', $group_names ) ),
-								$post_singular_name
-							);
-						} else {
-							$label_title = __( 'No groups grant access through this capability. To grant access to group members using this capability, you should assign it to a group and enable the capability for access restriction.', GROUPS_PLUGIN_DOMAIN );
-						}
-
-						$selected = apply_filters(
-							'groups_access_restrictions_capability_selected',
-							in_array( $capability->capability, $read_caps ),
-							$capability->capability,
-							$capability->capability_id,
-							$read_caps,
-							$post_id,
-							$post_type
-						);
-						$output .= sprintf( '<option value="%s" %s>', esc_attr( $capability->capability_id ), $selected ? ' selected="selected" ': '' );
-						$output .= wp_filter_nohtml_kses( $capability->capability );
-						if ( $show_groups ) {
-							if ( count( $group_names ) > 0 ) {
-								$output .= ' ';
-								$output .= '(' . wp_filter_nohtml_kses( implode( ', ', $group_names ) ) . ')';
-							}
-						}
-						$output .= '</option>';
-					}
-				}
-			}
-			$output .= '</select>';
-
-			$output .= Groups_UIE::render_select( '.select.capability' );
-// 			$output .= '<script type="text/javascript">';
-// 			$output .= 'if (typeof jQuery !== "undefined"){';
-// 			if ( self::WHICH_SELECT == 'chosen' ) {
-// 				$output .= 'jQuery(".select.capability").chosen({width:"100%",search_contains:true});';
-// 			} else {
-// 				$output .= 'jQuery(".select.capability").selectize({plugins: ["remove_button"]});';
-// 			}
-// 			$output .= '}';
-// 			$output .= '</script>';
-// 			$output .= '<style type="text/css">';
-// 			$output .= '.select-capability-container input[type="text"] { min-height: 2em; }';
-// 			$output .= '</style>';
-			$output .= '</div>';
-
-			$output .= '<p class="description">';
-			$output .= sprintf( __( "Only groups or users that have one of the selected capabilities are allowed to read this %s.", GROUPS_PLUGIN_DOMAIN ), $post_singular_name );
-			$output .= '</p>';
-
-			$output .= '<p class="description">';
-			$output .= sprintf( '<label title="%s">', __( 'Click to toggle the display of groups that grant the capabilities.', GROUPS_PLUGIN_DOMAIN ) );
-			$output .= sprintf( '<input id="access-show-groups" type="checkbox" name="%s" %s />', esc_attr( self::SHOW_GROUPS ), $show_groups ? ' checked="checked" ' : '' );
-			$output .= ' ';
-			$output .= __( 'Show groups', GROUPS_PLUGIN_DOMAIN );
-			$output .= '</label>';
-			$output .= '</p>';
-			$output .= '<script type="text/javascript">';
-			$output .= 'if (typeof jQuery !== "undefined"){';
-			$output .= !$show_groups ? 'jQuery("span.groups.description").hide();' : '';
-			$output .= 'jQuery("#access-show-groups").click(function(){';
-			$output .= 'jQuery("span.groups.description").toggle();';
-			$output .= '});';
-			$output .= '}';
-			$output .= '</script>';
-		} else {
-			$output .= '<p class="description">';
-			$output .= sprintf( __( 'You cannot set any access restrictions.', GROUPS_PLUGIN_DOMAIN ), $post_singular_name );
-			$style = 'cursor:help;vertical-align:middle;';
-			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
-				$style = 'cursor:pointer;vertical-align:middle;';
-				$output .= sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=groups-admin-options' ) ) );
-			}
-			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You must be in a group that has at least one capability enabled to enforce read access.', GROUPS_PLUGIN_DOMAIN ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
-			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
-				$output .= '</a>';
-			}
-			$output .= '</p>';
-		}
-
-		// quick-create
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			$style = 'cursor:help;vertical-align:middle;';
-			$output .= '<div class="quick-create-group-capability" style="margin:4px 0">';
-			$output .= '<label>';
-			$output .= sprintf( '<input style="width:100%%;margin-right:-20px;" id="quick-group-capability" name="quick-group-capability" class="quick-group-capability" type="text" value="" placeholder="%s"/>', __( 'Quick-create group &amp; capability', GROUPS_PLUGIN_DOMAIN ) );
-			$output .= sprintf(
-				'<img id="quick-create-help-icon" style="%s" alt="?" title="%s" src="%s" />',
-				$style,
-				esc_attr( __( 'You can create a new group and capability here. The capability will be assigned to the group and enabled to enforce read access. Group names are case-sensitive, the name of the capability is the lower-case version of the name of the group. If the group already exists, a new capability is created and assigned to the existing group. If the capability already exists, it will be assigned to the group. If both already exist, the capability is enabled to enforce read access. In order to be able to use the capability, your user account will be assigned to the group.', GROUPS_PLUGIN_DOMAIN ) ),
-				esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' )
-			);
-			$output .= '</label>';
-			$output .= '</div>';
-			$output .= '<script type="text/javascript">';
-			$output .= 'if (typeof jQuery !== "undefined"){';
-			$output .= 'jQuery("#quick-create-help-icon").click(function(){';
-			$output .= 'jQuery("#contextual-help-link").click();';
-			$output .= '});';
-			$output .= '}';
-			$output .= '</script>';
-		}
 
 		echo $output;
 	}
@@ -849,20 +671,13 @@ class Groups_Access_Meta_Boxes {
 	}
 
 	/**
+	 * @todo 
+	 * @deprecated
 	 * @return array of valid read capabilities for the current or given user
 	 */
 	public static function get_valid_read_caps_for_user( $user_id = null ) {
-		$result = array();
-		$user = new Groups_User( $user_id === null ? get_current_user_id() : $user_id );
-		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-		foreach( $valid_read_caps as $valid_read_cap ) {
-			if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-				if ( $user->can( $capability->capability ) ) {
-					$result[] = $valid_read_cap;
-				}
-			}
-		}
-		return $result;
+		require_once( GROUPS_LEGACY_LIB . '/access/class-groups-access-meta-boxes-legacy.php' );
+		return Groups_Access_Meta_Boxes_Legacy::get_valid_read_caps_for_user( $user_id );
 	}
 } 
 Groups_Access_Meta_Boxes::init();

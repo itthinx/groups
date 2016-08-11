@@ -109,3 +109,9 @@ define( 'GROUPS_SHOW_IN_USER_PROFILE', 'groups-show-in-user-profile' );
  * @var boolean
  */
 define( 'GROUPS_SHOW_IN_USER_PROFILE_DEFAULT', false );
+
+/**
+ * Whether legacy functions should be supported.
+ * @var boolean
+ */
+define( 'GROUPS_LEGACY_ENABLE', 'groups-legacy-enable' );

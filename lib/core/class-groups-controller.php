@@ -29,6 +29,12 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Controller {
 
 	/**
+	 * Version 2.0.0 number
+	 * @var string
+	 */
+	const GROUPS_200 = '2.0.0';
+
+	/**
 	 * Cache-safe switching in case any multi-site hiccups might occur.
 	 * Clears the cache after switching to the given blog to avoid using
 	 * another blog's cached values.
@@ -220,6 +226,11 @@ class Groups_Controller {
 		global $groups_version, $groups_admin_messages;
 		$previous_version = get_option( 'groups_plugin_version', null );
 		$groups_version = GROUPS_CORE_VERSION;
+		// auto-enable legacy support on upgrade from Groups previous to 2.0.0
+		if ( $previous_version && ( version_compare( $previous_version, self::GROUPS_200 ) < 0 ) ) {
+			Groups_Options::update_option( GROUPS_LEGACY_ENABLE, true );
+		}
+		// run update procedure if newer version is installed
 		if ( version_compare( $previous_version, $groups_version ) < 0 ) {
 			if ( self::update( $previous_version ) ) {
 				update_option( 'groups_plugin_version', $groups_version );
