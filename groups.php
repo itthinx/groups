@@ -54,7 +54,7 @@ if ( !defined( 'GROUPS_WP_LIB' ) ) {
 	define( 'GROUPS_WP_LIB', GROUPS_CORE_DIR . '/lib/wp' );
 }
 if ( !defined( 'GROUPS_CORE_URL' ) ) {
-	define( '_GROUPS_CORE_URL', plugins_url( 'groups' ) );
+	define( 'GROUPS_CORE_URL', plugins_url( 'groups' ) );
 }
 require_once( GROUPS_CORE_LIB . '/constants.php' );
 require_once( GROUPS_CORE_LIB . '/wp-init.php');
