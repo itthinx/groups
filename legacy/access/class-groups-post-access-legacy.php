@@ -25,12 +25,6 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Post access restrictions.
- * 
- * @todo when wp_count_posts() provides reasonable filters, use them so that
- * the post counts displayed on top are in line with the actual posts that
- * are displayed in the table; same for wp_count_attachments()
- * @see http://core.trac.wordpress.org/ticket/16603
- * 
  */
 class Groups_Post_Access_Legacy {
 
@@ -75,10 +69,6 @@ class Groups_Post_Access_Legacy {
 		add_filter( "the_content", array( __CLASS__, "the_content" ), 1 );
 		// edit & delete post
 		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
-		// @todo these could be interesting to add later ...
-		// add_filter( "plugin_row_meta", array( __CLASS__, "plugin_row_meta" ), 1 );
-		// add_filter( "posts_join_paged", array( __CLASS__, "posts_join_paged" ), 1 );
-		// add_filter( "posts_where_paged", array( __CLASS__, "posts_where_paged" ), 1 );
 		add_action( 'groups_deleted_capability_capability', array( __CLASS__, 'groups_deleted_capability_capability' ) );
 	}
 
@@ -233,8 +223,6 @@ class Groups_Post_Access_Legacy {
 	/**
 	 * Filter menu items by access capability.
 	 * 
-	 * @todo admin section: this won't inhibit the items being offered to be added, although when they're added they won't show up in the menu
-	 * 
 	 * @param array $items
 	 * @param mixed $menu
 	 * @param array $args
@@ -243,8 +231,6 @@ class Groups_Post_Access_Legacy {
 		$result = array();
 		$user_id = get_current_user_id();
 		foreach ( $items as $item ) {
-			// @todo might want to check $item->object and $item->type first,
-			// for example these are 'page' and 'post_type' for a page
 			if ( self::user_can_read_post( $item->object_id, $user_id ) ) {
 				$result[] = $item;
 			}
