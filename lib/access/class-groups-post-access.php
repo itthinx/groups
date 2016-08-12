@@ -165,61 +165,51 @@ class Groups_Post_Access {
 
 		global $wpdb;
 
-		// @todo Review
-// 		if ( apply_filters( 'groups_post_access_posts_where_apply', !is_admin(), $where, $query ) ) {
+		if ( apply_filters( 'groups_post_access_posts_where_apply', true, $where, $query ) ) {
 
-		$user_id = get_current_user_id();
+			$user_id = get_current_user_id();
 
-		// this only applies to logged in users
-		if ( $user_id ) {
-			// if administrators can override access, don't filter
-			if ( get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT ) ) {
-				if ( user_can( $user_id, 'administrator' ) ) {
-					return $where;
+			// this only applies to logged in users
+			if ( $user_id ) {
+				// if administrators can override access, don't filter
+				if ( get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT ) ) {
+					if ( user_can( $user_id, 'administrator' ) ) {
+						return $where;
+					}
 				}
 			}
-		}
 
-		// 1. Get all the groups that the user belongs to, including those that are inherited:
-		$group_ids = array();
-		if ( $user = new Groups_User( $user_id ) ) {
-			$group_ids_deep = $user->group_ids_deep;
-			if ( is_array( $group_ids_deep ) ) {
-				$group_ids = $group_ids_deep;
+			// 1. Get all the groups that the user belongs to, including those that are inherited:
+			$group_ids = array();
+			if ( $user = new Groups_User( $user_id ) ) {
+				$group_ids_deep = $user->group_ids_deep;
+				if ( is_array( $group_ids_deep ) ) {
+					$group_ids = $group_ids_deep;
+				}
 			}
-		}
 
-		if ( count( $group_ids ) > 0 ) {
-			$group_ids = "'" . implode( "','", $group_ids ) . "'";
-		} else {
-			$group_ids = '\'\'';
-		}
+			if ( count( $group_ids ) > 0 ) {
+				$group_ids = "'" . implode( "','", $group_ids ) . "'";
+			} else {
+				$group_ids = '\'\'';
+			}
 
-		// 2. Filter the posts that require a capability that the user doesn't
-		// have, or in other words: exclude posts that the user must NOT access:
-	
-		// The following is not correct in that it requires the user to have ALL capabilities:
-		// 		$where .= sprintf(
-		// 			" AND {$wpdb->posts}.ID NOT IN (SELECT DISTINCT ID FROM $wpdb->posts LEFT JOIN $wpdb->postmeta on {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value NOT IN (%s) ) ",
-		// 			self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY,
-		// 			$caps
-		// 		);
-
-		// This allows the user to access posts where the posts are not restricted or where
-		// the user has ANY of the capabilities:
-		$where .= sprintf(
+			// 2. Filter the posts:
+			// This allows the user to access posts where the posts are not restricted or where
+			// the user belongs to ANY of the groups:
+			$where .= sprintf(
 				" AND {$wpdb->posts}.ID IN " .
 				" ( " .
 				"   SELECT ID FROM $wpdb->posts WHERE ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts without access restriction
 				"   UNION ALL " . // we don't care about duplicates here, just make it quick
-				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any capability the user has
+				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any group the user belongs to
 				" ) ",
 				self::POSTMETA_PREFIX . self::READ,
 				self::POSTMETA_PREFIX . self::READ,
 				$group_ids
-		);
+			);
 
-// 		}
+		}
 
 		return apply_filters( 'groups_post_access_posts_where', $where, $query );
 	}
@@ -231,11 +221,15 @@ class Groups_Post_Access {
 	 */
 	public static function get_pages( $pages ) {
 		$result = array();
-		$user_id = get_current_user_id();
-		foreach ( $pages as $page ) {
-			if ( self::user_can_read_post( $page->ID, $user_id ) ) {
-				$result[] = $page;
+		if ( apply_filters( 'groups_post_access_get_pages_apply', true, $pages ) ) {
+			$user_id = get_current_user_id();
+			foreach ( $pages as $page ) {
+				if ( self::user_can_read_post( $page->ID, $user_id ) ) {
+					$result[] = $page;
+				}
 			}
+		} else {
+			$result = $pages;
 		}
 		return $result;
 	}
@@ -248,11 +242,15 @@ class Groups_Post_Access {
 	 */
 	public static function the_posts( $posts, &$query ) {
 		$result = array();
-		$user_id = get_current_user_id();
-		foreach ( $posts as $post ) {
-			if ( self::user_can_read_post( $post->ID, $user_id ) ) {
-				$result[] = $post;
+		if ( apply_filters( 'groups_post_access_the_posts_apply', true, $posts, $query ) ) {
+			$user_id = get_current_user_id();
+			foreach ( $posts as $post ) {
+				if ( self::user_can_read_post( $post->ID, $user_id ) ) {
+					$result[] = $post;
+				}
 			}
+		} else {
+			$result = $posts;
 		}
 		return $result;
 	}
@@ -268,13 +266,17 @@ class Groups_Post_Access {
 	 */
 	public static function wp_get_nav_menu_items( $items = null, $menu = null, $args = null ) {
 		$result = array();
-		$user_id = get_current_user_id();
-		foreach ( $items as $item ) {
-			// @todo might want to check $item->object and $item->type first,
-			// for example these are 'page' and 'post_type' for a page
-			if ( self::user_can_read_post( $item->object_id, $user_id ) ) {
-				$result[] = $item;
+		if ( apply_filters( 'groups_post_access_wp_get_nav_menu_items_apply', true, $items, $menu, $args ) ) {
+			$user_id = get_current_user_id();
+			foreach ( $items as $item ) {
+				// @todo might want to check $item->object and $item->type first,
+				// for example these are 'page' and 'post_type' for a page
+				if ( self::user_can_read_post( $item->object_id, $user_id ) ) {
+					$result[] = $item;
+				}
 			}
+		} else {
+			$result = $items;
 		}
 		return $result;
 	}
@@ -288,12 +290,16 @@ class Groups_Post_Access {
 	public static function get_the_excerpt( $output ) {
 		global $post;
 		$result = '';
-		if ( isset( $post->ID ) ) {
-			if ( self::user_can_read_post( $post->ID ) ) {
+		if ( apply_filters( 'groups_post_access_get_the_excerpt_apply', true, $output ) ) {
+			if ( isset( $post->ID ) ) {
+				if ( self::user_can_read_post( $post->ID ) ) {
+					$result = $output;
+				}
+			} else {
+				// not a post, don't interfere
 				$result = $output;
 			}
 		} else {
-			// not a post, don't interfere
 			$result = $output;
 		}
 		return $result;
@@ -308,12 +314,16 @@ class Groups_Post_Access {
 	public static function the_content( $output ) {
 		global $post;
 		$result = '';
-		if ( isset( $post->ID ) ) {
-			if ( self::user_can_read_post( $post->ID ) ) {
+		if ( apply_filters( 'groups_post_access_the_content_apply', true, $output ) ) {
+			if ( isset( $post->ID ) ) {
+				if ( self::user_can_read_post( $post->ID ) ) {
+					$result = $output;
+				}
+			} else {
+				// not a post, don't interfere
 				$result = $output;
 			}
 		} else {
-			// not a post, don't interfere
 			$result = $output;
 		}
 		return $result;
