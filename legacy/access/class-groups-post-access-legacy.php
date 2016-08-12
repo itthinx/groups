@@ -33,8 +33,8 @@ class Groups_Post_Access_Legacy {
 	const CACHE_GROUP     = 'groups';
 	const CAN_READ_POST   = 'can_read_post';
 
-	const READ_POST_CAPABILITY = "groups_read_post";
-	const READ_POST_CAPABILITY_NAME = "Read Post";
+	const READ_POST_CAPABILITY = 'groups_read_post';
+	const READ_POST_CAPABILITY_NAME = 'Read Post';
 	const READ_POST_CAPABILITIES = 'read_post_capabilities';
 	const POST_TYPES = 'post_types';
 
@@ -44,12 +44,12 @@ class Groups_Post_Access_Legacy {
 	 */
 	public static function activate() {
 		if ( !Groups_Capability::read_by_capability( self::READ_POST_CAPABILITY ) ) {
-			Groups_Capability::create( array( "capability" => self::READ_POST_CAPABILITY ) );
+			Groups_Capability::create( array( 'capability' => self::READ_POST_CAPABILITY ) );
 			// default read caps
 			Groups_Options::update_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 			// for translation
 			// @see self::READ_POST_CAPABILITY_NAME
-			__( "Read Post", GROUPS_PLUGIN_DOMAIN );
+			__( 'Read Post', GROUPS_PLUGIN_DOMAIN );
 		}
 	}
 
@@ -57,16 +57,19 @@ class Groups_Post_Access_Legacy {
 	 * Sets up filters to restrict access.
 	 */
 	public static function init() {
+		// Before Groups 2.0.0 this was called through Groups_Controller::activate() but
+		// now we only need to create the capabilities if legacy is enabled.
+		self::activate();
 		// post access
 		add_filter( 'posts_where', array( __CLASS__, 'posts_where' ), 10, 2 );
-		add_filter( 'get_pages', array( __CLASS__, "get_pages" ), 1 );
+		add_filter( 'get_pages', array( __CLASS__, 'get_pages' ), 1 );
 		if ( apply_filters( 'groups_filter_the_posts', false ) ) {
-			add_filter( 'the_posts', array( __CLASS__, "the_posts" ), 1, 2 );
+			add_filter( 'the_posts', array( __CLASS__, 'the_posts' ), 1, 2 );
 		}
-		add_filter( 'wp_get_nav_menu_items', array( __CLASS__, "wp_get_nav_menu_items" ), 1, 3 );
+		add_filter( 'wp_get_nav_menu_items', array( __CLASS__, 'wp_get_nav_menu_items' ), 1, 3 );
 		// content access
-		add_filter( "get_the_excerpt", array( __CLASS__, "get_the_excerpt" ), 1 );
-		add_filter( "the_content", array( __CLASS__, "the_content" ), 1 );
+		add_filter( 'get_the_excerpt', array( __CLASS__, 'get_the_excerpt' ), 1 );
+		add_filter( 'the_content', array( __CLASS__, 'the_content' ), 1 );
 		// edit & delete post
 		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
 		add_action( 'groups_deleted_capability_capability', array( __CLASS__, 'groups_deleted_capability_capability' ) );

@@ -53,13 +53,13 @@ class Groups_Post_Access {
 	 * @deprecated
 	 * @var string
 	 */
-	const READ_POST_CAPABILITY = "groups_read_post";
+	const READ_POST_CAPABILITY = 'groups_read_post';
 
 	/**
 	 * @deprecated
 	 * @var string
 	 */
-	const READ_POST_CAPABILITY_NAME = "Read Post";
+	const READ_POST_CAPABILITY_NAME = 'Read Post';
 
 	/**
 	 * @deprecated
@@ -73,23 +73,10 @@ class Groups_Post_Access {
 	const POST_TYPES = 'post_types';
 
 	/**
-	 * 
-	 * 
-	 * @todo THIS SHOULD NOT BE NEEDED UNLESS SOMEONE ENABLES CAPABILITY-BASED ACCESS RESTRICTIONS AND IN THAT CASE IT SHOULD BE INVOKED WHEN THAT OPTION IS ENABLED THROUGH INVOCATION OF THIS METHOD IN THE LEGACY CLASS
-	 * 
-	 * 
-	 * Create needed capabilities on plugin activation.
-	 * Must be called explicitly or hooked into activation.
+	 * Work done on activation, currently does nothing.
+	 * @see Groups_Controller::activate()
 	 */
 	public static function activate() {
-		if ( !Groups_Capability::read_by_capability( self::READ_POST_CAPABILITY ) ) {
-			Groups_Capability::create( array( "capability" => self::READ_POST_CAPABILITY ) );
-			// default read caps
-			Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-			// for translation
-			// @see self::READ_POST_CAPABILITY_NAME
-			__( "Read Post", GROUPS_PLUGIN_DOMAIN );
-		}
 	}
 
 	/**
@@ -98,14 +85,14 @@ class Groups_Post_Access {
 	public static function init() {
 		// post access
 		add_filter( 'posts_where', array( __CLASS__, 'posts_where' ), 10, 2 );
-		add_filter( 'get_pages', array( __CLASS__, "get_pages" ), 1 );
+		add_filter( 'get_pages', array( __CLASS__, 'get_pages' ), 1 );
 		if ( apply_filters( 'groups_filter_the_posts', false ) ) {
-			add_filter( 'the_posts', array( __CLASS__, "the_posts" ), 1, 2 );
+			add_filter( 'the_posts', array( __CLASS__, 'the_posts' ), 1, 2 );
 		}
-		add_filter( 'wp_get_nav_menu_items', array( __CLASS__, "wp_get_nav_menu_items" ), 1, 3 );
+		add_filter( 'wp_get_nav_menu_items', array( __CLASS__, 'wp_get_nav_menu_items' ), 1, 3 );
 		// content access
-		add_filter( "get_the_excerpt", array( __CLASS__, "get_the_excerpt" ), 1 );
-		add_filter( "the_content", array( __CLASS__, "the_content" ), 1 );
+		add_filter( 'get_the_excerpt', array( __CLASS__, 'get_the_excerpt' ), 1 );
+		add_filter( 'the_content', array( __CLASS__, 'the_content' ), 1 );
 		// edit & delete post
 		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
 		// @todo these could be interesting to add later ...
