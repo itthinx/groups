@@ -330,17 +330,7 @@ class Groups_Post_Access {
 	}
 
 	/**
-	 * 
-	 * 
-	 * @todo ADJUST TO USE GROUP INSTEAD OF CAPABILITY
-	 * 
-	 * 
-	 * Adds an access capability requirement.
-	 * 
-	 * $map must contain 'post_id' (*)
-	 * 
-	 * For now this only should be used to add the READ_POST_CAPABILITY which
-	 * it does automatically. Nothing else is checked for granting access.
+	 * Adds an access requirement based on post_id and group_id.
 	 * 
 	 * (*) Revisions : As of Groups 1.3.13 and at WordPress 3.6.1, as
 	 * add_post_meta stores postmeta for the revision's parent, we retrieve
@@ -349,24 +339,30 @@ class Groups_Post_Access {
 	 * the already existing postmeta entry (which ocurred in previous
 	 * versions).
 	 * 
-	 * @param array $map
-	 * @return true if the capability could be added to the post, otherwis false
+	 * @param array $map must contain 'post_id' (*) and 'group_id'
+	 * @return true if the capability could be added to the post, otherwise false
 	 */
 	public static function create( $map ) {
 		extract( $map );
 		$result = false;
 
-		if ( !isset( $capability ) ) {
-			$capability = self::READ_POST_CAPABILITY;
+		if ( isset( $capability ) ) {
+			_doing_it_wrong(
+				__CLASS__ . '::' . __METHOD__,
+				__( 'You should use Groups_Post_Access_Legacy::create() to pass a capability restriction instead.', 'groups' ),
+				'2.0.0'
+			);
 		}
 
-		if ( !empty( $post_id ) && !empty( $capability) ) {
-			if ( Groups_Capability::read_by_capability( $capability ) ) {
+		if ( !empty( $post_id ) && !empty( $group_id ) ) {
+			$post_id = Groups_Utility::id( $post_id );
+			$group_id = Groups_Utility::id( $group_id );
+			if ( Groups_Group::read( $group_id ) ) {
 				if ( $revision_parent_id = wp_is_post_revision( $post_id ) ) {
 					$post_id = $revision_parent_id;
 				}
-				if ( !in_array( $capability, get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY ) ) ) {
-					$result = add_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY, $capability );
+				if ( !in_array( $group_id, get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ ) ) ) {
+					$result = add_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
 				}
 			}
 		}
@@ -374,36 +370,41 @@ class Groups_Post_Access {
 	}
 
 	/**
+	 * Returns true if the post requires the user to be a member of the given group(s) to grant access.
 	 * 
-	 * @todo ADJUST TO USE GROUP INSTEAD OF CAPABILITY
+	 * @param int $post_id ID of the post
+	 * @param array $map should provide 'post_id' and 'groups_read'
 	 * 
-	 * 
-	 * Returns true if the post requires the given capability to grant access.
-	 * 
-	 * Currently only READ_POST_CAPABILITY should be used, this is also taken
-	 * as the default.
-	 * 
-	 * @param int $post_id
-	 * @param string $capability capability label
-	 * @return true if the capability is required, otherwise false
+	 * @return true if the group(s) is required, otherwise false
 	 */
-	public static function read( $post_id, $capability = self::READ_POST_CAPABILITY ) {
+	public static function read( $post_id, $map = array() ) {
+		extract( $map );
 		$result = false;
-		$caps = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY );
-		if ( $caps ) {
-			$result = in_array( $capability, $caps );
+		if ( !empty( $post_id ) ) {
+			if ( isset( $groups_read ) ) {
+				if ( empty( $groups_read ) ) {
+					$groups_read = array();
+				} else if ( !is_array( $groups_read ) ) {
+					$groups_read = array( $groups_read );
+				}
+				$group_ids = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
+				if ( $group_ids ) {
+					foreach( $groups_read as $group_id ) {
+						$result = in_array( $group_id, $group_ids );
+						if ( !$result ) {
+							break;
+						}
+					}
+				}
+			}
 		}
 		return $result;
 	}
 
 	/**
-	 * 
-	 * @todo ADJUST TO USE GROUP INSTEAD OF CAPABILITY
-	 * 
-	 * 
 	 * Update the post access restrictions.
 	 * 
-	 * $map must provide the post_id and groups_read holding group IDs that restrict read access.
+	 * $map must provide 'groups_read' holding group IDs that restrict read access.
 	 * 
 	 * @param array $map
 	 * @return array of group ids, false on failure
@@ -412,12 +413,14 @@ class Groups_Post_Access {
 		extract( $map );
 		$result = false;
 		if ( !empty( $post_id ) ) {
-			if ( empty( $groups_read ) || !is_array( $groups_read ) ) {
+			if ( empty( $groups_read ) ) {
 				$groups_read = array();
+			} else if ( !is_array( $groups_read ) ) {
+				$groups_read = array( $groups_read );
 			}
-			$groups_read = array_map( 'intval', $groups_read );
+			$groups_read = array_map( array( 'Groups_Utility', 'id' ), $groups_read );
 			$current_groups_read = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
-			$current_groups_read = array_map( 'intval', $current_groups_read );
+			$current_groups_read = array_map( array( 'Groups_Utility', 'id' ), $current_groups_read );
 			foreach( $groups_read as $group_id ) {
 				if ( !in_array( $group_id, $current_groups_read ) ) {
 					add_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
@@ -428,46 +431,55 @@ class Groups_Post_Access {
 					delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
 				}
 			}
-			$result = array_map( 'intval', get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ ) );
+			$result = array_map( array( 'Groups_Utility', 'id' ), get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ ) );
 		}
 		return $result;
 	}
 
 	/**
-	 * 
-	 * @todo ADJUST TO USE GROUP INSTEAD OF CAPABILITY
-	 * 
-	 * 
-	 * Removes a capability requirement from a post.
+	 * Removes a access restrictions from a post.
 	 * 
 	 * @param int $post_id
-	 * @param string $capability defaults to groups_read_post, removes all if null is given
+	 * @param array $map must provide 'groups_read' holding group IDs to remove from restricting access to the post; if empty, all access restrictions will be removed
 	 * @return true on success, otherwise false
 	 */
-	public static function delete( $post_id, $capability = self::READ_POST_CAPABILITY ) {
+	public static function delete( $post_id, $map = array() ) {
+		extract( $map );
 		$result = false;
 		if ( !empty( $post_id ) ) {
-			if ( !empty( $capability ) ) {
-				$result = delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY, $capability );
+			if ( empty( $groups_read ) ) {
+				$groups_read = array();
+			} else if ( !is_array( $groups_read ) ) {
+				$groups_read = array( $groups_read );
+			}
+			$groups_read = array_map( array( 'Groups_Utility', 'id' ), $groups_read );
+			if ( !empty( $groups_read ) ) {
+				foreach( $groups_read as $group_id ) {
+					$result = delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
+				}
 			} else {
-				$result = delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY );
+				$result = delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
 			}
 		}
 		return $result;
 	}
 
 	/**
-	 * 
-	 * @todo WHAT DO WE DO WITH THIS ONE?
-	 * 
-	 * 
 	 * Returns a list of capabilities that grant access to the post.
 	 * 
+	 * @deprecated
 	 * @param int $post_id
 	 * @return array of string, capabilities
 	 */
 	public static function get_read_post_capabilities( $post_id ) {
-		return get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY );
+		_doing_it_wrong(
+			__CLASS__ . '::' . __METHOD__,
+			__( 'This method is deprecated. You should use Groups_Post_Access_Legacy::get_read_post_capabilities() to retrieve the capabilities instead.', 'groups' ),
+			'2.0.0'
+		);
+
+		require_once( GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php' );
+		return Groups_Post_Access_Legacy::get_read_post_capabilities( $post_id );
 	}
 
 	/**
@@ -491,10 +503,6 @@ class Groups_Post_Access {
 
 		$result = false;
 
-		// @todo Review
-// 		if ( is_admin() ) {
-// 			$result = true;
-// 		} else {
 		if ( !empty( $post_id ) ) {
 			if ( $user_id === null ) {
 				$user_id = get_current_user_id();
@@ -518,7 +526,6 @@ class Groups_Post_Access {
 				Groups_Cache::set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );
 			}
 		}
-// 		}
 		return $result;
 	}
 

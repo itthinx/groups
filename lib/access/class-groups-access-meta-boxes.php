@@ -653,6 +653,9 @@ class Groups_Access_Meta_Boxes {
 	/**
 	 * Returns true if the current user has at least one of the capabilities
 	 * that can be used to restrict access to posts.
+	 * 
+	 * @todo adjust for groups instead of capabilities
+	 * 
 	 * @return boolean
 	 */
 	public static function user_can_restrict() {
