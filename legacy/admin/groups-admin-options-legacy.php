@@ -30,12 +30,14 @@ function groups_admin_options_legacy() {
 
 	global $wpdb;
 
+	require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
+
 	//
 	// handle legacy options after form submission
 	//
 	if ( isset( $_POST['submit'] ) ) {
 		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
-			$valid_read_caps = array( Groups_Post_Access::READ_POST_CAPABILITY );
+			$valid_read_caps = array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
 			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
 				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
 				foreach( $read_caps as $read_cap ) {
@@ -46,7 +48,7 @@ function groups_admin_options_legacy() {
 					}
 				}
 			}
-			Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $valid_read_caps );
+			Groups_Options::update_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, $valid_read_caps );
 		}
 	}
 
@@ -61,12 +63,12 @@ function groups_admin_options_legacy() {
 
 	$capability_table = _groups_get_tablename( "capability" );
 	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
-	$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+	$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 	echo '<div class="select-capability-container" style="width:62%;">';
 	printf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
 	foreach( $capabilities as $capability ) {
 		$selected = in_array( $capability->capability, $applicable_read_caps ) ? ' selected="selected" ' : '';
-		if ( $capability->capability == Groups_Post_Access::READ_POST_CAPABILITY ) {
+		if ( $capability->capability == Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) {
 			$selected .= ' disabled="disabled" ';
 		}
 		printf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, wp_filter_nohtml_kses( $capability->capability ) );
