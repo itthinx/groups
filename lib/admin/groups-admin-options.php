@@ -50,6 +50,7 @@ function groups_admin_options() {
 		GROUPS_ACCESS_GROUPS	  => __( 'Access Groups', GROUPS_PLUGIN_DOMAIN ),
 		GROUPS_ADMINISTER_GROUPS  => __( 'Administer Groups', GROUPS_PLUGIN_DOMAIN ),
 		GROUPS_ADMINISTER_OPTIONS => __( 'Administer Groups plugin options', GROUPS_PLUGIN_DOMAIN ),
+		GROUPS_RESTRICT_ACCESS    => __( 'Restrict Access', GROUPS_PLUGIN_DOMAIN )
 	);
 
 	//

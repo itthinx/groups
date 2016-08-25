@@ -295,6 +295,10 @@ class Groups_Controller {
 					}
 				}
 		} // switch
+		if ( version_compare( $previous_version, '2.0.0' ) < 0 ) {
+			self::set_default_capabilities();
+			Groups_WordPress::refresh_capabilities();
+		}
 		foreach ( $queries as $query ) {
 			if ( $wpdb->query( $query ) === false ) {
 				$result = false;
@@ -337,6 +341,7 @@ class Groups_Controller {
 				$role->remove_cap( GROUPS_ACCESS_GROUPS );
 				$role->remove_cap( GROUPS_ADMINISTER_GROUPS );
 				$role->remove_cap( GROUPS_ADMINISTER_OPTIONS );
+				$role->remove_cap( GROUPS_RESTRICT_ACCESS );
 			}
 			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group' ) );
 			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'capability' ) );
@@ -370,12 +375,14 @@ class Groups_Controller {
 			$administrator_role->add_cap( GROUPS_ACCESS_GROUPS );
 			$administrator_role->add_cap( GROUPS_ADMINISTER_GROUPS );
 			$administrator_role->add_cap( GROUPS_ADMINISTER_OPTIONS );
+			$administrator_role->add_cap( GROUPS_RESTRICT_ACCESS );
 		} else {
 			foreach ( $wp_roles->role_objects as $role ) {
 				if ($role->has_cap( 'manage_options' ) ) {
 					$role->add_cap( GROUPS_ACCESS_GROUPS );
 					$role->add_cap( GROUPS_ADMINISTER_GROUPS );
 					$role->add_cap( GROUPS_ADMINISTER_OPTIONS );
+					$role->add_cap( GROUPS_RESTRICT_ACCESS );
 				}
 			}
 		}

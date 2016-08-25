@@ -171,16 +171,16 @@ class Groups_Access_Meta_Boxes {
 	 */
 	public static function groups( $object = null, $box = null ) {
 
-		$output = "";
+		$output = '';
 
 		$post_id   = isset( $object->ID ) ? $object->ID : null;
 		$post_type = isset( $object->post_type ) ? $object->post_type : null;
-		$post_singular_name = __( "Post", GROUPS_PLUGIN_DOMAIN );
+		$post_singular_name = __( 'Post', GROUPS_PLUGIN_DOMAIN );
 		if ( $post_type !== null ) {
 			$post_type_object = get_post_type_object( $post_type );
 			$labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
 			if ( $labels !== null ) {
-				if ( isset( $labels->singular_name ) )  {
+				if ( isset( $labels->singular_name ) ) {
 					$post_singular_name = __( $labels->singular_name );
 				}
 			}
@@ -192,10 +192,12 @@ class Groups_Access_Meta_Boxes {
 
 		$output .= '<div class="select-read-groups-container">';
 
-		if ( true || self::user_can_restrict() ) { // @todo decide if it's sufficient to be able to edit the post to restrict access, if yes, then we can skip the conditional here (seems very reasonable)
+		if ( self::user_can_restrict() ) {
 
+			$user        = new Groups_User( get_current_user_id() );
+			$include     = $user->group_ids_deep;
+			$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 			$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
-			$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
 
 			$read_help = sprintf(
 				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', GROUPS_PLUGIN_DOMAIN ),
@@ -215,11 +217,11 @@ class Groups_Access_Meta_Boxes {
 			$output .= ' ';
 
 			$output .= sprintf(
-					'<select class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
-					self::GROUPS_READ . '[]',
-					esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
-					esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
-					esc_attr( $read_help )
+				'<select class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
+				self::GROUPS_READ . '[]',
+				esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
+				esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
+				esc_attr( $read_help )
 			);
 			$output .= '<option value=""></option>';
 			foreach( $groups as $group ) {
@@ -243,10 +245,6 @@ class Groups_Access_Meta_Boxes {
 			$output .= '</p>';
 
 		} else {
-			
-			// @todo change this
-			
-			
 			$output .= '<p class="description">';
 			$output .= sprintf( __( 'You cannot set any access restrictions.', GROUPS_PLUGIN_DOMAIN ), $post_singular_name );
 			$style = 'cursor:help;vertical-align:middle;';
@@ -254,7 +252,7 @@ class Groups_Access_Meta_Boxes {
 				$style = 'cursor:pointer;vertical-align:middle;';
 				$output .= sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=groups-admin-options' ) ) );
 			}
-			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You must be in a group that has at least one capability enabled to enforce read access.', GROUPS_PLUGIN_DOMAIN ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
+			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You need to have permission to set access restrictions.', GROUPS_PLUGIN_DOMAIN ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
 			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 				$output .= '</a>';
 			}
@@ -304,7 +302,7 @@ class Groups_Access_Meta_Boxes {
 	 * @param mixed $post post data (not used here)
 	 */
 	public static function save_post( $post_id = null, $post = null ) {
-		if ( ( defined( "DOING_AUTOSAVE" ) && DOING_AUTOSAVE ) ) {
+		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) {
 		} else {
 			$post_type = get_post_type( $post_id );
 			$post_type_object = get_post_type_object( $post_type );
@@ -314,7 +312,7 @@ class Groups_Access_Meta_Boxes {
 
 					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) {
 
-						$post_type = isset( $_POST["post_type"] ) ? $_POST["post_type"] : null;
+						$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
 						if ( $post_type !== null ) {
 
 							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
@@ -372,7 +370,7 @@ class Groups_Access_Meta_Boxes {
 					}
 
 					if ( isset( $_POST[self::CAPABILITY_NONCE] ) && wp_verify_nonce( $_POST[self::CAPABILITY_NONCE], self::SET_CAPABILITY ) ) {
-						$post_type = isset( $_POST["post_type"] ) ? $_POST["post_type"] : null;
+						$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
 						if ( $post_type !== null ) {
 							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
 							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
@@ -499,7 +497,8 @@ class Groups_Access_Meta_Boxes {
 	}
 
 	/**
-	 * Render capabilities box for attachment post type (Media).
+	 * Render groups box for attachment post type (Media).
+	 * 
 	 * @param array $form_fields
 	 * @param object $post
 	 * @return array
@@ -510,14 +509,18 @@ class Groups_Access_Meta_Boxes {
 
 		$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 		if ( !isset( $post_types_option['attachment']['add_meta_box'] ) || $post_types_option['attachment']['add_meta_box'] ) {
+
 			if ( self::user_can_restrict() ) {
+
 				$user = new Groups_User( get_current_user_id() );
-				$output = "";
+				$include     = $user->group_ids_deep;
+				$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
+				$groups_read = get_post_meta( $post->ID, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+
+				$output = '';
 				$post_singular_name = __( 'Media', GROUPS_PLUGIN_DOMAIN );
 
-				$output .= __( "Enforce read access", GROUPS_PLUGIN_DOMAIN );
-				$read_caps = get_post_meta( $post->ID, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
-				$valid_read_caps = self::get_valid_read_caps_for_user();
+				$output .= __( 'Read', GROUPS_PLUGIN_DOMAIN );
 
 				// On attachments edited within the 'Insert Media' popup, the update is triggered too soon and we end up with only the last capability selected.
 				// This occurs when using normal checkboxes as well as the select below (Chosen and Selectize tested).
@@ -529,80 +532,47 @@ class Groups_Access_Meta_Boxes {
 
 // 				$output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
 // 				$output .= '<ul>';
-// 				foreach( $valid_read_caps as $valid_read_cap ) {
-// 					if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-// 						$checked = in_array( $capability->capability, $read_caps ) ? ' checked="checked" ' : '';
+// 				foreach( $groups as $group ) {
+// 						$checked = in_array( $group->group_id, $groups_read ) ? ' checked="checked" ' : '';
 // 						$output .= '<li>';
 // 						$output .= '<label>';
-// 						$output .= '<input name="attachments[' . $post->ID . '][' . self::CAPABILITY . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $capability->capability_id ) . '" />';
-// 						$output .= wp_filter_nohtml_kses( $capability->capability );
+// 						$output .= '<input name="attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $group->group_id ) . '" />';
+// 						$output .= wp_filter_nohtml_kses( $group->name );
 // 						$output .= '</label>';
 // 						$output .= '</li>';
-// 					}
 // 				}
 // 				$output .= '</ul>';
 // 				$output .= '</div>';
 
-				$show_groups = Groups_Options::get_user_option( self::SHOW_GROUPS, true );
-				$output .= '<div class="select-capability-container">';
-				$select_id = 'attachments-' . $post->ID . '-' . self::CAPABILITY;
+				$output .= '<div class="select-groups-container">';
+				$select_id = 'attachments-' . $post->ID . '-' . self::GROUPS_READ;
 				$output .= sprintf(
-					'<select id="%s" class="select capability" name="%s" multiple="multiple" data-placeholder="%s" title="%s">',
+					'<select id="%s" class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
 					$select_id,
-					'attachments[' . $post->ID . '][' . self::CAPABILITY . '][]',
-					__( 'Type and choose &hellip;', GROUPS_PLUGIN_DOMAIN),
-					__( 'Choose one or more capabilities to restrict access. Groups that grant access through the capabilities are shown in parenthesis. If no capabilities are available yet, you can use the quick-create box to create a group and capability enabled for access restriction on the fly.', GROUPS_PLUGIN_DOMAIN )
+					'attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]',
+					esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
+					esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
+					__( 'You can restrict the visibility to group members. Choose one or more groups to restrict access. If no groups are chosen, this entry is visible to anyone.', GROUPS_PLUGIN_DOMAIN ) .
+					current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . __( 'You can create a new group by indicating the group\'s name.', GROUPS_PLUGIN_DOMAIN ) : ''
 				);
 				$output .= '<option value=""></option>';
-				foreach( $valid_read_caps as $valid_read_cap ) {
-					if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-						if ( $user->can( $capability->capability ) ) {
-							$c = new Groups_Capability( $capability->capability_id );
-							$groups = $c->groups;
-							$group_names = array();
-							if ( !empty( $groups ) ) {
-								foreach( $groups as $group ) {
-									$group_names[] = $group->name;
-								}
-							}
-							if ( count( $group_names ) > 0 ) {
-								$label_title = sprintf(
-									_n(
-										'Members of the %1$s group can access this %2$s through this capability.',
-										'Members of the %1$s groups can access this %2$s through this capability.',
-										count( $group_names ),
-										GROUPS_PLUGIN_DOMAIN
-									),
-									wp_filter_nohtml_kses( implode( ',', $group_names ) ),
-									$post_singular_name
-								);
-							} else {
-								$label_title = __( 'No groups grant access through this capability. To grant access to group members using this capability, you should assign it to a group and enable the capability for access restriction.', GROUPS_PLUGIN_DOMAIN );
-							}
-							$output .= sprintf( '<option value="%s" %s>', esc_attr( $capability->capability_id ), in_array( $capability->capability, $read_caps ) ? ' selected="selected" ' : '' );
-							$output .= wp_filter_nohtml_kses( $capability->capability );
-							if ( $show_groups ) {
-								if ( count( $group_names ) > 0 ) {
-									$output .= ' ';
-									$output .= '(' . wp_filter_nohtml_kses( implode( ', ', $group_names ) ) . ')';
-								}
-							}
-							$output .= '</option>';
-						}
-					}
+				foreach( $groups as $group ) {
+					$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
+					$output .= wp_filter_nohtml_kses( $group->name );
+					$output .= '</option>';
 				}
 				$output .= '</select>';
 
-				$output .= Groups_UIE::render_select( '#'.$select_id );
+				$output .= Groups_UIE::render_select( '#'.$select_id, true, true, current_user_can( GROUPS_ADMINISTER_GROUPS ) );
 
 				$output .= '</div>';
 
 				$output .= '<p class="description">';
-				$output .= sprintf( __( "Only groups or users that have one of the selected capabilities are allowed to read this %s.", GROUPS_PLUGIN_DOMAIN ), $post_singular_name );
+				$output .= __( 'Restricts the visibility of this entry to members of the chosen groups.', GROUPS_PLUGIN_DOMAIN );
 				$output .= '</p>';
 
 				$form_fields['groups_access'] = array(
-					'label' => __( 'Access restrictions', GROUPS_PLUGIN_DOMAIN ),
+					'label' => __( 'Groups', GROUPS_PLUGIN_DOMAIN ),
 					'input' => 'html',
 					'html' => $output
 				);
@@ -612,8 +582,9 @@ class Groups_Access_Meta_Boxes {
 	}
 
 	/**
-	 * Save capabilities for attachment post type (Media).
+	 * Save groups for attachment post type (Media).
 	 * When multiple attachments are saved, this is called once for each.
+	 * 
 	 * @param array $post post data
 	 * @param array $attachment attachment field data
 	 * @return array
@@ -631,19 +602,18 @@ class Groups_Access_Meta_Boxes {
 					$post_id = $post['post_ID'];
 				}
 				if ( $post_id !== null ) {
-					$valid_read_caps = self::get_valid_read_caps_for_user();
-					foreach( $valid_read_caps as $valid_read_cap ) {
-						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-							if ( !empty( $attachment[self::CAPABILITY] ) && is_array( $attachment[self::CAPABILITY] ) && in_array( $capability->capability_id, $attachment[self::CAPABILITY] ) ) {
-								Groups_Post_Access::create( array(
-									'post_id' => $post_id,
-									'capability' => $capability->capability
-								) );
-							} else {
-								Groups_Post_Access::delete( $post_id, $capability->capability );
+					$user    = new Groups_User( get_current_user_id() );
+					$include = $user->group_ids_deep;
+					$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
+					$group_ids = array();
+					if ( !empty( $attachment[self::GROUPS_READ] ) && is_array( $attachment[self::GROUPS_READ] ) ) {
+						foreach( $groups as $group ) {
+							if ( in_array( $group->group_id, $attachment[self::GROUPS_READ] ) ) {
+								$group_ids[] = $group->group_id;
 							}
 						}
 					}
+					Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
 				}
 			}
 		}
@@ -651,26 +621,13 @@ class Groups_Access_Meta_Boxes {
 	}
 
 	/**
-	 * Returns true if the current user has at least one of the capabilities
-	 * that can be used to restrict access to posts.
-	 * 
-	 * @todo adjust for groups instead of capabilities
+	 * Returns true if the current user can restrict access to posts.
 	 * 
 	 * @return boolean
 	 */
 	public static function user_can_restrict() {
-		$has_read_cap = false;
 		$user = new Groups_User( get_current_user_id() );
-		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-		foreach( $valid_read_caps as $valid_read_cap ) {
-			if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-				if ( $user->can( $capability->capability_id ) ) {
-					$has_read_cap = true;
-					break;
-				}
-			}
-		}
-		return $has_read_cap;
+		return $user->can( GROUPS_RESTRICT_ACCESS );
 	}
 
 	/**

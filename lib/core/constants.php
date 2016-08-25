@@ -66,6 +66,11 @@ define( 'GROUPS_ADMINISTER_GROUPS', 'groups_admin_groups');
 define( 'GROUPS_ADMINISTER_OPTIONS', 'groups_admin_options');
 
 /**
+ * @var string grants permission to restrict access on posts etc.
+ */
+define( 'GROUPS_RESTRICT_ACCESS', 'groups_restrict_access' );
+
+/**
  * @var string admin nonce
  */
 define( 'GROUPS_ADMIN_GROUPS_NONCE', 'groups-admin-nonce' );

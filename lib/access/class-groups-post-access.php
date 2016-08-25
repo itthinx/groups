@@ -404,7 +404,7 @@ class Groups_Post_Access {
 	/**
 	 * Update the post access restrictions.
 	 * 
-	 * $map must provide 'groups_read' holding group IDs that restrict read access.
+	 * $map must provide 'post_id' (int) indicating the post's ID and 'groups_read' (int|array of int) holding group IDs that restrict read access.
 	 * 
 	 * @param array $map
 	 * @return array of group ids, false on failure

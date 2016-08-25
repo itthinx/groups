@@ -311,7 +311,7 @@ class Groups_User implements I_Capable {
 				}
 			}
 		}
-		$result = apply_filters_ref_array( "groups_user_can", array( $result, &$this, $capability ) );
+		$result = apply_filters_ref_array( 'groups_user_can', array( $result, &$this, $capability ) );
 		return $result;
 	}
 
