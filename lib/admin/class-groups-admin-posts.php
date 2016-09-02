@@ -81,14 +81,14 @@ class Groups_Admin_Posts {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				echo '<style type="text/css">';
-				echo '.groups-capabilities-container { display: inline-block; line-height: 24px; padding-bottom: 1em; vertical-align: top; margin-left: 4px; margin-right: 4px; }';
-				echo '.groups-capabilities-container .groups-select-container { display: inline-block; vertical-align: top; }';
-				echo '.groups-capabilities-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
-				echo '.groups-capabilities-container .selectize-control { min-width: 128px; }';
-				echo '.groups-capabilities-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }';
-				echo '.groups-capabilities-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
-				echo '.groups-capabilities-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; }';
-				echo '.groups-capabilities-container input.button { margin-top: 1px; vertical-align: top; }';
+				echo '.groups-groups-container { display: inline-block; line-height: 24px; padding-bottom: 1em; vertical-align: top; margin-left: 4px; margin-right: 4px; }';
+				echo '.groups-groups-container .groups-select-container { display: inline-block; vertical-align: top; }';
+				echo '.groups-groups-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
+				echo '.groups-groups-container .selectize-control { min-width: 128px; }';
+				echo '.groups-groups-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }';
+				echo '.groups-groups-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
+				echo '.groups-groups-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; }';
+				echo '.groups-groups-container input.button { margin-top: 1px; vertical-align: top; }';
 				echo '.inline-edit-row fieldset .capabilities-bulk-container label span.title { min-width: 5em; padding: 2px 1em; width: auto; }';
 				echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
 				echo '.wp-list-table td { overflow: visible; }'; // idem for bulk actions
@@ -98,7 +98,7 @@ class Groups_Admin_Posts {
 	}
 
 	/**
-	 * Renders the access restriction field.
+	 * Renders the groups access restriction filter field.
 	 */
 	public static function restrict_manage_posts() {
 
@@ -116,18 +116,17 @@ class Groups_Admin_Posts {
 					$output = '';
 
 					// capabilities select
-					$output .= '<div class="groups-capabilities-container">';
-					$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+					$output .= '<div class="groups-groups-container">';
 					$output .= sprintf(
-						'<select class="select capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ),
-						esc_attr( __( 'Access restrictions &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-						esc_attr( __( 'Access restrictions &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+						'<select class="select group" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ ),
+						esc_attr( __( 'Groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
+						esc_attr( __( 'Groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
 					);
 
 					$previous_selected = array();
-					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) ) {
-						$previous_selected = $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY];
+					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) ) {
+						$previous_selected = $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ];
 						if ( !is_array( $previous_selected ) ) {
 							$previous_selected = array();
 						}
@@ -135,13 +134,14 @@ class Groups_Admin_Posts {
 					$selected = in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '';
 					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr( __( '(only unrestricted)', GROUPS_PLUGIN_DOMAIN ) ) );
 
-					foreach( $applicable_read_caps as $capability ) {
-						$selected = in_array( $capability, $previous_selected ) ? ' selected="selected" ' : '';
-						$output .= sprintf( '<option value="%s" %s >%s</option>', esc_attr( $capability ), esc_attr( $selected ), wp_filter_nohtml_kses( $capability ) );
+					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
+					foreach( $groups as $group ) {
+						$selected = in_array( $group->group_id, $previous_selected ) ? ' selected="selected" ' : '';
+						$output .= sprintf( '<option value="%s" %s >%s</option>', esc_attr( $group->group_id ), esc_attr( $selected ), wp_filter_nohtml_kses( $group->name ) );
 					}
 					$output .= '</select>';
 					$output .= '</div>';
-					$output .= Groups_UIE::render_select( '.select.capability' );
+					$output .= Groups_UIE::render_select( '.select.group' );
 
 					echo $output;
 				}
@@ -255,7 +255,7 @@ class Groups_Admin_Posts {
 	}
 
 	/**
-	 * Query modifier to take the selected access restriction capability into
+	 * Query modifier to take the selected access restriction groups into
 	 * account.
 	 * 
 	 * @param WP_Query $query query object passed by reference
@@ -273,23 +273,23 @@ class Groups_Admin_Posts {
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
-					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) &&
-						is_array( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] )
+					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) &&
+						is_array( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] )
 					) {
 
 						$include_unrestricted = false;
-						if ( in_array( self::NOT_RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] ) ) {
+						if ( in_array( self::NOT_RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) ) {
 							$include_unrestricted = true;
 						}
 
-						$capabilities = array();
-						foreach ( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY] as $capability ) {
-							if ( Groups_Capability::read_by_capability( $capability ) ) {
-								$capabilities[] = $capability;
+						$group_ids = array();
+						foreach ( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] as $group_id ) {
+							if ( Groups_Group::read( $group_id ) ) {
+								$group_ids[] = $group_id;
 							}
 						}
 
-						if ( !empty( $capabilities ) ) {
+						if ( !empty( $group_ids ) ) {
 							if ( $include_unrestricted ) {
 								// meta_query does not handle a conjunction
 								// on the same meta field correctly
@@ -297,12 +297,12 @@ class Groups_Admin_Posts {
 // 								$query->query_vars['meta_query'] = array (
 // 									'relation' => 'OR',
 // 									array (
-// 										'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
-// 										'value' => $capabilities,
+// 										'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
+// 										'value' => $group_ids,
 // 										'compare' => 'IN'
 // 									),
 // 									array (
-// 										'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+// 										'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 // 										'compare' => 'NOT EXISTS'
 // 									)
 // 								);
@@ -310,15 +310,15 @@ class Groups_Admin_Posts {
 								// until the above is solved
 								$query->query_vars['meta_query'] = array (
 									array (
-										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 										'compare' => 'NOT EXISTS'
 									)
 								);
 							} else {
 								$query->query_vars['meta_query'] = array (
 									array (
-										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
-										'value'   => $capabilities,
+										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
+										'value'   => $group_ids,
 										'compare' => 'IN'
 									)
 								);
@@ -326,7 +326,7 @@ class Groups_Admin_Posts {
 						} else if ( $include_unrestricted ) {
 							$query->query_vars['meta_query'] = array (
 								array (
-									'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY,
+									'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 									'compare' => 'NOT EXISTS'
 								)
 							);
