@@ -570,7 +570,7 @@ class Groups_Group implements I_Capable {
 		}
 
 		if ( !isset( $order_by ) ) {
-			$order_by = "";
+			$order_by = '';
 		} else {
 			$order_by = sanitize_text_field( $order_by );
 			switch( trim( $order_by ) ) {
@@ -580,7 +580,7 @@ class Groups_Group implements I_Capable {
 				case 'datetime' :
 				case 'name' :
 				case 'description' :
-					$order_by = $wpdb->prepare( " ORDER BY %s $order ", array( $order_by ) );
+					$order_by = " ORDER BY $order_by $order "; // Watch out! This is unescaped but safe within this switch.
 					break;
 				default :
 					$order_by = '';

@@ -28,7 +28,17 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Admin_Post_Columns {
 
+	/**
+	 * @deprecated
+	 * @var string
+	 */
 	const CAPABILITIES = 'capabilities';
+
+	/**
+	 * Groups column header id.
+	 * @var string
+	 */
+	const GROUPS = 'groups';
 
 	/**
 	 * Adds an admin_init action.
@@ -49,12 +59,12 @@ class Groups_Admin_Post_Columns {
 			foreach ( $post_types as $post_type ) {
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 					if ( ( $post_type == 'attachment' ) ) {
-						// filters to display the media's access restriction capabilities
+						// filters to display the media's access restriction groups
 						add_filter( 'manage_media_columns', array( __CLASS__, 'columns' ) );
 						// args: string $column_name, int $media_id
 						add_action( 'manage_media_custom_column', array( __CLASS__, 'custom_column' ), 10, 2 );
 					} else {
-						// filters to display the posts' access restriction capabilities
+						// filters to display the posts' access restriction groups
 						add_filter( 'manage_' . $post_type . '_posts_columns', array( __CLASS__, 'columns' ) );
 						// args: string $column_name, int $post_id
 						add_action( 'manage_' . $post_type . '_posts_custom_column', array( __CLASS__, 'custom_column' ), 10, 2 );
@@ -66,15 +76,16 @@ class Groups_Admin_Post_Columns {
 
 	/**
 	 * Adds a new column to the post type's table showing the access
-	 * restriction capabilities.
+	 * restriction groups.
 	 * 
 	 * @param array $column_headers
 	 * @return array column headers
 	 */
 	public static function columns( $column_headers ) {
-		$column_headers[self::CAPABILITIES] = sprintf(
-			__( '<span title="%s">Access Restrictions</span>', GROUPS_PLUGIN_DOMAIN ),
-			esc_attr( __( 'One or more capabilities required to read the entry.', GROUPS_PLUGIN_DOMAIN ) )
+		$column_headers[self::GROUPS] = sprintf(
+			'<span title="%s">%s</a>',
+			esc_attr( __( 'One or more groups granting access to entries.', GROUPS_PLUGIN_DOMAIN ) ),
+			esc_html( __( 'Groups', GROUPS_PLUGIN_DOMAIN ) )
 		);
 		return $column_headers;
 	}
@@ -89,24 +100,19 @@ class Groups_Admin_Post_Columns {
 	public static function custom_column( $column_name, $post_id ) {
 		$output = '';
 		switch ( $column_name ) {
-			case self::CAPABILITIES :
-				$read_caps = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
-				$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-				if ( count( $valid_read_caps ) > 0 ) {
-					sort( $valid_read_caps );
-					$output = '<ul>';
-					foreach( $valid_read_caps as $valid_read_cap ) {
-						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-							if ( in_array( $valid_read_cap, $read_caps ) ) {
-								$output .= '<li>';
-								$output .= wp_strip_all_tags( $capability->capability );
-								$output .= '</li>';
-							}
+			case self::GROUPS :
+				$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+				if ( count( $groups_read ) > 0 ) {
+					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $groups_read ) );
+					if ( ( count( $groups ) > 0 ) ) {
+						$output = '<ul>';
+						foreach( $groups as $group ) {
+							$output .= '<li>';
+							$output .= wp_strip_all_tags( $group->name );
+							$output .= '</li>';
 						}
+						$output .= '</ul>';
 					}
-					$output .= '</ul>';
-				} else {
-					$output .= '';
 				}
 				break;
 		}
