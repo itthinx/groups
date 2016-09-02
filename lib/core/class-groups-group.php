@@ -525,7 +525,7 @@ class Groups_Group implements I_Capable {
 	 * - ['exclude'] array|string with one or more IDs of groups to exclude, separated by comma
 	 * - ['exclude_by_name'] array|string with one ore more group names of groups to exclude, separated by comma
 	 * 
-	 * @return array of int with group IDs
+	 * @return array of object with query rows
 	 * 
 	 * @since groups 1.4.9
 	 */

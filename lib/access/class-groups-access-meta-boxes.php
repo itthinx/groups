@@ -310,165 +310,78 @@ class Groups_Access_Meta_Boxes {
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
-					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) {
+					if ( self::user_can_restrict() ) {
 
-						$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
-						if ( $post_type !== null ) {
+						if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) {
 
-							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
-							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
-							// If the post ID is not provided, it will throw:
-							// PHP Notice:  Undefined offset: 0 in /var/www/groups-forums/wp-includes/capabilities.php on line 1067
-							$edit_post_type = 'edit_' . $post_type;
-							if ( $post_type_object = get_post_type_object( $post_type ) ) {
-								if ( !isset( $post_type_object->capabilities ) ) {
-									// get_post_type_capabilities() (WP 3.8) will throw a warning
-									// when trying to merge the missing property otherwise. It's either a
-									// bug or the function's documentation should make it clear that you
-									// have to provide that.
-									$post_type_object->capabilities = array();
+							$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
+							if ( $post_type !== null ) {
+
+								// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
+								// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
+								// If the post ID is not provided, it will throw:
+								// PHP Notice:  Undefined offset: 0 in /var/www/groups-forums/wp-includes/capabilities.php on line 1067
+								$edit_post_type = 'edit_' . $post_type;
+								if ( $post_type_object = get_post_type_object( $post_type ) ) {
+									if ( !isset( $post_type_object->capabilities ) ) {
+										// get_post_type_capabilities() (WP 3.8) will throw a warning
+										// when trying to merge the missing property otherwise. It's either a
+										// bug or the function's documentation should make it clear that you
+										// have to provide that.
+										$post_type_object->capabilities = array();
+									}
+									$caps_object = get_post_type_capabilities( $post_type_object );
+									if ( isset( $caps_object->edit_post ) ) {
+										$edit_post_type = $caps_object->edit_post;
+									}
 								}
-								$caps_object = get_post_type_capabilities( $post_type_object );
-								if ( isset( $caps_object->edit_post ) ) {
-									$edit_post_type = $caps_object->edit_post;
-								}
-							}
 
-							if ( current_user_can( $edit_post_type, $post_id ) ) {
+								if ( current_user_can( $edit_post_type, $post_id ) ) {
 
-								// @todo
-								$group_ids = array();
-								$submitted_group_ids = !empty( $_POST[self::GROUPS_READ] ) ? $_POST[self::GROUPS_READ] : array();
+									$user    = new Groups_User( get_current_user_id() );
+									$include = $user->group_ids_deep;
+									$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
+									$user_group_ids_deep = array();
+									foreach( $groups as $group ) {
+										$user_group_ids_deep[] = $group->group_id;
+									}
+									$group_ids = array();
+									$submitted_group_ids = !empty( $_POST[self::GROUPS_READ] ) && is_array( $_POST[self::GROUPS_READ] ) ? $_POST[self::GROUPS_READ] : array();
 
-								foreach( $submitted_group_ids as $group_id ) {
-									if ( is_numeric( $group_id ) ) {
-										$group_ids[] = $group_id;
-									} else {
-										if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+									foreach( $submitted_group_ids as $group_id ) {
+										if ( is_numeric( $group_id ) ) {
+											if ( in_array( $group_id, $user_group_ids_deep ) ) {
+												$group_ids[] = $group_id;
+											}
+										} else {
+											if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 
-											$creator_id = get_current_user_id();
-											$datetime	= date( 'Y-m-d H:i:s', time() );
-											$name		= ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
-
-											if ( strlen( $name ) > 0 ) {
-												if ( !( $group = Groups_Group::read_by_name( $name ) ) ) {
-													if ( $group_id = Groups_Group::create( compact( 'creator_id', 'datetime', 'name' ) ) ) {
-														$group_ids[] = $group_id;
+												$creator_id = get_current_user_id();
+												$datetime   = date( 'Y-m-d H:i:s', time() );
+												$name       = ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
+												if ( strlen( $name ) > 0 ) {
+													if ( !( $group = Groups_Group::read_by_name( $name ) ) ) {
+														if ( $group_id = Groups_Group::create( compact( 'creator_id', 'datetime', 'name' ) ) ) {
+															if ( Groups_User_Group::create( array( 'user_id' => $creator_id, 'group_id' => $group_id ) ) ) {
+																$group_ids[] = $group_id;
+															}
+														}
 													}
 												}
 											}
 										}
 									}
+
+									do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
+									$update_result = Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
+									do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
+
 								}
-
-								do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
-								$update_result = Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
-								do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
-
 							}
 						}
+
 					}
 
-					if ( isset( $_POST[self::CAPABILITY_NONCE] ) && wp_verify_nonce( $_POST[self::CAPABILITY_NONCE], self::SET_CAPABILITY ) ) {
-						$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
-						if ( $post_type !== null ) {
-							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
-							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
-							// If the post ID is not provided, it will throw:
-							// PHP Notice:  Undefined offset: 0 in /var/www/groups-forums/wp-includes/capabilities.php on line 1067 
-							$edit_post_type = 'edit_' . $post_type;
-							if ( $post_type_object = get_post_type_object( $post_type ) ) {
-								if ( !isset( $post_type_object->capabilities ) ) {
-									// get_post_type_capabilities() (WP 3.8) will throw a warning
-									// when trying to merge the missing property otherwise. It's either a
-									// bug or the function's documentation should make it clear that you
-									// have to provide that.
-									$post_type_object->capabilities = array();
-								}
-								$caps_object = get_post_type_capabilities( $post_type_object );
-								if ( isset( $caps_object->edit_post ) ) {
-									$edit_post_type = $caps_object->edit_post;
-								}
-							}
-
-							if ( current_user_can( $edit_post_type, $post_id ) ) {
-								// quick-create ?
-								if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-									if ( !empty( $_POST['quick-group-capability'] ) ) {
-										$creator_id = get_current_user_id();
-										$datetime	= date( 'Y-m-d H:i:s', time() );
-										$name		= ucfirst( strtolower( trim( $_POST['quick-group-capability'] ) ) );
-										if ( strlen( $name ) > 0 ) {
-											// create or obtain the group
-											if ( $group = Groups_Group::read_by_name( $name ) ) {
-											} else {
-												if ( $group_id = Groups_Group::create( compact( 'creator_id', 'datetime', 'name' ) ) ) {
-													$group = Groups_Group::read( $group_id );
-												}
-											}
-											// create or obtain the capability
-											$name = strtolower( $name );
-											if ( $capability = Groups_Capability::read_by_capability( $name ) ) {
-											} else {
-												if ( $capability_id = Groups_Capability::create( array( 'capability' => $name ) ) ) {
-													$capability = Groups_Capability::read( $capability_id );
-												}
-											}
-											if ( $group && $capability ) {
-												// add the capability to the group
-												if ( !Groups_Group_Capability::read( $group->group_id, $capability->capability_id ) ) {
-													Groups_Group_Capability::create(
-														array(
-															'group_id' => $group->group_id,
-															'capability_id' => $capability->capability_id
-														)
-													);
-												}
-												// enable the capability for access restriction
-												$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-												if ( !in_array( $capability->capability, $valid_read_caps ) ) {
-													$valid_read_caps[] = $capability->capability;
-												}
-												Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $valid_read_caps );
-												// add the current user to the group
-												Groups_User_Group::create(
-													array(
-														'user_id' => get_current_user_id(),
-														'group_id' => $group->group_id
-													)
-												);
-												// put the capability ID in $_POST[self::CAPABILITY] so it is treated below
-												if ( empty( $_POST[self::CAPABILITY] ) ) {
-													$_POST[self::CAPABILITY] = array();
-												}
-												if ( !in_array( $capability->capability_id, $_POST[self::CAPABILITY] ) ) {
-													$_POST[self::CAPABILITY][] = $capability->capability_id;
-												}
-											}
-										}
-									}
-								}
-								// set
-								if ( self::user_can_restrict() ) {
-									$valid_read_caps = self::get_valid_read_caps_for_user();
-									foreach( $valid_read_caps as $valid_read_cap ) {
-										if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-											if ( !empty( $_POST[self::CAPABILITY] ) && is_array( $_POST[self::CAPABILITY] ) && in_array( $capability->capability_id, $_POST[self::CAPABILITY] ) ) {
-												Groups_Post_Access::create( array(
-													'post_id' => $post_id,
-													'capability' => $capability->capability
-												) );
-											} else {
-												Groups_Post_Access::delete( $post_id, $capability->capability );
-											}
-										}
-									}
-								}
-								// show groups
-								Groups_Options::update_user_option( self::SHOW_GROUPS, !empty( $_POST[self::SHOW_GROUPS] ) );
-							}
-						}
-					}
 				}
 			}
 		}
@@ -613,7 +526,9 @@ class Groups_Access_Meta_Boxes {
 							}
 						}
 					}
+					do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
 					Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
+					do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
 				}
 			}
 		}
