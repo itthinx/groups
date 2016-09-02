@@ -104,56 +104,40 @@ class Groups_Access_Meta_Boxes {
 
 				Groups_UIE::enqueue( 'select' );
 
-				if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+				if ( self::user_can_restrict() ) {
 					if ( $screen = get_current_screen() ) {
-						// @todo review help text for group-based access restrictions
+						// help tab for group-based access restrictions
 						$screen->add_help_tab( array(
 							'id'      => 'groups-access',
-							'title'   => __( 'Access restrictions', GROUPS_PLUGIN_DOMAIN ),
+							'title'   => __( 'Groups', GROUPS_PLUGIN_DOMAIN ),
 							'content' =>
 								'<p>' .
-								'<strong>' . __( 'Access restrictions', GROUPS_PLUGIN_DOMAIN ) . '</strong>' .
+								'<strong>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</strong>' .
 								'</p>' .
 								'<p>' .
-								__( 'Use the <em>Access restrictions</em> box to limit the visibility of posts, pages and other post types.', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'Use the <em>Groups</em> box to limit the visibility of posts, pages and other post types.', GROUPS_PLUGIN_DOMAIN ) .
 								'</p>' .
 								'<p>' .
-								__( 'You can select one or more capabilities that are enabled for access restriction.', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'You can select one or more groups to restrict access to its members.', GROUPS_PLUGIN_DOMAIN ) .
 								' ' .
-								__( 'Note that you must be a member of a group that has such a capability assigned.', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'Note that you must be a member of a group to use it to restrict access.', GROUPS_PLUGIN_DOMAIN ) .
 								'</p>' .
 								'<p>' .
 								'<strong>' . __( 'Example:', GROUPS_PLUGIN_DOMAIN ) . '</strong>' . 
 								'</p>' .
 								__( 'Let\'s assume that you want to limit the visibility of a post to members of the <em>Premium</em> group.', GROUPS_PLUGIN_DOMAIN ) .
 								'<p>' .
-								'<strong>' . __( 'The quick way:', GROUPS_PLUGIN_DOMAIN ) . '</strong>' .
 								' ' .
-								__( 'Using the quick-create field', GROUPS_PLUGIN_DOMAIN ) .
 								'</p>' .
-								__( 'Enter <em>Premium</em> in the quick-create field located in the Access restrictions panel and save or update the post (or hit Enter).', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'Choose or enter <em>Premium</em> in the <em>Read</em> field located in the <em>Groups</em> box and save or update the post (or hit Enter).', GROUPS_PLUGIN_DOMAIN ) .
 								'<p>' .
-								'<p>' .
-								__( 'Using the quick-create field, you can create a new group and capability. The capability will be assigned to the group and enabled to enforce read access. Group names are case-sensitive, the name of the capability is the lower-case version of the name of the group. If the group already exists, a new capability is created and assigned to the existing group. If the capability already exists, it will be assigned to the group. If both already exist, the capability is enabled to enforce read access. In order to be able to use the capability, your user account will be assigned to the group.', GROUPS_PLUGIN_DOMAIN ) .
-								'</p>' .
-								'<em>' . __( 'The manual way:', GROUPS_PLUGIN_DOMAIN ) . '</em>' .
-								' ' .
-								__( 'Adding the group and capability manually and enabling it for access restriction', GROUPS_PLUGIN_DOMAIN ) .
-								'</p>' .
-								'<p>' .
-								__( 'Try the quick-create field first. Unless you need a more complex setup, there is no reason to go this way instead.', GROUPS_PLUGIN_DOMAIN ) .
-								'</p>' .
-								'<ol>' .
-								'<li>' . __( 'Go to <strong>Groups > Groups</strong> and add the <em>Premium</em> group.', GROUPS_PLUGIN_DOMAIN ) . '</li>' .
-								'<li>' . __( 'Go to <strong>Groups > Capabilities</strong> and add the <em>premium</em> capability.', GROUPS_PLUGIN_DOMAIN ) . '</li>' .
-								'<li>' . __( 'Go to <strong>Groups > Groups</strong> and assign the <em>premium</em> capability to the <em>Premium</em> group.', GROUPS_PLUGIN_DOMAIN ) . '</li>' .
-								'<li>' . __( 'Go to <strong>Groups > Options</strong> and enable the <em>premium</em> capability to restrict access.', GROUPS_PLUGIN_DOMAIN ) . '</li>' .
-								'<li>' . __( 'Become a member of the <em>Premium</em> group - this is required so you can choose the <em>premium</em> capability to restrict access to a post.', GROUPS_PLUGIN_DOMAIN ) . '</li>' .
-								'<li>' . __( 'Edit the post for which you want to restrict access and choose<sup>*</sup> the <em>premium</em> capability.', GROUPS_PLUGIN_DOMAIN ) . '</li>' . 
-								'</ol>' .
-								'<p>' .
-								__( '<sup>*</sup> For each capability, the groups that have the capability assigned are shown within parenthesis. You can choose a capability by typing part of the group\'s or the capability\'s name.', GROUPS_PLUGIN_DOMAIN ) .
-								'</p>'
+								( current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
+									'<p>' .
+									__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it. You will not be able to restrict access if the group already exists but you do not belong to it.', GROUPS_PLUGIN_DOMAIN ) .
+									'</p>'
+									:
+									''
+								)
 						) );
 					}
 				}
