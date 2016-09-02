@@ -311,9 +311,7 @@ class Groups_Access_Meta_Boxes {
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
 					if ( self::user_can_restrict() ) {
-
 						if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) {
-
 							$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
 							if ( $post_type !== null ) {
 
@@ -337,7 +335,6 @@ class Groups_Access_Meta_Boxes {
 								}
 
 								if ( current_user_can( $edit_post_type, $post_id ) ) {
-
 									$user    = new Groups_User( get_current_user_id() );
 									$include = $user->group_ids_deep;
 									$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
@@ -348,6 +345,7 @@ class Groups_Access_Meta_Boxes {
 									$group_ids = array();
 									$submitted_group_ids = !empty( $_POST[self::GROUPS_READ] ) && is_array( $_POST[self::GROUPS_READ] ) ? $_POST[self::GROUPS_READ] : array();
 
+									// assign requested groups and create and assign new groups if allowed
 									foreach( $submitted_group_ids as $group_id ) {
 										if ( is_numeric( $group_id ) ) {
 											if ( in_array( $group_id, $user_group_ids_deep ) ) {
@@ -355,7 +353,6 @@ class Groups_Access_Meta_Boxes {
 											}
 										} else {
 											if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-
 												$creator_id = get_current_user_id();
 												$datetime   = date( 'Y-m-d H:i:s', time() );
 												$name       = ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
@@ -375,11 +372,10 @@ class Groups_Access_Meta_Boxes {
 									do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
 									$update_result = Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
 									do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
-
 								}
+
 							}
 						}
-
 					}
 
 				}
