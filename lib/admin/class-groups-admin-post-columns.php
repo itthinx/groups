@@ -15,6 +15,7 @@
  * This header and all notices must be kept intact.
  *
  * @author Antonio Blanco
+ * @author Karim Rahimpur
  * @package groups
  * @since groups 1.4.2
  */
@@ -27,12 +28,6 @@ if ( !defined( 'ABSPATH' ) ) {
  * Post column extensions.
  */
 class Groups_Admin_Post_Columns {
-
-	/**
-	 * @deprecated
-	 * @var string
-	 */
-	const CAPABILITIES = 'capabilities';
 
 	/**
 	 * Groups column header id.
