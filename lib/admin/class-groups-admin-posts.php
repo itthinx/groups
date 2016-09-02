@@ -24,7 +24,9 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Additions to post overview admin screens.
+ * Additions to post overview admin screens:
+ * - Filter posts by group.
+ * - Apply bulk actions to add or remove group access restrictions.
  */
 class Groups_Admin_Posts {
 
@@ -152,7 +154,7 @@ class Groups_Admin_Posts {
 	}
 
 	/**
-	 * Bulk-edit access restriction capabilities.
+	 * Bulk-edit access restriction groups.
 	 * 
 	 * @param string $column_name
 	 * @param string $post_type
@@ -161,7 +163,7 @@ class Groups_Admin_Posts {
 
 		global $pagenow, $wpdb;
 
-		if ( $column_name == 'capabilities' ) {
+		if ( $column_name == 'groups' ) {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
@@ -174,41 +176,44 @@ class Groups_Admin_Posts {
 					$output .= '<div class="bulk-edit-groups">';
 
 					// capability/access restriction bulk actions added through extra_tablenav()
-					$output .= '<div id="capability-bulk-actions" class="capabilities-bulk-container" style="display:inline">';
+					$output .= '<div id="group-bulk-actions" class="groups-bulk-container" style="display:inline">';
 
 					$output .= '<label style="display:inline;">';
 					$output .= '<span class="title">';
-					$output .= __( 'Access Restrictions', GROUPS_PLUGIN_DOMAIN );
+					$output .= __( 'Groups', GROUPS_PLUGIN_DOMAIN );
 					$output .= '</span>';
-					$output .= '<select class="capabilities-action" name="capabilities-action">';
+					$output .= '<select class="groups-action" name="groups-action">';
 					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-					$output .= '<option value="add-capability">' . __( 'Add restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-					$output .= '<option value="remove-capability">' . __( 'Remove restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+					$output .= '<option value="add-group">' . __( 'Add restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+					$output .= '<option value="remove-group">' . __( 'Remove restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
 					$output .= '</select>';
 					$output .= '</label>';
 
-					$output .= '<div class="groups-capabilities-container">';
-					$valid_read_caps = Groups_Access_Meta_Boxes::get_valid_read_caps_for_user();
+					$user    = new Groups_User( get_current_user_id() );
+					$include = $user->group_ids_deep;
+					$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
+
+					$output .= '<div class="groups-groups-container">';
 					$output .= sprintf(
-						'<select class="select bulk-capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ_POST_CAPABILITY ),
-						esc_attr( __( 'Choose access restrictions &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-						esc_attr( __( 'Choose access restrictions &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+						'<select class="select bulk-group" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ ),
+						esc_attr( __( 'Choose access restriction groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
+						esc_attr( __( 'Choose access restriction groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
 					);
 
-					foreach( $valid_read_caps as $capability ) {
-						$output .= sprintf( '<option value="%s" >%s</option>', esc_attr( $capability ), wp_filter_nohtml_kses( $capability ) );
+					foreach( $groups as $group ) {
+						$output .= sprintf( '<option value="%s" >%s</option>', esc_attr( $group->group_id ), wp_filter_nohtml_kses( $group->name ) );
 					}
 					$output .= '</select>';
-					$output .= '</div>'; // .groups-capabilities-container
-					$output .= Groups_UIE::render_select( '.select.bulk-capability' );
+					$output .= '</div>'; // .groups-groups-container
+					$output .= Groups_UIE::render_select( '.select.bulk-group' );
 
-					$output .= '</div>'; // .capabilities-bulk-container
+					$output .= '</div>'; // .groups-bulk-container
 
 					$output .= '</div>'; // .bulk-edit-groups
 					$output .= '</fieldset>'; // .inline-edit-col-right
 
-					$output .= wp_nonce_field( 'post-capability', 'bulk-post-capability-nonce', true, false );
+					$output .= wp_nonce_field( 'post-group', 'bulk-post-group-nonce', true, false );
 
 					echo $output;
 				}
@@ -217,7 +222,7 @@ class Groups_Admin_Posts {
 	}
 
 	/**
-	 * Handles access restriction capability modifications from bulk-editing.
+	 * Handles access restriction group modifications from bulk-editing.
 	 * This is called once for each post that is included in bulk-editing.
 	 * The fields that are handled here are rendered through the
 	 * bulk_edit_custom_box() method in this class.
@@ -225,24 +230,30 @@ class Groups_Admin_Posts {
 	 * @param int $post_id
 	 */
 	public static function save_post( $post_id ) {
-		if ( isset( $_REQUEST['capabilities-action'] ) ) {
-			if ( wp_verify_nonce( $_REQUEST['bulk-post-capability-nonce'], 'post-capability' ) ) {
-				$field = Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ_POST_CAPABILITY;
+		if ( isset( $_REQUEST['groups-action'] ) ) {
+			if ( wp_verify_nonce( $_REQUEST['bulk-post-group-nonce'], 'post-group' ) ) {
+				$field = Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ;
 				if ( !empty( $_REQUEST[$field] ) && is_array( $_REQUEST[$field] ) ) {
 					if ( Groups_Access_Meta_Boxes::user_can_restrict() ) {
-						$valid_read_caps = Groups_Access_Meta_Boxes::get_valid_read_caps_for_user();
-						foreach( $_REQUEST[$field] as $capability_name ) {
-							if ( $capability = Groups_Capability::read_by_capability( $capability_name ) ) {
-								if ( in_array( $capability->capability, $valid_read_caps ) ) {
-									switch( $_REQUEST['capabilities-action'] ) {
-										case 'add-capability' :
+						$user    = new Groups_User( get_current_user_id() );
+						$include = $user->group_ids_deep;
+						$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
+						$group_ids = array();
+						foreach( $groups as $group ) {
+							$group_ids[] = $group->group_id;
+						}
+						foreach( $_REQUEST[$field] as $group_id ) {
+							if ( $group = Groups_Group::read( $group_id ) ) {
+								if ( in_array( $group->group_id, $group_ids ) ) {
+									switch( $_REQUEST['groups-action'] ) {
+										case 'add-group' :
 											Groups_Post_Access::create( array(
 												'post_id' => $post_id,
-												'capability' => $capability->capability
+												'group_id' => $group->group_id
 											) );
 											break;
-										case 'remove-capability' :
-											Groups_Post_Access::delete( $post_id, $capability->capability );
+										case 'remove-group' :
+											Groups_Post_Access::delete( $post_id, array( 'groups_read' => $group->group_id ) );
 											break;
 									}
 								}
