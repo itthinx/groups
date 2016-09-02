@@ -526,7 +526,6 @@ class Groups_Access_Meta_Boxes {
 	}
 
 	/**
-	 * @todo 
 	 * @deprecated
 	 * @return array of valid read capabilities for the current or given user
 	 */
