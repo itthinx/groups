@@ -32,7 +32,7 @@ require_once( GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php' 
  */
 class Groups_Access_Meta_Boxes_Legacy {
 
-	const NONCE          = 'groups-meta-box-nonce';
+	const NONCE          = 'groups-meta-box-nonce-legacy';
 	const SET_CAPABILITY = 'set-capability';
 	const READ_ACCESS    = 'read-access';
 	const CAPABILITY     = 'capability';
