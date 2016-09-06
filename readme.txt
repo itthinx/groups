@@ -17,7 +17,7 @@ It provides group-based user membership management, group-based capabilities and
 
 Groups is light-weight and offers an easy user interface, while it acts as a framework and integrates standard WordPress capabilities and application-specific capabilities along with an extensive API.
 
-Enhanced functionality is available via official [extensions](http://www.itthinx.com/plugins/groups/) for Groups.
+Enhanced functionality is available via [official extensions](http://www.itthinx.com/product-category/groups/) for Groups.
 
 ### Documentation ###
 
