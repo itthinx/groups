@@ -192,7 +192,12 @@ class Groups_Admin_Users {
 				);
 				foreach( $groups as $group ) {
 					$is_member = false;
-					$groups_select .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
+					$groups_select .= sprintf(
+						'<option value="%d" %s>%s</option>',
+						Groups_Utility::id( $group->group_id ),
+						$is_member ? ' selected="selected" ' : '',
+						wp_filter_nohtml_kses( $group->name )
+					);
 				}
 				$groups_select .= '</select>';
 			}
@@ -246,16 +251,28 @@ class Groups_Admin_Users {
 				esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
 				esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
 			);
+			$user_group_table = _groups_get_tablename( 'user_group' );
 			$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
 			foreach( $groups as $group ) {
+				// Do not use $user_count = count( $group->users ); here,
+				// as it creates a lot of unneccessary objects and can lead
+				// to out of memory issues on large user bases.
+				$user_count = $wpdb->get_var( $wpdb->prepare(
+					"SELECT COUNT(user_id) FROM $user_group_table WHERE group_id = %d",
+					Groups_Utility::id( $group->group_id ) )
+				);
 				$selected = isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) && in_array( $group->group_id, $_REQUEST['group_ids'] );
-				$output .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $selected ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
+				$output .= sprintf(
+					'<option value="%d" %s>%s</option>',
+					Groups_Utility::id( $group->group_id ),
+					$selected ? ' selected="selected" ' : '',
+					sprintf( '%s <span class="count">(%s)</span>', wp_filter_nohtml_kses( $group->name ), esc_html( $user_count ) )
+				);
 			}
 			$output .= '</select>';
 			$output .= '</div>'; // .groups-select-container
 			$output .= '</div>'; // .groups-filter-container
 			$output .= '<input class="button" type="submit" value="' . esc_attr( __( 'Filter', GROUPS_PLUGIN_DOMAIN ) ) . '"/>';
-			$output .= wp_nonce_field( 'filter-groups', 'filter-groups-nonce', true, false );
 			$output .= '</form>';
 			$output .= Groups_UIE::render_select( '#filter-groups' );
 			$views['groups'] = $output;
