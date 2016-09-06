@@ -81,19 +81,26 @@ class Groups_Admin_Users {
 	public static function pre_user_query( $user_query ) {
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			if ( isset( $_REQUEST['group'] ) ) {
-				$group_id = $_REQUEST['group'];
-				if ( Groups_Group::read( $group_id ) ) {
-					$group = new Groups_Group( $group_id );
-					$users = $group->users;
-					$include = array();
-					if ( count( $users ) > 0 ) {
-						foreach( $users as $user ) {
-							$include[] = $user->user->ID;
+			if ( isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) ) {
+				$group_ids = array_map( array( 'Groups_Utility', 'id' ), array_map( 'trim', $_REQUEST['group_ids'] ) );
+				$include = array();
+				foreach ( $group_ids as $group_id ) {
+					if ( Groups_Group::read( $group_id ) ) {
+						$group = new Groups_Group( $group_id );
+						$users = $group->users;
+						if ( count( $users ) > 0 ) {
+							foreach( $users as $user ) {
+								$include[] = $user->user->ID;
+							}
+						} else { // no results
+							$include[] = 0;
 						}
-					} else { // no results
-						$include[] = 0;
+						unset( $group );
+						unset( $users );
 					}
+				}
+				if ( count( $include ) > 0 ) {
+					$include = array_unique( $include );
 					$ids = implode( ',', wp_parse_id_list( $include ) );
 					$user_query->query_where .= " AND $wpdb->users.ID IN ($ids)";
 				}
@@ -224,7 +231,7 @@ class Groups_Admin_Users {
 	}
 
 	/**
-	 * Hooked on filter in class-wp-list-table.php to add links that
+	 * Hooked on filter in class-wp-list-table.php to
 	 * filter by group.
 	 * @param array $views
 	 */
