@@ -142,6 +142,19 @@ class Groups_Admin_Users {
 			echo '.groups-bulk-container input.button { margin-top: 1px; vertical-align: top; }';
 			echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
 			echo '</style>';
+
+			// groups filter
+			echo '<style type="text/css">';
+			echo '.groups-filter-container { display: inline-block; line-height: 24px; vertical-align: middle; }';
+			echo '.groups-filter-container .groups-select-container { display: inline-block; vertical-align: top; }';
+			echo '.groups-filter-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
+			echo '.groups-filter-container .selectize-control { min-width: 128px; }';
+			echo '.groups-filter-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }';
+			echo '.groups-filter-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
+			echo '.groups-filter-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; height: 24px; }';
+			echo '.groups-filter-container .selectize-input .item a { line-height: inherit; }'; // neutralize .subsubsub a rule
+			echo '.groups-filter-container input.button { margin-top: 1px; vertical-align: top; }';
+			echo '</style>';
 		}
 	}
 
@@ -162,7 +175,6 @@ class Groups_Admin_Users {
 		$output = '';
 
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			$group_table = _groups_get_tablename( "group" );
 			// groups select
 			$groups_table = _groups_get_tablename( 'group' );
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
@@ -176,7 +188,6 @@ class Groups_Admin_Users {
 					$groups_select .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
 				}
 				$groups_select .= '</select>';
-
 			}
 
 			// group bulk actions added through extra_tablenav()
@@ -220,24 +231,27 @@ class Groups_Admin_Users {
 	public static function views_users( $views ) {
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			$group_table = _groups_get_tablename( "group" );
-			$user_group_table = _groups_get_tablename( "user_group" );
-			$groups = $wpdb->get_results( "SELECT * FROM $group_table ORDER BY name" );
+			$output = '<form id="filter-groups-form" action="" method="get">';
+			$output .= '<div class="groups-filter-container">';
+			$output .= '<div class="groups-select-container">';
+			$output .= sprintf(
+				'<select id="filter-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+				esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
+				esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+			);
+			$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
 			foreach( $groups as $group ) {
-				$group = new Groups_Group( $group->group_id );
-				// Do not use $user_count = count( $group->users ); here,
-				// as it creates a lot of unneccessary objects and can lead
-				// to out of memory issues on large user bases.
-				$user_count = $wpdb->get_var( $wpdb->prepare(
-					"SELECT COUNT(user_id) FROM $user_group_table WHERE group_id = %d",
-					Groups_Utility::id( $group->group_id ) ) );
-				$views[] = sprintf(
-					'<a class="group" href="%s" title="%s">%s</a>',
-					esc_url( add_query_arg( 'group', $group->group_id, admin_url( 'users.php' ) ) ),
-					sprintf( '%s Group', wp_filter_nohtml_kses( $group->name ) ),
-					sprintf( '%s <span class="count">(%s)</span>', wp_filter_nohtml_kses( $group->name ), $user_count )
-				);
+				$selected = isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) && in_array( $group->group_id, $_REQUEST['group_ids'] );
+				$output .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $selected ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
 			}
+			$output .= '</select>';
+			$output .= '</div>'; // .groups-select-container
+			$output .= '</div>'; // .groups-filter-container
+			$output .= '<input class="button" type="submit" value="' . esc_attr( __( 'Filter', GROUPS_PLUGIN_DOMAIN ) ) . '"/>';
+			$output .= wp_nonce_field( 'filter-groups', 'filter-groups-nonce', true, false );
+			$output .= '</form>';
+			$output .= Groups_UIE::render_select( '#filter-groups' );
+			$views['groups'] = $output;
 		}
 		return $views;
 	}
