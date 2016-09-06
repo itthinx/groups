@@ -49,7 +49,7 @@ class Groups_UIE {
 	 * Extension chooser - determines what UI extension is used for an element.
 	 * 
 	 * @param string $element choices: select
-	 * @param string $extension choices: chosen, selectize
+	 * @param string $extension choices: selectize
 	 */
 	public static function set_extension( $element, $extension ) {
 		switch( $element ) {
@@ -67,14 +67,6 @@ class Groups_UIE {
 		switch( $element ) {
 			case 'select' :
 				switch ( self::$select ) {
-					case 'chosen' :
-						if ( !wp_script_is( 'chosen' ) ) {
-							wp_enqueue_script( 'chosen', GROUPS_PLUGIN_URL . 'js/chosen/chosen.jquery.min.js', array( 'jquery' ), $groups_version, false );
-						}
-						if ( !wp_style_is( 'chosen' ) ) {
-							wp_enqueue_style( 'chosen', GROUPS_PLUGIN_URL . 'css/chosen/chosen.min.css', array(), $groups_version );
-						}
-						break;
 					case 'selectize' :
 						if ( !wp_script_is( 'selectize' ) ) {
 							wp_enqueue_script( 'selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
@@ -105,9 +97,6 @@ class Groups_UIE {
 				$output .= 'jQuery("document").ready(function(){';
 			}
 			switch( self::$select ) {
-				case 'chosen' :
-					$output .= sprintf( 'jQuery("%s").chosen({width:"100%%",search_contains:true});', $selector );
-					break;
 				case 'selectize' :
 					$output .= sprintf(
 						'jQuery("%s").selectize({%splugins: ["remove_button"]});',

@@ -183,9 +183,11 @@ See also [Groups](http://www.itthinx.com/plugins/groups/)
 == Changelog ==
 
 = 2.0.0 =
+* Changed the access restriction model to group-based access restrictions.
 * Optimized the approach to restrict read access on posts using groups rather than access restriction capabilities.
 * Fixed the order_by and order parameters in Groups_Group::get_groups()
 * Added the $create parameter in Groups_UIE::render_select()
+* Removed the chosen library.
 
 == Upgrade Notice ==
 

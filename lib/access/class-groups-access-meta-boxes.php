@@ -372,20 +372,11 @@ class Groups_Access_Meta_Boxes {
 	 */
 	private static function enqueue() {
 		global $groups_version;
-		if ( self::WHICH_SELECT == 'chosen' ) {
-			if ( !wp_script_is( 'chosen' ) ) {
-				wp_enqueue_script( 'chosen', GROUPS_PLUGIN_URL . 'js/chosen/chosen.jquery.min.js', array( 'jquery' ), $groups_version, false );
-			}
-			if ( !wp_style_is( 'chosen' ) ) {
-				wp_enqueue_style( 'chosen', GROUPS_PLUGIN_URL . 'css/chosen/chosen.min.css', array(), $groups_version );
-			}
-		} else {
-			if ( !wp_script_is( 'selectize' ) ) {
-				wp_enqueue_script( 'selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
-			}
-			if ( !wp_style_is( 'selectize' ) ) {
-				wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
-			}
+		if ( !wp_script_is( 'selectize' ) ) {
+			wp_enqueue_script( 'selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
+		}
+		if ( !wp_style_is( 'selectize' ) ) {
+			wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
 		}
 	}
 
