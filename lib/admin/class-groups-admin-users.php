@@ -139,7 +139,7 @@ class Groups_Admin_Users {
 
 			// group-actions
 			echo '<style type="text/css">';
-			echo '.groups-bulk-container { display: inline-block; line-height: 24px; padding-bottom: 1em; vertical-align: top; margin-left: 1em; margin-right: 1em; }';
+			echo '.groups-bulk-container { display: inline-block; line-height: 24px; padding-bottom: 2px; vertical-align: top; margin-left: 0.31em; margin-right: 0.31em; }';
 			echo '.groups-bulk-container .groups-select-container { display: inline-block; vertical-align: top; }';
 			echo '.groups-bulk-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
 			echo '.groups-bulk-container .selectize-control { min-width: 128px; }';
