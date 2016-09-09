@@ -164,22 +164,29 @@ Also refer to the official [Groups Plugin](http://www.itthinx.com/plugins/groups
 
 == Screenshots ==
 
-See also [Groups](http://www.itthinx.com/plugins/groups/)
+See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages and the [Groups Plugin](http://www.itthinx.com/plugin/groups/) page.
 
 1. Groups - this is where you add and remove groups and assign capabilities to groups.
 2. Capabilities - here you get an overview of the capabilities that are defined and you can add and remove capabilities as well.
 3. Users - group membership is managed from the standard Users admin view.
-4. Access restrictions meta box - on pages and posts (or custom content types) you can restrict access to users who are part of a group with capabilities.
-5. Usage of the [groups_member] and [groups_non_member] shortcodes to limit visibility of content to users who are members of a group or users who are not members of a group. Multiple comma-separated groups can be specified.
-6. Usage of the [groups_can] and [groups_can_not] shortcodes. Limits visibility of enclosed content to those users who have the capability or those who do not. Multiple capabilities can be given.
-7. Options - you can adjust the plugin's settings here.
-8. More options.
+4. Filter the list of users by one or more groups.
+5. Add users to groups or remove them in bulk.
+6. Groups a users belongs to shown in the user profile.
+7. Filter posts by groups.
+8. Add or remove access restrictions based on groups in bulk.
+9. Restrict access on pages and posts (and other custom post types) ... you can restrict access to users who are members of one or more groups.
+10. A post restricted to members of a *Premium* group only.
+11. Usage of the [groups_member] and [groups_non_member] shortcodes to limit visibility of content to users who are members of a group or users who are not members of a group. Multiple comma-separated groups can be specified.
+12. Usage of the [groups_can] and [groups_can_not] shortcodes. Limits visibility of enclosed content to those users who have the capability or those who do not. Multiple capabilities can be given.
+13. Options - you can adjust the plugin's settings here.
+14. More options.
 
 == Changelog ==
 
 = 2.0.0 =
 * Changed the access restriction model to group-based access restrictions.
 * Optimized the approach to restrict read access on posts using groups rather than access restriction capabilities.
+* Added the `groups_restrict_access` capability which grants users to impose access restrictions.
 * Fixed the order_by and order parameters in Groups_Group::get_groups()
 * Added the $create parameter in Groups_UIE::render_select()
 * Removed the "Chosen" library.
