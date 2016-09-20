@@ -476,7 +476,7 @@ class Groups_Group implements I_Capable {
 				if ( !empty( $group->name ) ) {
 					Groups_Cache::delete( self::READ_BY_NAME . '_' . $group->name, self::CACHE_GROUP );
 				}
-				do_action( "groups_deleted_group", $result );
+				do_action( 'groups_deleted_group', $result );
 			}
 		}
 		return $result;
