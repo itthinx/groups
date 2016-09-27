@@ -33,7 +33,13 @@ class Groups_Admin_Post_Columns {
 	 * Groups column header id.
 	 * @var string
 	 */
-	const GROUPS = 'groups';
+	const GROUPS = 'groups-read';
+
+	/**
+	 * Field name.
+	 * @var string
+	 */
+	const GROUPS_READ = 'groups-read';
 
 	/**
 	 * Adds an admin_init action.
@@ -58,14 +64,20 @@ class Groups_Admin_Post_Columns {
 						add_filter( 'manage_media_columns', array( __CLASS__, 'columns' ) );
 						// args: string $column_name, int $media_id
 						add_action( 'manage_media_custom_column', array( __CLASS__, 'custom_column' ), 10, 2 );
+						// make the groups column sortable
+						add_filter( 'manage_upload_sortable_columns', array( __CLASS__, 'manage_edit_post_sortable_columns' ) );
 					} else {
 						// filters to display the posts' access restriction groups
 						add_filter( 'manage_' . $post_type . '_posts_columns', array( __CLASS__, 'columns' ) );
 						// args: string $column_name, int $post_id
 						add_action( 'manage_' . $post_type . '_posts_custom_column', array( __CLASS__, 'custom_column' ), 10, 2 );
+						// make the groups column sortable
+						add_filter( 'manage_edit-' . $post_type . '_sortable_columns', array( __CLASS__, 'manage_edit_post_sortable_columns' ) );
 					}
 				}
 			}
+			// handle our sortable column
+			add_filter( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 		}
 	}
 
@@ -112,6 +124,56 @@ class Groups_Admin_Post_Columns {
 				break;
 		}
 		echo $output;
+	}
+
+	/**
+	 * Groups column is sortable.
+	 * 
+	 * @param array $sortable_columns
+	 * @return array
+	 */
+	public static function manage_edit_post_sortable_columns( $sortable_columns ) {
+		$sortable_columns[self::GROUPS] = self::GROUPS;
+		return $sortable_columns;
+	}
+
+	/**
+	 * Allows us to modify the query to order by group if requested.
+	 * 
+	 * @param WP_Query $query is passed by reference - see https://codex.wordpress.org/Plugin_API/Action_Reference/pre_get_posts
+	 */
+	public static function pre_get_posts( $query ) {
+		if ( is_admin() ) {
+			// check if query is for a post type we handle
+			$post_type = $query->get( 'post_type' );
+			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
+				// only act on post etc. screens
+				$screen = get_current_screen();
+				if (
+					!empty( $screen ) &&
+					!empty( $screen->id ) &&
+					( $screen->id == 'edit-' . $post_type )
+				) {
+					if ( $query->get( 'orderby' ) == self::GROUPS_READ ) {
+						$query->set( 'orderby', 'meta_value' );
+						$query->set( 'meta_query', array(
+							'relation' => 'OR',
+							array(
+								'key' => self::GROUPS_READ,
+								'value' => '',
+								'compare' => 'NOT EXISTS'
+							),
+							array(
+								'key' => self::GROUPS_READ,
+								'value' => array(),
+								'compare' => 'NOT IN'
+							)
+						) );
+					}
+				}
+			}
+		}
 	}
 }
 Groups_Admin_Post_Columns::init();
