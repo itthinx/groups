@@ -157,7 +157,7 @@ class Groups_Admin_Post_Columns {
 				) {
 					if ( $query->get( 'orderby' ) == self::GROUPS_READ ) {
 						$query->set( 'orderby', 'meta_value' );
-						$query->set( 'meta_query', array(
+						$meta_query = array(
 							'relation' => 'OR',
 							array(
 								'key' => self::GROUPS_READ,
@@ -169,7 +169,17 @@ class Groups_Admin_Post_Columns {
 								'value' => array(),
 								'compare' => 'NOT IN'
 							)
-						) );
+						);
+						// don't overwrite an existing meta_query, e.g. when we filter by group
+						// see Groups_Admin_Posts::parse_query()
+						if ( !empty( $query->get( 'meta_query' ) ) ) {
+							$meta_query = array(
+								'relation' => 'AND',
+								$query->get( 'meta_query' ),
+								$meta_query
+							);
+						}
+						$query->set( 'meta_query', $meta_query );
 					}
 				}
 			}
