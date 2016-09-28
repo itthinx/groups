@@ -121,6 +121,33 @@ class Groups_Admin_Post_Columns {
 						$output .= '</ul>';
 					}
 				}
+				if (
+					class_exists( 'Groups_Restrict_Categories' ) &&
+					method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
+					method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' )
+				) {
+					$taxonomies = Groups_Restrict_Categories::get_controlled_taxonomies();
+					$terms = wp_get_post_terms( $post_id );
+					foreach( $terms as $term ) {
+						if ( in_array( $term->taxonomy, $taxonomies ) ) {
+							$term_group_ids = Groups_Restrict_Categories::get_term_read_groups( $term->term_id );
+							$edit_term_link = get_edit_term_link( $term->term_id, $term->taxonomy, get_post_type( $post_id ) );
+							if ( !empty( $term_group_ids ) ) {
+								$output .= '<ul>';
+								foreach( $term_group_ids as $group_id ) {
+									if ( $group = Groups_Group::read( $group_id ) ) {
+										$output .= '<li>';
+										$output .= wp_strip_all_tags( $group->name );
+										$output .= ' ';
+										$output .= sprintf( '<a href="%s">%s</a>', esc_url( $edit_term_link ), esc_html( $term->name ) );
+										$output .= '</li>';
+									}
+								}
+								$output .= '</ul>';
+							}
+						}
+					}
+				}
 				break;
 		}
 		echo $output;
