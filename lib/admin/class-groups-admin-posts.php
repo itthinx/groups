@@ -54,8 +54,9 @@ class Groups_Admin_Posts {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
 			add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
 			add_action( 'restrict_manage_posts', array( __CLASS__, 'restrict_manage_posts' ) );
-			add_filter( 'parse_query', array( __CLASS__, 'parse_query' ) );
+// 			add_filter( 'parse_query', array( __CLASS__, 'parse_query' ) );
 
+			add_filter( 'posts_where', array( __CLASS__, 'posts_where' ), 10, 2 );
 			add_filter( 'posts_join', array( __CLASS__, 'posts_join' ), 10, 2 );
 			add_filter( 'posts_orderby', array( __CLASS__, 'posts_orderby' ), 10, 2 );
 
@@ -360,6 +361,74 @@ class Groups_Admin_Posts {
 	}
 
 	/**
+	 * Filters out posts by group. This is used when you choose groups on the post admin screen so that
+	 * only those posts who are restricted by groups are shown.
+	 * 
+	 * @param string $where
+	 * @param WP_Query $query
+	 * @return string
+	 */
+	public static function posts_where( $where, $query ) {
+
+		global $wpdb;
+
+		if ( self::extend_for_filter_groups_read( $query ) ) {
+
+			$group_ids = array();
+			foreach ( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] as $group_id ) {
+				if ( $group_id = Groups_Utility::id( $group_id ) ) {
+					if ( Groups_Group::read( $group_id ) ) {
+						$group_ids[] = $group_id;
+					}
+				}
+			}
+
+			if ( !empty( $group_ids ) ) {
+				$groups = ' ( ' . implode(',', $group_ids ) . ' ) ';
+				$group_table = _groups_get_tablename( 'group' );
+				if (
+					function_exists( 'get_term_meta' ) && // >= WordPress 4.4.0 as we query the termmeta table
+					class_exists( 'Groups_Restrict_Categories' ) &&
+					method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
+					method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0, the method isn't used here but it wouldn't make any sense to query unless we're >= 2.0.0
+				) {
+					$where .= "
+						AND $wpdb->posts.ID IN (
+							SELECT post_id
+							FROM $wpdb->postmeta pm
+							WHERE
+							pm.meta_key = 'groups-read' AND
+							pm.meta_value IN $groups
+								UNION ALL
+							SELECT p.ID post_id
+							FROM $wpdb->posts p
+							LEFT JOIN $wpdb->term_relationships tr ON p.ID = tr.object_id
+							LEFT JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+							LEFT JOIN $wpdb->termmeta tm ON tt.term_id = tm.term_id
+							WHERE
+							tm.meta_key = 'groups-read' AND
+							tm.meta_value IN $groups
+						)
+						";
+				} else {
+					$where .= "
+						AND $wpdb->posts.ID IN (
+							SELECT post_id
+							FROM $wpdb->postmeta pm
+							WHERE
+							pm.meta_key = 'groups-read' AND
+							pm.meta_value IN $groups
+						)
+						";
+				}
+			} // !empty( $group_ids )
+
+		}
+
+		return $where;
+	}
+
+	/**
 	 * Adds to the join to allow advanced sorting by group on the admin back end for post tables.
 	 *
 	 * @param string $join
@@ -367,7 +436,7 @@ class Groups_Admin_Posts {
 	 */
 	public static function posts_join( $join, $query ) {
 		global $wpdb;
-		if ( self::extend_for_groups_read( $query ) ) {
+		if ( self::extend_for_orderby_groups_read( $query ) ) {
 			$group_table = _groups_get_tablename( 'group' );
 			if ( function_exists( 'get_term_meta' ) ) { // >= WordPress 4.4.0 as we query the termmeta table
 				$join .= "
@@ -418,7 +487,7 @@ class Groups_Admin_Posts {
 	 * @return string
 	 */
 	public static function posts_orderby( $orderby, $query ) {
-		if ( self::extend_for_groups_read( $query ) ) {
+		if ( self::extend_for_orderby_groups_read( $query ) ) {
 			switch( $query->get( 'order' ) ) {
 				case 'desc' :
 				case 'DESC' :
@@ -442,7 +511,7 @@ class Groups_Admin_Posts {
 	 * @param WP_Query $query
 	 * @return boolean
 	 */
-	private static function extend_for_groups_read( &$query ) {
+	private static function extend_for_orderby_groups_read( &$query ) {
 		$result = false;
 		if ( is_admin() ) {
 			// check if query is for a post type we handle
@@ -460,6 +529,38 @@ class Groups_Admin_Posts {
 							$result = true;
 						}
 					}
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Check if we should apply our posts_where filter. Used in it.
+	 *
+	 * @param WP_Query $query
+	 * @return boolean
+	 */
+	private static function extend_for_filter_groups_read( &$query ) {
+		$result = false;
+		if ( is_admin() ) {
+			// check if query is for a post type we handle
+			$post_type = $query->get( 'post_type' );
+			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
+				// only act on post etc. screens
+				$screen = get_current_screen();
+				if (
+					!empty( $screen ) &&
+					!empty( $screen->id ) &&
+					( $screen->id == 'edit-' . $post_type )
+				) {
+					if (
+						!empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) &&
+						is_array( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] )
+					) {
+						$result = true;
+					}
+				}
 			}
 		}
 		return $result;

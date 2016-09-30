@@ -125,7 +125,7 @@ class Groups_Admin_Post_Columns {
 					$terms = array();
 					$taxonomies = Groups_Restrict_Categories::get_controlled_taxonomies();
 					foreach( $taxonomies as $taxonomy ) {
-						$terms += wp_get_post_terms( $post_id, $taxonomy );
+						$terms = array_merge( $terms, wp_get_post_terms( $post_id, $taxonomy ) );
 					}
 					foreach( $terms as $term ) {
 						if ( in_array( $term->taxonomy, $taxonomies ) ) {
