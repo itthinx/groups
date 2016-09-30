@@ -76,7 +76,7 @@ class Groups_Admin_Post_Columns {
 					}
 				}
 			}
-			// handle our sortable column
+			// handle our sortable column - @todo remove, not used
 // 			add_filter( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 
 			add_filter( 'posts_join', array( __CLASS__, 'posts_join' ), 10, 2 );
@@ -173,6 +173,8 @@ class Groups_Admin_Post_Columns {
 	/**
 	 * Allows us to modify the query to order by group if requested.
 	 * 
+	 * @todo not used, removed this method
+	 * 
 	 * @param WP_Query $query is passed by reference - see https://codex.wordpress.org/Plugin_API/Action_Reference/pre_get_posts
 	 */
 	public static function pre_get_posts( $query ) {
@@ -250,16 +252,7 @@ class Groups_Admin_Post_Columns {
 				GROUP BY p.ID
 			) groups_tmp ON $wpdb->posts.ID = groups_tmp.post_id
 			";
-// @todo remove
-// 			$join .= " LEFT JOIN
-// 			(
-// 			SELECT p.ID post_id, GROUP_CONCAT(DISTINCT banana.group_name ORDER BY banana.group_name) groups FROM wp_posts p LEFT JOIN (SELECT post_id, g.name group_name FROM wp_postmeta pm LEFT JOIN wp_groups_group g ON pm.meta_value = g.group_id WHERE pm.meta_key = 'groups-read'
-// 			UNION ALL
-// 			SELECT p.ID post_id, g.name group_name FROM wp_posts p LEFT JOIN wp_term_relationships tr ON p.ID = tr.object_id LEFT JOIN wp_term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id LEFT JOIN wp_termmeta tm ON tt.term_id = tm.term_id LEFT JOIN wp_groups_group g ON tm.meta_value = g.group_id WHERE tm.meta_key = 'groups-read') as banana ON p.ID = banana.post_id GROUP BY p.ID
-// 			) groups_tmp ON $wpdb->posts.ID = groups_tmp.post_id
-// 			";
 		}
-
 		return $join;
 	}
 
@@ -291,6 +284,7 @@ class Groups_Admin_Post_Columns {
 
 	/**
 	 * Check if we should apply our posts_join and posts_orderby filters. Used in those.
+	 * 
 	 * @param WP_Query $query
 	 * @return boolean
 	 */
