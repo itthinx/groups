@@ -179,27 +179,43 @@ class Groups_Admin_Post_Columns {
 		global $wpdb;
 		if ( self::extend_for_groups_read( $query ) ) {
 			$group_table = _groups_get_tablename( 'group' );
-			$join .= "
-			LEFT JOIN (
-				SELECT p.ID post_id, GROUP_CONCAT(DISTINCT groups_read.group_name ORDER BY groups_read.group_name) groups
-				FROM $wpdb->posts p
-				LEFT JOIN (
-					SELECT post_id, g.name group_name
-					FROM $wpdb->postmeta pm
-					LEFT JOIN $group_table g ON pm.meta_value = g.group_id
-					WHERE pm.meta_key = 'groups-read'
-						UNION ALL
-					SELECT p.ID post_id, g.name group_name
-					FROM $wpdb->posts p
-					LEFT JOIN $wpdb->term_relationships tr ON p.ID = tr.object_id
-					LEFT JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-					LEFT JOIN $wpdb->termmeta tm ON tt.term_id = tm.term_id
-					LEFT JOIN $group_table g ON tm.meta_value = g.group_id
-					WHERE tm.meta_key = 'groups-read'
-				) as groups_read ON p.ID = groups_read.post_id
-				GROUP BY p.ID
-			) groups_tmp ON $wpdb->posts.ID = groups_tmp.post_id
-			";
+			if ( function_exists( 'get_term_meta' ) ) { // >= WordPress 4.4.0 as we query the termmeta table
+				$join .= "
+					LEFT JOIN (
+						SELECT p.ID post_id, GROUP_CONCAT(DISTINCT groups_read.group_name ORDER BY groups_read.group_name) groups
+						FROM $wpdb->posts p
+						LEFT JOIN (
+							SELECT post_id, g.name group_name
+							FROM $wpdb->postmeta pm
+							LEFT JOIN $group_table g ON pm.meta_value = g.group_id
+							WHERE pm.meta_key = 'groups-read'
+								UNION ALL
+							SELECT p.ID post_id, g.name group_name
+							FROM $wpdb->posts p
+							LEFT JOIN $wpdb->term_relationships tr ON p.ID = tr.object_id
+							LEFT JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+							LEFT JOIN $wpdb->termmeta tm ON tt.term_id = tm.term_id
+							LEFT JOIN $group_table g ON tm.meta_value = g.group_id
+							WHERE tm.meta_key = 'groups-read'
+						) as groups_read ON p.ID = groups_read.post_id
+						GROUP BY p.ID
+					) groups_tmp ON $wpdb->posts.ID = groups_tmp.post_id
+					";
+			} else {
+				$join .= "
+					LEFT JOIN (
+						SELECT p.ID post_id, GROUP_CONCAT(DISTINCT groups_read.group_name ORDER BY groups_read.group_name) groups
+						FROM $wpdb->posts p
+						LEFT JOIN (
+						SELECT post_id, g.name group_name
+						FROM $wpdb->postmeta pm
+						LEFT JOIN $group_table g ON pm.meta_value = g.group_id
+						WHERE pm.meta_key = 'groups-read'
+						) as groups_read ON p.ID = groups_read.post_id
+						GROUP BY p.ID
+					) groups_tmp ON $wpdb->posts.ID = groups_tmp.post_id
+					";
+			}
 		}
 		return $join;
 	}
