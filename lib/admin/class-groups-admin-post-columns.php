@@ -76,8 +76,6 @@ class Groups_Admin_Post_Columns {
 					}
 				}
 			}
-			add_filter( 'posts_join', array( __CLASS__, 'posts_join' ), 10, 2 );
-			add_filter( 'posts_orderby', array( __CLASS__, 'posts_orderby' ), 10, 2 );
 		}
 	}
 
@@ -161,6 +159,11 @@ class Groups_Admin_Post_Columns {
 	/**
 	 * Groups column is sortable.
 	 * 
+	 * Sorting depends on the filters Groups_Admin_Posts::posts_join() and Groups_Admin_Posts::posts_orderby()
+	 * which add the relevant group information and sort by group name.
+	 * 
+	 * @see Groups_Admin_Posts::posts_join()
+	 * @see Groups_Admin_Posts::posts_orderby()
 	 * @param array $sortable_columns
 	 * @return array
 	 */
@@ -169,110 +172,5 @@ class Groups_Admin_Post_Columns {
 		return $sortable_columns;
 	}
 
-	/**
-	 * Adds to the join to allow advanced sorting by group on the admin back end for post tables.
-	 * 
-	 * @param string $join
-	 * @param WP_Query $query
-	 */
-	public static function posts_join( $join, $query ) {
-		global $wpdb;
-		if ( self::extend_for_groups_read( $query ) ) {
-			$group_table = _groups_get_tablename( 'group' );
-			if ( function_exists( 'get_term_meta' ) ) { // >= WordPress 4.4.0 as we query the termmeta table
-				$join .= "
-					LEFT JOIN (
-						SELECT p.ID post_id, GROUP_CONCAT(DISTINCT groups_read.group_name ORDER BY groups_read.group_name) groups
-						FROM $wpdb->posts p
-						LEFT JOIN (
-							SELECT post_id, g.name group_name
-							FROM $wpdb->postmeta pm
-							LEFT JOIN $group_table g ON pm.meta_value = g.group_id
-							WHERE pm.meta_key = 'groups-read'
-								UNION ALL
-							SELECT p.ID post_id, g.name group_name
-							FROM $wpdb->posts p
-							LEFT JOIN $wpdb->term_relationships tr ON p.ID = tr.object_id
-							LEFT JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-							LEFT JOIN $wpdb->termmeta tm ON tt.term_id = tm.term_id
-							LEFT JOIN $group_table g ON tm.meta_value = g.group_id
-							WHERE tm.meta_key = 'groups-read'
-						) as groups_read ON p.ID = groups_read.post_id
-						GROUP BY p.ID
-					) groups_tmp ON $wpdb->posts.ID = groups_tmp.post_id
-					";
-			} else {
-				$join .= "
-					LEFT JOIN (
-						SELECT p.ID post_id, GROUP_CONCAT(DISTINCT groups_read.group_name ORDER BY groups_read.group_name) groups
-						FROM $wpdb->posts p
-						LEFT JOIN (
-						SELECT post_id, g.name group_name
-						FROM $wpdb->postmeta pm
-						LEFT JOIN $group_table g ON pm.meta_value = g.group_id
-						WHERE pm.meta_key = 'groups-read'
-						) as groups_read ON p.ID = groups_read.post_id
-						GROUP BY p.ID
-					) groups_tmp ON $wpdb->posts.ID = groups_tmp.post_id
-					";
-			}
-		}
-		return $join;
-	}
-
-	/**
-	 * Extend the orderby clause to sort by groups related to the post and its terms.
-	 * 
-	 * @param $string $orderby
-	 * @param WP_Query $query
-	 * @return string
-	 */
-	public static function posts_orderby( $orderby, $query ) {
-		if ( self::extend_for_groups_read( $query ) ) {
-			switch( $query->get( 'order' ) ) {
-				case 'desc' :
-				case 'DESC' :
-					$order = 'DESC';
-					break;
-				default :
-					$order = 'ASC';
-			}
-			$prefix = ' groups_tmp.groups ' . $order;
-			if ( !empty( $orderby ) ) {
-				$prefix .= ' , ';
-			}
-			$orderby = $prefix . $orderby;
-		}
-		return $orderby;
-	}
-
-	/**
-	 * Check if we should apply our posts_join and posts_orderby filters. Used in those.
-	 * 
-	 * @param WP_Query $query
-	 * @return boolean
-	 */
-	private static function extend_for_groups_read( &$query ) {
-		$result = false;
-		if ( is_admin() ) {
-			// check if query is for a post type we handle
-			$post_type = $query->get( 'post_type' );
-			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-				// only act on post etc. screens
-				$screen = get_current_screen();
-				if (
-					!empty( $screen ) &&
-					!empty( $screen->id ) &&
-					( $screen->id == 'edit-' . $post_type )
-				) {
-					if ( $query->get( 'orderby' ) == self::GROUPS_READ ) {
-						$result = true;
-					}
-				}
-			}
-		}
-		return $result;
-	}
 }
 Groups_Admin_Post_Columns::init();
