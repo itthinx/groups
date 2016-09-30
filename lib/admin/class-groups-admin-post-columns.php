@@ -76,9 +76,6 @@ class Groups_Admin_Post_Columns {
 					}
 				}
 			}
-			// handle our sortable column - @todo remove, not used
-// 			add_filter( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
-
 			add_filter( 'posts_join', array( __CLASS__, 'posts_join' ), 10, 2 );
 			add_filter( 'posts_orderby', array( __CLASS__, 'posts_orderby' ), 10, 2 );
 		}
@@ -111,23 +108,21 @@ class Groups_Admin_Post_Columns {
 		$output = '';
 		switch ( $column_name ) {
 			case self::GROUPS :
+				$entries = array();
 				$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
 				if ( count( $groups_read ) > 0 ) {
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $groups_read ) );
 					if ( ( count( $groups ) > 0 ) ) {
-						$output = '<ul>';
 						foreach( $groups as $group ) {
-							$output .= '<li>';
-							$output .= wp_strip_all_tags( $group->name );
-							$output .= '</li>';
+							$entries[] = wp_strip_all_tags( $group->name );
 						}
-						$output .= '</ul>';
 					}
 				}
 				if (
+					function_exists( 'get_term_meta' ) && // >= WordPress 4.4
 					class_exists( 'Groups_Restrict_Categories' ) &&
 					method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
-					method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' )
+					method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0
 				) {
 					$terms = array();
 					$taxonomies = Groups_Restrict_Categories::get_controlled_taxonomies();
@@ -139,20 +134,24 @@ class Groups_Admin_Post_Columns {
 							$term_group_ids = Groups_Restrict_Categories::get_term_read_groups( $term->term_id );
 							$edit_term_link = get_edit_term_link( $term->term_id, $term->taxonomy, get_post_type( $post_id ) );
 							if ( !empty( $term_group_ids ) ) {
-								$output .= '<ul>';
 								foreach( $term_group_ids as $group_id ) {
 									if ( $group = Groups_Group::read( $group_id ) ) {
-										$output .= '<li>';
-										$output .= wp_strip_all_tags( $group->name );
-										$output .= ' ';
-										$output .= sprintf( '<a href="%s">%s</a>', esc_url( $edit_term_link ), esc_html( $term->name ) );
-										$output .= '</li>';
+										$entries[] = sprintf( '%s <a href="%s">%s</a>', wp_strip_all_tags( $group->name ), esc_url( $edit_term_link ), esc_html( $term->name ) );
 									}
 								}
-								$output .= '</ul>';
 							}
 						}
 					}
+				}
+				if ( !empty( $entries ) ) {
+					sort( $entries );
+					$output .= '<ul>';
+					foreach( $entries as $entry ) {
+						$output .= '<li>';
+						$output .= $entry; // entries are already escaped for output
+						$output .= '</li>';
+					}
+					$output .= '</ul>';
 				}
 				break;
 		}
@@ -168,57 +167,6 @@ class Groups_Admin_Post_Columns {
 	public static function manage_edit_post_sortable_columns( $sortable_columns ) {
 		$sortable_columns[self::GROUPS] = self::GROUPS;
 		return $sortable_columns;
-	}
-
-	/**
-	 * Allows us to modify the query to order by group if requested.
-	 * 
-	 * @todo not used, removed this method
-	 * 
-	 * @param WP_Query $query is passed by reference - see https://codex.wordpress.org/Plugin_API/Action_Reference/pre_get_posts
-	 */
-	public static function pre_get_posts( $query ) {
-		if ( is_admin() ) {
-			// check if query is for a post type we handle
-			$post_type = $query->get( 'post_type' );
-			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-				// only act on post etc. screens
-				$screen = get_current_screen();
-				if (
-					!empty( $screen ) &&
-					!empty( $screen->id ) &&
-					( $screen->id == 'edit-' . $post_type )
-				) {
-					if ( $query->get( 'orderby' ) == self::GROUPS_READ ) {
-						$query->set( 'orderby', 'meta_value' );
-						$meta_query = array(
-							'relation' => 'OR',
-							array(
-								'key' => self::GROUPS_READ,
-								'value' => '',
-								'compare' => 'NOT EXISTS'
-							),
-							array(
-								'key' => self::GROUPS_READ,
-								'value' => array(),
-								'compare' => 'NOT IN'
-							)
-						);
-						// don't overwrite an existing meta_query, e.g. when we filter by group
-						// see Groups_Admin_Posts::parse_query()
-						if ( !empty( $query->get( 'meta_query' ) ) ) {
-							$meta_query = array(
-								'relation' => 'AND',
-								$query->get( 'meta_query' ),
-								$meta_query
-							);
-						}
-						$query->set( 'meta_query', $meta_query );
-					}
-				}
-			}
-		}
 	}
 
 	/**
