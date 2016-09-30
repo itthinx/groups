@@ -104,6 +104,7 @@ class Groups_Admin_Posts {
 				echo '.inline-edit-row fieldset .capabilities-bulk-container label span.title { min-width: 5em; padding: 2px 1em; width: auto; }';
 				echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
 				echo '.wp-list-table td { overflow: visible; }'; // idem for bulk actions
+				echo 'label.groups-read-terms {vertical-align: middle; line-height: 28px; margin-right: 4px; }'; // Terms checkbox
 				echo '</style>';
 			}
 		}
@@ -155,6 +156,17 @@ class Groups_Admin_Posts {
 					$output .= '</div>';
 					$output .= Groups_UIE::render_select( '.select.group' );
 
+					if (
+						function_exists( 'get_term_meta' ) && // >= WordPress 4.4.0 as we query the termmeta table
+						class_exists( 'Groups_Restrict_Categories' ) &&
+						method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
+						method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0, the method isn't used here but it wouldn't make any sense to query unless we're >= 2.0.0
+					) {
+						$output .= sprintf( '<label class="groups-read-terms" title="%s">', esc_attr( __( 'Also look for groups related to terms', GROUPS_PLUGIN_DOMAIN ) ) );
+						$output .= sprintf( '<input type="checkbox" name="groups-read-terms" value="1" %s />', empty( $_GET['groups-read-terms'] ) ? '' : ' checked="checked" ' );
+						$output .= __( 'Terms', GROUPS_PLUGIN_DOMAIN );
+						$output .= '</label>';
+					}
 					echo $output;
 				}
 
@@ -387,6 +399,7 @@ class Groups_Admin_Posts {
 				$groups = ' ( ' . implode(',', $group_ids ) . ' ) ';
 				$group_table = _groups_get_tablename( 'group' );
 				if (
+					!empty( $_GET['groups-read-terms'] ) &&
 					function_exists( 'get_term_meta' ) && // >= WordPress 4.4.0 as we query the termmeta table
 					class_exists( 'Groups_Restrict_Categories' ) &&
 					method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
