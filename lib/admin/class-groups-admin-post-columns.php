@@ -231,7 +231,7 @@ class Groups_Admin_Post_Columns {
 		global $wpdb;
 		if ( self::extend_for_groups_read( $query ) ) {
 			$group_table = _groups_get_tablename( 'group' );
-			$join .= " 
+			$join .= "
 			LEFT JOIN (
 				SELECT p.ID post_id, GROUP_CONCAT(DISTINCT groups_read.group_name ORDER BY groups_read.group_name) groups
 				FROM $wpdb->posts p
