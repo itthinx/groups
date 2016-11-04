@@ -51,6 +51,7 @@ class Groups_Admin {
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 		add_action( 'network_admin_menu', array( __CLASS__, 'network_admin_menu' ) );
 		add_filter( 'plugin_action_links_'. plugin_basename( GROUPS_FILE ), array( __CLASS__, 'plugin_action_links' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_styles' ) );
 	}
 
 	/**
@@ -61,8 +62,18 @@ class Groups_Admin {
 	*/
 	public static function admin_init() {
 		global $groups_version;
+		wp_register_style( 'groups', GROUPS_PLUGIN_URL . 'css/groups.css', array(), $groups_version );
 		wp_register_style( 'groups_admin', GROUPS_PLUGIN_URL . 'css/groups_admin.css', array(), $groups_version );
 		require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
+	}
+
+	/**
+	 * Loads global styles for Groups
+	 *
+	 * @see Groups_Admin::init()
+	 */
+	public static function admin_enqueue_styles() {
+		wp_enqueue_style( 'groups' );
 	}
 
 	/**
@@ -160,7 +171,8 @@ class Groups_Admin {
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_admin_groups' ),
-			GROUPS_PLUGIN_URL . '/images/groups.png',
+			'dashicons-itthinx-groups',
+			//GROUPS_PLUGIN_URL . '/images/groups.svg',
 			self::MENU_POSITION
 		);
 		$pages[] = $page;
