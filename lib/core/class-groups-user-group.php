@@ -144,10 +144,12 @@ class Groups_User_Group {
 		 * @param  bool $result  (false)
 		 * @param  int  $user_id
 		 * @param  int  $group_id
-		 * @return bool|int  boolean or group ID
+		 * @return bool|int  false or group object
 		 */
 		if ( $result = apply_filters( 'groups_user_is_member', $result, $user_id, $group_id ) ) {
-			return $result;
+			if ( is_object( $result ) ) {
+				return $result;
+			}
 		}
 
 		$user_group_table = _groups_get_tablename( 'user_group' );
