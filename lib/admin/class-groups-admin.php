@@ -258,7 +258,8 @@ class Groups_Admin {
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-network-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_network_admin_options' ),
-			GROUPS_PLUGIN_URL . '/images/groups.png'
+			'dashicons-itthinx-groups'
+			//GROUPS_PLUGIN_URL . '/images/groups.svg',
 		);
 		$pages[] = $page;
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
