@@ -286,9 +286,10 @@ class Groups_Access_Meta_Boxes {
 	 * @param mixed $post post data (not used here)
 	 */
 	public static function save_post( $post_id = null, $post = null ) {
-		// This is called multiple times and if a new post is created and a new group is requested,
+		// This is called multiple times and if a new post is created and a new group is requested*,
 		// we can end up without the new group being assigned to the post unless we duely check
 		// for revision and autosave:
+		// (* on the second call, the new group exists and it will bail out on "if ( !( $group = Groups_Group::read_by_name( $name ) ) ) { ...")
 		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) ) {
 		} else {
 			$post_type = get_post_type( $post_id );
