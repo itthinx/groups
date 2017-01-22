@@ -62,7 +62,7 @@ $groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS
 // admin
 if ( is_admin() ) {
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin.php' );
-	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-welcome.php' ); // @todo conditional
+	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-welcome.php' );
 	if ( Groups_Options::get_option( GROUPS_SHOW_IN_USER_PROFILE, GROUPS_SHOW_IN_USER_PROFILE_DEFAULT ) ) {
 		require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-user-profile.php' );
 	}
