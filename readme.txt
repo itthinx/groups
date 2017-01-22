@@ -3,7 +3,7 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.6
+Tested up to: 4.7.1
 Stable tag: 1.13.1
 License: GPLv3
 
@@ -45,9 +45,9 @@ The official documentation is located at the [Groups Documentation](http://docs.
 
 #### Access control ####
 
-Access to posts and pages can be restricted by group.
+Access to posts, pages and custom post types can be restricted by group.
 
-If access to a post is restricted to one or more groups, only users who belong to one of those groups may access the post.
+If access to a post is restricted to one or more groups, only users who belong to one of those groups may view the post.
 
 Fully supports custom post types, so that access to post types such as products or events can easily be restricted.
 
@@ -67,9 +67,10 @@ Fully supports custom post types, so that access to post types such as products 
 
 #### Sensible options ####
 
-- Administrator overrides can be turned off
-- Optional tree view for groups can be shown only when needed
+- Enable access restrictions by custom post type
+- An optional tree view for groups can be shown when desired
 - Provides its own set of permissions
+- Administrator overrides for tests
 - Cleans up after testing with a "delete all plugin data" option
 
 #### Framework ####
@@ -121,12 +122,17 @@ For questions directly related to Groups, you can leave a comment at the [Groups
 
 = How do I restrict access to a post? =
 
-Here's an example, you only need to do the first step once:
+Let's assume you want members of the *Premium* group to be able to view some restricted posts.
 
-1. Go to *Groups > Groups > New Group* to add a new group, let's name it *Premium*. Click the _Add_ button to create the new group.
-2. Now create an example post that only members of the *Premium* group should be able to read and choose the *Premium* group in the _Read_ field of the _Groups_ box.
+- If you want to create a new protected post, simply go to *Posts > Add New* as usual and in the _Groups_ box input *Premium* in the _Read_ field. Save or publish your post.
+- If you want to protect an existing post you can simply edit it, input *Premium* in the _Read_ field of the _Groups_ box and update the post.
 
-After you publish your post, only members of the *Premium* group will be able to see it.
+In both cases, it doesn't matter if the *Premium* group already exists or not, if it doesn't, it will be created automatically.
+
+If the *Premium* group already exists and you want to protect one or more existing posts in bulk, go to *Posts*, select all posts you want to protect and choose *Edit* in the *Bulk Actions* dropdown.
+Now click *Apply*, select the *Premium* group and click *Update*.
+
+After you publish or update your posts, only members of the *Premium* group will be able to see them.
 
 = I want Advanced and Premium members, where the Premium members can access everything that Advanced members can access. How can I do that? =
 
@@ -185,6 +191,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 = 2.0.0 =
 * Changed the access restriction model to group-based access restrictions.
+* Provides an optional legacy mode that supports the previous capability-based access restrictions.
 * Optimized the approach to restrict read access on posts using groups rather than access restriction capabilities.
 * Added the `groups_restrict_access` capability which grants users to impose access restrictions.
 * Fixed the order_by and order parameters in Groups_Group::get_groups()

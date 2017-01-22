@@ -111,6 +111,7 @@ class Groups_Controller {
 	/**
 	 * Initialize.
 	 * Loads the plugin's translations.
+	 * Invokes version check.
 	 */
 	public static function init() {
 		load_plugin_textdomain( GROUPS_PLUGIN_DOMAIN, null, 'groups/languages' );
@@ -131,6 +132,7 @@ class Groups_Controller {
 			}
 		} else {
 			self::setup();
+			set_transient( 'groups_plugin_activated', true, 60 );
 		}
 	}
 
@@ -232,16 +234,21 @@ class Groups_Controller {
 				if ( Groups_Options::get_option( GROUPS_LEGACY_ENABLE ) === null ) {
 					Groups_Options::update_option( GROUPS_LEGACY_ENABLE, true );
 				}
+				set_transient( 'groups_plugin_updated_legacy', true, 60 );
 			}
 		}
+
 		// disable legacy support on new installations
 		if ( Groups_Options::get_option( GROUPS_LEGACY_ENABLE ) === null ) {
 			Groups_Options::update_option( GROUPS_LEGACY_ENABLE, false );
 		}
+
 		// run update procedure if newer version is installed
 		if ( version_compare( $previous_version, $groups_version ) < 0 ) {
 			if ( self::update( $previous_version ) ) {
-				update_option( 'groups_plugin_version', $groups_version );
+				if ( update_option( 'groups_plugin_version', $groups_version ) ) {
+					set_transient( 'groups_plugin_updated', true, 60 );
+				}
 			} else {
 				$groups_admin_messages[] = '<div class="error">Updating Groups plugin core <em>failed</em>.</div>';
 			}

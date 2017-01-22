@@ -24,19 +24,30 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Renders the content of the Add-Ons section.
+ * Renders the heading and content container for the Add-Ons section.
  */
 function groups_admin_add_ons() {
-
 	echo '<div class="groups-admin-add-ons wrap">';
-
 	echo '<h1>';
 	echo __( 'Add-Ons', GROUPS_PLUGIN_DOMAIN );
 	echo '</h1>';
+	groups_admin_add_ons_content();
+	echo '</div>'; // .groups-admin-add-ons.wrap
+}
 
-	echo '<h2>';
+/**
+ * Renders the content of the Add-Ons section.
+ * 
+ * @param $params array of options (offset is 0 by default and used to adjust heading h2)
+ */
+function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
+
+	$d = intval( $params['offset'] );
+	$h2 = sprintf( 'h%d', 2+$d );
+
+	echo "<$h2>";
 	echo __( 'Recommended extensions for Groups', GROUPS_PLUGIN_DOMAIN );
-	echo '</h2>';
+	echo "</$h2>";
 
 	$entries = array(
 		'groups-file-access' => array(
@@ -142,9 +153,9 @@ function groups_admin_add_ons() {
 	}
 	echo '</ul>'; // .add-ons
 
-	echo '<h2>';
+	echo "<$h2>";
 	echo __( 'Recommended plugins by itthinx', GROUPS_PLUGIN_DOMAIN );
-	echo '</h2>';
+	echo "</$h2>";
 
 	$entries = array(
 		'affiliates-pro' => array(
@@ -179,8 +190,6 @@ function groups_admin_add_ons() {
 		echo '</li>'; // .add-on
 	}
 	echo '</ul>'; // .add-ons
-
-	echo '</div>'; // .groups-admin-add-ons
 }
 
 function groups_admin_add_ons_sort( $e1, $e2 ) {

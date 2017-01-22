@@ -8,6 +8,7 @@
 * Added the $create parameter in Groups_UIE::render_select()
 * Removed the "Chosen" library.
 * Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
+* Added a welcome screen.
 
 = 1.13.1 =
 * Fixed an issue where the wrong post count would be produced for statuses that do not represent a valid WooCommerce order status.

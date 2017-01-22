@@ -289,6 +289,9 @@ div.capability.edit label {
 	}
 }
 
+.groups-admin-add-ons {
+	margin: 10px 20px 0 2px;
+}
 .groups-admin-add-ons ul {
 	list-style: none;
 	display: block;
@@ -327,4 +330,60 @@ div.capability.edit label {
 	clear: both;
 	display: block;
 	color: #333;
+}
+
+.groups-welcome-panel {
+	position: relative;
+	overflow: auto;
+	margin: 1em;
+	padding: 1em;
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	background: #fff;
+	font-size: 13px;
+	line-height: 2.1em;
+}
+.groups-welcome-panel h2 {
+	margin: 1.62em 0 0 0;
+	font-size: 21px;
+	font-weight: 400;
+	line-height: 1.2;
+}
+.groups-welcome-panel h3 {
+	margin: 1.33em 0 0;
+	font-size: 16px;
+}
+.groups-welcome-panel li {
+	font-size: 14px;
+}
+.groups-welcome-panel p {
+	color: #72777c;
+}
+.groups-welcome-panel a {
+	text-decoration: none;
+}
+.groups-welcome-panel .headline {
+	font-size: 17px;
+	margin: 1em 0 1.62em 0;
+}
+
+.groups-welcome-panel-content {
+	margin-left: 13px;
+	max-width: 1500px;
+}
+.groups-welcome-icon {
+	float: right;
+	margin: 0 0.62em 0.62em 0.62em;
+}
+.groups-welcome-panel .important {
+	border: 1px solid #e5e5e5;
+	border-left: 2px solid #ffcc00;
+	padding: 1em;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+}
+.groups-welcome-panel .indent {
+	border: 1px solid #e5e5e5;
+	padding: 0 0.62em;
 }
