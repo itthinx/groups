@@ -280,13 +280,16 @@ class Groups_Access_Meta_Boxes {
 	}
 
 	/**
-	 * Save capability options.
+	 * Save the group access restriction.
 	 * 
 	 * @param int $post_id
 	 * @param mixed $post post data (not used here)
 	 */
 	public static function save_post( $post_id = null, $post = null ) {
-		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) {
+		// This is called multiple times and if a new post is created and a new group is requested,
+		// we can end up without the new group being assigned to the post unless we duely check
+		// for revision and autosave:
+		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) ) {
 		} else {
 			$post_type = get_post_type( $post_id );
 			$post_type_object = get_post_type_object( $post_type );
