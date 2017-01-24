@@ -198,6 +198,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Added the $create parameter in Groups_UIE::render_select()
 * Removed the "Chosen" library.
 * Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
+* Added the option to assign groups to new users directly when creating them from the Dashboard.
 
 == Upgrade Notice ==
 
