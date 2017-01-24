@@ -185,8 +185,7 @@ class Groups_Admin_Posts {
 
 		global $pagenow, $wpdb;
 
-		if ( $column_name == 'groups' ) {
-
+		if ( $column_name == self::GROUPS_READ ) {
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
 				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
@@ -195,7 +194,7 @@ class Groups_Admin_Posts {
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
 					$output = '<fieldset class="inline-edit-col-right">';
-					$output .= '<div class="bulk-edit-groups">';
+					$output .= '<div class="bulk-edit-groups" style="padding:0 0.5em;">';
 
 					// capability/access restriction bulk actions added through extra_tablenav()
 					$output .= '<div id="group-bulk-actions" class="groups-bulk-container" style="display:inline">';
