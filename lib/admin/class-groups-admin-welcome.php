@@ -160,9 +160,11 @@ class Groups_Admin_Welcome {
 		_e( 'Improved User Interface', 'groups' );
 		echo '</h3>';
 		echo '<p>';
+		_e( 'Now you can assign new users directly to groups when you create a new user account from the Dashboard.', 'groups' );
+		echo ' ';
 		_e( 'Another improvement is better filtering by groups and a reduced footprint on the Users admin screen.', 'groups' );
 		echo ' ';
-		_e( 'Now you can filter the list of users by one or multiple groups.', 'groups' );
+		_e( 'And you can now filter the list of users by one or multiple groups with one convenient select box.', 'groups' );
 		echo '</p>';
 
 		echo '<h3>';
