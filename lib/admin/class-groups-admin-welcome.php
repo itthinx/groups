@@ -164,7 +164,7 @@ class Groups_Admin_Welcome {
 		echo ' ';
 		_e( 'Another improvement is better filtering by groups and a reduced footprint on the Users admin screen.', 'groups' );
 		echo ' ';
-		_e( 'And you can now filter the list of users by one or multiple groups with one convenient select box.', 'groups' );
+		_e( 'And you can now filter the list of users by one or multiple groups with one convenient field.', 'groups' );
 		echo '</p>';
 
 		echo '<h3>';

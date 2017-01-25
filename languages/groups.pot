@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2017-01-24 20:35+0100\n"
+        "POT-Creation-Date: 2017-01-25 00:14+0100\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,7 +192,7 @@ msgstr  ""
 
 #: lib/admin/class-groups-admin-welcome.php:167
 msgid   "And you can now filter the list of users by one or multiple groups "
-        "with one convenient select box."
+        "with one convenient field."
 msgstr  ""
 
 #: lib/admin/class-groups-admin-welcome.php:165
