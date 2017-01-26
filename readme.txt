@@ -3,8 +3,8 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.7.1
-Stable tag: 1.13.1
+Tested up to: 4.7.2
+Stable tag: 2.0.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -198,6 +198,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Added the $create parameter in Groups_UIE::render_select()
 * Removed the "Chosen" library.
 * Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
+* Added a welcome screen.
 * Added the option to assign groups to new users directly when creating them from the Dashboard.
 
 == Upgrade Notice ==
