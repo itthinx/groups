@@ -194,13 +194,9 @@ class Groups_Admin_Welcome {
 			echo ' ';
 			_e( 'This means that if you had access restrictions in place that were based on capabilities, your entries will still be protected.', 'groups' );
 		} else {
-			echo '<strong>';
 			_e( 'You are running the system with legacy access control based on capabilities disabled.', 'groups' );
-			echo '</strong>';
 			echo ' ';
-			echo '<strong>';
 			_e( 'This could be important!', 'groups' );
-			echo '</strong>';
 			echo ' ';
 			_e( 'If you had any access restrictions in place based on capabilities, the entries will now be unprotected, unless you enable legacy access restrictions or place appropriate access restrictions based on groups on the desired entries.', 'groups' );
 		}
