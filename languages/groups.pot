@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2017-01-26 20:55+0100\n"
+        "POT-Creation-Date: 2017-01-26 20:57+0100\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -464,7 +464,6 @@ msgstr  ""
 msgid   "Group Name : %s"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:98
 #: lib/access/class-groups-access-meta-boxes.php:112
 #: lib/access/class-groups-access-meta-boxes.php:115
 #: lib/access/class-groups-access-meta-boxes.php:463
@@ -481,6 +480,11 @@ msgstr  ""
 
 #: lib/admin/class-groups-admin-post-columns.php:93
 msgctxt "Column header"
+msgid   "Groups"
+msgstr  ""
+
+#: lib/access/class-groups-access-meta-boxes.php:98
+msgctxt "Meta box title"
 msgid   "Groups"
 msgstr  ""
 

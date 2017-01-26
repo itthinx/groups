@@ -95,7 +95,7 @@ class Groups_Access_Meta_Boxes {
 
 					add_meta_box(
 						'groups-permissions',
-						__( 'Groups', GROUPS_PLUGIN_DOMAIN ),
+						_x( 'Groups', 'Meta box title', GROUPS_PLUGIN_DOMAIN ),
 						array( __CLASS__, 'groups' ),
 						null,
 						'side',

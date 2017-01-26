@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-26 20:56+0100\n"
-"PO-Revision-Date: 2017-01-26 20:56+0100\n"
+"POT-Creation-Date: 2017-01-26 20:57+0100\n"
+"PO-Revision-Date: 2017-01-26 20:58+0100\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: es_ES\n"
@@ -525,7 +525,6 @@ msgstr "Nombre del Grupo"
 msgid "Group Name : %s"
 msgstr "Nombre del Grupo : %s"
 
-#: lib/access/class-groups-access-meta-boxes.php:98
 #: lib/access/class-groups-access-meta-boxes.php:112
 #: lib/access/class-groups-access-meta-boxes.php:115
 #: lib/access/class-groups-access-meta-boxes.php:463
@@ -542,6 +541,11 @@ msgstr "Groups"
 
 #: lib/admin/class-groups-admin-post-columns.php:93
 msgctxt "Column header"
+msgid "Groups"
+msgstr "Grupos"
+
+#: lib/access/class-groups-access-meta-boxes.php:98
+msgctxt "Meta box title"
 msgid "Groups"
 msgstr "Grupos"
 
