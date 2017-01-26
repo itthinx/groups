@@ -25,6 +25,8 @@
  * Author: itthinx
  * Author URI: http://www.itthinx.com
  * Donate-Link: http://www.itthinx.com
+ * Text Domain: groups
+ * Domain Path: /languages
  * License: GPLv3
  */
 if ( !defined( 'ABSPATH' ) ) {

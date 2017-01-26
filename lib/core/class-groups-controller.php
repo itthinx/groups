@@ -114,7 +114,13 @@ class Groups_Controller {
 	 * Invokes version check.
 	 */
 	public static function init() {
-		load_plugin_textdomain( GROUPS_PLUGIN_DOMAIN, null, 'groups/languages' );
+		// Load our current translations first ...
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'groups' );
+		$mofile = GROUPS_CORE_DIR . '/languages/groups-' . $locale . '.mo';
+		load_textdomain( 'groups', $mofile );
+		// ... otherwise load_plugin_textdomain will simply get those in WP's languages
+		// and we won't have our up-to-date translations.
+		load_plugin_textdomain( 'groups', null, 'groups/languages' );
 		self::version_check();
 	}
 
