@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-25 00:14+0100\n"
-"PO-Revision-Date: 2017-01-25 17:31+0100\n"
+"POT-Creation-Date: 2017-01-26 20:56+0100\n"
+"PO-Revision-Date: 2017-01-26 20:56+0100\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: de_DE\n"
@@ -163,7 +163,7 @@ msgstr "Beschränkung hinzufügen"
 msgid "Add to group"
 msgstr "Zur Gruppe hinzufügen"
 
-#: lib/admin/class-groups-admin-welcome.php:218
+#: lib/admin/class-groups-admin-welcome.php:214
 #: lib/admin/class-groups-admin.php:221 lib/admin/groups-admin-add-ons.php:32
 msgid "Add-Ons"
 msgstr "Add-Ons"
@@ -538,7 +538,6 @@ msgstr "Gruppenname : %s"
 #: lib/access/class-groups-access-meta-boxes.php:112
 #: lib/access/class-groups-access-meta-boxes.php:115
 #: lib/access/class-groups-access-meta-boxes.php:463
-#: lib/admin/class-groups-admin-post-columns.php:93
 #: lib/admin/class-groups-admin-posts.php:204
 #: lib/admin/class-groups-admin-user-profile.php:72
 #: lib/admin/class-groups-admin-user-profile.php:133
@@ -549,6 +548,11 @@ msgstr "Gruppenname : %s"
 #: lib/core/class-groups-help.php:68 lib/core/class-groups-help.php:69
 msgid "Groups"
 msgstr "Groups"
+
+#: lib/admin/class-groups-admin-post-columns.php:93
+msgctxt "Column header"
+msgid "Groups"
+msgstr "Gruppen"
 
 #: lib/admin/class-groups-admin.php:140
 msgctxt "menu item title"
@@ -607,7 +611,7 @@ msgstr ""
 msgid "ID"
 msgstr "ID"
 
-#: lib/admin/class-groups-admin-welcome.php:205
+#: lib/admin/class-groups-admin-welcome.php:201
 msgid ""
 "If you had any access restrictions in place based on capabilities, the "
 "entries will now be unprotected, unless you enable legacy access "
@@ -624,7 +628,7 @@ msgstr ""
 "Sollten Sie sich selbst ausschließen, so fragen Sie bitte einen Verwalter "
 "nach Hilfe."
 
-#: lib/admin/class-groups-admin-welcome.php:209
+#: lib/admin/class-groups-admin-welcome.php:205
 msgid ""
 "If you would like to switch to access restrictions based on groups "
 "(recommended) instead of capabilities, you can easily do so by setting the "
@@ -808,7 +812,7 @@ msgstr ""
 "oder Evente einfach schützen, indem man diese einer oder mehreren Gruppen "
 "zuweist."
 
-#: lib/admin/class-groups-admin-welcome.php:211
+#: lib/admin/class-groups-admin-welcome.php:207
 msgid ""
 "Once you have adjusted your access restrictions based on groups, you can "
 "disable legacy access control."
@@ -855,7 +859,7 @@ msgstr "Optionen gespeichert."
 msgid "Parent"
 msgstr "Vorläufer"
 
-#: lib/admin/class-groups-admin-welcome.php:221
+#: lib/admin/class-groups-admin-welcome.php:217
 msgid "Perfect complements to memberships and access control with Groups."
 msgstr ""
 "Perfekte Ergänzungen für Mitgliedschaften und Zugangskontrolle mit Groups."
@@ -897,7 +901,7 @@ msgstr ""
 "Bitte beachte die Hinweise unten bezüglich <strong>Umstellen auf Groups %s</"
 "strong>."
 
-#: lib/admin/class-groups-admin-welcome.php:213
+#: lib/admin/class-groups-admin-welcome.php:209
 msgid ""
 "Please refer to the <a target=\"_blank\" href=\"http://docs.itthinx.com/"
 "document/groups/\">Documentation</a> for details on how to switch to and use "
@@ -1196,7 +1200,7 @@ msgstr ""
 "Diese Berechtigungen dienen der Verwaltung von Groups. Sie finden keine "
 "Anwendung bei Berechtigungen die von Groups Kapazitäten abgeleitet werden."
 
-#: lib/admin/class-groups-admin-welcome.php:202
+#: lib/admin/class-groups-admin-welcome.php:199
 msgid "This could be important!"
 msgstr "Dies könnte wichtig sein!"
 
@@ -1358,7 +1362,7 @@ msgstr ""
 msgid "You are a member of the %s group."
 msgstr "Sie sind Mitglied der Gruppe %s."
 
-#: lib/admin/class-groups-admin-welcome.php:198
+#: lib/admin/class-groups-admin-welcome.php:197
 msgid ""
 "You are running the system with legacy access control based on capabilities "
 "disabled."
