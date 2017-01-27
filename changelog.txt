@@ -11,6 +11,8 @@
 * Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
 * Added a welcome screen.
 * Added the option to assign groups to new users directly when creating them from the Dashboard.
+* Changed the language domain to string literal instead of constant.
+* Improvements on internal coding standards (single/double quotes, EOF, formatting).
 
 = 1.13.1 =
 * Fixed an issue where the wrong post count would be produced for statuses that do not represent a valid WooCommerce order status.

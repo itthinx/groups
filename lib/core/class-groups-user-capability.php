@@ -38,7 +38,7 @@ class Groups_User_Capability {
 
 		// when a user is deleted, user-capabilities must be removed
 		// triggered by wp_delete_user()
-		add_action( "deleted_user", array( __CLASS__, "deleted_user" ) );
+		add_action( 'deleted_user', array( __CLASS__, 'deleted_user' ) );
 		// when a capability is deleted the relationship must also be resolved
 		add_action( 'groups_deleted_capability', array( __CLASS__, 'groups_deleted_capability' ) );
 	}
@@ -59,7 +59,7 @@ class Groups_User_Capability {
 //		if ( !empty( $user_id ) && !empty( $capability_id) ) {
 		if ( !empty( $capability_id) ) {
 			// make sure user and capability exist
-			if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( "id", $user_id ) && Groups_Capability::read( $capability_id ) ) {
+			if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Capability::read( $capability_id ) ) {
 				$user_capability_table = _groups_get_tablename( 'user_capability' );
 				// don't try to create duplicate entries
 				// also it would raise an error for duplicate PK
@@ -75,7 +75,7 @@ class Groups_User_Capability {
 					$formats = array( '%d', '%d' );
 					if ( $wpdb->insert( $user_capability_table, $data, $formats ) ) {
 						$result = true;
-						do_action( "groups_created_user_capability", $user_id, $capability_id );
+						do_action( 'groups_created_user_capability', $user_id, $capability_id );
 					}
 				}
 			}
@@ -120,9 +120,9 @@ class Groups_User_Capability {
 //		if ( !empty( $user_id ) && !empty( $capability_id) ) {
 		if ( !empty( $capability_id) ) {
 			// make sure user and capability exist
-			if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( "id", $user_id ) && Groups_Capability::read( $capability_id ) ) {
+			if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Capability::read( $capability_id ) ) {
 				$result = true;
-				do_action( "groups_updated_user_capability", $user_id, $capability_id );
+				do_action( 'groups_updated_user_capability', $user_id, $capability_id );
 			}
 		}
 		return $result;
@@ -155,7 +155,7 @@ class Groups_User_Capability {
 			// must have affected a row, otherwise no great success
 			$result = ( $rows !== false ) && ( $rows > 0 );
 			if ( $result ) {
-				do_action( "groups_deleted_user_capability", $user_id, $capability_id );
+				do_action( 'groups_deleted_user_capability', $user_id, $capability_id );
 			}
 		}
 		return $result;
@@ -170,7 +170,7 @@ class Groups_User_Capability {
 	public static function deleted_user( $user_id ) {
 		global $wpdb;
 
-		$user_capability_table = _groups_get_tablename( "user_capability" );
+		$user_capability_table = _groups_get_tablename( 'user_capability' );
 		$rows = $wpdb->get_results( $wpdb->prepare(
 			"SELECT * FROM $user_capability_table WHERE user_id = %d",
 			Groups_Utility::id( $user_id )
@@ -192,7 +192,7 @@ class Groups_User_Capability {
 	public static function groups_deleted_capability( $capability_id ) {
 		global $wpdb;
 
-		$user_capability_table = _groups_get_tablename( "user_capability" );
+		$user_capability_table = _groups_get_tablename( 'user_capability' );
 		$rows = $wpdb->get_results( $wpdb->prepare(
 			"SELECT * FROM $user_capability_table WHERE capability_id = %d",
 			Groups_Utility::id( $capability_id )

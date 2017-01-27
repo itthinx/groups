@@ -61,7 +61,7 @@ function groups_admin_options_legacy() {
 		__( 'Include these capabilities to enforce read access on posts. The selected capabilities will be offered to restrict access to posts.', 'groups' ) .
 		'</p>';
 
-	$capability_table = _groups_get_tablename( "capability" );
+	$capability_table = _groups_get_tablename( 'capability' );
 	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
 	$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 	echo '<div class="select-capability-container" style="width:62%;">';

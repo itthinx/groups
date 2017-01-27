@@ -200,6 +200,8 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
 * Added a welcome screen.
 * Added the option to assign groups to new users directly when creating them from the Dashboard.
+* Changed the language domain to string literal instead of constant.
+* Improvements on internal coding standards (single/double quotes, EOF, formatting).
 
 == Upgrade Notice ==
 

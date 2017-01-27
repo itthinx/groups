@@ -51,12 +51,12 @@ class Groups_Access_Shortcodes {
 	 * @param string $content content to render
 	 */
 	public static function groups_member( $atts, $content = null ) {
-		$output = "";
-		$options = shortcode_atts( array( "group" => "" ), $atts );
+		$output = '';
+		$options = shortcode_atts( array( 'group' => '' ), $atts );
 		$show_content = false;
 		if ( $content !== null ) {
 			$groups_user = new Groups_User( get_current_user_id() );
-			$groups = explode( ",", $options['group'] );
+			$groups = explode( ',', $options['group'] );
 			foreach ( $groups as $group ) {
 				$group = trim( $group );
 				$current_group = Groups_Group::read( $group );
@@ -89,12 +89,12 @@ class Groups_Access_Shortcodes {
 	 * @param string $content content to render
 	 */
 	public static function groups_non_member( $atts, $content = null ) {
-		$output = "";
-		$options = shortcode_atts( array( "group" => "" ), $atts );
+		$output = '';
+		$options = shortcode_atts( array( 'group' => '' ), $atts );
 		$show_content = true;
 		if ( $content !== null ) {
 			$groups_user = new Groups_User( get_current_user_id() );
-			$groups = explode( ",", $options['group'] );
+			$groups = explode( ',', $options['group'] );
 			foreach ( $groups as $group ) {
 				$group = trim( $group );
 				$current_group = Groups_Group::read( $group );
@@ -127,8 +127,8 @@ class Groups_Access_Shortcodes {
 	 * @param string $content content to render
 	 */
 	public static function groups_can( $atts, $content = null ) {
-		$output = "";
-		$options = shortcode_atts( array( "capability" => "" ), $atts );
+		$output = '';
+		$options = shortcode_atts( array( 'capability' => '' ), $atts );
 		if ( $content !== null ) {
 			$groups_user = new Groups_User( get_current_user_id() );
 			$capability = $options['capability'];
@@ -159,8 +159,8 @@ class Groups_Access_Shortcodes {
 	 * @param string $content content to render
 	 */
 	public static function groups_can_not( $atts, $content = null ) {
-		$output = "";
-		$options = shortcode_atts( array( "capability" => "" ), $atts );
+		$output = '';
+		$options = shortcode_atts( array( 'capability' => '' ), $atts );
 		if ( $content !== null ) {
 			$groups_user = new Groups_User( get_current_user_id() );
 			$capability = $options['capability'];

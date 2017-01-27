@@ -23,8 +23,8 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once( GROUPS_CORE_LIB . "/interface-i-capable.php" );
-require_once( GROUPS_CORE_LIB . "/class-groups-capability.php" );
+require_once( GROUPS_CORE_LIB . '/interface-i-capable.php' );
+require_once( GROUPS_CORE_LIB . '/class-groups-capability.php' );
 
 /**
  * User OPM.
@@ -87,7 +87,7 @@ class Groups_User implements I_Capable {
 		global $wpdb;
 		if ( $group = Groups_Group::read( $group_id ) ) {
 			// not using $group->users, as we don't need a lot of user objects created here
-			$user_group_table = _groups_get_tablename( "user_group" );
+			$user_group_table = _groups_get_tablename( 'user_group' );
 			$users = $wpdb->get_results( $wpdb->prepare(
 				"SELECT ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
 				Groups_Utility::id( $group_id )
@@ -107,7 +107,7 @@ class Groups_User implements I_Capable {
 	 */
 	public function __construct( $user_id ) {
 		if ( Groups_Utility::id( $user_id ) ) {
-			$this->user = get_user_by( "id", $user_id );
+			$this->user = get_user_by( 'id', $user_id );
 		} else {
 			$this->user = new WP_User( 0 );
 		}
@@ -133,7 +133,7 @@ class Groups_User implements I_Capable {
 						$result = $cached->value;
 						unset( $cached );
 					} else {
-						$user_capability_table = _groups_get_tablename( "user_capability" );
+						$user_capability_table = _groups_get_tablename( 'user_capability' );
 						$rows = $wpdb->get_results( $wpdb->prepare(
 							"SELECT capability_id FROM $user_capability_table WHERE user_id = %d",
 							Groups_Utility::id( $this->user->ID )
@@ -167,7 +167,7 @@ class Groups_User implements I_Capable {
 						$result = $cached->value;
 						unset( $cached );
 					} else {
-						$user_group_table = _groups_get_tablename( "user_group" );
+						$user_group_table = _groups_get_tablename( 'user_group' );
 						$rows = $wpdb->get_results( $wpdb->prepare(
 							"SELECT group_id FROM $user_group_table WHERE user_id = %d",
 							Groups_Utility::id( $this->user->ID )
@@ -201,7 +201,7 @@ class Groups_User implements I_Capable {
 						$result = $cached->value;
 						unset( $cached );
 					} else {
-						$user_capability_table = _groups_get_tablename( "user_capability" );
+						$user_capability_table = _groups_get_tablename( 'user_capability' );
 						$rows = $wpdb->get_results( $wpdb->prepare(
 							"SELECT capability_id FROM $user_capability_table WHERE user_id = %d",
 							Groups_Utility::id( $this->user->ID )
@@ -235,7 +235,7 @@ class Groups_User implements I_Capable {
 						$result = $cached->value;
 						unset( $cached );
 					} else {
-						$user_group_table = _groups_get_tablename( "user_group" );
+						$user_group_table = _groups_get_tablename( 'user_group' );
 						$rows = $wpdb->get_results( $wpdb->prepare(
 							"SELECT group_id FROM $user_group_table WHERE user_id = %d",
 							Groups_Utility::id( $this->user->ID )
@@ -354,11 +354,11 @@ class Groups_User implements I_Capable {
 		$group_ids      = array();
 
 		if ( ( $this->user !== null ) && ( Groups_Cache::get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP ) === null ) ) {
-			$group_table            = _groups_get_tablename( "group" );
-			$capability_table       = _groups_get_tablename( "capability" );
-			$group_capability_table = _groups_get_tablename( "group_capability" );
-			$user_group_table       = _groups_get_tablename( "user_group" );
-			$user_capability_table  = _groups_get_tablename( "user_capability" );
+			$group_table            = _groups_get_tablename( 'group' );
+			$capability_table       = _groups_get_tablename( 'capability' );
+			$group_capability_table = _groups_get_tablename( 'group_capability' );
+			$user_group_table       = _groups_get_tablename( 'user_group' );
+			$user_capability_table  = _groups_get_tablename( 'user_capability' );
 
 			$limit = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
 			if ( $limit === null ) {
@@ -420,7 +420,7 @@ class Groups_User implements I_Capable {
 					while( ( $iterations < $limit ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
 						$iterations++;
 						$old_group_ids_count = count( $group_ids );
-						$id_list = implode( ",", $group_ids );
+						$id_list = implode( ',', $group_ids );
 						$parent_group_ids = $wpdb->get_results(
 							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)"
 						);
@@ -433,7 +433,7 @@ class Groups_User implements I_Capable {
 							}
 						}
 					}
-					$id_list = implode( ",", $group_ids );
+					$id_list = implode( ',', $group_ids );
 					$rows = $wpdb->get_results(
 						"SELECT $group_capability_table.capability_id, $capability_table.capability FROM $group_capability_table LEFT JOIN $capability_table ON $group_capability_table.capability_id = $capability_table.capability_id WHERE group_id IN ($id_list)"
 					);

@@ -53,8 +53,8 @@ class Groups_Access_Meta_Boxes_Legacy {
 		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
 
-			add_action( 'add_meta_boxes', array( __CLASS__, "add_meta_boxes" ), 10, 2 );
-			add_action( 'save_post', array( __CLASS__, "save_post" ), 10, 2 );
+			add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ), 10, 2 );
+			add_action( 'save_post', array( __CLASS__, 'save_post' ), 10, 2 );
 			add_filter( 'wp_insert_post_empty_content', array( __CLASS__, 'wp_insert_post_empty_content' ), 10, 2 );
 
 			add_filter( 'attachment_fields_to_edit', array( __CLASS__, 'attachment_fields_to_edit' ), 10, 2 );
@@ -93,22 +93,22 @@ class Groups_Access_Meta_Boxes_Legacy {
 					$post_types = get_post_types();
 					foreach ( $post_types as $post_type ) {
 						add_meta_box(
-							"groups-access",
+							'groups-access',
 							__( "Access restrictions", 'groups' ),
-							array( __CLASS__, "capability" ),
+							array( __CLASS__, 'capability' ),
 							$post_type,
-							"side",
-							"high"
+							'side',
+							'high'
 						);
 					}
 				} else {
 					add_meta_box(
-						"groups-access",
-						__( "Access restrictions", 'groups' ),
-						array( __CLASS__, "capability" ),
+						'groups-access',
+						__( 'Access restrictions', 'groups' ),
+						array( __CLASS__, 'capability' ),
 						null,
-						"side",
-						"high"
+						'side',
+						'high'
 					);
 				}
 
@@ -180,13 +180,13 @@ class Groups_Access_Meta_Boxes_Legacy {
 	 */
 	public static function capability( $object = null, $box = null ) {
 
-		$output = "";
+		$output = '';
 
 		$show_groups = Groups_Options::get_user_option( self::SHOW_GROUPS, true );
 
 		$post_id = isset( $object->ID ) ? $object->ID : null;
 		$post_type = isset( $object->post_type ) ? $object->post_type : null;
-		$post_singular_name = __( "Post", 'groups' );
+		$post_singular_name = __( 'Post', 'groups' );
 		if ( $post_type !== null ) {
 			$post_type_object = get_post_type_object( $post_type );
 			$labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
@@ -201,7 +201,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 
 		if ( self::user_can_restrict() ) {
 			$user = new Groups_User( get_current_user_id() );
-			$output .= __( "Enforce read access", 'groups' );
+			$output .= __( 'Enforce read access', 'groups' );
 
 			$read_caps = get_post_meta( $post_id, Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
 			$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
@@ -360,7 +360,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	 * @param mixed $post post data (not used here)
 	 */
 	public static function save_post( $post_id = null, $post = null ) {
-		if ( ( defined( "DOING_AUTOSAVE" ) && DOING_AUTOSAVE ) ) {
+		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) {
 		} else {
 			$post_type = get_post_type( $post_id );
 			$post_type_object = get_post_type_object( $post_type );
@@ -368,7 +368,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_CAPABILITY ) ) {
-						$post_type = isset( $_POST["post_type"] ) ? $_POST["post_type"] : null;
+						$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
 						if ( $post_type !== null ) {
 							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
 							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."

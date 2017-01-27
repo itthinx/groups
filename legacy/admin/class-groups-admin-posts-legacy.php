@@ -28,7 +28,7 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Admin_Posts_Legacy {
 
-	const NOT_RESTRICTED = "#not-restricted#";
+	const NOT_RESTRICTED = '#not-restricted#';
 
 	/**
 	 * Sets up an admin_init hook where our actions and filters are added.

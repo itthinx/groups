@@ -102,7 +102,7 @@ class Groups_Pagination {
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
 
 		// needs to remove rewritten added page
-		$current_url = preg_replace( "/\/page\/\d+/", "", $current_url );
+		$current_url = preg_replace( '/\/page\/\d+/', '', $current_url );
 
 		$page_links = array();
 
@@ -112,14 +112,14 @@ class Groups_Pagination {
 		if ( $current == $total_pages )
 			$disable_last = ' disabled';
 
-		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
+		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'first-page' . $disable_first,
 			esc_attr__( 'Go to the first page' ),
 			esc_url( remove_query_arg( 'paged', $current_url ) ),
 			'&laquo;'
 		);
 
-		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
+		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'prev-page' . $disable_first,
 			esc_attr__( 'Go to the previous page' ),
 			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
@@ -129,24 +129,24 @@ class Groups_Pagination {
 		if ( 'bottom' == $which )
 			$html_current_page = $current;
 		else
-			$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='%s' value='%s' size='%d' />",
+			$html_current_page = sprintf( '<input class="current-page" title="%s" type="text" name="%s" value="%s" size="%d" />',
 				esc_attr__( 'Current page' ),
 				esc_attr( 'paged' ),
 				$current,
 				strlen( $total_pages )
 			);
 
-		$html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
+		$html_total_pages = sprintf( '<span class="total-pages">%s</span>', number_format_i18n( $total_pages ) );
 		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
 
-		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
+		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'next-page' . $disable_last,
 			esc_attr__( 'Go to the next page' ),
 			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
 			'&rsaquo;'
 		);
 
-		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
+		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'last-page' . $disable_last,
 			esc_attr__( 'Go to the last page' ),
 			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
