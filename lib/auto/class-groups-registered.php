@@ -70,7 +70,7 @@ class Groups_Registered {
 	public static function init() {
 
 		// For translation of the "Registered" group(s)
-		__( 'Registered', GROUPS_PLUGIN_DOMAIN );
+		__( 'Registered', 'groups' );
 		 
 		// When a blog is added, create a new "Registered" group for that blog.
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 10, 2 );

@@ -133,8 +133,8 @@ class Groups_Admin_Posts {
 					$output .= sprintf(
 						'<select class="select group" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ ),
-						esc_attr( __( 'Groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-						esc_attr( __( 'Groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+						esc_attr( __( 'Groups &hellip;', 'groups' ) ) ,
+						esc_attr( __( 'Groups &hellip;', 'groups' ) )
 					);
 
 					$previous_selected = array();
@@ -145,7 +145,7 @@ class Groups_Admin_Posts {
 						}
 					}
 					$selected = in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '';
-					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr( __( '(only unrestricted)', GROUPS_PLUGIN_DOMAIN ) ) );
+					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr( __( '(only unrestricted)', 'groups' ) ) );
 
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
 					foreach( $groups as $group ) {
@@ -162,9 +162,9 @@ class Groups_Admin_Posts {
 						method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
 						method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0, the method isn't used here but it wouldn't make any sense to query unless we're >= 2.0.0
 					) {
-						$output .= sprintf( '<label class="groups-read-terms" title="%s">', esc_attr( __( 'Also look for groups related to terms', GROUPS_PLUGIN_DOMAIN ) ) );
+						$output .= sprintf( '<label class="groups-read-terms" title="%s">', esc_attr( __( 'Also look for groups related to terms', 'groups' ) ) );
 						$output .= sprintf( '<input type="checkbox" name="groups-read-terms" value="1" %s />', empty( $_GET['groups-read-terms'] ) ? '' : ' checked="checked" ' );
-						$output .= __( 'Terms', GROUPS_PLUGIN_DOMAIN );
+						$output .= __( 'Terms', 'groups' );
 						$output .= '</label>';
 					}
 					echo $output;
@@ -201,12 +201,12 @@ class Groups_Admin_Posts {
 
 					$output .= '<label style="display:inline;">';
 					$output .= '<span class="title">';
-					$output .= __( 'Groups', GROUPS_PLUGIN_DOMAIN );
+					$output .= __( 'Groups', 'groups' );
 					$output .= '</span>';
 					$output .= '<select class="groups-action" name="groups-action">';
-					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-					$output .= '<option value="add-group">' . __( 'Add restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-					$output .= '<option value="remove-group">' . __( 'Remove restriction', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', 'groups' ) . '</option>';
+					$output .= '<option value="add-group">' . __( 'Add restriction', 'groups' ) . '</option>';
+					$output .= '<option value="remove-group">' . __( 'Remove restriction', 'groups' ) . '</option>';
 					$output .= '</select>';
 					$output .= '</label>';
 
@@ -218,8 +218,8 @@ class Groups_Admin_Posts {
 					$output .= sprintf(
 						'<select class="select bulk-group" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ ),
-						esc_attr( __( 'Choose access restriction groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-						esc_attr( __( 'Choose access restriction groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+						esc_attr( __( 'Choose access restriction groups &hellip;', 'groups' ) ) ,
+						esc_attr( __( 'Choose access restriction groups &hellip;', 'groups' ) )
 					);
 
 					foreach( $groups as $group ) {

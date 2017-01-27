@@ -55,10 +55,10 @@ function groups_admin_options_legacy() {
 	//
 	// render legacy settings
 	//
-	echo '<h3>' . __( 'Capabilities', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
+	echo '<h3>' . __( 'Capabilities', 'groups' ) . '</h3>';
 
 	echo '<p class="description">' .
-		__( 'Include these capabilities to enforce read access on posts. The selected capabilities will be offered to restrict access to posts.', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'Include these capabilities to enforce read access on posts. The selected capabilities will be offered to restrict access to posts.', 'groups' ) .
 		'</p>';
 
 	$capability_table = _groups_get_tablename( "capability" );

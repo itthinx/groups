@@ -95,7 +95,7 @@ class Groups_Access_Meta_Boxes {
 
 					add_meta_box(
 						'groups-permissions',
-						_x( 'Groups', 'Meta box title', GROUPS_PLUGIN_DOMAIN ),
+						_x( 'Groups', 'Meta box title', 'groups' ),
 						array( __CLASS__, 'groups' ),
 						null,
 						'side',
@@ -109,31 +109,31 @@ class Groups_Access_Meta_Boxes {
 						// help tab for group-based access restrictions
 						$screen->add_help_tab( array(
 							'id'      => 'groups-access',
-							'title'   => __( 'Groups', GROUPS_PLUGIN_DOMAIN ),
+							'title'   => __( 'Groups', 'groups' ),
 							'content' =>
 								'<p>' .
-								'<strong>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</strong>' .
+								'<strong>' . __( 'Groups', 'groups' ) . '</strong>' .
 								'</p>' .
 								'<p>' .
-								__( 'Use the <em>Groups</em> box to limit the visibility of posts, pages and other post types.', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'Use the <em>Groups</em> box to limit the visibility of posts, pages and other post types.', 'groups' ) .
 								'</p>' .
 								'<p>' .
-								__( 'You can select one or more groups to restrict access to its members.', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'You can select one or more groups to restrict access to its members.', 'groups' ) .
 								' ' .
-								__( 'Note that you must be a member of a group to use it to restrict access.', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'Note that you must be a member of a group to use it to restrict access.', 'groups' ) .
 								'</p>' .
 								'<p>' .
-								'<strong>' . __( 'Example:', GROUPS_PLUGIN_DOMAIN ) . '</strong>' . 
+								'<strong>' . __( 'Example:', 'groups' ) . '</strong>' . 
 								'</p>' .
-								__( 'Let\'s assume that you want to limit the visibility of a post to members of the <em>Premium</em> group.', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'Let\'s assume that you want to limit the visibility of a post to members of the <em>Premium</em> group.', 'groups' ) .
 								'<p>' .
 								' ' .
 								'</p>' .
-								__( 'Choose or enter <em>Premium</em> in the <em>Read</em> field located in the <em>Groups</em> box and save or update the post (or hit Enter).', GROUPS_PLUGIN_DOMAIN ) .
+								__( 'Choose or enter <em>Premium</em> in the <em>Read</em> field located in the <em>Groups</em> box and save or update the post (or hit Enter).', 'groups' ) .
 								'<p>' .
 								( current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
 									'<p>' .
-									__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it. You will not be able to restrict access if the group already exists but you do not belong to it.', GROUPS_PLUGIN_DOMAIN ) .
+									__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it. You will not be able to restrict access if the group already exists but you do not belong to it.', 'groups' ) .
 									'</p>'
 									:
 									''
@@ -159,7 +159,7 @@ class Groups_Access_Meta_Boxes {
 
 		$post_id   = isset( $object->ID ) ? $object->ID : null;
 		$post_type = isset( $object->post_type ) ? $object->post_type : null;
-		$post_singular_name = __( 'Post', GROUPS_PLUGIN_DOMAIN );
+		$post_singular_name = __( 'Post', 'groups' );
 		if ( $post_type !== null ) {
 			$post_type_object = get_post_type_object( $post_type );
 			$labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
@@ -184,27 +184,27 @@ class Groups_Access_Meta_Boxes {
 			$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
 
 			$read_help = sprintf(
-				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', GROUPS_PLUGIN_DOMAIN ),
+				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', 'groups' ),
 				$post_singular_name,
 				$post_singular_name,
 				$post_singular_name
 			);
 			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-				$read_help .= ' ' . __( 'You can create a new group by indicating the group\'s name.', GROUPS_PLUGIN_DOMAIN );
+				$read_help .= ' ' . __( 'You can create a new group by indicating the group\'s name.', 'groups' );
 			}
 
 			$output .= sprintf(
 				'<label title="%s">',
 				esc_attr( $read_help )
 			);
-			$output .= __( 'Read', GROUPS_PLUGIN_DOMAIN );
+			$output .= __( 'Read', 'groups' );
 			$output .= ' ';
 
 			$output .= sprintf(
 				'<select class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
 				self::GROUPS_READ . '[]',
-				esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
-				esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
+				esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
+				esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
 				esc_attr( $read_help )
 			);
 			$output .= '<option value=""></option>';
@@ -223,20 +223,20 @@ class Groups_Access_Meta_Boxes {
 			);
 			$output .= '<p class="description">';
 			$output .= sprintf(
-				__( 'Restricts the visibility of this %s to members of the chosen groups.', GROUPS_PLUGIN_DOMAIN ),
+				__( 'Restricts the visibility of this %s to members of the chosen groups.', 'groups' ),
 				$post_singular_name
 			);
 			$output .= '</p>';
 
 		} else {
 			$output .= '<p class="description">';
-			$output .= sprintf( __( 'You cannot set any access restrictions.', GROUPS_PLUGIN_DOMAIN ), $post_singular_name );
+			$output .= sprintf( __( 'You cannot set any access restrictions.', 'groups' ), $post_singular_name );
 			$style = 'cursor:help;vertical-align:middle;';
 			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 				$style = 'cursor:pointer;vertical-align:middle;';
 				$output .= sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=groups-admin-options' ) ) );
 			}
-			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You need to have permission to set access restrictions.', GROUPS_PLUGIN_DOMAIN ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
+			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You need to have permission to set access restrictions.', 'groups' ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
 			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 				$output .= '</a>';
 			}
@@ -406,9 +406,9 @@ class Groups_Access_Meta_Boxes {
 				$groups_read = get_post_meta( $post->ID, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
 
 				$output = '';
-				$post_singular_name = __( 'Media', GROUPS_PLUGIN_DOMAIN );
+				$post_singular_name = __( 'Media', 'groups' );
 
-				$output .= __( 'Read', GROUPS_PLUGIN_DOMAIN );
+				$output .= __( 'Read', 'groups' );
 
 				// On attachments edited within the 'Insert Media' popup, the update is triggered too soon and we end up with only the last capability selected.
 				// This occurs when using normal checkboxes as well as the select below (Chosen and Selectize tested).
@@ -438,10 +438,10 @@ class Groups_Access_Meta_Boxes {
 					'<select id="%s" class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
 					$select_id,
 					'attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]',
-					esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
-					esc_attr( __( 'Anyone &hellip;', GROUPS_PLUGIN_DOMAIN ) ),
-					__( 'You can restrict the visibility to group members. Choose one or more groups to restrict access. If no groups are chosen, this entry is visible to anyone.', GROUPS_PLUGIN_DOMAIN ) .
-					current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . __( 'You can create a new group by indicating the group\'s name.', GROUPS_PLUGIN_DOMAIN ) : ''
+					esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
+					esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
+					__( 'You can restrict the visibility to group members. Choose one or more groups to restrict access. If no groups are chosen, this entry is visible to anyone.', 'groups' ) .
+					current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . __( 'You can create a new group by indicating the group\'s name.', 'groups' ) : ''
 				);
 				$output .= '<option value=""></option>';
 				foreach( $groups as $group ) {
@@ -456,11 +456,11 @@ class Groups_Access_Meta_Boxes {
 				$output .= '</div>';
 
 				$output .= '<p class="description">';
-				$output .= __( 'Restricts the visibility of this entry to members of the chosen groups.', GROUPS_PLUGIN_DOMAIN );
+				$output .= __( 'Restricts the visibility of this entry to members of the chosen groups.', 'groups' );
 				$output .= '</p>';
 
 				$form_fields['groups_access'] = array(
-					'label' => __( 'Groups', GROUPS_PLUGIN_DOMAIN ),
+					'label' => __( 'Groups', 'groups' ),
 					'input' => 'html',
 					'html' => $output
 				);

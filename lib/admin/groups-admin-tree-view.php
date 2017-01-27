@@ -34,13 +34,13 @@ function groups_admin_tree_view() {
 	$today = date( 'Y-m-d', time() );
 
 	if ( !current_user_can( GROUPS_ACCESS_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$output .=
 		'<div class="groups-tree-view">' .
 		'<h1>' .
-		__( 'Tree of Groups', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'Tree of Groups', 'groups' ) .
 		'</h1>';
 
 	$tree = Groups_Utility::get_group_tree();

@@ -187,8 +187,8 @@ class Groups_Admin_Users {
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
 				$groups_select = sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 				);
 				foreach( $groups as $group ) {
 					$is_member = false;
@@ -208,11 +208,11 @@ class Groups_Admin_Users {
 			$box .= $groups_select;
 			$box .= '</div>';
 			$box .= '<select class="groups-action" name="groups-action">';
-			$box .= '<option selected="selected" value="-1">' . __( 'Group Actions', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-			$box .= '<option value="add-group">' . __( 'Add to group', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-			$box .= '<option value="remove-group">' . __( 'Remove from group', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+			$box .= '<option selected="selected" value="-1">' . __( 'Group Actions', 'groups' ) . '</option>';
+			$box .= '<option value="add-group">' . __( 'Add to group', 'groups' ) . '</option>';
+			$box .= '<option value="remove-group">' . __( 'Remove from group', 'groups' ) . '</option>';
 			$box .= '</select>';
-			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', GROUPS_PLUGIN_DOMAIN ) );
+			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', 'groups' ) );
 			$box .= '</div>';
 			$box = str_replace( '"', "'", $box );
 
@@ -248,8 +248,8 @@ class Groups_Admin_Users {
 			$output .= '<div class="groups-select-container">';
 			$output .= sprintf(
 				'<select id="filter-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-				esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-				esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+				esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
+				esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 			);
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
@@ -272,7 +272,7 @@ class Groups_Admin_Users {
 			$output .= '</select>';
 			$output .= '</div>'; // .groups-select-container
 			$output .= '</div>'; // .groups-filter-container
-			$output .= '<input class="button" type="submit" value="' . esc_attr( __( 'Filter', GROUPS_PLUGIN_DOMAIN ) ) . '"/>';
+			$output .= '<input class="button" type="submit" value="' . esc_attr( __( 'Filter', 'groups' ) ) . '"/>';
 			$output .= '</form>';
 			$output .= Groups_UIE::render_select( '#filter-groups' );
 			$views['groups'] = $output;
@@ -344,7 +344,7 @@ class Groups_Admin_Users {
 	 * @return array column headers
 	 */
 	public static function manage_users_columns( $column_headers ) {
-		$column_headers[self::GROUPS] = __( 'Groups', GROUPS_PLUGIN_DOMAIN );
+		$column_headers[self::GROUPS] = __( 'Groups', 'groups' );
 		return $column_headers;
 	}
 
@@ -371,7 +371,7 @@ class Groups_Admin_Users {
 					}
 					$output .= '</ul>';
 				} else {
-					$output .= __( '--', GROUPS_PLUGIN_DOMAIN );
+					$output .= __( '--', 'groups' );
 				}
 				break;
 		}

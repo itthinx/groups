@@ -36,7 +36,7 @@ function groups_admin_options() {
 	global $wpdb, $wp_roles;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$is_sitewide_plugin = false;
@@ -47,10 +47,10 @@ function groups_admin_options() {
 	}
 
 	$caps = array(
-		GROUPS_ACCESS_GROUPS	  => __( 'Access Groups', GROUPS_PLUGIN_DOMAIN ),
-		GROUPS_ADMINISTER_GROUPS  => __( 'Administer Groups', GROUPS_PLUGIN_DOMAIN ),
-		GROUPS_ADMINISTER_OPTIONS => __( 'Administer Groups plugin options', GROUPS_PLUGIN_DOMAIN ),
-		GROUPS_RESTRICT_ACCESS    => __( 'Restrict Access', GROUPS_PLUGIN_DOMAIN )
+		GROUPS_ACCESS_GROUPS	  => __( 'Access Groups', 'groups' ),
+		GROUPS_ADMINISTER_GROUPS  => __( 'Administer Groups', 'groups' ),
+		GROUPS_ADMINISTER_OPTIONS => __( 'Administer Groups plugin options', 'groups' ),
+		GROUPS_RESTRICT_ACCESS    => __( 'Restrict Access', 'groups' )
 	);
 
 	//
@@ -118,7 +118,7 @@ function groups_admin_options() {
 				Groups_Options::update_option( GROUPS_LEGACY_ENABLE, false );
 			}
 
-			Groups_Admin::add_message( __( 'Options saved.', GROUPS_PLUGIN_DOMAIN ) );
+			Groups_Admin::add_message( __( 'Options saved.', 'groups' ) );
 		}
 	}
 
@@ -126,7 +126,7 @@ function groups_admin_options() {
 
 	echo
 		'<h1>' .
-		__( 'Groups Options', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'Groups Options', 'groups' ) .
 		'</h1>';
 
 	echo Groups_Admin::render_messages();
@@ -141,7 +141,7 @@ function groups_admin_options() {
 	$caps_table .= '<thead>';
 	$caps_table .= '<tr>';
 	$caps_table .= '<td class="role">';
-	$caps_table .= __( 'Role', GROUPS_PLUGIN_DOMAIN );
+	$caps_table .= __( 'Role', 'groups' );
 	$caps_table .= '</td>';
 	foreach ( $caps as $cap ) {
 		$caps_table .= '<td class="cap">';
@@ -186,7 +186,7 @@ function groups_admin_options() {
 		$dismiss_url = wp_nonce_url( add_query_arg( 'dismiss-groups-extensions-box', '1', admin_url( 'admin.php?page=groups-admin-options' ) ), 'dismiss-box', 'groups-extensions-box-nonce' );
 		$extensions_box =
 			'<div id="groups-extensions-box">' .
-			__( 'Enhanced functionality is available via official <a href="http://www.itthinx.com/shop/">Extensions</a> for Groups.', GROUPS_PLUGIN_DOMAIN ) .
+			__( 'Enhanced functionality is available via official <a href="http://www.itthinx.com/shop/">Extensions</a> for Groups.', 'groups' ) .
 			sprintf( '<a class="close" href="%s">x</a>', esc_url( $dismiss_url ) ) .
 			'</div>';
 	}
@@ -198,25 +198,25 @@ function groups_admin_options() {
 		'<form action="" name="options" method="post">' .
 
 		'<p>' .
-		'<input class="button button-primary" type="submit" name="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" name="submit" value="' . __( 'Save', 'groups' ) . '"/>' .
 		$extensions_box .
 		'</p>' .
 
 		'<div>' .
-		'<h2>' . __( 'Administrator Access Override', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
+		'<h2>' . __( 'Administrator Access Override', 'groups' ) . '</h2>' .
 		'<p>' .
 		'<label>' .
 		'<input name="' . GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE . '" type="checkbox" ' . ( $admin_override ? 'checked="checked"' : '' ) . '/>' .
-		 __( 'Administrators override all access permissions derived from Groups capabilities.', GROUPS_PLUGIN_DOMAIN ) .
+		 __( 'Administrators override all access permissions derived from Groups capabilities.', 'groups' ) .
 		 '</label>' .
 		'</p>';
 
-	echo '<h2>' . __( 'Access restricions', GROUPS_PLUGIN_DOMAIN ) . '</h2>';
+	echo '<h2>' . __( 'Access restricions', 'groups' ) . '</h2>';
 
-	echo '<h3>' . __( 'Post types', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
+	echo '<h3>' . __( 'Post types', 'groups' ) . '</h3>';
 
 	echo
-		'<p class="description">' .  __( 'Show access restrictions for these post types.', GROUPS_PLUGIN_DOMAIN ) . '</p>';
+		'<p class="description">' .  __( 'Show access restrictions for these post types.', 'groups' ) . '</p>';
 
 	$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 	$post_types = get_post_types( array( 'public' => true ) );
@@ -239,57 +239,57 @@ function groups_admin_options() {
 	echo '<ul>';
 	echo
 		'<p class="description">' .
-		__( 'This determines for which post types access restriction settings are offered.', GROUPS_PLUGIN_DOMAIN ) . '<br/>' .
-		__( 'Disabling this setting for a post type does not remove existing access restrictions on individual posts of that type.', GROUPS_PLUGIN_DOMAIN ) . '<br/>' .
+		__( 'This determines for which post types access restriction settings are offered.', 'groups' ) . '<br/>' .
+		__( 'Disabling this setting for a post type does not remove existing access restrictions on individual posts of that type.', 'groups' ) . '<br/>' .
 		'</p>';
 
 	echo
-		'<h2>' . __( 'User profiles', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
+		'<h2>' . __( 'User profiles', 'groups' ) . '</h2>' .
 		'<p>' .
 		'<label>' .
 		'<input name="' . GROUPS_SHOW_IN_USER_PROFILE . '" type="checkbox" ' . ( $show_in_user_profile ? 'checked="checked"' : '' ) . '/>' .
-		__( 'Show groups in user profiles.', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'Show groups in user profiles.', 'groups' ) .
 		'</label>' .
 		'</p>';
 
 	echo
-		'<h2>' . __( 'Tree view', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
+		'<h2>' . __( 'Tree view', 'groups' ) . '</h2>' .
 		'<p>' .
 		'<label>' .
 		'<input name="' . GROUPS_SHOW_TREE_VIEW . '" type="checkbox" ' . ( $show_tree_view ? 'checked="checked"' : '' ) . '/>' .
-		__( 'Show the Groups tree view.', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'Show the Groups tree view.', 'groups' ) .
 		'</label>' .
 		'</p>';
 
 	echo
-		'<h2>' . __( 'Permissions', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
-		'<p>' . __( 'These permissions apply to Groups management. They do not apply to access permissions derived from Groups capabilities.', GROUPS_PLUGIN_DOMAIN ) . '</p>' .
+		'<h2>' . __( 'Permissions', 'groups' ) . '</h2>' .
+		'<p>' . __( 'These permissions apply to Groups management. They do not apply to access permissions derived from Groups capabilities.', 'groups' ) . '</p>' .
 		$caps_table .
 		'<p class="description">' .
-		__( 'A minimum set of permissions will be preserved.', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'A minimum set of permissions will be preserved.', 'groups' ) .
 		'<br/>' .
-		__( 'If you lock yourself out, please ask an administrator to help.', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'If you lock yourself out, please ask an administrator to help.', 'groups' ) .
 		'</p>';
 	if ( !$is_sitewide_plugin ) {
 		echo
-			'<h2>' . __( 'Deactivation and data persistence', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
+			'<h2>' . __( 'Deactivation and data persistence', 'groups' ) . '</h2>' .
 			'<p>' .
 			'<label>' .
 			'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
-			__( 'Delete all Groups plugin data on deactivation', GROUPS_PLUGIN_DOMAIN ) .
+			__( 'Delete all Groups plugin data on deactivation', 'groups' ) .
 			'</label>' .
 			'</p>' .
 			'<p class="description warning">' .
-			__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', GROUPS_PLUGIN_DOMAIN ) .
+			__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', 'groups' ) .
 			'</p>';
 	}
 
 	$groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS_LEGACY_ENABLE_DEFAULT );
-	echo '<h2>' . __( 'Legacy Settings', GROUPS_PLUGIN_DOMAIN ) . '</h2>';
+	echo '<h2>' . __( 'Legacy Settings', 'groups' ) . '</h2>';
 	echo '<p>' .
 		'<label>' .
 		'<input name="' . GROUPS_LEGACY_ENABLE . '" type="checkbox" ' . ( $groups_legacy_enable ? 'checked="checked"' : '' ) . '/>' .
-		__( 'Enable legacy access control based on capabilities.', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'Enable legacy access control based on capabilities.', 'groups' ) .
 		'</label>' .
 		'</p>';
 	if ( $groups_legacy_enable ) {
@@ -300,7 +300,7 @@ function groups_admin_options() {
 	echo
 		'<p>' .
 		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" name="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" name="submit" value="' . __( 'Save', 'groups' ) . '"/>' .
 		'</p>' .
 		'</div>' .
 		'</form>';
@@ -314,13 +314,13 @@ function groups_admin_options() {
 function groups_network_admin_options() {
 
 	if ( !current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	echo
 		'<div>' .
 		'<h1>' .
-		__( 'Groups network options', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'Groups network options', 'groups' ) .
 		'</h1>' .
 		'</div>';
 
@@ -342,17 +342,17 @@ function groups_network_admin_options() {
 	echo
 		'<form action="" name="options" method="post">' .
 		'<div>' .
-		'<h2>' . __( 'Network deactivation and data persistence', GROUPS_PLUGIN_DOMAIN ) . '</h2>' .
+		'<h2>' . __( 'Network deactivation and data persistence', 'groups' ) . '</h2>' .
 		'<p>' .
 		'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
-		'<label for="delete-data">' . __( 'Delete all Groups plugin data for ALL sites on network deactivation', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+		'<label for="delete-data">' . __( 'Delete all Groups plugin data for ALL sites on network deactivation', 'groups' ) . '</label>' .
 		'</p>' .
 		'<p class="description warning">' .
-		__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED for <strong>all sites</strong>. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED for <strong>all sites</strong>. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', 'groups' ) .
 		'</p>' .
 		'<p>' .
 		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) .
-		'<input type="submit" name="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input type="submit" name="submit" value="' . __( 'Save', 'groups' ) . '"/>' .
 		'</p>' .
 		'</div>' .
 		'</form>';

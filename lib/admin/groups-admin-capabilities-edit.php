@@ -32,13 +32,13 @@ function groups_admin_capabilities_edit( $capability_id ) {
 	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$capability = Groups_Capability::read( intval( $capability_id ) );
 
 	if ( empty( $capability ) ) {
-		wp_die( __( 'No such capability.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'No such capability.', 'groups' ) );
 	}
 
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -53,7 +53,7 @@ function groups_admin_capabilities_edit( $capability_id ) {
 	$output =
 		'<div class="manage-capabilities wrap">' .
 			'<h1>' .
-				__( 'Edit a capability', GROUPS_PLUGIN_DOMAIN ) .
+				__( 'Edit a capability', 'groups' ) .
 			'</h1>' .
 
 		Groups_Admin::render_messages() .
@@ -63,20 +63,20 @@ function groups_admin_capabilities_edit( $capability_id ) {
 		'<input id="capability-id-field" name="capability-id-field" type="hidden" value="' . esc_attr( intval( $capability_id ) ) . '"/>' .
 
 		'<div class="field">' .
-		'<label for="capability-field" class="field-label first required">' .__( 'Capability', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+		'<label for="capability-field" class="field-label first required">' .__( 'Capability', 'groups' ) . '</label>' .
 		'<input ' . $capability_readonly . ' id="capability-field" name="capability-field" class="capability-field" type="text" value="' . esc_attr( stripslashes( $capability_capability ) ) . '"/>' .
 		'</div>' .
 
 		'<div class="field">' .
-		'<label for="description-field" class="field-label description-field">' .__( 'Description', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+		'<label for="description-field" class="field-label description-field">' .__( 'Description', 'groups' ) . '</label>' .
 		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . stripslashes( wp_filter_nohtml_kses( $description ) ) . '</textarea>' .
 		'</div>' .
 
 		'<div class="field">' .
 		wp_nonce_field( 'capabilities-edit', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" value="' . __( 'Save', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" value="' . __( 'Save', 'groups' ) . '"/>' .
 		'<input type="hidden" value="edit" name="action"/>' .
-		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
+		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>' .
 		'</div>' .
 		'</div>' . // .capability.edit
 		'</form>' .
@@ -93,11 +93,11 @@ function groups_admin_capabilities_edit_submit() {
 	$result = false;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'capabilities-edit' ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null;
@@ -113,7 +113,7 @@ function groups_admin_capabilities_edit_submit() {
 			$update = true;
 			if ( $other_capability = Groups_Capability::read_by_capability( $capability_field ) ) {
 				if ( $other_capability->capability_id != $capability_id ) {
-					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability already exists and cannot be assigned to this one.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $other_capability->capability ) ) ), 'error' );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability already exists and cannot be assigned to this one.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $other_capability->capability ) ) ), 'error' );
 					$update = false;
 				}
 			}
@@ -123,11 +123,11 @@ function groups_admin_capabilities_edit_submit() {
 				if ( $capability_id ) {
 					$result = $capability_id;
 				} else {
-					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability could not be updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability ) ) ), 'error' );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability could not be updated.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability ) ) ), 'error' );
 				}
 			}
 		} else {
-			Groups_Admin::add_message( __( 'The <em>Capability</em> must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
+			Groups_Admin::add_message( __( 'The <em>Capability</em> must not be empty.', 'groups' ), 'error' );
 		}
 	}
 	return $result;

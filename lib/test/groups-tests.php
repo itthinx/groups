@@ -382,13 +382,13 @@ if ( defined( 'ABSPATH' ) ) {
 	}
 	if ( in_array( 'groups/groups.php', $active_plugins ) || key_exists( 'groups/groups.php', $active_sitewide_plugins ) ) {
 		if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+			wp_die( __( 'Access denied.', 'groups' ) );
 		} else {
 			$run = isset( $_POST['run'] ) ? $_POST['run'] : null;
 			switch( $run ) {
 				case 'run' :
 					if ( !isset( $_POST['groups-test-nonce'] ) || !wp_verify_nonce( $_POST['groups-test-nonce'], 'run-tests' ) ) {
-						wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+						wp_die( __( 'Access denied.', 'groups' ) );
 					}
 					echo '<h1>Running tests for <i>Groups</i> plugin ...</h1>';
 					groups_tests();

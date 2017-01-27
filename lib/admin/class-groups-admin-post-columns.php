@@ -89,8 +89,8 @@ class Groups_Admin_Post_Columns {
 	public static function columns( $column_headers ) {
 		$column_headers[self::GROUPS] = sprintf(
 			'<span title="%s">%s</span>',
-			esc_attr( __( 'One or more groups granting access to entries.', GROUPS_PLUGIN_DOMAIN ) ),
-			esc_html( _x( 'Groups', 'Column header', GROUPS_PLUGIN_DOMAIN ) )
+			esc_attr( __( 'One or more groups granting access to entries.', 'groups' ) ),
+			esc_html( _x( 'Groups', 'Column header', 'groups' ) )
 		);
 		return $column_headers;
 	}

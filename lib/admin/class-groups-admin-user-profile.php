@@ -69,7 +69,7 @@ class Groups_Admin_User_Profile {
 		global $wpdb;
 		if ( $type == 'add-new-user' ) {
 			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-				$output = '<h3>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
+				$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
 				$groups_table = _groups_get_tablename( 'group' );
 				if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
 					$output .= '<style type="text/css">';
@@ -77,15 +77,15 @@ class Groups_Admin_User_Profile {
 					$output .= '</style>';
 					$output .= sprintf(
 						'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-						esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-						esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+						esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
+						esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 					);
 					foreach( $groups as $group ) {
 						$output .= sprintf( '<option value="%d">%s</option>', Groups_Utility::id( $group->group_id ), wp_filter_nohtml_kses( $group->name ) );
 					}
 					$output .= '</select>';
 					$output .= Groups_UIE::render_select( '#user-groups' );
-					$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', GROUPS_PLUGIN_DOMAIN ) . '</p>';
+					$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 				}
 				echo $output;
 			}
@@ -130,7 +130,7 @@ class Groups_Admin_User_Profile {
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			self::edit_user_profile( $user );
 		} else {
-			$output = '<h3>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
+			$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$groups = $user->groups;
 			if ( is_array( $groups ) ) {
@@ -154,7 +154,7 @@ class Groups_Admin_User_Profile {
 	public static function edit_user_profile( $user ) {
 		global $wpdb;
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			$output = '<h3>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
+			$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );
@@ -164,8 +164,8 @@ class Groups_Admin_User_Profile {
 				$output .= '</style>';
 				$output .= sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 				);
 				foreach( $groups as $group ) {
 					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
@@ -173,7 +173,7 @@ class Groups_Admin_User_Profile {
 				}
 				$output .= '</select>';
 				$output .= Groups_UIE::render_select( '#user-groups' );
-				$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', GROUPS_PLUGIN_DOMAIN ) . '</p>';
+				$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 			}
 			echo $output;
 		}

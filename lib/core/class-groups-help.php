@@ -60,15 +60,15 @@ class Groups_Help {
 	public static function contextual_help() {
 		if ( $screen = get_current_screen() ) {
 			$show_groups_help = false;
-			$help_title = __( 'Groups', GROUPS_PLUGIN_DOMAIN );
+			$help_title = __( 'Groups', 'groups' );
 			$screen_id = $screen->base;
 			// The prefix of the $screen_id is translated, use only the suffix
 			// to identify a screen:
 			$ids = array(
-				'groups-admin' => __( 'Groups', GROUPS_PLUGIN_DOMAIN ),
-				'groups-admin-groups' => __( 'Groups', GROUPS_PLUGIN_DOMAIN ),
-				'groups-admin-options' => __( 'Options', GROUPS_PLUGIN_DOMAIN ),
-				'groups-admin-capabilities' => __( 'Capabilities', GROUPS_PLUGIN_DOMAIN ),
+				'groups-admin' => __( 'Groups', 'groups' ),
+				'groups-admin-groups' => __( 'Groups', 'groups' ),
+				'groups-admin-options' => __( 'Options', 'groups' ),
+				'groups-admin-capabilities' => __( 'Capabilities', 'groups' ),
 			);
 			foreach ( $ids as $id => $title ) {
 				$i = strpos( $screen_id, $id );
@@ -84,12 +84,12 @@ class Groups_Help {
 			if ( $show_groups_help ) {
 				$help = '<h3><a href="http://www.itthinx.com/plugins/groups" target="_blank">'. $help_title .'</a></h3>';
 				$help .= '<p>';
-				$help .= __( 'The complete documentation is available on the <a href="http://docs.itthinx.com/document/groups">Documentation</a> pages for Groups.', GROUPS_PLUGIN_DOMAIN );
+				$help .= __( 'The complete documentation is available on the <a href="http://docs.itthinx.com/document/groups">Documentation</a> pages for Groups.', 'groups' );
 				$help .= '</p>';
 				switch ( $screen_id ) {
 					case 'groups-admin' :
 					case 'groups-admin-groups':
-						$help .= '<p>' . __( 'Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</strong> groups.', GROUPS_PLUGIN_DOMAIN ) . '</p>';
+						$help .= '<p>' . __( 'Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</strong> groups.', 'groups' ) . '</p>';
 						break;
 					case 'groups-admin-options' :
 					case 'groups-admin-capabilities' :
@@ -138,10 +138,10 @@ class Groups_Help {
 	public static function footer( $render = true ) {
 		$footer =
 			'<span class="groups-footer">' .
-			__( 'Thank you for using <a href="http://www.itthinx.com/plugins/groups" target="_blank">Groups</a> by <a href="http://www.itthinx.com" target="_blank">itthinx</a>.', GROUPS_PLUGIN_DOMAIN ) .
+			__( 'Thank you for using <a href="http://www.itthinx.com/plugins/groups" target="_blank">Groups</a> by <a href="http://www.itthinx.com" target="_blank">itthinx</a>.', 'groups' ) .
 			' ' .
 			sprintf(
-				__( 'Please give it a <a href="%s">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating.', GROUPS_PLUGIN_DOMAIN ),
+				__( 'Please give it a <a href="%s">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating.', 'groups' ),
 				esc_attr( 'http://wordpress.org/support/view/plugin-reviews/groups?filter=5#postform' )
 			) .
 			'</span>';

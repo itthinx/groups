@@ -32,13 +32,13 @@ function groups_admin_capabilities_remove( $capability_id ) {
 	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$capability = Groups_Capability::read( intval( $capability_id ) );
 
 	if ( empty( $capability ) ) {
-		wp_die( __( 'No such capability.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'No such capability.', 'groups' ) );
 	}
 
 	$capability_table = _groups_get_tablename( 'capability' );
@@ -50,18 +50,18 @@ function groups_admin_capabilities_remove( $capability_id ) {
 	$output =
 		'<div class="manage-capabilities wrap">' .
 			'<h1>' .
-				__( 'Remove a capability', GROUPS_PLUGIN_DOMAIN ) .
+				__( 'Remove a capability', 'groups' ) .
 			'</h1>' .
 		'<form id="remove-capability" action="' . esc_url( $current_url ) . '" method="post">' .
 		'<div class="capability remove">' .
 		'<input id="capability-id-field" name="capability-id-field" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>' .
 		'<ul>' .
-		'<li>' . sprintf( __( 'Capability : %s', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) . '</li>' .
+		'<li>' . sprintf( __( 'Capability : %s', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) . '</li>' .
 		'</ul> ' .
 		wp_nonce_field( 'capabilities-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" value="' . __( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" value="' . __( 'Remove', 'groups' ) . '"/>' .
 		'<input type="hidden" value="remove" name="action"/>' .
-		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
+		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>' .
 		'</div>' .
 		'</div>' . // .capability.remove
 		'</form>' .
@@ -80,11 +80,11 @@ function groups_admin_capabilities_remove_submit() {
 	$result = false;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'capabilities-remove' ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null;
@@ -107,13 +107,13 @@ function groups_admin_capabilities_bulk_remove() {
 	$output = '';
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null;
 
 	if ( ! $capability_ids ) {
-		wp_die( __( 'No such capabilities.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'No such capabilities.', 'groups' ) );
 	}
 
 	$capabilities = array();
@@ -130,24 +130,24 @@ function groups_admin_capabilities_bulk_remove() {
 
 	$output .= '<div class="manage-capabilities wrap">';
 	$output .= '<h1>';
-	$output .= __( 'Remove capabilities', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Remove capabilities', 'groups' );
 	$output .= '</h1>';
 
 	$output .= '<form id="capabilities-action" method="post" action="">';
 	$output .= '<div class="capability remove">';
 	$output .= '<p>';
-	$output .= __( 'Please confirm to remove the following capabilities. This action cannot be undone.', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Please confirm to remove the following capabilities. This action cannot be undone.', 'groups' );
 	$output .= '</p>';
 	foreach ( $capabilities as $capability ) {
 		$output .= 	'<input id="capability_ids" name="capability_ids[]" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>';
 		$output .= '<ul>';
 		$output .= '<li>';
-		$output .= sprintf( __( '<strong>%s</strong>', GROUPS_PLUGIN_DOMAIN ), wp_filter_nohtml_kses( $capability->capability ) );
+		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), wp_filter_nohtml_kses( $capability->capability ) );
 		$output .= '</li>';
 		$output .= '</ul>';
 	}
-	$output .= '<input class="button button-primary" type="submit" name="bulk" value="' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
+	$output .= '<input class="button button-primary" type="submit" name="bulk" value="' . __( "Remove", 'groups' ) . '"/>';
+	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>';
 
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '<input type="hidden" name="bulk-action" value="remove"/>';
@@ -172,11 +172,11 @@ function groups_admin_capabilities_bulk_remove_submit() {
 	$result = array();
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null;

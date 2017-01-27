@@ -29,7 +29,7 @@ if ( !defined( 'ABSPATH' ) ) {
 function groups_admin_add_ons() {
 	echo '<div class="groups-admin-add-ons wrap">';
 	echo '<h1>';
-	echo __( 'Add-Ons', GROUPS_PLUGIN_DOMAIN );
+	echo __( 'Add-Ons', 'groups' );
 	echo '</h1>';
 	groups_admin_add_ons_content();
 	echo '</div>'; // .groups-admin-add-ons.wrap
@@ -46,7 +46,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	$h2 = sprintf( 'h%d', 2+$d );
 
 	echo "<$h2>";
-	echo __( 'Recommended extensions for Groups', GROUPS_PLUGIN_DOMAIN );
+	echo __( 'Recommended extensions for Groups', 'groups' );
 	echo "</$h2>";
 
 	$entries = array(
@@ -154,7 +154,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	echo '</ul>'; // .add-ons
 
 	echo "<$h2>";
-	echo __( 'Recommended plugins by itthinx', GROUPS_PLUGIN_DOMAIN );
+	echo __( 'Recommended plugins by itthinx', 'groups' );
 	echo "</$h2>";
 
 	$entries = array(

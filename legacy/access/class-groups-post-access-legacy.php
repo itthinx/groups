@@ -49,7 +49,7 @@ class Groups_Post_Access_Legacy {
 			Groups_Options::update_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 			// for translation
 			// @see self::READ_POST_CAPABILITY_NAME
-			__( 'Read Post', GROUPS_PLUGIN_DOMAIN );
+			__( 'Read Post', 'groups' );
 		}
 	}
 
