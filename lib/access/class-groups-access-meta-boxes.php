@@ -503,7 +503,7 @@ class Groups_Access_Meta_Boxes {
 						}
 					}
 					do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
-					Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
+					$update_result = Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
 					do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
 				}
 			}
