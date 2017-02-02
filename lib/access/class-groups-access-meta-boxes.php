@@ -396,6 +396,7 @@ class Groups_Access_Meta_Boxes {
 		Groups_UIE::enqueue( 'select' );
 
 		$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+
 		if ( !isset( $post_types_option['attachment']['add_meta_box'] ) || $post_types_option['attachment']['add_meta_box'] ) {
 
 			if ( self::user_can_restrict() ) {
@@ -459,7 +460,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= __( 'Restricts the visibility of this entry to members of the chosen groups.', 'groups' );
 				$output .= '</p>';
 
-				$form_fields['groups_access'] = array(
+				$form_fields['groups_read'] = array(
 					'label' => __( 'Groups', 'groups' ),
 					'input' => 'html',
 					'html' => $output
