@@ -25,8 +25,9 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Legacy options admin screen extension.
+ * @param $legacy_switched boolean whether legacy mode setting has been changed during submit
  */
-function groups_admin_options_legacy() {
+function groups_admin_options_legacy( $legacy_switched ) {
 
 	global $wpdb;
 
@@ -35,7 +36,7 @@ function groups_admin_options_legacy() {
 	//
 	// handle legacy options after form submission
 	//
-	if ( isset( $_POST['submit'] ) ) {
+	if ( isset( $_POST['submit'] ) && !$legacy_switched ) {
 		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
 			$valid_read_caps = array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
 			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {

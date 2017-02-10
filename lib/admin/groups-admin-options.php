@@ -53,6 +53,8 @@ function groups_admin_options() {
 		GROUPS_RESTRICT_ACCESS    => __( 'Restrict Access', 'groups' )
 	);
 
+	$previous_legacy_enable =  Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS_LEGACY_ENABLE_DEFAULT );
+
 	//
 	// handle options form submission
 	//
@@ -294,7 +296,7 @@ function groups_admin_options() {
 		'</p>';
 	if ( $groups_legacy_enable ) {
 		require_once GROUPS_LEGACY_LIB . '/admin/groups-admin-options-legacy.php';
-		do_action( 'groups_admin_options_legacy' );
+		do_action( 'groups_admin_options_legacy', $groups_legacy_enable !== $previous_legacy_enable );
 	}
 
 	echo
