@@ -31,7 +31,7 @@ class Groups_Post_Access_Legacy {
 	const POSTMETA_PREFIX = 'groups-';
 
 	const CACHE_GROUP     = 'groups';
-	const CAN_READ_POST   = 'can_read_post';
+	const CAN_READ_POST   = 'legacy_can_read_post';
 
 	const READ_POST_CAPABILITY = 'groups_read_post';
 	const READ_POST_CAPABILITY_NAME = 'Read Post';
