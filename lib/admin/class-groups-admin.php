@@ -137,7 +137,7 @@ class Groups_Admin {
 	public static function admin_head() {
 		global $submenu;
 		if ( isset( $submenu['groups-admin'] ) ) {
-			$submenu['groups-admin'][0][0] = _x( 'Groups', 'menu item title', GROUPS_PLUGIN_DOMAIN );
+			$submenu['groups-admin'][0][0] = _x( 'Groups', 'menu item title', 'groups' );
 		}
 	}
 
@@ -155,7 +155,7 @@ class Groups_Admin {
 
 		// main
 		$page = add_menu_page(
-			_x( 'Groups', 'page-title', GROUPS_PLUGIN_DOMAIN ),
+			_x( 'Groups', 'page-title', 'groups' ),
 			'Groups', // don't translate, reasons: a) Groups menu title consistency and b) http://core.trac.wordpress.org/ticket/18857 translation affects $screen->id
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin',
@@ -177,8 +177,8 @@ class Groups_Admin {
 			include_once( GROUPS_ADMIN_LIB . '/groups-admin-tree-view.php');
 			$page = add_submenu_page(
 				'groups-admin',
-				__( 'Tree', GROUPS_PLUGIN_DOMAIN ),
-				__( 'Tree', GROUPS_PLUGIN_DOMAIN ),
+				__( 'Tree', 'groups' ),
+				__( 'Tree', 'groups' ),
 				GROUPS_ACCESS_GROUPS,
 				'groups-admin-tree-view',
 				apply_filters( 'groups_add_submenu_page_function', 'groups_admin_tree_view' )
@@ -191,8 +191,8 @@ class Groups_Admin {
 		// capabilities
 		$page = add_submenu_page(
 			'groups-admin',
-			__( 'Groups Capabilities', GROUPS_PLUGIN_DOMAIN ),
-			__( 'Capabilities', GROUPS_PLUGIN_DOMAIN ),
+			__( 'Groups Capabilities', 'groups' ),
+			__( 'Capabilities', 'groups' ),
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin-capabilities',
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_capabilities' )
@@ -204,8 +204,8 @@ class Groups_Admin {
 		// options
 		$page = add_submenu_page(
 			'groups-admin',
-			__( 'Groups options', GROUPS_PLUGIN_DOMAIN ),
-			__( 'Options', GROUPS_PLUGIN_DOMAIN ),
+			__( 'Groups options', 'groups' ),
+			__( 'Options', 'groups' ),
 			GROUPS_ADMINISTER_OPTIONS,
 			'groups-admin-options',
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_options' )
@@ -217,8 +217,8 @@ class Groups_Admin {
 		// add-ons
 		$page = add_submenu_page(
 			'groups-admin',
-			__( 'Groups Add-Ons', GROUPS_PLUGIN_DOMAIN ),
-			__( 'Add-Ons', GROUPS_PLUGIN_DOMAIN ),
+			__( 'Groups Add-Ons', 'groups' ),
+			__( 'Add-Ons', 'groups' ),
 			GROUPS_ACCESS_GROUPS,
 			'groups-admin-add-ons',
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_add_ons' )
@@ -241,8 +241,8 @@ class Groups_Admin {
 
 		// main
 		$page = add_menu_page(
-			__( 'Groups', GROUPS_PLUGIN_DOMAIN ),
-			__( 'Groups', GROUPS_PLUGIN_DOMAIN ),
+			__( 'Groups', 'groups' ),
+			__( 'Groups', 'groups' ),
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-network-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_network_admin_options' ),
@@ -265,13 +265,13 @@ class Groups_Admin {
 		if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 			array_unshift(
 				$links,
-				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin-options' ) . '">' . __( 'Options', GROUPS_PLUGIN_DOMAIN ) . '</a>'
+				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin-options' ) . '">' . __( 'Options', 'groups' ) . '</a>'
 			);
 		}
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			array_unshift(
 				$links,
-				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin' ) . '">' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</a>'
+				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin' ) . '">' . __( 'Groups', 'groups' ) . '</a>'
 			);
 		}
 		return $links;

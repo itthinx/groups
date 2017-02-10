@@ -29,6 +29,12 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Controller {
 
 	/**
+	 * Version 2.0.0 number
+	 * @var string
+	 */
+	const GROUPS_200 = '2.0.0';
+
+	/**
 	 * Cache-safe switching in case any multi-site hiccups might occur.
 	 * Clears the cache after switching to the given blog to avoid using
 	 * another blog's cached values.
@@ -105,9 +111,16 @@ class Groups_Controller {
 	/**
 	 * Initialize.
 	 * Loads the plugin's translations.
+	 * Invokes version check.
 	 */
 	public static function init() {
-		load_plugin_textdomain( GROUPS_PLUGIN_DOMAIN, null, 'groups/languages' );
+		// Load our current translations first ...
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'groups' );
+		$mofile = GROUPS_CORE_DIR . '/languages/groups-' . $locale . '.mo';
+		load_textdomain( 'groups', $mofile );
+		// ... otherwise load_plugin_textdomain will simply get those in WP's languages
+		// and we won't have our up-to-date translations.
+		load_plugin_textdomain( 'groups', null, 'groups/languages' );
 		self::version_check();
 	}
 
@@ -125,6 +138,7 @@ class Groups_Controller {
 			}
 		} else {
 			self::setup();
+			set_transient( 'groups_plugin_activated', true, 60 );
 		}
 	}
 
@@ -220,9 +234,27 @@ class Groups_Controller {
 		global $groups_version, $groups_admin_messages;
 		$previous_version = get_option( 'groups_plugin_version', null );
 		$groups_version = GROUPS_CORE_VERSION;
+		// auto-enable legacy support on upgrade from Groups previous to 2.0.0
+		if ( $previous_version ) {
+			if ( version_compare( $previous_version, self::GROUPS_200 ) < 0 ) {
+				if ( Groups_Options::get_option( GROUPS_LEGACY_ENABLE ) === null ) {
+					Groups_Options::update_option( GROUPS_LEGACY_ENABLE, true );
+				}
+				set_transient( 'groups_plugin_updated_legacy', true, 60 );
+			}
+		}
+
+		// disable legacy support on new installations
+		if ( Groups_Options::get_option( GROUPS_LEGACY_ENABLE ) === null ) {
+			Groups_Options::update_option( GROUPS_LEGACY_ENABLE, false );
+		}
+
+		// run update procedure if newer version is installed
 		if ( version_compare( $previous_version, $groups_version ) < 0 ) {
 			if ( self::update( $previous_version ) ) {
-				update_option( 'groups_plugin_version', $groups_version );
+				if ( update_option( 'groups_plugin_version', $groups_version ) ) {
+					set_transient( 'groups_plugin_updated', true, 60 );
+				}
 			} else {
 				$groups_admin_messages[] = '<div class="error">Updating Groups plugin core <em>failed</em>.</div>';
 			}
@@ -276,6 +308,10 @@ class Groups_Controller {
 					}
 				}
 		} // switch
+		if ( version_compare( $previous_version, '2.0.0' ) < 0 ) {
+			self::set_default_capabilities();
+			Groups_WordPress::refresh_capabilities();
+		}
 		foreach ( $queries as $query ) {
 			if ( $wpdb->query( $query ) === false ) {
 				$result = false;
@@ -318,6 +354,7 @@ class Groups_Controller {
 				$role->remove_cap( GROUPS_ACCESS_GROUPS );
 				$role->remove_cap( GROUPS_ADMINISTER_GROUPS );
 				$role->remove_cap( GROUPS_ADMINISTER_OPTIONS );
+				$role->remove_cap( GROUPS_RESTRICT_ACCESS );
 			}
 			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group' ) );
 			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'capability' ) );
@@ -351,12 +388,14 @@ class Groups_Controller {
 			$administrator_role->add_cap( GROUPS_ACCESS_GROUPS );
 			$administrator_role->add_cap( GROUPS_ADMINISTER_GROUPS );
 			$administrator_role->add_cap( GROUPS_ADMINISTER_OPTIONS );
+			$administrator_role->add_cap( GROUPS_RESTRICT_ACCESS );
 		} else {
 			foreach ( $wp_roles->role_objects as $role ) {
 				if ($role->has_cap( 'manage_options' ) ) {
 					$role->add_cap( GROUPS_ACCESS_GROUPS );
 					$role->add_cap( GROUPS_ADMINISTER_GROUPS );
 					$role->add_cap( GROUPS_ADMINISTER_OPTIONS );
+					$role->add_cap( GROUPS_RESTRICT_ACCESS );
 				}
 			}
 		}

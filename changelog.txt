@@ -1,5 +1,19 @@
 == Groups changelog.txt ==
 
+= 2.0.0 =
+* Changed the access restriction model to group-based access restrictions.
+* Provides an optional legacy mode that supports the previous capability-based access restrictions.
+* Optimized the approach to restrict read access on posts using groups rather than access restriction capabilities.
+* Added the `groups_restrict_access` capability which grants users to impose access restrictions.
+* Fixed the order_by and order parameters in Groups_Group::get_groups()
+* Added the $create parameter in Groups_UIE::render_select()
+* Removed the "Chosen" library.
+* Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
+* Added a welcome screen.
+* Added the option to assign groups to new users directly when creating them from the Dashboard.
+* Changed the language domain to string literal instead of constant.
+* Improvements on internal coding standards (single/double quotes, EOF, formatting).
+
 = 1.13.1 =
 * Fixed an issue where the wrong post count would be produced for statuses that do not represent a valid WooCommerce order status.
 * Added support for post counts with WooCommerce Subscriptions.

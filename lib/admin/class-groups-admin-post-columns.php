@@ -15,6 +15,7 @@
  * This header and all notices must be kept intact.
  *
  * @author Antonio Blanco
+ * @author Karim Rahimpur
  * @package groups
  * @since groups 1.4.2
  */
@@ -28,7 +29,17 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Admin_Post_Columns {
 
-	const CAPABILITIES = 'capabilities';
+	/**
+	 * Groups column header id.
+	 * @var string
+	 */
+	const GROUPS = 'groups-read';
+
+	/**
+	 * Field name.
+	 * @var string
+	 */
+	const GROUPS_READ = 'groups-read';
 
 	/**
 	 * Adds an admin_init action.
@@ -49,15 +60,19 @@ class Groups_Admin_Post_Columns {
 			foreach ( $post_types as $post_type ) {
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 					if ( ( $post_type == 'attachment' ) ) {
-						// filters to display the media's access restriction capabilities
+						// filters to display the media's access restriction groups
 						add_filter( 'manage_media_columns', array( __CLASS__, 'columns' ) );
 						// args: string $column_name, int $media_id
 						add_action( 'manage_media_custom_column', array( __CLASS__, 'custom_column' ), 10, 2 );
+						// make the groups column sortable
+						add_filter( 'manage_upload_sortable_columns', array( __CLASS__, 'manage_edit_post_sortable_columns' ) );
 					} else {
-						// filters to display the posts' access restriction capabilities
+						// filters to display the posts' access restriction groups
 						add_filter( 'manage_' . $post_type . '_posts_columns', array( __CLASS__, 'columns' ) );
 						// args: string $column_name, int $post_id
 						add_action( 'manage_' . $post_type . '_posts_custom_column', array( __CLASS__, 'custom_column' ), 10, 2 );
+						// make the groups column sortable
+						add_filter( 'manage_edit-' . $post_type . '_sortable_columns', array( __CLASS__, 'manage_edit_post_sortable_columns' ) );
 					}
 				}
 			}
@@ -66,15 +81,16 @@ class Groups_Admin_Post_Columns {
 
 	/**
 	 * Adds a new column to the post type's table showing the access
-	 * restriction capabilities.
+	 * restriction groups.
 	 * 
 	 * @param array $column_headers
 	 * @return array column headers
 	 */
 	public static function columns( $column_headers ) {
-		$column_headers[self::CAPABILITIES] = sprintf(
-			__( '<span title="%s">Access Restrictions</span>', GROUPS_PLUGIN_DOMAIN ),
-			esc_attr( __( 'One or more capabilities required to read the entry.', GROUPS_PLUGIN_DOMAIN ) )
+		$column_headers[self::GROUPS] = sprintf(
+			'<span title="%s">%s</span>',
+			esc_attr( __( 'One or more groups granting access to entries.', 'groups' ) ),
+			esc_html( _x( 'Groups', 'Column header', 'groups' ) )
 		);
 		return $column_headers;
 	}
@@ -89,28 +105,72 @@ class Groups_Admin_Post_Columns {
 	public static function custom_column( $column_name, $post_id ) {
 		$output = '';
 		switch ( $column_name ) {
-			case self::CAPABILITIES :
-				$read_caps = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY );
-				$valid_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-				if ( count( $valid_read_caps ) > 0 ) {
-					sort( $valid_read_caps );
-					$output = '<ul>';
-					foreach( $valid_read_caps as $valid_read_cap ) {
-						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-							if ( in_array( $valid_read_cap, $read_caps ) ) {
-								$output .= '<li>';
-								$output .= wp_strip_all_tags( $capability->capability );
-								$output .= '</li>';
+			case self::GROUPS :
+				$entries = array();
+				$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+				if ( count( $groups_read ) > 0 ) {
+					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $groups_read ) );
+					if ( ( count( $groups ) > 0 ) ) {
+						foreach( $groups as $group ) {
+							$entries[] = wp_strip_all_tags( $group->name );
+						}
+					}
+				}
+				if (
+					function_exists( 'get_term_meta' ) && // >= WordPress 4.4
+					class_exists( 'Groups_Restrict_Categories' ) &&
+					method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
+					method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0
+				) {
+					$terms = array();
+					$taxonomies = Groups_Restrict_Categories::get_controlled_taxonomies();
+					foreach( $taxonomies as $taxonomy ) {
+						$terms = array_merge( $terms, wp_get_post_terms( $post_id, $taxonomy ) );
+					}
+					foreach( $terms as $term ) {
+						if ( in_array( $term->taxonomy, $taxonomies ) ) {
+							$term_group_ids = Groups_Restrict_Categories::get_term_read_groups( $term->term_id );
+							$edit_term_link = get_edit_term_link( $term->term_id, $term->taxonomy, get_post_type( $post_id ) );
+							if ( !empty( $term_group_ids ) ) {
+								foreach( $term_group_ids as $group_id ) {
+									if ( $group = Groups_Group::read( $group_id ) ) {
+										$entries[] = sprintf( '%s <a href="%s">%s</a>', wp_strip_all_tags( $group->name ), esc_url( $edit_term_link ), esc_html( $term->name ) );
+									}
+								}
 							}
 						}
 					}
+				}
+				if ( !empty( $entries ) ) {
+					sort( $entries );
+					$output .= '<ul>';
+					foreach( $entries as $entry ) {
+						$output .= '<li>';
+						$output .= $entry; // entries are already escaped for output
+						$output .= '</li>';
+					}
 					$output .= '</ul>';
-				} else {
-					$output .= '';
 				}
 				break;
 		}
 		echo $output;
 	}
+
+	/**
+	 * Groups column is sortable.
+	 * 
+	 * Sorting depends on the filters Groups_Admin_Posts::posts_join() and Groups_Admin_Posts::posts_orderby()
+	 * which add the relevant group information and sort by group name.
+	 * 
+	 * @see Groups_Admin_Posts::posts_join()
+	 * @see Groups_Admin_Posts::posts_orderby()
+	 * @param array $sortable_columns
+	 * @return array
+	 */
+	public static function manage_edit_post_sortable_columns( $sortable_columns ) {
+		$sortable_columns[self::GROUPS] = self::GROUPS;
+		return $sortable_columns;
+	}
+
 }
 Groups_Admin_Post_Columns::init();

@@ -33,7 +33,7 @@ function groups_admin_groups_add() {
 	$output = '';
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -56,7 +56,7 @@ function groups_admin_groups_add() {
 
 	$output .= '<div class="manage-groups wrap">';
 	$output .= '<h1>';
-	$output .= __( 'Add a new group', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Add a new group', 'groups' );
 	$output .= '</h1>';
 
 	$output .= Groups_Admin::render_messages();
@@ -66,21 +66,21 @@ function groups_admin_groups_add() {
 
 	$output .= '<div class="field">';
 	$output .= '<label for="name-field" class="field-label first required">';
-	$output .= __( 'Name', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Name', 'groups' );
 	$output .= '</label>';
 	$output .= '<input id="name-field" name="name-field" class="namefield" type="text" value="' . esc_attr( stripslashes( $name ) ) . '"/>';
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
 	$output .= '<label for="parent-id-field" class="field-label">';
-	$output .= __( 'Parent', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Parent', 'groups' );
 	$output .= '</label>';
 	$output .= $parent_select;
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
 	$output .= '<label for="description-field" class="field-label description-field">';
-	$output .= __( 'Description', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Description', 'groups' );
 	$output .= '</label>';
 	$output .= '<textarea id="description-field" name="description-field" rows="5" cols="45">';
 	$output .= stripslashes( wp_filter_nohtml_kses( $description ) );
@@ -94,10 +94,10 @@ function groups_admin_groups_add() {
 
 	$output .= '<div class="select-capability-container" style="width:62%;">';
 	$output .= '<label>';
-	$output .= __( 'Capabilities', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Capabilities', 'groups' );
 	$output .= sprintf(
 		'<select class="select capability" name="capability_ids[]" multiple="multiple" placeholder="%s">',
-		__( 'Choose capabilities &hellip;', GROUPS_PLUGIN_DOMAIN )
+		__( 'Choose capabilities &hellip;', 'groups' )
 	);
 	foreach( $capabilities as $capability ) {
 		$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
@@ -106,7 +106,7 @@ function groups_admin_groups_add() {
 	$output .= '</label>';
 	$output .= '</div>';
 	$output .= '<p class="description">';
-	$output .= __( 'These capabilities will be assigned to the group.', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'These capabilities will be assigned to the group.', 'groups' );
 	$output .= '</p>';
 
 	$output .= Groups_UIE::render_select( '.select.capability' );
@@ -116,9 +116,9 @@ function groups_admin_groups_add() {
 
 	$output .= '<div class="field">';
 	$output .= wp_nonce_field( 'groups-add', GROUPS_ADMIN_GROUPS_NONCE, true, false );
-	$output .= '<input class="button button-primary" type="submit" value="' . __( 'Add', GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	$output .= '<input class="button button-primary" type="submit" value="' . __( 'Add', 'groups' ) . '"/>';
 	$output .= '<input type="hidden" value="add" name="action"/>';
-	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
+	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>';
 	$output .= '</div>';
 	$output .= '</div>'; // .group.new
 	$output .= '</form>';
@@ -136,11 +136,11 @@ function groups_admin_groups_add_submit() {
 	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-add' ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$creator_id  = get_current_user_id();
@@ -160,9 +160,9 @@ function groups_admin_groups_add_submit() {
 		do_action( 'groups_admin_groups_add_submit_success', $group_id );
 	} else {
 		if ( !$name ) {
-			Groups_Admin::add_message( __( 'The name must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
+			Groups_Admin::add_message( __( 'The name must not be empty.', 'groups' ), 'error' );
 		} else if ( Groups_Group::read_by_name( $name ) ) {
-			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group already exists.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ), 'error' );
+			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group already exists.', 'groups' ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ), 'error' );
 		}
 	}
 

@@ -81,19 +81,26 @@ class Groups_Admin_Users {
 	public static function pre_user_query( $user_query ) {
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			if ( isset( $_REQUEST['group'] ) ) {
-				$group_id = $_REQUEST['group'];
-				if ( Groups_Group::read( $group_id ) ) {
-					$group = new Groups_Group( $group_id );
-					$users = $group->users;
-					$include = array();
-					if ( count( $users ) > 0 ) {
-						foreach( $users as $user ) {
-							$include[] = $user->user->ID;
+			if ( isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) ) {
+				$group_ids = array_map( array( 'Groups_Utility', 'id' ), array_map( 'trim', $_REQUEST['group_ids'] ) );
+				$include = array();
+				foreach ( $group_ids as $group_id ) {
+					if ( Groups_Group::read( $group_id ) ) {
+						$group = new Groups_Group( $group_id );
+						$users = $group->users;
+						if ( count( $users ) > 0 ) {
+							foreach( $users as $user ) {
+								$include[] = $user->user->ID;
+							}
+						} else { // no results
+							$include[] = 0;
 						}
-					} else { // no results
-						$include[] = 0;
+						unset( $group );
+						unset( $users );
 					}
+				}
+				if ( count( $include ) > 0 ) {
+					$include = array_unique( $include );
 					$ids = implode( ',', wp_parse_id_list( $include ) );
 					$user_query->query_where .= " AND $wpdb->users.ID IN ($ids)";
 				}
@@ -132,7 +139,7 @@ class Groups_Admin_Users {
 
 			// group-actions
 			echo '<style type="text/css">';
-			echo '.groups-bulk-container { display: inline-block; line-height: 24px; padding-bottom: 1em; vertical-align: top; margin-left: 1em; margin-right: 1em; }';
+			echo '.groups-bulk-container { display: inline-block; line-height: 24px; padding-bottom: 2px; vertical-align: top; margin-left: 0.31em; margin-right: 0.31em; }';
 			echo '.groups-bulk-container .groups-select-container { display: inline-block; vertical-align: top; }';
 			echo '.groups-bulk-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
 			echo '.groups-bulk-container .selectize-control { min-width: 128px; }';
@@ -141,6 +148,19 @@ class Groups_Admin_Users {
 			echo '.groups-bulk-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; height: 24px; }';
 			echo '.groups-bulk-container input.button { margin-top: 1px; vertical-align: top; }';
 			echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
+			echo '</style>';
+
+			// groups filter
+			echo '<style type="text/css">';
+			echo '.groups-filter-container { display: inline-block; line-height: 24px; vertical-align: middle; }';
+			echo '.groups-filter-container .groups-select-container { display: inline-block; vertical-align: top; }';
+			echo '.groups-filter-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
+			echo '.groups-filter-container .selectize-control { min-width: 128px; }';
+			echo '.groups-filter-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }';
+			echo '.groups-filter-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
+			echo '.groups-filter-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; height: 24px; }';
+			echo '.groups-filter-container .selectize-input .item a { line-height: inherit; }'; // neutralize .subsubsub a rule
+			echo '.groups-filter-container input.button { margin-top: 1px; vertical-align: top; }';
 			echo '</style>';
 		}
 	}
@@ -162,21 +182,24 @@ class Groups_Admin_Users {
 		$output = '';
 
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			$group_table = _groups_get_tablename( "group" );
 			// groups select
 			$groups_table = _groups_get_tablename( 'group' );
 			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
 				$groups_select = sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 				);
 				foreach( $groups as $group ) {
 					$is_member = false;
-					$groups_select .= sprintf( '<option value="%d" %s>%s</option>', Groups_Utility::id( $group->group_id ), $is_member ? ' selected="selected" ' : '', wp_filter_nohtml_kses( $group->name ) );
+					$groups_select .= sprintf(
+						'<option value="%d" %s>%s</option>',
+						Groups_Utility::id( $group->group_id ),
+						$is_member ? ' selected="selected" ' : '',
+						wp_filter_nohtml_kses( $group->name )
+					);
 				}
 				$groups_select .= '</select>';
-
 			}
 
 			// group bulk actions added through extra_tablenav()
@@ -185,11 +208,11 @@ class Groups_Admin_Users {
 			$box .= $groups_select;
 			$box .= '</div>';
 			$box .= '<select class="groups-action" name="groups-action">';
-			$box .= '<option selected="selected" value="-1">' . __( 'Group Actions', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-			$box .= '<option value="add-group">' . __( 'Add to group', GROUPS_PLUGIN_DOMAIN ) . '</option>';
-			$box .= '<option value="remove-group">' . __( 'Remove from group', GROUPS_PLUGIN_DOMAIN ) . '</option>';
+			$box .= '<option selected="selected" value="-1">' . __( 'Group Actions', 'groups' ) . '</option>';
+			$box .= '<option value="add-group">' . __( 'Add to group', 'groups' ) . '</option>';
+			$box .= '<option value="remove-group">' . __( 'Remove from group', 'groups' ) . '</option>';
 			$box .= '</select>';
-			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', GROUPS_PLUGIN_DOMAIN ) );
+			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', 'groups' ) );
 			$box .= '</div>';
 			$box = str_replace( '"', "'", $box );
 
@@ -213,31 +236,46 @@ class Groups_Admin_Users {
 	}
 
 	/**
-	 * Hooked on filter in class-wp-list-table.php to add links that
+	 * Hooked on filter in class-wp-list-table.php to
 	 * filter by group.
 	 * @param array $views
 	 */
 	public static function views_users( $views ) {
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			$group_table = _groups_get_tablename( "group" );
-			$user_group_table = _groups_get_tablename( "user_group" );
-			$groups = $wpdb->get_results( "SELECT * FROM $group_table ORDER BY name" );
+			$output = '<form id="filter-groups-form" action="" method="get">';
+			$output .= '<div class="groups-filter-container">';
+			$output .= '<div class="groups-select-container">';
+			$output .= sprintf(
+				'<select id="filter-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+				esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
+				esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
+			);
+			$user_group_table = _groups_get_tablename( 'user_group' );
+			$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
 			foreach( $groups as $group ) {
-				$group = new Groups_Group( $group->group_id );
 				// Do not use $user_count = count( $group->users ); here,
 				// as it creates a lot of unneccessary objects and can lead
 				// to out of memory issues on large user bases.
 				$user_count = $wpdb->get_var( $wpdb->prepare(
 					"SELECT COUNT(user_id) FROM $user_group_table WHERE group_id = %d",
-					Groups_Utility::id( $group->group_id ) ) );
-				$views[] = sprintf(
-					'<a class="group" href="%s" title="%s">%s</a>',
-					esc_url( add_query_arg( 'group', $group->group_id, admin_url( 'users.php' ) ) ),
-					sprintf( '%s Group', wp_filter_nohtml_kses( $group->name ) ),
-					sprintf( '%s <span class="count">(%s)</span>', wp_filter_nohtml_kses( $group->name ), $user_count )
+					Groups_Utility::id( $group->group_id ) )
+				);
+				$selected = isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) && in_array( $group->group_id, $_REQUEST['group_ids'] );
+				$output .= sprintf(
+					'<option value="%d" %s>%s</option>',
+					Groups_Utility::id( $group->group_id ),
+					$selected ? ' selected="selected" ' : '',
+					sprintf( '%s <span class="count">(%s)</span>', wp_filter_nohtml_kses( $group->name ), esc_html( $user_count ) )
 				);
 			}
+			$output .= '</select>';
+			$output .= '</div>'; // .groups-select-container
+			$output .= '</div>'; // .groups-filter-container
+			$output .= '<input class="button" type="submit" value="' . esc_attr( __( 'Filter', 'groups' ) ) . '"/>';
+			$output .= '</form>';
+			$output .= Groups_UIE::render_select( '#filter-groups' );
+			$views['groups'] = $output;
 		}
 		return $views;
 	}
@@ -306,7 +344,7 @@ class Groups_Admin_Users {
 	 * @return array column headers
 	 */
 	public static function manage_users_columns( $column_headers ) {
-		$column_headers[self::GROUPS] = __( 'Groups', GROUPS_PLUGIN_DOMAIN );
+		$column_headers[self::GROUPS] = __( 'Groups', 'groups' );
 		return $column_headers;
 	}
 
@@ -333,7 +371,7 @@ class Groups_Admin_Users {
 					}
 					$output .= '</ul>';
 				} else {
-					$output .= __( '--', GROUPS_PLUGIN_DOMAIN );
+					$output .= __( '--', 'groups' );
 				}
 				break;
 		}

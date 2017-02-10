@@ -68,16 +68,16 @@ class Groups_Capability {
 		$result = null;
 		if ( $this->capability !== null ) {
 			switch( $name ) {
-				case "capability_id" :
-				case "capability" :
-				case "class" :
-				case "object" :
-				case "name" :
-				case "description" :
+				case 'capability_id' :
+				case 'capability' :
+				case 'class' :
+				case 'object' :
+				case 'name' :
+				case 'description' :
 					$result = $this->capability->$name;
 					break;
 				case 'group_ids' :
-					$group_capability_table = _groups_get_tablename( "group_capability" );
+					$group_capability_table = _groups_get_tablename( 'group_capability' );
 					$rows = $wpdb->get_results( $wpdb->prepare(
 						"SELECT group_id FROM $group_capability_table WHERE capability_id = %d",
 						Groups_Utility::id( $this->capability->capability_id )
@@ -90,7 +90,7 @@ class Groups_Capability {
 					}
 					break;
 				case 'groups' :
-					$group_capability_table = _groups_get_tablename( "group_capability" );
+					$group_capability_table = _groups_get_tablename( 'group_capability' );
 					$rows = $wpdb->get_results( $wpdb->prepare(
 						"SELECT group_id FROM $group_capability_table WHERE capability_id = %d",
 						Groups_Utility::id( $this->capability->capability_id )
@@ -157,7 +157,7 @@ class Groups_Capability {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
 						// read_by_capability above created a cache entry which needs to be reset
 						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $capability, self::CACHE_GROUP );
-						do_action( "groups_created_capability", $result );
+						do_action( 'groups_created_capability', $result );
 					}
 				}
 			}
@@ -266,7 +266,7 @@ class Groups_Capability {
 					if ( !empty( $old_capability_capability ) ) {
 						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability_capability, self::CACHE_GROUP );
 					}
-					do_action( "groups_updated_capability", $result );
+					do_action( 'groups_updated_capability', $result );
 				}
 			}
 		}
@@ -297,7 +297,7 @@ class Groups_Capability {
 					Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $capability->capability, self::CACHE_GROUP );
 					do_action( 'groups_deleted_capability_capability', $capability->capability );
 				}
-				do_action( "groups_deleted_capability", $result );
+				do_action( 'groups_deleted_capability', $result );
 			}
 		}
 		return $result;

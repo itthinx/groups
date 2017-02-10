@@ -46,7 +46,7 @@ function groups_admin_groups() {
 	$today = date( 'Y-m-d', time() );
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	//
@@ -60,7 +60,7 @@ function groups_admin_groups() {
 					return groups_admin_groups_add();
 				} else {
 					$group = Groups_Group::read( $group_id );
-					Groups_Admin::add_message( sprintf( __( "The <em>%s</em> group has been created.", GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
+					Groups_Admin::add_message( sprintf( __( "The <em>%s</em> group has been created.", 'groups' ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
 				}
 				break;
 			case 'edit' :
@@ -68,12 +68,12 @@ function groups_admin_groups() {
 					return groups_admin_groups_edit( $_POST['group-id-field'] );
 				} else {
 					$group = Groups_Group::read( $group_id );
-					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group has been updated.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group has been updated.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) );
 				}
 				break;
 			case 'remove' :
 				if ( $group_id = groups_admin_groups_remove_submit() ) {
-					Groups_Admin::add_message( __( 'The group has been deleted.', GROUPS_PLUGIN_DOMAIN ) );
+					Groups_Admin::add_message( __( 'The group has been deleted.', 'groups' ) );
 				}
 				break;
 			// bulk actions on groups: add capabilities, remove capabilities, remove groups
@@ -145,7 +145,7 @@ function groups_admin_groups() {
 		isset( $_POST['group_name'] )
 	) {
 		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_FILTER_NONCE], 'admin' ) ) {
-			wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+			wp_die( __( 'Access denied.', 'groups' ) );
 		}
 	}
 
@@ -176,13 +176,13 @@ function groups_admin_groups() {
 
 	if ( isset( $_POST['row_count'] ) ) {
 		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE_1], 'admin' ) ) {
-			wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+			wp_die( __( 'Access denied.', 'groups' ) );
 		}
 	}
 
 	if ( isset( $_POST['paged'] ) ) {
 		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE_2], 'admin' ) ) {
-			wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+			wp_die( __( 'Access denied.', 'groups' ) );
 		}
 	}
 
@@ -196,20 +196,20 @@ function groups_admin_groups() {
 	$output .=
 		'<div class="manage-groups wrap">' .
 		'<h1>' .
-		_x( 'Groups', 'page-title', GROUPS_PLUGIN_DOMAIN ) .
+		_x( 'Groups', 'page-title', 'groups' ) .
 		sprintf(
 			'<a title="%s" class="add page-title-action" href="%s">',
-			esc_attr( __( 'Click to add a new group', GROUPS_PLUGIN_DOMAIN ) ),
+			esc_attr( __( 'Click to add a new group', 'groups' ) ),
 			esc_url( $current_url . '&action=add' )
 		) .
 		sprintf(
 			'<img class="icon" alt="%s" src="%s" />',
-			esc_attr( __( 'Add', GROUPS_PLUGIN_DOMAIN ) ),
+			esc_attr( __( 'Add', 'groups' ) ),
 			esc_url( GROUPS_PLUGIN_URL . 'images/add.png' )
 		) .
 		sprintf(
 			'<span class="label">%s</span>',
-			stripslashes( wp_filter_nohtml_kses( __( 'New Group', GROUPS_PLUGIN_DOMAIN ) ) )
+			stripslashes( wp_filter_nohtml_kses( __( 'New Group', 'groups' ) ) )
 		) .
 		'</a>' .
 		'</h1>';
@@ -300,10 +300,10 @@ function groups_admin_groups() {
 	$results = $wpdb->get_results( $query, OBJECT );
 
 	$column_display_names = array(
-		'group_id'     => __( 'ID', GROUPS_PLUGIN_DOMAIN ),
-		'name'         => __( 'Group', GROUPS_PLUGIN_DOMAIN ),
-		'description'  => __( 'Description', GROUPS_PLUGIN_DOMAIN ),
-		'capabilities' => __( 'Capabilities', GROUPS_PLUGIN_DOMAIN )
+		'group_id'     => __( 'ID', 'groups' ),
+		'name'         => __( 'Group', 'groups' ),
+		'description'  => __( 'Description', 'groups' ),
+		'capabilities' => __( 'Capabilities', 'groups' )
 	);
 
 	$output .= '<div class="groups-overview">';
@@ -312,16 +312,16 @@ function groups_admin_groups() {
 		'<div class="filters">' .
 			'<form id="setfilters" action="" method="post">' .
 				'<fieldset>' .
-				'<legend>' . __( 'Filters', GROUPS_PLUGIN_DOMAIN ) . '</legend>' .
-				'<label class="group-id-filter">' . __( 'Group ID', GROUPS_PLUGIN_DOMAIN ) . ' ' .
+				'<legend>' . __( 'Filters', 'groups' ) . '</legend>' .
+				'<label class="group-id-filter">' . __( 'Group ID', 'groups' ) . ' ' .
 				'<input class="group-id-filter" name="group_id" type="text" value="' . esc_attr( $group_id ) . '"/>' .
 				'</label>' . ' ' .
-				'<label class="group-name-filter">' . __( 'Group Name', GROUPS_PLUGIN_DOMAIN ) . ' ' .
+				'<label class="group-name-filter">' . __( 'Group Name', 'groups' ) . ' ' .
 				'<input class="group-name-filter" name="group_name" type="text" value="' . $group_name . '"/>' .
 				'</label>' . ' ' .
 				wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_FILTER_NONCE, true, false ) .
-				'<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>' . ' ' .
-				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+				'<input class="button" type="submit" value="' . __( 'Apply', 'groups' ) . '"/>' . ' ' .
+				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', 'groups' ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
 				'</fieldset>' .
 			'</form>' .
@@ -343,10 +343,10 @@ function groups_admin_groups() {
 	$output .= '<div class="page-options right">';
 	$output .= '<form id="setrowcount" action="" method="post">';
 	$output .= '<div>';
-	$output .= '<label for="row_count">' . __('Results per page', GROUPS_PLUGIN_DOMAIN ) . '</label>';
+	$output .= '<label for="row_count">' . __('Results per page', 'groups' ) . '</label>';
 	$output .= '<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />';
 	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_NONCE_1, true, false );
-	$output .= '<input class="button" type="submit" value="' . __( 'Apply', GROUPS_PLUGIN_DOMAIN ) . '"/>';
+	$output .= '<input class="button" type="submit" value="' . __( 'Apply', 'groups' ) . '"/>';
 	$output .= '</div>';
 	$output .= '</form>';
 	$output .= '</div>';
@@ -358,8 +358,8 @@ function groups_admin_groups() {
 	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
 	$capabilities_select = sprintf(
 		'<select class="select capability" name="capability_id[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-		esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-		esc_attr( __( 'Capabilities &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+		esc_attr( __( 'Capabilities &hellip;', 'groups' ) ) ,
+		esc_attr( __( 'Capabilities &hellip;', 'groups' ) )
 	);
 	foreach( $capabilities as $capability ) {
 		$capabilities_select .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
@@ -377,12 +377,12 @@ function groups_admin_groups() {
 	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
 	$output .= '</div>';
 	$output .= '<select class="bulk-action" name="bulk-action">';
-	$output .= '<option selected="selected" value="-1">' . esc_html( __( 'Bulk Actions', GROUPS_PLUGIN_DOMAIN ) ) . '</option>';
-	$output .= '<option value="remove-group">' . esc_html( __( 'Remove group', GROUPS_PLUGIN_DOMAIN ) ) . '</option>';
-	$output .= '<option value="add-capability">' . esc_html( __( 'Add capability', GROUPS_PLUGIN_DOMAIN ) ) . '</option>';
-	$output .= '<option value="remove-capability">' . esc_html( __( 'Remove capability', GROUPS_PLUGIN_DOMAIN ) ) . '</option>';
+	$output .= '<option selected="selected" value="-1">' . esc_html( __( 'Bulk Actions', 'groups' ) ) . '</option>';
+	$output .= '<option value="remove-group">' . esc_html( __( 'Remove group', 'groups' ) ) . '</option>';
+	$output .= '<option value="add-capability">' . esc_html( __( 'Add capability', 'groups' ) ) . '</option>';
+	$output .= '<option value="remove-capability">' . esc_html( __( 'Remove capability', 'groups' ) ) . '</option>';
 	$output .= '</select>';
-	$output .= sprintf( '<input class="button" type="submit" name="bulk" value="%s" />', esc_attr( __( 'Apply', GROUPS_PLUGIN_DOMAIN ) ) );
+	$output .= sprintf( '<input class="button" type="submit" name="bulk" value="%s" />', esc_attr( __( 'Apply', 'groups' ) ) );
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '</div>';
 	$output .= '</div>';
@@ -457,7 +457,7 @@ function groups_admin_groups() {
 				'<span class="edit">' .
 				'<a href="' . esc_url( $edit_url ) . '">' .
 				'<img src="' . GROUPS_PLUGIN_URL . 'images/edit.png"/>' .
-				__( 'Edit', GROUPS_PLUGIN_DOMAIN ) .
+				__( 'Edit', 'groups' ) .
 				'</a>';
 			if ( $result->name !== Groups_Registered::REGISTERED_GROUP_NAME ) {
 				$row_actions .=
@@ -466,7 +466,7 @@ function groups_admin_groups() {
 					'<span class="remove trash">' .
 					'<a href="' . esc_url( $delete_url ) . '" class="submitdelete">' .
 					'<img src="' . GROUPS_PLUGIN_URL . 'images/remove.png"/>' .
-					__( 'Remove', GROUPS_PLUGIN_DOMAIN ) .
+					__( 'Remove', 'groups' ) .
 					'</a>' .
 					'</span>';
 				}
@@ -513,14 +513,14 @@ function groups_admin_groups() {
 				}
 				$output .= '</ul>';
 			} else {
-				$output .= __( 'This group has no capabilities.', GROUPS_PLUGIN_DOMAIN );
+				$output .= __( 'This group has no capabilities.', 'groups' );
 			}
 			$output .= '</td>';
 
 			$output .= '</tr>';
 		}
 	} else {
-		$output .= '<tr><td colspan="4">' . __( 'There are no results.', GROUPS_PLUGIN_DOMAIN ) . '</td></tr>';
+		$output .= '<tr><td colspan="4">' . __( 'There are no results.', 'groups' ) . '</td></tr>';
 	}
 
 	$output .= '</tbody>';

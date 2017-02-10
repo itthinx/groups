@@ -32,6 +32,8 @@ class Groups_Admin_User_Profile {
 	 * Adds user profile actions.
 	 */
 	public static function init() {
+		add_action( 'user_new_form', array( __CLASS__, 'user_new_form' ) );
+		add_action( 'user_register', array( __CLASS__, 'user_register' ) );
 		add_action( 'show_user_profile', array( __CLASS__, 'show_user_profile' ) );
 		add_action( 'edit_user_profile', array( __CLASS__, 'edit_user_profile' ) );
 		add_action( 'personal_options_update', array( __CLASS__, 'personal_options_update' ) );
@@ -46,11 +48,76 @@ class Groups_Admin_User_Profile {
 		$screen = get_current_screen();
 		if ( isset( $screen->id ) ) {
 			switch( $screen->id ) {
+				case 'user' : // creating a new user
 				case 'user-edit' :
 				case 'profile' :
 					require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
 					Groups_UIE::enqueue( 'select' );
 					break;
+			}
+		}
+	}
+
+	/**
+	 * Hook for the form to create a new user.
+	 * 
+	 * See wp-admin/user-new.php
+	 * 
+	 * @param string $type form context, expecting 'add-existing-user' (Multisite), or 'add-new-user' (single site and network admin)
+	 */
+	public static function user_new_form( $type = null ) {
+		global $wpdb;
+		if ( $type == 'add-new-user' ) {
+			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+				$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
+				$groups_table = _groups_get_tablename( 'group' );
+				if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
+					$output .= '<style type="text/css">';
+					$output .= '.groups .selectize-input { font-size: inherit; }';
+					$output .= '</style>';
+					$output .= sprintf(
+						'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+						esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
+						esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
+					);
+					foreach( $groups as $group ) {
+						$output .= sprintf( '<option value="%d">%s</option>', Groups_Utility::id( $group->group_id ), wp_filter_nohtml_kses( $group->name ) );
+					}
+					$output .= '</select>';
+					$output .= Groups_UIE::render_select( '#user-groups' );
+					$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
+				}
+				echo $output;
+			}
+		}
+	}
+
+	/**
+	 * Adds the new user to chosen groups when creating a new user account
+	 * from the admin side.
+	 * 
+	 * @param int $user_id
+	 */
+	public static function user_register( $user_id ) {
+
+		global $wpdb;
+
+		if ( is_admin() ) {
+			$screen = get_current_screen();
+			if ( isset( $screen->id ) && $screen->id === 'user' ) {
+				if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+					$groups_table = _groups_get_tablename( 'group' );
+					if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table" ) ) {
+						$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
+						foreach( $groups as $group ) {
+							if ( in_array( $group->group_id, $user_group_ids ) ) {
+								if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
+									Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group->group_id ) );
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -63,7 +130,7 @@ class Groups_Admin_User_Profile {
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			self::edit_user_profile( $user );
 		} else {
-			$output = '<h3>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
+			$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$groups = $user->groups;
 			if ( is_array( $groups ) ) {
@@ -87,7 +154,7 @@ class Groups_Admin_User_Profile {
 	public static function edit_user_profile( $user ) {
 		global $wpdb;
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			$output = '<h3>' . __( 'Groups', GROUPS_PLUGIN_DOMAIN ) . '</h3>';
+			$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );
@@ -97,8 +164,8 @@ class Groups_Admin_User_Profile {
 				$output .= '</style>';
 				$output .= sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) ) ,
-					esc_attr( __( 'Choose groups &hellip;', GROUPS_PLUGIN_DOMAIN ) )
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 				);
 				foreach( $groups as $group ) {
 					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
@@ -106,7 +173,7 @@ class Groups_Admin_User_Profile {
 				}
 				$output .= '</select>';
 				$output .= Groups_UIE::render_select( '#user-groups' );
-				$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', GROUPS_PLUGIN_DOMAIN ) . '</p>';
+				$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 			}
 			echo $output;
 		}

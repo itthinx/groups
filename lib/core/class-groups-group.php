@@ -23,7 +23,7 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once( GROUPS_CORE_LIB . "/interface-i-capable.php" );
+require_once( GROUPS_CORE_LIB . '/interface-i-capable.php' );
 
 /**
  * Group OPM.
@@ -68,16 +68,16 @@ class Groups_Group implements I_Capable {
 		$result = null;
 		if ( $this->group !== null ) {
 			switch( $name ) {
-				case "group_id" :
-				case "parent_id" :
-				case "creator_id" :
-				case "datetime" :
-				case "name" :
-				case "description" :
+				case 'group_id' :
+				case 'parent_id' :
+				case 'creator_id' :
+				case 'datetime' :
+				case 'name' :
+				case 'description' :
 					$result = $this->group->$name;
 					break;
-				case "capabilities" :
-					$group_capability_table = _groups_get_tablename( "group_capability" );
+				case 'capabilities' :
+					$group_capability_table = _groups_get_tablename( 'group_capability' );
 					$rows = $wpdb->get_results( $wpdb->prepare(
 						"SELECT capability_id FROM $group_capability_table WHERE group_id = %d",
 						Groups_Utility::id( $this->group->group_id )
@@ -98,7 +98,7 @@ class Groups_Group implements I_Capable {
 					break;
 				case 'capability_ids_deep' :
 					$capability_ids = array();
-					$group_table = _groups_get_tablename( "group" );
+					$group_table = _groups_get_tablename( 'group' );
 					$group_capability_table = _groups_get_tablename( "group_capability" );
 					// Find this group's and all its parent groups' capabilities.
 					$group_ids  = array( Groups_Utility::id( $this->group->group_id ) );
@@ -108,7 +108,7 @@ class Groups_Group implements I_Capable {
 					while( ( $iterations < $all_groups ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
 						$iterations++;
 						$old_group_ids_count = count( $group_ids );
-						$id_list = implode( ",", $group_ids );
+						$id_list = implode( ',', $group_ids );
 						$parent_group_ids = $wpdb->get_results(
 							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)"
 						);
@@ -122,7 +122,7 @@ class Groups_Group implements I_Capable {
 						}
 					}
 					if ( count( $group_ids ) > 0 ) {
-						$id_list = implode( ",", $group_ids );
+						$id_list = implode( ',', $group_ids );
 						$rows = $wpdb->get_results(
 							"SELECT DISTINCT capability_id FROM $group_capability_table WHERE group_id IN ($id_list)"
 						);
@@ -135,7 +135,7 @@ class Groups_Group implements I_Capable {
 					$result = $capability_ids;
 					break;
 				case 'users' :
-					$user_group_table = _groups_get_tablename( "user_group" );
+					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
 						"SELECT ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
 						Groups_Utility::id( $this->group->group_id )
@@ -163,9 +163,9 @@ class Groups_Group implements I_Capable {
 
 		if ( $this->group !== null ) {
 
-			$group_table = _groups_get_tablename( "group" );
-			$capability_table = _groups_get_tablename( "capability" );
-			$group_capability_table = _groups_get_tablename( "group_capability" );
+			$group_table = _groups_get_tablename( 'group' );
+			$capability_table = _groups_get_tablename( 'capability' );
+			$group_capability_table = _groups_get_tablename( 'group_capability' );
 
 			// determine capability id 
 			$capability_id = null;
@@ -191,7 +191,7 @@ class Groups_Group implements I_Capable {
 					while( ( $iterations < $all_groups ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
 						$iterations++;
 						$old_group_ids_count = count( $group_ids );
-						$id_list = implode( ",", $group_ids );
+						$id_list = implode( ',', $group_ids );
 						$parent_group_ids = $wpdb->get_results(
 							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)"
 						);
@@ -205,7 +205,7 @@ class Groups_Group implements I_Capable {
 						}
 					}
 					if ( count( $group_ids ) > 0 ) {
-						$id_list = implode( ",", $group_ids );
+						$id_list = implode( ',', $group_ids );
 						$rows = $wpdb->get_results( $wpdb->prepare(
 							"SELECT capability_id FROM $group_capability_table WHERE capability_id = %d AND group_id IN ($id_list)",
 							Groups_Utility::id( $capability_id )
@@ -218,7 +218,7 @@ class Groups_Group implements I_Capable {
 				}
 			}
 		}
-		$result = apply_filters_ref_array( "groups_group_can", array( $result, &$this, $capability ) );
+		$result = apply_filters_ref_array( 'groups_group_can', array( $result, &$this, $capability ) );
 		return $result;
 	}
 
@@ -243,7 +243,7 @@ class Groups_Group implements I_Capable {
 
 		if ( !empty( $name ) ) {
 
-			$group_table = _groups_get_tablename( "group" );
+			$group_table = _groups_get_tablename( 'group' );
 
 			$data = array( 'name' => $name );
 			$formats = array( '%s' );
@@ -288,7 +288,7 @@ class Groups_Group implements I_Capable {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
 						// must clear cache for this name in case it has been requested previously as it now exists
 						Groups_Cache::delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
-						do_action( "groups_created_group", $result );
+						do_action( 'groups_created_group', $result );
 					}
 				}
 			}
@@ -396,7 +396,7 @@ class Groups_Group implements I_Capable {
 						$iterations++;
 						$old_group_ids_count = count( $group_ids );
 
-						$id_list	 = implode( ",", $group_ids );
+						$id_list	 = implode( ',', $group_ids );
 						// We can trust ourselves here, no need to use prepare()
 						// but careful if this query is modified!
 						$successor_group_ids = $wpdb->get_results(
@@ -428,7 +428,7 @@ class Groups_Group implements I_Capable {
 			if ( !empty( $old_group ) && !empty( $old_group->name ) ) {
 				Groups_Cache::delete( self::READ_BY_NAME . '_' . $old_group->name, self::CACHE_GROUP );
 			}
-			do_action( "groups_updated_group", $result );
+			do_action( 'groups_updated_group', $result );
 		}
 		return $result;
 	}
@@ -476,7 +476,7 @@ class Groups_Group implements I_Capable {
 				if ( !empty( $group->name ) ) {
 					Groups_Cache::delete( self::READ_BY_NAME . '_' . $group->name, self::CACHE_GROUP );
 				}
-				do_action( "groups_deleted_group", $result );
+				do_action( 'groups_deleted_group', $result );
 			}
 		}
 		return $result;
@@ -525,7 +525,7 @@ class Groups_Group implements I_Capable {
 	 * - ['exclude'] array|string with one or more IDs of groups to exclude, separated by comma
 	 * - ['exclude_by_name'] array|string with one ore more group names of groups to exclude, separated by comma
 	 * 
-	 * @return array of int with group IDs
+	 * @return array of object with query rows
 	 * 
 	 * @since groups 1.4.9
 	 */
@@ -535,10 +535,10 @@ class Groups_Group implements I_Capable {
 		extract( $args );
 
 		if ( !isset( $fields ) ) {
-			$fields = "*";
+			$fields = '*';
 		} else {
 			$array_fields = explode( ',', sanitize_text_field( $fields ) );
-			$fields = "";
+			$fields = '';
 			foreach ( $array_fields as $field ) {
 				switch( trim( $field ) ) {
 					case 'group_id' :
@@ -570,7 +570,7 @@ class Groups_Group implements I_Capable {
 		}
 
 		if ( !isset( $order_by ) ) {
-			$order_by = "";
+			$order_by = '';
 		} else {
 			$order_by = sanitize_text_field( $order_by );
 			switch( trim( $order_by ) ) {
@@ -580,7 +580,7 @@ class Groups_Group implements I_Capable {
 				case 'datetime' :
 				case 'name' :
 				case 'description' :
-					$order_by = $wpdb->prepare( " ORDER BY %s $order ", array( $order_by ) );
+					$order_by = " ORDER BY $order_by $order "; // Watch out! This is unescaped but safe within this switch.
 					break;
 				default :
 					$order_by = '';
