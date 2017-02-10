@@ -192,6 +192,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 = 2.0.1 =
 * Fixed an issue with conflicting cache entries with legacy mode enabled.
+* Fixed access restriction capabilities were reset when reenabling legacy mode.
 
 = 2.0.0 =
 * Changed the access restriction model to group-based access restrictions.
