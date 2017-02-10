@@ -187,6 +187,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 13. Options - you can adjust the plugin's settings here.
 14. More options.
 
+
 == Changelog ==
 
 = 2.0.0 =
