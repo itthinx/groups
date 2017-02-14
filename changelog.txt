@@ -1,5 +1,9 @@
 == Groups changelog.txt ==
 
+= 2.0.2 =
+* Added the option to dismiss the Welcome screen.
+* Updated German and Spanish translations.
+
 = 2.0.1 =
 * Fixed an issue with conflicting cache entries with legacy mode enabled.
 * Fixed access restriction capabilities were reset when reenabling legacy mode.
