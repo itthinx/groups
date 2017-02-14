@@ -62,21 +62,34 @@ class Groups_Admin_Welcome {
 	 * Checks if the welcome screen should be shown and redirected to.
 	 */
 	public static function admin_init() {
-		if ( get_transient( 'groups_plugin_activated' ) || get_transient( 'groups_plugin_updated_legacy' ) ) {
-			$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
-			$doing_cron = defined( 'DOING_CRON' ) && DOING_CRON;
-			// we'll delete the transients in the welcome screen handler
-			if (
-				!$doing_ajax &&
-				!$doing_cron &&
-				( empty( $_GET['page'] ) || $_GET['page'] !== 'groups-welcome' ) &&
-				!is_network_admin() &&
-				!isset( $_GET['activate-multi'] ) &&
-				current_user_can( GROUPS_ACCESS_GROUPS ) &&
-				apply_filters( 'groups_welcome_show', true )
-			) {
-				wp_safe_redirect( admin_url( 'index.php?page=groups-welcome' ) );
-				exit;
+		global $groups_version;
+		if (
+			current_user_can( GROUPS_ACCESS_GROUPS ) &&
+			isset( $_GET['groups-welcome-dismiss'] ) &&
+			isset( $_GET['_groups_welcome_nonce'] )
+		) {
+			if ( wp_verify_nonce( $_GET['_groups_welcome_nonce'], 'groups_welcome_dismiss' ) ) {
+				Groups_Options::update_user_option( 'groups-welcome-dismiss', $groups_version );
+			}
+		}
+		$groups_welcome_dismiss = Groups_Options::get_user_option( 'groups-welcome-dismiss', null );
+		if ( version_compare( $groups_version, $groups_welcome_dismiss ) > 0 ) {
+			if ( get_transient( 'groups_plugin_activated' ) || get_transient( 'groups_plugin_updated_legacy' ) ) {
+				$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+				$doing_cron = defined( 'DOING_CRON' ) && DOING_CRON;
+				// we'll delete the transients in the welcome screen handler
+				if (
+					!$doing_ajax &&
+					!$doing_cron &&
+					( empty( $_GET['page'] ) || $_GET['page'] !== 'groups-welcome' ) &&
+					!is_network_admin() &&
+					!isset( $_GET['activate-multi'] ) &&
+					current_user_can( GROUPS_ACCESS_GROUPS ) &&
+					apply_filters( 'groups_welcome_show', true )
+				) {
+					wp_safe_redirect( admin_url( 'index.php?page=groups-welcome' ) );
+					exit;
+				}
 			}
 		}
 	}
@@ -124,6 +137,13 @@ class Groups_Admin_Welcome {
 		echo '<h1>';
 		printf( __( 'Welcome to Groups %s', 'groups' ), esc_html( $groups_version ) );
 		echo '</h1>';
+
+		printf(
+			'<a class="notice-dismiss" href="%s" title="%s" aria-label="%s"></a>',
+			esc_url( wp_nonce_url( add_query_arg( 'groups-welcome-dismiss', '1', admin_url() ), 'groups_welcome_dismiss', '_groups_welcome_nonce' ) ),
+			esc_attr( __( 'Dismiss', 'groups' ) ),
+			esc_html( __( 'Dismiss', 'groups' ) )
+		);
 
 		echo '<p class="headline">';
 		_e( 'Thanks for using Groups! We have made it even easier to protect your content and hope you like it :)', 'groups' );
