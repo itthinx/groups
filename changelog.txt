@@ -1,4 +1,8 @@
-== Groups changelog.txt ==
+== Groups by itthinx - changelog.txt ==
+
+= 2.0.3 =
+* Fixed a "Fatal error:  Call to a member function get_role_caps() on a non-object" which
+  could occur in circumstances with invalid user IDs.
 
 = 2.0.2 =
 * Added the option to dismiss the Welcome screen.
