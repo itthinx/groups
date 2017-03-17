@@ -108,6 +108,9 @@ class Groups_User implements I_Capable {
 	public function __construct( $user_id ) {
 		if ( Groups_Utility::id( $user_id ) ) {
 			$this->user = get_user_by( 'id', $user_id );
+			if ( !$this->user ) {
+				$this->user = new WP_User( 0 );
+			}
 		} else {
 			$this->user = new WP_User( 0 );
 		}

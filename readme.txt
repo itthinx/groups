@@ -3,8 +3,8 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.7.2
-Stable tag: 2.0.2
+Tested up to: 4.7.3
+Stable tag: 2.0.3
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -190,6 +190,10 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.0.3 =
+* Fixed a "Fatal error:  Call to a member function get_role_caps() on a non-object" which
+  could occur in circumstances with invalid user IDs.
+
 = 2.0.2 =
 * Added the option to dismiss the Welcome screen.
 * Updated German and Spanish translations.
@@ -214,5 +218,6 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-= 2.0.2 =
-Groups 2.0.2 simplifies the way access restrictions are handled.
+= 2.0.3 =
+Groups 2.x simplifies the way access restrictions are handled.
+This release fixes an issue which could bring up an error with invalid user IDs.
