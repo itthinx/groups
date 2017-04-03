@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 19:43+0100\n"
-"PO-Revision-Date: 2017-02-14 19:49+0100\n"
+"POT-Creation-Date: 2017-04-03 21:49+0200\n"
+"PO-Revision-Date: 2017-04-03 21:49+0200\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: de_DE\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: lib/core/class-groups-pagination.php:140
 #, php-format
@@ -216,10 +216,10 @@ msgstr ""
 "Weitere Verbesserungen umschließen Gruppenfilter und einen reduzierten "
 "Eindruck bei der Benutzerverwaltung."
 
-#: lib/access/class-groups-access-meta-boxes.php:206
-#: lib/access/class-groups-access-meta-boxes.php:207
-#: lib/access/class-groups-access-meta-boxes.php:442
+#: lib/access/class-groups-access-meta-boxes.php:209
+#: lib/access/class-groups-access-meta-boxes.php:210
 #: lib/access/class-groups-access-meta-boxes.php:443
+#: lib/access/class-groups-access-meta-boxes.php:444
 msgid "Anyone &hellip;"
 msgstr "Jeder &hellip;"
 
@@ -357,7 +357,7 @@ msgstr ""
 "Instant-Kästchen verwenden, um eine Gruppe und zugehörige Kapazität spontan "
 "zu erstellen."
 
-#: lib/access/class-groups-access-meta-boxes.php:132
+#: lib/access/class-groups-access-meta-boxes.php:136
 msgid ""
 "Choose or enter <em>Premium</em> in the <em>Read</em> field located in the "
 "<em>Groups</em> box and save or update the post (or hit Enter)."
@@ -474,7 +474,7 @@ msgstr ""
 "Aktualisieren Sie den Beitrag."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:135
-#: lib/access/class-groups-access-meta-boxes.php:126
+#: lib/access/class-groups-access-meta-boxes.php:130
 msgid "Example:"
 msgstr "Beispiel:"
 
@@ -541,7 +541,7 @@ msgstr "Gruppenname : %s"
 
 #: lib/access/class-groups-access-meta-boxes.php:112
 #: lib/access/class-groups-access-meta-boxes.php:115
-#: lib/access/class-groups-access-meta-boxes.php:470
+#: lib/access/class-groups-access-meta-boxes.php:471
 #: lib/admin/class-groups-admin-posts.php:204
 #: lib/admin/class-groups-admin-user-profile.php:72
 #: lib/admin/class-groups-admin-user-profile.php:133
@@ -657,18 +657,15 @@ msgstr "Wichtig"
 msgid "Improved User Interface"
 msgstr "Verbesserte Benutzeroberfläche"
 
-#: lib/access/class-groups-access-meta-boxes.php:136
+#: lib/access/class-groups-access-meta-boxes.php:140
 msgid ""
 "In the same field, you can create a new group and restrict access. Group "
 "names are case-sensitive. In order to be able to use the new group, your "
-"user account will be assigned to it. You will not be able to restrict access "
-"if the group already exists but you do not belong to it."
+"user account will be assigned to it."
 msgstr ""
 "Im selben Feld kann man eine neue Gruppe erstellen und den Zugang "
 "einschränken. Bei Gruppennamen wird die Groß- und Kleinschreibung beachtet. "
-"Um die neue Gruppe verwenden zu können wird man der Gruppe hinzugefügt. Es "
-"ist nicht möglich den Zugang mittels einer Gruppe zu beschränken die bereits "
-"existiert wenn man dieser nicht zugehört."
+"Um die neue Gruppe verwenden zu können wird man der Gruppe hinzugefügt."
 
 #: legacy/admin/groups-admin-options-legacy.php:62
 msgid ""
@@ -706,7 +703,7 @@ msgid "Legacy Settings"
 msgstr "Legacy Einstellungen"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:137
-#: lib/access/class-groups-access-meta-boxes.php:128
+#: lib/access/class-groups-access-meta-boxes.php:132
 msgid ""
 "Let's assume that you want to limit the visibility of a post to members of "
 "the <em>Premium</em> group."
@@ -719,7 +716,7 @@ msgid "Log out"
 msgstr "Abmelden"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:503
-#: lib/access/class-groups-access-meta-boxes.php:410
+#: lib/access/class-groups-access-meta-boxes.php:411
 msgid "Media"
 msgstr "Medien"
 
@@ -798,7 +795,7 @@ msgstr ""
 "Beachten Sie, dass Sie Mitglied einer Gruppe die diese Kapazität hat sein "
 "müssen."
 
-#: lib/access/class-groups-access-meta-boxes.php:123
+#: lib/access/class-groups-access-meta-boxes.php:124
 msgid "Note that you must be a member of a group to use it to restrict access."
 msgstr ""
 "Es ist zu beachten dass man Mitglied einer Gruppe sein muss, um diese zur "
@@ -920,7 +917,7 @@ msgstr ""
 "document/groups/\">Dokumentation</a> für Details über die Umstellung und "
 "Benutzung der neuen Zugriffsbeschränkungen."
 
-#: lib/access/class-groups-access-meta-boxes.php:466
+#: lib/access/class-groups-access-meta-boxes.php:467
 #, php-format
 msgid ""
 "Please use <a href=\"%s\" target=\"_blank\">Groups File Access</a> for files "
@@ -930,7 +927,7 @@ msgstr ""
 "target=\"_blank\">Groups File Access</a> verwenden."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:189
-#: lib/access/class-groups-access-meta-boxes.php:162
+#: lib/access/class-groups-access-meta-boxes.php:166
 msgid "Post"
 msgstr "Beitrag"
 
@@ -954,8 +951,8 @@ msgstr "Inhalte Einfach Schützen"
 msgid "Quick-create group &amp; capability"
 msgstr "Instant Gruppe &amp; Kapazität"
 
-#: lib/access/class-groups-access-meta-boxes.php:200
-#: lib/access/class-groups-access-meta-boxes.php:412
+#: lib/access/class-groups-access-meta-boxes.php:203
+#: lib/access/class-groups-access-meta-boxes.php:413
 msgid "Read"
 msgstr "Lesen"
 
@@ -1027,13 +1024,13 @@ msgstr "Beschränkung entfernen"
 msgid "Restrict Access"
 msgstr "Zugang Beschränken"
 
-#: lib/access/class-groups-access-meta-boxes.php:226
+#: lib/access/class-groups-access-meta-boxes.php:229
 #, php-format
 msgid "Restricts the visibility of this %s to members of the chosen groups."
 msgstr ""
 "Beschränkt die %s-Sichtbarkeit auf Mitglieder der ausgewählten Gruppen."
 
-#: lib/access/class-groups-access-meta-boxes.php:460
+#: lib/access/class-groups-access-meta-boxes.php:461
 msgid "Restricts the visibility of this entry to members of the chosen groups."
 msgstr ""
 "Beschränkt die Sichtbarkeit dieses Eintrags auf Mitglieder der ausgewählten "
@@ -1159,7 +1156,7 @@ msgstr "Die <em>Kapazität</em> darf nicht leer sein."
 msgid "The <em>Name</em> must not be empty."
 msgstr "Der <em>Name</em> darf nicht leer sein."
 
-#: lib/access/class-groups-access-meta-boxes.php:464
+#: lib/access/class-groups-access-meta-boxes.php:465
 msgid ""
 "The attachment page is restricted to authorized users, but due to technical "
 "limitations, the file can still be accessed directly via its URL."
@@ -1426,13 +1423,13 @@ msgstr ""
 "aktiviert. Um die Kapazität verwenden zu können, wird ihr Benutzerkonto der "
 "Gruppe hinzugefügt."
 
-#: lib/access/class-groups-access-meta-boxes.php:193
-#: lib/access/class-groups-access-meta-boxes.php:445
+#: lib/access/class-groups-access-meta-boxes.php:196
+#: lib/access/class-groups-access-meta-boxes.php:446
 msgid "You can create a new group by indicating the group's name."
 msgstr ""
 "Eine neue Gruppe kann erstellt werden indem man den Namen der Gruppe eingibt."
 
-#: lib/access/class-groups-access-meta-boxes.php:187
+#: lib/access/class-groups-access-meta-boxes.php:190
 #, php-format
 msgid ""
 "You can restrict the visibility of this %1$s to group members. Choose one or "
@@ -1443,7 +1440,7 @@ msgstr ""
 "oder mehrere Gruppen auswählen die diese/n/s %2$s lesen dürfen. Werden keine "
 "Gruppen ausgewählt dann ist diese/r/s %3$s für alle sichtbar."
 
-#: lib/access/class-groups-access-meta-boxes.php:444
+#: lib/access/class-groups-access-meta-boxes.php:445
 msgid ""
 "You can restrict the visibility to group members. Choose one or more groups "
 "to restrict access. If no groups are chosen, this entry is visible to anyone."
@@ -1467,7 +1464,7 @@ msgstr ""
 "Mitglieder einzuschränken."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:290
-#: lib/access/class-groups-access-meta-boxes.php:233
+#: lib/access/class-groups-access-meta-boxes.php:236
 msgid "You cannot set any access restrictions."
 msgstr "Sie können keine Zugriffsbeschränkungen setzen."
 
@@ -1489,7 +1486,7 @@ msgstr ""
 "Sie müssen in einer Gruppe sein die zumindest eine Kapazität hat die zur "
 "Zugriffsbeschränkung aktiviert ist."
 
-#: lib/access/class-groups-access-meta-boxes.php:239
+#: lib/access/class-groups-access-meta-boxes.php:242
 msgid "You need to have permission to set access restrictions."
 msgstr ""
 "Man benötigt die entsprechenden Rechte um Zugriffsbeschränkungen setzen zu "

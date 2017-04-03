@@ -190,6 +190,10 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.1.0 =
+* Changed the requirements to allow to restrict by group.
+* Fixed legacy access restrictions help replaced new groups help.
+
 = 2.0.3 =
 * Fixed a "Fatal error:  Call to a member function get_role_caps() on a non-object" which
   could occur in circumstances with invalid user IDs.
@@ -218,6 +222,6 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-= 2.0.3 =
+= 2.1.0 =
 Groups 2.x simplifies the way access restrictions are handled.
-This release fixes an issue which could bring up an error with invalid user IDs.
+This release reduces the requirements to restrict by group for administrators.

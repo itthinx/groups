@@ -256,8 +256,7 @@ class Groups_Admin_Posts {
 				$field = Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ;
 				if ( !empty( $_REQUEST[$field] ) && is_array( $_REQUEST[$field] ) ) {
 					if ( Groups_Access_Meta_Boxes::user_can_restrict() ) {
-						$user    = new Groups_User( get_current_user_id() );
-						$include = $user->group_ids_deep;
+						$include = Groups_Access_Meta_Boxes::get_user_can_restrict_group_ids();
 						$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 						$group_ids = array();
 						foreach( $groups as $group ) {
