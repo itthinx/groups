@@ -137,7 +137,7 @@ class Groups_Access_Meta_Boxes {
 								'<p>' .
 								( current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
 									'<p>' .
-									__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it. You will not be able to restrict access if the group already exists but you do not belong to it.', 'groups' ) .
+									__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it.', 'groups' ) .
 									'</p>'
 									:
 									''
