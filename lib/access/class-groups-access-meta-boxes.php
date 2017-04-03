@@ -108,7 +108,7 @@ class Groups_Access_Meta_Boxes {
 					if ( $screen = get_current_screen() ) {
 						// help tab for group-based access restrictions
 						$screen->add_help_tab( array(
-							'id'      => 'groups-access',
+							'id'      => 'groups-groups',
 							'title'   => __( 'Groups', 'groups' ),
 							'content' =>
 								'<p>' .
@@ -119,8 +119,12 @@ class Groups_Access_Meta_Boxes {
 								'</p>' .
 								'<p>' .
 								__( 'You can select one or more groups to restrict access to its members.', 'groups' ) .
-								' ' .
-								__( 'Note that you must be a member of a group to use it to restrict access.', 'groups' ) .
+								( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
+									' ' .
+									__( 'Note that you must be a member of a group to use it to restrict access.', 'groups' )
+									:
+									''
+								) .
 								'</p>' .
 								'<p>' .
 								'<strong>' . __( 'Example:', 'groups' ) . '</strong>' . 
@@ -178,8 +182,7 @@ class Groups_Access_Meta_Boxes {
 
 		if ( self::user_can_restrict() ) {
 
-			$user        = new Groups_User( get_current_user_id() );
-			$include     = $user->group_ids_deep;
+			$include     = self::get_user_can_restrict_group_ids();
 			$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 			$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
 
@@ -323,8 +326,7 @@ class Groups_Access_Meta_Boxes {
 								}
 
 								if ( current_user_can( $edit_post_type, $post_id ) ) {
-									$user    = new Groups_User( get_current_user_id() );
-									$include = $user->group_ids_deep;
+									$include = self::get_user_can_restrict_group_ids();
 									$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 									$user_group_ids_deep = array();
 									foreach( $groups as $group ) {
@@ -401,8 +403,7 @@ class Groups_Access_Meta_Boxes {
 
 			if ( self::user_can_restrict() ) {
 
-				$user = new Groups_User( get_current_user_id() );
-				$include     = $user->group_ids_deep;
+				$include     = self::get_user_can_restrict_group_ids();
 				$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 				$groups_read = get_post_meta( $post->ID, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
 
@@ -497,8 +498,7 @@ class Groups_Access_Meta_Boxes {
 					$post_id = $post['post_ID'];
 				}
 				if ( $post_id !== null ) {
-					$user    = new Groups_User( get_current_user_id() );
-					$include = $user->group_ids_deep;
+					$include = self::get_user_can_restrict_group_ids();
 					$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 					$group_ids = array();
 					if ( !empty( $attachment[self::GROUPS_READ] ) && is_array( $attachment[self::GROUPS_READ] ) ) {
@@ -518,13 +518,50 @@ class Groups_Access_Meta_Boxes {
 	}
 
 	/**
-	 * Returns true if the current user can restrict access to posts.
+	 * Returns true if the user can restrict access to posts. The current user is
+	 * assumed by default unless a user ID is provided.
 	 * 
+	 * @param int $user_id indicates the desired user, otherwise for the current user
 	 * @return boolean
 	 */
-	public static function user_can_restrict() {
-		$user = new Groups_User( get_current_user_id() );
+	public static function user_can_restrict( $user_id = null ) {
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
+		$user = new Groups_User( $user_id);
 		return $user->can( GROUPS_RESTRICT_ACCESS );
+	}
+
+	/**
+	 * Returns the group IDs of the groups that the user can use to restrict access.
+	 * 
+	 * If the user can GROUPS_RESTRICT_ACCESS, the following group IDs are returned:
+	 * - If the user can GROUPS_ADMINISTER_GROUPS, this will return the IDs of all groups.
+	 * - Otherwise it will return the IDs of all groups that the user belongs to, directly
+	 * or indirectly by group inheritance.
+	 * 
+	 * If the user can not GROUPS_RESTRICT_ACCESS, an empty array is returned.
+	 * 
+	 * @param int $user_id if provided, retrieve results for the user indicated by user ID, otherwise for the current user
+	 * @return array of int with the group IDs
+	 */
+	public static function get_user_can_restrict_group_ids( $user_id = null ) {
+		$group_ids = array();
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
+		if ( self::user_can_restrict( $user_id ) ) {
+			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+				$group_ids = Groups_Group::get_group_ids();
+			} else {
+				$user = new Groups_User( $user_id );
+				$group_ids = $user->group_ids_deep;
+			}
+			if ( !empty( $group_ids ) && is_array( $group_ids ) ) {
+				$group_ids = array_map (array( 'Groups_Utility','id'), $group_ids );
+			}
+		}
+		return $group_ids;
 	}
 
 	/**

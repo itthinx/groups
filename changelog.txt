@@ -1,5 +1,9 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.1.0 =
+* Changed the requirements to allow to restrict by group.
+* Fixed legacy access restrictions help replaced new groups help.
+
 = 2.0.3 =
 * Fixed a "Fatal error:  Call to a member function get_role_caps() on a non-object" which
   could occur in circumstances with invalid user IDs.
