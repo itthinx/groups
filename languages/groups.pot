@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2017-02-14 19:42+0100\n"
+        "POT-Creation-Date: 2017-04-03 21:48+0200\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,10 +200,10 @@ msgid   "Another improvement is better filtering by groups and a reduced "
         "footprint on the Users admin screen."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:206
-#: lib/access/class-groups-access-meta-boxes.php:207
-#: lib/access/class-groups-access-meta-boxes.php:442
+#: lib/access/class-groups-access-meta-boxes.php:209
+#: lib/access/class-groups-access-meta-boxes.php:210
 #: lib/access/class-groups-access-meta-boxes.php:443
+#: lib/access/class-groups-access-meta-boxes.php:444
 msgid   "Anyone &hellip;"
 msgstr  ""
 
@@ -319,7 +319,7 @@ msgid   "Choose one or more capabilities to restrict access. Groups that "
         "the fly."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:132
+#: lib/access/class-groups-access-meta-boxes.php:136
 msgid   "Choose or enter <em>Premium</em> in the <em>Read</em> field located "
         "in the <em>Groups</em> box and save or update the post (or hit "
         "Enter)."
@@ -415,7 +415,7 @@ msgid   "Enter <em>Premium</em> in the quick-create field located in the "
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:135
-#: lib/access/class-groups-access-meta-boxes.php:126
+#: lib/access/class-groups-access-meta-boxes.php:130
 msgid   "Example:"
 msgstr  ""
 
@@ -471,7 +471,7 @@ msgstr  ""
 
 #: lib/access/class-groups-access-meta-boxes.php:112
 #: lib/access/class-groups-access-meta-boxes.php:115
-#: lib/access/class-groups-access-meta-boxes.php:470
+#: lib/access/class-groups-access-meta-boxes.php:471
 #: lib/admin/class-groups-admin-posts.php:204
 #: lib/admin/class-groups-admin-user-profile.php:72
 #: lib/admin/class-groups-admin-user-profile.php:133
@@ -570,12 +570,10 @@ msgstr  ""
 msgid   "Improved User Interface"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:136
+#: lib/access/class-groups-access-meta-boxes.php:140
 msgid   "In the same field, you can create a new group and restrict access. "
         "Group names are case-sensitive. In order to be able to use the new "
-        "group, your user account will be assigned to it. You will not be "
-        "able to restrict access if the group already exists but you do not "
-        "belong to it."
+        "group, your user account will be assigned to it."
 msgstr  ""
 
 #: legacy/admin/groups-admin-options-legacy.php:62
@@ -607,7 +605,7 @@ msgid   "Legacy Settings"
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:137
-#: lib/access/class-groups-access-meta-boxes.php:128
+#: lib/access/class-groups-access-meta-boxes.php:132
 msgid   "Let's assume that you want to limit the visibility of a post to "
         "members of the <em>Premium</em> group."
 msgstr  ""
@@ -617,7 +615,7 @@ msgid   "Log out"
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:503
-#: lib/access/class-groups-access-meta-boxes.php:410
+#: lib/access/class-groups-access-meta-boxes.php:411
 msgid   "Media"
 msgstr  ""
 
@@ -686,7 +684,7 @@ msgid   "Note that you must be a member of a group that has such a capability "
         "assigned."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:123
+#: lib/access/class-groups-access-meta-boxes.php:124
 msgid   "Note that you must be a member of a group to use it to restrict "
         "access."
 msgstr  ""
@@ -779,14 +777,14 @@ msgid   "Please refer to the <a target=\"_blank\" href=\"http://docs.itthinx."
         "switch to and use the new access restrictions."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:466
+#: lib/access/class-groups-access-meta-boxes.php:467
 #, php-format
 msgid   "Please use <a href=\"%s\" target=\"_blank\">Groups File Access</a> "
         "for files that require complete protection."
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:189
-#: lib/access/class-groups-access-meta-boxes.php:162
+#: lib/access/class-groups-access-meta-boxes.php:166
 msgid   "Post"
 msgstr  ""
 
@@ -807,8 +805,8 @@ msgstr  ""
 msgid   "Quick-create group &amp; capability"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:200
-#: lib/access/class-groups-access-meta-boxes.php:412
+#: lib/access/class-groups-access-meta-boxes.php:203
+#: lib/access/class-groups-access-meta-boxes.php:413
 msgid   "Read"
 msgstr  ""
 
@@ -880,12 +878,12 @@ msgstr  ""
 msgid   "Restrict Access"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:226
+#: lib/access/class-groups-access-meta-boxes.php:229
 #, php-format
 msgid   "Restricts the visibility of this %s to members of the chosen groups."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:460
+#: lib/access/class-groups-access-meta-boxes.php:461
 msgid   "Restricts the visibility of this entry to members of the chosen "
         "groups."
 msgstr  ""
@@ -999,7 +997,7 @@ msgstr  ""
 msgid   "The <em>Name</em> must not be empty."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:464
+#: lib/access/class-groups-access-meta-boxes.php:465
 msgid   "The attachment page is restricted to authorized users, but due to "
         "technical limitations, the file can still be accessed directly via "
         "its URL."
@@ -1205,19 +1203,19 @@ msgid   "You can create a new group and capability here. The capability will "
         "will be assigned to the group."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:193
-#: lib/access/class-groups-access-meta-boxes.php:445
+#: lib/access/class-groups-access-meta-boxes.php:196
+#: lib/access/class-groups-access-meta-boxes.php:446
 msgid   "You can create a new group by indicating the group's name."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:187
+#: lib/access/class-groups-access-meta-boxes.php:190
 #, php-format
 msgid   "You can restrict the visibility of this %1$s to group members. "
         "Choose one or more groups that are allowed to read this %2$s. If no "
         "groups are chosen, the %3$s is visible to anyone."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:444
+#: lib/access/class-groups-access-meta-boxes.php:445
 msgid   "You can restrict the visibility to group members. Choose one or more "
         "groups to restrict access. If no groups are chosen, this entry is "
         "visible to anyone."
@@ -1233,7 +1231,7 @@ msgid   "You can select one or more groups to restrict access to its members."
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:290
-#: lib/access/class-groups-access-meta-boxes.php:233
+#: lib/access/class-groups-access-meta-boxes.php:236
 msgid   "You cannot set any access restrictions."
 msgstr  ""
 
@@ -1252,7 +1250,7 @@ msgid   "You must be in a group that has at least one capability enabled to "
         "enforce read access."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:239
+#: lib/access/class-groups-access-meta-boxes.php:242
 msgid   "You need to have permission to set access restrictions."
 msgstr  ""
 

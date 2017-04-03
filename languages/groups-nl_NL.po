@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups 1.2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-26 11:22+0200\n"
-"PO-Revision-Date: 2015-06-10 14:19+0100\n"
+"POT-Creation-Date: 2017-04-03 21:55+0200\n"
+"PO-Revision-Date: 2017-04-03 21:55+0200\n"
 "Last-Translator: Carsten <carsten@presis.nl>\n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -14,464 +14,1323 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.12\n"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-pagination.php:136
+#: lib/core/class-groups-pagination.php:140
 #, php-format
 msgctxt "paging"
 msgid "%1$s of %2$s"
 msgstr "%1$s van %2$s"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:182
+#: legacy/admin/class-groups-admin-posts-legacy.php:184
+#: lib/admin/class-groups-admin-posts.php:207
+msgid "&mdash; No Change &mdash;"
+msgstr ""
+
+#: legacy/admin/class-groups-admin-posts-legacy.php:136
+#: lib/admin/class-groups-admin-posts.php:148
+msgid "(only unrestricted)"
+msgstr ""
+
+#: lib/admin/class-groups-admin-users.php:374
 msgid "--"
 msgstr "--"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:216
+#: lib/core/class-groups-pagination.php:96
+#, php-format
+msgid "1 item"
+msgid_plural "%s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: legacy/admin/class-groups-admin-post-columns-legacy.php:76
+#, php-format
+msgid "<span title=\"%s\">Access Restrictions</span>"
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-remove.php:145
+#: lib/admin/groups-admin-groups-remove.php:149
+#, php-format
+msgid "<strong>%s</strong>"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:164
+msgid ""
+"<sup>*</sup> For each capability, the groups that have the capability "
+"assigned are shown within parenthesis. You can choose a capability by typing "
+"part of the group's or the capability's name."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:126
+msgid "A Duck!"
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:271
 msgid "A minimum set of permissions will be preserved."
 msgstr "Een minimale set van rechten zal worden behouden."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:55
+#: lib/admin/groups-admin-options.php:50
 msgid "Access Groups"
 msgstr "Toegangsgroepen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/groups-tests.php:382
-#: /var/www/groups/wp-content/plugins/groups/lib/core/groups-tests.php:388
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:35
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:248
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:31
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:108
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:112
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:31
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:83
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:87
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:45
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:116
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:147
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:153
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-tree-view.php:33
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:31
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:83
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:87
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:30
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:101
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:105
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:43
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:114
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:145
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:151
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:30
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:88
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:92
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:31
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:92
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:96
+#: legacy/admin/class-groups-admin-posts-legacy.php:181
+msgid "Access Restrictions"
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-add.php:34
+#: lib/admin/groups-admin-capabilities-add.php:89
+#: lib/admin/groups-admin-capabilities-add.php:93
+#: lib/admin/groups-admin-capabilities-edit.php:35
+#: lib/admin/groups-admin-capabilities-edit.php:96
+#: lib/admin/groups-admin-capabilities-edit.php:100
+#: lib/admin/groups-admin-capabilities-remove.php:35
+#: lib/admin/groups-admin-capabilities-remove.php:83
+#: lib/admin/groups-admin-capabilities-remove.php:87
+#: lib/admin/groups-admin-capabilities-remove.php:110
+#: lib/admin/groups-admin-capabilities-remove.php:175
+#: lib/admin/groups-admin-capabilities-remove.php:179
+#: lib/admin/groups-admin-capabilities.php:48
+#: lib/admin/groups-admin-capabilities.php:141
+#: lib/admin/groups-admin-capabilities.php:172
+#: lib/admin/groups-admin-capabilities.php:178
+#: lib/admin/groups-admin-groups-add.php:36
+#: lib/admin/groups-admin-groups-add.php:139
+#: lib/admin/groups-admin-groups-add.php:143
+#: lib/admin/groups-admin-groups-edit.php:37
+#: lib/admin/groups-admin-groups-edit.php:176
+#: lib/admin/groups-admin-groups-edit.php:180
+#: lib/admin/groups-admin-groups-remove.php:35
+#: lib/admin/groups-admin-groups-remove.php:83
+#: lib/admin/groups-admin-groups-remove.php:87
+#: lib/admin/groups-admin-groups-remove.php:110
+#: lib/admin/groups-admin-groups-remove.php:177
+#: lib/admin/groups-admin-groups-remove.php:181
+#: lib/admin/groups-admin-groups.php:49 lib/admin/groups-admin-groups.php:148
+#: lib/admin/groups-admin-groups.php:179 lib/admin/groups-admin-groups.php:185
+#: lib/admin/groups-admin-options.php:39 lib/admin/groups-admin-options.php:319
+#: lib/admin/groups-admin-tree-view.php:37 lib/test/groups-tests.php:385
+#: lib/test/groups-tests.php:391
 msgid "Access denied."
 msgstr "Geen toegang."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:180
+#: lib/admin/groups-admin-options.php:216
 msgid "Access restricions"
 msgstr "Toegangsrestricties"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:52
-#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:62
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:97
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:107
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:121
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:124
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:592
 msgid "Access restrictions"
 msgstr "Toegangsrestricties"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:76
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:174
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:334
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:79
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:172
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:66
+#: legacy/admin/class-groups-admin-posts-legacy.php:124
+#: legacy/admin/class-groups-admin-posts-legacy.php:125
+msgid "Access restrictions &hellip;"
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-add.php:68
+#: lib/admin/groups-admin-capabilities.php:201
+#: lib/admin/groups-admin-groups-add.php:119
+#: lib/admin/groups-admin-groups.php:207
 msgid "Add"
 msgstr "Toevoegen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:47
+#: lib/admin/groups-admin-capabilities-add.php:50
 msgid "Add a new capability"
 msgstr "Nieuw recht toevoegen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:55
+#: lib/admin/groups-admin-groups-add.php:59
 msgid "Add a new group"
 msgstr "Nieuwe groep toevoegen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:56
+#: lib/admin/groups-admin-groups.php:382
+msgid "Add capability"
+msgstr ""
+
+#: legacy/admin/class-groups-admin-posts-legacy.php:185
+#: lib/admin/class-groups-admin-posts.php:208
+msgid "Add restriction"
+msgstr ""
+
+#: lib/admin/class-groups-admin-users.php:212
+msgid "Add to group"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:234
+#: lib/admin/class-groups-admin.php:221 lib/admin/groups-admin-add-ons.php:32
+msgid "Add-Ons"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:150
+msgid ""
+"Adding the group and capability manually and enabling it for access "
+"restriction"
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:51
 msgid "Administer Groups"
 msgstr "Beheer groepen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:57
+#: lib/admin/groups-admin-options.php:52
 msgid "Administer Groups plugin options"
 msgstr "Beheer Groep plugin opties"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:172
+#: lib/admin/groups-admin-options.php:208
 msgid "Administrator Access Override"
 msgstr "Beheer overschrijving van toegang"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:176
-msgid "Administrators override all access permissions derived from Groups capabilities."
+#: lib/admin/groups-admin-options.php:212
+msgid ""
+"Administrators override all access permissions derived from Groups "
+"capabilities."
 msgstr "Beheerders kunnen alle toegangsrechten van Groepen overschrijven."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:282
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:296
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:279
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:293
+#: lib/admin/class-groups-admin-posts.php:165
+msgid "Also look for groups related to terms"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:187
+msgid ""
+"And you can now filter the list of users by one or multiple groups with one "
+"convenient field."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:185
+msgid ""
+"Another improvement is better filtering by groups and a reduced footprint on "
+"the Users admin screen."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:209
+#: lib/access/class-groups-access-meta-boxes.php:210
+#: lib/access/class-groups-access-meta-boxes.php:443
+#: lib/access/class-groups-access-meta-boxes.php:444
+msgid "Anyone &hellip;"
+msgstr ""
+
+#: lib/admin/class-groups-admin-users.php:215
+#: lib/admin/groups-admin-capabilities.php:334
+#: lib/admin/groups-admin-capabilities.php:360
+#: lib/admin/groups-admin-capabilities.php:374
+#: lib/admin/groups-admin-groups.php:323 lib/admin/groups-admin-groups.php:349
+#: lib/admin/groups-admin-groups.php:385
 msgid "Apply"
 msgstr "Toepassen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:332
-msgid "Apply capability to selected groups:"
-msgstr "Recht toepassen op geselecteerde groepen:"
-
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:282
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:160
 msgid ""
-"CAUTION: If this option is active while the plugin is deactivated, ALL plugin "
-"settings and data will be DELETED for <strong>all sites</strong>. If you are going to "
-"use this option, now would be a good time to make a backup. By enabling this option "
-"you agree to be solely responsible for any loss of data or any other consequences "
-"thereof."
+"Become a member of the <em>Premium</em> group - this is required so you can "
+"choose the <em>premium</em> capability to restrict access to a post."
 msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:230
-msgid ""
-"CAUTION: If this option is active while the plugin is deactivated, ALL plugin "
-"settings and data will be DELETED. If you are going to use this option, now would be "
-"a good time to make a backup. By enabling this option you agree to be solely "
-"responsible for any loss of data or any other consequences thereof."
+#: lib/admin/groups-admin-capabilities.php:371
+#: lib/admin/groups-admin-groups.php:380
+msgid "Bulk Actions"
 msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:91
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:62
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:62
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:81
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:68
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:75
+#: lib/admin/groups-admin-options.php:353
+msgid ""
+"CAUTION: If this option is active while the plugin is deactivated, ALL "
+"plugin settings and data will be DELETED for <strong>all sites</strong>. If "
+"you are going to use this option, now would be a good time to make a backup. "
+"By enabling this option you agree to be solely responsible for any loss of "
+"data or any other consequences thereof."
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:285
+msgid ""
+"CAUTION: If this option is active while the plugin is deactivated, ALL "
+"plugin settings and data will be DELETED. If you are going to use this "
+"option, now would be a good time to make a backup. By enabling this option "
+"you agree to be solely responsible for any loss of data or any other "
+"consequences thereof."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-add.php:70
+#: lib/admin/groups-admin-capabilities-edit.php:79
+#: lib/admin/groups-admin-capabilities-remove.php:64
+#: lib/admin/groups-admin-capabilities-remove.php:150
+#: lib/admin/groups-admin-groups-add.php:121
+#: lib/admin/groups-admin-groups-edit.php:160
+#: lib/admin/groups-admin-groups-remove.php:64
+#: lib/admin/groups-admin-groups-remove.php:154
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:65
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:263
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:117
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:166
+#: legacy/admin/groups-admin-options-legacy.php:59
+#: lib/admin/class-groups-admin.php:195
+#: lib/admin/groups-admin-capabilities.php:192
+#: lib/admin/groups-admin-groups-add.php:97
+#: lib/admin/groups-admin-groups-edit.php:117
+#: lib/admin/groups-admin-groups.php:306 lib/core/class-groups-help.php:71
 msgid "Capabilities"
 msgstr "Rechten"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:259
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:274
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:55
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:62
+#: lib/admin/groups-admin-groups.php:361 lib/admin/groups-admin-groups.php:362
+msgid "Capabilities &hellip;"
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-add.php:57
+#: lib/admin/groups-admin-capabilities-edit.php:66
+#: lib/admin/groups-admin-capabilities.php:314
+#: lib/admin/groups-admin-capabilities.php:330
 msgid "Capability"
 msgstr "Recht"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:57
+#: lib/admin/groups-admin-capabilities-remove.php:59
 #, php-format
 msgid "Capability : %s"
 msgstr "Recht: %s"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:272
-msgid "Capability Id"
-msgstr "Recht Id"
+#: lib/admin/groups-admin-capabilities.php:326
+msgid "Capability ID"
+msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:283
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:280
+#: lib/admin/class-groups-admin-posts.php:221
+#: lib/admin/class-groups-admin-posts.php:222
+msgid "Choose access restriction groups &hellip;"
+msgstr ""
+
+#: legacy/admin/class-groups-admin-posts-legacy.php:195
+#: legacy/admin/class-groups-admin-posts-legacy.php:196
+msgid "Choose access restrictions &hellip;"
+msgstr ""
+
+#: lib/admin/groups-admin-groups-add.php:100
+#: lib/admin/groups-admin-groups-edit.php:120
+msgid "Choose capabilities &hellip;"
+msgstr ""
+
+#: lib/admin/class-groups-admin-user-profile.php:80
+#: lib/admin/class-groups-admin-user-profile.php:81
+#: lib/admin/class-groups-admin-user-profile.php:167
+#: lib/admin/class-groups-admin-user-profile.php:168
+#: lib/admin/class-groups-admin-users.php:190
+#: lib/admin/class-groups-admin-users.php:191
+#: lib/admin/class-groups-admin-users.php:251
+#: lib/admin/class-groups-admin-users.php:252
+msgid "Choose groups &hellip;"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:214
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:541
+msgid ""
+"Choose one or more capabilities to restrict access. Groups that grant access "
+"through the capabilities are shown in parenthesis. If no capabilities are "
+"available yet, you can use the quick-create box to create a group and "
+"capability enabled for access restriction on the fly."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:136
+msgid ""
+"Choose or enter <em>Premium</em> in the <em>Read</em> field located in the "
+"<em>Groups</em> box and save or update the post (or hit Enter)."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:335
+#: lib/admin/groups-admin-groups.php:324
 msgid "Clear"
 msgstr "Reset"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:172
+#: lib/admin/groups-admin-capabilities.php:196
 msgid "Click to add a new capability"
 msgstr "Klik om een nieuw recht toe te voegen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:174
+#: lib/admin/groups-admin-groups.php:202
 msgid "Click to add a new group"
 msgstr "Klik om een nieuwe groep toevoegen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:222
+#: lib/admin/groups-admin-capabilities.php:212
+msgid "Click to refresh capabilities"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:274
+msgid "Click to toggle the display of groups that grant the capabilities."
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:277
 msgid "Deactivation and data persistence"
 msgstr "Deactivatie en blijvendheid van data "
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:279
+#: lib/admin/groups-admin-options.php:350
 msgid "Delete all Groups plugin data for ALL sites on network deactivation"
-msgstr "Verwijder alle Groups plugin data voor ALLE sites bij netwerk deactivatie"
+msgstr ""
+"Verwijder alle Groups plugin data voor ALLE sites bij netwerk deactivatie"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:226
+#: lib/admin/groups-admin-options.php:281
 msgid "Delete all Groups plugin data on deactivation"
 msgstr "Verwijder alle Groups plugin data bij deactivatie"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:83
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:262
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:73
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:260
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-add.php:60
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:67
+#: lib/admin/groups-admin-capabilities-add.php:62
+#: lib/admin/groups-admin-capabilities-edit.php:71
+#: lib/admin/groups-admin-capabilities.php:315
+#: lib/admin/groups-admin-groups-add.php:83
+#: lib/admin/groups-admin-groups-edit.php:93
+#: lib/admin/groups-admin-groups.php:305
 msgid "Description"
 msgstr "Beschrijving"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:264
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:406
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:261
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:387
+#: lib/admin/groups-admin-options.php:245
+msgid ""
+"Disabling this setting for a post type does not remove existing access "
+"restrictions on individual posts of that type."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:144
+#: lib/admin/class-groups-admin-welcome.php:145
+msgid "Dismiss"
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:449
+#: lib/admin/groups-admin-groups.php:460
 msgid "Edit"
 msgstr "Bewerk"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:53
+#: lib/admin/groups-admin-capabilities-edit.php:56
 msgid "Edit a capability"
 msgstr "Bewerk een mogelijkheid"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:64
+#: lib/admin/groups-admin-groups-edit.php:68
 msgid "Edit a group"
 msgstr "Bewerk een groep"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:98
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:161
+msgid ""
+"Edit the post for which you want to restrict access and choose<sup>*</sup> "
+"the <em>premium</em> capability."
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:294
+msgid "Enable legacy access control based on capabilities."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:204
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:505
 msgid "Enforce read access"
 msgstr "Leestoegang afdwingen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:272
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:269
+#: lib/admin/groups-admin-options.php:191
+msgid ""
+"Enhanced functionality is available via official <a href=\"http://www."
+"itthinx.com/shop/\">Extensions</a> for Groups."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:143
+msgid ""
+"Enter <em>Premium</em> in the quick-create field located in the Access "
+"restrictions panel and save or update the post (or hit Enter)."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:135
+#: lib/access/class-groups-access-meta-boxes.php:130
+msgid "Example:"
+msgstr ""
+
+#: lib/admin/class-groups-admin-users.php:275
+msgid "Filter"
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:324
+#: lib/admin/groups-admin-groups.php:315
 msgid "Filters"
 msgstr "Filters"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:113
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:157
 msgid ""
-"For consulting and development services related to Groups go <a href=\"http://www."
-"itthinx.com/contact/\" target=\"_blank\">here</a>."
+"Go to <strong>Groups > Capabilities</strong> and add the <em>premium</em> "
+"capability."
 msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:82
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:261
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:156
+msgid ""
+"Go to <strong>Groups > Groups</strong> and add the <em>Premium</em> group."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:158
+msgid ""
+"Go to <strong>Groups > Groups</strong> and assign the <em>premium</em> "
+"capability to the <em>Premium</em> group."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:159
+msgid ""
+"Go to <strong>Groups > Options</strong> and enable the <em>premium</em> "
+"capability to restrict access."
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:304
 msgid "Group"
 msgstr "Groep"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:275
-msgid "Group Id"
-msgstr "Groep Id"
+#: lib/admin/class-groups-admin-users.php:211
+msgid "Group Actions"
+msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:277
+#: lib/admin/groups-admin-groups.php:316
+msgid "Group ID"
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:319
 msgid "Group Name"
 msgstr "Groepnaam"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:57
+#: lib/admin/groups-admin-groups-remove.php:59
 #, php-format
 msgid "Group Name : %s"
 msgstr "Groepnaam: %s"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:57
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:62
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:63
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:152
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:168
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:86
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:87
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:153
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:154
+#: lib/access/class-groups-access-meta-boxes.php:112
+#: lib/access/class-groups-access-meta-boxes.php:115
+#: lib/access/class-groups-access-meta-boxes.php:471
+#: lib/admin/class-groups-admin-posts.php:204
+#: lib/admin/class-groups-admin-user-profile.php:72
+#: lib/admin/class-groups-admin-user-profile.php:133
+#: lib/admin/class-groups-admin-user-profile.php:157
+#: lib/admin/class-groups-admin-users.php:347
+#: lib/admin/class-groups-admin.php:244 lib/admin/class-groups-admin.php:245
+#: lib/admin/class-groups-admin.php:274 lib/core/class-groups-help.php:63
+#: lib/core/class-groups-help.php:68 lib/core/class-groups-help.php:69
 msgid "Groups"
 msgstr "Groepen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:116
+#: lib/admin/class-groups-admin-post-columns.php:93
+msgctxt "Column header"
+msgid "Groups"
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:98
+msgctxt "Meta box title"
+msgid "Groups"
+msgstr ""
+
+#: lib/admin/class-groups-admin.php:140
+msgctxt "menu item title"
+msgid "Groups"
+msgstr ""
+
+#: lib/admin/class-groups-admin.php:158 lib/admin/groups-admin-groups.php:199
+msgctxt "page-title"
+msgid "Groups"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:202
+#, php-format
+msgid ""
+"Groups %s features a simpler model for access restrictions based on groups "
+"instead of capabilities used in previous versions."
+msgstr ""
+
+#: lib/admin/class-groups-admin-posts.php:136
+#: lib/admin/class-groups-admin-posts.php:137
+msgid "Groups &hellip;"
+msgstr ""
+
+#: lib/admin/class-groups-admin.php:220
+msgid "Groups Add-Ons"
+msgstr ""
+
+#: lib/admin/class-groups-admin.php:194
 msgid "Groups Capabilities"
 msgstr "Groep mogelijkheden"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:254
+#: lib/admin/groups-admin-options.php:131
+msgid "Groups Options"
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:325
 msgid "Groups network options"
 msgstr "Groepen netwerk opties"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:50
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:129
+#: lib/admin/class-groups-admin.php:207
 msgid "Groups options"
 msgstr "Groepopties"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:86
+#: lib/core/class-groups-help.php:92
 msgid ""
-"Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</strong> "
-"groups."
+"Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</"
+"strong> groups."
 msgstr ""
-"Hier kun groepen worden <strong>toegevoegd</strong>, <strong>bewerkt</strong> en "
-"verwijderd</strong>."
+"Hier kun groepen worden <strong>toegevoegd</strong>, <strong>bewerkt</"
+"strong> en verwijderd</strong>."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:260
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:258
-msgid "Id"
-msgstr "Id"
+#: lib/admin/groups-admin-capabilities.php:313
+#: lib/admin/groups-admin-groups.php:303
+msgid "ID"
+msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:218
+#: lib/admin/class-groups-admin-welcome.php:221
+msgid ""
+"If you had any access restrictions in place based on capabilities, the "
+"entries will now be unprotected, unless you enable legacy access "
+"restrictions or place appropriate access restrictions based on groups on the "
+"desired entries."
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:273
 msgid "If you lock yourself out, please ask an administrator to help."
 msgstr "Als je jezelf hebt uitgesloten vraag dan de beheerder om hulp."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:183
+#: lib/admin/class-groups-admin-welcome.php:225
 msgid ""
-"Include these capabilities to enforce read access on posts. The selected capabilities "
-"will be offered to restrict access to posts."
+"If you would like to switch to access restrictions based on groups "
+"(recommended) instead of capabilities, you can easily do so by setting the "
+"appropriate groups on your protected posts, pages and other entries to "
+"restrict access."
 msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:344
+#: lib/admin/class-groups-admin-welcome.php:155
+msgid "Important"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:180
+msgid "Improved User Interface"
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:140
+msgid ""
+"In the same field, you can create a new group and restrict access. Group "
+"names are case-sensitive. In order to be able to use the new group, your "
+"user account will be assigned to it."
+msgstr ""
+
+#: legacy/admin/groups-admin-options-legacy.php:62
+msgid ""
+"Include these capabilities to enforce read access on posts. The selected "
+"capabilities will be offered to restrict access to posts."
+msgstr ""
+
+#: lib/admin/groups-admin-groups-edit.php:141
+msgid "Inherited capabilities:"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:158
+msgid ""
+"It seems that you have updated from Groups 1.x where access restrictions "
+"were based on capabilities."
+msgstr ""
+
+#: lib/views/class-groups-shortcodes.php:469
+#, php-format
 msgid "Join the %s group"
 msgstr "Deelnemen aan groep %s"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:428
+#: lib/views/class-groups-shortcodes.php:553
+#, php-format
 msgid "Leave the %s group"
 msgstr "Verlaat de groep %s"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:73
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:63
+#: lib/admin/groups-admin-options.php:290
+msgid "Legacy Settings"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:137
+#: lib/access/class-groups-access-meta-boxes.php:132
+msgid ""
+"Let's assume that you want to limit the visibility of a post to members of "
+"the <em>Premium</em> group."
+msgstr ""
+
+#: lib/views/class-groups-shortcodes.php:121
+msgid "Log out"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:503
+#: lib/access/class-groups-access-meta-boxes.php:411
+msgid "Media"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:231
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:558
+#, php-format
+msgid "Members of the %1$s group can access this %2$s through this capability."
+msgid_plural ""
+"Members of the %1$s groups can access this %2$s through this capability."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/admin/groups-admin-groups-add.php:69
+#: lib/admin/groups-admin-groups-edit.php:79
 msgid "Name"
 msgstr "Naam"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:276
+#: lib/admin/groups-admin-options.php:347
 msgid "Network deactivation and data persistence"
 msgstr "Netwerk deactivatie en blijvendheid van data "
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:172
+#: lib/admin/groups-admin-capabilities.php:206
 msgid "New Capability"
 msgstr "Nieuw recht"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:174
+#: lib/admin/class-groups-admin-welcome.php:191
+msgid "New Documentation"
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:212
 msgid "New Group"
 msgstr "Nieuwe groep"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:37
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:37
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:240
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:567
+msgid ""
+"No groups grant access through this capability. To grant access to group "
+"members using this capability, you should assign it to a group and enable "
+"the capability for access restriction."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:123
+msgid "No new capabilities have been found."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-remove.php:116
+msgid "No such capabilities."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-edit.php:41
+#: lib/admin/groups-admin-capabilities-remove.php:41
 msgid "No such capability."
 msgstr "Dit recht bestaat niet"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:37
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:37
+#: lib/admin/groups-admin-groups-edit.php:43
+#: lib/admin/groups-admin-groups-remove.php:41
 msgid "No such group."
 msgstr "Deze groep bestaat niet"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:118
-msgid ""
-"Only groups or users that have one of the selected capabilities are allowed to read "
-"this %s."
+#: lib/admin/groups-admin-groups-remove.php:116
+msgid "No such groups."
 msgstr ""
-"Alleen groepen of gebruikers met één van de geselecteerde rechten kunnen dit / deze "
-"%s lezen."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:64
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:130
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:132
+msgid ""
+"Note that you must be a member of a group that has such a capability "
+"assigned."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:124
+msgid "Note that you must be a member of a group to use it to restrict access."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:183
+msgid ""
+"Now you can assign new users directly to groups when you create a new user "
+"account from the Dashboard."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:174
+msgid ""
+"Now you can protect your posts, pages and any other custom post type like "
+"products or events by simply assigning them to one or more groups."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:227
+msgid ""
+"Once you have adjusted your access restrictions based on groups, you can "
+"disable legacy access control."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:121
+#, php-format
+msgid "One capability has been added."
+msgid_plural "%d capabilities have been added."
+msgstr[0] ""
+msgstr[1] ""
+
+#: legacy/admin/class-groups-admin-post-columns-legacy.php:77
+msgid "One or more capabilities required to read the entry."
+msgstr ""
+
+#: lib/admin/class-groups-admin-post-columns.php:92
+msgid "One or more groups granting access to entries."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:270
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:588
+#, php-format
+msgid ""
+"Only groups or users that have one of the selected capabilities are allowed "
+"to read this %s."
+msgstr ""
+"Alleen groepen of gebruikers met één van de geselecteerde rechten kunnen "
+"dit / deze %s lezen."
+
+#: lib/admin/class-groups-admin.php:208 lib/admin/class-groups-admin.php:268
+#: lib/core/class-groups-help.php:70
 msgid "Options"
 msgstr "Opties"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:78
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-add.php:68
+#: lib/admin/groups-admin-options.php:123
+msgid "Options saved."
+msgstr ""
+
+#: lib/admin/groups-admin-groups-add.php:76
+#: lib/admin/groups-admin-groups-edit.php:86
 msgid "Parent"
 msgstr "Ouder"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:212
+#: lib/admin/class-groups-admin-welcome.php:237
+msgid "Perfect complements to memberships and access control with Groups."
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:267
 msgid "Permissions"
 msgstr "Toestemmingen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-access-meta-boxes.php:87
+#: lib/admin/groups-admin-groups-remove.php:142
+msgid ""
+"Please confirm removal of the following groups. This action cannot be undone."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-remove.php:139
+msgid ""
+"Please confirm to remove the following capabilities. This action cannot be "
+"undone."
+msgstr ""
+
+#: lib/core/class-groups-help.php:144
+#, php-format
+msgid ""
+"Please give it a <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
+"rating."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:160
+#, php-format
+msgid ""
+"Please make sure to read the notes on <strong>Switching to Groups %s</"
+"strong> below."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:229
+msgid ""
+"Please refer to the <a target=\"_blank\" href=\"http://docs.itthinx.com/"
+"document/groups/\">Documentation</a> for details on how to switch to and use "
+"the new access restrictions."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:467
+#, php-format
+msgid ""
+"Please use <a href=\"%s\" target=\"_blank\">Groups File Access</a> for files "
+"that require complete protection."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:189
+#: lib/access/class-groups-access-meta-boxes.php:166
 msgid "Post"
 msgstr "Bericht"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/access/class-groups-post-access.php:44
+#: lib/admin/groups-admin-options.php:218
+msgid "Post types"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:176
+msgid ""
+"Previously we used capabilities to do that, but changing to this new model "
+"makes things even easier."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:169
+msgid "Protect Content Easily"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:308
+msgid "Quick-create group &amp; capability"
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:203
+#: lib/access/class-groups-access-meta-boxes.php:413
+msgid "Read"
+msgstr ""
+
+#: legacy/access/class-groups-post-access-legacy.php:52
 msgid "Read Post"
 msgstr "Lees bericht"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/auto/class-groups-registered.php:59
+#: lib/admin/groups-admin-add-ons.php:49
+msgid "Recommended extensions for Groups"
+msgstr ""
+
+#: lib/admin/groups-admin-add-ons.php:157
+msgid "Recommended plugins by itthinx"
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:217
+#: lib/admin/groups-admin-capabilities.php:222
+msgid "Refresh"
+msgstr ""
+
+#: lib/auto/class-groups-registered.php:73
 msgid "Registered"
 msgstr "Geregistreerd"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:78
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:60
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:265
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:335
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:411
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:60
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:262
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:392
+#: lib/admin/groups-admin-capabilities-remove.php:62
+#: lib/admin/groups-admin-capabilities-remove.php:149
+#: lib/admin/groups-admin-capabilities.php:372
+#: lib/admin/groups-admin-capabilities.php:458
+#: lib/admin/groups-admin-groups-remove.php:62
+#: lib/admin/groups-admin-groups-remove.php:153
+#: lib/admin/groups-admin-groups.php:469
 msgid "Remove"
 msgstr "Verwijder"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-remove.php:50
+#: lib/admin/groups-admin-capabilities-remove.php:53
 msgid "Remove a capability"
 msgstr "Verwijder mogelijkheid"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-remove.php:50
+#: lib/admin/groups-admin-groups-remove.php:53
 msgid "Remove a group"
 msgstr "Verwijder een groep"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:293
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:290
+#: lib/admin/groups-admin-capabilities-remove.php:133
+msgid "Remove capabilities"
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:383
+msgid "Remove capability"
+msgstr ""
+
+#: lib/admin/class-groups-admin-users.php:213
+msgid "Remove from group"
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:381
+msgid "Remove group"
+msgstr ""
+
+#: lib/admin/groups-admin-groups-remove.php:135
+msgid "Remove groups"
+msgstr ""
+
+#: legacy/admin/class-groups-admin-posts-legacy.php:186
+#: lib/admin/class-groups-admin-posts.php:209
+msgid "Remove restriction"
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:53
+msgid "Restrict Access"
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:229
+#, php-format
+msgid "Restricts the visibility of this %s to members of the chosen groups."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:461
+msgid "Restricts the visibility of this entry to members of the chosen groups."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:357
+#: lib/admin/groups-admin-groups.php:346
 msgid "Results per page"
 msgstr "Resultaten per page"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:129
+#: lib/admin/groups-admin-options.php:146
 msgid "Role"
 msgstr "Rol"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:236
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:286
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups-edit.php:89
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities-edit.php:73
+#: lib/admin/groups-admin-capabilities-edit.php:77
+#: lib/admin/groups-admin-groups-edit.php:158
+#: lib/admin/groups-admin-options.php:203
+#: lib/admin/groups-admin-options.php:305
+#: lib/admin/groups-admin-options.php:357
 msgid "Save"
 msgstr "Opslaan"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:208
+#: lib/admin/groups-admin-options.php:221
+msgid "Show access restrictions for these post types."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:277
+msgid "Show groups"
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:253
+msgid "Show groups in user profiles."
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:262
 msgid "Show the Groups tree view."
 msgstr "Toon de groepen in boomweergave"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:111
-msgid ""
-"Thank you for using <a href=\"http://www.itthinx.com/plugins/groups\" target=\"_blank"
-"\">Groups</a> by <a href=\"http://www.itthinx.com\" target=\"_blank\">itthinx</a>."
+#: lib/admin/class-groups-admin-welcome.php:199
+#, php-format
+msgid "Switching to Groups %s"
 msgstr ""
-"Bedankt voor het gebruiken van <a href=\"http://www.itthinx.com/plugins/groups\" "
-"target=\"_blank\">Groups</a> door <a href=\"http://www.itthinx.com\" target=\"_blank"
+
+#: lib/admin/class-groups-admin-posts.php:167
+msgid "Terms"
+msgstr ""
+
+#: lib/core/class-groups-help.php:141
+msgid ""
+"Thank you for using <a href=\"http://www.itthinx.com/plugins/groups\" target="
+"\"_blank\">Groups</a> by <a href=\"http://www.itthinx.com\" target=\"_blank"
 "\">itthinx</a>."
-
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:81
-msgid ""
-"The complete documentation is available on the <a href=\"http://www.itthinx.com/"
-"plugins/groups\" target=\"_blank\">Groups plugin page</a>"
 msgstr ""
-"De complete handleiding is te lezen op de <a href=\"http://www.itthinx.com/plugins/"
-"groups\" target=\"_blank\">Groups plugin pagina</a>"
+"Bedankt voor het gebruiken van <a href=\"http://www.itthinx.com/plugins/"
+"groups\" target=\"_blank\">Groups</a> door <a href=\"http://www.itthinx.com"
+"\" target=\"_blank\">itthinx</a>."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:418
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-capabilities.php:399
+#: lib/admin/class-groups-admin-welcome.php:149
+msgid ""
+"Thanks for using Groups! We have made it even easier to protect your content "
+"and hope you like it :)"
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-edit.php:116
+#, php-format
+msgid ""
+"The <em>%s</em> capability already exists and cannot be assigned to this one."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-add.php:104
+#, php-format
+msgid "The <em>%s</em> capability already exists."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-edit.php:126
+#, php-format
+msgid "The <em>%s</em> capability could not be updated."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:62
+#, php-format
+msgid "The <em>%s</em> capability has been created."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:70
+#, php-format
+msgid "The <em>%s</em> capability has been updated."
+msgstr ""
+
+#: lib/admin/groups-admin-groups-edit.php:204
+#, php-format
+msgid ""
+"The <em>%s</em> group already exists and cannot be used to name this one."
+msgstr ""
+
+#: lib/admin/groups-admin-groups-add.php:165
+#, php-format
+msgid "The <em>%s</em> group already exists."
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:63
+#, php-format
+msgid "The <em>%s</em> group has been created."
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:71
+#, php-format
+msgid "The <em>%s</em> group has been updated."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities-add.php:102
+#: lib/admin/groups-admin-capabilities-edit.php:130
+msgid "The <em>Capability</em> must not be empty."
+msgstr ""
+
+#: lib/admin/groups-admin-groups-edit.php:196
+msgid "The <em>Name</em> must not be empty."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:465
+msgid ""
+"The attachment page is restricted to authorized users, but due to technical "
+"limitations, the file can still be accessed directly via its URL."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:75
+msgid "The capability has been deleted."
+msgstr ""
+
+#: lib/admin/groups-admin-groups-edit.php:130
+msgid "The chosen capabilities are assigned to the group."
+msgstr ""
+
+#: lib/core/class-groups-help.php:87
+msgid ""
+"The complete documentation is available on the <a href=\"http://docs.itthinx."
+"com/document/groups\">Documentation</a> pages for Groups."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:210
+msgid "The following is only of interest if you have upgraded from Groups 1.x:"
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:76
+msgid "The group has been deleted."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:148
+msgid "The manual way:"
+msgstr ""
+
+#: lib/admin/groups-admin-groups-add.php:163
+msgid "The name must not be empty."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:139
+msgid "The quick way:"
+msgstr ""
+
+#: lib/admin/class-groups-admin-user-profile.php:88
+#: lib/admin/class-groups-admin-user-profile.php:176
+msgid "The user is a member of the chosen groups."
+msgstr ""
+
+#: lib/admin/groups-admin-capabilities.php:484
+#: lib/admin/groups-admin-groups.php:523
 msgid "There are no results."
 msgstr "Er zijn geen resultaten"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:213
-msgid ""
-"These permissions apply to Groups management. They do not apply to access permissions "
-"derived from Groups capabilities."
+#: lib/admin/groups-admin-groups-add.php:109
+msgid "These capabilities will be assigned to the group."
 msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-groups.php:401
+#: lib/admin/groups-admin-options.php:268
+msgid ""
+"These permissions apply to Groups management. They do not apply to access "
+"permissions derived from Groups capabilities."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:219
+msgid "This could be important!"
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:244
+msgid ""
+"This determines for which post types access restriction settings are offered."
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:516
 msgid "This group has no capabilities."
 msgstr "Deze groep heeft geen rechten"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:102
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin.php:103
+#: lib/admin/class-groups-admin-welcome.php:215
+msgid ""
+"This means that if you had access restrictions in place that were based on "
+"capabilities, your entries will still be protected."
+msgstr ""
+
+#: lib/access/class-groups-post-access.php:477
+msgid ""
+"This method is deprecated. You should use Groups_Post_Access_Legacy::"
+"get_read_post_capabilities() to retrieve the capabilities instead."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:206
+msgid ""
+"To make it easier to transition to the new model for those who migrate from "
+"a previous version, we have included legacy access control based on "
+"capabilities."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:204
+msgid ""
+"To put it simple, previously you would have used capabilities to restrict "
+"access to posts and now you simply use groups."
+msgstr ""
+
+#: lib/admin/class-groups-admin.php:180 lib/admin/class-groups-admin.php:181
 msgid "Tree"
 msgstr "Boomweergave"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-tree-view.php:40
+#: lib/admin/groups-admin-tree-view.php:43
 msgid "Tree of Groups"
 msgstr "Boom van Groepen"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/groups-admin-options.php:204
+#: lib/admin/groups-admin-options.php:258
 msgid "Tree view"
 msgstr "Boom"
 
-#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:402
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:153
+msgid ""
+"Try the quick-create field first. Unless you need a more complex setup, "
+"there is no reason to go this way instead."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:212
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:213
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:540
+msgid "Type and choose &hellip;"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:127
+msgid ""
+"Use the <em>Access restrictions</em> box to limit the visibility of posts, "
+"pages and other post types."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:118
+msgid ""
+"Use the <em>Groups</em> box to limit the visibility of posts, pages and "
+"other post types."
+msgstr ""
+
+#: lib/admin/groups-admin-options.php:249
+msgid "User profiles"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:141
+msgid "Using the quick-create field"
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:146
+msgid ""
+"Using the quick-create field, you can create a new group and capability. The "
+"capability will be assigned to the group and enabled to enforce read access. "
+"Group names are case-sensitive, the name of the capability is the lower-case "
+"version of the name of the group. If the group already exists, a new "
+"capability is created and assigned to the existing group. If the capability "
+"already exists, it will be assigned to the group. If both already exist, the "
+"capability is enabled to enforce read access. In order to be able to use the "
+"capability, your user account will be assigned to the group."
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:110
+msgid "View the Welcome screen for this version of Groups"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:172
+msgid "We have made it even easier to protect your content!"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:111
+msgid "Welcome"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:46
+#: lib/admin/class-groups-admin-welcome.php:47
+msgid "Welcome to Groups"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:138
+#, php-format
+msgid "Welcome to Groups %s"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:165
+msgid "What's New?"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:194
+msgid ""
+"Whether you are new to Groups or have been using it before, please make sure "
+"to visit the <a target=\"_blank\" href=\"http://docs.itthinx.com/document/"
+"groups/\">Documentation</a> pages to know more about how to use it."
+msgstr ""
+
+#: lib/views/class-groups-shortcodes.php:527
 #, php-format
 msgid "You are a member of the %s group."
 msgstr "Je bent lid van de groep %s."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/core/class-groups-help.php:115
-msgid "You can also support the project:"
-msgstr "Je kunt ook het project steunen:"
+#: lib/admin/class-groups-admin-welcome.php:217
+msgid ""
+"You are running the system with legacy access control based on capabilities "
+"disabled."
+msgstr ""
 
-#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:397
+#: lib/admin/class-groups-admin-welcome.php:213
+msgid ""
+"You are running the system with legacy access control based on capabilities "
+"enabled."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:312
+msgid ""
+"You can create a new group and capability here. The capability will be "
+"assigned to the group and enabled to enforce read access. Group names are "
+"case-sensitive, the name of the capability is the lower-case version of the "
+"name of the group. If the group already exists, a new capability is created "
+"and assigned to the existing group. If the capability already exists, it "
+"will be assigned to the group. If both already exist, the capability is "
+"enabled to enforce read access. In order to be able to use the capability, "
+"your user account will be assigned to the group."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:196
+#: lib/access/class-groups-access-meta-boxes.php:446
+msgid "You can create a new group by indicating the group's name."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:190
+#, php-format
+msgid ""
+"You can restrict the visibility of this %1$s to group members. Choose one or "
+"more groups that are allowed to read this %2$s. If no groups are chosen, the "
+"%3$s is visible to anyone."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:445
+msgid ""
+"You can restrict the visibility to group members. Choose one or more groups "
+"to restrict access. If no groups are chosen, this entry is visible to anyone."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:130
+msgid ""
+"You can select one or more capabilities that are enabled for access "
+"restriction."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:121
+msgid "You can select one or more groups to restrict access to its members."
+msgstr ""
+
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:290
+#: lib/access/class-groups-access-meta-boxes.php:236
+msgid "You cannot set any access restrictions."
+msgstr ""
+
+#: lib/views/class-groups-shortcodes.php:522
 #, php-format
 msgid "You have joined the %s group."
 msgstr "Je bent aangemeld bij de groep %s."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/views/class-groups-shortcodes.php:473
+#: lib/views/class-groups-shortcodes.php:598
 #, php-format
 msgid "You have left the %s group."
 msgstr "Je hebt de groep %s verlaten."
 
-#: /var/www/groups/wp-content/plugins/groups/lib/admin/class-groups-admin-users.php:80
-msgid "selected to / from group:"
-msgstr "Select naar / van groep:"
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:296
+msgid ""
+"You must be in a group that has at least one capability enabled to enforce "
+"read access."
+msgstr ""
+
+#: lib/access/class-groups-access-meta-boxes.php:242
+msgid "You need to have permission to set access restrictions."
+msgstr ""
+
+#: lib/access/class-groups-post-access.php:352
+msgid ""
+"You should use Groups_Post_Access_Legacy::create() to pass a capability "
+"restriction instead."
+msgstr ""
+
+#~ msgid "Apply capability to selected groups:"
+#~ msgstr "Recht toepassen op geselecteerde groepen:"
+
+#~ msgid "Capability Id"
+#~ msgstr "Recht Id"
+
+#~ msgid "Group Id"
+#~ msgstr "Groep Id"
+
+#~ msgid "Id"
+#~ msgstr "Id"
+
+#~ msgid ""
+#~ "The complete documentation is available on the <a href=\"http://www."
+#~ "itthinx.com/plugins/groups\" target=\"_blank\">Groups plugin page</a>"
+#~ msgstr ""
+#~ "De complete handleiding is te lezen op de <a href=\"http://www.itthinx."
+#~ "com/plugins/groups\" target=\"_blank\">Groups plugin pagina</a>"
+
+#~ msgid "You can also support the project:"
+#~ msgstr "Je kunt ook het project steunen:"
+
+#~ msgid "selected to / from group:"
+#~ msgstr "Select naar / van groep:"
