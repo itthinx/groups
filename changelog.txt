@@ -5,6 +5,8 @@
   due to missing capability table at that stage.
 * Modified the method signature of Groups_Post_Access::posts_where() and
   Groups_Post_Access_Legacy::posts_where() to avoid PHP 7.1 warnings (reference expected, value given).
+* Removed the administrator override option on the back end. Administrator override now requires the constant
+  GROUPS_ADMINISTRATOR_OVERRIDE to be defined as true.
 
 = 2.1.0 =
 * Changed the requirements to allow to restrict by group.

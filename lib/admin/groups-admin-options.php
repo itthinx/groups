@@ -61,16 +61,6 @@ function groups_admin_options() {
 	if ( isset( $_POST['submit'] ) ) {
 		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
 
-			// admin override
-			if ( empty( $_POST[GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE] ) ) {
-				$admin_override = false;
-			} else {
-				$admin_override = true;
-			}
-			// Don't move this to the plugin options, access will be faster
-			add_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, $admin_override ); // WP 3.3.1 : update alone wouldn't create the option when value is false
-			update_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, $admin_override );
-
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			$post_types = get_post_types( array( 'public' => true ) );
 			$selected_post_types = is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array();
@@ -132,8 +122,6 @@ function groups_admin_options() {
 		'</h1>';
 
 	echo Groups_Admin::render_messages();
-
-	$admin_override = get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT );
 
 	$show_tree_view = Groups_Options::get_option( GROUPS_SHOW_TREE_VIEW, GROUPS_SHOW_TREE_VIEW_DEFAULT );
 	$show_in_user_profile = Groups_Options::get_option( GROUPS_SHOW_IN_USER_PROFILE, GROUPS_SHOW_IN_USER_PROFILE_DEFAULT );
@@ -198,20 +186,28 @@ function groups_admin_options() {
 	//
 	echo
 		'<form action="" name="options" method="post">' .
+		'<div>' .
 
 		'<p>' .
 		'<input class="button button-primary" type="submit" name="submit" value="' . __( 'Save', 'groups' ) . '"/>' .
 		$extensions_box .
-		'</p>' .
-
-		'<div>' .
-		'<h2>' . __( 'Administrator Access Override', 'groups' ) . '</h2>' .
-		'<p>' .
-		'<label>' .
-		'<input name="' . GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE . '" type="checkbox" ' . ( $admin_override ? 'checked="checked"' : '' ) . '/>' .
-		 __( 'Administrators override all access permissions derived from Groups capabilities.', 'groups' ) .
-		 '</label>' .
 		'</p>';
+
+	if ( _groups_admin_override() ) {
+		echo
+			'<h2 style="color:red">' .
+			__( 'Administrator Access Override', 'groups' ) .
+			'</h2>' .
+			'<p>' .
+			 __( 'Administrators override all access permissions derived from Groups capabilities.', 'groups' ) .
+			 '</p>' .
+			 '<p>' .
+			 __( 'To disable, do not define the constant <code>GROUPS_ADMINISTRATOR_OVERRIDE</code> or set it to <code>false</code>.', 'groups' ) .
+			'</p>' .
+			'<p>' .
+			__( 'Enabling this on production sites is <strong>not</strong> recommended.', 'groups' ) .
+			'</p>';
+	}
 
 	echo '<h2>' . __( 'Access restricions', 'groups' ) . '</h2>';
 

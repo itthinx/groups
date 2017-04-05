@@ -362,7 +362,7 @@ class Groups_Controller {
 			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_capability' ) );
 			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group_capability' ) );
 			Groups_Options::flush_options();
-			delete_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE );
+			delete_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE ); // keep this to delete the deprecated option @since 2.1.1
 			delete_option( 'groups_plugin_version' );
 			delete_option( 'groups_delete_data' );
 		}

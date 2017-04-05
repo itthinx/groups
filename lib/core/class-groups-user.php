@@ -284,10 +284,7 @@ class Groups_User implements I_Capable {
 		$result = false;
 
 		if ( $this->user !== null ) {
-			if (
-				get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT ) &&
-				user_can( $this->user->ID, 'administrator' ) // just using $this->user would raise a warning on 3.2.1
-			) {
+			if ( _groups_admin_override( $this->user->ID ) ) {
 				$result = true;
 			} else {
 				// determine capability id

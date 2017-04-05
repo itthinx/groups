@@ -139,3 +139,31 @@ function _groups_get_tablename( $name ) {
 	global $wpdb;
 	return $wpdb->prefix . GROUPS_TP . $name;
 }
+
+/**
+ * This returns true if admin override is enabled and the current user
+ * is an administrator, otherwise false.
+ * To enable admin override (AKA god mode for admins), add this to
+ * your wp-config.php :
+ * 
+ * define( 'GROUPS_ADMINISTRATOR_OVERRIDE', true );
+ * 
+ * Enabling this is NOT recommended for production sites.
+ * 
+ * @param int $user_id indicate the user ID or omit to check for the current user
+ * @return boolean
+ */
+function _groups_admin_override( $user_id = null ) {
+	$result = false;
+	if ( ( $user_id === null ) && function_exists( 'get_current_user_id' ) ) {
+		$user_id = get_current_user_id();
+	}
+	if ( $user_id ) {
+		if ( defined( 'GROUPS_ADMINISTRATOR_OVERRIDE' ) && ( GROUPS_ADMINISTRATOR_OVERRIDE === true ) ) {
+			if ( user_can( $user_id, 'administrator' ) ) {
+				$result = true;
+			}
+		}
+	}
+	return $result;
+}
