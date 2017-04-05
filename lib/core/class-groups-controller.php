@@ -115,11 +115,9 @@ class Groups_Controller {
 	 */
 	public static function init() {
 
-		global $groups_override_load_textdomain;
-
 		// Load our current translations first ...
 		$mofile = self::get_mofile();
-// 		load_textdomain( 'groups', $mofile );
+		load_textdomain( 'groups', $mofile );
 
 		// ... otherwise load_plugin_textdomain will simply get those in WP's languages
 		// and we won't have our up-to-date translations.
