@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/groups
 Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
 Tested up to: 4.7.3
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -190,6 +190,16 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.1.1 =
+* Changed the default value for legacy mode used on installation to false. Fixes database errors
+  due to missing capability table at that stage.
+* Modified the method signature of Groups_Post_Access::posts_where() and
+  Groups_Post_Access_Legacy::posts_where() to avoid PHP 7.1 warnings (reference expected, value given).
+* Removed the administrator override option on the back end. Administrator override now requires the constant
+  GROUPS_ADMINISTRATOR_OVERRIDE to be defined as true.
+* Updated the French translation.
+* Adjusted the load order for translations.
+
 = 2.1.0 =
 * Changed the requirements to allow to restrict by group.
 * Fixed legacy access restrictions help replaced new groups help.
@@ -222,6 +232,6 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-= 2.1.0 =
+= 2.1.1 =
 Groups 2.x simplifies the way access restrictions are handled.
-This release reduces the requirements to restrict by group for administrators.
+This release contains several fixes for errors and warnings, improves the plugin's security and improves the translation load process.
