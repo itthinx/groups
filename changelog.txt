@@ -1,5 +1,9 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.1.1 =
+* Changed the default value for legacy mode used on installation to false. Fixes database errors
+  due to missing capability table at that stage.
+
 = 2.1.0 =
 * Changed the requirements to allow to restrict by group.
 * Fixed legacy access restrictions help replaced new groups help.
