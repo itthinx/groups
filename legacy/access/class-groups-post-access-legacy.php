@@ -130,20 +130,15 @@ class Groups_Post_Access_Legacy {
 	 * @param WP_Query $query current query
 	 * @return string modified $where
 	 */
-	public static function posts_where( $where, &$query ) {
+	public static function posts_where( $where, $query ) {
 
 		global $wpdb;
 
 		$user_id = get_current_user_id();
 
-		// this only applies to logged in users
-		if ( $user_id ) {
-			// if administrators can override access, don't filter
-			if ( get_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE, GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT ) ) {
-				if ( user_can( $user_id, 'administrator' ) ) {
-					return $where;
-				}
-			}
+		// if administrators can override access, don't filter
+		if ( _groups_admin_override() ) {
+			return $where;
 		}
 
 		// 1. Get all the capabilities that the user has, including those that are inherited:

@@ -77,14 +77,15 @@ define( 'GROUPS_RESTRICT_ACCESS', 'groups_restrict_access' );
  */
 define( 'GROUPS_ADMIN_GROUPS_NONCE', 'groups-admin-nonce' );
 
-
 /**
  * @var string admin override option
+ * @deprecated since 2.1.1
  */
 define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE', 'groups-admin-override' );
 
 /**
  * @var string admin override option default setting
+ * @deprecated since 2.1.1
  */
 define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT', false );
 
@@ -127,4 +128,4 @@ define( 'GROUPS_LEGACY_ENABLE', 'groups-legacy-enable' );
  * Default value for legacy support.
  * @var boolean
  */
-define( 'GROUPS_LEGACY_ENABLE_DEFAULT', true );
+define( 'GROUPS_LEGACY_ENABLE_DEFAULT', false );

@@ -68,7 +68,7 @@ class Groups_Controller {
 		register_activation_hook( GROUPS_FILE, array( __CLASS__, 'activate' ) );
 		register_deactivation_hook( GROUPS_FILE, array( __CLASS__, 'deactivate' ) );
 		add_action( 'init', array( __CLASS__, 'init' ) );
-
+		add_filter( 'load_textdomain_mofile', array( __CLASS__, 'load_textdomain_mofile' ), 10, 2 );
 		// priority 9 because it needs to be called before Groups_Registered's
 		// wpmu_new_blog kicks in
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 9, 2 );
@@ -114,14 +114,46 @@ class Groups_Controller {
 	 * Invokes version check.
 	 */
 	public static function init() {
+
 		// Load our current translations first ...
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'groups' );
-		$mofile = GROUPS_CORE_DIR . '/languages/groups-' . $locale . '.mo';
+		$mofile = self::get_mofile();
 		load_textdomain( 'groups', $mofile );
+
 		// ... otherwise load_plugin_textdomain will simply get those in WP's languages
 		// and we won't have our up-to-date translations.
-		load_plugin_textdomain( 'groups', null, 'groups/languages' );
+		//load_plugin_textdomain( 'groups', null, 'groups/languages' );
 		self::version_check();
+	}
+
+	/**
+	 * Builds the mofile string for our own translations.
+	 * @return string mofile
+	 */
+	private static function get_mofile() {
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'groups' );
+		$mofile = GROUPS_CORE_DIR . '/languages/groups-' . $locale . '.mo';
+		return $mofile;
+	}
+
+	/**
+	 * Makes sure that our own translation file is loaded first.
+	 * 
+	 * @param string $mofile
+	 * @param string $domain
+	 * @return string mofile
+	 */
+	public static function load_textdomain_mofile( $mofile, $domain ) {
+		$own_mofile = self::get_mofile();
+		if ( $domain == 'groups' ) {
+			if ( $own_mofile != $mofile ) {
+				if ( !is_textdomain_loaded( $domain ) ) {
+					if ( is_readable( $own_mofile ) ) {
+						$mofile = $own_mofile;
+					}
+				}
+			}
+		}
+		return $mofile;
 	}
 
 	/**
@@ -362,7 +394,7 @@ class Groups_Controller {
 			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_capability' ) );
 			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group_capability' ) );
 			Groups_Options::flush_options();
-			delete_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE );
+			delete_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE ); // keep this to delete the deprecated option @since 2.1.1
 			delete_option( 'groups_plugin_version' );
 			delete_option( 'groups_delete_data' );
 		}
