@@ -127,7 +127,10 @@ require_once( GROUPS_WP_LIB . '/class-groups-wordpress.php' );
 //	 register_widget( 'Groups_Widget' );
 // }
 
-
+/**
+ * Load woocommerce :
+ */
+require_once( GROUPS_COMP_LIB . '/class-groups-woocommerce.php' );
 
 
 /**

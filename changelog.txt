@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.1.2 =
+* Fixed issue with Related Products, Up-Sells and Cross-Sells on Woocommerce 3.x
+
 = 2.1.1 =
 * Changed the default value for legacy mode used on installation to false. Fixes database errors
   due to missing capability table at that stage.
