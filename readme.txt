@@ -190,6 +190,9 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.1.2 =
+* Fixed issue with Related Products, Up-Sells and Cross-Sells on Woocommerce 3.x
+
 = 2.1.1 =
 * Changed the default value for legacy mode used on installation to false. Fixes database errors
   due to missing capability table at that stage.
@@ -232,6 +235,5 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-= 2.1.1 =
-Groups 2.x simplifies the way access restrictions are handled.
-This release contains several fixes for errors and warnings, improves the plugin's security and improves the translation load process.
+= 2.1.2 =
+Uses the new 'woocommerce_product_is_visible' filter for Related Products, Up-Sells and Cross-Sells on Woocommerce 3.x
