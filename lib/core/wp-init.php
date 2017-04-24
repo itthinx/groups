@@ -130,8 +130,15 @@ require_once( GROUPS_WP_LIB . '/class-groups-wordpress.php' );
 /**
  * Load woocommerce :
  */
-require_once( GROUPS_COMP_LIB . '/class-groups-woocommerce.php' );
-
+$active_plugins = get_option( 'active_plugins', array() );
+if ( is_multisite() ) {
+	$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins', array() );
+	$active_sitewide_plugins = array_keys( $active_sitewide_plugins );
+	$active_plugins = array_merge( $active_plugins, $active_sitewide_plugins );
+}
+if ( in_array( 'woocommerce/woocommerce.php', $active_plugins ) ) {
+	require_once( GROUPS_COMP_LIB . '/class-groups-woocommerce.php' );
+}
 
 /**
  * Returns the prefixed DB table name.
