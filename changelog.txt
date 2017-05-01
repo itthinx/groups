@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.1.2 =
+* Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
+
 = 2.1.1 =
 * Changed the default value for legacy mode used on installation to false. Fixes database errors
   due to missing capability table at that stage.
