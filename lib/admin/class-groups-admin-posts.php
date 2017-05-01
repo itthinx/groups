@@ -211,7 +211,7 @@ class Groups_Admin_Posts {
 					$output .= '</label>';
 
 					$user    = new Groups_User( get_current_user_id() );
-					$include = $user->group_ids_deep;
+					$include = Groups_Access_Meta_Boxes::get_user_can_restrict_group_ids( get_current_user_id() );
 					$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 
 					$output .= '<div class="groups-groups-container">';

@@ -174,6 +174,11 @@ class Groups_Post_Access {
 				return $where;
 			}
 
+			// Groups admins see everything
+			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+				return $where;
+			}
+
 			// 1. Get all the groups that the user belongs to, including those that are inherited:
 			$group_ids = array();
 			if ( $user = new Groups_User( $user_id ) ) {
@@ -509,13 +514,18 @@ class Groups_Post_Access {
 				$result = $cached->value;
 				unset( $cached );
 			} else {
-				$groups_user = new Groups_User( $user_id );
-				$group_ids   = self::get_read_group_ids( $post_id );
-				if ( empty( $group_ids ) ) {
+				// admin override and Groups admins see everything
+				if ( _groups_admin_override() || current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 					$result = true;
 				} else {
-					$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
-					$result = !empty( $ids );
+					$groups_user = new Groups_User( $user_id );
+					$group_ids   = self::get_read_group_ids( $post_id );
+					if ( empty( $group_ids ) ) {
+						$result = true;
+					} else {
+						$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
+						$result = !empty( $ids );
+					}
 				}
 				$result = apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
 				Groups_Cache::set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );

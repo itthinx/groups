@@ -192,6 +192,9 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
+* Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
+  they do not belong to, in line with the ability to restrict access with groups they do not belong to for consistency's
+  sake.
 
 = 2.1.1 =
 * Changed the default value for legacy mode used on installation to false. Fixes database errors
