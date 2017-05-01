@@ -526,20 +526,29 @@ class Groups_Admin_Posts {
 		$result = false;
 		if ( is_admin() ) {
 			// check if query is for a post type we handle
-			$post_type = $query->get( 'post_type' );
-			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-				// only act on post etc. screens
-				$screen = get_current_screen();
+			$post_types = $query->get( 'post_type' );
+			if ( !is_array( $post_types ) ) {
+				$post_types = array( $post_types );
+			}
+			foreach( $post_types as $post_type ) {
+				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 				if (
-					!empty( $screen ) &&
-					!empty( $screen->id ) &&
-					( $screen->id == 'edit-' . $post_type )
-					) {
-						if ( $query->get( 'orderby' ) == self::GROUPS_READ ) {
-							$result = true;
+					!isset( $post_types_option[$post_type]['add_meta_box'] ) ||
+					$post_types_option[$post_type]['add_meta_box']
+				) {
+					// only act on post etc. screens
+					$screen = get_current_screen();
+					if (
+						!empty( $screen ) &&
+						!empty( $screen->id ) &&
+						( $screen->id == 'edit-' . $post_type )
+						) {
+							if ( $query->get( 'orderby' ) == self::GROUPS_READ ) {
+								$result = true;
+								break;
+							}
 						}
-					}
+				}
 			}
 		}
 		return $result;
@@ -555,21 +564,30 @@ class Groups_Admin_Posts {
 		$result = false;
 		if ( is_admin() ) {
 			// check if query is for a post type we handle
-			$post_type = $query->get( 'post_type' );
+			$post_types = $query->get( 'post_type' );
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-				// only act on post etc. screens
-				$screen = get_current_screen();
+			if ( !is_array( $post_types ) ) {
+				$post_types = array( $post_types );
+			}
+			foreach( $post_types as $post_type ) {
 				if (
-					!empty( $screen ) &&
-					!empty( $screen->id ) &&
-					( $screen->id == 'edit-' . $post_type )
+					!isset( $post_types_option[$post_type]['add_meta_box'] ) ||
+					$post_types_option[$post_type]['add_meta_box']
 				) {
+					// only act on post etc. screens
+					$screen = get_current_screen();
 					if (
-						!empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) &&
-						is_array( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] )
+						!empty( $screen ) &&
+						!empty( $screen->id ) &&
+						( $screen->id == 'edit-' . $post_type )
 					) {
-						$result = true;
+						if (
+							!empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) &&
+							is_array( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] )
+						) {
+							$result = true;
+							break;
+						}
 					}
 				}
 			}
