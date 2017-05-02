@@ -89,6 +89,8 @@ class Groups_Post_Access {
 		if ( apply_filters( 'groups_filter_the_posts', false ) ) {
 			add_filter( 'the_posts', array( __CLASS__, 'the_posts' ), 1, 2 );
 		}
+		// If we had a get_post filter https://core.trac.wordpress.org/ticket/12955
+		// add_filter( 'get_post', ... );
 		add_filter( 'wp_get_nav_menu_items', array( __CLASS__, 'wp_get_nav_menu_items' ), 1, 3 );
 		// content access
 		add_filter( 'get_the_excerpt', array( __CLASS__, 'get_the_excerpt' ), 1 );
