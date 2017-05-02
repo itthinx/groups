@@ -55,6 +55,9 @@ if ( !defined( 'GROUPS_VIEWS_LIB' ) ) {
 if ( !defined( 'GROUPS_WP_LIB' ) ) {
 	define( 'GROUPS_WP_LIB', GROUPS_CORE_DIR . '/lib/wp' );
 }
+if ( !defined( 'GROUPS_EXTRA_LIB' ) ) {
+	define( 'GROUPS_EXTRA_LIB', GROUPS_CORE_DIR . '/lib/extra' );
+}
 if ( !defined( 'GROUPS_LEGACY_LIB' ) ) {
 	define( 'GROUPS_LEGACY_LIB', GROUPS_CORE_DIR . '/legacy' );
 }

@@ -116,6 +116,11 @@ require_once( GROUPS_VIEWS_LIB . '/class-groups-shortcodes.php' );
  */
 require_once( GROUPS_WP_LIB . '/class-groups-wordpress.php' );
 
+/**
+ * Extras ...
+ */
+require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
+
 // widgets
 // include_once( GROUPS_CORE_LIB . '/class-groups-widgets.php' );
 // add_action( 'widgets_init', 'groups_widgets_init' );
