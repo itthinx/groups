@@ -194,6 +194,8 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
   they do not belong to, in line with the ability to restrict access with groups they do not belong to for consistency's
   sake.
+* Added a filter on woocommerce_product_is_visible so protected up-sell and cross-sell products
+  are effectively hidden.
 
 = 2.1.1 =
 * Changed the default value for legacy mode used on installation to false. Fixes database errors
@@ -239,4 +241,4 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 = 2.1.2 =
 Groups 2.x simplifies the way access restrictions are handled.
-This release contains minor fixes related to internal procedures and compatibility with other plugins.
+This release contains minor improvements and fixes related to internal procedures and compatibility with other plugins.
