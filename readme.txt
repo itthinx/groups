@@ -241,4 +241,4 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 = 2.1.2 =
 Groups 2.x simplifies the way access restrictions are handled.
-This release contains minor improvements and fixes related to internal procedures and compatibility with other plugins.
+This release contains improvements and fixes related to the visibility of posts by Groups administrators, internal procedures and compatibility with other plugins.
