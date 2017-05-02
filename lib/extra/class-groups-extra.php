@@ -19,6 +19,10 @@
  * @since groups 2.1.2
  */
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Compatibility actions, filters, etc as needed.
  */
