@@ -1,5 +1,13 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.1.2 =
+* Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
+* Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
+  they do not belong to, in line with the ability to restrict access with groups they do not belong to for consistency's
+  sake.
+* Added a filter on woocommerce_product_is_visible so protected up-sell and cross-sell products
+  are effectively hidden.
+
 = 2.1.1 =
 * Changed the default value for legacy mode used on installation to false. Fixes database errors
   due to missing capability table at that stage.

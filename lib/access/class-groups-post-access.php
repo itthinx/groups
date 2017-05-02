@@ -89,6 +89,8 @@ class Groups_Post_Access {
 		if ( apply_filters( 'groups_filter_the_posts', false ) ) {
 			add_filter( 'the_posts', array( __CLASS__, 'the_posts' ), 1, 2 );
 		}
+		// If we had a get_post filter https://core.trac.wordpress.org/ticket/12955
+		// add_filter( 'get_post', ... );
 		add_filter( 'wp_get_nav_menu_items', array( __CLASS__, 'wp_get_nav_menu_items' ), 1, 3 );
 		// content access
 		add_filter( 'get_the_excerpt', array( __CLASS__, 'get_the_excerpt' ), 1 );
@@ -171,6 +173,11 @@ class Groups_Post_Access {
 
 			// this only applies to logged in users
 			if ( _groups_admin_override() ) {
+				return $where;
+			}
+
+			// Groups admins see everything
+			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 				return $where;
 			}
 
@@ -509,13 +516,18 @@ class Groups_Post_Access {
 				$result = $cached->value;
 				unset( $cached );
 			} else {
-				$groups_user = new Groups_User( $user_id );
-				$group_ids   = self::get_read_group_ids( $post_id );
-				if ( empty( $group_ids ) ) {
+				// admin override and Groups admins see everything
+				if ( _groups_admin_override() || current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 					$result = true;
 				} else {
-					$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
-					$result = !empty( $ids );
+					$groups_user = new Groups_User( $user_id );
+					$group_ids   = self::get_read_group_ids( $post_id );
+					if ( empty( $group_ids ) ) {
+						$result = true;
+					} else {
+						$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
+						$result = !empty( $ids );
+					}
 				}
 				$result = apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
 				Groups_Cache::set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );

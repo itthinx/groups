@@ -1,10 +1,10 @@
 === Groups ===
 Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
-Tags: access control, groups, member, membership, memberships, access, capability, capabilities, content, download, downloads, file, file access, files, members, paypal, permission, permissions, subscription, subscriptions, woocommerce
+Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.7.3
-Stable tag: 2.1.1
+Tested up to: 4.7.4
+Stable tag: 2.1.2
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -187,8 +187,15 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 13. Options - you can adjust the plugin's settings here.
 14. More options.
 
-
 == Changelog ==
+
+= 2.1.2 =
+* Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
+* Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
+  they do not belong to, in line with the ability to restrict access with groups they do not belong to for consistency's
+  sake.
+* Added a filter on woocommerce_product_is_visible so protected up-sell and cross-sell products
+  are effectively hidden.
 
 = 2.1.1 =
 * Changed the default value for legacy mode used on installation to false. Fixes database errors
@@ -232,6 +239,6 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-= 2.1.1 =
+= 2.1.2 =
 Groups 2.x simplifies the way access restrictions are handled.
-This release contains several fixes for errors and warnings, improves the plugin's security and improves the translation load process.
+This release contains improvements and fixes related to the visibility of posts by Groups administrators, internal procedures and compatibility with other plugins.
