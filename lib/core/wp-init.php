@@ -37,7 +37,7 @@ if ( !isset( $groups_version ) ) {
 // <= 3.2.1
 if ( !function_exists( 'is_user_member_of_blog' ) ) {
 	function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
-		return false !== get_user_by( "id", $user_id );
+		return false !== get_user_by( 'id', $user_id );
 	}
 }
 
@@ -56,15 +56,23 @@ require_once( GROUPS_CORE_LIB . '/class-groups-options.php' );
 // plugin control: activation, deactivation, ...
 require_once( GROUPS_CORE_LIB . '/class-groups-controller.php' );
 
+// legacy enabled?
+$groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS_LEGACY_ENABLE_DEFAULT );
+
 // admin
 if ( is_admin() ) {
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin.php' );
+	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-welcome.php' );
 	if ( Groups_Options::get_option( GROUPS_SHOW_IN_USER_PROFILE, GROUPS_SHOW_IN_USER_PROFILE_DEFAULT ) ) {
 		require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-user-profile.php' );
 	}
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-users.php' );
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-posts.php' );
 	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-post-columns.php' );
+	if ( $groups_legacy_enable ) {
+		require_once GROUPS_LEGACY_LIB . '/admin/class-groups-admin-posts-legacy.php';
+		require_once GROUPS_LEGACY_LIB . '/admin/class-groups-admin-post-columns-legacy.php';
+	}
 }
 
 // help
@@ -90,9 +98,15 @@ require_once( GROUPS_AUTO_LIB . '/class-groups-registered.php' );
  */
 
 require_once( GROUPS_ACCESS_LIB . '/class-groups-post-access.php' );
+if ( $groups_legacy_enable ) {
+	require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
+}
 
 if ( is_admin() ) {
 	require_once( GROUPS_ACCESS_LIB . '/class-groups-access-meta-boxes.php' );
+	if ( $groups_legacy_enable ) {
+		require_once( GROUPS_LEGACY_LIB . '/access/class-groups-access-meta-boxes-legacy.php' );
+	}
 }
 require_once( GROUPS_ACCESS_LIB . '/class-groups-access-shortcodes.php' );
 require_once( GROUPS_VIEWS_LIB . '/class-groups-shortcodes.php' );
@@ -101,6 +115,11 @@ require_once( GROUPS_VIEWS_LIB . '/class-groups-shortcodes.php' );
  * Load wp :
  */
 require_once( GROUPS_WP_LIB . '/class-groups-wordpress.php' );
+
+/**
+ * Extras ...
+ */
+require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
 
 // widgets
 // include_once( GROUPS_CORE_LIB . '/class-groups-widgets.php' );
@@ -124,4 +143,32 @@ require_once( GROUPS_WP_LIB . '/class-groups-wordpress.php' );
 function _groups_get_tablename( $name ) {
 	global $wpdb;
 	return $wpdb->prefix . GROUPS_TP . $name;
+}
+
+/**
+ * This returns true if admin override is enabled and the current user
+ * is an administrator, otherwise false.
+ * To enable admin override (AKA god mode for admins), add this to
+ * your wp-config.php :
+ * 
+ * define( 'GROUPS_ADMINISTRATOR_OVERRIDE', true );
+ * 
+ * Enabling this is NOT recommended for production sites.
+ * 
+ * @param int $user_id indicate the user ID or omit to check for the current user
+ * @return boolean
+ */
+function _groups_admin_override( $user_id = null ) {
+	$result = false;
+	if ( ( $user_id === null ) && function_exists( 'get_current_user_id' ) ) {
+		$user_id = get_current_user_id();
+	}
+	if ( $user_id ) {
+		if ( defined( 'GROUPS_ADMINISTRATOR_OVERRIDE' ) && ( GROUPS_ADMINISTRATOR_OVERRIDE === true ) ) {
+			if ( user_can( $user_id, 'administrator' ) ) {
+				$result = true;
+			}
+		}
+	}
+	return $result;
 }

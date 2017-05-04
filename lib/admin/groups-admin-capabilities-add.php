@@ -31,7 +31,7 @@ function groups_admin_capabilities_add() {
 	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -47,27 +47,27 @@ function groups_admin_capabilities_add() {
 	$output =
 		'<div class="manage-capabilities wrap">' .
 			'<h1>' .
-				__( 'Add a new capability', GROUPS_PLUGIN_DOMAIN ) .
+				__( 'Add a new capability', 'groups' ) .
 			'</h1>' .
 		Groups_Admin::render_messages() .
 		'<form id="add-capability" action="' . esc_url( $current_url ) . '" method="post">' .
 		'<div class="capability new">' .
 
 		'<div class="field">' .
-		'<label for="capability-field" class="field-label first required">' .__( 'Capability', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+		'<label for="capability-field" class="field-label first required">' .__( 'Capability', 'groups' ) . '</label>' .
 		'<input id="name-field" name="capability-field" class="capability-field" type="text" value="' . esc_attr( stripslashes( $capability ) ) . '"/>' .
 		'</div>' .
 
 		'<div class="field">' .
-		'<label for="description-field" class="field-label description-field">' .__( 'Description', GROUPS_PLUGIN_DOMAIN ) . '</label>' .
+		'<label for="description-field" class="field-label description-field">' .__( 'Description', 'groups' ) . '</label>' .
 		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . stripslashes( wp_filter_nohtml_kses( $description ) ) . '</textarea>' .
 		'</div>' .
 
 		'<div class="field">' .
 		wp_nonce_field( 'capabilities-add', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" value="' . __( 'Add', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" value="' . __( 'Add', 'groups' ) . '"/>' .
 		'<input type="hidden" value="add" name="action"/>' .
-		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
+		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>' .
 		'</div>' .
 		'</div>' . // .capability.new
 		'</form>' .
@@ -86,11 +86,11 @@ function groups_admin_capabilities_add_submit() {
 	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'capabilities-add' ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$capability  = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : null;
@@ -99,9 +99,9 @@ function groups_admin_capabilities_add_submit() {
 	$capability_id = Groups_Capability::create( compact( "capability", "description" ) );
 	if ( !$capability_id ) {
 		if ( empty( $capability ) ) {
-			Groups_Admin::add_message( __( 'The <em>Capability</em> must not be empty.', GROUPS_PLUGIN_DOMAIN ), 'error' );
+			Groups_Admin::add_message( __( 'The <em>Capability</em> must not be empty.', 'groups' ), 'error' );
 		} else if ( Groups_Capability::read_by_capability( $capability ) ) {
-			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability already exists.', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( ( $capability ) ) ) ), 'error' );
+			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability already exists.', 'groups' ), stripslashes( wp_filter_nohtml_kses( ( $capability ) ) ) ), 'error' );
 		}
 	}
 	return $capability_id;

@@ -1,4 +1,52 @@
-== Groups changelog.txt ==
+== Groups by itthinx - changelog.txt ==
+
+= 2.1.2 =
+* Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
+* Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
+  they do not belong to, in line with the ability to restrict access with groups they do not belong to for consistency's
+  sake.
+* Added a filter on woocommerce_product_is_visible so protected up-sell and cross-sell products
+  are effectively hidden.
+
+= 2.1.1 =
+* Changed the default value for legacy mode used on installation to false. Fixes database errors
+  due to missing capability table at that stage.
+* Modified the method signature of Groups_Post_Access::posts_where() and
+  Groups_Post_Access_Legacy::posts_where() to avoid PHP 7.1 warnings (reference expected, value given).
+* Removed the administrator override option on the back end. Administrator override now requires the constant
+  GROUPS_ADMINISTRATOR_OVERRIDE to be defined as true.
+* Updated the French translation.
+* Adjusted the load order for translations.
+
+= 2.1.0 =
+* Changed the requirements to allow to restrict by group.
+* Fixed legacy access restrictions help replaced new groups help.
+
+= 2.0.3 =
+* Fixed a "Fatal error:  Call to a member function get_role_caps() on a non-object" which
+  could occur in circumstances with invalid user IDs.
+
+= 2.0.2 =
+* Added the option to dismiss the Welcome screen.
+* Updated German and Spanish translations.
+
+= 2.0.1 =
+* Fixed an issue with conflicting cache entries with legacy mode enabled.
+* Fixed access restriction capabilities were reset when reenabling legacy mode.
+
+= 2.0.0 =
+* Changed the access restriction model to group-based access restrictions.
+* Provides an optional legacy mode that supports the previous capability-based access restrictions.
+* Optimized the approach to restrict read access on posts using groups rather than access restriction capabilities.
+* Added the `groups_restrict_access` capability which grants users to impose access restrictions.
+* Fixed the order_by and order parameters in Groups_Group::get_groups()
+* Added the $create parameter in Groups_UIE::render_select()
+* Removed the "Chosen" library.
+* Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
+* Added a welcome screen.
+* Added the option to assign groups to new users directly when creating them from the Dashboard.
+* Changed the language domain to string literal instead of constant.
+* Improvements on internal coding standards (single/double quotes, EOF, formatting).
 
 = 1.13.1 =
 * Fixed an issue where the wrong post count would be produced for statuses that do not represent a valid WooCommerce order status.

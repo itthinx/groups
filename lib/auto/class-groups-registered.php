@@ -42,7 +42,7 @@ class Groups_Registered {
 
 		// create a group for the blog if it doesn't exist
 		if ( !( $group = Groups_Group::read_by_name( self::REGISTERED_GROUP_NAME ) ) ) {
-			$group_id = Groups_Group::create( array( "name" => self::REGISTERED_GROUP_NAME ) );
+			$group_id = Groups_Group::create( array( 'name' => self::REGISTERED_GROUP_NAME ) );
 		} else {
 			$group_id = $group->group_id;
 		}
@@ -53,7 +53,7 @@ class Groups_Registered {
 				foreach( $users as $user ) {
 					// add the user to the group
 					if ( !Groups_User_Group::read( $user->ID, $group_id ) ) {
-						Groups_User_Group::create( array( "user_id" => $user->ID, "group_id" => $group_id ) );
+						Groups_User_Group::create( array( 'user_id' => $user->ID, 'group_id' => $group_id ) );
 					}
 				}
 				unset( $users );
@@ -70,7 +70,7 @@ class Groups_Registered {
 	public static function init() {
 
 		// For translation of the "Registered" group(s)
-		__( 'Registered', GROUPS_PLUGIN_DOMAIN );
+		__( 'Registered', 'groups' );
 		 
 		// When a blog is added, create a new "Registered" group for that blog.
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 10, 2 );
@@ -106,14 +106,14 @@ class Groups_Registered {
 			Groups_Controller::switch_to_blog( $blog_id );
 		}
 		if ( !( $group = Groups_Group::read_by_name( self::REGISTERED_GROUP_NAME ) ) ) {
-			$group_id = Groups_Group::create( array( "name" => self::REGISTERED_GROUP_NAME ) );
+			$group_id = Groups_Group::create( array( 'name' => self::REGISTERED_GROUP_NAME ) );
 		} else {
 			$group_id = $group->group_id;
 		}
 		// add the blog's admin user to the group
 		if ( $group_id ) {
 			if ( !Groups_User_Group::read( $user_id, $group_id ) ) {
-				Groups_User_Group::create( array( "user_id" => $user_id, "group_id" => $group_id ) );
+				Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group_id ) );
 			}
 		}
 		if ( is_multisite() ) {
@@ -130,7 +130,7 @@ class Groups_Registered {
 
 		$registered_group = Groups_Group::read_by_name( self::REGISTERED_GROUP_NAME );
 		if ( !$registered_group ) {
-			$registered_group_id = Groups_Group::create( array( "name" => self::REGISTERED_GROUP_NAME ) );
+			$registered_group_id = Groups_Group::create( array( 'name' => self::REGISTERED_GROUP_NAME ) );
 		} else {
 			$registered_group_id = $registered_group->group_id;
 		}
@@ -184,7 +184,7 @@ class Groups_Registered {
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $group_table . "'" ) == $group_table ) {
 			$registered_group = Groups_Group::read_by_name( self::REGISTERED_GROUP_NAME );
 			if ( !$registered_group ) {
-				$registered_group_id = Groups_Group::create( array( "name" => self::REGISTERED_GROUP_NAME ) );
+				$registered_group_id = Groups_Group::create( array( 'name' => self::REGISTERED_GROUP_NAME ) );
 			} else {
 				$registered_group_id = $registered_group->group_id;
 			}

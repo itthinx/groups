@@ -32,13 +32,13 @@ function groups_admin_groups_remove( $group_id ) {
 	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$group = Groups_Group::read( intval( $group_id ) );
 
 	if ( empty( $group ) ) {
-		wp_die( __( 'No such group.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'No such group.', 'groups' ) );
 	}
 
 	$group_table = _groups_get_tablename( 'group' );
@@ -50,18 +50,18 @@ function groups_admin_groups_remove( $group_id ) {
 	$output =
 		'<div class="manage-groups wrap">' .
 		'<h1>' .
-		__( 'Remove a group', GROUPS_PLUGIN_DOMAIN ) .
+		__( 'Remove a group', 'groups' ) .
 		'</h1>' .
 		'<form id="remove-group" action="' . esc_url( $current_url ) . '" method="post">' .
 		'<div class="group remove">' .
 		'<input id="group-id-field" name="group-id-field" type="hidden" value="' . esc_attr( intval( $group->group_id ) ) . '"/>' .
 		'<ul>' .
-		'<li>' . sprintf( __( 'Group Name : %s', GROUPS_PLUGIN_DOMAIN ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) . '</li>' .
+		'<li>' . sprintf( __( 'Group Name : %s', 'groups' ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) . '</li>' .
 		'</ul> ' .
 		wp_nonce_field( 'groups-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" value="' . __( 'Remove', GROUPS_PLUGIN_DOMAIN ) . '"/>' .
+		'<input class="button button-primary" type="submit" value="' . __( 'Remove', 'groups' ) . '"/>' .
 		'<input type="hidden" value="remove" name="action"/>' .
-		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>' .
+		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>' .
 		'</div>' .
 		'</div>' . // .group.remove
 		'</form>' .
@@ -80,11 +80,11 @@ function groups_admin_groups_remove_submit() {
 	$result = false;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-remove' ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$group_id = isset( $_POST['group-id-field'] ) ? $_POST['group-id-field'] : null;
@@ -107,13 +107,13 @@ function groups_admin_groups_bulk_remove() {
 	$output = '';
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$group_ids = isset( $_POST['group_ids'] ) ? $_POST['group_ids'] : null;
 
 	if ( ! $group_ids ) {
-		wp_die( __( 'No such groups.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'No such groups.', 'groups' ) );
 	}
 
 	$groups = array();
@@ -132,26 +132,26 @@ function groups_admin_groups_bulk_remove() {
 
 	$output .= '<div class="manage-groups wrap">';
 	$output .= '<h1>';
-	$output .= __( 'Remove groups', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Remove groups', 'groups' );
 	$output .= '</h1>';
 
 	$output .= '<form id="groups-action" method="post" action="">';
 	$output .= '<div class="group remove">';
 
 	$output .= '<p>';
-	$output .= __( 'Please confirm removal of the following groups. This action cannot be undone.', GROUPS_PLUGIN_DOMAIN );
+	$output .= __( 'Please confirm removal of the following groups. This action cannot be undone.', 'groups' );
 	$output .= '</p>';
 
 	foreach ( $groups as $group ) {
 		$output .= 	'<input id="group_ids" name="group_ids[]" type="hidden" value="' . esc_attr( intval( $group->group_id ) ) . '"/>';
 		$output .= '<ul>';
 		$output .= '<li>';
-		$output .= sprintf( __( '<strong>%s</strong>', GROUPS_PLUGIN_DOMAIN ), wp_filter_nohtml_kses( $group->name ) );
+		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), wp_filter_nohtml_kses( $group->name ) );
 		$output .= '</li>';
 		$output .= '</ul>';
 	}
-	$output .= '<input class="button button-primary" type="submit" name="bulk" value="' . __( "Remove", GROUPS_PLUGIN_DOMAIN ) . '"/>';
-	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', GROUPS_PLUGIN_DOMAIN ) . '</a>';
+	$output .= '<input class="button button-primary" type="submit" name="bulk" value="' . __( "Remove", 'groups' ) . '"/>';
+	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>';
 
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '<input type="hidden" name="bulk-action" value="remove-group"/>';
@@ -174,11 +174,11 @@ function groups_admin_groups_bulk_remove_submit() {
 
 	$result = array();
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) {
-		wp_die( __( 'Access denied.', GROUPS_PLUGIN_DOMAIN ) );
+		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
 	$group_ids = isset( $_POST['group_ids'] ) ? $_POST['group_ids'] : null;

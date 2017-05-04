@@ -2,7 +2,7 @@
 /**
  * groups.php
  *
- * Copyright (c) 2011-2016 "kento" Karim Rahimpur www.itthinx.com
+ * Copyright (c) 2011-2017 "kento" Karim Rahimpur www.itthinx.com
  *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
@@ -21,16 +21,18 @@
  * Plugin Name: Groups
  * Plugin URI: http://www.itthinx.com/plugins/groups
  * Description: Groups provides group-based user membership management, group-based capabilities and content access control.
- * Version: 1.13.1
+ * Version: 2.1.2
  * Author: itthinx
  * Author URI: http://www.itthinx.com
  * Donate-Link: http://www.itthinx.com
+ * Text Domain: groups
+ * Domain Path: /languages
  * License: GPLv3
  */
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'GROUPS_CORE_VERSION', '1.13.1' );
+define( 'GROUPS_CORE_VERSION', '2.1.2' );
 define( 'GROUPS_FILE', __FILE__ );
 if ( !defined( 'GROUPS_CORE_DIR' ) ) {
 	define( 'GROUPS_CORE_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -52,6 +54,12 @@ if ( !defined( 'GROUPS_VIEWS_LIB' ) ) {
 }
 if ( !defined( 'GROUPS_WP_LIB' ) ) {
 	define( 'GROUPS_WP_LIB', GROUPS_CORE_DIR . '/lib/wp' );
+}
+if ( !defined( 'GROUPS_EXTRA_LIB' ) ) {
+	define( 'GROUPS_EXTRA_LIB', GROUPS_CORE_DIR . '/lib/extra' );
+}
+if ( !defined( 'GROUPS_LEGACY_LIB' ) ) {
+	define( 'GROUPS_LEGACY_LIB', GROUPS_CORE_DIR . '/legacy' );
 }
 if ( !defined( 'GROUPS_CORE_URL' ) ) {
 	define( 'GROUPS_CORE_URL', plugins_url( 'groups' ) );

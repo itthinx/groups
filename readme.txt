@@ -1,27 +1,27 @@
 === Groups ===
 Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
-Tags: access, access control, capability, capabilities, content, download, downloads, file, file access, files, group, groups, member, members, membership, memberships, paypal, permission, permissions, subscription, subscriptions, woocommerce
+Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.6
-Stable tag: 1.13.1
+Tested up to: 4.7.4
+Stable tag: 2.1.2
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
 
 == Description ==
 
-Groups is designed as an efficient, powerful and flexible solution for group-oriented membership and content access control.
+Groups is designed as an efficient, powerful and flexible solution for group-oriented memberships and content access control.
 
 It provides group-based user membership management, group-based capabilities and access control for content, built on solid principles.
 
 Groups is light-weight and offers an easy user interface, while it acts as a framework and integrates standard WordPress capabilities and application-specific capabilities along with an extensive API.
 
-Enhanced functionality is available via official [extensions](http://www.itthinx.com/plugins/groups/) for Groups.
+Enhanced functionality is available via [Official Extensions](http://www.itthinx.com/product-category/groups/) for Groups.
 
 ### Documentation ###
 
-The official documentation is located at the [Groups documentation pages](http://docs.itthinx.com/document/groups/).
+The official documentation is located at the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages.
 
 ### Features ###
 
@@ -45,44 +45,37 @@ The official documentation is located at the [Groups documentation pages](http:/
 
 #### Access control ####
 
+Access to posts, pages and custom post types can be restricted by group.
+
+If access to a post is restricted to one or more groups, only users who belong to one of those groups may view the post.
+
+Fully supports custom post types, so that access to post types such as products or events can easily be restricted.
+
 - Built-in access control that allows to restrict access to posts, pages and custom content types to specific groups and users only
-- control access to content by groups: shortcodes allow to control who can access content on posts, show parts to members of certain groups or to those who are not members
+- Control access to content by groups: shortcodes allow to control who can access content on posts, show parts to members of certain groups or to those who are not members -
   Shortcodes: [groups_member], [groups_non_member]
-- control access to content by capabilities: show (or do not show) content to users who have certain capabilities
+- Control access to content by capabilities: show (or do not show) content to users who have certain capabilities -
   Shortcodes: [groups_can], [groups_can_not]
 
 #### Easy user interface ####
 
-- integrates nicely with the standard WordPress Users menu
-- provides an intuitive Groups menu
-- conceptually clean views showing the essentials
-- quick filters
-- bulk-actions where needed, for example apply capabilities to groups, bulk-add users to groups, bulk-remove users from groups
+- Integrates nicely with the standard WordPress Users menu
+- Provides an intuitive Groups menu
+- Conceptually clean views showing the essentials
+- Quick filters
+- Bulk-actions where needed, for example apply capabilities to groups, bulk-add users to groups, bulk-remove users from groups
 
 #### Sensible options ####
 
-- administrator overrides can be turned off
-- optional tree view for groups can be shown only when needed
-- provides its own set of permissions
-- cleans up after testing with a "delete all plugin data" option 
-
-#### Access Control ####
-
-Access to posts and pages can be restricted by capability.
-
-Any capability can be used to restrict access, including new capabilities.
-
-If access to a post is restricted, only users who belong to a group with that
-capability may access the post.
-
-Groups defines the groups_read_post capability by default, which can be
-used to restrict access to certain posts or pages to groups
-with that capability only. Any other capability (including new ones) can be
-used to limit access as well.
+- Enable access restrictions by custom post type
+- An optional tree view for groups can be shown when desired
+- Provides its own set of permissions
+- Administrator overrides for tests
+- Cleans up after testing with a "delete all plugin data" option
 
 #### Framework ####
 
-- Solid and sound data-model with a complete API that allows developers to create group-oriented web applications and plugins
+- Groups is designed based on a solid and sound data-model with a complete API that allows developers to create group-oriented web applications and plugins
 
 #### Multisite ####
 
@@ -92,9 +85,9 @@ used to limit access as well.
 
 Feedback is welcome!
 
-If you need help, have problems, want to leave feedback or want to provide constructive criticism, please do so here at the [Groups plugin page](http://www.itthinx.com/plugins/groups/).
+If you need help, have problems, want to leave feedback or want to provide constructive criticism, please do so here at the [Groups Plugin](http://www.itthinx.com/plugins/groups/) page.
 
-Please try to solve problems there before you rate this plugin or say it doesn't work. There goes a _lot_ of work into providing you with free quality plugins! Please appreciate that and help with your feedback. Thanks!
+Please try to solve problems there before you rate this plugin or say it doesn't work. There goes a _lot_ of work into providing you with free quality plugins! Please appreciate that and help with your feedback. Many thanks!
 
 #### Twitter ####
 
@@ -121,37 +114,45 @@ Many thanks for your help!
 
 = Where is the documentation? =
 
-The official documentation is located at the [Groups documentation pages](http://docs.itthinx.com/document/groups/).
+The official documentation is located at the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages.
 
 = I have a question, where do I ask? =
 
-For questions directly related to Groups, you can leave a comment at the [Groups plugin page](http://www.itthinx.com/plugins/groups/).
+For questions directly related to Groups, you can leave a comment at the [Groups Plugin](http://www.itthinx.com/plugins/groups/) page.
+
+= How do I restrict access to a post? =
+
+Let's assume you want members of the *Premium* group to be able to view some restricted posts.
+
+- If you want to create a new protected post, simply go to *Posts > Add New* as usual and in the _Groups_ box input *Premium* in the _Read_ field. Save or publish your post.
+- If you want to protect an existing post you can simply edit it, input *Premium* in the _Read_ field of the _Groups_ box and update the post.
+
+In both cases, it doesn't matter if the *Premium* group already exists or not, if it doesn't, it will be created automatically.
+
+If the *Premium* group already exists and you want to protect one or more existing posts in bulk, go to *Posts*, select all posts you want to protect and choose *Edit* in the *Bulk Actions* dropdown.
+Now click *Apply*, select the *Premium* group and click *Update*.
+
+After you publish or update your posts, only members of the *Premium* group will be able to see them.
 
 = I want Advanced and Premium members, where the Premium members can access everything that Advanced members can access. How can I do that? =
 
 Example: Advanced and Premium members
 
-1. Go to *Groups > Capabilities* and define two new capabilities, let's call them *advanced* and *premium*.
-2. Go to *Groups > Groups* and define two new  groups, let's call them *Advanced Members* and *Premium Members* - select *Advanced Members* as the *Parent* for the *Premium Members* group.
-3. Assign the *advanced* capability to the *Advanced Members* group and the *premium* capability to the *Premium Members* group.
-4. Go to *Groups > Options* and tick the checkboxes for *advanced* and *premium* under _Access restrictions_ and hit the *Save* button at the end of the page.
-5. Now create an example post that only members of the *Advanced Members* group should be able to see and tick the *advanced* checkbox under _Access restrictions_.
-6. Create another post for *Premium Members* and tick the *premium* checkbox for that post.
-7. Assign test users to both groups, log in as each user in turn and see which posts will be accessible. 
+1. Go to *Groups > Groups > New Group* and add two new  groups, let's call them *Advanced* and *Premium* - select *Advanced* as the *Parent* for the *Premium* group.
+2. Now create an example post that only members of the *Advanced* group should be able to access and choose the *Advanced* group in the _Read_ field of the _Groups_ box.
+3. Create another post for members of the *Premium* group and choose the *Premium* group for that post.
+4. Assign test users to both groups, log in as each user in turn and see which posts will be accessible.
 
 = How do I limit access to posts so that users in group A can not read the same as those in group B and vice-versa? =
 
 Example: Green and Red members
 
-1. Go to *Groups > Capabilities* and define two new capabilities, call them *green* and *red*.
-2. Go to *Groups > Groups* and define two new  groups, let's call them *Green Members* and *Red Members*
-3. Assign the *green* capability to the *Green Members* group and the *red* capability to the *Red Members* group.
-4. Go to *Groups > Options* and tick the checkboxes for *green* and *red* under _Access restrictions_ and hit the *Save* button at the end of the page.
-5. Now create an example post that only members of the *Green Members* group should be able to see and tick the *green* checkbox under _Access restrictions_.
-6. Create another post for *Red Members* and tick the *red* checkbox for that post.
-7. Assign a test user to any of the above groups, log in as that user and the post will be accessible.
+1. Go to *Groups > Groups > New Group* and add two new groups, let's call them *Green Members* and *Red Members*
+2. Now create an example post that only members of the *Green Members* group should be able to see and choose the *Green Members* group in the _Groups_ box.
+3. Create another post for *Red Members* and choose the *Red Members* group for that post.
+4. Assign a test user to each of the groups, log in as one of them and you will see that the member of the *Green Members* group will only have access to the post protected by that group but not to the post protected with the *Red Members* group and vice-versa.
 
-= Are access restrictions for Custom Post Types supported? =
+= Are access restrictions for Custom Post Types (CPT) supported? =
 
 Yes. Access restrictions can be turned on or off for specific CPTs on the *Groups > Options* page.
 
@@ -159,37 +160,85 @@ Yes. Access restrictions can be turned on or off for specific CPTs on the *Group
 
 Go to *Groups > Options* and enable the option under *User profiles*.
 
-= Developers aka What about Groups' API? =
+= Developers ... aka ... What about Groups' API? =
 
 The Groups plugin provides an extensive framework to handle memberships, group-based capabilities and access control.
 
 The API documentation is available here: [Groups API](http://api.itthinx.com/groups).
 
-Also refer to the official [Groups](http://www.itthinx.com/plugins/groups/) plugin page and the [Groups documentation](http://docs.itthinx.com/document/groups/) pages.
+Also refer to the official [Groups Plugin](http://www.itthinx.com/plugins/groups/) page to post your questions and the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages.
 
 == Screenshots ==
 
-See also [Groups](http://www.itthinx.com/plugins/groups/)
+See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages and the [Groups Plugin](http://www.itthinx.com/plugin/groups/) page.
 
 1. Groups - this is where you add and remove groups and assign capabilities to groups.
 2. Capabilities - here you get an overview of the capabilities that are defined and you can add and remove capabilities as well.
 3. Users - group membership is managed from the standard Users admin view.
-4. Access restrictions meta box - on pages and posts (or custom content types) you can restrict access to users who are part of a group with capabilities.
-5. Usage of the [groups_member] and [groups_non_member] shortcodes to limit visibility of content to users who are members of a group or users who are not members of a group. Multiple comma-separated groups can be specified.
-6. Usage of the [groups_can] and [groups_can_not] shortcodes. Limits visibility of enclosed content to those users who have the capability or those who do not. Multiple capabilities can be given.
-7. Options - you can adjust the plugin's settings here.
-8. More options.
+4. Filter the list of users by one or more groups.
+5. Add users to groups or remove them in bulk.
+6. Groups a users belongs to shown in the user profile.
+7. Filter posts by groups.
+8. Add or remove access restrictions based on groups in bulk.
+9. Restrict access on pages and posts (and other custom post types) ... you can restrict access to users who are members of one or more groups.
+10. A post restricted to members of a *Premium* group only.
+11. Usage of the [groups_member] and [groups_non_member] shortcodes to limit visibility of content to users who are members of a group or users who are not members of a group. Multiple comma-separated groups can be specified.
+12. Usage of the [groups_can] and [groups_can_not] shortcodes. Limits visibility of enclosed content to those users who have the capability or those who do not. Multiple capabilities can be given.
+13. Options - you can adjust the plugin's settings here.
+14. More options.
 
 == Changelog ==
 
-= 1.13.1 =
-* Fixed an issue where the wrong post count would be produced for statuses that do not represent a valid WooCommerce order status.
-* Added support for post counts with WooCommerce Subscriptions.
+= 2.1.2 =
+* Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
+* Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
+  they do not belong to, in line with the ability to restrict access with groups they do not belong to for consistency's
+  sake.
+* Added a filter on woocommerce_product_is_visible so protected up-sell and cross-sell products
+  are effectively hidden.
 
-= 1.13.0 =
-* Added a filter on wp_count_posts.
+= 2.1.1 =
+* Changed the default value for legacy mode used on installation to false. Fixes database errors
+  due to missing capability table at that stage.
+* Modified the method signature of Groups_Post_Access::posts_where() and
+  Groups_Post_Access_Legacy::posts_where() to avoid PHP 7.1 warnings (reference expected, value given).
+* Removed the administrator override option on the back end. Administrator override now requires the constant
+  GROUPS_ADMINISTRATOR_OVERRIDE to be defined as true.
+* Updated the French translation.
+* Adjusted the load order for translations.
+
+= 2.1.0 =
+* Changed the requirements to allow to restrict by group.
+* Fixed legacy access restrictions help replaced new groups help.
+
+= 2.0.3 =
+* Fixed a "Fatal error:  Call to a member function get_role_caps() on a non-object" which
+  could occur in circumstances with invalid user IDs.
+
+= 2.0.2 =
+* Added the option to dismiss the Welcome screen.
+* Updated German and Spanish translations.
+
+= 2.0.1 =
+* Fixed an issue with conflicting cache entries with legacy mode enabled.
+* Fixed access restriction capabilities were reset when reenabling legacy mode.
+
+= 2.0.0 =
+* Changed the access restriction model to group-based access restrictions.
+* Provides an optional legacy mode that supports the previous capability-based access restrictions.
+* Optimized the approach to restrict read access on posts using groups rather than access restriction capabilities.
+* Added the `groups_restrict_access` capability which grants users to impose access restrictions.
+* Fixed the order_by and order parameters in Groups_Group::get_groups()
+* Added the $create parameter in Groups_UIE::render_select()
+* Removed the "Chosen" library.
+* Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
+* Added a welcome screen.
+* Added the option to assign groups to new users directly when creating them from the Dashboard.
+* Changed the language domain to string literal instead of constant.
+* Improvements on internal coding standards (single/double quotes, EOF, formatting).
 
 == Upgrade Notice ==
 
-= 1.13.1 =
-This release fixes an issue with order counts displayed on the WooCommerce order screen.
+= 2.1.2 =
+Groups 2.x simplifies the way access restrictions are handled.
+This release contains improvements and fixes related to the visibility of posts by Groups administrators, internal procedures and compatibility with other plugins.

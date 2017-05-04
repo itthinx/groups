@@ -29,6 +29,8 @@ if ( !defined( 'ABSPATH' ) ) {
 define( 'GROUPS_DEFAULT_VERSION', '1.0.0' );
 
 /**
+ * Do NOT remove this constant.
+ * 
  * @var string plugin domain
  */
 define( 'GROUPS_PLUGIN_DOMAIN', 'groups' );
@@ -66,18 +68,24 @@ define( 'GROUPS_ADMINISTER_GROUPS', 'groups_admin_groups');
 define( 'GROUPS_ADMINISTER_OPTIONS', 'groups_admin_options');
 
 /**
+ * @var string grants permission to restrict access on posts etc.
+ */
+define( 'GROUPS_RESTRICT_ACCESS', 'groups_restrict_access' );
+
+/**
  * @var string admin nonce
  */
 define( 'GROUPS_ADMIN_GROUPS_NONCE', 'groups-admin-nonce' );
 
-
 /**
  * @var string admin override option
+ * @deprecated since 2.1.1
  */
 define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE', 'groups-admin-override' );
 
 /**
  * @var string admin override option default setting
+ * @deprecated since 2.1.1
  */
 define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT', false );
 
@@ -109,3 +117,15 @@ define( 'GROUPS_SHOW_IN_USER_PROFILE', 'groups-show-in-user-profile' );
  * @var boolean
  */
 define( 'GROUPS_SHOW_IN_USER_PROFILE_DEFAULT', false );
+
+/**
+ * Whether legacy functions should be supported.
+ * @var string
+ */
+define( 'GROUPS_LEGACY_ENABLE', 'groups-legacy-enable' );
+
+/**
+ * Default value for legacy support.
+ * @var boolean
+ */
+define( 'GROUPS_LEGACY_ENABLE_DEFAULT', false );

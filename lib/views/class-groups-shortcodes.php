@@ -118,7 +118,7 @@ class Groups_Shortcodes {
 		$output   = '';
 		if ( is_user_logged_in() ) {
 			$output .= sprintf( '<a href="%s">', esc_url( wp_logout_url( $redirect ) ) );
-			$output .= __( 'Log out', GROUPS_PLUGIN_DOMAIN );
+			$output .= __( 'Log out', 'groups' );
 			$output .= '</a>';
 		}
 		return $output;
@@ -164,7 +164,7 @@ class Groups_Shortcodes {
 					$output .= wp_filter_nohtml_kses( $current_group->description );
 					break;
 				case 'count' :
-					$user_group_table = _groups_get_tablename( "user_group" );
+					$user_group_table = _groups_get_tablename( 'user_group' );
 					$count = $wpdb->get_var( $wpdb->prepare(
 						"SELECT COUNT(*) FROM $user_group_table WHERE group_id = %d",
 						Groups_Utility::id( $current_group->group_id )
@@ -174,11 +174,11 @@ class Groups_Shortcodes {
 					} else {
 						$count = intval( $count );
 					}
-					$output .= _n( $options['single'], sprintf( $options['plural'], $count ), $count, GROUPS_PLUGIN_DOMAIN );
+					$output .= _n( $options['single'], sprintf( $options['plural'], $count ), $count, 'groups' );
 					break;
 				// @todo experimental - could use pagination, sorting, link to profile, ...
 				case 'users' :
-					$user_group_table = _groups_get_tablename( "user_group" );
+					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
 						"SELECT * FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
 						Groups_Utility::id( $current_group->group_id )
@@ -212,7 +212,7 @@ class Groups_Shortcodes {
 	 * @return rendered groups for current user
 	 */
 	public static function groups_user_groups( $atts, $content = null ) {
-		$output = "";
+		$output = '';
 		$options = shortcode_atts(
 			array(
 				'user_id' => null,
@@ -253,7 +253,7 @@ class Groups_Shortcodes {
 			// group attr
 				if ( $options['group'] !== null ) {
 					$groups = array();
-					$groups_incl = explode( ",", $options['group'] );
+					$groups_incl = explode( ',', $options['group'] );
 					foreach ( $groups_incl as $group_incl ) {
 						$group = trim( $group_incl );
 						$current_group = Groups_Group::read( $group );
@@ -269,7 +269,7 @@ class Groups_Shortcodes {
 				}
 				// exclude_group attr
 				if ( $options['exclude_group'] !== null ) {
-					$groups_excl = explode( ",", $options['exclude_group'] );
+					$groups_excl = explode( ',', $options['exclude_group'] );
 					foreach ( $groups_excl as $key => $group_excl ) {
 						$group = trim( $group_excl );
 						$current_group = Groups_Group::read( $group );
@@ -377,7 +377,7 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_groups( $atts, $content = null ) {
 		global $wpdb;
-		$output = "";
+		$output = '';
 		$options = shortcode_atts(
 			array(
 				'format' => 'list',
@@ -406,7 +406,7 @@ class Groups_Shortcodes {
 			default :
 				$order = 'ASC';
 		}
-		$group_table = _groups_get_tablename( "group" );
+		$group_table = _groups_get_tablename( 'group' );
 		if ( $groups = $wpdb->get_results(
 			"SELECT group_id FROM $group_table ORDER BY $order_by $order"
 		) ) {
@@ -459,14 +459,14 @@ class Groups_Shortcodes {
 	public static function groups_join( $atts, $content = null ) {
 		$nonce_action = 'groups_action';
 		$nonce        = 'nonce_join';
-		$output       = "";
+		$output       = '';
 
 		$options = shortcode_atts(
 			array(
 				'group'             => '',
 				'display_message'   => true,
 				'display_is_member' => false,
-				'submit_text'       => __( 'Join the %s group', GROUPS_PLUGIN_DOMAIN )
+				'submit_text'       => __( 'Join the %s group', 'groups' )
 			),
 			$atts
 		);
@@ -519,12 +519,12 @@ class Groups_Shortcodes {
 				} else if ( $display_message ) {
 					if ( $submitted && !$invalid_nonce && isset( $join_group ) && $join_group->group_id === $current_group->group_id ) {
 						$output .= '<div class="groups-join joined">';
-						$output .= sprintf( __( 'You have joined the %s group.', GROUPS_PLUGIN_DOMAIN ), wp_filter_nohtml_kses( $join_group->name ) );
+						$output .= sprintf( __( 'You have joined the %s group.', 'groups' ), wp_filter_nohtml_kses( $join_group->name ) );
 						$output .= '</div>';
 					}
 					else if ( $display_is_member && isset( $current_group ) && $current_group !== false ) {
 						$output .= '<div class="groups-join member">';
-						$output .= sprintf( __( 'You are a member of the %s group.', GROUPS_PLUGIN_DOMAIN ), wp_filter_nohtml_kses( $current_group->name ) );
+						$output .= sprintf( __( 'You are a member of the %s group.', 'groups' ), wp_filter_nohtml_kses( $current_group->name ) );
 						$output .= '</div>';
 					}
 				}
@@ -544,13 +544,13 @@ class Groups_Shortcodes {
 	public static function groups_leave( $atts, $content = null ) {
 		$nonce_action = 'groups_action';
 		$nonce        = 'nonce_leave';
-		$output       = "";
+		$output       = '';
 
 		$options = shortcode_atts(
 			array(
 				'group'           => '',
 				'display_message' => true,
-				'submit_text'     => __( 'Leave the %s group', GROUPS_PLUGIN_DOMAIN ),
+				'submit_text'     => __( 'Leave the %s group', 'groups' ),
 			),
 			$atts
 		);
@@ -595,7 +595,7 @@ class Groups_Shortcodes {
 				} else if ( $display_message ) {
 					if ( $submitted && !$invalid_nonce && isset( $leave_group ) && $leave_group->group_id === $current_group->group_id ) {
 						$output .= '<div class="groups-join left">';
-						$output .= sprintf( __( 'You have left the %s group.', GROUPS_PLUGIN_DOMAIN ), wp_filter_nohtml_kses( $leave_group->name ) );
+						$output .= sprintf( __( 'You have left the %s group.', 'groups' ), wp_filter_nohtml_kses( $leave_group->name ) );
 						$output .= '</div>';
 					}
 				}
