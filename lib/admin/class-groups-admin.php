@@ -51,6 +51,7 @@ class Groups_Admin {
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 		add_action( 'network_admin_menu', array( __CLASS__, 'network_admin_menu' ) );
 		add_filter( 'plugin_action_links_'. plugin_basename( GROUPS_FILE ), array( __CLASS__, 'plugin_action_links' ) );
+		add_action( 'after_plugin_row_' . plugin_basename( GROUPS_FILE ), array( __CLASS__, 'after_plugin_row' ), 10, 3 );
 	}
 
 	/**
@@ -275,6 +276,40 @@ class Groups_Admin {
 			);
 		}
 		return $links;
+	}
+
+	/**
+	 * Prints a warning when data is deleted on deactivation.
+	 *
+	 * @param string $plugin_file
+	 * @param array $plugin_data
+	 * @param string $status
+	 */
+	public static function after_plugin_row( $plugin_file, $plugin_data, $status ) {
+		if ( $plugin_file == plugin_basename( GROUPS_FILE ) ) {
+			$delete_data         = Groups_Options::get_option( 'groups_delete_data', false );
+			$delete_network_data = Groups_Options::get_option( 'groups_network_delete_data', false );
+			if (
+				( is_plugin_active( $plugin_file ) && $delete_data && current_user_can( 'install_plugins' ) ) ||
+				( is_plugin_active_for_network( $plugin_file ) && $delete_network_data  && current_user_can( 'manage_network_plugins' ) )
+			) {
+				echo '<tr class="active">';
+				echo '<td>&nbsp;</td>';
+				echo '<td colspan="2">';
+				echo '<div style="border: 2px solid #dc3232; padding: 1em">';
+				echo '<p>';
+				echo '<strong>';
+				echo esc_html( __( 'Warning!', 'groups' ) );
+				echo '</strong>';
+				echo '</p>';
+				echo '<p>';
+				echo esc_html( __( 'Groups is configured to delete its plugin data on deactivation.', 'groups' ) );
+				echo '</p>';
+				echo '</div>';
+				echo '</td>';
+				echo '</tr>';
+			}
+		}
 	}
 }
 Groups_Admin::init();
