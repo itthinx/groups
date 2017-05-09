@@ -112,7 +112,7 @@ class Groups_User implements I_Capable {
 				$this->user = new WP_User( 0 );
 			}
 		} else {
-			$this->user = new WP_User( 0 );
+			$this->user = new WP_User( $user_id );
 		}
 	}
 
