@@ -141,40 +141,30 @@ class Groups_Group implements I_Capable {
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $users ) {
-						$this->cache_meta_data( $users );
 						$result = array();
 						foreach( $users as $user ) {
-							$result[] = new Groups_User( $user );
+							$groups_user = new Groups_User();
+							$groups_user->user = new WP_User( $user );
+							$result[] = $groups_user;
+						}
+					}
+					break;
+				case 'user_ids' :
+					$user_group_table = _groups_get_tablename( 'user_group' );
+					$user_ids = $wpdb->get_results( $wpdb->prepare(
+						"SELECT $wpdb->users.ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+						Groups_Utility::id( $this->group->group_id )
+					) );
+					if ( $user_ids ) {
+						$result = array();
+						foreach( $user_ids as $user_id ) {
+							$result[] = $user_id->ID;
 						}
 					}
 					break;
 			}
 		}
 		return $result;
-	}
-
-	private function cache_meta_data( $users ) {
-		$users_to_cache = array();
-
-		// this usually makes only sense when we have a bunch of users
-		if ( empty( $users ) || is_wp_error( $users ) || count( $users ) < 3 ) {
-			return $users;
-		}
-
-		foreach( $users as $user ) {
-			if ( isset( $user->ID ) ) {
-				$users_to_cache[$user->ID] = 1;
-			}
-		}
-
-		if ( empty( $users_to_cache ) ) {
-			return $users;
-		}
-
-		update_meta_cache( 'user', array_keys( $users_to_cache ) );
-		unset( $users_to_cache );
-
-		return $users;
 	}
 
 	/**
