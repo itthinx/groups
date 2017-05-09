@@ -1,5 +1,13 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.2.0 =
+* Improved the activation performance by simplifying the creation of user-group entries.
+  The 'groups_created_user_group' action is not invoked on incorporating existing users and
+  a single query is used to create entries for all users.
+  Based on suggestions from @haroldkyle in https://github.com/itthinx/groups/pull/14
+* Added a warning message displayed in the plugins list when Groups is going to delete its
+  data on deactivation.
+
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
 * Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
