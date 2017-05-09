@@ -7,6 +7,9 @@
   Based on suggestions from @haroldkyle in https://github.com/itthinx/groups/pull/14
 * Added a warning message displayed in the plugins list when Groups is going to delete its
   data on deactivation.
+* Added the ability to obtain user_ids from Groups_Group.
+* Improved the performance when obtaining users from Groups_Group.
+* Adjusted the signature of the Groups_User constructor to use null as default for its $user_id argument.
 
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
