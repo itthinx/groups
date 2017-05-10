@@ -550,41 +550,43 @@ class Groups_Post_Access {
 
 	/**
 	 * Hooked on wp_count_posts to correct the post counts.
-	 * 
+	 *
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
 		foreach( $counts as $post_status => $count ) {
-			$query_args = array(
-				'fields'           => 'ids',
-				'post_type'        => $type,
-				'post_status'      => $post_status,
-				'numberposts'      => -1, // all
-				'suppress_filters' => 0
-			);
-			// WooCommerce Orders
-			if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
-				$wc_order_statuses = array_keys( wc_get_order_statuses() );
-				if ( !in_array( $post_status, $wc_order_statuses ) ) {
-					// Skip getting the post count for this status as it's
-					// not a valid order status and WC would raise a PHP Notice.
-					continue;
+			if ( self::handles_post_type( $type ) ) {
+				$query_args = array(
+					'fields'           => 'ids',
+					'post_type'        => $type,
+					'post_status'      => $post_status,
+					'numberposts'      => -1, // all
+					'suppress_filters' => 0
+				);
+				// WooCommerce Orders
+				if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
+					$wc_order_statuses = array_keys( wc_get_order_statuses() );
+					if ( !in_array( $post_status, $wc_order_statuses ) ) {
+						// Skip getting the post count for this status as it's
+						// not a valid order status and WC would raise a PHP Notice.
+						continue;
+					}
 				}
-			}
-			// WooCommerce Subscriptions
-			if ( function_exists( 'wcs_get_subscription_statuses' ) && ( $type == 'shop_subscription' ) ) {
-				$wc_subscription_statuses = array_keys( wcs_get_subscription_statuses() );
-				if ( !in_array( $post_status, $wc_subscription_statuses ) ) {
-					// Skip as it's not a valid subscription status
-					continue;
+				// WooCommerce Subscriptions
+				if ( function_exists( 'wcs_get_subscription_statuses' ) && ( $type == 'shop_subscription' ) ) {
+					$wc_subscription_statuses = array_keys( wcs_get_subscription_statuses() );
+					if ( !in_array( $post_status, $wc_subscription_statuses ) ) {
+						// Skip as it's not a valid subscription status
+						continue;
+					}
 				}
+				$posts = get_posts( $query_args );
+				$count = count( $posts );
+				unset( $posts );
+				$counts->$post_status = $count;
 			}
-			$posts = get_posts( $query_args );
-			$count = count( $posts );
-			unset( $posts );
-			$counts->$post_status = $count;
 		}
 		return $counts;
 	}
