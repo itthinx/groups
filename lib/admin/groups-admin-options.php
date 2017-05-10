@@ -61,13 +61,12 @@ function groups_admin_options() {
 	if ( isset( $_POST['submit'] ) ) {
 		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
 
-			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-			$post_types = get_post_types( array( 'public' => true ) );
+			$post_types = get_post_types();
 			$selected_post_types = is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array();
 			foreach( $post_types as $post_type ) {
-				$post_types_option[$post_type]['add_meta_box'] = in_array( $post_type, $selected_post_types );
+				$handle_post_types[$post_type] = in_array( $post_type, $selected_post_types );
 			}
-			Groups_Options::update_option( Groups_Post_Access::POST_TYPES, $post_types_option );
+			Groups_Post_Access::set_handles_post_types( $handle_post_types );
 
 			// tree view
 			if ( !empty( $_POST[GROUPS_SHOW_TREE_VIEW] ) ) {
@@ -209,18 +208,23 @@ function groups_admin_options() {
 			'</p>';
 	}
 
-	echo '<h2>' . __( 'Access restricions', 'groups' ) . '</h2>';
+	echo '<h2>';
+	echo __( 'Access restricions', 'groups' );
+	echo '</h2>';
 
-	echo '<h3>' . __( 'Post types', 'groups' ) . '</h3>';
+	echo '<h3>';
+	echo __( 'Post types', 'groups' );
+	echo '</h3>';
 
-	echo
-		'<p class="description">' .  __( 'Show access restrictions for these post types.', 'groups' ) . '</p>';
+	echo '<p class="description">';
+	echo __( 'Show access restrictions for these post types.', 'groups' ); // @todo change wording to '...handles access...' ?
+	echo '</p>';
 
-	$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-	$post_types = get_post_types( array( 'public' => true ) );
+	$post_type_objects = get_post_types( array(), 'objects' );
+	uasort( $post_type_objects, 'groups_admin_options_compare_post_types' );
+
 	echo '<ul>';
-	foreach( $post_types as $post_type ) {
-		$post_type_object = get_post_type_object( $post_type );
+	foreach( $post_type_objects as $post_type => $post_type_object ) {
 		echo '<li>';
 		echo '<label>';
 		$label = $post_type;
@@ -228,9 +232,18 @@ function groups_admin_options() {
 		if ( ( $labels !== null ) && isset( $labels->singular_name ) ) {
 			$label = __( $labels->singular_name );
 		}
-		$checked = ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) ? ' checked="checked" ' : '';
+		$checked = Groups_Post_Access::handles_post_type( $post_type ) ? ' checked="checked" ' : '';
 		echo '<input name="add_meta_boxes[]" type="checkbox" value="' . esc_attr( $post_type ) . '" ' . $checked . '/>';
-		echo $label;
+		$is_public = isset( $post_type_object->public ) && $post_type_object->public;
+		echo $is_public ? '<strong>' : '';
+		echo esc_html( $label );
+		echo $is_public ? '</strong>' : '';
+		if ( $post_type != $label ) {
+			echo ' ';
+			echo '<code><small>';
+			echo esc_html( $post_type );
+			echo '</small></code>';
+		}
 		echo '</label>';
 		echo '</li>';
 	}
@@ -354,4 +367,34 @@ function groups_network_admin_options() {
 		'</p>' .
 		'</div>' .
 		'</form>';
+}
+
+/**
+ * Compare two post types, considering those that have $public and/or $show_ui true as coming first.
+ * @param object $o1
+ * @param object $o2
+ * @return int
+ */
+function groups_admin_options_compare_post_types( $o1, $o2 ) {
+	$name_1 = isset( $o1->name ) ? $o1->name : '';
+	$name_2 = isset( $o2->name ) ? $o2->name : '';
+	$public_1 = isset( $o1->public ) && $o1->public;
+	$public_2 = isset( $o2->public ) && $o2->public;
+	$show_ui_1 = isset( $o1->show_ui ) && $o1->show_ui;
+	$show_ui_2 = isset( $o2->show_ui ) && $o2->show_ui;
+	$n1 = 0;
+	$n2 = 0;
+	if ( $public_1 ) {
+		$n1--;
+	}
+	if ( $show_ui_1 ) {
+		$n1--;
+	}
+	if ( $public_2 ) {
+		$n2--;
+	}
+	if ( $show_ui_2 ) {
+		$n2--;
+	}
+	return ( $n1 - $n2 ) * 10 + strcmp( $name_1, $name_2 );
 }

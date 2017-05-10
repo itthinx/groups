@@ -599,5 +599,56 @@ class Groups_Post_Access {
 	public static function wp_count_attachments( $counts, $mime_type ) {
 		return $counts;
 	}
+
+	/**
+	 * Returns true if we are supposed to handle the post type, otherwise false.
+	 *
+	 * @param string $post_type
+	 * @return boolean
+	 */
+	public static function handles_post_type( $post_type ) {
+		$post_types = self::get_handles_post_types();
+		return isset( $post_types[$post_type] ) && $post_types[$post_type];
+	}
+
+	/**
+	 * Returns an array of post types indicating for each whether we handle it (true) or not.
+	 * The array is indexed by the post type names.
+	 *
+	 * @return array indexed by post type names, indicating the value true if we handle it, otherwise false
+	 */
+	public static function get_handles_post_types() {
+		$result = array();
+		$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+		$post_types = get_post_types( array(), 'objects' );
+		foreach( $post_types as $post_type => $object ) {
+			$public              = isset( $object->public ) ? $object->public : false;
+			$exclude_from_search = isset( $object->exclude_from_search ) ? $object->exclude_from_search : false;
+			$publicly_queryable  = isset( $object->publicly_queryable ) ? $object->publicly_queryable : false;
+			$show_ui             = isset( $object->show_ui ) ? $object->show_ui : false;
+			$show_in_nav_menus   = isset( $object->show_in_nav_menus ) ? $object->show_in_nav_menus : false;
+
+			// by default, handle any post type whose public attribute is true
+			$managed =
+				$public && ( !isset( $post_types_option[$post_type] ) || !isset( $post_types_option[$post_type]['add_meta_box'] ) ) ||
+				isset( $post_types_option[$post_type] ) && isset( $post_types_option[$post_type]['add_meta_box'] ) && $post_types_option[$post_type]['add_meta_box'];
+			$result[$post_type] = $managed;
+		}
+		return $result;
+	}
+
+	/**
+	 * Set which post types we should handle.
+	 *
+	 * @param array $post_types of post type names mapped to booleans, indicating to handle or not a post type
+	 */
+	public static function set_handles_post_types( $post_types ) {
+		$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+		$available_post_types = get_post_types();
+		foreach( $available_post_types as $post_type ) {
+			$post_types_option[$post_type]['add_meta_box'] = isset( $post_types[$post_type] ) && $post_types[$post_type];
+		}
+		Groups_Options::update_option( Groups_Post_Access::POST_TYPES, $post_types_option );
+	}
 }
 Groups_Post_Access::init();
