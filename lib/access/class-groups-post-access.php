@@ -181,6 +181,35 @@ class Groups_Post_Access {
 				return $where;
 			}
 
+			if ( !apply_filters( 'groups_post_access_posts_where_filter_all', false ) ) {
+				$filter = true;
+				$post_types = $query->get( 'post_type', null );
+				if ( 'any' == $post_types ) {
+					// we need to filter in this case as it affects any post type
+				} elseif ( !empty( $post_types ) && is_array( $post_types ) ) {
+					// if there is at least one post type we handle, we need to filter
+					$handled = 0;
+					$handles_post_types = self::get_handles_post_types();
+					foreach( $post_types as $post_type ) {
+						if ( !isset( $handles_post_types[$post_type] ) || $handles_post_types[$post_type] ) {
+							$handled++;
+						}
+					}
+					$filter = $handled > 0;
+				} elseif ( ! empty( $post_types ) ) {
+					$filter = self::handles_post_type( $post_types );
+				} elseif ( $query->is_attachment ) {
+					$filter = self::handles_post_type( 'attachment' );
+				} elseif ( $query->is_page ) {
+					$filter = self::handles_post_type( 'page' );
+				} else {
+					$filter = self::handles_post_type( 'post' );
+				}
+				if ( !$filter ) {
+					return $where;
+				}
+			}
+
 			// 1. Get all the groups that the user belongs to, including those that are inherited:
 			$group_ids = array();
 			if ( $user = new Groups_User( $user_id ) ) {
@@ -506,6 +535,7 @@ class Groups_Post_Access {
 		$result = false;
 
 		if ( !empty( $post_id ) ) {
+
 			if ( $user_id === null ) {
 				$user_id = get_current_user_id();
 			}
@@ -520,13 +550,22 @@ class Groups_Post_Access {
 				if ( _groups_admin_override() || current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 					$result = true;
 				} else {
-					$groups_user = new Groups_User( $user_id );
-					$group_ids   = self::get_read_group_ids( $post_id );
-					if ( empty( $group_ids ) ) {
-						$result = true;
-					} else {
-						$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
-						$result = !empty( $ids );
+					// can read if post type is not handled
+					if ( $post_type = get_post_type( $post_id ) ) {
+						if ( !self::handles_post_type( $post_type ) ) {
+							$result = true;
+						}
+					}
+					// check if the user can read
+					if ( !$result ) {
+						$groups_user = new Groups_User( $user_id );
+						$group_ids   = self::get_read_group_ids( $post_id );
+						if ( empty( $group_ids ) ) {
+							$result = true;
+						} else {
+							$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
+							$result = !empty( $ids );
+						}
 					}
 				}
 				$result = apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
@@ -550,6 +589,10 @@ class Groups_Post_Access {
 
 	/**
 	 * Hooked on wp_count_posts to correct the post counts.
+	 * 
+	 * Note: at WP 4.7.4 through WP_Posts_List_Table::prepare_items() which obtains $post_status
+	 * independent of the post type, we will come here for any post status, so don't be surprised
+	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
 	 *
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
@@ -621,7 +664,7 @@ class Groups_Post_Access {
 	 */
 	public static function get_handles_post_types() {
 		$result = array();
-		$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+		$post_types_option = Groups_Options::get_option( self::POST_TYPES, array() );
 		$post_types = get_post_types( array(), 'objects' );
 		foreach( $post_types as $post_type => $object ) {
 			$public              = isset( $object->public ) ? $object->public : false;
@@ -645,12 +688,12 @@ class Groups_Post_Access {
 	 * @param array $post_types of post type names mapped to booleans, indicating to handle or not a post type
 	 */
 	public static function set_handles_post_types( $post_types ) {
-		$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+		$post_types_option = Groups_Options::get_option( self::POST_TYPES, array() );
 		$available_post_types = get_post_types();
 		foreach( $available_post_types as $post_type ) {
 			$post_types_option[$post_type]['add_meta_box'] = isset( $post_types[$post_type] ) && $post_types[$post_type];
 		}
-		Groups_Options::update_option( Groups_Post_Access::POST_TYPES, $post_types_option );
+		Groups_Options::update_option( self::POST_TYPES, $post_types_option );
 	}
 }
 Groups_Post_Access::init();
