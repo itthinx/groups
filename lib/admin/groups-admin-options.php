@@ -251,7 +251,7 @@ function groups_admin_options() {
 	echo
 		'<p class="description">' .
 		__( 'This determines for which post types access restriction settings are offered.', 'groups' ) . '<br/>' .
-		__( 'Disabling this setting for a post type does not remove existing access restrictions on individual posts of that type.', 'groups' ) . '<br/>' .
+		__( 'Disabling this setting for a post type also disables existing access restrictions on individual posts of that type.', 'groups' ) . '<br/>' .
 		'</p>';
 
 	echo

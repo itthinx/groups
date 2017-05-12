@@ -258,5 +258,6 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 = 2.2.0 =
 Groups 2.x simplifies the way access restrictions are handled.
-This release contains performance improvements and fixes. It also changes the behaviour for post types that Groups should not handle.
+This release contains performance improvements and fixes.
+Important: It also changes the behaviour for post types that Groups should not handle, if a post type is disabled, related entries will not be protected anymore. This is a fundamental change with respect to the previous behavior.
 We recommend to make a FULL BACKUP of your site and database before upgrading.
