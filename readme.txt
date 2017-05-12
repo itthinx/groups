@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/groups
 Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
 Tested up to: 4.7.4
-Stable tag: 2.1.2
+Stable tag: 2.2.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -189,6 +189,23 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.2.0 =
+* Improved the activation performance by simplifying the creation of user-group entries.
+  The 'groups_created_user_group' action is not invoked on incorporating existing users and
+  a single query is used to create entries for all users.
+  Based on suggestions from @haroldkyle in https://github.com/itthinx/groups/pull/14
+* Added a warning message displayed in the plugins list when Groups is going to delete its
+  data on deactivation.
+* Added the ability to obtain user_ids from Groups_Group.
+* Improved the performance when obtaining users from Groups_Group.
+  Based on suggestions from @tricki in https://github.com/itthinx/groups/pull/50
+* Adjusted the signature of the Groups_User constructor to use null as default for its $user_id argument.
+* Added methods in Groups_Post_Access to get and set which post types Groups should handle.
+* Changed the default assumption to handle only post types that are 'public' by default. Others are not handled by default.
+* Updated the Options to show all available post types.
+* Improved performance by limiting our posts_where, wp_count_posts and other filters in Groups_Post_Access to handled post types only.
+* Fixed a potential fatal error when the user_register hook is fired and get_current_screen() is not defined.
+
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
 * Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
@@ -239,6 +256,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-= 2.1.2 =
+= 2.2.0 =
 Groups 2.x simplifies the way access restrictions are handled.
-This release contains improvements and fixes related to the visibility of posts by Groups administrators, internal procedures and compatibility with other plugins.
+This release contains performance improvements and fixes. It also changes the behaviour for post types that Groups should not handle.
+We recommend to make a FULL BACKUP of your site and database before upgrading.
