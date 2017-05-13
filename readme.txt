@@ -206,6 +206,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Updated the Options to show all available post types.
 * Improved performance by limiting our posts_where, wp_count_posts and other filters in Groups_Post_Access to handled post types only.
 * Fixed a potential fatal error when the user_register hook is fired and get_current_screen() is not defined.
+* Updated translations.
 
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
