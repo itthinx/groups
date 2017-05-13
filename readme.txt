@@ -190,6 +190,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 == Changelog ==
 
 = 2.2.0 =
+* Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
 * Improved the activation performance by simplifying the creation of user-group entries.
   The 'groups_created_user_group' action is not invoked on incorporating existing users and
   a single query is used to create entries for all users.
