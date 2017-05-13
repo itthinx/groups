@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-13 17:14+0200\n"
-"PO-Revision-Date: 2017-05-13 17:16+0200\n"
+"PO-Revision-Date: 2017-05-13 17:22+0200\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: de_DE\n"
@@ -604,10 +604,8 @@ msgid "Groups Options"
 msgstr "Groups Optionen"
 
 #: lib/admin/class-groups-admin.php:306
-#, fuzzy
-#| msgid "Delete all Groups plugin data on deactivation"
 msgid "Groups is configured to delete its plugin data on deactivation."
-msgstr "Alle Daten des Groups Plugins bei deaktivierung löschen"
+msgstr "Groups wird bei der Deaktivierung all seine Daten löschen."
 
 #: lib/admin/groups-admin-options.php:334
 msgid "Groups network options"
@@ -905,8 +903,8 @@ msgid ""
 "Please give it a <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
 "rating."
 msgstr ""
-"Bitte geben Sie eine <a style=\"text-decoration:none;\" href=\"%s\">&#9733;"
-"&#9733;&#9733;&#9733;&#9733;</a> Bewertung ab!"
+"Bitte geben Sie eine <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
+"Bewertung ab!"
 
 #: lib/admin/class-groups-admin-welcome.php:160
 #, php-format
@@ -1073,7 +1071,7 @@ msgstr "Gruppen zeigen"
 
 #: lib/admin/groups-admin-options.php:262
 msgid "Show groups in user profiles."
-msgstr "Gruppen in Benutzerprofilen zeigen"
+msgstr "Gruppen in Benutzerprofilen zeigen."
 
 #: lib/admin/groups-admin-options.php:271
 msgid "Show the Groups tree view."
