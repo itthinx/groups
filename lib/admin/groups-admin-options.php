@@ -62,7 +62,7 @@ function groups_admin_options() {
 		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
 
 			$post_types = get_post_types();
-			$selected_post_types = is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array();
+			$selected_post_types = !empty( $_POST['add_meta_boxes'] ) && is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array();
 			foreach( $post_types as $post_type ) {
 				$handle_post_types[$post_type] = in_array( $post_type, $selected_post_types );
 			}

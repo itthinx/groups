@@ -210,6 +210,18 @@ class Groups_Post_Access {
 				}
 			}
 
+			$handles_post_types = Groups_Post_Access::get_handles_post_types();
+			$post_types = array();
+			foreach( $handles_post_types as $post_type => $handles ) {
+				if ( $handles ) {
+					$post_types[] = $post_type;
+				}
+			}
+			if ( count( $post_types ) == 0 ) {
+				return $where;
+			}
+			$post_types_in = "'" . implode( "','", array_map( 'esc_sql', $post_types ) ) . "'";
+
 			// 1. Get all the groups that the user belongs to, including those that are inherited:
 			$group_ids = array();
 			if ( $user = new Groups_User( $user_id ) ) {
@@ -231,10 +243,11 @@ class Groups_Post_Access {
 			$where .= sprintf(
 				" AND {$wpdb->posts}.ID IN " .
 				" ( " .
-				"   SELECT ID FROM $wpdb->posts WHERE ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts without access restriction
+				"   SELECT ID FROM $wpdb->posts WHERE post_type NOT IN (%s) OR ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts of a type that is not handled or posts without access restriction
 				"   UNION ALL " . // we don't care about duplicates here, just make it quick
 				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any group the user belongs to
 				" ) ",
+				$post_types_in,
 				self::POSTMETA_PREFIX . self::READ,
 				self::POSTMETA_PREFIX . self::READ,
 				$group_ids

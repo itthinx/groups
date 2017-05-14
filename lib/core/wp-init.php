@@ -101,6 +101,7 @@ require_once( GROUPS_ACCESS_LIB . '/class-groups-post-access.php' );
 if ( $groups_legacy_enable ) {
 	require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
 }
+require_once GROUPS_ACCESS_LIB . '/class-groups-comment-access.php';
 
 if ( is_admin() ) {
 	require_once( GROUPS_ACCESS_LIB . '/class-groups-access-meta-boxes.php' );
