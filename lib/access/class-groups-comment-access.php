@@ -30,9 +30,11 @@ class Groups_Comment_Access {
 
 	public static function init() {
 		add_filter( 'comments_array', array( __CLASS__, 'comments_array' ), 10, 2 );
-		add_filter( 'the_comments', array( __CLASS__, 'the_comments' ), 10, 2 );
 		add_filter( 'comment_feed_where', array( __CLASS__, 'comment_feed_where' ), 10, 2 );
 		add_filter( 'comments_clauses', array( __CLASS__, 'comments_clauses' ), 10, 2 );
+		// the comments_clauses filter is used in WP_Comment_Query::get_comment_ids() before the
+		// comments are filtered with the_comments in WP_Comment_Query::get_comments() so we don't need to do this again
+		//add_filter( 'the_comments', array( __CLASS__, 'the_comments' ), 10, 2 );
 		// @todo add_filter( 'wp_count_comments', 10, 2 ); // see wp-includes/comment.php function wp_count_comments(...)
 		add_filter( 'get_comments_number', array( __CLASS__, 'get_comments_number' ), 10, 2 );
 	}
