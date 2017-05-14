@@ -56,9 +56,9 @@ class Groups_Comment_Access {
 	/**
 	 * Remove comments on posts that the user cannot read.
 	 *
-	 * @param unknown $comments
-	 * @param unknown $object
-	 * @return unknown[]
+	 * @param array $comments
+	 * @param WP_Comment_Query $object
+	 * @return array
 	 */
 	public static function the_comments( $comments, $object ) {
 		$_comments = array();
