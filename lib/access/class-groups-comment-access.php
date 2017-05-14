@@ -32,6 +32,9 @@ class Groups_Comment_Access {
 		add_filter( 'comments_array', array( __CLASS__, 'comments_array' ), 10, 2 );
 		add_filter( 'the_comments', array( __CLASS__, 'the_comments' ), 10, 2 );
 		add_filter( 'comment_feed_where', array( __CLASS__, 'comment_feed_where' ), 10, 2 );
+		add_filter( 'comments_clauses', array( __CLASS__, 'comments_clauses' ), 10, 2 );
+		// @todo add_filter( 'wp_count_comments', 10, 2 ); // see wp-includes/comment.php function wp_count_comments(...)
+		add_filter( 'get_comments_number', array( __CLASS__, 'get_comments_number' ), 10, 2 );
 	}
 
 	/**
@@ -129,6 +132,42 @@ class Groups_Comment_Access {
 		);
 
 		return $where;
+	}
+
+	/**
+	 * Filter the comments based on post read access restrictions.
+	 *
+	 * @param array $pieces
+	 * @param WP_Comment_Query $comment_query
+	 * @return array
+	 */
+	public static function comments_clauses( $pieces, $comment_query ) {
+		global $wpdb;
+
+		if ( isset( $pieces['where'] ) ) {
+			$where = $pieces['where'];
+		} else {
+			$where = '';
+		}
+
+		$where .= self::comment_feed_where( '', null );
+		$pieces['where'] = $where;
+		return $pieces;
+	}
+
+	/**
+	 * Filters the comments number of a post.
+	 *
+	 * @param int $count
+	 * @param int $post_id
+	 * @return int number of comments (0 if there are none or the user can't read the post)
+	 */
+	public static function get_comments_number ( $count, $post_id ) {
+		$num_comments = 0;
+		if ( Groups_Post_Access::user_can_read_post( $post_id ) ) {
+			$num_comments = $count;
+		}
+		return $num_comments;
 	}
 }
 Groups_Comment_Access::init();
