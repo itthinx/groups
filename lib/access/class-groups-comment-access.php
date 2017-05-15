@@ -46,10 +46,16 @@ class Groups_Comment_Access {
 	 * @param int $post_id
 	 */
 	public static function comments_array( $comments, $post_id ) {
+
+		if ( !apply_filters( 'groups_comment_access_comments_array_apply', true, $comments, $post_id ) ) {
+			return $comments;
+		}
+
 		$result = array();
 		if ( Groups_Post_Access::user_can_read_post( $post_id ) ) {
 			$result = $comments;
 		}
+
 		return $result;
 	}
 
@@ -57,10 +63,15 @@ class Groups_Comment_Access {
 	 * Remove comments on posts that the user cannot read.
 	 *
 	 * @param array $comments
-	 * @param WP_Comment_Query $object
+	 * @param WP_Comment_Query $comment_query
 	 * @return array
 	 */
-	public static function the_comments( $comments, $object ) {
+	public static function the_comments( $comments, $comment_query ) {
+
+		if ( !apply_filters( 'groups_comment_access_the_comments_apply', true, $comments, $comment_query ) ) {
+			return $comments;
+		}
+
 		$_comments = array();
 		foreach( $comments as $comment ) {
 			if ( isset( $comment->comment_post_ID ) ) {
@@ -69,6 +80,7 @@ class Groups_Comment_Access {
 				}
 			}
 		}
+
 		return $_comments;
 	}
 
@@ -76,12 +88,14 @@ class Groups_Comment_Access {
 	 * Filter feed comments.
 	 *
 	 * @param string $where
-	 * @param WP_Query $object
+	 * @param WP_Query $query
 	 * @return string
 	 */
-	public static function comment_feed_where( $where, $object ) {
+	public static function comment_feed_where( $where, $query ) {
 
-		global $wpdb;
+		if ( !apply_filters( 'groups_comment_access_comment_feed_where_apply', true, $where, $query ) ) {
+			return $where;
+		}
 
 		if ( _groups_admin_override() ) {
 			return $where;
@@ -90,6 +104,71 @@ class Groups_Comment_Access {
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			return $where;
 		}
+
+		$where = self::build_where( $where );
+		return $where;
+	}
+
+	/**
+	 * Filter the comments based on post read access restrictions.
+	 *
+	 * @param array $pieces
+	 * @param WP_Comment_Query $comment_query
+	 * @return array
+	 */
+	public static function comments_clauses( $pieces, $comment_query ) {
+
+		global $wpdb;
+
+		if ( !apply_filters( 'groups_comment_access_comments_clauses_apply', true, $pieces, $comment_query ) ) {
+			return $pieces;
+		}
+
+		if ( _groups_admin_override() ) {
+			return $pieces;
+		}
+
+		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+			return $pieces;
+		}
+
+		if ( isset( $pieces['where'] ) ) {
+			$where = $pieces['where'];
+		} else {
+			$where = '';
+		}
+
+		// group_ids : all the groups that the user belongs to, including those that are inherited
+		$user_id = get_current_user_id();
+		$group_ids = array();
+		if ( $user = new Groups_User( $user_id ) ) {
+			$group_ids_deep = $user->group_ids_deep;
+			if ( is_array( $group_ids_deep ) ) {
+				$group_ids = $group_ids_deep;
+			}
+		}
+
+		if ( count( $group_ids ) > 0 ) {
+			$group_ids = "'" . implode( "','", array_map( 'esc_sql', $group_ids ) ) . "'";
+		} else {
+			$group_ids = '\'\'';
+		}
+
+		$where = self::build_where( $where );
+
+		$pieces['where'] = $where;
+		return $pieces;
+	}
+
+	/**
+	 * Adds conditions to $where to restrict comment access.
+	 *
+	 * @param unknown $where
+	 * @return unknown|string
+	 */
+	private static function build_where( $where ) {
+
+		global $wpdb;
 
 		$handles_post_types = Groups_Post_Access::get_handles_post_types();
 		$post_types = array();
@@ -119,42 +198,25 @@ class Groups_Comment_Access {
 			$group_ids = '\'\'';
 		}
 
+		// only comments from posts that the user can read
 		$where .= sprintf(
-			" AND {$wpdb->comments}.comment_post_ID IN " .
-			" ( " .
-			"   SELECT ID FROM $wpdb->posts WHERE post_type NOT IN (%s) OR ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts of type not handled or without access restrictions
-			"   UNION ALL " .
-			"   SELECT post_id AS ID FROM $wpdb->postmeta pm LEFT JOIN {$wpdb->posts} p ON pm.post_id = p.ID WHERE p.post_type IN (%s) AND pm.meta_key = '%s' AND pm.meta_value IN (%s) " . // posts that require any group the user belongs to
-			" ) ",
+			" AND {$wpdb->comments}.comment_post_ID NOT IN ( " .
+				"SELECT ID FROM $wpdb->posts WHERE " .
+					"post_type IN (%s) AND " .
+					"ID IN ( " .
+						"SELECT post_id FROM $wpdb->postmeta pm WHERE " .
+							"pm.meta_key = '%s' AND pm.meta_value NOT IN (%s) AND " .
+							"post_id NOT IN ( SELECT post_id FROM $wpdb->postmeta pm WHERE pm.meta_key = '%s' AND pm.meta_value IN (%s) ) " .
+					") " .
+			") ",
 			$post_types_in,
-			Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
-			$post_types_in,
-			Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
+			esc_sql( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ ),
+			$group_ids,
+			esc_sql( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ ),
 			$group_ids
 		);
 
 		return $where;
-	}
-
-	/**
-	 * Filter the comments based on post read access restrictions.
-	 *
-	 * @param array $pieces
-	 * @param WP_Comment_Query $comment_query
-	 * @return array
-	 */
-	public static function comments_clauses( $pieces, $comment_query ) {
-		global $wpdb;
-
-		if ( isset( $pieces['where'] ) ) {
-			$where = $pieces['where'];
-		} else {
-			$where = '';
-		}
-
-		$where .= self::comment_feed_where( '', null );
-		$pieces['where'] = $where;
-		return $pieces;
 	}
 
 	/**
