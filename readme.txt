@@ -209,6 +209,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Updated translations.
 * Fixed a notice when no post types are selected in Groups > Options.
 * Added comment filters to hide comments on protected entries.
+* Improved the performance of the post filter.
 
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
