@@ -118,8 +118,6 @@ class Groups_Comment_Access {
 	 */
 	public static function comments_clauses( $pieces, $comment_query ) {
 
-		global $wpdb;
-
 		if ( !apply_filters( 'groups_comment_access_comments_clauses_apply', true, $pieces, $comment_query ) ) {
 			return $pieces;
 		}
@@ -132,30 +130,8 @@ class Groups_Comment_Access {
 			return $pieces;
 		}
 
-		if ( isset( $pieces['where'] ) ) {
-			$where = $pieces['where'];
-		} else {
-			$where = '';
-		}
-
-		// group_ids : all the groups that the user belongs to, including those that are inherited
-		$user_id = get_current_user_id();
-		$group_ids = array();
-		if ( $user = new Groups_User( $user_id ) ) {
-			$group_ids_deep = $user->group_ids_deep;
-			if ( is_array( $group_ids_deep ) ) {
-				$group_ids = $group_ids_deep;
-			}
-		}
-
-		if ( count( $group_ids ) > 0 ) {
-			$group_ids = "'" . implode( "','", array_map( 'esc_sql', $group_ids ) ) . "'";
-		} else {
-			$group_ids = '\'\'';
-		}
-
+		$where = isset( $pieces['where'] ) ? $pieces['where'] : '';
 		$where = self::build_where( $where );
-
 		$pieces['where'] = $where;
 		return $pieces;
 	}
