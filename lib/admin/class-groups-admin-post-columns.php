@@ -41,6 +41,9 @@ class Groups_Admin_Post_Columns {
 	 */
 	const GROUPS_READ = 'groups-read';
 
+	const CACHE_GROUP    = 'groups';
+	const EDIT_TERM_LINK = 'edit-term-link';
+
 	/**
 	 * Adds an admin_init action.
 	 */
@@ -122,19 +125,41 @@ class Groups_Admin_Post_Columns {
 					method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
 					method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0
 				) {
-					$terms = array();
 					$taxonomies = Groups_Restrict_Categories::get_controlled_taxonomies();
-					foreach( $taxonomies as $taxonomy ) {
-						$terms = array_merge( $terms, wp_get_post_terms( $post_id, $taxonomy ) );
-					}
-					foreach( $terms as $term ) {
-						if ( in_array( $term->taxonomy, $taxonomies ) ) {
-							$term_group_ids = Groups_Restrict_Categories::get_term_read_groups( $term->term_id );
-							$edit_term_link = get_edit_term_link( $term->term_id, $term->taxonomy, get_post_type( $post_id ) );
-							if ( !empty( $term_group_ids ) ) {
-								foreach( $term_group_ids as $group_id ) {
-									if ( $group = Groups_Group::read( $group_id ) ) {
-										$entries[] = sprintf( '%s <a href="%s">%s</a>', wp_strip_all_tags( $group->name ), esc_url( $edit_term_link ), esc_html( $term->name ) );
+					if ( count( $taxonomies ) > 0 ) {
+						$terms = wp_get_object_terms( $post_id, $taxonomies );
+						if ( !( $terms instanceof WP_Error ) ) {
+							foreach( $terms as $term ) {
+								if ( in_array( $term->taxonomy, $taxonomies ) ) {
+									$term_group_ids = Groups_Restrict_Categories::get_term_read_groups( $term->term_id );
+									if ( count( $term_group_ids ) > 0 ) {
+
+										if ( !empty( $term_group_ids ) ) {
+											$edit_term_link = self::get_edit_term_link( $term->term_id, $term->taxonomy );
+											$taxonomy_label = '';
+											if ( $taxonomy = get_taxonomy( $term->taxonomy ) ) {
+												$taxonomy_label = isset( $taxonomy->label ) ? __( $taxonomy->label ) : '';
+												$labels = isset( $taxonomy->labels ) ? $taxonomy->labels : null;
+												if ( $labels !== null ) {
+													if ( isset( $labels->singular_name ) )  {
+														$taxonomy_label = __( $labels->singular_name );
+													}
+												}
+											}
+											$term_taxonomy_title = !empty( $term->name ) ? $term->name : '';
+											$term_taxonomy_title.= !empty( $taxonomy_label ) ? ' ' . $taxonomy_label : '';
+											foreach( $term_group_ids as $group_id ) {
+												if ( $group = Groups_Group::read( $group_id ) ) {
+													$entries[] = sprintf(
+														'%s <a href="%s" title="%s" style="cursor: help">%s</a>',
+														esc_html( $group->name ),
+														esc_url( $edit_term_link ),
+														esc_attr( $term_taxonomy_title),
+														esc_html( $term->name )
+													);
+												}
+											}
+										}
 									}
 								}
 							}
@@ -154,6 +179,27 @@ class Groups_Admin_Post_Columns {
 				break;
 		}
 		echo $output;
+	}
+
+	/**
+	 * Helper to reduce query redundancy due to usage of current_user_can() in get_edit_term_link() etc.
+	 *
+	 * @param int $term_id
+	 * @param string $taxonomy
+	 * @return string or null if edit link could not be retrieved
+	 */
+	private static function get_edit_term_link( $term_id, $taxonomy ) {
+		$result = null;
+		$user_id = get_current_user_id();
+		$cached = Groups_Cache::get( self::EDIT_TERM_LINK . '_' . $term_id . '_' . $user_id, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$result = $cached->value;
+			unset( $cached );
+		} else {
+			$result = get_edit_term_link( $term_id, $taxonomy );
+			Groups_Cache::set( self::EDIT_TERM_LINK . '_' . $term_id . '_' . $user_id, $result, self::CACHE_GROUP );
+		}
+		return $result;
 	}
 
 	/**

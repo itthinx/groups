@@ -3,7 +3,7 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.7.4
+Tested up to: 4.7.5
 Stable tag: 2.2.0
 License: GPLv3
 
@@ -210,6 +210,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Fixed a notice when no post types are selected in Groups > Options.
 * Added comment filters to hide comments on protected entries.
 * Improved the performance of the post filter.
+* Added several performance improvements related to data retrieval and caching on various objects and data sets.
 
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.

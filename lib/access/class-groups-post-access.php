@@ -73,6 +73,11 @@ class Groups_Post_Access {
 	const POST_TYPES = 'post_types';
 
 	/**
+	 * @var string
+	 */
+	const COUNT_POSTS = 'count-posts';
+
+	/**
 	 * Work done on activation, currently does nothing.
 	 * @see Groups_Controller::activate()
 	 */
@@ -629,37 +634,48 @@ class Groups_Post_Access {
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
-		foreach( $counts as $post_status => $count ) {
+		$user_id = get_current_user_id();
+		$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type . '_' . $user_id, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$counts = $cached->value;
+			unset( $cached );
+		} else {
 			if ( self::handles_post_type( $type ) ) {
-				$query_args = array(
-					'fields'           => 'ids',
-					'post_type'        => $type,
-					'post_status'      => $post_status,
-					'numberposts'      => -1, // all
-					'suppress_filters' => 0
-				);
-				// WooCommerce Orders
-				if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
-					$wc_order_statuses = array_keys( wc_get_order_statuses() );
-					if ( !in_array( $post_status, $wc_order_statuses ) ) {
-						// Skip getting the post count for this status as it's
-						// not a valid order status and WC would raise a PHP Notice.
-						continue;
+				foreach( $counts as $post_status => $count ) {
+					$query_args = array(
+						'fields'           => 'ids',
+						'post_type'        => $type,
+						'post_status'      => $post_status,
+						'numberposts'      => -1, // all
+						'suppress_filters' => 0, // don't suppres filters as we need to get restrictions taken into account
+						'orderby'          => 'none', // Important! Don't waste time here.
+						'no_found_rows'    => true, // performance, omit unnecessary SQL_CALC_FOUND_ROWS in query here
+						'nopaging'         => true // no paging is needed, in case it would affect performance
+					);
+					// WooCommerce Orders
+					if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
+						$wc_order_statuses = array_keys( wc_get_order_statuses() );
+						if ( !in_array( $post_status, $wc_order_statuses ) ) {
+							// Skip getting the post count for this status as it's
+							// not a valid order status and WC would raise a PHP Notice.
+							continue;
+						}
 					}
-				}
-				// WooCommerce Subscriptions
-				if ( function_exists( 'wcs_get_subscription_statuses' ) && ( $type == 'shop_subscription' ) ) {
-					$wc_subscription_statuses = array_keys( wcs_get_subscription_statuses() );
-					if ( !in_array( $post_status, $wc_subscription_statuses ) ) {
-						// Skip as it's not a valid subscription status
-						continue;
+					// WooCommerce Subscriptions
+					if ( function_exists( 'wcs_get_subscription_statuses' ) && ( $type == 'shop_subscription' ) ) {
+						$wc_subscription_statuses = array_keys( wcs_get_subscription_statuses() );
+						if ( !in_array( $post_status, $wc_subscription_statuses ) ) {
+							// Skip as it's not a valid subscription status
+							continue;
+						}
 					}
+					$posts = get_posts( $query_args );
+					$count = count( $posts );
+					unset( $posts );
+					$counts->$post_status = $count;
 				}
-				$posts = get_posts( $query_args );
-				$count = count( $posts );
-				unset( $posts );
-				$counts->$post_status = $count;
 			}
+			Groups_Cache::set( self::COUNT_POSTS . '_' . $type . '_' . $user_id, $counts, self::CACHE_GROUP );
 		}
 		return $counts;
 	}

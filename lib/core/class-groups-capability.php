@@ -28,8 +28,9 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Capability {
 
-	const CACHE_GROUP        = 'groups';
-	const READ_BY_CAPABILITY = 'read_by_capability';
+	const CACHE_GROUP           = 'groups';
+	const READ_BY_CAPABILITY    = 'read_by_capability';
+	const READ_CAPABILITY_BY_ID = 'read_capability_by_id';
 
 	/**
 	 * @var persisted capability object
@@ -177,13 +178,20 @@ class Groups_Capability {
 	public static function read( $capability_id ) {
 		global $wpdb;
 		$result = false;
-		$capability_table = _groups_get_tablename( 'capability' );
-		$capability = $wpdb->get_row( $wpdb->prepare(
-			"SELECT * FROM $capability_table WHERE capability_id = %d",
-			Groups_Utility::id( $capability_id )
-		) );
-		if ( isset( $capability->capability_id ) ) {
-			$result = $capability;
+		$cached = Groups_Cache::get( self::READ_CAPABILITY_BY_ID . '_' . $capability_id, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$result = $cached->value;
+			unset( $cached );
+		} else {
+			$capability_table = _groups_get_tablename( 'capability' );
+			$capability = $wpdb->get_row( $wpdb->prepare(
+				"SELECT * FROM $capability_table WHERE capability_id = %d",
+				Groups_Utility::id( $capability_id )
+			) );
+			if ( isset( $capability->capability_id ) ) {
+				$result = $capability;
+			}
+			Groups_Cache::set( self::READ_CAPABILITY_BY_ID . '_' . $capability_id, $result, self::CACHE_GROUP );
 		}
 		return $result;
 	}
