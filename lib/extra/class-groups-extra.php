@@ -33,6 +33,7 @@ class Groups_Extra {
 	 */
 	public static function init() {
 		add_filter( 'woocommerce_product_is_visible', array( __CLASS__, 'woocommerce_product_is_visible' ), 10, 2 );
+		add_filter( 'groups_comment_access_comment_count_where', array( __CLASS__, 'groups_comment_access_comment_count_where'), 10, 2 );
 	}
 
 	/**
@@ -52,6 +53,20 @@ class Groups_Extra {
 			$visible = Groups_Post_Access::user_can_read_post( $product_id );
 		}
 		return $visible;
+	}
+
+	/**
+	 * Take WooCommerce comment types into account.
+	 *
+	 * @param string $where
+	 * @param int $post_id
+	 * @return string
+	 */
+	public static function groups_comment_access_comment_count_where( $where, $post_id ) {
+		if ( defined( 'WC_VERSION' ) ) {
+			$where .= " AND comment_type NOT IN ('order_note', 'webhook_delivery') ";
+		}
+		return $where;
 	}
 }
 add_action( 'init', array( 'Groups_Extra', 'init' ) );

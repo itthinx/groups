@@ -28,6 +28,9 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Comment_Access {
 
+	const CACHE_GROUP = 'groups';
+	const COMMENT_COUNTS = 'comment_counts';
+
 	public static function init() {
 		add_filter( 'comments_array', array( __CLASS__, 'comments_array' ), 10, 2 );
 		add_filter( 'comment_feed_where', array( __CLASS__, 'comment_feed_where' ), 10, 2 );
@@ -35,7 +38,7 @@ class Groups_Comment_Access {
 		// the comments_clauses filter is used in WP_Comment_Query::get_comment_ids() before the
 		// comments are filtered with the_comments in WP_Comment_Query::get_comments() so we don't need to do this again
 		//add_filter( 'the_comments', array( __CLASS__, 'the_comments' ), 10, 2 );
-		// @todo add_filter( 'wp_count_comments', 10, 2 ); // see wp-includes/comment.php function wp_count_comments(...)
+		add_filter( 'wp_count_comments', array( __CLASS__, 'wp_count_comments' ), 999, 2 ); // see wp-includes/comment.php function wp_count_comments(...)
 		add_filter( 'get_comments_number', array( __CLASS__, 'get_comments_number' ), 10, 2 );
 	}
 
@@ -196,18 +199,122 @@ class Groups_Comment_Access {
 	}
 
 	/**
+	 * Filters comment counts.
+	 *
+	 * @param array $count
+	 * @param int $post_id
+	 * @return object comment counts as properties of the object
+	 */
+	public static function wp_count_comments( $count, $post_id ) {
+
+		if ( !apply_filters( 'groups_comment_access_wp_count_comments_apply', true, $count, $post_id ) ) {
+			return $count;
+		}
+
+		if ( _groups_admin_override() ) {
+			return $count;
+		}
+
+		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+			return $count;
+		}
+
+		$user_id = get_current_user_id();
+		$cached = Groups_Cache::get( self::COMMENT_COUNTS . '_' . $user_id . '_' . intval( $post_id ), self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$count = $cached->value;
+			unset( $cached );
+		} else {
+			$count = self::get_comment_count( $post_id );
+			Groups_Cache::set( self::COMMENT_COUNTS . '_' . $user_id . '_' . intval( $post_id ), $count, self::CACHE_GROUP );
+		}
+		return $count;
+	}
+
+	/**
 	 * Filters the comments number of a post.
 	 *
 	 * @param int $count
 	 * @param int $post_id
 	 * @return int number of comments (0 if there are none or the user can't read the post)
 	 */
-	public static function get_comments_number ( $count, $post_id ) {
+	public static function get_comments_number( $count, $post_id ) {
 		$num_comments = 0;
 		if ( Groups_Post_Access::user_can_read_post( $post_id ) ) {
 			$num_comments = $count;
 		}
 		return $num_comments;
+	}
+
+	/**
+	 * Adapated from get_comment_count() to user our filter.
+	 *
+	 * @param number $post_id
+	 * @return object comment counts as properties of the returned object
+	 */
+	private static function get_comment_count( $post_id = 0 ) {
+		global $wpdb;
+
+		$post_id = (int) $post_id;
+
+		$where = '';
+		if ( $post_id > 0 ) {
+			$where = $wpdb->prepare( "WHERE comment_post_ID = %d ", $post_id );
+		} else {
+			$where = 'WHERE 1=1 ';
+		}
+
+		$where = self::build_where( $where );
+
+		$where = apply_filters( 'groups_comment_access_comment_count_where', $where, $post_id );
+
+		$totals = (array) $wpdb->get_results(
+			"SELECT comment_approved, COUNT( * ) AS total " .
+			"FROM {$wpdb->comments} " .
+			"{$where} " .
+			"GROUP BY comment_approved ",
+			ARRAY_A
+		);
+
+		$comment_count = array(
+			'approved'            => 0,
+			'awaiting_moderation' => 0,
+			'spam'                => 0,
+			'trash'               => 0,
+			'post-trashed'        => 0,
+			'total_comments'      => 0,
+			'all'                 => 0,
+		);
+
+		foreach ( $totals as $row ) {
+			switch ( $row['comment_approved'] ) {
+				case 'trash':
+					$comment_count['trash'] = $row['total'];
+					break;
+				case 'post-trashed':
+					$comment_count['post-trashed'] = $row['total'];
+					break;
+				case 'spam':
+					$comment_count['spam'] = $row['total'];
+					$comment_count['total_comments'] += $row['total'];
+					break;
+				case '1':
+					$comment_count['approved'] = $row['total'];
+					$comment_count['total_comments'] += $row['total'];
+					$comment_count['all'] += $row['total'];
+					break;
+				case '0':
+					$comment_count['awaiting_moderation'] = $row['total'];
+					$comment_count['total_comments'] += $row['total'];
+					$comment_count['all'] += $row['total'];
+					break;
+				default:
+					break;
+			}
+		}
+		$comment_count['moderated'] = $comment_count['awaiting_moderation'];
+		//unset( $stats['awaiting_moderation'] );
+		return (object) $comment_count;
 	}
 }
 Groups_Comment_Access::init();
