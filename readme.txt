@@ -211,6 +211,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Added comment filters to hide comments on protected entries.
 * Improved the performance of the post filter.
 * Added several performance improvements related to data retrieval and caching on various objects and data sets.
+* Added a notice handler class.
 
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.

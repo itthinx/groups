@@ -133,9 +133,6 @@ require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
 //	 register_widget( 'Groups_Widget' );
 // }
 
-
-
-
 /**
  * Returns the prefixed DB table name.
  * @param string $name the name of the DB table
