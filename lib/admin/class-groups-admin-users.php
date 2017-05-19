@@ -253,14 +253,18 @@ class Groups_Admin_Users {
 			);
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
+			$user_counts = array();
+			$counts = $wpdb->get_results( "SELECT COUNT(user_id) AS count, group_id FROM $user_group_table GROUP BY group_id" );
+			if ( !empty( $counts ) && is_array( $counts ) ) {
+				foreach( $counts as $count ) {
+					$user_counts[$count->group_id] = $count->count;
+				}
+			}
 			foreach( $groups as $group ) {
 				// Do not use $user_count = count( $group->users ); here,
 				// as it creates a lot of unneccessary objects and can lead
 				// to out of memory issues on large user bases.
-				$user_count = $wpdb->get_var( $wpdb->prepare(
-					"SELECT COUNT(user_id) FROM $user_group_table WHERE group_id = %d",
-					Groups_Utility::id( $group->group_id ) )
-				);
+				$user_count = isset( $user_counts[$group->group_id] ) ? $user_counts[$group->group_id] : 0;
 				$selected = isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) && in_array( $group->group_id, $_REQUEST['group_ids'] );
 				$output .= sprintf(
 					'<option value="%d" %s>%s</option>',
