@@ -1,5 +1,29 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.2.0 =
+* Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
+* Improved the activation performance by simplifying the creation of user-group entries.
+  The 'groups_created_user_group' action is not invoked on incorporating existing users and
+  a single query is used to create entries for all users.
+  Based on suggestions from @haroldkyle in https://github.com/itthinx/groups/pull/14
+* Added a warning message displayed in the plugins list when Groups is going to delete its
+  data on deactivation.
+* Added the ability to obtain user_ids from Groups_Group.
+* Improved the performance when obtaining users from Groups_Group.
+  Based on suggestions from @tricki in https://github.com/itthinx/groups/pull/50
+* Adjusted the signature of the Groups_User constructor to use null as default for its $user_id argument.
+* Added methods in Groups_Post_Access to get and set which post types Groups should handle.
+* Changed the default assumption to handle only post types that are 'public' by default. Others are not handled by default.
+* Updated the Options to show all available post types.
+* Improved performance by limiting our posts_where, wp_count_posts and other filters in Groups_Post_Access to handled post types only.
+* Fixed a potential fatal error when the user_register hook is fired and get_current_screen() is not defined.
+* Updated translations.
+* Fixed a notice when no post types are selected in Groups > Options.
+* Added comment filters to hide comments on protected entries.
+* Improved the performance of the post filter.
+* Added several performance improvements related to data retrieval and caching on various objects and data sets.
+* Added a notice handler class.
+
 = 2.1.2 =
 * Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
 * Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups

@@ -73,6 +73,11 @@ class Groups_Post_Access {
 	const POST_TYPES = 'post_types';
 
 	/**
+	 * @var string
+	 */
+	const COUNT_POSTS = 'count-posts';
+
+	/**
 	 * Work done on activation, currently does nothing.
 	 * @see Groups_Controller::activate()
 	 */
@@ -181,6 +186,47 @@ class Groups_Post_Access {
 				return $where;
 			}
 
+			if ( !apply_filters( 'groups_post_access_posts_where_filter_all', false ) ) {
+				$filter = true;
+				$post_types = $query->get( 'post_type', null );
+				if ( 'any' == $post_types ) {
+					// we need to filter in this case as it affects any post type
+				} elseif ( !empty( $post_types ) && is_array( $post_types ) ) {
+					// if there is at least one post type we handle, we need to filter
+					$handled = 0;
+					$handles_post_types = self::get_handles_post_types();
+					foreach( $post_types as $post_type ) {
+						if ( !isset( $handles_post_types[$post_type] ) || $handles_post_types[$post_type] ) {
+							$handled++;
+						}
+					}
+					$filter = $handled > 0;
+				} elseif ( ! empty( $post_types ) ) {
+					$filter = self::handles_post_type( $post_types );
+				} elseif ( $query->is_attachment ) {
+					$filter = self::handles_post_type( 'attachment' );
+				} elseif ( $query->is_page ) {
+					$filter = self::handles_post_type( 'page' );
+				} else {
+					$filter = self::handles_post_type( 'post' );
+				}
+				if ( !$filter ) {
+					return $where;
+				}
+			}
+
+			$handles_post_types = Groups_Post_Access::get_handles_post_types();
+			$post_types = array();
+			foreach( $handles_post_types as $post_type => $handles ) {
+				if ( $handles ) {
+					$post_types[] = $post_type;
+				}
+			}
+			if ( count( $post_types ) == 0 ) {
+				return $where;
+			}
+			$post_types_in = "'" . implode( "','", array_map( 'esc_sql', $post_types ) ) . "'";
+
 			// 1. Get all the groups that the user belongs to, including those that are inherited:
 			$group_ids = array();
 			if ( $user = new Groups_User( $user_id ) ) {
@@ -199,18 +245,36 @@ class Groups_Post_Access {
 			// 2. Filter the posts:
 			// This allows the user to access posts where the posts are not restricted or where
 			// the user belongs to ANY of the groups:
+// 			$where .= sprintf(
+// 				" AND {$wpdb->posts}.ID IN " .
+// 				" ( " .
+// 				"   SELECT ID FROM $wpdb->posts WHERE post_type NOT IN (%s) OR ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts of a type that is not handled or posts without access restriction
+// 				"   UNION ALL " . // we don't care about duplicates here, just make it quick
+// 				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any group the user belongs to
+// 				" ) ",
+// 				$post_types_in,
+// 				self::POSTMETA_PREFIX . self::READ,
+// 				self::POSTMETA_PREFIX . self::READ,
+// 				$group_ids
+// 			);
+			// New faster version - Exclude any post IDs from:
+			// posts restricted to groups that the user does not belong to MINUS posts restricted to groups to which the user belongs
 			$where .= sprintf(
-				" AND {$wpdb->posts}.ID IN " .
-				" ( " .
-				"   SELECT ID FROM $wpdb->posts WHERE ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts without access restriction
-				"   UNION ALL " . // we don't care about duplicates here, just make it quick
-				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any group the user belongs to
-				" ) ",
-				self::POSTMETA_PREFIX . self::READ,
-				self::POSTMETA_PREFIX . self::READ,
+				" AND {$wpdb->posts}.ID NOT IN ( " .
+					"SELECT ID FROM $wpdb->posts WHERE " .
+						"post_type IN (%s) AND " .
+						"ID IN ( " .
+							"SELECT post_id FROM $wpdb->postmeta pm WHERE " .
+								"pm.meta_key = '%s' AND pm.meta_value NOT IN (%s) AND " .
+								"post_id NOT IN ( SELECT post_id FROM $wpdb->postmeta pm WHERE pm.meta_key = '%s' AND pm.meta_value IN (%s) ) " .
+						") " .
+				") ",
+				$post_types_in,
+				esc_sql( self::POSTMETA_PREFIX . self::READ ),
+				$group_ids,
+				esc_sql( self::POSTMETA_PREFIX . self::READ ),
 				$group_ids
 			);
-
 		}
 
 		return apply_filters( 'groups_post_access_posts_where', $where, $query );
@@ -506,6 +570,7 @@ class Groups_Post_Access {
 		$result = false;
 
 		if ( !empty( $post_id ) ) {
+
 			if ( $user_id === null ) {
 				$user_id = get_current_user_id();
 			}
@@ -520,13 +585,22 @@ class Groups_Post_Access {
 				if ( _groups_admin_override() || current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 					$result = true;
 				} else {
-					$groups_user = new Groups_User( $user_id );
-					$group_ids   = self::get_read_group_ids( $post_id );
-					if ( empty( $group_ids ) ) {
-						$result = true;
-					} else {
-						$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
-						$result = !empty( $ids );
+					// can read if post type is not handled
+					if ( $post_type = get_post_type( $post_id ) ) {
+						if ( !self::handles_post_type( $post_type ) ) {
+							$result = true;
+						}
+					}
+					// check if the user can read
+					if ( !$result ) {
+						$groups_user = new Groups_User( $user_id );
+						$group_ids   = self::get_read_group_ids( $post_id );
+						if ( empty( $group_ids ) ) {
+							$result = true;
+						} else {
+							$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
+							$result = !empty( $ids );
+						}
 					}
 				}
 				$result = apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
@@ -551,40 +625,57 @@ class Groups_Post_Access {
 	/**
 	 * Hooked on wp_count_posts to correct the post counts.
 	 * 
+	 * Note: at WP 4.7.4 through WP_Posts_List_Table::prepare_items() which obtains $post_status
+	 * independent of the post type, we will come here for any post status, so don't be surprised
+	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
+	 *
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
-		foreach( $counts as $post_status => $count ) {
-			$query_args = array(
-				'fields'           => 'ids',
-				'post_type'        => $type,
-				'post_status'      => $post_status,
-				'numberposts'      => -1, // all
-				'suppress_filters' => 0
-			);
-			// WooCommerce Orders
-			if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
-				$wc_order_statuses = array_keys( wc_get_order_statuses() );
-				if ( !in_array( $post_status, $wc_order_statuses ) ) {
-					// Skip getting the post count for this status as it's
-					// not a valid order status and WC would raise a PHP Notice.
-					continue;
+		$user_id = get_current_user_id();
+		$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type . '_' . $user_id, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$counts = $cached->value;
+			unset( $cached );
+		} else {
+			if ( self::handles_post_type( $type ) ) {
+				foreach( $counts as $post_status => $count ) {
+					$query_args = array(
+						'fields'           => 'ids',
+						'post_type'        => $type,
+						'post_status'      => $post_status,
+						'numberposts'      => -1, // all
+						'suppress_filters' => 0, // don't suppres filters as we need to get restrictions taken into account
+						'orderby'          => 'none', // Important! Don't waste time here.
+						'no_found_rows'    => true, // performance, omit unnecessary SQL_CALC_FOUND_ROWS in query here
+						'nopaging'         => true // no paging is needed, in case it would affect performance
+					);
+					// WooCommerce Orders
+					if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
+						$wc_order_statuses = array_keys( wc_get_order_statuses() );
+						if ( !in_array( $post_status, $wc_order_statuses ) ) {
+							// Skip getting the post count for this status as it's
+							// not a valid order status and WC would raise a PHP Notice.
+							continue;
+						}
+					}
+					// WooCommerce Subscriptions
+					if ( function_exists( 'wcs_get_subscription_statuses' ) && ( $type == 'shop_subscription' ) ) {
+						$wc_subscription_statuses = array_keys( wcs_get_subscription_statuses() );
+						if ( !in_array( $post_status, $wc_subscription_statuses ) ) {
+							// Skip as it's not a valid subscription status
+							continue;
+						}
+					}
+					$posts = get_posts( $query_args );
+					$count = count( $posts );
+					unset( $posts );
+					$counts->$post_status = $count;
 				}
 			}
-			// WooCommerce Subscriptions
-			if ( function_exists( 'wcs_get_subscription_statuses' ) && ( $type == 'shop_subscription' ) ) {
-				$wc_subscription_statuses = array_keys( wcs_get_subscription_statuses() );
-				if ( !in_array( $post_status, $wc_subscription_statuses ) ) {
-					// Skip as it's not a valid subscription status
-					continue;
-				}
-			}
-			$posts = get_posts( $query_args );
-			$count = count( $posts );
-			unset( $posts );
-			$counts->$post_status = $count;
+			Groups_Cache::set( self::COUNT_POSTS . '_' . $type . '_' . $user_id, $counts, self::CACHE_GROUP );
 		}
 		return $counts;
 	}
@@ -598,6 +689,57 @@ class Groups_Post_Access {
 	 */
 	public static function wp_count_attachments( $counts, $mime_type ) {
 		return $counts;
+	}
+
+	/**
+	 * Returns true if we are supposed to handle the post type, otherwise false.
+	 *
+	 * @param string $post_type
+	 * @return boolean
+	 */
+	public static function handles_post_type( $post_type ) {
+		$post_types = self::get_handles_post_types();
+		return isset( $post_types[$post_type] ) && $post_types[$post_type];
+	}
+
+	/**
+	 * Returns an array of post types indicating for each whether we handle it (true) or not.
+	 * The array is indexed by the post type names.
+	 *
+	 * @return array indexed by post type names, indicating the value true if we handle it, otherwise false
+	 */
+	public static function get_handles_post_types() {
+		$result = array();
+		$post_types_option = Groups_Options::get_option( self::POST_TYPES, array() );
+		$post_types = get_post_types( array(), 'objects' );
+		foreach( $post_types as $post_type => $object ) {
+			$public              = isset( $object->public ) ? $object->public : false;
+			$exclude_from_search = isset( $object->exclude_from_search ) ? $object->exclude_from_search : false;
+			$publicly_queryable  = isset( $object->publicly_queryable ) ? $object->publicly_queryable : false;
+			$show_ui             = isset( $object->show_ui ) ? $object->show_ui : false;
+			$show_in_nav_menus   = isset( $object->show_in_nav_menus ) ? $object->show_in_nav_menus : false;
+
+			// by default, handle any post type whose public attribute is true
+			$managed =
+				$public && ( !isset( $post_types_option[$post_type] ) || !isset( $post_types_option[$post_type]['add_meta_box'] ) ) ||
+				isset( $post_types_option[$post_type] ) && isset( $post_types_option[$post_type]['add_meta_box'] ) && $post_types_option[$post_type]['add_meta_box'];
+			$result[$post_type] = $managed;
+		}
+		return $result;
+	}
+
+	/**
+	 * Set which post types we should handle.
+	 *
+	 * @param array $post_types of post type names mapped to booleans, indicating to handle or not a post type
+	 */
+	public static function set_handles_post_types( $post_types ) {
+		$post_types_option = Groups_Options::get_option( self::POST_TYPES, array() );
+		$available_post_types = get_post_types();
+		foreach( $available_post_types as $post_type ) {
+			$post_types_option[$post_type]['add_meta_box'] = isset( $post_types[$post_type] ) && $post_types[$post_type];
+		}
+		Groups_Options::update_option( self::POST_TYPES, $post_types_option );
 	}
 }
 Groups_Post_Access::init();

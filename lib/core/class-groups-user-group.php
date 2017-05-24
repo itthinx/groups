@@ -83,6 +83,9 @@ class Groups_User_Group {
 
 	/**
 	 * Persist a user-group relation.
+	 *
+	 * As of Groups 2.2.0, this is not invoked when entries for existing users are created on
+	 * plugin activation, thus the 'groups_created_user_group' action is not called for these.
 	 * 
 	 * @param array $map attributes - must provide user_id and group_id
 	 * @return true on success, otherwise false

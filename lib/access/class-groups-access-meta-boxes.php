@@ -93,14 +93,14 @@ class Groups_Access_Meta_Boxes {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
-					add_meta_box(
-						'groups-permissions',
-						_x( 'Groups', 'Meta box title', 'groups' ),
-						array( __CLASS__, 'groups' ),
-						null,
-						'side',
-						'high'
-					);
+				add_meta_box(
+					'groups-permissions',
+					_x( 'Groups', 'Meta box title', 'groups' ),
+					array( __CLASS__, 'groups' ),
+					null,
+					'side',
+					'high'
+				);
 
 				Groups_UIE::enqueue( 'select' );
 

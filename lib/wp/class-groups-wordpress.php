@@ -27,7 +27,10 @@ if ( !defined( 'ABSPATH' ) ) {
  * WordPress capabilities integration.
  */
 class Groups_WordPress {
-	
+
+	const CACHE_GROUP = 'groups';
+	const HAS_CAP     = 'has_cap';
+
 	/**
 	 * Hook into actions to extend user capabilities.
 	 * 
@@ -39,9 +42,9 @@ class Groups_WordPress {
 	public static function init() {
 		// args: string $result, Groups_User $groups_user, string $capability
 		add_filter( 'groups_user_can', array( __CLASS__, 'groups_user_can' ), 10, 3 );
-		add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10, 3 );
+		add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10, 4 );
 	}
-	
+
 	/**
 	 * Extends Groups user capability with its WP_User capability.
 	 * 
@@ -56,37 +59,50 @@ class Groups_WordPress {
 			// and themes is deprecated", not because we actually use a
 			// deprecated user level, but because it doesn't exist.
 			if ( Groups_Capability::read_by_capability( $capability ) ) {
-				$result = user_can( $groups_user->user->ID, $capability );
+				if ( isset( $groups_user->user ) && isset( $groups_user->user->ID ) ) {
+					$result = user_can( $groups_user->user->ID, $capability );
+				}
 			}
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Extend user capabilities with Groups user capabilities.
 	 * 
 	 * @param array $allcaps the capabilities the user has
 	 * @param array $caps the requested capabilities
 	 * @param array $args capability context which can provide the requested capability as $args[0], the user ID as $args[1] and the related object's ID as $args[2]
+	 * @param WP_User $user the user object
 	 */
-	public static function user_has_cap( $allcaps, $caps, $args ) {
-		$user_id = isset( $args[1] ) ? $args[1] : null;
-		$groups_user = new Groups_User( $user_id );
+	public static function user_has_cap( $allcaps, $caps, $args, $user ) {
 		if ( is_array( $caps ) ) {
-			// we need to deactivate this because invoking $groups_user->can()
-			// would trigger this same function and we would end up
-			// in an infinite loop
-			remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10, 3 );
-			foreach( $caps as $cap ) {
-				if ( $groups_user->can( $cap ) ) {
-					$allcaps[$cap] = true;
+
+			$user_id = isset( $user->ID ) ? $user->ID : isset( $args[1] ) ? $args[1] : 0;
+			$hash    = md5( json_encode( $caps ) . json_encode( $args ) );
+			$cached  = Groups_Cache::get( self::HAS_CAP . '_' . $user_id . '_' . $hash, self::CACHE_GROUP );
+
+			if ( $cached !== null ) {
+				$allcaps = $cached->value;
+				unset( $cached );
+			} else {
+				$groups_user = new Groups_User( $user_id );
+				// we need to deactivate this because invoking $groups_user->can()
+				// would trigger this same function and we would end up
+				// in an infinite loop
+				remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10 );
+				foreach( $caps as $cap ) {
+					if ( $groups_user->can( $cap ) ) {
+						$allcaps[$cap] = true;
+					}
 				}
+				add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10, 4 );
+				Groups_Cache::set( self::HAS_CAP . '_' . $user_id . '_' . $hash, $allcaps, self::CACHE_GROUP );
 			}
-			add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10, 3 );
 		}
 		return $allcaps;
 	}
-	
+
 	/**
 	 * Adds WordPress capabilities to Groups capabilities.
 	 * Must be called explicitly.

@@ -101,6 +101,7 @@ require_once( GROUPS_ACCESS_LIB . '/class-groups-post-access.php' );
 if ( $groups_legacy_enable ) {
 	require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
 }
+require_once GROUPS_ACCESS_LIB . '/class-groups-comment-access.php';
 
 if ( is_admin() ) {
 	require_once( GROUPS_ACCESS_LIB . '/class-groups-access-meta-boxes.php' );
@@ -131,9 +132,6 @@ require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
 // function groups_widgets_init() {
 //	 register_widget( 'Groups_Widget' );
 // }
-
-
-
 
 /**
  * Returns the prefixed DB table name.

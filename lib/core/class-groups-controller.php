@@ -123,6 +123,13 @@ class Groups_Controller {
 		// and we won't have our up-to-date translations.
 		//load_plugin_textdomain( 'groups', null, 'groups/languages' );
 		self::version_check();
+
+		// load the notice class
+		if ( is_admin() ) {
+			if ( current_user_can( 'activate_plugins' ) ) { // important: after init hook
+				require_once GROUPS_ADMIN_LIB . '/class-groups-admin-notice.php';
+			}
+		}
 	}
 
 	/**
@@ -388,12 +395,16 @@ class Groups_Controller {
 				$role->remove_cap( GROUPS_ADMINISTER_OPTIONS );
 				$role->remove_cap( GROUPS_RESTRICT_ACCESS );
 			}
-			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group' ) );
-			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'capability' ) );
-			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_group' ) );
-			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_capability' ) );
-			$wpdb->query('DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group_capability' ) );
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group' ) );
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'capability' ) );
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_group' ) );
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_capability' ) );
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group_capability' ) );
 			Groups_Options::flush_options();
+			if ( class_exists( 'Groups_Admin_Notice' ) ) {
+				delete_metadata( 'user', null, Groups_Admin_Notice::HIDE_REVIEW_NOTICE, null, true );
+				delete_site_option( Groups_Admin_Notice::INIT_TIME );
+			}
 			delete_option( GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE ); // keep this to delete the deprecated option @since 2.1.1
 			delete_option( 'groups_plugin_version' );
 			delete_option( 'groups_delete_data' );

@@ -30,8 +30,9 @@ require_once( GROUPS_CORE_LIB . '/interface-i-capable.php' );
  */
 class Groups_Group implements I_Capable {
 
-	const CACHE_GROUP  = 'groups';
-	const READ_BY_NAME = 'read_by_name';
+	const CACHE_GROUP      = 'groups';
+	const READ_GROUP_BY_ID = 'read_group_by_id';
+	const READ_BY_NAME     = 'read_by_name';
 
 	/**
 	 * @var Object Persisted group.
@@ -137,13 +138,28 @@ class Groups_Group implements I_Capable {
 				case 'users' :
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
-						"SELECT ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+						"SELECT $wpdb->users.* FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $users ) {
 						$result = array();
 						foreach( $users as $user ) {
-							$result[] = new Groups_User( $user->ID );
+							$groups_user = new Groups_User();
+							$groups_user->user = new WP_User( $user );
+							$result[] = $groups_user;
+						}
+					}
+					break;
+				case 'user_ids' :
+					$user_group_table = _groups_get_tablename( 'user_group' );
+					$user_ids = $wpdb->get_results( $wpdb->prepare(
+						"SELECT $wpdb->users.ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+						Groups_Utility::id( $this->group->group_id )
+					) );
+					if ( $user_ids ) {
+						$result = array();
+						foreach( $user_ids as $user_id ) {
+							$result[] = $user_id->ID;
 						}
 					}
 					break;
@@ -305,14 +321,20 @@ class Groups_Group implements I_Capable {
 	public static function read( $group_id ) {
 		global $wpdb;
 		$result = false;
-
-		$group_table = _groups_get_tablename( 'group' );
-		$group = $wpdb->get_row( $wpdb->prepare(
-			"SELECT * FROM $group_table WHERE group_id = %d",
-			Groups_Utility::id( $group_id )
-		) );
-		if ( isset( $group->group_id ) ) {
-			$result = $group;
+		$cached = Groups_Cache::get( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$result = $cached->value;
+			unset( $cached );
+		} else {
+			$group_table = _groups_get_tablename( 'group' );
+			$group = $wpdb->get_row( $wpdb->prepare(
+				"SELECT * FROM $group_table WHERE group_id = %d",
+				Groups_Utility::id( $group_id )
+			) );
+			if ( isset( $group->group_id ) ) {
+				$result = $group;
+			}
+			Groups_Cache::set( self::READ_GROUP_BY_ID . '_' . $group_id, $result, self::CACHE_GROUP );
 		}
 		return $result;
 	}
@@ -422,6 +444,9 @@ class Groups_Group implements I_Capable {
 				}
 			}
 			$result = $group_id;
+			if ( !empty( $group_id ) ) {
+				Groups_Cache::delete( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
+			}
 			if ( !empty( $name ) ) {
 				Groups_Cache::delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
 			}
@@ -473,6 +498,9 @@ class Groups_Group implements I_Capable {
 				$group->group_id
 			) ) ) {
 				$result = $group->group_id;
+				if ( !empty( $group->group_id ) ) {
+					Groups_Cache::delete( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
+				}
 				if ( !empty( $group->name ) ) {
 					Groups_Cache::delete( self::READ_BY_NAME . '_' . $group->name, self::CACHE_GROUP );
 				}

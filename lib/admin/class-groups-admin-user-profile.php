@@ -103,16 +103,18 @@ class Groups_Admin_User_Profile {
 		global $wpdb;
 
 		if ( is_admin() ) {
-			$screen = get_current_screen();
-			if ( isset( $screen->id ) && $screen->id === 'user' ) {
-				if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-					$groups_table = _groups_get_tablename( 'group' );
-					if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table" ) ) {
-						$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
-						foreach( $groups as $group ) {
-							if ( in_array( $group->group_id, $user_group_ids ) ) {
-								if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
-									Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group->group_id ) );
+			if ( function_exists( 'get_current_screen' ) ) {
+				$screen = get_current_screen();
+				if ( isset( $screen->id ) && $screen->id === 'user' ) {
+					if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+						$groups_table = _groups_get_tablename( 'group' );
+						if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table" ) ) {
+							$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
+							foreach( $groups as $group ) {
+								if ( in_array( $group->group_id, $user_group_ids ) ) {
+									if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
+										Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group->group_id ) );
+									}
 								}
 							}
 						}
