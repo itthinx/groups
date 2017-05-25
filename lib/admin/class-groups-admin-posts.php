@@ -524,7 +524,7 @@ class Groups_Admin_Posts {
 	 */
 	private static function extend_for_orderby_groups_read( &$query ) {
 		$result = false;
-		if ( is_admin() ) {
+		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
 			// check if query is for a post type we handle
 			$post_types = $query->get( 'post_type' );
 			if ( !is_array( $post_types ) ) {
@@ -562,7 +562,7 @@ class Groups_Admin_Posts {
 	 */
 	private static function extend_for_filter_groups_read( &$query ) {
 		$result = false;
-		if ( is_admin() ) {
+		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
 			// check if query is for a post type we handle
 			$post_types = $query->get( 'post_type' );
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
