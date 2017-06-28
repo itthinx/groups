@@ -193,6 +193,8 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Tested with WordPress 4.8.
 * Fixed a REST API access restriction issue, added the filter rest_prepare_{$post_type} to
   grant or deny access to individual posts.
+* Updated the translation template.
+* German translation updated.
 
 = 2.2.0 =
 * Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
@@ -269,7 +271,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 == Upgrade Notice ==
 
 = 2.3.0 =
-* This release has been tested with WordPress 4.8 and contains a security fix related to the REST API.
+* This release has been tested with WordPress 4.8, contains a security fix related to the REST API and updates some translations.
 * Important note for updates below Groups 2.2.0: Groups 2.2.0 and above also changes the behaviour for post types that Groups should not handle, if a post type is disabled, related entries will not be protected anymore.
 This is a fundamental change with respect to the previous behavior.
 * Groups 2.x simplifies the way access restrictions are handled.
