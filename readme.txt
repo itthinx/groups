@@ -195,6 +195,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
   grant or deny access to individual posts.
 * Updated the translation template.
 * German translation updated.
+* Updated the appearance of the network settings.
 
 = 2.2.0 =
 * Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
