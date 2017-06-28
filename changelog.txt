@@ -1,5 +1,10 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.3.0 =
+* Tested with WordPress 4.8.
+* Fixed a REST API access restriction issue, added the filter rest_prepare_{$post_type} to
+  grant or deny access to individual posts.
+
 = 2.2.0 =
 * Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
 * Improved the activation performance by simplifying the creation of user-group entries.
