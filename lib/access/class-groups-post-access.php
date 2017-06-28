@@ -127,6 +127,17 @@ class Groups_Post_Access {
 	 * Replicates the response for invalid post IDs when unauthorized access to a post is requested.
 	 * There is no filter in WP_REST_Posts_Controller::get_post() nor in get_post() that we could use (WP 4.8).
 	 *
+	 * REST API Handbook https://developer.wordpress.org/rest-api/
+	 *
+	 * For development tests:
+	 *
+	 * 1. Install https://github.com/WP-API/Basic-Auth
+	 * 2. Protect post 1 with group "Test".
+	 * 3. Test access denied: $ curl http://example.com/wp-json/wp/v2/posts/1
+	 * 4. Test access granted $ curl --user username:password https://example.com/wp-json/wp/v2/posts/1
+	 *
+	 * On #4 username:password are cleartext, username must belong to group "Test".
+	 *
 	 * @param array $response
 	 * @param WP_Post $post
 	 * @param string $request
