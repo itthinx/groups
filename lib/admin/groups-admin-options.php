@@ -363,7 +363,7 @@ function groups_network_admin_options() {
 		'</p>' .
 		'<p>' .
 		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) .
-		'<input type="submit" name="submit" value="' . __( 'Save', 'groups' ) . '"/>' .
+		'<input class="button button-primary" type="submit" name="submit" value="' . __( 'Save', 'groups' ) . '"/>' .
 		'</p>' .
 		'</div>' .
 		'</form>';
