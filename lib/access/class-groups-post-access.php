@@ -111,6 +111,36 @@ class Groups_Post_Access {
 		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 );
 		// @todo enable the filter and implement below if needed to correct attachment counts
 		// add_filter( 'wp_count_attachments', array( __CLASS__, 'wp_count_attachments' ), 10, 2 );
+
+		// REST API
+		$post_types = self::get_handles_post_types();
+		if ( !empty( $post_types ) ) {
+			foreach( $post_types as $post_type => $handles ) {
+				if ( $handles ) {
+					add_filter( "rest_prepare_{$post_type}", array( __CLASS__, 'rest_prepare_post' ), 10, 3 );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Replicates the response for invalid post IDs when unauthorized access to a post is requested.
+	 * There is no filter in WP_REST_Posts_Controller::get_post() nor in get_post() that we could use (WP 4.8).
+	 *
+	 * @param array $response
+	 * @param WP_Post $post
+	 * @param string $request
+	 * @return string[]|number[][]
+	 */
+	public static function rest_prepare_post( $response, $post, $request ) {
+		if ( isset( $post->ID ) && !self::user_can_read_post( $post->ID ) ) {
+			$response = array(
+				'code' => 'rest_post_invalid_id',
+				'message' => __( 'Invalid post ID.' ),
+				'data' => array( 'status' => 404 )
+			);
+		}
+		return $response;
 	}
 
 	/**
