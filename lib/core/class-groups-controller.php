@@ -36,9 +36,16 @@ class Groups_Controller {
 
 	/**
 	 * Cache-safe switching in case any multi-site hiccups might occur.
+	 *
 	 * Clears the cache after switching to the given blog to avoid using
 	 * another blog's cached values.
+	 *
+	 * Some implementations don't have wp_cache_switch_to_blog() nor the deprecated
+	 * wp_cache_reset(), e.g. WP Engine's object-cache.php which has wp_cache_flush().
+	 *
 	 * See  wp_cache_reset() in wp-includes/cache.php
+	 * @see wp_cache_switch_to_blog()
+	 * @see wp_cache_flush()
 	 * @see wp_cache_reset()
 	 * @link http://core.trac.wordpress.org/ticket/14941
 	 *
@@ -48,7 +55,9 @@ class Groups_Controller {
 		switch_to_blog( $blog_id );
 		if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
 			wp_cache_switch_to_blog( $blog_id ); // introduced in WP 3.5.0
-		} else {
+		} else if ( function_exists( 'wp_cache_flush' ) ) {
+			wp_cache_flush();
+		} else if ( function_exists( 'wp_cache_reset' ) ) {
 			wp_cache_reset(); // deprecated in WP 3.5.0
 		}
 	}

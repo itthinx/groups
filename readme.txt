@@ -197,6 +197,8 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * German translation updated.
 * Updated the appearance of the network settings.
 * Updated the table creation process dropping use of dbDelta() due to its restrictions (can't handle IF NOT EXISTS).
+* Fixed an issue related to cache and switching to a blog when neither wp_cache_switch_to_blog() nor wp_cache_reset()
+  are implemented, like in WP Engine's object-cache.php which does provide wp_cache_flush().
 
 = 2.2.0 =
 * Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
@@ -273,7 +275,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 == Upgrade Notice ==
 
 = 2.3.0 =
-* This release has been tested with WordPress 4.8, contains a security fix related to the REST API and updates some translations.
+* This release has been tested with WordPress 4.8, contains a security fix related to the REST API, improvements to stability during activation (also multisite) and updates some translations.
 * Important note for updates below Groups 2.2.0: Groups 2.2.0 and above also changes the behaviour for post types that Groups should not handle, if a post type is disabled, related entries will not be protected anymore.
 This is a fundamental change with respect to the previous behavior.
 * Groups 2.x simplifies the way access restrictions are handled.
