@@ -177,16 +177,23 @@ class Groups_Controller {
 	 * @param boolean $network_wide
 	 */
 	public static function activate( $network_wide = false ) {
-		if ( is_multisite() && $network_wide ) {
-			$blog_ids = Groups_Utility::get_blogs();
-			foreach ( $blog_ids as $blog_id ) {
-				self::switch_to_blog( $blog_id );
+		$sem_id = self::sem_get( self::get_sem_key(), 1 );
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
+			if ( is_multisite() && $network_wide ) {
+				$blog_ids = Groups_Utility::get_blogs();
+				foreach ( $blog_ids as $blog_id ) {
+					self::switch_to_blog( $blog_id );
+					self::setup();
+					self::restore_current_blog();
+				}
+			} else {
 				self::setup();
-				self::restore_current_blog();
+				set_transient( 'groups_plugin_activated', true, 60 );
 			}
-		} else {
-			self::setup();
-			set_transient( 'groups_plugin_activated', true, 60 );
+			if ( $sem_id !== false ) {
+				self::sem_release( $sem_id );
+				self::sem_remove( $sem_id );
+			}
 		}
 	}
 
@@ -380,17 +387,24 @@ class Groups_Controller {
 	* @param boolean $network_wide
 	*/
 	public static function deactivate( $network_wide = false ) {
-		if ( is_multisite() && $network_wide ) {
-			if ( Groups_Options::get_option( 'groups_network_delete_data', false ) ) {
-				$blog_ids = Groups_Utility::get_blogs();
-				foreach ( $blog_ids as $blog_id ) {
-					self::switch_to_blog( $blog_id );
-					self::cleanup( true );
-					self::restore_current_blog();
+		$sem_id = self::sem_get( self::get_sem_key(), 1 );
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
+			if ( is_multisite() && $network_wide ) {
+				if ( Groups_Options::get_option( 'groups_network_delete_data', false ) ) {
+					$blog_ids = Groups_Utility::get_blogs();
+					foreach ( $blog_ids as $blog_id ) {
+						self::switch_to_blog( $blog_id );
+						self::cleanup( true );
+						self::restore_current_blog();
+					}
 				}
+			} else {
+				self::cleanup();
 			}
-		} else {
-			self::cleanup();
+			if ( $sem_id !== false ) {
+				self::sem_release( $sem_id );
+				self::sem_remove( $sem_id );
+			}
 		}
 	}
 
@@ -480,5 +494,88 @@ class Groups_Controller {
 		}
 	}
 
+	/**
+	 * Guarded sem_get() wrapper.
+	 *
+	 * @see sem_get()
+	 *
+	 * @param int $key
+	 * @param number $max_acquire
+	 * @param number $perm
+	 * @param number $auto_release
+	 * @return boolean|resource
+	 */
+	private static function sem_get( $key, $max_acquire = 1, $perm = 0666, $auto_release = 1 ) {
+		$result = false;
+		if ( function_exists( 'sem_get' ) ) {
+			$result = sem_get( $key, $max_acquire, $perm, $auto_release );
+		}
+		return $result;
+	}
+
+	/**
+	 * Guarded sem_acquire() wrapper.
+	 *
+	 * @see sem_acquire()
+	 *
+	 * @param resource $sem_identifier
+	 * @param string $nowait
+	 * @return boolean
+	 */
+	private static function sem_acquire( $sem_identifier, $nowait = false ) {
+		$result = false;
+		if ( function_exists( 'sem_acquire' ) ) {
+			$result = sem_acquire( $sem_identifier, $nowait );
+		}
+		return $result;
+	}
+
+	/**
+	 * Guarded sem_release() wrapper.
+	 *
+	 * @see sem_release()
+	 *
+	 * @param resource $sem_identifier
+	 * @return boolean
+	 */
+	private static function sem_release( $sem_identifier ) {
+		$result = false;
+		if ( function_exists( 'sem_release' ) ) {
+			$result = sem_release( $sem_identifier );
+		}
+		return $result;
+	}
+
+	/**
+	 * Guarded sem_remove() wrapper.
+	 *
+	 * @see sem_remove()
+	 *
+	 * @param unknown $sem_identifier
+	 * @return boolean
+	 */
+	private static function sem_remove( $sem_identifier ) {
+		$result = false;
+		if ( function_exists( 'sem_remove' ) ) {
+			$result = sem_remove( $sem_identifier );
+		}
+		return $result;
+	}
+
+	/**
+	 * Produces a file-based key for use with sem_get().
+	 *
+	 * @return number
+	 */
+	private static function get_sem_key() {
+		$key = -1;
+		if ( function_exists( 'ftok' ) ) {
+			$key = ftok( __FILE__, 'g' );
+		}
+		if ( $key == -1 ) {
+			$key = fileinode( __FILE__ );
+		}
+		return $key;
+	}
 }
 Groups_Controller::boot();
