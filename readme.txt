@@ -196,6 +196,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Updated the translation template.
 * German translation updated.
 * Updated the appearance of the network settings.
+* Updated the table creation process dropping use of dbDelta() due to its restrictions (can't handle IF NOT EXISTS).
 
 = 2.2.0 =
 * Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
