@@ -355,8 +355,11 @@ function groups_network_admin_options() {
 		'<div>' .
 		'<h2>' . __( 'Network deactivation and data persistence', 'groups' ) . '</h2>' .
 		'<p>' .
+		'<label>' .
 		'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
-		'<label for="delete-data">' . __( 'Delete all Groups plugin data for ALL sites on network deactivation', 'groups' ) . '</label>' .
+		' ' .
+		__( 'Delete all Groups plugin data for ALL sites on network deactivation', 'groups' ) .
+		'</label>' .
 		'</p>' .
 		'<p class="description warning">' .
 		__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED for <strong>all sites</strong>. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', 'groups' ) .
