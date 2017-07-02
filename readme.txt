@@ -200,6 +200,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Fixed an issue related to cache and switching to a blog when neither wp_cache_switch_to_blog() nor wp_cache_reset()
   are implemented, like in WP Engine's object-cache.php which does provide wp_cache_flush().
 * Guarded against concurrent execution of multiple instances of plugin activation and deactivation processes.
+* Fixed an attempt to refresh capabilities when no previous version was installed.
 
 = 2.2.0 =
 * Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
