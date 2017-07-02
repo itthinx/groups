@@ -177,7 +177,7 @@ class Groups_Controller {
 	 * @param boolean $network_wide
 	 */
 	public static function activate( $network_wide = false ) {
-		$sem_id = self::sem_get( self::get_sem_key(), 1 );
+		$sem_id = self::sem_get( self::get_sem_key() );
 		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
 			if ( is_multisite() && $network_wide ) {
 				$blog_ids = Groups_Utility::get_blogs();
@@ -326,56 +326,62 @@ class Groups_Controller {
 	 * Update maintenance.
 	 */
 	public static function update( $previous_version ) {
+
 		global $wpdb, $groups_admin_messages;
+
 		$result = true;
-		$queries = array();
-		switch ( $previous_version ) {
-			case '1.0.0' :
-				$capability_table = _groups_get_tablename( 'capability' );
-				if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
-					// increase column sizes
-					$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
-					$queries[] = "ALTER TABLE $capability_table MODIFY class VARCHAR(255) DEFAULT NULL;";
-					$queries[] = "ALTER TABLE $capability_table MODIFY object VARCHAR(255) DEFAULT NULL;";
-					// correct capabilities
-					$queries[] = "UPDATE $capability_table SET capability='delete_published_pages' WHERE capability='delete_published_pag';";
-					$queries[] = "UPDATE $capability_table SET capability='delete_published_posts' WHERE capability='delete_published_pos';";
-					// fix hideously big index
-					$queries[] = "ALTER TABLE $capability_table DROP INDEX capability_kco;";
-					$queries[] = "ALTER TABLE $capability_table ADD INDEX capability_kco (capability(20),class(20),object(20));";
-				}
-				break;
-			case '1.0.0-beta-3d' :
-				$capability_table = _groups_get_tablename( 'capability' );
-				if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
-					// increase column sizes
-					$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
-					$queries[] = "ALTER TABLE $capability_table MODIFY class VARCHAR(255) DEFAULT NULL;";
-					$queries[] = "ALTER TABLE $capability_table MODIFY object VARCHAR(255) DEFAULT NULL;";
-					// correct capabilities
-					$queries[] = "UPDATE $capability_table SET capability='delete_published_pages' WHERE capability='delete_published_pag';";
-					$queries[] = "UPDATE $capability_table SET capability='delete_published_posts' WHERE capability='delete_published_pos';";
-				}
-				break;
-			default :
-				if ( !empty( $previous_version ) ) {
-					if ( version_compare( $previous_version, '1.1.6' ) < 0 ) {
-						Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-						$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = %s", Groups_Post_Access::READ_POST_CAPABILITY, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ) );
+
+		$sem_id = self::sem_get( self::get_sem_key(), 1 );
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
+			$queries = array();
+			switch ( $previous_version ) {
+				case '1.0.0' :
+					$capability_table = _groups_get_tablename( 'capability' );
+					if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
+						// increase column sizes
+						$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
+						$queries[] = "ALTER TABLE $capability_table MODIFY class VARCHAR(255) DEFAULT NULL;";
+						$queries[] = "ALTER TABLE $capability_table MODIFY object VARCHAR(255) DEFAULT NULL;";
+						// correct capabilities
+						$queries[] = "UPDATE $capability_table SET capability='delete_published_pages' WHERE capability='delete_published_pag';";
+						$queries[] = "UPDATE $capability_table SET capability='delete_published_posts' WHERE capability='delete_published_pos';";
+						// fix hideously big index
+						$queries[] = "ALTER TABLE $capability_table DROP INDEX capability_kco;";
+						$queries[] = "ALTER TABLE $capability_table ADD INDEX capability_kco (capability(20),class(20),object(20));";
 					}
-					if ( version_compare( $previous_version, '1.5.1' ) < 0 ) {
-						$capability_table = _groups_get_tablename( 'capability' );
-						$queries[] = "ALTER TABLE $capability_table DROP INDEX capability, ADD UNIQUE INDEX capability(capability(100));";
+					break;
+				case '1.0.0-beta-3d' :
+					$capability_table = _groups_get_tablename( 'capability' );
+					if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
+						// increase column sizes
+						$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
+						$queries[] = "ALTER TABLE $capability_table MODIFY class VARCHAR(255) DEFAULT NULL;";
+						$queries[] = "ALTER TABLE $capability_table MODIFY object VARCHAR(255) DEFAULT NULL;";
+						// correct capabilities
+						$queries[] = "UPDATE $capability_table SET capability='delete_published_pages' WHERE capability='delete_published_pag';";
+						$queries[] = "UPDATE $capability_table SET capability='delete_published_posts' WHERE capability='delete_published_pos';";
 					}
+					break;
+				default :
+					if ( !empty( $previous_version ) ) {
+						if ( version_compare( $previous_version, '1.1.6' ) < 0 ) {
+							Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+							$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = %s", Groups_Post_Access::READ_POST_CAPABILITY, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ) );
+						}
+						if ( version_compare( $previous_version, '1.5.1' ) < 0 ) {
+							$capability_table = _groups_get_tablename( 'capability' );
+							$queries[] = "ALTER TABLE $capability_table DROP INDEX capability, ADD UNIQUE INDEX capability(capability(100));";
+						}
+					}
+			} // switch
+			if ( !empty( $previous_version ) && version_compare( $previous_version, '2.0.0' ) < 0 ) {
+				self::set_default_capabilities();
+				Groups_WordPress::refresh_capabilities();
+			}
+			foreach ( $queries as $query ) {
+				if ( $wpdb->query( $query ) === false ) {
+					$result = false;
 				}
-		} // switch
-		if ( !empty( $previous_version ) && version_compare( $previous_version, '2.0.0' ) < 0 ) {
-			self::set_default_capabilities();
-			Groups_WordPress::refresh_capabilities();
-		}
-		foreach ( $queries as $query ) {
-			if ( $wpdb->query( $query ) === false ) {
-				$result = false;
 			}
 		}
 		return $result;
