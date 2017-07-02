@@ -369,7 +369,7 @@ class Groups_Controller {
 					}
 				}
 		} // switch
-		if ( version_compare( $previous_version, '2.0.0' ) < 0 ) {
+		if ( !empty( $previous_version ) && version_compare( $previous_version, '2.0.0' ) < 0 ) {
 			self::set_default_capabilities();
 			Groups_WordPress::refresh_capabilities();
 		}
