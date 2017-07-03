@@ -331,7 +331,7 @@ class Groups_Controller {
 
 		$result = true;
 
-		$sem_id = self::sem_get( self::get_sem_key(), 1 );
+		$sem_id = self::sem_get( self::get_sem_key() );
 		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
 			$queries = array();
 			switch ( $previous_version ) {
@@ -393,7 +393,7 @@ class Groups_Controller {
 	* @param boolean $network_wide
 	*/
 	public static function deactivate( $network_wide = false ) {
-		$sem_id = self::sem_get( self::get_sem_key(), 1 );
+		$sem_id = self::sem_get( self::get_sem_key() );
 		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
 			if ( is_multisite() && $network_wide ) {
 				if ( Groups_Options::get_option( 'groups_network_delete_data', false ) ) {
