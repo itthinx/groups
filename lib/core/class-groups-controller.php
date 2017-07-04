@@ -531,7 +531,7 @@ class Groups_Controller {
 	private static function sem_acquire( $sem_identifier, $nowait = false ) {
 		$result = false;
 		if ( function_exists( 'sem_acquire' ) ) {
-			$result = sem_acquire( $sem_identifier/*, $nowait*/ );
+			$result = sem_acquire( $sem_identifier /*, $nowait*/ );
 		}
 		return $result;
 	}
@@ -563,7 +563,7 @@ class Groups_Controller {
 	private static function sem_remove( $sem_identifier ) {
 		$result = false;
 		if ( function_exists( 'sem_remove' ) ) {
-			//$result = sem_remove( $sem_identifier );
+			$result = sem_remove( $sem_identifier );
 		}
 		return $result;
 	}
