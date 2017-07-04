@@ -514,7 +514,7 @@ class Groups_Controller {
 	private static function sem_get( $key, $max_acquire = 1, $perm = 0666, $auto_release = 1 ) {
 		$result = false;
 		if ( function_exists( 'sem_get' ) ) {
-			$result = @sem_get( $key, $max_acquire, $perm, $auto_release );
+			$result = sem_get( $key, $max_acquire, $perm, $auto_release );
 		}
 		return $result;
 	}
@@ -532,13 +532,17 @@ class Groups_Controller {
 	 * @see sem_acquire()
 	 *
 	 * @param resource $sem_identifier
-	 * @param string $nowait
+	 * @param string $nowait (only taken into account and effective on PHP >= 5.6.1)
 	 * @return boolean
 	 */
 	private static function sem_acquire( $sem_identifier, $nowait = false ) {
 		$result = false;
 		if ( function_exists( 'sem_acquire' ) ) {
-			$result = @sem_acquire( $sem_identifier, $nowait );
+			if ( version_compare( phpversion(), '5.6.1' ) >= 0 ) {
+				$result = @sem_acquire( $sem_identifier, $nowait );
+			} else {
+				$result = @sem_acquire( $sem_identifier );
+			}
 		}
 		return $result;
 	}
