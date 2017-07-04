@@ -3,8 +3,8 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.7.5
-Stable tag: 2.2.0
+Tested up to: 4.8
+Stable tag: 2.3.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -189,6 +189,19 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.3.0 =
+* Tested with WordPress 4.8.
+* Fixed a REST API access restriction issue, added the filter rest_prepare_{$post_type} to
+  grant or deny access to individual posts.
+* Updated the translation template.
+* German translation updated.
+* Updated the appearance of the network settings.
+* Updated the table creation process dropping use of dbDelta() due to its restrictions (can't handle IF NOT EXISTS).
+* Fixed an issue related to cache and switching to a blog when neither wp_cache_switch_to_blog() nor wp_cache_reset()
+  are implemented, like in WP Engine's object-cache.php which does provide wp_cache_flush().
+* Guarded against concurrent execution of multiple instances of plugin activation and deactivation processes.
+* Fixed an attempt to refresh capabilities when no previous version was installed.
+
 = 2.2.0 =
 * Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
 * Improved the activation performance by simplifying the creation of user-group entries.
@@ -263,8 +276,9 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-= 2.2.0 =
-Groups 2.x simplifies the way access restrictions are handled.
-This release contains performance improvements and fixes.
-Important: It also changes the behaviour for post types that Groups should not handle, if a post type is disabled, related entries will not be protected anymore. This is a fundamental change with respect to the previous behavior.
-We recommend to make a FULL BACKUP of your site and database before upgrading.
+= 2.3.0 =
+* This release has been tested with WordPress 4.8, contains a security fix related to the REST API, improvements to stability during activation (undesired concurrent activation, caching, multisite) and updates some translations.
+* Important note for updates below Groups 2.2.0: Groups 2.2.0 and above also changes the behaviour for post types that Groups should not handle, if a post type is disabled, related entries will not be protected anymore.
+This is a fundamental change with respect to the previous behavior.
+* Groups 2.x simplifies the way access restrictions are handled.
+* We recommend to always make a FULL BACKUP of your site and database before upgrading.

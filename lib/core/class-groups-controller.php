@@ -36,9 +36,16 @@ class Groups_Controller {
 
 	/**
 	 * Cache-safe switching in case any multi-site hiccups might occur.
+	 *
 	 * Clears the cache after switching to the given blog to avoid using
 	 * another blog's cached values.
+	 *
+	 * Some implementations don't have wp_cache_switch_to_blog() nor the deprecated
+	 * wp_cache_reset(), e.g. WP Engine's object-cache.php which has wp_cache_flush().
+	 *
 	 * See  wp_cache_reset() in wp-includes/cache.php
+	 * @see wp_cache_switch_to_blog()
+	 * @see wp_cache_flush()
 	 * @see wp_cache_reset()
 	 * @link http://core.trac.wordpress.org/ticket/14941
 	 *
@@ -48,7 +55,9 @@ class Groups_Controller {
 		switch_to_blog( $blog_id );
 		if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
 			wp_cache_switch_to_blog( $blog_id ); // introduced in WP 3.5.0
-		} else {
+		} else if ( function_exists( 'wp_cache_flush' ) ) {
+			wp_cache_flush();
+		} else if ( function_exists( 'wp_cache_reset' ) ) {
 			wp_cache_reset(); // deprecated in WP 3.5.0
 		}
 	}
@@ -168,16 +177,23 @@ class Groups_Controller {
 	 * @param boolean $network_wide
 	 */
 	public static function activate( $network_wide = false ) {
-		if ( is_multisite() && $network_wide ) {
-			$blog_ids = Groups_Utility::get_blogs();
-			foreach ( $blog_ids as $blog_id ) {
-				self::switch_to_blog( $blog_id );
+		$sem_id = self::sem_get( self::get_sem_key() );
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id ) ) {
+			if ( is_multisite() && $network_wide ) {
+				$blog_ids = Groups_Utility::get_blogs();
+				foreach ( $blog_ids as $blog_id ) {
+					self::switch_to_blog( $blog_id );
+					self::setup();
+					self::restore_current_blog();
+				}
+			} else {
 				self::setup();
-				self::restore_current_blog();
+				set_transient( 'groups_plugin_activated', true, 60 );
 			}
-		} else {
-			self::setup();
-			set_transient( 'groups_plugin_activated', true, 60 );
+			if ( $sem_id !== false ) {
+				self::sem_release( $sem_id );
+				self::sem_remove( $sem_id );
+			}
 		}
 	}
 
@@ -201,7 +217,7 @@ class Groups_Controller {
 		// create tables
 		$group_table = _groups_get_tablename( 'group' );
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$group_table'" ) != $group_table ) {
-			$queries[] = "CREATE TABLE $group_table (
+			$queries[] = "CREATE TABLE IF NOT EXISTS $group_table (
 				group_id     BIGINT(20) UNSIGNED NOT NULL auto_increment,
 				parent_id    BIGINT(20) DEFAULT NULL,
 				creator_id   BIGINT(20) DEFAULT NULL,
@@ -214,7 +230,7 @@ class Groups_Controller {
 		}
 		$capability_table = _groups_get_tablename( 'capability' );
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) != $capability_table ) {
-			$queries[] = "CREATE TABLE $capability_table (
+			$queries[] = "CREATE TABLE IF NOT EXISTS $capability_table (
 				capability_id BIGINT(20) UNSIGNED NOT NULL auto_increment,
 				capability    VARCHAR(255) NOT NULL,
 				class         VARCHAR(255) DEFAULT NULL,
@@ -228,7 +244,7 @@ class Groups_Controller {
 		}
 		$user_group_table = _groups_get_tablename( 'user_group' );
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$user_group_table'" ) != $user_group_table ) {
-			$queries[] = "CREATE TABLE $user_group_table (
+			$queries[] = "CREATE TABLE IF NOT EXISTS $user_group_table (
 				user_id     bigint(20) unsigned NOT NULL,
 				group_id    bigint(20) unsigned NOT NULL,
 				PRIMARY KEY (user_id, group_id),
@@ -237,7 +253,7 @@ class Groups_Controller {
 		}
 		$user_capability_table = _groups_get_tablename( 'user_capability' );
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$user_capability_table'" ) != $user_capability_table ) {
-			$queries[] = "CREATE TABLE $user_capability_table (
+			$queries[] = "CREATE TABLE IF NOT EXISTS $user_capability_table (
 				user_id	      bigint(20) unsigned NOT NULL,
 				capability_id bigint(20) unsigned NOT NULL,
 				PRIMARY KEY   (user_id, capability_id),
@@ -246,7 +262,7 @@ class Groups_Controller {
 		}
 		$group_capability_table = _groups_get_tablename( 'group_capability' );
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$group_capability_table'" ) != $group_capability_table ) {
-			$queries[] = "CREATE TABLE $group_capability_table (
+			$queries[] = "CREATE TABLE IF NOT EXISTS $group_capability_table (
 				group_id      bigint(20) unsigned NOT NULL,
 				capability_id bigint(20) unsigned NOT NULL,
 				PRIMARY KEY   (group_id, capability_id),
@@ -254,8 +270,14 @@ class Groups_Controller {
 			) $charset_collate;";
 		}
 		if ( !empty( $queries ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			dbDelta( $queries );
+			// For the record ... (and https://core.trac.wordpress.org/ticket/12773 should not be closed)
+			// dbDelta() fails to handle queries "CREATE TABLE IF NOT EXISTS ..."
+			// (a regex results in "IF" used as array index holding only last query to create table).
+			//require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			//dbDelta( $queries );
+			foreach( $queries as $query ) {
+				$wpdb->query( $query );
+			}
 		}
 		// needs to be called to create its capabilities
 		Groups_Post_Access::activate();
@@ -304,56 +326,62 @@ class Groups_Controller {
 	 * Update maintenance.
 	 */
 	public static function update( $previous_version ) {
+
 		global $wpdb, $groups_admin_messages;
+
 		$result = true;
-		$queries = array();
-		switch ( $previous_version ) {
-			case '1.0.0' :
-				$capability_table = _groups_get_tablename( 'capability' );
-				if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
-					// increase column sizes
-					$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
-					$queries[] = "ALTER TABLE $capability_table MODIFY class VARCHAR(255) DEFAULT NULL;";
-					$queries[] = "ALTER TABLE $capability_table MODIFY object VARCHAR(255) DEFAULT NULL;";
-					// correct capabilities
-					$queries[] = "UPDATE $capability_table SET capability='delete_published_pages' WHERE capability='delete_published_pag';";
-					$queries[] = "UPDATE $capability_table SET capability='delete_published_posts' WHERE capability='delete_published_pos';";
-					// fix hideously big index
-					$queries[] = "ALTER TABLE $capability_table DROP INDEX capability_kco;";
-					$queries[] = "ALTER TABLE $capability_table ADD INDEX capability_kco (capability(20),class(20),object(20));";
-				}
-				break;
-			case '1.0.0-beta-3d' :
-				$capability_table = _groups_get_tablename( 'capability' );
-				if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
-					// increase column sizes
-					$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
-					$queries[] = "ALTER TABLE $capability_table MODIFY class VARCHAR(255) DEFAULT NULL;";
-					$queries[] = "ALTER TABLE $capability_table MODIFY object VARCHAR(255) DEFAULT NULL;";
-					// correct capabilities
-					$queries[] = "UPDATE $capability_table SET capability='delete_published_pages' WHERE capability='delete_published_pag';";
-					$queries[] = "UPDATE $capability_table SET capability='delete_published_posts' WHERE capability='delete_published_pos';";
-				}
-				break;
-			default :
-				if ( !empty( $previous_version ) ) {
-					if ( version_compare( $previous_version, '1.1.6' ) < 0 ) {
-						Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
-						$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = %s", Groups_Post_Access::READ_POST_CAPABILITY, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ) );
+
+		$sem_id = self::sem_get( self::get_sem_key() );
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id ) ) {
+			$queries = array();
+			switch ( $previous_version ) {
+				case '1.0.0' :
+					$capability_table = _groups_get_tablename( 'capability' );
+					if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
+						// increase column sizes
+						$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
+						$queries[] = "ALTER TABLE $capability_table MODIFY class VARCHAR(255) DEFAULT NULL;";
+						$queries[] = "ALTER TABLE $capability_table MODIFY object VARCHAR(255) DEFAULT NULL;";
+						// correct capabilities
+						$queries[] = "UPDATE $capability_table SET capability='delete_published_pages' WHERE capability='delete_published_pag';";
+						$queries[] = "UPDATE $capability_table SET capability='delete_published_posts' WHERE capability='delete_published_pos';";
+						// fix hideously big index
+						$queries[] = "ALTER TABLE $capability_table DROP INDEX capability_kco;";
+						$queries[] = "ALTER TABLE $capability_table ADD INDEX capability_kco (capability(20),class(20),object(20));";
 					}
-					if ( version_compare( $previous_version, '1.5.1' ) < 0 ) {
-						$capability_table = _groups_get_tablename( 'capability' );
-						$queries[] = "ALTER TABLE $capability_table DROP INDEX capability, ADD UNIQUE INDEX capability(capability(100));";
+					break;
+				case '1.0.0-beta-3d' :
+					$capability_table = _groups_get_tablename( 'capability' );
+					if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
+						// increase column sizes
+						$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
+						$queries[] = "ALTER TABLE $capability_table MODIFY class VARCHAR(255) DEFAULT NULL;";
+						$queries[] = "ALTER TABLE $capability_table MODIFY object VARCHAR(255) DEFAULT NULL;";
+						// correct capabilities
+						$queries[] = "UPDATE $capability_table SET capability='delete_published_pages' WHERE capability='delete_published_pag';";
+						$queries[] = "UPDATE $capability_table SET capability='delete_published_posts' WHERE capability='delete_published_pos';";
 					}
+					break;
+				default :
+					if ( !empty( $previous_version ) ) {
+						if ( version_compare( $previous_version, '1.1.6' ) < 0 ) {
+							Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, array( Groups_Post_Access::READ_POST_CAPABILITY ) );
+							$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = %s", Groups_Post_Access::READ_POST_CAPABILITY, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_POST_CAPABILITY ) );
+						}
+						if ( version_compare( $previous_version, '1.5.1' ) < 0 ) {
+							$capability_table = _groups_get_tablename( 'capability' );
+							$queries[] = "ALTER TABLE $capability_table DROP INDEX capability, ADD UNIQUE INDEX capability(capability(100));";
+						}
+					}
+			} // switch
+			if ( !empty( $previous_version ) && version_compare( $previous_version, '2.0.0' ) < 0 ) {
+				self::set_default_capabilities();
+				Groups_WordPress::refresh_capabilities();
+			}
+			foreach ( $queries as $query ) {
+				if ( $wpdb->query( $query ) === false ) {
+					$result = false;
 				}
-		} // switch
-		if ( version_compare( $previous_version, '2.0.0' ) < 0 ) {
-			self::set_default_capabilities();
-			Groups_WordPress::refresh_capabilities();
-		}
-		foreach ( $queries as $query ) {
-			if ( $wpdb->query( $query ) === false ) {
-				$result = false;
 			}
 		}
 		return $result;
@@ -365,17 +393,24 @@ class Groups_Controller {
 	* @param boolean $network_wide
 	*/
 	public static function deactivate( $network_wide = false ) {
-		if ( is_multisite() && $network_wide ) {
-			if ( Groups_Options::get_option( 'groups_network_delete_data', false ) ) {
-				$blog_ids = Groups_Utility::get_blogs();
-				foreach ( $blog_ids as $blog_id ) {
-					self::switch_to_blog( $blog_id );
-					self::cleanup( true );
-					self::restore_current_blog();
+		$sem_id = self::sem_get( self::get_sem_key() );
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id ) ) {
+			if ( is_multisite() && $network_wide ) {
+				if ( Groups_Options::get_option( 'groups_network_delete_data', false ) ) {
+					$blog_ids = Groups_Utility::get_blogs();
+					foreach ( $blog_ids as $blog_id ) {
+						self::switch_to_blog( $blog_id );
+						self::cleanup( true );
+						self::restore_current_blog();
+					}
 				}
+			} else {
+				self::cleanup();
 			}
-		} else {
-			self::cleanup();
+			if ( $sem_id !== false ) {
+				self::sem_release( $sem_id );
+				self::sem_remove( $sem_id );
+			}
 		}
 	}
 
@@ -465,5 +500,99 @@ class Groups_Controller {
 		}
 	}
 
+	/**
+	 * Guarded sem_get() wrapper.
+	 *
+	 * @see sem_get()
+	 *
+	 * @param int $key
+	 * @param number $max_acquire
+	 * @param number $perm
+	 * @param number $auto_release
+	 * @return boolean|resource
+	 */
+	private static function sem_get( $key, $max_acquire = 1, $perm = 0666, $auto_release = 1 ) {
+		$result = false;
+		if ( function_exists( 'sem_get' ) ) {
+			$result = sem_get( $key, $max_acquire, $perm, $auto_release );
+		}
+		return $result;
+	}
+
+	/**
+	 * Guarded sem_acquire() wrapper.
+	 *
+	 * To maintain backwards-compatibility with servers running PHP < 5.6 where
+	 * the second parameter to sem_acquire() is not supported, we use sem_remove()
+	 * and have any calls waiting on sem_acquire() fail silently (achieving that
+	 * the activation, update or deactivation routines are not run for those
+	 * processes that have been waiting and which would have duplicated execution
+	 * unnecessarily).
+	 *
+	 * @see sem_acquire()
+	 *
+	 * @param resource $sem_identifier
+	 * @param string $nowait (only taken into account and effective on PHP >= 5.6.1)
+	 * @return boolean
+	 */
+	private static function sem_acquire( $sem_identifier, $nowait = false ) {
+		$result = false;
+		if ( function_exists( 'sem_acquire' ) ) {
+			if ( version_compare( phpversion(), '5.6.1' ) >= 0 ) {
+				$result = @sem_acquire( $sem_identifier, $nowait );
+			} else {
+				$result = @sem_acquire( $sem_identifier );
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Guarded sem_release() wrapper.
+	 *
+	 * @see sem_release()
+	 *
+	 * @param resource $sem_identifier
+	 * @return boolean
+	 */
+	private static function sem_release( $sem_identifier ) {
+		$result = false;
+		if ( function_exists( 'sem_release' ) ) {
+			$result = @sem_release( $sem_identifier );
+		}
+		return $result;
+	}
+
+	/**
+	 * Guarded sem_remove() wrapper.
+	 *
+	 * @see sem_remove()
+	 *
+	 * @param unknown $sem_identifier
+	 * @return boolean
+	 */
+	private static function sem_remove( $sem_identifier ) {
+		$result = false;
+		if ( function_exists( 'sem_remove' ) ) {
+			$result = @sem_remove( $sem_identifier );
+		}
+		return $result;
+	}
+
+	/**
+	 * Produces a file-based key for use with sem_get().
+	 *
+	 * @return number
+	 */
+	private static function get_sem_key() {
+		$key = -1;
+		if ( function_exists( 'ftok' ) ) {
+			$key = ftok( __FILE__, 'g' );
+		}
+		if ( $key == -1 ) {
+			$key = fileinode( __FILE__ );
+		}
+		return $key;
+	}
 }
 Groups_Controller::boot();
