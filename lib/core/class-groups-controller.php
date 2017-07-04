@@ -514,7 +514,7 @@ class Groups_Controller {
 	private static function sem_get( $key, $max_acquire = 1, $perm = 0666, $auto_release = 1 ) {
 		$result = false;
 		if ( function_exists( 'sem_get' ) ) {
-			$result = sem_get( $key, $max_acquire, $perm, $auto_release );
+			$result = @sem_get( $key, $max_acquire, $perm, $auto_release );
 		}
 		return $result;
 	}
@@ -531,7 +531,7 @@ class Groups_Controller {
 	private static function sem_acquire( $sem_identifier, $nowait = false ) {
 		$result = false;
 		if ( function_exists( 'sem_acquire' ) ) {
-			$result = sem_acquire( $sem_identifier /*, $nowait*/ );
+			$result = @sem_acquire( $sem_identifier /*, $nowait*/ );
 		}
 		return $result;
 	}
@@ -547,7 +547,7 @@ class Groups_Controller {
 	private static function sem_release( $sem_identifier ) {
 		$result = false;
 		if ( function_exists( 'sem_release' ) ) {
-			$result = sem_release( $sem_identifier );
+			$result = @sem_release( $sem_identifier );
 		}
 		return $result;
 	}
@@ -563,7 +563,7 @@ class Groups_Controller {
 	private static function sem_remove( $sem_identifier ) {
 		$result = false;
 		if ( function_exists( 'sem_remove' ) ) {
-			$result = sem_remove( $sem_identifier );
+			$result = @sem_remove( $sem_identifier );
 		}
 		return $result;
 	}
