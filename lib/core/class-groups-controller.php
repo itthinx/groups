@@ -178,7 +178,7 @@ class Groups_Controller {
 	 */
 	public static function activate( $network_wide = false ) {
 		$sem_id = self::sem_get( self::get_sem_key() );
-		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id ) ) {
 			if ( is_multisite() && $network_wide ) {
 				$blog_ids = Groups_Utility::get_blogs();
 				foreach ( $blog_ids as $blog_id ) {
@@ -332,7 +332,7 @@ class Groups_Controller {
 		$result = true;
 
 		$sem_id = self::sem_get( self::get_sem_key() );
-		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id ) ) {
 			$queries = array();
 			switch ( $previous_version ) {
 				case '1.0.0' :
@@ -394,7 +394,7 @@ class Groups_Controller {
 	*/
 	public static function deactivate( $network_wide = false ) {
 		$sem_id = self::sem_get( self::get_sem_key() );
-		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id, true ) ) {
+		if ( ( $sem_id === false ) || self::sem_acquire( $sem_id ) ) {
 			if ( is_multisite() && $network_wide ) {
 				if ( Groups_Options::get_option( 'groups_network_delete_data', false ) ) {
 					$blog_ids = Groups_Utility::get_blogs();
@@ -538,7 +538,7 @@ class Groups_Controller {
 	private static function sem_acquire( $sem_identifier, $nowait = false ) {
 		$result = false;
 		if ( function_exists( 'sem_acquire' ) ) {
-			$result = @sem_acquire( $sem_identifier /*, $nowait*/ );
+			$result = @sem_acquire( $sem_identifier, $nowait );
 		}
 		return $result;
 	}
