@@ -522,6 +522,13 @@ class Groups_Controller {
 	/**
 	 * Guarded sem_acquire() wrapper.
 	 *
+	 * To maintain backwards-compatibility with servers running PHP < 5.6 where
+	 * the second parameter to sem_acquire() is not supported, we use sem_remove()
+	 * and have any calls waiting on sem_acquire() fail silently (achieving that
+	 * the activation, update or deactivation routines are not run for those
+	 * processes that have been waiting and which would have duplicated execution
+	 * unnecessarily).
+	 *
 	 * @see sem_acquire()
 	 *
 	 * @param resource $sem_identifier
