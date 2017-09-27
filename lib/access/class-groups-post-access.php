@@ -230,6 +230,7 @@ class Groups_Post_Access {
 			if ( !apply_filters( 'groups_post_access_posts_where_filter_all', false ) ) {
 				$filter = true;
 				$post_types = $query->get( 'post_type', null );
+				$wc_query = $query->get( 'wc_query', null );
 				if ( 'any' == $post_types ) {
 					// we need to filter in this case as it affects any post type
 				} elseif ( !empty( $post_types ) && is_array( $post_types ) ) {
@@ -248,6 +249,8 @@ class Groups_Post_Access {
 					$filter = self::handles_post_type( 'attachment' );
 				} elseif ( $query->is_page ) {
 					$filter = self::handles_post_type( 'page' );
+				} elseif ( ! empty( $wc_query ) && $wc_query == 'product_query' ) {
+					$filter = self::handles_post_type( 'product' );
 				} else {
 					$filter = self::handles_post_type( 'post' );
 				}
