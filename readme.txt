@@ -3,8 +3,8 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.0
-Tested up to: 4.8
-Stable tag: 2.3.0
+Tested up to: 4.9
+Stable tag: 2.3.1
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -189,6 +189,10 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.3.1 =
+* Fixed several points where warnings related to the use of count() and the Countable interface would occur due to changes in PHP 7.2.
+* Tested with WordPress 4.9.
+
 = 2.3.0 =
 * Tested with WordPress 4.8.
 * Fixed a REST API access restriction issue, added the filter rest_prepare_{$post_type} to
@@ -276,9 +280,4 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-= 2.3.0 =
-* This release has been tested with WordPress 4.8, contains a security fix related to the REST API, improvements to stability during activation (undesired concurrent activation, caching, multisite) and updates some translations.
-* Important note for updates below Groups 2.2.0: Groups 2.2.0 and above also changes the behaviour for post types that Groups should not handle, if a post type is disabled, related entries will not be protected anymore.
-This is a fundamental change with respect to the previous behavior.
-* Groups 2.x simplifies the way access restrictions are handled.
-* We recommend to always make a FULL BACKUP of your site and database before upgrading.
+This release has been tested with WordPress 4.9 and contains several fixes for compatibility with PHP 7.2.
