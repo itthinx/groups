@@ -194,6 +194,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Tested with WordPress 4.9.
 * Added the groups_post_access_posts_where_query_get_post_types filter to allow additional processing to cover for cases like where
   wc_query is set.
+* Fixed a notice related to the use of an undefined variable in the Groups_Post_Access class.
 
 = 2.3.0 =
 * Tested with WordPress 4.8.
