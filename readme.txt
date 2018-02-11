@@ -285,4 +285,4 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-This release has been tested with WordPress 4.9 and contains several fixes for compatibility with PHP 7.2.
+This release has been tested with WordPress 4.9 and contains several fixes for compatibility with PHP 7.2, fixes related to post filtering and an improved notice handling.
