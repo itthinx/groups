@@ -632,7 +632,7 @@ class Groups_Group implements I_Capable {
 		if ( !empty( $include ) && !is_array( $include ) && is_string( $include ) ) {
 			$include = explode( ',', $include );
 		}
-		if ( count( $include ) > 0 ) {
+		if ( $include !== null && count( $include ) > 0 ) {
 			$include = implode( ',', array_map( 'intval', array_map( 'trim', $include ) ) );
 			if ( strlen( $include ) > 0 ) {
 				$where_include = " group_id IN ($include) ";
@@ -647,7 +647,7 @@ class Groups_Group implements I_Capable {
 		if ( !empty( $include_by_name ) && !is_array( $include_by_name ) && is_string( $include_by_name ) ) {
 			$include_by_name = explode( ',', $include_by_name );
 		}
-		if ( count( $include_by_name ) > 0 ) {
+		if ( $include_by_name !== null && count( $include_by_name ) > 0 ) {
 			$include_by_name = "'" . implode( "','", array_map( 'esc_sql', array_map( 'trim', $include_by_name ) ) ) . "'";
 			if ( strlen( $include_by_name ) > 0 ) {
 				$where_include_by_name = " name IN ($include_by_name) ";
@@ -685,7 +685,7 @@ class Groups_Group implements I_Capable {
 		if ( !empty( $exclude ) && !is_array( $exclude ) && is_string( $exclude ) ) {
 			$exclude = explode( ',', $exclude );
 		}
-		if ( count( $exclude ) > 0 ) {
+		if ( $exclude !== null && count( $exclude ) > 0 ) {
 			$exclude = implode( ',', array_map( 'intval', array_map( 'trim', $exclude ) ) );
 			if ( strlen( $exclude ) > 0 ) {
 				if ( empty( $where ) ) {
@@ -703,7 +703,7 @@ class Groups_Group implements I_Capable {
 		if ( !empty( $exclude_by_name ) && !is_array( $exclude_by_name ) && is_string( $exclude_by_name ) ) {
 			$exclude_by_name = explode( ',', $exclude_by_name );
 		}
-		if ( count( $exclude_by_name ) > 0 ) {
+		if ( $exclude_by_name !== null && count( $exclude_by_name ) > 0 ) {
 			$exclude_by_name = "'" . implode( "','", array_map( 'esc_sql', array_map( 'trim', $exclude_by_name ) ) ) . "'";
 			if ( strlen( $exclude_by_name ) > 0 ) {
 				if ( empty( $where ) ) {

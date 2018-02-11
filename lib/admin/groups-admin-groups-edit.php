@@ -135,7 +135,12 @@ function groups_admin_groups_edit( $group_id ) {
 	$group_object = new Groups_Group( $group_id );
 	$group_capabilities = $group_object->capabilities;
 	$group_capabilities_deep = $group_object->capabilities_deep;
-	if ( ( count( $group_capabilities_deep ) - count( $group_capabilities ) ) > 0 ) {
+	if (
+		(
+			( !empty( $group_capabilities_deep ) ? count( $group_capabilities_deep ) : 0 ) -
+			( !empty( $group_capabilities ) ? count( $group_capabilities ) : 0 )
+		) > 0
+	) {
 		usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
 		$output .= '<div class="field">';
 		$output .= __( 'Inherited capabilities:', 'groups' );
