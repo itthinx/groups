@@ -229,10 +229,15 @@ class Groups_Post_Access {
 
 			if ( !apply_filters( 'groups_post_access_posts_where_filter_all', false ) ) {
 				$filter = true;
-				$post_types = $query->get( 'post_type', null );
+				$post_types = apply_filters(
+					'groups_post_access_posts_where_query_get_post_types',
+					$query->get( 'post_type', null ),
+					$where,
+					$query
+				);
 				if ( 'any' == $post_types ) {
 					// we need to filter in this case as it affects any post type
-				} elseif ( !empty( $post_types ) && is_array( $post_types ) ) {
+				} else if ( !empty( $post_types ) && is_array( $post_types ) ) {
 					// if there is at least one post type we handle, we need to filter
 					$handled = 0;
 					$handles_post_types = self::get_handles_post_types();
@@ -242,11 +247,11 @@ class Groups_Post_Access {
 						}
 					}
 					$filter = $handled > 0;
-				} elseif ( ! empty( $post_types ) ) {
+				} else if ( !empty( $post_types ) && is_string( $post_types ) ) {
 					$filter = self::handles_post_type( $post_types );
-				} elseif ( $query->is_attachment ) {
+				} else if ( $query->is_attachment ) {
 					$filter = self::handles_post_type( 'attachment' );
-				} elseif ( $query->is_page ) {
+				} else if ( $query->is_page ) {
 					$filter = self::handles_post_type( 'page' );
 				} else {
 					$filter = self::handles_post_type( 'post' );

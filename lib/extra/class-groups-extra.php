@@ -34,6 +34,7 @@ class Groups_Extra {
 	public static function init() {
 		add_filter( 'woocommerce_product_is_visible', array( __CLASS__, 'woocommerce_product_is_visible' ), 10, 2 );
 		add_filter( 'groups_comment_access_comment_count_where', array( __CLASS__, 'groups_comment_access_comment_count_where'), 10, 2 );
+		add_filter( 'groups_post_access_posts_where_query_get_post_types', array( __CLASS__, 'groups_post_access_posts_where_query_get_post_types' ), 10, 3 );
 	}
 
 	/**
@@ -67,6 +68,29 @@ class Groups_Extra {
 			$where .= " AND comment_type NOT IN ('order_note', 'webhook_delivery') ";
 		}
 		return $where;
+	}
+
+	/**
+	 * Checks if the query is a wc_query for product_query; if $post_types is empty, it will assume the product type and return that.
+	 *
+	 * @param string|array $post_types current query post types
+	 * @param string $where the where part of the query
+	 * @param WP_Query $query the query
+	 *
+	 * @return string
+	 */
+	public static function groups_post_access_posts_where_query_get_post_types( $post_types, $where, $query ) {
+		if (
+			empty( $post_types ) ||
+			is_string( $post_types ) && ( $post_types === '' ) ||
+			is_array( $post_types ) && ( count( $post_types ) === 0 )
+		) {
+			$wc_query = $query->get( 'wc_query', null );
+			if ( ! empty( $wc_query ) && $wc_query === 'product_query' ) {
+				$post_types = 'product';
+			}
+		}
+		return $post_types;
 	}
 }
 add_action( 'init', array( 'Groups_Extra', 'init' ) );
