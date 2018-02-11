@@ -196,6 +196,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
   wc_query is set.
 * Fixed a notice related to the use of an undefined variable in the Groups_Post_Access class.
 * Added the logo and the option to get reminded later to the Groups notice.
+* Added filters on get_previous_post_where and get_next_post_where to restrict access on adjacent posts.
 
 = 2.3.0 =
 * Tested with WordPress 4.8.

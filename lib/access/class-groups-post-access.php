@@ -121,6 +121,10 @@ class Groups_Post_Access {
 				}
 			}
 		}
+
+		// adjacent posts
+		add_filter( 'get_previous_post_where', array( __CLASS__, 'get_previous_post_where' ), 10, 5 );
+		add_filter( 'get_next_post_where', array( __CLASS__, 'get_next_post_where' ), 10, 5 );
 	}
 
 	/**
@@ -439,6 +443,49 @@ class Groups_Post_Access {
 			$result = $output;
 		}
 		return $result;
+	}
+
+	/**
+	 * Hooked on the get_{$adjacent}_post_where filter to remove restricted posts.
+	 *
+	 * @param string $where
+	 * @param boolean $in_same_term
+	 * @param array $excluded_terms
+	 * @param string $taxonomy
+	 * @param WP_Post $post
+	 *
+	 * @return string $where modified if appropriate
+	 */
+	public static function get_previous_post_where( $where, $in_same_term, $excluded_terms, $taxonomy, $post ) {
+		return self::get_next_post_where( $where, $in_same_term, $excluded_terms, $taxonomy, $post );
+	}
+
+	/**
+	 * Hooked on the get_{$adjacent}_post_where filter to remove restricted posts.
+	 *
+	 * @param string $where
+	 * @param boolean $in_same_term
+	 * @param array $excluded_terms
+	 * @param string $taxonomy
+	 * @param WP_Post $post
+	 *
+	 * @return string $where modified if appropriate
+	 */
+	public static function get_next_post_where( $where, $in_same_term, $excluded_terms, $taxonomy, $post ) {
+		if ( !empty( $post ) ) {
+			// run it through get_posts with suppress_filters set to false so that our posts_where filter is applied and assures only accessible posts are seen
+			$post_ids = get_posts( array( 'post_type' => $post->post_type, 'numberposts' => -1, 'suppress_filters' => false, 'fields' => 'ids' ) );
+			if ( is_array( $post_ids ) && count( $post_ids ) > 0 ) {
+				$post_ids = array_map( 'intval', $post_ids );
+				$condition = ' p.ID IN (' . implode( ',', $post_ids ) . ') ';
+				if ( !empty( $where ) ) {
+					$where .= ' AND ' . $condition;
+				} else {
+					$where = ' WHERE ' . $condition;
+				}
+			}
+		}
+		return $where;
 	}
 
 	/**
