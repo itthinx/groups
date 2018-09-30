@@ -2,10 +2,10 @@
 Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
-Requires at least: 4.0
+Requires at least: 4.6
 Tested up to: 4.9
 Requires PHP: 5.5.38
-Stable tag: 2.3.1
+Stable tag: 2.4.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -190,6 +190,11 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.4.0 =
+* Improved performance when filtering the users list by groups to avoid issues with large user bases.
+* Tested with the latest WordPress 4.9.
+* Updated the minimum required WordPress version to 4.6.
+
 = 2.3.1 =
 * Fixed several points where warnings related to the use of count() and the Countable interface would occur due to changes in PHP 7.2.
 * Tested with WordPress 4.9.
@@ -286,4 +291,4 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-This release has been tested with WordPress 4.9 and contains several fixes for compatibility with PHP 7.2, fixes related to post filtering and an improved notice handling.
+This release has been tested with WordPress 4.9 and contains a performance improvement related to managing large user bases.

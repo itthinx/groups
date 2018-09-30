@@ -1,5 +1,10 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.4.0 =
+* Improved performance when filtering the users list by groups to avoid issues with large user bases.
+* Tested with the latest WordPress 4.9.
+* Updated the minimum required WordPress version to 4.6.
+
 = 2.3.1 =
 * Fixed several points where warnings related to the use of count() and the Countable interface would occur due to changes in PHP 7.2.
 * Tested with WordPress 4.9.
