@@ -78,8 +78,13 @@ class Groups_Access_Meta_Boxes {
 	 */
 	public static function admin_enqueue_scripts() {
 		global $pagenow;
-		if ( $pagenow == 'upload.php' ) {
-			Groups_UIE::enqueue( 'select' );
+		if ( isset( $pagenow ) ) {
+			switch ( $pagenow ) {
+				case 'upload.php' :
+				case 'customize.php' :
+					Groups_UIE::enqueue( 'select' );
+					break;
+			}
 		}
 	}
 

@@ -194,6 +194,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 * Improved performance when filtering the users list by groups to avoid issues with large user bases.
 * Tested with the latest WordPress 4.9.
 * Updated the minimum required WordPress version to 4.6.
+* Fixed a missing Javascript resource when selecting an image in the customizer.
 
 = 2.3.1 =
 * Fixed several points where warnings related to the use of count() and the Countable interface would occur due to changes in PHP 7.2.
@@ -291,4 +292,4 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Upgrade Notice ==
 
-This release has been tested with WordPress 4.9 and contains a performance improvement related to managing large user bases.
+This release has been tested with WordPress 4.9 and Groups now requires at least WordPress 4.6. It contains fixes related to performance and scripts.
