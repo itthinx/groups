@@ -82,27 +82,17 @@ class Groups_Admin_Users {
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			if ( isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) ) {
-				$group_ids = array_map( array( 'Groups_Utility', 'id' ), array_map( 'trim', $_REQUEST['group_ids'] ) );
-				$include = array();
-				foreach ( $group_ids as $group_id ) {
-					if ( Groups_Group::read( $group_id ) ) {
-						$group = new Groups_Group( $group_id );
-						$users = $group->users;
-						if ( count( $users ) > 0 ) {
-							foreach( $users as $user ) {
-								$include[] = $user->user->ID;
-							}
-						} else { // no results
-							$include[] = 0;
-						}
-						unset( $group );
-						unset( $users );
+				$group_ids = array();
+				foreach ( $_REQUEST['group_ids'] as $group_id ) {
+					$group_id = Groups_Utility::id( $group_id );
+					if ( $group_id !== false ) {
+						$group_ids[] = $group_id;
 					}
 				}
-				if ( count( $include ) > 0 ) {
-					$include = array_unique( $include );
-					$ids = implode( ',', wp_parse_id_list( $include ) );
-					$user_query->query_where .= " AND $wpdb->users.ID IN ($ids)";
+				if ( count( $group_ids ) > 0 ) {
+					$user_group_table = _groups_get_tablename( 'user_group' );
+					$group_ids = implode( ',', esc_sql( $group_ids ) );
+					$user_query->query_where .= " AND $wpdb->users.ID IN ( SELECT DISTINCT user_id FROM $user_group_table WHERE group_id IN ( $group_ids ) ) ";
 				}
 			}
 		}
