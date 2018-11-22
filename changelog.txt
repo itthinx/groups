@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.5.0 =
+* Tested for WordPress 5.0.
+
 = 2.4.0 =
 * Improved performance when filtering the users list by groups to avoid issues with large user bases.
 * Tested with the latest WordPress 4.9.
