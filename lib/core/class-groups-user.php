@@ -81,7 +81,7 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * Clear cache objects for all users in the group.
-	 * @param unknown_type $group_id
+	 * @param int $group_id
 	 */
 	public static function clear_cache_for_group( $group_id ) {
 		global $wpdb;

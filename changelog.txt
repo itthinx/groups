@@ -1,5 +1,13 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.6.0 =
+* Tested for WordPress 5.1.
+* Added an option to filter by posts restricted by any group.
+* Added an option to filter by posts restricted by no group.
+* Removed an option to filter by only unrestricted posts which didn't work.
+* Improved groups column header fitting on post admin screens.
+* Fixed a notice when a user has no groups assigned.
+
 = 2.5.0 =
 * Tested for WordPress 5.0.
 

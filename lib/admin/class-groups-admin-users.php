@@ -355,7 +355,7 @@ class Groups_Admin_Users {
 			case self::GROUPS :
 				$groups_user = new Groups_User( $user_id );
 				$groups = $groups_user->groups;
-				if ( count( $groups ) > 0 ) {
+				if ( $groups !== null && count( $groups ) > 0 ) {
 					usort( $groups, array( __CLASS__, 'by_group_name' ) );
 					$output = '<ul>';
 					foreach( $groups as $group ) {
