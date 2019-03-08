@@ -62,7 +62,7 @@ class Groups_Group implements I_Capable {
 	 * - users, returns an array of Groups_User
 	 *
 	 * @param string $name property's name
-	 * @return property value, will return null if property does not exist
+	 * @return mixed property value, will return null if property does not exist
 	 */
 	public function __get( $name ) {
 		global $wpdb;

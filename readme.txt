@@ -3,9 +3,9 @@ Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
 Requires at least: 4.6
-Tested up to: 5.0
+Tested up to: 5.1
 Requires PHP: 5.5.38
-Stable tag: 2.5.0
+Stable tag: 2.6.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -190,109 +190,16 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
-= 2.5.0 =
-* Tested for WordPress 5.0.
+= 2.6.0 =
+* Tested for WordPress 5.1.
+* Added an option to filter by posts restricted by any group.
+* Added an option to filter by posts restricted by no group.
+* Removed an option to filter by only unrestricted posts which didn't work.
+* Improved groups column header fitting on post admin screens.
+* Fixed a notice when a user has no groups assigned.
 
-= 2.4.0 =
-* Improved performance when filtering the users list by groups to avoid issues with large user bases.
-* Tested with the latest WordPress 4.9.
-* Updated the minimum required WordPress version to 4.6.
-* Fixed a missing Javascript resource when selecting an image in the customizer.
-
-= 2.3.1 =
-* Fixed several points where warnings related to the use of count() and the Countable interface would occur due to changes in PHP 7.2.
-* Tested with WordPress 4.9.
-* Added the groups_post_access_posts_where_query_get_post_types filter to allow additional processing to cover for cases like where
-  wc_query is set.
-* Fixed a notice related to the use of an undefined variable in the Groups_Post_Access class.
-* Added the logo and the option to get reminded later to the Groups notice.
-* Added filters on get_previous_post_where and get_next_post_where to restrict access on adjacent posts.
-
-= 2.3.0 =
-* Tested with WordPress 4.8.
-* Fixed a REST API access restriction issue, added the filter rest_prepare_{$post_type} to
-  grant or deny access to individual posts.
-* Updated the translation template.
-* German translation updated.
-* Updated the appearance of the network settings.
-* Updated the table creation process dropping use of dbDelta() due to its restrictions (can't handle IF NOT EXISTS).
-* Fixed an issue related to cache and switching to a blog when neither wp_cache_switch_to_blog() nor wp_cache_reset()
-  are implemented, like in WP Engine's object-cache.php which does provide wp_cache_flush().
-* Guarded against concurrent execution of multiple instances of plugin activation and deactivation processes.
-* Fixed an attempt to refresh capabilities when no previous version was installed.
-
-= 2.2.0 =
-* Important change in this version: If access restrictions for post type are disabled, related entries will not be protected anymore.
-* Improved the activation performance by simplifying the creation of user-group entries.
-  The 'groups_created_user_group' action is not invoked on incorporating existing users and
-  a single query is used to create entries for all users.
-  Based on suggestions from @haroldkyle in https://github.com/itthinx/groups/pull/14
-* Added a warning message displayed in the plugins list when Groups is going to delete its
-  data on deactivation.
-* Added the ability to obtain user_ids from Groups_Group.
-* Improved the performance when obtaining users from Groups_Group.
-  Based on suggestions from @tricki in https://github.com/itthinx/groups/pull/50
-* Adjusted the signature of the Groups_User constructor to use null as default for its $user_id argument.
-* Added methods in Groups_Post_Access to get and set which post types Groups should handle.
-* Changed the default assumption to handle only post types that are 'public' by default. Others are not handled by default.
-* Updated the Options to show all available post types.
-* Improved performance by limiting our posts_where, wp_count_posts and other filters in Groups_Post_Access to handled post types only.
-* Fixed a potential fatal error when the user_register hook is fired and get_current_screen() is not defined.
-* Updated translations.
-* Fixed a notice when no post types are selected in Groups > Options.
-* Added comment filters to hide comments on protected entries.
-* Improved the performance of the post filter.
-* Added several performance improvements related to data retrieval and caching on various objects and data sets.
-* Added a notice handler class.
-
-= 2.1.2 =
-* Fixed a warning that came up when the post type in a query is provided as an array indicating multiple post types.
-* Users who can administer Groups (with the groups_admin_groups capability) now also see posts restricted to groups
-  they do not belong to, in line with the ability to restrict access with groups they do not belong to for consistency's
-  sake.
-* Added a filter on woocommerce_product_is_visible so protected up-sell and cross-sell products
-  are effectively hidden.
-
-= 2.1.1 =
-* Changed the default value for legacy mode used on installation to false. Fixes database errors
-  due to missing capability table at that stage.
-* Modified the method signature of Groups_Post_Access::posts_where() and
-  Groups_Post_Access_Legacy::posts_where() to avoid PHP 7.1 warnings (reference expected, value given).
-* Removed the administrator override option on the back end. Administrator override now requires the constant
-  GROUPS_ADMINISTRATOR_OVERRIDE to be defined as true.
-* Updated the French translation.
-* Adjusted the load order for translations.
-
-= 2.1.0 =
-* Changed the requirements to allow to restrict by group.
-* Fixed legacy access restrictions help replaced new groups help.
-
-= 2.0.3 =
-* Fixed a "Fatal error:  Call to a member function get_role_caps() on a non-object" which
-  could occur in circumstances with invalid user IDs.
-
-= 2.0.2 =
-* Added the option to dismiss the Welcome screen.
-* Updated German and Spanish translations.
-
-= 2.0.1 =
-* Fixed an issue with conflicting cache entries with legacy mode enabled.
-* Fixed access restriction capabilities were reset when reenabling legacy mode.
-
-= 2.0.0 =
-* Changed the access restriction model to group-based access restrictions.
-* Provides an optional legacy mode that supports the previous capability-based access restrictions.
-* Optimized the approach to restrict read access on posts using groups rather than access restriction capabilities.
-* Added the `groups_restrict_access` capability which grants users to impose access restrictions.
-* Fixed the order_by and order parameters in Groups_Group::get_groups()
-* Added the $create parameter in Groups_UIE::render_select()
-* Removed the "Chosen" library.
-* Improved and reduced the footprint on the Users admin screen, now allowing to filter by one or multiple groups.
-* Added a welcome screen.
-* Added the option to assign groups to new users directly when creating them from the Dashboard.
-* Changed the language domain to string literal instead of constant.
-* Improvements on internal coding standards (single/double quotes, EOF, formatting).
+For the full changelog see the [changelog.txt](https://github.com/itthinx/groups/blob/master/changelog.txt).
 
 == Upgrade Notice ==
 
-This release has been tested for WordPress 5.0.
+This release has been tested for WordPress 5.1 and contains minor improvements and fixes.

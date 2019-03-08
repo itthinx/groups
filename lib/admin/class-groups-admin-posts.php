@@ -36,7 +36,8 @@ class Groups_Admin_Posts {
 	 */
 	const GROUPS_READ = 'groups-read';
 
-	const NOT_RESTRICTED = "#not-restricted#";
+	const NOT_RESTRICTED = '#not-restricted#';
+	const RESTRICTED     = '#restricted#';
 
 	/**
 	 * Sets up an admin_init hook where our actions and filters are added.
@@ -105,6 +106,7 @@ class Groups_Admin_Posts {
 				echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
 				echo '.wp-list-table td { overflow: visible; }'; // idem for bulk actions
 				echo 'label.groups-read-terms {vertical-align: middle; line-height: 28px; margin-right: 4px; }'; // Terms checkbox
+				echo 'th.column-groups, th.column-groups-read { width:10%; }';
 				echo '</style>';
 			}
 		}
@@ -144,8 +146,16 @@ class Groups_Admin_Posts {
 							$previous_selected = array();
 						}
 					}
-					$selected = in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '';
-					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr( __( '(only unrestricted)', 'groups' ) ) );
+					$output .= sprintf(
+						'<option value="%s" %s >%s</option>', self::NOT_RESTRICTED,
+						esc_attr( in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '' ),
+						esc_attr( __( '(none)', 'groups' ) )
+					);
+					$output .= sprintf(
+						'<option value="%s" %s >%s</option>', self::RESTRICTED,
+						esc_attr( in_array( self::RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '' ),
+						esc_attr( __( '(any)', 'groups' ) )
+					);
 
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
 					foreach( $groups as $group ) {
@@ -288,7 +298,8 @@ class Groups_Admin_Posts {
 	/**
 	 * Query modifier to take the selected access restriction groups into
 	 * account.
-	 * 
+	 *
+	 * @deprecated not used
 	 * @param WP_Query $query query object passed by reference
 	 */
 	public static function parse_query( &$query ) {
@@ -384,6 +395,52 @@ class Groups_Admin_Posts {
 
 		if ( self::extend_for_filter_groups_read( $query ) ) {
 
+			$post_in = array();
+			$term_in = array();
+
+			$filter_terms = false;
+			if (
+				!empty( $_GET['groups-read-terms'] ) &&
+				function_exists( 'get_term_meta' ) && // >= WordPress 4.4.0 as we query the termmeta table
+				class_exists( 'Groups_Restrict_Categories' ) &&
+				method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
+				method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0, the method isn't used here but it wouldn't make any sense to query unless we're >= 2.0.0
+			) {
+				$filter_terms = true;
+			}
+
+			if ( in_array( self::NOT_RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) ) {
+				$condition =
+					"SELECT ID post_id FROM $wpdb->posts " .
+					"WHERE ID NOT IN (" .
+					"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'groups-read'";
+				if ( $filter_terms ) {
+					$condition .=
+						" UNION ALL " .
+						"SELECT p.ID post_id FROM $wpdb->posts p " .
+						"LEFT JOIN $wpdb->term_relationships tr ON p.ID = tr.object_id " .
+						"LEFT JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id " .
+						"LEFT JOIN $wpdb->termmeta tm ON tt.term_id = tm.term_id " .
+						"WHERE tm.meta_key = 'groups-read'";
+				}
+				$condition .= ")";
+				$post_in[] = $condition;
+			}
+
+			if ( in_array( self::RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) ) {
+				$condition = "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'groups-read'";
+				if ( $filter_terms ) {
+					$condition .=
+						" UNION ALL " .
+						"SELECT p.ID post_id FROM $wpdb->posts p " .
+						"LEFT JOIN $wpdb->term_relationships tr ON p.ID = tr.object_id " .
+						"LEFT JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id " .
+						"LEFT JOIN $wpdb->termmeta tm ON tt.term_id = tm.term_id " .
+						"WHERE tm.meta_key = 'groups-read'";
+				}
+				$post_in[] = $condition;
+			}
+
 			$group_ids = array();
 			foreach ( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] as $group_id ) {
 				if ( $group_id = Groups_Utility::id( $group_id ) ) {
@@ -394,8 +451,23 @@ class Groups_Admin_Posts {
 			}
 
 			if ( !empty( $group_ids ) ) {
-				$groups = ' ( ' . implode(',', $group_ids ) . ' ) ';
-				$group_table = _groups_get_tablename( 'group' );
+				$groups = ' ( ' . implode( ',', esc_sql( $group_ids ) ) . ' ) ';
+				$condition =
+					"SELECT post_id FROM $wpdb->postmeta " .
+					"WHERE meta_key = 'groups-read' AND meta_value IN $groups";
+				if ( $filter_terms ) {
+					$condition .=
+					" UNION ALL " .
+					"SELECT p.ID post_id FROM $wpdb->posts p " .
+					"LEFT JOIN $wpdb->term_relationships tr ON p.ID = tr.object_id " .
+					"LEFT JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id " .
+					"LEFT JOIN $wpdb->termmeta tm ON tt.term_id = tm.term_id " .
+					"WHERE tm.meta_key = 'groups-read' AND tm.meta_value IN $groups";
+				}
+				$post_in[] = $condition;
+			}
+
+			if ( count( $post_in ) > 0 ) {
 				if (
 					!empty( $_GET['groups-read-terms'] ) &&
 					function_exists( 'get_term_meta' ) && // >= WordPress 4.4.0 as we query the termmeta table
@@ -403,36 +475,11 @@ class Groups_Admin_Posts {
 					method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
 					method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0, the method isn't used here but it wouldn't make any sense to query unless we're >= 2.0.0
 				) {
-					$where .= "
-						AND $wpdb->posts.ID IN (
-							SELECT post_id
-							FROM $wpdb->postmeta pm
-							WHERE
-							pm.meta_key = 'groups-read' AND
-							pm.meta_value IN $groups
-								UNION ALL
-							SELECT p.ID post_id
-							FROM $wpdb->posts p
-							LEFT JOIN $wpdb->term_relationships tr ON p.ID = tr.object_id
-							LEFT JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-							LEFT JOIN $wpdb->termmeta tm ON tt.term_id = tm.term_id
-							WHERE
-							tm.meta_key = 'groups-read' AND
-							tm.meta_value IN $groups
-						)
-						";
-				} else {
-					$where .= "
-						AND $wpdb->posts.ID IN (
-							SELECT post_id
-							FROM $wpdb->postmeta pm
-							WHERE
-							pm.meta_key = 'groups-read' AND
-							pm.meta_value IN $groups
-						)
-						";
+					$post_in = array_merge( $post_in, $term_in );
 				}
-			} // !empty( $group_ids )
+				$id_in = implode( ' UNION ALL ', $post_in );
+				$where .= " AND $wpdb->posts.ID IN ( $id_in ) ";
+			}
 
 		}
 
