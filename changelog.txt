@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.6.1 =
+* Improved the useability of group selection dropdowns.
+
 = 2.6.0 =
 * Tested for WordPress 5.1.
 * Added an option to filter by posts restricted by any group.

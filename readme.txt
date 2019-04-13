@@ -5,7 +5,7 @@ Tags: groups, access, access control, membership, memberships, member, members, 
 Requires at least: 4.6
 Tested up to: 5.1
 Requires PHP: 5.5.38
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -189,14 +189,6 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 14. More options.
 
 == Changelog ==
-
-= 2.6.0 =
-* Tested for WordPress 5.1.
-* Added an option to filter by posts restricted by any group.
-* Added an option to filter by posts restricted by no group.
-* Removed an option to filter by only unrestricted posts which didn't work.
-* Improved groups column header fitting on post admin screens.
-* Fixed a notice when a user has no groups assigned.
 
 For the full changelog see the [changelog.txt](https://github.com/itthinx/groups/blob/master/changelog.txt).
 

@@ -74,6 +74,9 @@ class Groups_UIE {
 						if ( !wp_style_is( 'selectize' ) ) {
 							wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
 						}
+						if ( !wp_style_is( 'groups-uie' ) ) {
+							wp_enqueue_style( 'groups-uie', GROUPS_PLUGIN_URL . 'css/groups-uie.css', array(), $groups_version );
+						}
 						break;
 				}
 				break;
