@@ -1,5 +1,14 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.6.1 =
+* Improved the useability of group and capability selection dropdowns.
+* Fixed clash between group filter and group action on Users admin screen.
+* Added an option to filter the Users screen to match users who belong to all chosen groups.
+* German translation updated.
+* Spanish translation updated.
+* French translation updated (yet incomplete).
+* Updated the minimum required PHP version.
+
 = 2.6.0 =
 * Tested for WordPress 5.1.
 * Added an option to filter by posts restricted by any group.

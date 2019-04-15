@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-08 23:32+0100\n"
-"PO-Revision-Date: 2019-03-08 23:56+0100\n"
+"POT-Creation-Date: 2019-04-15 21:53+0200\n"
+"PO-Revision-Date: 2019-04-15 22:09+0200\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: es_ES\n"
@@ -21,6 +21,11 @@ msgstr ""
 msgctxt "paging"
 msgid "%1$s of %2$s"
 msgstr "%1$s de %2$s"
+
+#: lib/admin/class-groups-admin-users.php:283
+msgctxt "label for conjunctive groups filter checkbox"
+msgid "&cap;"
+msgstr "&cap;"
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:184
 #: lib/admin/class-groups-admin-posts.php:217
@@ -39,7 +44,7 @@ msgstr "(ninguno)"
 msgid "(only unrestricted)"
 msgstr "(sin restricción)"
 
-#: lib/admin/class-groups-admin-users.php:368
+#: lib/admin/class-groups-admin-users.php:384
 msgid "--"
 msgstr "--"
 
@@ -164,7 +169,7 @@ msgstr "Añadir capacidad"
 msgid "Add restriction"
 msgstr "Añadir restricción"
 
-#: lib/admin/class-groups-admin-users.php:202
+#: lib/admin/class-groups-admin-users.php:213
 msgid "Add to group"
 msgstr "Añadir a grupo"
 
@@ -228,7 +233,7 @@ msgstr ""
 msgid "Anyone &hellip;"
 msgstr "Todos &hellip;"
 
-#: lib/admin/class-groups-admin-users.php:205
+#: lib/admin/class-groups-admin-users.php:216
 #: lib/admin/groups-admin-capabilities.php:334
 #: lib/admin/groups-admin-capabilities.php:360
 #: lib/admin/groups-admin-capabilities.php:374
@@ -339,10 +344,10 @@ msgstr "Elegir capacidades &hellip;"
 #: lib/admin/class-groups-admin-user-profile.php:81
 #: lib/admin/class-groups-admin-user-profile.php:169
 #: lib/admin/class-groups-admin-user-profile.php:170
-#: lib/admin/class-groups-admin-users.php:180
-#: lib/admin/class-groups-admin-users.php:181
-#: lib/admin/class-groups-admin-users.php:241
-#: lib/admin/class-groups-admin-users.php:242
+#: lib/admin/class-groups-admin-users.php:191
+#: lib/admin/class-groups-admin-users.php:192
+#: lib/admin/class-groups-admin-users.php:252
+#: lib/admin/class-groups-admin-users.php:253
 msgid "Choose groups &hellip;"
 msgstr "Elegir grupos &hellip;"
 
@@ -394,6 +399,10 @@ msgstr ""
 msgid ""
 "Could you please spare a minute and give it a review over at WordPress.org?"
 msgstr "¿Puede dejar una reseña en WordPress.org?"
+
+#: lib/core/class-groups-pagination.php:133
+msgid "Current page"
+msgstr "Página actual"
 
 #: lib/admin/groups-admin-options.php:286
 msgid "Deactivation and data persistence"
@@ -486,7 +495,7 @@ msgstr ""
 msgid "Example:"
 msgstr "Ejemplo:"
 
-#: lib/admin/class-groups-admin-users.php:269
+#: lib/admin/class-groups-admin-users.php:285
 msgid "Filter"
 msgstr "Filtrar"
 
@@ -526,11 +535,27 @@ msgstr ""
 "Dirígete a <strong>Groups > Opciones</strong> y activa la capacidad "
 "<em>premium</em> para restringir acceso."
 
+#: lib/core/class-groups-pagination.php:117
+msgid "Go to the first page"
+msgstr "Ir a la primera página"
+
+#: lib/core/class-groups-pagination.php:151
+msgid "Go to the last page"
+msgstr "Ir a la última página"
+
+#: lib/core/class-groups-pagination.php:144
+msgid "Go to the next page"
+msgstr "Ir a la siguiente página"
+
+#: lib/core/class-groups-pagination.php:124
+msgid "Go to the previous page"
+msgstr "Ir a la página anterior"
+
 #: lib/admin/groups-admin-groups.php:304
 msgid "Group"
 msgstr "Grupo"
 
-#: lib/admin/class-groups-admin-users.php:201
+#: lib/admin/class-groups-admin-users.php:212
 msgid "Group Actions"
 msgstr "Acciones de Grupo"
 
@@ -554,7 +579,7 @@ msgstr "Nombre del Grupo : %s"
 #: lib/admin/class-groups-admin-user-profile.php:72
 #: lib/admin/class-groups-admin-user-profile.php:135
 #: lib/admin/class-groups-admin-user-profile.php:159
-#: lib/admin/class-groups-admin-users.php:341
+#: lib/admin/class-groups-admin-users.php:357
 #: lib/admin/class-groups-admin.php:245 lib/admin/class-groups-admin.php:246
 #: lib/admin/class-groups-admin.php:275 lib/core/class-groups-help.php:63
 #: lib/core/class-groups-help.php:68 lib/core/class-groups-help.php:69
@@ -1024,7 +1049,7 @@ msgstr "Eliminar capacidades"
 msgid "Remove capability"
 msgstr "Eliminar capacidad"
 
-#: lib/admin/class-groups-admin-users.php:203
+#: lib/admin/class-groups-admin-users.php:214
 msgid "Remove from group"
 msgstr "Eliminar de un grupo"
 
@@ -1343,6 +1368,10 @@ msgstr ""
 #: lib/admin/groups-admin-options.php:258
 msgid "User profiles"
 msgstr "Perfiles de usuario"
+
+#: lib/admin/class-groups-admin-users.php:281
+msgid "Users must belong to all chosen groups"
+msgstr "Los usuarios deben ser miembros de los grupos seleccionados"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:141
 msgid "Using the quick-create field"

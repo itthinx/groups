@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2019-03-08 23:32+0100\n"
+        "POT-Creation-Date: 2019-04-15 21:53+0200\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,11 @@ msgstr  "Project-Id-Version: PACKAGE VERSION\n"
 #, php-format
 msgctxt "paging"
 msgid   "%1$s of %2$s"
+msgstr  ""
+
+#: lib/admin/class-groups-admin-users.php:283
+msgctxt "label for conjunctive groups filter checkbox"
+msgid   "&cap;"
 msgstr  ""
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:184
@@ -40,7 +45,7 @@ msgstr  ""
 msgid   "(only unrestricted)"
 msgstr  ""
 
-#: lib/admin/class-groups-admin-users.php:368
+#: lib/admin/class-groups-admin-users.php:384
 msgid   "--"
 msgstr  ""
 
@@ -162,7 +167,7 @@ msgstr  ""
 msgid   "Add restriction"
 msgstr  ""
 
-#: lib/admin/class-groups-admin-users.php:202
+#: lib/admin/class-groups-admin-users.php:213
 msgid   "Add to group"
 msgstr  ""
 
@@ -214,7 +219,7 @@ msgstr  ""
 msgid   "Anyone &hellip;"
 msgstr  ""
 
-#: lib/admin/class-groups-admin-users.php:205
+#: lib/admin/class-groups-admin-users.php:216
 #: lib/admin/groups-admin-capabilities.php:334
 #: lib/admin/groups-admin-capabilities.php:360
 #: lib/admin/groups-admin-capabilities.php:374
@@ -310,10 +315,10 @@ msgstr  ""
 #: lib/admin/class-groups-admin-user-profile.php:81
 #: lib/admin/class-groups-admin-user-profile.php:169
 #: lib/admin/class-groups-admin-user-profile.php:170
-#: lib/admin/class-groups-admin-users.php:180
-#: lib/admin/class-groups-admin-users.php:181
-#: lib/admin/class-groups-admin-users.php:241
-#: lib/admin/class-groups-admin-users.php:242
+#: lib/admin/class-groups-admin-users.php:191
+#: lib/admin/class-groups-admin-users.php:192
+#: lib/admin/class-groups-admin-users.php:252
+#: lib/admin/class-groups-admin-users.php:253
 msgid   "Choose groups &hellip;"
 msgstr  ""
 
@@ -356,6 +361,10 @@ msgstr  ""
 #: lib/admin/class-groups-admin-notice.php:133
 msgid   "Could you please spare a minute and give it a review over at "
         "WordPress.org?"
+msgstr  ""
+
+#: lib/core/class-groups-pagination.php:133
+msgid   "Current page"
 msgstr  ""
 
 #: lib/admin/groups-admin-options.php:286
@@ -436,7 +445,7 @@ msgstr  ""
 msgid   "Example:"
 msgstr  ""
 
-#: lib/admin/class-groups-admin-users.php:269
+#: lib/admin/class-groups-admin-users.php:285
 msgid   "Filter"
 msgstr  ""
 
@@ -465,11 +474,27 @@ msgid   "Go to <strong>Groups > Options</strong> and enable the <em>premium</"
         "em> capability to restrict access."
 msgstr  ""
 
+#: lib/core/class-groups-pagination.php:117
+msgid   "Go to the first page"
+msgstr  ""
+
+#: lib/core/class-groups-pagination.php:151
+msgid   "Go to the last page"
+msgstr  ""
+
+#: lib/core/class-groups-pagination.php:144
+msgid   "Go to the next page"
+msgstr  ""
+
+#: lib/core/class-groups-pagination.php:124
+msgid   "Go to the previous page"
+msgstr  ""
+
 #: lib/admin/groups-admin-groups.php:304
 msgid   "Group"
 msgstr  ""
 
-#: lib/admin/class-groups-admin-users.php:201
+#: lib/admin/class-groups-admin-users.php:212
 msgid   "Group Actions"
 msgstr  ""
 
@@ -493,7 +518,7 @@ msgstr  ""
 #: lib/admin/class-groups-admin-user-profile.php:72
 #: lib/admin/class-groups-admin-user-profile.php:135
 #: lib/admin/class-groups-admin-user-profile.php:159
-#: lib/admin/class-groups-admin-users.php:341
+#: lib/admin/class-groups-admin-users.php:357
 #: lib/admin/class-groups-admin.php:245 lib/admin/class-groups-admin.php:246
 #: lib/admin/class-groups-admin.php:275 lib/core/class-groups-help.php:63
 #: lib/core/class-groups-help.php:68 lib/core/class-groups-help.php:69
@@ -894,7 +919,7 @@ msgstr  ""
 msgid   "Remove capability"
 msgstr  ""
 
-#: lib/admin/class-groups-admin-users.php:203
+#: lib/admin/class-groups-admin-users.php:214
 msgid   "Remove from group"
 msgstr  ""
 
@@ -1168,6 +1193,10 @@ msgstr  ""
 
 #: lib/admin/groups-admin-options.php:258
 msgid   "User profiles"
+msgstr  ""
+
+#: lib/admin/class-groups-admin-users.php:281
+msgid   "Users must belong to all chosen groups"
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:141
