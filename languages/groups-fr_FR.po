@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-08 23:32+0100\n"
-"PO-Revision-Date: 2019-03-08 23:58+0100\n"
+"POT-Creation-Date: 2019-04-15 21:53+0200\n"
+"PO-Revision-Date: 2019-04-15 22:14+0200\n"
 "Last-Translator: Stéphane PASSEDOUET <s.passedouet@pheeric.com>\n"
 "Language-Team: itthinx.com\n"
 "Language: fr_FR\n"
@@ -26,6 +26,11 @@ msgctxt "paging"
 msgid "%1$s of %2$s"
 msgstr "%1$s sur %2$s"
 
+#: lib/admin/class-groups-admin-users.php:283
+msgctxt "label for conjunctive groups filter checkbox"
+msgid "&cap;"
+msgstr "&cap;"
+
 # @ groups
 #: legacy/admin/class-groups-admin-posts-legacy.php:184
 #: lib/admin/class-groups-admin-posts.php:217
@@ -46,7 +51,7 @@ msgid "(only unrestricted)"
 msgstr "(seulement sans restriction)"
 
 # @ groups
-#: lib/admin/class-groups-admin-users.php:368
+#: lib/admin/class-groups-admin-users.php:384
 msgid "--"
 msgstr "--"
 
@@ -189,7 +194,7 @@ msgid "Add restriction"
 msgstr "Ajouter une restriction"
 
 # @ groups
-#: lib/admin/class-groups-admin-users.php:202
+#: lib/admin/class-groups-admin-users.php:213
 msgid "Add to group"
 msgstr "Ajouter au groupe"
 
@@ -215,7 +220,7 @@ msgstr "Administrer les Groupes"
 # @ groups
 #: lib/admin/groups-admin-options.php:52
 msgid "Administer Groups plugin options"
-msgstr "Administrer les Options du plugin &quot;Groups&quot;"
+msgstr "Administrer les Options du plugin Groups"
 
 # @ groups
 #: lib/admin/groups-admin-options.php:198
@@ -255,7 +260,7 @@ msgid "Anyone &hellip;"
 msgstr ""
 
 # @ groups
-#: lib/admin/class-groups-admin-users.php:205
+#: lib/admin/class-groups-admin-users.php:216
 #: lib/admin/groups-admin-capabilities.php:334
 #: lib/admin/groups-admin-capabilities.php:360
 #: lib/admin/groups-admin-capabilities.php:374
@@ -378,10 +383,10 @@ msgstr "Choisissez les capacités &hellip;"
 #: lib/admin/class-groups-admin-user-profile.php:81
 #: lib/admin/class-groups-admin-user-profile.php:169
 #: lib/admin/class-groups-admin-user-profile.php:170
-#: lib/admin/class-groups-admin-users.php:180
-#: lib/admin/class-groups-admin-users.php:181
-#: lib/admin/class-groups-admin-users.php:241
-#: lib/admin/class-groups-admin-users.php:242
+#: lib/admin/class-groups-admin-users.php:191
+#: lib/admin/class-groups-admin-users.php:192
+#: lib/admin/class-groups-admin-users.php:252
+#: lib/admin/class-groups-admin-users.php:253
 msgid "Choose groups &hellip;"
 msgstr "Choisissez des Groupes &hellip;"
 
@@ -438,6 +443,11 @@ msgstr ""
 msgid ""
 "Could you please spare a minute and give it a review over at WordPress.org?"
 msgstr ""
+
+# @ default
+#: lib/core/class-groups-pagination.php:133
+msgid "Current page"
+msgstr "Page actuelle"
 
 # @ groups
 #: lib/admin/groups-admin-options.php:286
@@ -544,7 +554,7 @@ msgstr ""
 msgid "Example:"
 msgstr "Exemple :"
 
-#: lib/admin/class-groups-admin-users.php:269
+#: lib/admin/class-groups-admin-users.php:285
 msgid "Filter"
 msgstr ""
 
@@ -589,13 +599,33 @@ msgstr ""
 "Allez à <strong>Groups > Options</strong> et activez la capacité "
 "<em>premium</em> pour restreindre l'accès."
 
+# @ default
+#: lib/core/class-groups-pagination.php:117
+msgid "Go to the first page"
+msgstr "Accéder à la première page"
+
+# @ default
+#: lib/core/class-groups-pagination.php:151
+msgid "Go to the last page"
+msgstr "Accédez à la dernière page"
+
+# @ default
+#: lib/core/class-groups-pagination.php:144
+msgid "Go to the next page"
+msgstr "Accédez à la page suivante"
+
+# @ default
+#: lib/core/class-groups-pagination.php:124
+msgid "Go to the previous page"
+msgstr "Accéder à la page précédente"
+
 # @ groups
 #: lib/admin/groups-admin-groups.php:304
 msgid "Group"
 msgstr "Groupe"
 
 # @ groups
-#: lib/admin/class-groups-admin-users.php:201
+#: lib/admin/class-groups-admin-users.php:212
 msgid "Group Actions"
 msgstr "Actions du Groupe"
 
@@ -622,7 +652,7 @@ msgstr "Nom du Groupe : %s"
 #: lib/admin/class-groups-admin-user-profile.php:72
 #: lib/admin/class-groups-admin-user-profile.php:135
 #: lib/admin/class-groups-admin-user-profile.php:159
-#: lib/admin/class-groups-admin-users.php:341
+#: lib/admin/class-groups-admin-users.php:357
 #: lib/admin/class-groups-admin.php:245 lib/admin/class-groups-admin.php:246
 #: lib/admin/class-groups-admin.php:275 lib/core/class-groups-help.php:63
 #: lib/core/class-groups-help.php:68 lib/core/class-groups-help.php:69
@@ -683,7 +713,7 @@ msgstr ""
 # @ groups
 #: lib/admin/groups-admin-options.php:334
 msgid "Groups network options"
-msgstr "Options de réseau de l'extension &quot;Groups&quot;"
+msgstr "Options de réseau de l'extension Groups"
 
 # @ groups
 #: lib/admin/class-groups-admin.php:208
@@ -1107,7 +1137,7 @@ msgid "Remove capability"
 msgstr "Supprimer une Capacité"
 
 # @ groups
-#: lib/admin/class-groups-admin-users.php:203
+#: lib/admin/class-groups-admin-users.php:214
 msgid "Remove from group"
 msgstr "Retirer du groupe"
 
@@ -1349,7 +1379,7 @@ msgid ""
 "permissions derived from Groups capabilities."
 msgstr ""
 "Ces autorisations concernent la gestion des Groupes. Elles ne se appliquent "
-"pas aux autorisations d'accès liées aux capacités des Groupes. "
+"pas aux autorisations d'accès liées aux capacités des Groupes."
 
 #: lib/admin/class-groups-admin-welcome.php:219
 msgid "This could be important!"
@@ -1366,7 +1396,7 @@ msgstr ""
 # @ groups
 #: lib/admin/groups-admin-groups.php:516
 msgid "This group has no capabilities."
-msgstr "Ce groupe n'a pas de capacités"
+msgstr "Ce groupe n'a pas de capacités."
 
 #: lib/admin/class-groups-admin-welcome.php:215
 msgid ""
@@ -1412,7 +1442,7 @@ msgstr "Arborescence des Groupes"
 # @ groups
 #: lib/admin/groups-admin-options.php:267
 msgid "Tree view"
-msgstr " Aperçu de l'Arborescence"
+msgstr "Aperçu de l'Arborescence"
 
 # @ groups
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:153
@@ -1449,6 +1479,11 @@ msgstr ""
 #: lib/admin/groups-admin-options.php:258
 msgid "User profiles"
 msgstr "Profils d'Utilisateurs"
+
+# @ groups
+#: lib/admin/class-groups-admin-users.php:281
+msgid "Users must belong to all chosen groups"
+msgstr "Les utilisateurs doivent être membres de tous les groupes choisis"
 
 # @ groups
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:141
@@ -1491,17 +1526,17 @@ msgstr ""
 
 #: lib/admin/class-groups-admin-welcome.php:111
 msgid "Welcome"
-msgstr ""
+msgstr "Bienvenue"
 
 #: lib/admin/class-groups-admin-welcome.php:46
 #: lib/admin/class-groups-admin-welcome.php:47
 msgid "Welcome to Groups"
-msgstr ""
+msgstr "Bienvenue aux Groups"
 
 #: lib/admin/class-groups-admin-welcome.php:138
 #, php-format
 msgid "Welcome to Groups %s"
-msgstr ""
+msgstr "Bienvenue aux Groups %s"
 
 #: lib/admin/class-groups-admin-welcome.php:165
 msgid "What's New?"
@@ -1634,26 +1669,6 @@ msgid ""
 "You should use Groups_Post_Access_Legacy::create() to pass a capability "
 "restriction instead."
 msgstr ""
-
-# @ default
-#~ msgid "Go to the last page"
-#~ msgstr "Accédez à la dernière page"
-
-# @ default
-#~ msgid "Go to the next page"
-#~ msgstr "Accédez à la page suivante"
-
-# @ default
-#~ msgid "Current page"
-#~ msgstr "Page actuelle"
-
-# @ default
-#~ msgid "Go to the previous page"
-#~ msgstr "Accéder à la page précédente"
-
-# @ default
-#~ msgid "Go to the first page"
-#~ msgstr "Accéder à la première page"
 
 # @ groups
 #~ msgid "Capability Id"

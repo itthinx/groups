@@ -4,6 +4,9 @@
 * Improved the useability of group and capability selection dropdowns.
 * Fixed clash between group filter and group action on Users admin screen.
 * Added an option to filter the Users screen to match users who belong to all chosen groups.
+* German translation updated.
+* Spanish translation updated.
+* French translation updated (yet incomplete).
 
 = 2.6.0 =
 * Tested for WordPress 5.1.
