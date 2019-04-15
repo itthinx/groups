@@ -190,7 +190,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
-For the full changelog see the [changelog.txt](https://github.com/itthinx/groups/blob/master/changelog.txt).
+For the full changelog see [changelog.txt](https://github.com/itthinx/groups/blob/master/changelog.txt).
 
 == Upgrade Notice ==
 
