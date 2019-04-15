@@ -282,7 +282,7 @@ class Groups_Admin_Users {
 			$output .= sprintf( '<input class="filter-groups-conjunctive" name="filter_groups_conjunctive" type="checkbox" value="1" %s />', $conjunctive ? ' checked="checked" ' : '' );
 			$output .= esc_html_x( '&cap;', 'label for conjunctive groups filter checkbox', 'groups' );
 			$output .= '</label>';
-			$output .= '<input class="button" type="submit" value="' . esc_attr( __( 'Filter', 'groups' ) ) . '"/>';
+			$output .= '<input class="button" style="vertical-align:middle" type="submit" value="' . esc_attr( __( 'Filter', 'groups' ) ) . '"/>';
 			$output .= '</form>';
 			$output .= Groups_UIE::render_select( '#filter-groups' );
 			$views['groups'] = $output;
