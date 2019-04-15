@@ -18,9 +18,12 @@
  * @since groups 2.6.1
  */
 
-.selectize-dropdown.groups {
+.selectize-dropdown.groups,
+.selectize-dropdown.groups-read,
+.selectize-dropdown.capability {
 	width: auto !important;
 }
-.selectize-dropdown.groups .selectize-dropdown-content .option {
+.selectize-dropdown.groups .selectize-dropdown-content .option,
+.selectize-dropdown.capability .selectize-dropdown-content .option {
 	text-align: initial;
 }

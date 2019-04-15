@@ -81,9 +81,9 @@ class Groups_Admin_Users {
 	public static function pre_user_query( $user_query ) {
 		global $pagenow, $wpdb;
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			if ( isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) ) {
+			if ( isset( $_REQUEST['filter_group_ids'] ) && is_array( $_REQUEST['filter_group_ids'] ) ) {
 				$group_ids = array();
-				foreach ( $_REQUEST['group_ids'] as $group_id ) {
+				foreach ( $_REQUEST['filter_group_ids'] as $group_id ) {
 					$group_id = Groups_Utility::id( $group_id );
 					if ( $group_id !== false ) {
 						$group_ids[] = $group_id;
@@ -237,7 +237,7 @@ class Groups_Admin_Users {
 			$output .= '<div class="groups-filter-container">';
 			$output .= '<div class="groups-select-container">';
 			$output .= sprintf(
-				'<select id="filter-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+				'<select id="filter-groups" class="groups" name="filter_group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 				esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
 				esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 			);
@@ -255,7 +255,7 @@ class Groups_Admin_Users {
 				// as it creates a lot of unneccessary objects and can lead
 				// to out of memory issues on large user bases.
 				$user_count = isset( $user_counts[$group->group_id] ) ? $user_counts[$group->group_id] : 0;
-				$selected = isset( $_REQUEST['group_ids'] ) && is_array( $_REQUEST['group_ids'] ) && in_array( $group->group_id, $_REQUEST['group_ids'] );
+				$selected = isset( $_REQUEST['filter_group_ids'] ) && is_array( $_REQUEST['filter_group_ids'] ) && in_array( $group->group_id, $_REQUEST['filter_group_ids'] );
 				$output .= sprintf(
 					'<option value="%d" %s>%s</option>',
 					Groups_Utility::id( $group->group_id ),
