@@ -89,10 +89,21 @@ class Groups_Admin_Users {
 						$group_ids[] = $group_id;
 					}
 				}
-				if ( count( $group_ids ) > 0 ) {
+				$n = count( $group_ids );
+				if ( $n > 0 ) {
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$group_ids = implode( ',', esc_sql( $group_ids ) );
-					$user_query->query_where .= " AND $wpdb->users.ID IN ( SELECT DISTINCT user_id FROM $user_group_table WHERE group_id IN ( $group_ids ) ) ";
+					$conjunctive = !empty( $_REQUEST['filter_groups_conjunctive'] );
+					if ( !$conjunctive ) {
+						$user_query->query_where .= " AND $wpdb->users.ID IN ( SELECT DISTINCT user_id FROM $user_group_table WHERE group_id IN ( $group_ids ) ) ";
+					} else {
+						$user_query->query_where .=
+							" AND $wpdb->users.ID IN ( " .
+							"SELECT user_id FROM ( " .
+							"SELECT user_id, COUNT( group_id ) AS n FROM $user_group_table WHERE group_id IN ( $group_ids ) GROUP BY user_id " .
+							") group_counts WHERE n = " . intval( $n ) .
+							") ";
+					}
 				}
 			}
 		}
@@ -266,6 +277,11 @@ class Groups_Admin_Users {
 			$output .= '</select>';
 			$output .= '</div>'; // .groups-select-container
 			$output .= '</div>'; // .groups-filter-container
+			$conjunctive = !empty( $_REQUEST['filter_groups_conjunctive'] );
+			$output .= sprintf( '<label title="%s" style="margin-right: 4px;">', esc_html__( 'Users must belong to all chosen groups', 'label title for conjunctive groups filter checkbox', 'groups' ) );
+			$output .= sprintf( '<input class="filter-groups-conjunctive" name="filter_groups_conjunctive" type="checkbox" value="1" %s />', $conjunctive ? ' checked="checked" ' : '' );
+			$output .= esc_html_x( '&cap;', 'label for conjunctive groups filter checkbox', 'groups' );
+			$output .= '</label>';
 			$output .= '<input class="button" type="submit" value="' . esc_attr( __( 'Filter', 'groups' ) ) . '"/>';
 			$output .= '</form>';
 			$output .= Groups_UIE::render_select( '#filter-groups' );
