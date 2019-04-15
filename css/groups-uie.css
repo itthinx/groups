@@ -17,7 +17,10 @@
  * @package groups
  * @since groups 2.6.1
  */
- 
+
 .selectize-dropdown.groups {
 	width: auto !important;
+}
+.selectize-dropdown.groups .selectize-dropdown-content .option {
+	text-align: initial;
 }
