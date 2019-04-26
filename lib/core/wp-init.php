@@ -140,7 +140,21 @@ require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
  */
 function _groups_get_tablename( $name ) {
 	global $wpdb;
-	return $wpdb->prefix . GROUPS_TP . $name;
+
+	// Construct the table name.
+	$table_name = $wpdb->prefix . GROUPS_TP . $name;
+
+	/**
+	 * Filter the database table to query.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @param str $table_name The constructed table name.
+	 * @param str $name The requested short-form table name.
+	 * @param str $wpdb->prefix The current WordPress table prefix.
+	 * @return str $table_name The possibly-modified table name.
+	 */
+	return apply_filters( 'groups_database_name', $table_name, $name, $wpdb->prefix );
 }
 
 /**
