@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.7.0 =
+* WordPress 5.2 compatible.
+
 = 2.6.1 =
 * Improved the useability of group and capability selection dropdowns.
 * Fixed clash between group filter and group action on Users admin screen.
