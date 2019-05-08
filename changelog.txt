@@ -6,6 +6,7 @@
 * Updated the German translation.
 * Updated the Spanish translation.
 * Updated the French translation (still incomplete though).
+* Added the Indonesian translation.
 
 = 2.6.1 =
 * Improved the useability of group and capability selection dropdowns.
