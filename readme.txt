@@ -194,4 +194,4 @@ For the full changelog see [changelog.txt](https://github.com/itthinx/groups/blo
 
 == Upgrade Notice ==
 
-This release has been tested for WordPress 5.1 and contains minor improvements and fixes.
+This release has been tested with the latest version of WordPress.
