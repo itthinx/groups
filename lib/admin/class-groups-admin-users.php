@@ -278,7 +278,7 @@ class Groups_Admin_Users {
 			$output .= '</div>'; // .groups-select-container
 			$output .= '</div>'; // .groups-filter-container
 			$conjunctive = !empty( $_REQUEST['filter_groups_conjunctive'] );
-			$output .= sprintf( '<label title="%s" style="margin-right: 4px;">', esc_html__( 'Users must belong to all chosen groups', 'label title for conjunctive groups filter checkbox', 'groups' ) );
+			$output .= sprintf( '<label title="%s" style="margin-right: 4px;">', esc_html_x( 'Users must belong to all chosen groups', 'label title for conjunctive groups filter checkbox', 'groups' ) );
 			$output .= sprintf( '<input class="filter-groups-conjunctive" name="filter_groups_conjunctive" type="checkbox" value="1" %s />', $conjunctive ? ' checked="checked" ' : '' );
 			$output .= esc_html_x( '&cap;', 'label for conjunctive groups filter checkbox', 'groups' );
 			$output .= '</label>';
