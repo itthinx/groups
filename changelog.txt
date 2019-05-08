@@ -1,5 +1,17 @@
 == Groups by itthinx - changelog.txt ==
 
+= 2.7.0 =
+* WordPress 5.2 compatible.
+* Fixed translation loading to apply the user's locale when set.
+* Updated the German translation.
+* Updated the Spanish translation.
+* Updated the French translation (yet incomplete).
+* Added the Indonesian translation.
+* Updated the Swedish translation (yet incomplete).
+* Updated the Brazilian Portuguese translation (yet incomplete).
+* Updated the Dutch translation (yet incomplete).
+* Updated the Lithuanian translatoion (yet incomplete).
+
 = 2.6.1 =
 * Improved the useability of group and capability selection dropdowns.
 * Fixed clash between group filter and group action on Users admin screen.

@@ -211,7 +211,7 @@ class Groups_Admin_Posts {
 
 					$output .= '<label style="display:inline;">';
 					$output .= '<span class="title">';
-					$output .= __( 'Groups', 'groups' );
+					$output .= _x( 'Groups', 'Bulk edit field label', 'groups' );
 					$output .= '</span>';
 					$output .= '<select class="groups-action" name="groups-action">';
 					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', 'groups' ) . '</option>';

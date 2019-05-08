@@ -242,8 +242,8 @@ class Groups_Admin {
 
 		// main
 		$page = add_menu_page(
-			__( 'Groups', 'groups' ),
-			__( 'Groups', 'groups' ),
+			_x( 'Groups', 'Network menu page title', 'groups' ),
+			'Groups', // don't translate, see note on same in self::admin_menu()
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-network-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_network_admin_options' ),
@@ -266,13 +266,17 @@ class Groups_Admin {
 		if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 			array_unshift(
 				$links,
-				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin-options' ) . '">' . __( 'Options', 'groups' ) . '</a>'
+				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin-options' ) . '">' .
+				_x( 'Options', 'Plugin action link', 'groups' ) .
+				'</a>'
 			);
 		}
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			array_unshift(
 				$links,
-				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin' ) . '">' . __( 'Groups', 'groups' ) . '</a>'
+				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin' ) . '">' .
+				_x( 'Groups', 'Plugin action link', 'groups' ) .
+				'</a>'
 			);
 		}
 		return $links;

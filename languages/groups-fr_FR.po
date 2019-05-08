@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-15 21:53+0200\n"
-"PO-Revision-Date: 2019-04-15 22:14+0200\n"
+"POT-Creation-Date: 2019-05-08 21:00+0200\n"
+"PO-Revision-Date: 2019-05-08 21:02+0200\n"
 "Last-Translator: Stéphane PASSEDOUET <s.passedouet@pheeric.com>\n"
 "Language-Team: itthinx.com\n"
 "Language: fr_FR\n"
@@ -201,7 +201,7 @@ msgstr "Ajouter au groupe"
 #: lib/admin/class-groups-admin-welcome.php:234
 #: lib/admin/class-groups-admin.php:222 lib/admin/groups-admin-add-ons.php:32
 msgid "Add-Ons"
-msgstr ""
+msgstr "Extensions"
 
 # @ groups
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:150
@@ -257,7 +257,7 @@ msgstr ""
 #: lib/access/class-groups-access-meta-boxes.php:448
 #: lib/access/class-groups-access-meta-boxes.php:449
 msgid "Anyone &hellip;"
-msgstr ""
+msgstr "Tous &hellip;"
 
 # @ groups
 #: lib/admin/class-groups-admin-users.php:216
@@ -334,7 +334,13 @@ msgstr "Annuler"
 #: lib/admin/groups-admin-capabilities.php:192
 #: lib/admin/groups-admin-groups-add.php:97
 #: lib/admin/groups-admin-groups-edit.php:117
-#: lib/admin/groups-admin-groups.php:306 lib/core/class-groups-help.php:71
+#: lib/admin/groups-admin-groups.php:306
+msgid "Capabilities"
+msgstr "Capacités"
+
+# @ groups
+#: lib/core/class-groups-help.php:71
+msgctxt "Help tab title and heading"
 msgid "Capabilities"
 msgstr "Capacités"
 
@@ -359,7 +365,7 @@ msgstr "Capacités : %s"
 
 #: lib/admin/groups-admin-capabilities.php:326
 msgid "Capability ID"
-msgstr ""
+msgstr "ID de Capacité"
 
 #: lib/admin/class-groups-admin-posts.php:231
 #: lib/admin/class-groups-admin-posts.php:232
@@ -491,7 +497,7 @@ msgstr ""
 #: lib/admin/class-groups-admin-welcome.php:144
 #: lib/admin/class-groups-admin-welcome.php:145
 msgid "Dismiss"
-msgstr ""
+msgstr "Supprimer"
 
 # @ groups
 #: lib/admin/groups-admin-capabilities.php:449
@@ -556,7 +562,7 @@ msgstr "Exemple :"
 
 #: lib/admin/class-groups-admin-users.php:285
 msgid "Filter"
-msgstr ""
+msgstr "Filtre"
 
 # @ groups
 #: lib/admin/groups-admin-capabilities.php:324
@@ -631,7 +637,7 @@ msgstr "Actions du Groupe"
 
 #: lib/admin/groups-admin-groups.php:316
 msgid "Group ID"
-msgstr ""
+msgstr "ID de Groupe"
 
 # @ groups
 #: lib/admin/groups-admin-groups.php:319
@@ -645,29 +651,86 @@ msgid "Group Name : %s"
 msgstr "Nom du Groupe : %s"
 
 # @ groups
-#: lib/access/class-groups-access-meta-boxes.php:117
-#: lib/access/class-groups-access-meta-boxes.php:120
 #: lib/access/class-groups-access-meta-boxes.php:476
+msgctxt "Attachment field label"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
 #: lib/admin/class-groups-admin-posts.php:214
-#: lib/admin/class-groups-admin-user-profile.php:72
-#: lib/admin/class-groups-admin-user-profile.php:135
-#: lib/admin/class-groups-admin-user-profile.php:159
-#: lib/admin/class-groups-admin-users.php:357
-#: lib/admin/class-groups-admin.php:245 lib/admin/class-groups-admin.php:246
-#: lib/admin/class-groups-admin.php:275 lib/core/class-groups-help.php:63
-#: lib/core/class-groups-help.php:68 lib/core/class-groups-help.php:69
+msgctxt "Bulk edit field label"
 msgid "Groups"
 msgstr "Groupes"
 
 #: lib/admin/class-groups-admin-post-columns.php:96
 msgctxt "Column header"
 msgid "Groups"
-msgstr ""
+msgstr "Groupes"
+
+# @ groups
+#: lib/admin/class-groups-admin-users.php:357
+msgctxt "Column header (Users)"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
+#: lib/admin/class-groups-admin-user-profile.php:72
+msgctxt "Groups section heading (add user)"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
+#: lib/admin/class-groups-admin-user-profile.php:159
+msgctxt "Groups section heading (edit user)"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
+#: lib/admin/class-groups-admin-user-profile.php:135
+msgctxt "Groups section heading (user profile)"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
+#: lib/access/class-groups-access-meta-boxes.php:120
+msgctxt "Help heading"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
+#: lib/access/class-groups-access-meta-boxes.php:117
+msgctxt "Help tab title"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
+#: lib/core/class-groups-help.php:68 lib/core/class-groups-help.php:69
+msgctxt "Help tab title and heading"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
+#: lib/core/class-groups-help.php:63
+msgctxt "Help title"
+msgid "Groups"
+msgstr "Groupes"
 
 #: lib/access/class-groups-access-meta-boxes.php:103
 msgctxt "Meta box title"
 msgid "Groups"
-msgstr ""
+msgstr "Groupes"
+
+# @ groups
+#: lib/admin/class-groups-admin.php:245
+msgctxt "Network menu page title"
+msgid "Groups"
+msgstr "Groupes"
+
+# @ groups
+#: lib/admin/class-groups-admin.php:278
+msgctxt "Plugin action link"
+msgid "Groups"
+msgstr "Groupes"
 
 #: lib/admin/class-groups-admin.php:141
 msgctxt "menu item title"
@@ -689,11 +752,11 @@ msgstr ""
 #: lib/admin/class-groups-admin-posts.php:138
 #: lib/admin/class-groups-admin-posts.php:139
 msgid "Groups &hellip;"
-msgstr ""
+msgstr "Groupes &hellip;"
 
 #: lib/admin/class-groups-admin.php:221
 msgid "Groups Add-Ons"
-msgstr ""
+msgstr "Extensions de Groups"
 
 # @ groups
 #: lib/admin/class-groups-admin.php:195
@@ -702,10 +765,10 @@ msgstr "Capacités des Groupes"
 
 #: lib/admin/groups-admin-options.php:120
 msgid "Groups Options"
-msgstr ""
+msgstr "Options de Groups"
 
 # @ groups
-#: lib/admin/class-groups-admin.php:306
+#: lib/admin/class-groups-admin.php:310
 msgid "Groups is configured to delete its plugin data on deactivation."
 msgstr ""
 "Groups supprime toutes les données de l'extension lorsque il est désactivé."
@@ -736,7 +799,7 @@ msgstr ""
 #: lib/admin/groups-admin-capabilities.php:313
 #: lib/admin/groups-admin-groups.php:303
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: lib/admin/class-groups-admin-welcome.php:221
 msgid ""
@@ -763,7 +826,7 @@ msgstr ""
 
 #: lib/admin/class-groups-admin-welcome.php:155
 msgid "Important"
-msgstr ""
+msgstr "Importante"
 
 #: lib/admin/class-groups-admin-welcome.php:180
 msgid "Improved User Interface"
@@ -976,8 +1039,19 @@ msgstr ""
 "sélectionnées sont autorisés à lire ce %s."
 
 # @ groups
-#: lib/admin/class-groups-admin.php:209 lib/admin/class-groups-admin.php:269
+#: lib/admin/class-groups-admin.php:209
+msgid "Options"
+msgstr "Options"
+
+# @ groups
 #: lib/core/class-groups-help.php:70
+msgctxt "Help tab title and heading"
+msgid "Options"
+msgstr "Options"
+
+# @ groups
+#: lib/admin/class-groups-admin.php:270
+msgctxt "Plugin action link"
 msgid "Options"
 msgstr "Options"
 
@@ -1075,7 +1149,7 @@ msgstr "Créez rapidement un groupe &amp; une capacité"
 #: lib/access/class-groups-access-meta-boxes.php:208
 #: lib/access/class-groups-access-meta-boxes.php:418
 msgid "Read"
-msgstr ""
+msgstr "Lecture"
 
 # @ groups
 #: legacy/access/class-groups-post-access-legacy.php:52
@@ -1482,6 +1556,9 @@ msgstr "Profils d'Utilisateurs"
 
 # @ groups
 #: lib/admin/class-groups-admin-users.php:281
+#, fuzzy
+#| msgid "Users must belong to all chosen groups"
+msgctxt "label title for conjunctive groups filter checkbox"
 msgid "Users must belong to all chosen groups"
 msgstr "Les utilisateurs doivent être membres de tous les groupes choisis"
 
@@ -1516,9 +1593,9 @@ msgstr ""
 msgid "View the Welcome screen for this version of Groups"
 msgstr ""
 
-#: lib/admin/class-groups-admin.php:302
+#: lib/admin/class-groups-admin.php:306
 msgid "Warning!"
-msgstr ""
+msgstr "Attention!"
 
 #: lib/admin/class-groups-admin-welcome.php:172
 msgid "We have made it even easier to protect your content!"

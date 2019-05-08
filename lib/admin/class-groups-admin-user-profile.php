@@ -69,7 +69,7 @@ class Groups_Admin_User_Profile {
 		global $wpdb;
 		if ( $type == 'add-new-user' ) {
 			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-				$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
+				$output = '<h3>' . _x( 'Groups', 'Groups section heading (add user)', 'groups' ) . '</h3>';
 				$groups_table = _groups_get_tablename( 'group' );
 				if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
 					$output .= '<style type="text/css">';
@@ -132,7 +132,7 @@ class Groups_Admin_User_Profile {
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			self::edit_user_profile( $user );
 		} else {
-			$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
+			$output = '<h3>' . _x( 'Groups', 'Groups section heading (user profile)', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$groups = $user->groups;
 			if ( is_array( $groups ) ) {
@@ -156,7 +156,7 @@ class Groups_Admin_User_Profile {
 	public static function edit_user_profile( $user ) {
 		global $wpdb;
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			$output = '<h3>' . __( 'Groups', 'groups' ) . '</h3>';
+			$output = '<h3>' . _x( 'Groups', 'Groups section heading (edit user)', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );

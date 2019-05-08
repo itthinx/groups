@@ -114,10 +114,10 @@ class Groups_Access_Meta_Boxes {
 						// help tab for group-based access restrictions
 						$screen->add_help_tab( array(
 							'id'      => 'groups-groups',
-							'title'   => __( 'Groups', 'groups' ),
+							'title'   => _x( 'Groups', 'Help tab title', 'groups' ),
 							'content' =>
 								'<p>' .
-								'<strong>' . __( 'Groups', 'groups' ) . '</strong>' .
+								'<strong>' . _x( 'Groups', 'Help heading', 'groups' ) . '</strong>' .
 								'</p>' .
 								'<p>' .
 								__( 'Use the <em>Groups</em> box to limit the visibility of posts, pages and other post types.', 'groups' ) .
@@ -473,7 +473,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= '</p>';
 
 				$form_fields['groups_read'] = array(
-					'label' => __( 'Groups', 'groups' ),
+					'label' => _x( 'Groups', 'Attachment field label', 'groups' ),
 					'input' => 'html',
 					'html' => $output
 				);
