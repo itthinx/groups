@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-08 17:38+0200\n"
-"PO-Revision-Date: 2019-05-08 17:58+0200\n"
+"POT-Creation-Date: 2019-05-08 21:00+0200\n"
+"PO-Revision-Date: 2019-05-08 21:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: id_ID\n"
@@ -1426,6 +1426,7 @@ msgid "User profiles"
 msgstr "Profil pengguna"
 
 #: lib/admin/class-groups-admin-users.php:281
+msgctxt "label title for conjunctive groups filter checkbox"
 msgid "Users must belong to all chosen groups"
 msgstr "Pengguna harus termasuk dalam semua grup yang dipilih"
 

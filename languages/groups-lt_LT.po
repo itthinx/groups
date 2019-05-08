@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups 1.0.0-beta-3c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-08 17:38+0200\n"
-"PO-Revision-Date: 2019-05-08 20:24+0200\n"
+"POT-Creation-Date: 2019-05-08 21:00+0200\n"
+"PO-Revision-Date: 2019-05-08 21:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -1306,6 +1306,7 @@ msgid "User profiles"
 msgstr ""
 
 #: lib/admin/class-groups-admin-users.php:281
+msgctxt "label title for conjunctive groups filter checkbox"
 msgid "Users must belong to all chosen groups"
 msgstr ""
 

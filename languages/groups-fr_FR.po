@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-08 17:38+0200\n"
-"PO-Revision-Date: 2019-05-08 17:55+0200\n"
+"POT-Creation-Date: 2019-05-08 21:00+0200\n"
+"PO-Revision-Date: 2019-05-08 21:02+0200\n"
 "Last-Translator: Stéphane PASSEDOUET <s.passedouet@pheeric.com>\n"
 "Language-Team: itthinx.com\n"
 "Language: fr_FR\n"
@@ -1556,6 +1556,9 @@ msgstr "Profils d'Utilisateurs"
 
 # @ groups
 #: lib/admin/class-groups-admin-users.php:281
+#, fuzzy
+#| msgid "Users must belong to all chosen groups"
+msgctxt "label title for conjunctive groups filter checkbox"
 msgid "Users must belong to all chosen groups"
 msgstr "Les utilisateurs doivent être membres de tous les groupes choisis"
 

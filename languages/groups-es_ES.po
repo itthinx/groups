@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-08 17:38+0200\n"
-"PO-Revision-Date: 2019-05-08 17:46+0200\n"
+"POT-Creation-Date: 2019-05-08 21:00+0200\n"
+"PO-Revision-Date: 2019-05-08 21:02+0200\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: es_ES\n"
@@ -1430,8 +1430,9 @@ msgid "User profiles"
 msgstr "Perfiles de usuario"
 
 #: lib/admin/class-groups-admin-users.php:281
+msgctxt "label title for conjunctive groups filter checkbox"
 msgid "Users must belong to all chosen groups"
-msgstr "Los usuarios deben ser miembros de los grupos seleccionados"
+msgstr "Los usuarios deben ser miembros de todos los grupos seleccionados"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:141
 msgid "Using the quick-create field"
