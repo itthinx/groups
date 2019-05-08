@@ -124,6 +124,8 @@ class Groups_Controller {
 	 */
 	public static function init() {
 
+		unload_textdomain( 'groups' );
+
 		// Load our current translations first ...
 		$mofile = self::get_mofile();
 		load_textdomain( 'groups', $mofile );
@@ -146,7 +148,11 @@ class Groups_Controller {
 	 * @return string mofile
 	 */
 	private static function get_mofile() {
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'groups' );
+		$locale = get_locale();
+		if ( function_exists( 'get_user_locale' ) ) {
+			$locale = get_user_locale();
+		}
+		$locale = apply_filters( 'plugin_locale', $locale, 'groups' );
 		$mofile = GROUPS_CORE_DIR . '/languages/groups-' . $locale . '.mo';
 		return $mofile;
 	}

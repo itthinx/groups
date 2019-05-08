@@ -2,6 +2,7 @@
 
 = 2.7.0 =
 * WordPress 5.2 compatible.
+* Fixed translation loading to apply the user's locale when set.
 
 = 2.6.1 =
 * Improved the useability of group and capability selection dropdowns.
