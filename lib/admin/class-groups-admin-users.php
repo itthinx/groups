@@ -354,7 +354,7 @@ class Groups_Admin_Users {
 	 * @return array column headers
 	 */
 	public static function manage_users_columns( $column_headers ) {
-		$column_headers[self::GROUPS] = __( 'Groups', 'groups' );
+		$column_headers[self::GROUPS] = _x( 'Groups', 'Column header (Users)', 'groups' );
 		return $column_headers;
 	}
 

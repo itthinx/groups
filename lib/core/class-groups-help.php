@@ -60,15 +60,15 @@ class Groups_Help {
 	public static function contextual_help() {
 		if ( $screen = get_current_screen() ) {
 			$show_groups_help = false;
-			$help_title = __( 'Groups', 'groups' );
+			$help_title = _x( 'Groups', 'Help title', 'groups' );
 			$screen_id = $screen->base;
 			// The prefix of the $screen_id is translated, use only the suffix
 			// to identify a screen:
 			$ids = array(
-				'groups-admin' => __( 'Groups', 'groups' ),
-				'groups-admin-groups' => __( 'Groups', 'groups' ),
-				'groups-admin-options' => __( 'Options', 'groups' ),
-				'groups-admin-capabilities' => __( 'Capabilities', 'groups' ),
+				'groups-admin' => _x( 'Groups', 'Help tab title and heading', 'groups' ),
+				'groups-admin-groups' => _x( 'Groups', 'Help tab title and heading', 'groups' ),
+				'groups-admin-options' => _x( 'Options', 'Help tab title and heading', 'groups' ),
+				'groups-admin-capabilities' => _x( 'Capabilities', 'Help tab title and heading', 'groups' ),
 			);
 			foreach ( $ids as $id => $title ) {
 				$i = strpos( $screen_id, $id );
