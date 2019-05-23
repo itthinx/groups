@@ -82,10 +82,13 @@ class Groups_Access_Meta_Boxes {
 			switch ( $pagenow ) {
 				case 'upload.php' :
 				case 'customize.php' :
+				case 'edit-tags.php' : // @since 2.7.1 [1]
+				case 'term.php' : // @since 2.7.1 [1]
 					Groups_UIE::enqueue( 'select' );
 					break;
 			}
 		}
+		// [1] For cases when attachments can be added to terms, e.g. WC Product Category Thumbnail.
 	}
 
 	/**

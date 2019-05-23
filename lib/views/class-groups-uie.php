@@ -94,24 +94,34 @@ class Groups_UIE {
 	public static function render_select( $selector = 'select.groups-uie', $script = true, $on_document_ready = true, $create = false ) {
 		$output = '';
 		if ( $script ) {
+
+			$call_output = '';
+			if ( self::$select === 'selectize' ) {
+				$call_output .= 'if ( typeof jQuery !== "undefined" ) {';
+				$call_output .= sprintf(
+					'jQuery("%s").selectize({%splugins: ["remove_button"]});',
+					$selector,
+					$create ? 'create:true,' : ''
+				);
+				$call_output .= '}';
+			}
+
+			// Our selectize options will be hidden unless the block editor's components panel allows to overflow.
+			$output .= '<style type="text/css">';
+			$output .= '.components-panel { overflow: visible!important; }';
+			$output .= '</style>';
+			// Act immediately if DOMContentLoaded was already dispatched, otherwise defer to handler.
 			$output .= '<script type="text/javascript">';
-			$output .= 'if (typeof jQuery !== "undefined"){';
+			$output .= 'if ( document.readyState === "complete" || document.readyState === "interactive" ) {';
+			$output .= $call_output;
+			$output .= '}';
 			if ( $on_document_ready ) {
-				$output .= 'jQuery("document").ready(function(){';
+				$output .= ' else {';
+				$output .= 'document.addEventListener( "DOMContentLoaded", function() {';
+				$output .= $call_output;
+				$output .= '} );'; // document....
+				$output .= '}'; // else
 			}
-			switch( self::$select ) {
-				case 'selectize' :
-					$output .= sprintf(
-						'jQuery("%s").selectize({%splugins: ["remove_button"]});',
-						$selector,
-						$create ? 'create:true,' : ''
-					);
-					break;
-			}
-			if ( $on_document_ready ) {
-				$output .= '});';
-			}
-			$output .= '}'; // typeof jQuery
 			$output .= '</script>';
 		}
 		return $output;
