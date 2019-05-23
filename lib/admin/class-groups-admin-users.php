@@ -222,12 +222,12 @@ class Groups_Admin_Users {
 			$box .= $nonce;
 
 			$box .= '<script type="text/javascript">';
+			$box .= 'document.addEventListener( "DOMContentLoaded", function() {';
 			$box .= 'if ( typeof jQuery !== "undefined" ) {';
-			$box .= 'jQuery("document").ready(function(){';
 			$box .= 'jQuery(".tablenav.top .alignleft.actions:last").after("<div id=\"groups-bulk-actions-block\" class=\"alignleft actions\"></div>");';
 			$box .= 'jQuery("#group-bulk-actions").appendTo(jQuery("#groups-bulk-actions-block"));';
-			$box .= '});';
-			$box .= '}';
+			$box .= '}'; // jQuery
+			$box .= '} );'; // document....
 			$box .= '</script>';
 
 			$output .= $box;
