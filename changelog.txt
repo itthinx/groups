@@ -3,6 +3,7 @@
 = 2.7.1 =
 * Improved UIE rendering for group choices and made it more resilient to load dependencies, Javascript execution order and pages where it is used.
 * Fixed UIE rendering for group choices with the block editor which would unduly cap the list visually providing an awkward UX.
+* Better jQuery dependency resilience on the Users screen.
 
 = 2.7.0 =
 * WordPress 5.2 compatible.
