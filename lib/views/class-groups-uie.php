@@ -108,7 +108,7 @@ class Groups_UIE {
 
 			// Our selectize options will be hidden unless the block editor's components panel allows to overflow.
 			$output .= '<style type="text/css">';
-			$output .= '.components-panel { overflow: visible!important; }';
+			$output .= '.components-panel { overflow: visible !important; }';
 			$output .= '</style>';
 			// Act immediately if DOMContentLoaded was already dispatched, otherwise defer to handler.
 			$output .= '<script type="text/javascript">';

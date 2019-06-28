@@ -35,6 +35,10 @@ class Groups_Extra {
 		add_filter( 'woocommerce_product_is_visible', array( __CLASS__, 'woocommerce_product_is_visible' ), 10, 2 );
 		add_filter( 'groups_comment_access_comment_count_where', array( __CLASS__, 'groups_comment_access_comment_count_where'), 10, 2 );
 		add_filter( 'groups_post_access_posts_where_query_get_post_types', array( __CLASS__, 'groups_post_access_posts_where_query_get_post_types' ), 10, 3 );
+
+		// Enqueue selectize scripts and styles for Beaver Builder and Elementor
+		add_action( 'fl_builder_init_ui', array( __CLASS__, 'fl_builder_init_ui' ) );
+		add_action( 'elementor/editor/before_enqueue_scripts', array( __CLASS__, 'before_enqueue_scripts' ) );
 	}
 
 	/**
@@ -91,6 +95,26 @@ class Groups_Extra {
 			}
 		}
 		return $post_types;
+	}
+
+	/**
+	 * Enqueue selectize script and style for Beaver Builder
+	 */
+	public static function fl_builder_init_ui() {
+		if ( !class_exists( 'Groups_UIE' ) ) {
+			require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
+		}
+		Groups_UIE::enqueue( 'select' );
+	}
+
+	/**
+	 * Enqueue selectize script and style for Elementor
+	 */
+	public static function before_enqueue_scripts() {
+		if ( !class_exists( 'Groups_UIE' ) ) {
+			require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
+		}
+		Groups_UIE::enqueue( 'select' );
 	}
 }
 add_action( 'init', array( 'Groups_Extra', 'init' ) );
