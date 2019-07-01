@@ -97,7 +97,7 @@ class Groups_UIE {
 
 			$call_output = '';
 			if ( self::$select === 'selectize' ) {
-				$call_output .= 'if ( typeof jQuery !== "undefined" ) {';
+				$call_output .= 'if ( typeof jQuery !== "undefined" && typeof jQuery.fn.selectize === "function" ) {';
 				$call_output .= sprintf(
 					'jQuery("%s").selectize({%splugins: ["remove_button"]});',
 					$selector,
@@ -108,7 +108,7 @@ class Groups_UIE {
 
 			// Our selectize options will be hidden unless the block editor's components panel allows to overflow.
 			$output .= '<style type="text/css">';
-			$output .= '.components-panel { overflow: visible!important; }';
+			$output .= '.components-panel { overflow: visible !important; }';
 			$output .= '</style>';
 			// Act immediately if DOMContentLoaded was already dispatched, otherwise defer to handler.
 			$output .= '<script type="text/javascript">';
