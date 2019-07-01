@@ -3,6 +3,8 @@
 = 2.7.2 =
 * Fixes an issue with page builders and front-end editing.
 * Fixed CSS typo in UIE.
+* Formatting improvements.
+* Added missing escaping.
 
 = 2.7.1 =
 * Improved UIE rendering for group choices and made it more resilient to load dependencies, Javascript execution order and pages where it is used.
