@@ -97,7 +97,7 @@ class Groups_UIE {
 
 			$call_output = '';
 			if ( self::$select === 'selectize' ) {
-				$call_output .= 'if ( typeof jQuery !== "undefined" ) {';
+				$call_output .= 'if ( typeof jQuery !== "undefined" && typeof jQuery.fn.selectize === "function" ) {';
 				$call_output .= sprintf(
 					'jQuery("%s").selectize({%splugins: ["remove_button"]});',
 					$selector,
