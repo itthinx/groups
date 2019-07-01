@@ -1,8 +1,8 @@
 == Groups by itthinx - changelog.txt ==
 
 = 2.7.2 =
-* Fixed UIE rendering issues in Media when trying to attach images in post
-* Fixed CSS typo in UIE
+* Fixes an issue with page builders and front-end editing.
+* Fixed CSS typo in UIE.
 
 = 2.7.1 =
 * Improved UIE rendering for group choices and made it more resilient to load dependencies, Javascript execution order and pages where it is used.
