@@ -62,6 +62,8 @@ class Groups_Access_Meta_Boxes {
 
 			add_filter( 'attachment_fields_to_edit', array( __CLASS__, 'attachment_fields_to_edit' ), 10, 2 );
 			add_filter( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), 10, 2 );
+
+			add_action( 'wp_enqueue_editor', array( __CLASS__, 'wp_enqueue_editor' ) ); // @since 2.7.2
 		}
 	}
 
@@ -523,6 +525,21 @@ class Groups_Access_Meta_Boxes {
 			}
 		}
 		return $post;
+	}
+
+	/**
+	 * Hooked on wp_enqueue_editor to enqueue our UIE scripts if access for attachments is enabled.
+	 *
+	 * @param array $to_load
+	 */
+	public static function wp_enqueue_editor( $to_load ) {
+		$media_upload = wp_script_is( 'media-upload' );
+		if ( $media_upload ) {
+			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
+			if ( !isset( $post_types_option['attachment']['add_meta_box'] ) || $post_types_option['attachment']['add_meta_box'] ) {
+				Groups_UIE::enqueue( 'select' );
+			}
+		}
 	}
 
 	/**
