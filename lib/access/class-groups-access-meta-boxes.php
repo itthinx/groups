@@ -25,7 +25,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Adds meta boxes to edit screens.
- * 
+ *
  * @link http://codex.wordpress.org/Function_Reference/add_meta_box
  */
 class Groups_Access_Meta_Boxes {
@@ -125,29 +125,38 @@ class Groups_Access_Meta_Boxes {
 								'<strong>' . _x( 'Groups', 'Help heading', 'groups' ) . '</strong>' .
 								'</p>' .
 								'<p>' .
-								__( 'Use the <em>Groups</em> box to limit the visibility of posts, pages and other post types.', 'groups' ) .
+								wp_kses(
+									__( 'Use the <em>Groups</em> box to limit the visibility of posts, pages and other post types.', 'groups' ),
+									array( 'em' => array() )
+								) .
 								'</p>' .
 								'<p>' .
-								__( 'You can select one or more groups to restrict access to its members.', 'groups' ) .
+								esc_html__( 'You can select one or more groups to restrict access to its members.', 'groups' ) .
 								( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
 									' ' .
-									__( 'Note that you must be a member of a group to use it to restrict access.', 'groups' )
+									esc_html__( 'Note that you must be a member of a group to use it to restrict access.', 'groups' )
 									:
 									''
 								) .
 								'</p>' .
 								'<p>' .
-								'<strong>' . __( 'Example:', 'groups' ) . '</strong>' . 
+								'<strong>' . esc_html__( 'Example:', 'groups' ) . '</strong>' .
 								'</p>' .
-								__( 'Let\'s assume that you want to limit the visibility of a post to members of the <em>Premium</em> group.', 'groups' ) .
+								wp_kses(
+									__( 'Let\'s assume that you want to limit the visibility of a post to members of the <em>Premium</em> group.', 'groups' ),
+									array( 'em' => array() )
+								) .
 								'<p>' .
 								' ' .
 								'</p>' .
-								__( 'Choose or enter <em>Premium</em> in the <em>Read</em> field located in the <em>Groups</em> box and save or update the post (or hit Enter).', 'groups' ) .
+								wp_kses(
+									__( 'Choose or enter <em>Premium</em> in the <em>Read</em> field located in the <em>Groups</em> box and save or update the post (or hit Enter).', 'groups' ),
+									array( 'em' => array() )
+								) .
 								'<p>' .
 								( current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
 									'<p>' .
-									__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it.', 'groups' ) .
+									esc_html__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it.', 'groups' ) .
 									'</p>'
 									:
 									''
@@ -272,7 +281,7 @@ class Groups_Access_Meta_Boxes {
 	 * At WordPress 3.6.1, this is the only way we can achieve that, because
 	 * the save_post action is not invoked if the post content is considered
 	 * empty.
-	 * 
+	 *
 	 * @param boolean $maybe_empty
 	 * @param array $postarr
 	 * @return boolean
@@ -294,7 +303,7 @@ class Groups_Access_Meta_Boxes {
 
 	/**
 	 * Save the group access restriction.
-	 * 
+	 *
 	 * @param int $post_id
 	 * @param mixed $post post data (not used here)
 	 */
@@ -398,7 +407,7 @@ class Groups_Access_Meta_Boxes {
 
 	/**
 	 * Render groups box for attachment post type (Media).
-	 * 
+	 *
 	 * @param array $form_fields
 	 * @param object $post
 	 * @return array
@@ -490,7 +499,7 @@ class Groups_Access_Meta_Boxes {
 	/**
 	 * Save groups for attachment post type (Media).
 	 * When multiple attachments are saved, this is called once for each.
-	 * 
+	 *
 	 * @param array $post post data
 	 * @param array $attachment attachment field data
 	 * @return array
@@ -545,7 +554,7 @@ class Groups_Access_Meta_Boxes {
 	/**
 	 * Returns true if the user can restrict access to posts. The current user is
 	 * assumed by default unless a user ID is provided.
-	 * 
+	 *
 	 * @param int $user_id indicates the desired user, otherwise for the current user
 	 * @return boolean
 	 */
@@ -559,14 +568,14 @@ class Groups_Access_Meta_Boxes {
 
 	/**
 	 * Returns the group IDs of the groups that the user can use to restrict access.
-	 * 
+	 *
 	 * If the user can GROUPS_RESTRICT_ACCESS, the following group IDs are returned:
 	 * - If the user can GROUPS_ADMINISTER_GROUPS, this will return the IDs of all groups.
 	 * - Otherwise it will return the IDs of all groups that the user belongs to, directly
 	 * or indirectly by group inheritance.
-	 * 
+	 *
 	 * If the user can not GROUPS_RESTRICT_ACCESS, an empty array is returned.
-	 * 
+	 *
 	 * @param int $user_id if provided, retrieve results for the user indicated by user ID, otherwise for the current user
 	 * @return array of int with the group IDs
 	 */
@@ -597,5 +606,5 @@ class Groups_Access_Meta_Boxes {
 		require_once( GROUPS_LEGACY_LIB . '/access/class-groups-access-meta-boxes-legacy.php' );
 		return Groups_Access_Meta_Boxes_Legacy::get_valid_read_caps_for_user( $user_id );
 	}
-} 
+}
 Groups_Access_Meta_Boxes::init();
