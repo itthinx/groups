@@ -1,0 +1,47 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+ 	.groups-inspector__control {
+ 		width: 100%;
+
+ 		> div > div {
+ 			margin-top: 0px;
+ 		}
+ 	}
+
+  .wp-block-groups-groups-non-member {
+   border: 1px dashed #33333380;
+   border-radius: 2px;
+   padding: 0;
+   box-sizing: border-box;
+   margin: -1px;
+
+   &:before {
+     font-size: 1.618em;
+     content: '\2B58';
+     display: block;
+     position: absolute;
+     top: -1em;
+     left: -1em;
+     opacity: 0.5;
+   }
+  }
+
+  .wp-block-groups-groups-non-member__inner-block {
+    padding-left: 5px;
+  }
+
+  .wp-block-groups-groups-non-member__selected {
+   border: none;
+   padding: unset;
+   box-sizing: unset;
+   margin: unset;
+
+   &:before {
+      content: '';
+   }
+  }

@@ -1,0 +1,88 @@
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+.groups-inspector__control {
+  width: 100%; }
+  .groups-inspector__control > div > div {
+    margin-top: 0px; }
+
+.wp-block-groups-groups-member {
+  border: 1px dashed #33333380;
+  border-radius: 2px;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: -1px; }
+  .wp-block-groups-groups-member:before {
+    font-size: 1.618em;
+    content: '\2A00';
+    display: block;
+    position: absolute;
+    top: -1em;
+    left: -1em;
+    opacity: 0.5; }
+
+.wp-block-groups-groups-member__inner-block {
+  padding-left: 5px; }
+
+.wp-block-groups-groups-member__selected {
+  border: none;
+  padding: unset;
+  -webkit-box-sizing: unset;
+          box-sizing: unset;
+  margin: unset; }
+  .wp-block-groups-groups-member__selected:before {
+    content: ''; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+.groups-inspector__control {
+  width: 100%; }
+  .groups-inspector__control > div > div {
+    margin-top: 0px; }
+
+.wp-block-groups-groups-non-member {
+  border: 1px dashed #33333380;
+  border-radius: 2px;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: -1px; }
+  .wp-block-groups-groups-non-member:before {
+    font-size: 1.618em;
+    content: '\2B58';
+    display: block;
+    position: absolute;
+    top: -1em;
+    left: -1em;
+    opacity: 0.5; }
+
+.wp-block-groups-groups-non-member__inner-block {
+  padding-left: 5px; }
+
+.wp-block-groups-groups-non-member__selected {
+  border: none;
+  padding: unset;
+  -webkit-box-sizing: unset;
+          box-sizing: unset;
+  margin: unset; }
+  .wp-block-groups-groups-non-member__selected:before {
+    content: ''; }
