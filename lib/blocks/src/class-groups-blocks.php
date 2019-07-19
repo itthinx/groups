@@ -15,20 +15,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once GROUPS_ACCESS_LIB . '/class-groups-access-meta-boxes.php';
 
-class Groups_Blocks extends Groups_Access_Shortcodes {
+class Groups_Blocks {
 
 
 	public static function init() {
-		add_action(	'init', array( __CLASS__, 'groups_blocks_block_init',	)	);
-		add_action( 'rest_api_init', array( __CLASS__, 'groups_rest', ) );
-		add_filter(	'block_categories',	array( __CLASS__, 'groups_block_categories', ),	10,	2	);
+		add_action( 'init', array( __CLASS__, 'groups_blocks_block_init' ) );
+		add_action( 'rest_api_init', array( __CLASS__, 'groups_rest' ) );
+		add_filter( 'block_categories', array( __CLASS__, 'groups_block_categories' ), 10, 2 );
 	}
 
 	// Create the REST API endpoints.
 	public static function groups_rest() {
 		register_rest_route(
 			// namespace - TODO version portion, change when merging to Groups plugin.
-			'groups/groups-shortcodes',
+			'groups/groups-blocks',
 			// resource path
 			'/groups',
 			array(
@@ -79,7 +79,6 @@ class Groups_Blocks extends Groups_Access_Shortcodes {
 				array(
 					'slug'  => 'groups',
 					'title' => 'Groups',
-					'icon'  => 'lock',
 				),
 			)
 		);
@@ -93,7 +92,7 @@ class Groups_Blocks extends Groups_Access_Shortcodes {
 		}
 		// Scripts.
 		wp_register_script(
-			'groups_shortcodes-block-js', // Handle.
+			'groups_blocks-block-js', // Handle.
 			plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ),
 			array(
 				'wp-blocks',
@@ -102,43 +101,35 @@ class Groups_Blocks extends Groups_Access_Shortcodes {
 				'wp-editor',
 			)
 		);
-		// Localize - used for category icon path storage.
-		wp_localize_script(
-			'groups_shortcodes-block-js',
-			'groups_shortcodes_block',
-			array(
-				'icon' => plugins_url( '/src/utils/img/groups-20x20.png', dirname( __FILE__ ) ),
-			)
-		);
 
 		// Frontend Styles.
 		wp_register_style(
-			'groups_shortcodes-style-css', // Handle.
+			'groups_blocks-style-css', // Handle.
 			plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), // Block style CSS.
 			array() // Dependency to include the CSS after it.
 		);
 		// Editor Styles.
 		wp_register_style(
-			'groups_shortcodes-block-editor-css', // Handle.
+			'groups_blocks-block-editor-css', // Handle.
 			plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
 			array( 'wp-edit-blocks' ) // Dependency to include the CSS after it.
 		);
 		register_block_type(
 			'groups/groups-member',
 			array(
-				'editor_script'   => 'groups_shortcodes-block-js',
-				'editor_style'    => 'groups_shortcodes-block-editor-css',
-				'style'           => 'groups_shortcodes-style-css',
-				'render_callback' => array(	__CLASS__, 'groups_member_render_content', ),
+				'editor_script'   => 'groups_blocks-block-js',
+				'editor_style'    => 'groups_blocks-block-editor-css',
+				'style'           => 'groups_blocks-style-css',
+				'render_callback' => array( __CLASS__, 'groups_member_render_content' ),
 			)
 		);
 		register_block_type(
 			'groups/groups-non-member',
 			array(
-				'editor_script'   => 'groups_shortcodes-block-js',
-				'editor_style'    => 'groups_shortcodes-block-editor-css',
-				'style'           => 'groups_shortcodes-style-css',
-				'render_callback' => array(	__CLASS__, 'groups_non_member_render_content', ),
+				'editor_script'   => 'groups_blocks-block-js',
+				'editor_style'    => 'groups_blocks-block-editor-css',
+				'style'           => 'groups_blocks-style-css',
+				'render_callback' => array( __CLASS__, 'groups_non_member_render_content' ),
 			)
 		);
 	}
