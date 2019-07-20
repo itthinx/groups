@@ -1,0 +1,9 @@
+node_modules/
+package.json
+package-lock.json
+src/common.scss
+blocks.style.build.css
+
+## Uncomment line below if you prefer to
+## keep compiled files out of version control
+# dist/

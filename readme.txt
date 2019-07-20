@@ -5,7 +5,7 @@ Tags: groups, access, access control, membership, memberships, member, members, 
 Requires at least: 4.6
 Tested up to: 5.2
 Requires PHP: 5.6.0
-Stable tag: 2.7.2
+Stable tag: 2.8.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -57,6 +57,9 @@ Fully supports custom post types, so that access to post types such as products 
   Shortcodes: [groups_member], [groups_non_member]
 - Control access to content by capabilities: show (or do not show) content to users who have certain capabilities -
   Shortcodes: [groups_can], [groups_can_not]
+- Blocks: The Groups Member block allows to restrict the visibility of its content to members of selected groups.
+  The Groups Non-Member block hides its content from members of chosen groups.
+  The blocks can be nested to provide multiple layers of access control to content.
 
 #### Easy user interface ####
 
@@ -190,8 +193,13 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 
 == Changelog ==
 
+= 2.8.0 =
+* Added the Groups Members block: A block whose content is only visible for members of selected groups.
+* Added the Groups Non-Members block: a block whose content is hidden for members of chosen groups.
+* Removed use of parenthesis with require_once and include_once.
+
 For the full changelog see [changelog.txt](https://github.com/itthinx/groups/blob/master/changelog.txt).
 
 == Upgrade Notice ==
 
-This release has been tested with the latest version of WordPress.
+This release has been tested with the latest version of WordPress and adds blocks that can be used to protect content.

@@ -30,10 +30,10 @@ define( 'GROUPS_ADMIN_GROUPS_NONCE_2', 'groups-nonce-2');
 define( 'GROUPS_ADMIN_GROUPS_ACTION_NONCE', 'groups-action-nonce');
 define( 'GROUPS_ADMIN_GROUPS_FILTER_NONCE', 'groups-filter-nonce' );
 
-require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
-require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-add.php');
-require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-edit.php');
-require_once( GROUPS_ADMIN_LIB . '/groups-admin-groups-remove.php');
+require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
+require_once GROUPS_ADMIN_LIB . '/groups-admin-groups-add.php';
+require_once GROUPS_ADMIN_LIB . '/groups-admin-groups-edit.php';
+require_once GROUPS_ADMIN_LIB . '/groups-admin-groups-remove.php';
 
 /**
  * Manage Groups: table of groups and add, edit, remove actions.
@@ -328,7 +328,7 @@ function groups_admin_groups() {
 		'</div>';
 
 	if ( $paginate ) {
-		require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
+		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
 		$pagination = new Groups_Pagination( $count, null, $row_count );
 		$output .= '<form id="posts-filter" method="post" action="">';
 		$output .= '<div>';
@@ -531,7 +531,7 @@ function groups_admin_groups() {
 	$output .= '</form>'; // #groups-action
 
 	if ( $paginate ) {
-	  require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
+		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
 		$pagination = new Groups_Pagination($count, null, $row_count);
 		$output .= '<div class="tablenav bottom">';
 		$output .= $pagination->pagination( 'bottom' );

@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2019-05-08 21:00+0200\n"
+        "POT-Creation-Date: 2019-07-20 22:16+0200\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,10 +212,10 @@ msgid   "Another improvement is better filtering by groups and a reduced "
         "footprint on the Users admin screen."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:214
-#: lib/access/class-groups-access-meta-boxes.php:215
-#: lib/access/class-groups-access-meta-boxes.php:448
-#: lib/access/class-groups-access-meta-boxes.php:449
+#: lib/access/class-groups-access-meta-boxes.php:228
+#: lib/access/class-groups-access-meta-boxes.php:229
+#: lib/access/class-groups-access-meta-boxes.php:462
+#: lib/access/class-groups-access-meta-boxes.php:463
 msgid   "Anyone &hellip;"
 msgstr  ""
 
@@ -336,7 +336,7 @@ msgid   "Choose one or more capabilities to restrict access. Groups that "
         "the fly."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:141
+#: lib/access/class-groups-access-meta-boxes.php:153
 msgid   "Choose or enter <em>Premium</em> in the <em>Read</em> field located "
         "in the <em>Groups</em> box and save or update the post (or hit "
         "Enter)."
@@ -446,7 +446,7 @@ msgid   "Enter <em>Premium</em> in the quick-create field located in the "
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:135
-#: lib/access/class-groups-access-meta-boxes.php:135
+#: lib/access/class-groups-access-meta-boxes.php:143
 msgid   "Example:"
 msgstr  ""
 
@@ -516,7 +516,7 @@ msgstr  ""
 msgid   "Group Name : %s"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:476
+#: lib/access/class-groups-access-meta-boxes.php:490
 msgctxt "Attachment field label"
 msgid   "Groups"
 msgstr  ""
@@ -551,12 +551,12 @@ msgctxt "Groups section heading (user profile)"
 msgid   "Groups"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:120
+#: lib/access/class-groups-access-meta-boxes.php:125
 msgctxt "Help heading"
 msgid   "Groups"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:117
+#: lib/access/class-groups-access-meta-boxes.php:122
 msgctxt "Help tab title"
 msgid   "Groups"
 msgstr  ""
@@ -571,7 +571,7 @@ msgctxt "Help title"
 msgid   "Groups"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:103
+#: lib/access/class-groups-access-meta-boxes.php:108
 msgctxt "Meta box title"
 msgid   "Groups"
 msgstr  ""
@@ -615,6 +615,14 @@ msgstr  ""
 msgid   "Groups Capabilities"
 msgstr  ""
 
+#: lib/blocks/src/blocks/groups-member/block.js:173
+msgid   "Groups Member Block"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-non-member/block.js:133
+msgid   "Groups Non-member Block"
+msgstr  ""
+
 #: lib/admin/groups-admin-options.php:120
 msgid   "Groups Options"
 msgstr  ""
@@ -634,6 +642,10 @@ msgstr  ""
 #: lib/core/class-groups-help.php:92
 msgid   "Here you can <strong>add</strong>, <strong>edit</strong> and "
         "<strong>remove</strong> groups."
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-non-member/block.js:134
+msgid   "Hide content from group members"
 msgstr  ""
 
 #: lib/admin/class-groups-admin-notice.php:138
@@ -671,7 +683,7 @@ msgstr  ""
 msgid   "Improved User Interface"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:145
+#: lib/access/class-groups-access-meta-boxes.php:159
 msgid   "In the same field, you can create a new group and restrict access. "
         "Group names are case-sensitive. In order to be able to use the new "
         "group, your user account will be assigned to it."
@@ -710,9 +722,14 @@ msgid   "Legacy Settings"
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:137
-#: lib/access/class-groups-access-meta-boxes.php:137
+#: lib/access/class-groups-access-meta-boxes.php:146
 msgid   "Let's assume that you want to limit the visibility of a post to "
         "members of the <em>Premium</em> group."
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:240
+#: lib/blocks/src/blocks/groups-non-member/block.js:177
+msgid   "Loading..."
 msgstr  ""
 
 #: lib/views/class-groups-shortcodes.php:121
@@ -724,7 +741,7 @@ msgid   "Many thanks for using <strong>Groups</strong>!"
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:503
-#: lib/access/class-groups-access-meta-boxes.php:416
+#: lib/access/class-groups-access-meta-boxes.php:430
 msgid   "Media"
 msgstr  ""
 
@@ -793,7 +810,7 @@ msgid   "Note that you must be a member of a group that has such a capability "
         "assigned."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:129
+#: lib/access/class-groups-access-meta-boxes.php:137
 msgid   "Note that you must be a member of a group to use it to restrict "
         "access."
 msgstr  ""
@@ -895,14 +912,14 @@ msgid   "Please refer to the <a target=\"_blank\" href=\"http://docs.itthinx."
         "switch to and use the new access restrictions."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:472
+#: lib/access/class-groups-access-meta-boxes.php:486
 #, php-format
 msgid   "Please use <a href=\"%s\" target=\"_blank\">Groups File Access</a> "
         "for files that require complete protection."
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:189
-#: lib/access/class-groups-access-meta-boxes.php:171
+#: lib/access/class-groups-access-meta-boxes.php:185
 msgid   "Post"
 msgstr  ""
 
@@ -923,8 +940,8 @@ msgstr  ""
 msgid   "Quick-create group &amp; capability"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:208
-#: lib/access/class-groups-access-meta-boxes.php:418
+#: lib/access/class-groups-access-meta-boxes.php:222
+#: lib/access/class-groups-access-meta-boxes.php:432
 msgid   "Read"
 msgstr  ""
 
@@ -1000,12 +1017,12 @@ msgstr  ""
 msgid   "Restrict Access"
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:234
+#: lib/access/class-groups-access-meta-boxes.php:248
 #, php-format
 msgid   "Restricts the visibility of this %s to members of the chosen groups."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:466
+#: lib/access/class-groups-access-meta-boxes.php:480
 msgid   "Restricts the visibility of this entry to members of the chosen "
         "groups."
 msgstr  ""
@@ -1029,6 +1046,10 @@ msgstr  ""
 
 #: lib/admin/groups-admin-options.php:220
 msgid   "Show access restrictions for these post types."
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:174
+msgid   "Show content for group members"
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:277
@@ -1119,7 +1140,7 @@ msgstr  ""
 msgid   "The <em>Name</em> must not be empty."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:470
+#: lib/access/class-groups-access-meta-boxes.php:484
 msgid   "The attachment page is restricted to authorized users, but due to "
         "technical limitations, the file can still be accessed directly via "
         "its URL."
@@ -1246,7 +1267,7 @@ msgid   "Use the <em>Access restrictions</em> box to limit the visibility of "
         "posts, pages and other post types."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:123
+#: lib/access/class-groups-access-meta-boxes.php:129
 msgid   "Use the <em>Groups</em> box to limit the visibility of posts, pages "
         "and other post types."
 msgstr  ""
@@ -1351,19 +1372,19 @@ msgid   "You can create a new group and capability here. The capability will "
         "will be assigned to the group."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:201
-#: lib/access/class-groups-access-meta-boxes.php:451
+#: lib/access/class-groups-access-meta-boxes.php:215
+#: lib/access/class-groups-access-meta-boxes.php:465
 msgid   "You can create a new group by indicating the group's name."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:195
+#: lib/access/class-groups-access-meta-boxes.php:209
 #, php-format
 msgid   "You can restrict the visibility of this %1$s to group members. "
         "Choose one or more groups that are allowed to read this %2$s. If no "
         "groups are chosen, the %3$s is visible to anyone."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:450
+#: lib/access/class-groups-access-meta-boxes.php:464
 msgid   "You can restrict the visibility to group members. Choose one or more "
         "groups to restrict access. If no groups are chosen, this entry is "
         "visible to anyone."
@@ -1374,12 +1395,13 @@ msgid   "You can select one or more capabilities that are enabled for access "
         "restriction."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:126
+#: lib/access/class-groups-access-meta-boxes.php:134
 msgid   "You can select one or more groups to restrict access to its members."
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:290
-#: lib/access/class-groups-access-meta-boxes.php:241
+#: lib/access/class-groups-access-meta-boxes.php:255
+#: lib/blocks/src/class-groups-blocks.php:79
 msgid   "You cannot set any access restrictions."
 msgstr  ""
 
@@ -1398,11 +1420,26 @@ msgid   "You must be in a group that has at least one capability enabled to "
         "enforce read access."
 msgstr  ""
 
-#: lib/access/class-groups-access-meta-boxes.php:247
+#: lib/access/class-groups-access-meta-boxes.php:261
 msgid   "You need to have permission to set access restrictions."
 msgstr  ""
 
 #: lib/access/class-groups-post-access.php:511
 msgid   "You should use Groups_Post_Access_Legacy::create() to pass a "
         "capability restriction instead."
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:177
+#: lib/blocks/src/blocks/groups-non-member/block.js:137
+msgid   "access"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:177
+#: lib/blocks/src/blocks/groups-non-member/block.js:137
+msgid   "groups"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:177
+#: lib/blocks/src/blocks/groups-non-member/block.js:137
+msgid   "members"
 msgstr  ""

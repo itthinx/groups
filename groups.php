@@ -21,7 +21,7 @@
  * Plugin Name: Groups
  * Plugin URI: http://www.itthinx.com/plugins/groups
  * Description: Groups provides group-based user membership management, group-based capabilities and content access control.
- * Version: 2.7.2
+ * Version: 2.8.0
  * Author: itthinx
  * Author URI: http://www.itthinx.com
  * Donate-Link: http://www.itthinx.com
@@ -32,7 +32,7 @@
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'GROUPS_CORE_VERSION', '2.7.2' );
+define( 'GROUPS_CORE_VERSION', '2.8.0' );
 define( 'GROUPS_FILE', __FILE__ );
 if ( !defined( 'GROUPS_CORE_DIR' ) ) {
 	define( 'GROUPS_CORE_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -58,11 +58,14 @@ if ( !defined( 'GROUPS_WP_LIB' ) ) {
 if ( !defined( 'GROUPS_EXTRA_LIB' ) ) {
 	define( 'GROUPS_EXTRA_LIB', GROUPS_CORE_DIR . '/lib/extra' );
 }
+if ( !defined( 'GROUPS_BLOCKS_LIB' ) ) {
+	define( 'GROUPS_BLOCKS_LIB', GROUPS_CORE_DIR . '/lib/blocks' );
+}
 if ( !defined( 'GROUPS_LEGACY_LIB' ) ) {
 	define( 'GROUPS_LEGACY_LIB', GROUPS_CORE_DIR . '/legacy' );
 }
 if ( !defined( 'GROUPS_CORE_URL' ) ) {
 	define( 'GROUPS_CORE_URL', plugins_url( 'groups' ) );
 }
-require_once( GROUPS_CORE_LIB . '/constants.php' );
-require_once( GROUPS_CORE_LIB . '/wp-init.php');
+require_once GROUPS_CORE_LIB . '/constants.php';
+require_once GROUPS_CORE_LIB . '/wp-init.php';

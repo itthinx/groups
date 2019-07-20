@@ -603,7 +603,7 @@ class Groups_Access_Meta_Boxes {
 	 * @return array of valid read capabilities for the current or given user
 	 */
 	public static function get_valid_read_caps_for_user( $user_id = null ) {
-		require_once( GROUPS_LEGACY_LIB . '/access/class-groups-access-meta-boxes-legacy.php' );
+		require_once GROUPS_LEGACY_LIB . '/access/class-groups-access-meta-boxes-legacy.php';
 		return Groups_Access_Meta_Boxes_Legacy::get_valid_read_caps_for_user( $user_id );
 	}
 }

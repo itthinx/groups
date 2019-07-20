@@ -36,7 +36,7 @@ class Groups_Help {
 		// @todo temporary fix for GFA <= 1.0.11 on localized installations - can be removed when all are updated
 		if ( defined( 'GFA_VIEWS_LIB' ) ) {
 			if ( file_exists( GFA_VIEWS_LIB . '/class-gfa-help.php' ) ) {
-				include_once( GFA_VIEWS_LIB . '/class-gfa-help.php' );
+				include_once GFA_VIEWS_LIB . '/class-gfa-help.php';
 			}
 		}
 
