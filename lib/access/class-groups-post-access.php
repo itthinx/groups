@@ -637,7 +637,7 @@ class Groups_Post_Access {
 			'2.0.0'
 		);
 
-		require_once( GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php' );
+		require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
 		return Groups_Post_Access_Legacy::get_read_post_capabilities( $post_id );
 	}
 

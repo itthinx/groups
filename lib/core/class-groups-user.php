@@ -23,8 +23,8 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once( GROUPS_CORE_LIB . '/interface-i-capable.php' );
-require_once( GROUPS_CORE_LIB . '/class-groups-capability.php' );
+require_once GROUPS_CORE_LIB . '/interface-i-capable.php';
+require_once GROUPS_CORE_LIB . '/class-groups-capability.php';
 
 /**
  * User OPM.

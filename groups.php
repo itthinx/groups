@@ -67,5 +67,5 @@ if ( !defined( 'GROUPS_LEGACY_LIB' ) ) {
 if ( !defined( 'GROUPS_CORE_URL' ) ) {
 	define( 'GROUPS_CORE_URL', plugins_url( 'groups' ) );
 }
-require_once( GROUPS_CORE_LIB . '/constants.php' );
-require_once( GROUPS_CORE_LIB . '/wp-init.php');
+require_once GROUPS_CORE_LIB . '/constants.php';
+require_once GROUPS_CORE_LIB . '/wp-init.php';

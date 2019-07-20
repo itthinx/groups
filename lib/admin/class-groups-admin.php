@@ -147,10 +147,10 @@ class Groups_Admin {
 	 */
 	public static function admin_menu() {
 
-		include_once( GROUPS_ADMIN_LIB . '/groups-admin-groups.php');
-		include_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities.php');
-		include_once( GROUPS_ADMIN_LIB . '/groups-admin-options.php');
-		include_once( GROUPS_ADMIN_LIB . '/groups-admin-add-ons.php');
+		include_once GROUPS_ADMIN_LIB . '/groups-admin-groups.php';
+		include_once GROUPS_ADMIN_LIB . '/groups-admin-capabilities.php';
+		include_once GROUPS_ADMIN_LIB . '/groups-admin-options.php';
+		include_once GROUPS_ADMIN_LIB . '/groups-admin-add-ons.php';
 
 		$pages = array();
 
@@ -175,7 +175,7 @@ class Groups_Admin {
 		}
 
 		if ( $show_tree_view ) {
-			include_once( GROUPS_ADMIN_LIB . '/groups-admin-tree-view.php');
+			include_once GROUPS_ADMIN_LIB . '/groups-admin-tree-view.php';
 			$page = add_submenu_page(
 				'groups-admin',
 				__( 'Tree', 'groups' ),
@@ -236,7 +236,7 @@ class Groups_Admin {
 	 */
 	public static function network_admin_menu() {
 
-		include_once( GROUPS_ADMIN_LIB . '/groups-admin-options.php');
+		include_once GROUPS_ADMIN_LIB . '/groups-admin-options.php';
 
 		$pages = array();
 

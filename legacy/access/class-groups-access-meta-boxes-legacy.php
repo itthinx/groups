@@ -23,7 +23,7 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once( GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php' );
+require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
 
 /**
  * Adds meta boxes to edit screens.

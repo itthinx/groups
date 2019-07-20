@@ -279,7 +279,7 @@ class Groups_Controller {
 			// For the record ... (and https://core.trac.wordpress.org/ticket/12773 should not be closed)
 			// dbDelta() fails to handle queries "CREATE TABLE IF NOT EXISTS ..."
 			// (a regex results in "IF" used as array index holding only last query to create table).
-			//require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			//require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			//dbDelta( $queries );
 			foreach( $queries as $query ) {
 				$wpdb->query( $query );

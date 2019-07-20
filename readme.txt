@@ -196,6 +196,7 @@ See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pa
 = 2.8.0 =
 * Added the Groups Members block: A block whose content is only visible for members of selected groups.
 * Added the Groups Non-Members block: a block whose content is hidden for members of chosen groups.
+* Removed use of parenthesis with require_once and include_once.
 
 For the full changelog see [changelog.txt](https://github.com/itthinx/groups/blob/master/changelog.txt).
 

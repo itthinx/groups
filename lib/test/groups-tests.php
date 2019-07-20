@@ -308,7 +308,7 @@ if ( defined( 'ABSPATH' ) ) {
 		assert( 'Groups_User_Group::delete($foo_user_id, $banana_group_id) === false' );
 
 		// delete test users
-		include_once( ABSPATH . '/wp-admin/includes/user.php' );
+		include_once ABSPATH . '/wp-admin/includes/user.php';
 		if ( $foo_user_id && !( $foo_user_id instanceof WP_Error ) ) {
 			assert( 'wp_delete_user( $foo_user_id ) === true' );
 		}

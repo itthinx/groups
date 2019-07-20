@@ -48,27 +48,27 @@ if ( !function_exists( 'is_user_member_of_blog' ) ) {
 require_once GROUPS_CORE_LIB . '/class-groups-cache.php';
 require_once GROUPS_CORE_LIB . '/class-groups-cache-object.php';
 
-require_once( GROUPS_CORE_LIB . '/class-groups-utility.php' );
+require_once GROUPS_CORE_LIB . '/class-groups-utility.php';
 
 // options
-require_once( GROUPS_CORE_LIB . '/class-groups-options.php' );
+require_once GROUPS_CORE_LIB . '/class-groups-options.php';
 
 // plugin control: activation, deactivation, ...
-require_once( GROUPS_CORE_LIB . '/class-groups-controller.php' );
+require_once GROUPS_CORE_LIB . '/class-groups-controller.php';
 
 // legacy enabled?
 $groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS_LEGACY_ENABLE_DEFAULT );
 
 // admin
 if ( is_admin() ) {
-	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin.php' );
-	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-welcome.php' );
+	require_once GROUPS_ADMIN_LIB . '/class-groups-admin.php';
+	require_once GROUPS_ADMIN_LIB . '/class-groups-admin-welcome.php';
 	if ( Groups_Options::get_option( GROUPS_SHOW_IN_USER_PROFILE, GROUPS_SHOW_IN_USER_PROFILE_DEFAULT ) ) {
-		require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-user-profile.php' );
+		require_once GROUPS_ADMIN_LIB . '/class-groups-admin-user-profile.php';
 	}
-	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-users.php' );
-	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-posts.php' );
-	require_once( GROUPS_ADMIN_LIB . '/class-groups-admin-post-columns.php' );
+	require_once GROUPS_ADMIN_LIB . '/class-groups-admin-users.php';
+	require_once GROUPS_ADMIN_LIB . '/class-groups-admin-posts.php';
+	require_once GROUPS_ADMIN_LIB . '/class-groups-admin-post-columns.php';
 	if ( $groups_legacy_enable ) {
 		require_once GROUPS_LEGACY_LIB . '/admin/class-groups-admin-posts-legacy.php';
 		require_once GROUPS_LEGACY_LIB . '/admin/class-groups-admin-post-columns-legacy.php';
@@ -77,50 +77,50 @@ if ( is_admin() ) {
 
 // help
 if ( is_admin() ) {
-	require_once( GROUPS_CORE_LIB . '/class-groups-help.php' );
+	require_once GROUPS_CORE_LIB . '/class-groups-help.php';
 }
 
-require_once( GROUPS_CORE_LIB . '/class-groups-capability.php' );
-require_once( GROUPS_CORE_LIB . '/class-groups-group.php' );
-require_once( GROUPS_CORE_LIB . '/class-groups-group-capability.php' );
-require_once( GROUPS_CORE_LIB . '/class-groups-user.php' );
-require_once( GROUPS_CORE_LIB . '/class-groups-user-capability.php' );
-require_once( GROUPS_CORE_LIB . '/class-groups-user-group.php' );
+require_once GROUPS_CORE_LIB . '/class-groups-capability.php';
+require_once GROUPS_CORE_LIB . '/class-groups-group.php';
+require_once GROUPS_CORE_LIB . '/class-groups-group-capability.php';
+require_once GROUPS_CORE_LIB . '/class-groups-user.php';
+require_once GROUPS_CORE_LIB . '/class-groups-user-capability.php';
+require_once GROUPS_CORE_LIB . '/class-groups-user-group.php';
 
 /**
  * Load auto :
  */
 
-require_once( GROUPS_AUTO_LIB . '/class-groups-registered.php' );
+require_once GROUPS_AUTO_LIB . '/class-groups-registered.php';
 
 /**
  * Load access :
  */
 
-require_once( GROUPS_ACCESS_LIB . '/class-groups-post-access.php' );
+require_once GROUPS_ACCESS_LIB . '/class-groups-post-access.php';
 if ( $groups_legacy_enable ) {
 	require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
 }
 require_once GROUPS_ACCESS_LIB . '/class-groups-comment-access.php';
 
 if ( is_admin() ) {
-	require_once( GROUPS_ACCESS_LIB . '/class-groups-access-meta-boxes.php' );
+	require_once GROUPS_ACCESS_LIB . '/class-groups-access-meta-boxes.php';
 	if ( $groups_legacy_enable ) {
-		require_once( GROUPS_LEGACY_LIB . '/access/class-groups-access-meta-boxes-legacy.php' );
+		require_once GROUPS_LEGACY_LIB . '/access/class-groups-access-meta-boxes-legacy.php';
 	}
 }
-require_once( GROUPS_ACCESS_LIB . '/class-groups-access-shortcodes.php' );
-require_once( GROUPS_VIEWS_LIB . '/class-groups-shortcodes.php' );
+require_once GROUPS_ACCESS_LIB . '/class-groups-access-shortcodes.php';
+require_once GROUPS_VIEWS_LIB . '/class-groups-shortcodes.php';
 
 /**
  * Load wp :
  */
-require_once( GROUPS_WP_LIB . '/class-groups-wordpress.php' );
+require_once GROUPS_WP_LIB . '/class-groups-wordpress.php';
 
 /**
  * Load blocks :
  */
-require_once( GROUPS_BLOCKS_LIB . '/src/class-groups-blocks.php' );
+require_once GROUPS_BLOCKS_LIB . '/src/class-groups-blocks.php';
 
 /**
  * Extras ...
@@ -128,7 +128,7 @@ require_once( GROUPS_BLOCKS_LIB . '/src/class-groups-blocks.php' );
 require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
 
 // widgets
-// include_once( GROUPS_CORE_LIB . '/class-groups-widgets.php' );
+// include_once GROUPS_CORE_LIB . '/class-groups-widgets.php';
 // add_action( 'widgets_init', 'groups_widgets_init' );
 
 /**

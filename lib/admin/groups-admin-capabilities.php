@@ -29,10 +29,10 @@ define( 'GROUPS_ADMIN_CAPABILITIES_NONCE_2', 'groups-cap-nonce-2');
 define( 'GROUPS_ADMIN_CAPABILITIES_ACTION_NONCE', 'groups-cap-action-nonce');
 define( 'GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE', 'groups-cap-filter-nonce' );
 
-require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
-require_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities-add.php');
-require_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities-edit.php');
-require_once( GROUPS_ADMIN_LIB . '/groups-admin-capabilities-remove.php');
+require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
+require_once GROUPS_ADMIN_LIB . '/groups-admin-capabilities-add.php';
+require_once GROUPS_ADMIN_LIB . '/groups-admin-capabilities-edit.php';
+require_once GROUPS_ADMIN_LIB . '/groups-admin-capabilities-remove.php';
 
 /**
  * Manage capabilities: table of capabilities and add, edit, remove actions.
@@ -339,7 +339,7 @@ function groups_admin_capabilities() {
 		'</div>';
 
 	if ( $paginate ) {
-		require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
+		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
 		$pagination = new Groups_Pagination( $count, null, $row_count );
 		$output .= '<form id="posts-filter" method="post" action="">';
 		$output .= '<div>';
@@ -492,7 +492,7 @@ function groups_admin_capabilities() {
 	 $output .= '</form>'; // #groups-action
 
 	if ( $paginate ) {
-	  require_once( GROUPS_CORE_LIB . '/class-groups-pagination.php' );
+	  require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
 		$pagination = new Groups_Pagination($count, null, $row_count);
 		$output .= '<div class="tablenav bottom">';
 		$output .= $pagination->pagination( 'bottom' );
