@@ -57,7 +57,9 @@ Fully supports custom post types, so that access to post types such as products 
   Shortcodes: [groups_member], [groups_non_member]
 - Control access to content by capabilities: show (or do not show) content to users who have certain capabilities -
   Shortcodes: [groups_can], [groups_can_not]
-- Blocks: The Groups Member block allows to restrict the visibility of its content to members of selected groups. The Groups Non-Member block hides its content from members of chosen groups.
+- Blocks: The Groups Member block allows to restrict the visibility of its content to members of selected groups.
+  The Groups Non-Member block hides its content from members of chosen groups.
+  The blocks can be nested to provide multiple layers of access control to content.
 
 #### Easy user interface ####
 
