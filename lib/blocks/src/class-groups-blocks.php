@@ -110,20 +110,28 @@ class Groups_Blocks {
 				'wp-i18n',
 				'wp-element',
 				'wp-editor',
-			)
+			),
+			GROUPS_CORE_VERSION
+		);
+
+		wp_set_script_translations(
+			'groups_blocks-block-js',
+			'groups'
 		);
 
 		// Frontend Styles.
 		wp_register_style(
 			'groups_blocks-style-css', // Handle.
 			plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), // Block style CSS.
-			array() // Dependency to include the CSS after it.
+			array(), // Dependency to include the CSS after it.
+			GROUPS_CORE_VERSION
 		);
 		// Editor Styles.
 		wp_register_style(
 			'groups_blocks-block-editor-css', // Handle.
 			plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
-			array( 'wp-edit-blocks' ) // Dependency to include the CSS after it.
+			array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
+			GROUPS_CORE_VERSION
 		);
 		register_block_type(
 			'groups/groups-member',
