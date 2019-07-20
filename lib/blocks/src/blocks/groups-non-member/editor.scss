@@ -44,7 +44,7 @@
    }
   }
 
-  body.rtl .wp-block-groups-groups-member::before {
+  body.rtl .wp-block-groups-groups-non-member::before {
     left: 4px;
     right: unset;
   }
