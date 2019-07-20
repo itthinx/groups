@@ -1,8 +1,8 @@
 == Groups by itthinx - changelog.txt
 
 = 2.8.0 =
-* Added blocks for the [groups_member] and [groups_non_member] shortcodes.
-
+* Added the Groups Members block: A block whose content is only visible for members of selected groups.
+* Added the Groups Non-Members block: a block whose content is hidden for members of chosen groups.
 
 = 2.7.2 =
 * Fixes an issue with page builders and front-end editing.
