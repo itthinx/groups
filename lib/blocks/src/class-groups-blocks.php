@@ -104,7 +104,7 @@ class Groups_Blocks {
 		// Scripts.
 		wp_register_script(
 			'groups_blocks-block-js', // Handle.
-			plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ),
+			GROUPS_PLUGIN_URL . 'lib/blocks/dist/blocks.build.js',
 			array(
 				'wp-blocks',
 				'wp-i18n',
@@ -119,17 +119,18 @@ class Groups_Blocks {
 			'groups'
 		);
 
-		// Frontend Styles.
-		wp_register_style(
-			'groups_blocks-style-css', // Handle.
-			plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), // Block style CSS.
-			array(), // Dependency to include the CSS after it.
-			GROUPS_CORE_VERSION
-		);
+		// Frontend Styles - currently none required.
+		// wp_register_style(
+		// 	'groups_blocks-style-css', // Handle.
+		//	GROUPS_PLUGIN_URL . 'lib/blocks/dist/blocks.style.build.css',
+		//	array(), // Dependency to include the CSS after it.
+		//	GROUPS_CORE_VERSION
+		// );
+
 		// Editor Styles.
 		wp_register_style(
 			'groups_blocks-block-editor-css', // Handle.
-			plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
+			GROUPS_PLUGIN_URL . 'lib/blocks/dist/blocks.editor.build.css',
 			array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
 			GROUPS_CORE_VERSION
 		);
