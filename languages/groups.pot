@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2019-07-20 22:03+0200\n"
+        "POT-Creation-Date: 2019-07-20 22:16+0200\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -615,6 +615,14 @@ msgstr  ""
 msgid   "Groups Capabilities"
 msgstr  ""
 
+#: lib/blocks/src/blocks/groups-member/block.js:173
+msgid   "Groups Member Block"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-non-member/block.js:133
+msgid   "Groups Non-member Block"
+msgstr  ""
+
 #: lib/admin/groups-admin-options.php:120
 msgid   "Groups Options"
 msgstr  ""
@@ -634,6 +642,10 @@ msgstr  ""
 #: lib/core/class-groups-help.php:92
 msgid   "Here you can <strong>add</strong>, <strong>edit</strong> and "
         "<strong>remove</strong> groups."
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-non-member/block.js:134
+msgid   "Hide content from group members"
 msgstr  ""
 
 #: lib/admin/class-groups-admin-notice.php:138
@@ -713,6 +725,11 @@ msgstr  ""
 #: lib/access/class-groups-access-meta-boxes.php:146
 msgid   "Let's assume that you want to limit the visibility of a post to "
         "members of the <em>Premium</em> group."
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:240
+#: lib/blocks/src/blocks/groups-non-member/block.js:177
+msgid   "Loading..."
 msgstr  ""
 
 #: lib/views/class-groups-shortcodes.php:121
@@ -1029,6 +1046,10 @@ msgstr  ""
 
 #: lib/admin/groups-admin-options.php:220
 msgid   "Show access restrictions for these post types."
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:174
+msgid   "Show content for group members"
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:277
@@ -1406,4 +1427,19 @@ msgstr  ""
 #: lib/access/class-groups-post-access.php:511
 msgid   "You should use Groups_Post_Access_Legacy::create() to pass a "
         "capability restriction instead."
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:177
+#: lib/blocks/src/blocks/groups-non-member/block.js:137
+msgid   "access"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:177
+#: lib/blocks/src/blocks/groups-non-member/block.js:137
+msgid   "groups"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:177
+#: lib/blocks/src/blocks/groups-non-member/block.js:137
+msgid   "members"
 msgstr  ""
