@@ -1,12 +1,23 @@
 <?php
-/**
- * Blocks Initializer
- *
- * Enqueue CSS/JS of all the blocks.
- *
- * @since   1.0.0
- * @package groups
- */
+ /**
+  * class-groups-blocks.php
+  *
+  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
+  *
+  * This code is released under the GNU General Public License.
+  * See COPYRIGHT.txt and LICENSE.txt.
+  *
+  * This code is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * This header and all notices must be kept intact.
+  *
+  * @author Denitsa Slavcheva
+  * @package groups
+  * @since groups 2.8.0
+  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
