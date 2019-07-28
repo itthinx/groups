@@ -299,13 +299,6 @@ function groups_admin_groups() {
 
 	$results = $wpdb->get_results( $query, OBJECT );
 
-	$column_display_names = array(
-		'group_id'     => __( 'ID', 'groups' ),
-		'name'         => __( 'Group', 'groups' ),
-		'description'  => __( 'Description', 'groups' ),
-		'capabilities' => __( 'Capabilities', 'groups' )
-	);
-
 	$output .= '<div class="groups-overview">';
 
 	$output .=
@@ -391,15 +384,33 @@ function groups_admin_groups() {
 	$output .= '<thead>';
 	$output .= '<tr>';
 
-	$output .= '<th id="cb" class="manage-column column-cb check-column" scope="col"><input type="checkbox"></th>';
+	$admin_columns = array(
+		'cb'     	   => array( 'html' => '<th id="cb" class="manage-column column-cb check-column" scope="col"><input type="checkbox"></th>' ),
+		'group_id'     => array( 'column_display_name' => __( 'ID', 'groups' ), 		  'sortable' => true ),
+		'name'         => array( 'column_display_name' => __( 'Group', 'groups' ), 		  'sortable' => true ),
+		'description'  => array( 'column_display_name' => __( 'Description', 'groups' ),  'sortable' => true ),
+		'capabilities' => array( 'column_display_name' => __( 'Capabilities', 'groups' ), 'sortable' => false ),
+	);
 
-	foreach ( $column_display_names as $key => $column_display_name ) {
+	$admin_columns = apply_filters( 'groups_admin_columns', $admin_columns );
+
+	foreach ( $admin_columns as $key => $column_display_name_args ) {
+		if( 'cb' === $key )
+		{
+			$output .= $column_display_name_args[ 'html' ];
+			continue;
+		}
+
+		$column_display_name = $column_display_name_args[ 'column_display_name' ];
+		$column_sortable     = array_key_exists( 'sortable', $column_display_name_args ) ? true == $column_display_name_args[ 'sortable' ] : false;
+
 		$options = array(
 			'orderby' => $key,
 			'order'   => $switch_order
 		);
 		$class = $key;
-		if ( !in_array( $key, array( 'capabilities' ) ) ) {
+
+		if ( $column_sortable ) {
 			if ( strcmp( $key, $orderby ) == 0 ) {
 				$lorder = strtolower( $order );
 				$class = "$key manage-column sorted $lorder";
@@ -415,6 +426,8 @@ function groups_admin_groups() {
 		} else {
 			$column_display_name = esc_html( $column_display_name );
 		}
+
+
 		$output .= sprintf(
 			'<th scope="col" class="%s">%s</th>',
 			esc_attr( $class ),
@@ -474,48 +487,77 @@ function groups_admin_groups() {
 
 			$output .= '<tr class="' . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
 
-			$output .= '<th class="check-column">';
-			$output .= '<input type="checkbox" value="' . esc_attr( $result->group_id ) . '" name="group_ids[]"/>';
-			$output .= '</th>';
+			foreach( $admin_columns as $key => $column_display_name_args )
+			{
+				$cell_html_tag = 'td';
+				$cell_html_classes = array();
+				$cell_html_contents = '';
+				switch( $key )
+				{
+					case 'cb':
+						$cell_html_tag = 'th';
+						$cell_html_classes = array( 'check-column' );
+						$cell_html_contents = '<input type="checkbox" value="' . esc_attr( $result->group_id ) . '" name="group_ids[]"/>';
+						break;
 
-			$output .= '<td class="group-id">';
-			$output .= $result->group_id;
-			$output .= '</td>';
-			$output .= '<td class="group-name">';
-			$output .= sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), stripslashes( wp_filter_nohtml_kses( $result->name ) ) );
-			$output .= $row_actions;
-			$output .= '</td>';
-			$output .= '<td class="group-description">';
-			$output .= stripslashes( wp_filter_nohtml_kses( $result->description ) );
-			$output .= '</td>';
+					case 'group_id':
+						$cell_html_classes = array( 'group-id' );
+						$cell_html_contents = $result->group_id;
+						break;
 
-			$output .= '<td class="capabilities">';
+					case 'name':
+						$cell_html_classes = array( 'group-name' );
+						$cell_html_contents .= sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), stripslashes( wp_filter_nohtml_kses( $result->name ) ) );
+						$cell_html_contents .= $row_actions;
+						break;
 
-			$group = new Groups_Group( $result->group_id );
-			$group_capabilities = $group->capabilities;
-			$group_capabilities_deep = $group->capabilities_deep;
-			usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
+					case 'description':
+						$cell_html_classes = array( 'group-description' );
+						$cell_html_contents = stripslashes( wp_filter_nohtml_kses( $result->description ) );
+						break;
 
-			if ( count( $group_capabilities_deep ) > 0 ) {
-				$output .= '<ul>';
-				foreach ( $group_capabilities_deep as $group_capability ) {
-					$output .= '<li>';
-					$class = '';
-					if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
-						$class = 'inherited';
-					}
-					$output .= sprintf( '<span class="%s">', $class );
-					if ( isset( $group_capability->capability ) && isset( $group_capability->capability->capability ) ) {
-						$output .= wp_filter_nohtml_kses( $group_capability->capability->capability );
-					}
-					$output .= '</span>';
-					$output .= '</li>';
+					case 'capabilities':
+						$cell_html_classes = array( 'capabilities' );
+
+						$group = new Groups_Group( $result->group_id );
+						$group_capabilities = $group->capabilities;
+						$group_capabilities_deep = $group->capabilities_deep;
+						usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
+
+						if ( count( $group_capabilities_deep ) > 0 ) {
+							$cell_html_contents .= '<ul>';
+							foreach ( $group_capabilities_deep as $group_capability ) {
+								$cell_html_contents .= '<li>';
+								$class = '';
+								if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
+									$class = 'inherited';
+								}
+								$cell_html_contents .= sprintf( '<span class="%s">', $class );
+								if ( isset( $group_capability->capability ) && isset( $group_capability->capability->capability ) ) {
+									$cell_html_contents .= wp_filter_nohtml_kses( $group_capability->capability->capability );
+								}
+								$cell_html_contents .= '</span>';
+								$cell_html_contents .= '</li>';
+							}
+							$cell_html_contents .= '</ul>';
+						} else {
+							$cell_html_contents .= __( 'This group has no capabilities.', 'groups' );
+						}
+						$cell_html_contents .= '</td>';
+						break;
 				}
-				$output .= '</ul>';
-			} else {
-				$output .= __( 'This group has no capabilities.', 'groups' );
+
+				$cell_html_tag 		= apply_filters( "groups_admin_columns_cell_html_tag_{$key}", 		$cell_html_tag,		 $result );
+				$cell_html_contents = apply_filters( "groups_admin_columns_cell_html_contents_{$key}", 	$cell_html_contents, $result );
+				$cell_html_classes  = apply_filters( "groups_admin_columns_cell_html_classes_{$key}", 	$cell_html_classes,  $result );
+
+				$output .= sprintf(
+									'<%1$s class="%2$s">%3$s</%1$s>',
+									esc_html( $cell_html_tag ),
+									implode( ' ', $cell_html_classes ),
+									$cell_html_contents
+								);
 			}
-			$output .= '</td>';
 
 			$output .= '</tr>';
 		}
