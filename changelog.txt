@@ -4,6 +4,7 @@
 * WordPress 5.3 compatible.
 * Added member counts displayed for each group under Groups > Groups.
 * Fixed issues with and added missing internal code documentation mainly related to undocumented types.
+* Guarded against errors in a utility function for comparison of capabilities when the comparison is made against non-objects.
 
 = 2.8.0 =
 * Added the Groups Members block: A block whose content is only visible for members of selected groups.
