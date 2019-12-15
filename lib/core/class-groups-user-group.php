@@ -29,7 +29,7 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_User_Group {
 
 	/**
-	 * @var persisted object
+	 * @var object persisted object
 	 */
 	var $user_group = null;
 
@@ -66,7 +66,8 @@ class Groups_User_Group {
 	 * - group_id
 	 * 
 	 * @param string $name property's name
-	 * @return property value, will return null if property does not exist
+	 *
+	 * @return mixed property value, will return null if property does not exist
 	 */
 	public function __get( $name ) {
 		$result = null;

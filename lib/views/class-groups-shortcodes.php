@@ -135,7 +135,8 @@ class Groups_Shortcodes {
 	 * 
 	 * @param array $atts attributes
 	 * @param string $content content to render
-	 * @return rendered information
+	 *
+	 * @return string rendered information
 	 */
 	public static function groups_group_info( $atts, $content = null ) {
 		global $wpdb;
@@ -209,7 +210,8 @@ class Groups_Shortcodes {
 	 * 
 	 * @param array $atts attributes
 	 * @param string $content not used
-	 * @return rendered groups for current user
+	 *
+	 * @return string rendered groups for current user
 	 */
 	public static function groups_user_groups( $atts, $content = null ) {
 		$output = '';
@@ -373,7 +375,8 @@ class Groups_Shortcodes {
 	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
-	 * @return rendered groups
+	 *
+	 * @return string rendered groups
 	 */
 	public static function groups_groups( $atts, $content = null ) {
 		global $wpdb;

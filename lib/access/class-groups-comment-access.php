@@ -117,6 +117,7 @@ class Groups_Comment_Access {
 	 *
 	 * @param array $pieces
 	 * @param WP_Comment_Query $comment_query
+	 *
 	 * @return array
 	 */
 	public static function comments_clauses( $pieces, $comment_query ) {
@@ -142,8 +143,9 @@ class Groups_Comment_Access {
 	/**
 	 * Adds conditions to $where to restrict comment access.
 	 *
-	 * @param unknown $where
-	 * @return unknown|string
+	 * @param string $where
+	 *
+	 * @return string
 	 */
 	private static function build_where( $where ) {
 
