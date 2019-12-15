@@ -431,6 +431,11 @@ function groups_admin_groups() {
 
 			$result = $results[$i];
 
+			/**
+			 * @var Groups_Group
+			 */
+			$group = new Groups_Group( $result->group_id );
+
 			// Construct the "edit" URL.
 			$edit_url = add_query_arg(
 				array(
@@ -449,6 +454,11 @@ function groups_admin_groups() {
 					'paged' => $paged
 				),
 				$current_url
+			);
+
+			$users_url = add_query_arg(
+				array( 'filter_group_ids[0]' => intval( $result->group_id ) ),
+				admin_url( 'users.php' )
 			);
 
 			// Construct row actions for this group.
@@ -482,7 +492,18 @@ function groups_admin_groups() {
 			$output .= $result->group_id;
 			$output .= '</td>';
 			$output .= '<td class="group-name">';
-			$output .= sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), stripslashes( wp_filter_nohtml_kses( $result->name ) ) );
+			$output .= sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( $edit_url ),
+				stripslashes( wp_filter_nohtml_kses( $result->name ) )
+			);
+			$output .= ' ';
+			$user_count = count( $group->user_ids );
+			$output .= sprintf(
+				'(<a href="%s">%s</a>)',
+				esc_url( $users_url ),
+				$user_count
+			);
 			$output .= $row_actions;
 			$output .= '</td>';
 			$output .= '<td class="group-description">';
@@ -491,7 +512,6 @@ function groups_admin_groups() {
 
 			$output .= '<td class="capabilities">';
 
-			$group = new Groups_Group( $result->group_id );
 			$group_capabilities = $group->capabilities;
 			$group_capabilities_deep = $group->capabilities_deep;
 			usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
