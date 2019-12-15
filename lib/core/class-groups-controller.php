@@ -422,7 +422,8 @@ class Groups_Controller {
 
 	/**
 	 * Plugin deactivation cleanup.
-	 * @param $drop overrides the groups_delete_data option, default is false
+	 *
+	 * @param $drop boolean overrides the groups_delete_data option, default is false
 	 */
 	private static function cleanup( $drop = false ) {
 
@@ -574,7 +575,8 @@ class Groups_Controller {
 	 *
 	 * @see sem_remove()
 	 *
-	 * @param unknown $sem_identifier
+	 * @param resource $sem_identifier
+	 *
 	 * @return boolean
 	 */
 	private static function sem_remove( $sem_identifier ) {

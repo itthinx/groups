@@ -2,6 +2,7 @@
 
 = 2.9.0 =
 * WordPress 5.3 compatible.
+* Fixed issues with and added missing internal code documentation mainly related to undocumented types.
 
 = 2.8.0 =
 * Added the Groups Members block: A block whose content is only visible for members of selected groups.

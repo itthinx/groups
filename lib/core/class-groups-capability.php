@@ -33,7 +33,7 @@ class Groups_Capability {
 	const READ_CAPABILITY_BY_ID = 'read_capability_by_id';
 
 	/**
-	 * @var persisted capability object
+	 * @var object persisted capability object
 	 */
 	var $capability = null;
 
@@ -60,7 +60,7 @@ class Groups_Capability {
 	 * - group_ids groups that have the capability
 	 * 
 	 * @param string $name property's name
-	 * @return property value, will return null if property does not exist
+	 * @return mixed property value, will return null if property does not exist
 	 */
 	public function __get( $name ) {
 
@@ -120,7 +120,8 @@ class Groups_Capability {
 	 * - "description" (optional) - dito
 	 * 
 	 * @param array $map attributes, requires at least: "capability"
-	 * @return capability_id on success, otherwise false
+	 *
+	 * @return int capability_id on success, otherwise false
 	 */
 	public static function create( $map ) {
 
@@ -228,7 +229,8 @@ class Groups_Capability {
 	 * Update capability.
 	 * 
 	 * @param array $map capability attribute, must contain capability_id
-	 * @return capability_id on success, otherwise false
+	 *
+	 * @return int capability_id on success, otherwise false
 	 */
 	public static function update( $map ) {
 
@@ -285,7 +287,8 @@ class Groups_Capability {
 	 * Remove capability and its relations.
 	 * 
 	 * @param int $capability_id
-	 * @return capability_id if successful, false otherwise
+	 *
+	 * @return int capability_id if successful, false otherwise
 	 */
 	public static function delete( $capability_id ) {
 

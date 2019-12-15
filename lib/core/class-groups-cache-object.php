@@ -58,7 +58,8 @@ class Groups_Cache_Object {
 	 * Getter implementation for key and value properties.
 	 * 
 	 * @param string $name
-	 * @return property value or null
+	 *
+	 * @return mixed property value or null
 	 */
 	public function __get( $name ) {
 		$result = null;

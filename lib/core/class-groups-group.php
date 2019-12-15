@@ -249,7 +249,8 @@ class Groups_Group implements I_Capable {
 	 * - parent_id (optional)
 	 * 
 	 * @param array $map attributes
-	 * @return group_id on success, otherwise false
+	 *
+	 * @return int group_id on success, otherwise false
 	 */
 	public static function create( $map ) {
 		global $wpdb;
@@ -370,7 +371,8 @@ class Groups_Group implements I_Capable {
 	 * Update group.
 	 * 
 	 * @param array $map group attribute, must contain group_id
-	 * @return group_id on success, otherwise false
+	 *
+	 * @return int group_id on success, otherwise false
 	 */
 	public static function update( $map ) {
 
@@ -462,7 +464,8 @@ class Groups_Group implements I_Capable {
 	 * Remove group and its relations.
 	 * 
 	 * @param int $group_id
-	 * @return group_id if successful, false otherwise
+	 *
+	 * @return int group_id if successful, false otherwise
 	 */
 	public static function delete( $group_id ) {
 
