@@ -498,7 +498,7 @@ function groups_admin_groups() {
 				stripslashes( wp_filter_nohtml_kses( $result->name ) )
 			);
 			$output .= ' ';
-			$user_count = count( $group->user_ids );
+			$user_count = is_array( $group->user_ids ) ? count( $group->user_ids ) : 0; // guard against null when there are no users
 			$output .= sprintf(
 				'(<a href="%s">%s</a>)',
 				esc_url( $users_url ),
