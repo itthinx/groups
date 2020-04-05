@@ -101,7 +101,13 @@ class Groups_Access_Meta_Boxes {
 		$post_type_object = get_post_type_object( $post_type );
 		if ( $post_type_object && $post_type != 'attachment' ) {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
+			if (
+				Groups_Post_Access::handles_post_type( $post_type ) &&
+				(
+					!isset( $post_types_option[$post_type]['add_meta_box'] ) ||
+					$post_types_option[$post_type]['add_meta_box']
+				)
+			) {
 
 				add_meta_box(
 					'groups-permissions',
