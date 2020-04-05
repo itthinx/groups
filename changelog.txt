@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 2.10.0 =
+* WordPress 5.4 compatible.
+
 = 2.9.0 =
 * WordPress 5.3 compatible.
 * Added member counts displayed for each group under Groups > Groups.
