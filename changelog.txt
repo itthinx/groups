@@ -1,5 +1,11 @@
 == Groups by itthinx - changelog.txt
 
+= 2.10.0 =
+* WordPress 5.4 compatible.
+* Removed an alternative call to the deprecated wp_cache_reset() and preferrably calling wp_cache_init() when wp_cache_switch_to_blog() is not available.
+* Fixed showing the Groups meta box to restrict posts on new post types which show access restrictions disabled in the options.
+* Updated the add-ons section.
+
 = 2.9.0 =
 * WordPress 5.3 compatible.
 * Added member counts displayed for each group under Groups > Groups.

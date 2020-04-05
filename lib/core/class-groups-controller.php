@@ -43,8 +43,12 @@ class Groups_Controller {
 	 * Some implementations don't have wp_cache_switch_to_blog() nor the deprecated
 	 * wp_cache_reset(), e.g. WP Engine's object-cache.php which has wp_cache_flush().
 	 *
+	 * @since 2.10.0 giving preference to call wp_cache_init() since it will reset the blog_id
+	 * @since 2.10.0 removed alternative call to wp_cache_reset()
+	 *
 	 * See  wp_cache_reset() in wp-includes/cache.php
 	 * @see wp_cache_switch_to_blog()
+	 * @see wp_cache_init()
 	 * @see wp_cache_flush()
 	 * @see wp_cache_reset()
 	 * @link http://core.trac.wordpress.org/ticket/14941
@@ -55,10 +59,10 @@ class Groups_Controller {
 		switch_to_blog( $blog_id );
 		if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
 			wp_cache_switch_to_blog( $blog_id ); // introduced in WP 3.5.0
+		} else if ( function_exists( 'wp_cache_init' ) ) {
+			wp_cache_init();
 		} else if ( function_exists( 'wp_cache_flush' ) ) {
 			wp_cache_flush();
-		} else if ( function_exists( 'wp_cache_reset' ) ) {
-			wp_cache_reset(); // deprecated in WP 3.5.0
 		}
 	}
 

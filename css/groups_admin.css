@@ -304,7 +304,7 @@ div.capability.edit label {
 	padding: 8px;
 	vertical-align: top;
 	width: 256px;
-	height: 158px;
+	min-height: 158px;
 	background-color: #fff;
 	border: 1px solid #ccc;
 }
