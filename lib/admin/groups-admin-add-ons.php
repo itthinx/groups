@@ -172,6 +172,20 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'url'     => 'http://www.itthinx.com/shop/affiliates-enterprise/',
 			'index'   => 100
 		),
+		'woocommerce-product-search' => array(
+			'title'   => 'WooCommerce Product Search',
+			'content' => 'The essential extension for every WooCommerce Store! The perfect Search Engine for your store helps your customers to find and buy the right products quickly.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-product-search.png',
+			'url'     => 'http://www.itthinx.com/shop/woocommerce-product-search/',
+			'index'   => 100
+		),
+		'woocommerce-sales-analysis' => array(
+			'title'   => 'Sales Analysis for WooCommerce',
+			'content' => 'Sales Analysis for Managers and Marketers. Get in-depth views on fundamental Business Intelligence. Focused on sales and net revenue trends, regional analysis, product market, and customer trends.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-sales-analysis.png',
+			'url'     => 'http://www.itthinx.com/shop/woocommerce-sales-analysis/',
+			'index'   => 100
+		),
 	);
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
