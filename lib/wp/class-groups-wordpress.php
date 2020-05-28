@@ -82,8 +82,10 @@ class Groups_WordPress {
 			$hash    = md5( json_encode( $caps ) . json_encode( $args ) );
 			$cached  = Groups_Cache::get( self::HAS_CAP . '_' . $user_id . '_' . $hash, self::CACHE_GROUP );
 
+			$groups_caps = array();
+
 			if ( $cached !== null ) {
-				$allcaps = $cached->value;
+				$groups_caps = $cached->value;
 				unset( $cached );
 			} else {
 				$groups_user = new Groups_User( $user_id );
@@ -93,11 +95,17 @@ class Groups_WordPress {
 				remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10 );
 				foreach( $caps as $cap ) {
 					if ( $groups_user->can( $cap ) ) {
-						$allcaps[$cap] = true;
+						$groups_caps[ $cap ] = true;
 					}
 				}
 				add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10, 4 );
-				Groups_Cache::set( self::HAS_CAP . '_' . $user_id . '_' . $hash, $allcaps, self::CACHE_GROUP );
+				Groups_Cache::set( self::HAS_CAP . '_' . $user_id . '_' . $hash, $groups_caps, self::CACHE_GROUP );
+			}
+
+			foreach( $caps as $cap ) {
+				if ( isset( $groups_caps[ $cap ] ) ) {
+					$allcaps[ $cap ] = true;
+				}
 			}
 		}
 		return $allcaps;
