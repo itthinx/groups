@@ -344,8 +344,13 @@ class Groups_Access_Meta_Boxes_Legacy {
 		// considered to be empty at this stage. This is so we don't end up
 		// having save_post() invoked twice when the post is not empty.
 		if ( $maybe_empty ) {
-			$post_id = !empty( $postarr['ID'] ) ? $postarr['ID'] : !empty( $postarr['post_ID'] ) ? $postarr['post_ID'] : null;
-			if ( $post_id ) {
+			$post_id = null;
+			if ( !empty( $postarr['ID'] ) ) {
+				$post_id = intval( $postarr['ID'] );
+			} else if ( !empty( $postarr['post_ID'] ) ) {
+				$post_id = intval( $postarr['post_ID'] );
+			}
+			if ( $post_id !== null ) {
 				self::save_post( $post_id );
 			}
 		}
