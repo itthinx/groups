@@ -3,6 +3,7 @@
 = 2.11.0 =
 * WordPress 5.5 compatible.
 * Fixed PHP 7.4 compatibility - Deprecated: Unparenthesized `a ? b : c ? d : e` is deprecated.
+* Fixed protected entries appear on taxonomy archives when access restrictions for the Post type are not enabled.
 
 = 2.10.0 =
 * WordPress 5.4 compatible.

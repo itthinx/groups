@@ -239,6 +239,23 @@ class Groups_Post_Access {
 					$where,
 					$query
 				);
+
+				// If post_types is empty and we have a term page (AKA taxonomy archive),
+				// try to retrieve the post type from the taxonomy:
+				if ( empty( $post_types ) ) {
+					if ( $query->is_tax() ) {
+						$queried_object = $query->get_queried_object();
+						if ( $queried_object instanceof WP_Term ) {
+							$taxonomy = get_taxonomy( $queried_object->taxonomy );
+							if ( $taxonomy !== false ) {
+								if ( property_exists( $taxonomy, 'object_type' ) ) { // object_type property since WP 4.7.0
+									$post_types = $taxonomy->object_type;
+								}
+							}
+						}
+					}
+				}
+
 				if ( 'any' == $post_types ) {
 					// we need to filter in this case as it affects any post type
 				} else if ( !empty( $post_types ) && is_array( $post_types ) ) {
