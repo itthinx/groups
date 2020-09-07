@@ -78,7 +78,12 @@ class Groups_WordPress {
 	public static function user_has_cap( $allcaps, $caps, $args, $user ) {
 		if ( is_array( $caps ) ) {
 
-			$user_id = isset( $user->ID ) ? $user->ID : isset( $args[1] ) ? $args[1] : 0;
+			$user_id = 0;
+			if ( isset( $user->ID ) ) {
+				$user_id = intval( $user->ID );
+			} else if ( isset( $args[1] ) ) {
+				$user_id = intval( $args[1] );
+			}
 			$hash    = md5( json_encode( $caps ) . json_encode( $args ) );
 			$cached  = Groups_Cache::get( self::HAS_CAP . '_' . $user_id . '_' . $hash, self::CACHE_GROUP );
 
