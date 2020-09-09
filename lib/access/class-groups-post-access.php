@@ -757,7 +757,7 @@ class Groups_Post_Access {
 						'post_type'        => $type,
 						'post_status'      => $post_status,
 						'numberposts'      => -1, // all
-						'suppress_filters' => 0, // don't suppres filters as we need to get restrictions taken into account
+						'suppress_filters' => 0, // don't suppress filters as we need to get restrictions taken into account
 						'orderby'          => 'none', // Important! Don't waste time here.
 						'no_found_rows'    => true, // performance, omit unnecessary SQL_CALC_FOUND_ROWS in query here
 						'nopaging'         => true // no paging is needed, in case it would affect performance
