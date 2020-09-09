@@ -2,8 +2,12 @@
 
 = 2.11.0 =
 * WordPress 5.5 compatible.
+* Minimum WordPress version 5.2 is required.
 * Fixed PHP 7.4 compatibility - Deprecated: Unparenthesized `a ? b : c ? d : e` is deprecated.
 * Fixed protected entries appear on taxonomy archives when access restrictions for the Post type are not enabled.
+* Fixed use of deprecated wp.editor and replaced with use of wp.blockEditor in Groups Member Block.
+* Fixed use of deprecated wp.editor and replaced with use of wp.blockEditor in Groups Non-member Block.
+* Added missing package.json etc. to Groups blocks sources.
 
 = 2.10.0 =
 * WordPress 5.4 compatible.

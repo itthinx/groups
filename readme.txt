@@ -2,7 +2,7 @@
 Contributors: itthinx, proaktion
 Donate link: http://www.itthinx.com/plugins/groups
 Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
-Requires at least: 4.6
+Requires at least: 5.2
 Tested up to: 5.5
 Requires PHP: 5.6.0
 Stable tag: 2.11.0
