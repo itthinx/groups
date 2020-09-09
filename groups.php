@@ -2,7 +2,7 @@
 /**
  * groups.php
  *
- * Copyright (c) 2011-2019 "kento" Karim Rahimpur www.itthinx.com
+ * Copyright (c) 2011-2020 "kento" Karim Rahimpur www.itthinx.com
  *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
