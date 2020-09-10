@@ -8,6 +8,8 @@
 * Fixed use of deprecated wp.editor and replaced with use of wp.blockEditor in Groups Member Block.
 * Fixed use of deprecated wp.editor and replaced with use of wp.blockEditor in Groups Non-member Block.
 * Added missing package.json etc. to Groups blocks sources.
+* Block code reviewed, fixed formatting, added more documentation and cleaned up.
+* Added classes to div wrappers that contain block content rendered.
 
 = 2.10.0 =
 * WordPress 5.4 compatible.
