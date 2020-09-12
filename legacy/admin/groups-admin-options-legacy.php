@@ -72,7 +72,7 @@ function groups_admin_options_legacy( $legacy_switched ) {
 		if ( $capability->capability == Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) {
 			$selected .= ' disabled="disabled" ';
 		}
-		printf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, wp_filter_nohtml_kses( $capability->capability ) );
+		printf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
 	}
 	echo '</select>';
 	echo '</div>'; // .select-capability-container

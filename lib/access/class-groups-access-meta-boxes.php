@@ -238,7 +238,7 @@ class Groups_Access_Meta_Boxes {
 			$output .= '<option value=""></option>';
 			foreach( $groups as $group ) {
 				$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
-				$output .= wp_filter_nohtml_kses( $group->name );
+				$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
 				$output .= '</option>';
 			}
 			$output .= '</select>';
@@ -478,7 +478,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= '<option value=""></option>';
 				foreach( $groups as $group ) {
 					$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
-					$output .= wp_filter_nohtml_kses( $group->name );
+					$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
 					$output .= '</option>';
 				}
 				$output .= '</select>';

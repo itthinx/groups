@@ -50,7 +50,10 @@ function groups_admin_groups_add() {
 	$parent_select .= '<option value="">--</option>';
 	$groups = $wpdb->get_results( "SELECT * FROM $group_table" );
 	foreach ( $groups as $group ) {
-		$parent_select .= '<option value="' . esc_attr( $group->group_id ) . '">' . wp_filter_nohtml_kses( $group->name ) . '</option>';
+		$parent_select .=
+			'<option value="' . esc_attr( $group->group_id ) . '">' .
+			stripslashes( wp_filter_nohtml_kses( $group->name ) ) .
+			'</option>';
 	}
 	$parent_select .= '</select>';
 
@@ -100,7 +103,7 @@ function groups_admin_groups_add() {
 		__( 'Choose capabilities &hellip;', 'groups' )
 	);
 	foreach( $capabilities as $capability ) {
-		$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
+		$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
 	}
 	$output .= '</select>';
 	$output .= '</label>';

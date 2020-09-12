@@ -12,6 +12,7 @@
 * Added classes to div wrappers that contain block content rendered.
 * Modified the user_has_cap filter priority so that it kicks in as late as possible.
 * Added the groups_user_has_cap filter which allows to further process after Groups has handled the user_has_cap filter.
+* Fixed issue with backslashes displayed when part of a group or capability.
 
 = 2.10.0 =
 * WordPress 5.4 compatible.

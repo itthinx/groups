@@ -121,7 +121,7 @@ function groups_admin_groups_edit( $group_id ) {
 	);
 	foreach( $capabilities as $capability ) {
 		$selected = in_array( $capability->capability_id, $group_capabilities_array ) ? ' selected="selected" ' : '';
-		$output .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, wp_filter_nohtml_kses( $capability->capability ) );
+		$output .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
 	}
 	$output .= '</select>';
 	$output .= '</label>';

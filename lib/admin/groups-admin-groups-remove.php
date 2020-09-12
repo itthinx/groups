@@ -146,7 +146,7 @@ function groups_admin_groups_bulk_remove() {
 		$output .= 	'<input id="group_ids" name="group_ids[]" type="hidden" value="' . esc_attr( intval( $group->group_id ) ) . '"/>';
 		$output .= '<ul>';
 		$output .= '<li>';
-		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), wp_filter_nohtml_kses( $group->name ) );
+		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) );
 		$output .= '</li>';
 		$output .= '</ul>';
 	}
