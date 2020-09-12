@@ -133,6 +133,7 @@ class Groups_WordPress {
 				Groups_Cache::set( self::HAS_CAP . '_' . $user_id . '_' . $hash, $allcaps, self::CACHE_GROUP );
 			}
 		}
+		$allcaps = apply_filters( 'groups_user_has_cap', $allcaps, $caps, $args, $user );
 		return $allcaps;
 	}
 
