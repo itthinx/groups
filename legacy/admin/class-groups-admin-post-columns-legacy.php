@@ -99,7 +99,7 @@ class Groups_Admin_Post_Columns_Legacy {
 						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 							if ( in_array( $valid_read_cap, $read_caps ) ) {
 								$output .= '<li>';
-								$output .= wp_strip_all_tags( $capability->capability );
+								$output .= stripslashes( wp_strip_all_tags( $capability->capability ) );
 								$output .= '</li>';
 							}
 						}

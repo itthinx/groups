@@ -526,7 +526,7 @@ function groups_admin_groups() {
 					}
 					$output .= sprintf( '<span class="%s">', $class );
 					if ( isset( $group_capability->capability ) && isset( $group_capability->capability->capability ) ) {
-						$output .= wp_filter_nohtml_kses( $group_capability->capability->capability );
+						$output .= stripslashes( wp_filter_nohtml_kses( $group_capability->capability->capability ) );
 					}
 					$output .= '</span>';
 					$output .= '</li>';

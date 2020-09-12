@@ -115,7 +115,7 @@ class Groups_Admin_Post_Columns {
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $groups_read ) );
 					if ( ( count( $groups ) > 0 ) ) {
 						foreach( $groups as $group ) {
-							$entries[] = wp_strip_all_tags( $group->name );
+							$entries[] = stripslashes( wp_strip_all_tags( $group->name ) );
 						}
 					}
 				}
