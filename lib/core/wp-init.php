@@ -149,12 +149,22 @@ function _groups_get_tablename( $name ) {
 	/**
 	 * Filters the prefix of the database table to query.
 	 *
-	 * @since 2.9.0
+	 * @since 2.11.0
 	 *
-	 * @param str $wpdb->prefix The current WordPress table prefix.
+	 * @param str $wpdb->prefix The current WordPress table prefix. Allowed characters are a-z, A-Z, 0-9, the dash - and the underscore _.
+	 *
 	 * @return str The possibly-modified table prefix.
 	 */
 	$prefix = apply_filters( 'groups_get_table_prefix', $wpdb->prefix );
+
+	if ( is_string( $prefix ) ) {
+		$prefix = preg_replace( '/[^a-zA-Z0-9-_]+/', '', $prefix );
+	}
+
+	// use the default if the filter returned nonsense or null due to error
+	if ( !is_string( $prefix ) ) {
+		$prefix = $wpdb->prefix;
+	}
 
 	// Return the constructed table name.
 	return $prefix . GROUPS_TP . $name;
