@@ -238,7 +238,7 @@ class Groups_Access_Meta_Boxes {
 			$output .= '<option value=""></option>';
 			foreach( $groups as $group ) {
 				$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
-				$output .= wp_filter_nohtml_kses( $group->name );
+				$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
 				$output .= '</option>';
 			}
 			$output .= '</select>';
@@ -298,8 +298,13 @@ class Groups_Access_Meta_Boxes {
 		// considered to be empty at this stage. This is so we don't end up
 		// having save_post() invoked twice when the post is not empty.
 		if ( $maybe_empty ) {
-			$post_id = !empty( $postarr['ID'] ) ? $postarr['ID'] : !empty( $postarr['post_ID'] ) ? $postarr['post_ID'] : null;
-			if ( $post_id ) {
+			$post_id = null;
+			if ( !empty( $postarr['ID'] ) ) {
+				$post_id = intval( $postarr['ID'] );
+			} else if ( !empty( $postarr['post_ID'] ) ) {
+				$post_id = intval( $postarr['post_ID'] );
+			}
+			if ( $post_id !== null ) {
 				self::save_post( $post_id );
 			}
 		}
@@ -473,7 +478,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= '<option value=""></option>';
 				foreach( $groups as $group ) {
 					$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
-					$output .= wp_filter_nohtml_kses( $group->name );
+					$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
 					$output .= '</option>';
 				}
 				$output .= '</select>';
@@ -489,7 +494,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= '<p class="description">';
 				$output .= __( 'The attachment page is restricted to authorized users, but due to technical limitations, the file can still be accessed directly via its URL.', 'groups' );
 				$output .= ' ';
-				$output .= sprintf( __( 'Please use <a href="%s" target="_blank">Groups File Access</a> for files that require complete protection.', 'groups' ), esc_url( 'http://www.itthinx.com/shop/groups-file-access/' ) );
+				$output .= sprintf( __( 'Please use <a href="%s" target="_blank">Groups File Access</a> for files that require complete protection.', 'groups' ), esc_url( 'https://www.itthinx.com/shop/groups-file-access/' ) );
 				$output .= '</p>';
 
 				$form_fields['groups_read'] = array(

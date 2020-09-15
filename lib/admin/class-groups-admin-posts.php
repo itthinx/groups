@@ -160,7 +160,12 @@ class Groups_Admin_Posts {
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
 					foreach( $groups as $group ) {
 						$selected = in_array( $group->group_id, $previous_selected ) ? ' selected="selected" ' : '';
-						$output .= sprintf( '<option value="%s" %s >%s</option>', esc_attr( $group->group_id ), esc_attr( $selected ), wp_filter_nohtml_kses( $group->name ) );
+						$output .= sprintf(
+							'<option value="%s" %s >%s</option>',
+							esc_attr( $group->group_id ),
+							esc_attr( $selected ),
+							stripslashes( wp_filter_nohtml_kses( $group->name ) )
+						);
 					}
 					$output .= '</select>';
 					$output .= '</div>';
@@ -233,7 +238,11 @@ class Groups_Admin_Posts {
 					);
 
 					foreach( $groups as $group ) {
-						$output .= sprintf( '<option value="%s" >%s</option>', esc_attr( $group->group_id ), wp_filter_nohtml_kses( $group->name ) );
+						$output .= sprintf(
+							'<option value="%s" >%s</option>',
+							esc_attr( $group->group_id ),
+							stripslashes( wp_filter_nohtml_kses( $group->name ) )
+						);
 					}
 					$output .= '</select>';
 					$output .= '</div>'; // .groups-groups-container

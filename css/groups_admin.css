@@ -205,14 +205,14 @@ div.capability.edit label {
 	float: right;
 	padding: 1em;
 	margin: 1em;
-	background-color: #eee;
+	background-color: #fff;
 	border-radius: 4px;
-	color: #333;
-	border: 1px solid #ddd;
+	color: #111;
+	border: 1px solid #999;
 	width: 256px;
 }
 #groups-extensions-box a.close {
-	color: #ccc;
+	color: #999;
 	line-height: 18px;
 	position: absolute;
 	right: 6px;
@@ -292,14 +292,14 @@ div.capability.edit label {
 .groups-admin-add-ons {
 	margin: 10px 20px 0 2px;
 }
-.groups-admin-add-ons ul {
+.groups-admin-add-ons ul.add-ons {
 	list-style: none;
-	display: block;
+	display: flex;
+	flex-wrap: wrap;
 	padding: 0;
 	overflow: hidden;
 }
-.groups-admin-add-ons li {
-	float: left;
+.groups-admin-add-ons ul.add-ons li.add-on {
 	margin: 0 1em 1em 0;
 	padding: 8px;
 	vertical-align: top;

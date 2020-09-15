@@ -197,7 +197,7 @@ class Groups_Admin_Users {
 						'<option value="%d" %s>%s</option>',
 						Groups_Utility::id( $group->group_id ),
 						$is_member ? ' selected="selected" ' : '',
-						wp_filter_nohtml_kses( $group->name )
+						stripslashes( wp_filter_nohtml_kses( $group->name ) )
 					);
 				}
 				$groups_select .= '</select>';
@@ -271,7 +271,11 @@ class Groups_Admin_Users {
 					'<option value="%d" %s>%s</option>',
 					Groups_Utility::id( $group->group_id ),
 					$selected ? ' selected="selected" ' : '',
-					sprintf( '%s <span class="count">(%s)</span>', wp_filter_nohtml_kses( $group->name ), esc_html( $user_count ) )
+					sprintf(
+						'%s <span class="count">(%s)</span>',
+						stripslashes( wp_filter_nohtml_kses( $group->name ) ),
+						esc_html( $user_count )
+					)
 				);
 			}
 			$output .= '</select>';
@@ -376,7 +380,7 @@ class Groups_Admin_Users {
 					$output = '<ul>';
 					foreach( $groups as $group ) {
 						$output .= '<li>';
-						$output .= wp_filter_nohtml_kses( $group->name );
+						$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
 						$output .= '</li>';
 					}
 					$output .= '</ul>';

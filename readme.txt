@@ -1,11 +1,11 @@
 === Groups ===
 Contributors: itthinx, proaktion
-Donate link: http://www.itthinx.com/plugins/groups
+Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
-Requires at least: 4.6
-Tested up to: 5.4
+Requires at least: 5.2
+Tested up to: 5.5
 Requires PHP: 5.6.0
-Stable tag: 2.10.0
+Stable tag: 2.11.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -18,7 +18,7 @@ It provides group-based user membership management, group-based capabilities and
 
 Groups is light-weight and offers an easy user interface, while it acts as a framework and integrates standard WordPress capabilities and application-specific capabilities along with an extensive API.
 
-Enhanced functionality is available via [Official Extensions](http://www.itthinx.com/product-category/groups/) for Groups.
+Enhanced functionality is available via [Official Extensions](https://www.itthinx.com/product-category/groups/) for Groups.
 
 ### Documentation ###
 
@@ -89,7 +89,7 @@ Fully supports custom post types, so that access to post types such as products 
 
 Feedback is welcome!
 
-If you need help, have problems, want to leave feedback or want to provide constructive criticism, please do so here at the [Groups Plugin](http://www.itthinx.com/plugins/groups/) page.
+If you need help, have problems, want to leave feedback or want to provide constructive criticism, please do so here at the [Groups Plugin](https://www.itthinx.com/plugins/groups/) page.
 
 Please try to solve problems there before you rate this plugin or say it doesn't work. There goes a _lot_ of work into providing you with free quality plugins! Please appreciate that and help with your feedback. Many thanks!
 
@@ -102,7 +102,7 @@ Please try to solve problems there before you rate this plugin or say it doesn't
 Brazilian Portuguese translation by [Walter Jaworski](http://wjaworski.com),
 Dutch translation by [Carsten Alsemgeest](http://presis.nl),
 French translation by [Stéphane Passedouet](http://www.pheeric.com),
-German translation by [itthinx](http://www.itthinx.com),
+German translation by [itthinx](https://www.itthinx.com),
 Lithuanian translation by [Vincent G](http://www.Host1Free.com),
 Spanish translation by [Juan Amor](http://www.lamadjinpa.es),
 Swedish translation by [Andréas Lundgren](http://adevade.com).
@@ -122,7 +122,7 @@ The official documentation is located at the [Groups Documentation](http://docs.
 
 = I have a question, where do I ask? =
 
-For questions directly related to Groups, you can leave a comment at the [Groups Plugin](http://www.itthinx.com/plugins/groups/) page.
+For questions directly related to Groups, you can leave a comment at the [Groups Plugin](https://www.itthinx.com/plugins/groups/) page.
 
 = How do I restrict access to a post? =
 
@@ -170,11 +170,11 @@ The Groups plugin provides an extensive framework to handle memberships, group-b
 
 The API documentation is available here: [Groups API](http://api.itthinx.com/groups).
 
-Also refer to the official [Groups Plugin](http://www.itthinx.com/plugins/groups/) page to post your questions and the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages.
+Also refer to the official [Groups Plugin](https://www.itthinx.com/plugins/groups/) page to post your questions and the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages.
 
 == Screenshots ==
 
-See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages and the [Groups Plugin](http://www.itthinx.com/plugin/groups/) page.
+See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages and the [Groups Plugin](https://www.itthinx.com/plugin/groups/) page.
 
 1. Groups - this is where you add and remove groups and assign capabilities to groups.
 2. Capabilities - here you get an overview of the capabilities that are defined and you can add and remove capabilities as well.

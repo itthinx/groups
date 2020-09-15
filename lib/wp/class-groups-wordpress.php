@@ -28,8 +28,37 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_WordPress {
 
+	/**
+	 * Cache group
+	 *
+	 * @var string
+	 */
 	const CACHE_GROUP = 'groups';
+
+	/**
+	 * Cache key prefix
+	 *
+	 * @var string
+	 */
 	const HAS_CAP     = 'has_cap';
+
+	/**
+	 * Filter priority: groups_user_can
+	 *
+	 * @var integer
+	 *
+	 * @since 2.11.0
+	 */
+	const GROUPS_USER_CAN_FILTER_PRIORITY = 10;
+
+	/**
+	 * Filter priority: user_has_cap
+	 *
+	 * @var int
+	 *
+	 * @since 2.11.0
+	 */
+	const USER_HAS_CAP_FILTER_PRIORITY = PHP_INT_MAX;
 
 	/**
 	 * Hook into actions to extend user capabilities.
@@ -41,8 +70,8 @@ class Groups_WordPress {
 	 */
 	public static function init() {
 		// args: string $result, Groups_User $groups_user, string $capability
-		add_filter( 'groups_user_can', array( __CLASS__, 'groups_user_can' ), 10, 3 );
-		add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10, 4 );
+		add_filter( 'groups_user_can', array( __CLASS__, 'groups_user_can' ), self::GROUPS_USER_CAN_FILTER_PRIORITY, 3 );
+		add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY, 4 );
 	}
 
 	/**
@@ -77,8 +106,12 @@ class Groups_WordPress {
 	 */
 	public static function user_has_cap( $allcaps, $caps, $args, $user ) {
 		if ( is_array( $caps ) ) {
-
-			$user_id = isset( $user->ID ) ? $user->ID : isset( $args[1] ) ? $args[1] : 0;
+			$user_id = 0;
+			if ( isset( $user->ID ) ) {
+				$user_id = intval( $user->ID );
+			} else if ( isset( $args[1] ) ) {
+				$user_id = intval( $args[1] );
+			}
 			$hash    = md5( json_encode( $caps ) . json_encode( $args ) );
 			$cached  = Groups_Cache::get( self::HAS_CAP . '_' . $user_id . '_' . $hash, self::CACHE_GROUP );
 
@@ -90,16 +123,17 @@ class Groups_WordPress {
 				// we need to deactivate this because invoking $groups_user->can()
 				// would trigger this same function and we would end up
 				// in an infinite loop
-				remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10 );
+				remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY );
 				foreach( $caps as $cap ) {
 					if ( $groups_user->can( $cap ) ) {
 						$allcaps[$cap] = true;
 					}
 				}
-				add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), 10, 4 );
+				add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY, 4 );
 				Groups_Cache::set( self::HAS_CAP . '_' . $user_id . '_' . $hash, $allcaps, self::CACHE_GROUP );
 			}
 		}
+		$allcaps = apply_filters( 'groups_user_has_cap', $allcaps, $caps, $args, $user );
 		return $allcaps;
 	}
 

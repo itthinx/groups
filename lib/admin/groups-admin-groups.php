@@ -362,7 +362,7 @@ function groups_admin_groups() {
 		esc_attr( __( 'Capabilities &hellip;', 'groups' ) )
 	);
 	foreach( $capabilities as $capability ) {
-		$capabilities_select .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), wp_filter_nohtml_kses( $capability->capability ) );
+		$capabilities_select .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
 	}
 	$capabilities_select .= '</select>';
 	$capabilities_select .= Groups_UIE::render_select( '.select.capability' );
@@ -526,7 +526,7 @@ function groups_admin_groups() {
 					}
 					$output .= sprintf( '<span class="%s">', $class );
 					if ( isset( $group_capability->capability ) && isset( $group_capability->capability->capability ) ) {
-						$output .= wp_filter_nohtml_kses( $group_capability->capability->capability );
+						$output .= stripslashes( wp_filter_nohtml_kses( $group_capability->capability->capability ) );
 					}
 					$output .= '</span>';
 					$output .= '</li>';

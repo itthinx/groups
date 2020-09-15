@@ -250,7 +250,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 							$post_type
 						);
 						$output .= sprintf( '<option value="%s" %s>', esc_attr( $capability->capability_id ), $selected ? ' selected="selected" ': '' );
-						$output .= wp_filter_nohtml_kses( $capability->capability );
+						$output .= stripslashes( wp_filter_nohtml_kses( $capability->capability ) );
 						if ( $show_groups ) {
 							if ( count( $group_names ) > 0 ) {
 								$output .= ' ';
@@ -344,8 +344,13 @@ class Groups_Access_Meta_Boxes_Legacy {
 		// considered to be empty at this stage. This is so we don't end up
 		// having save_post() invoked twice when the post is not empty.
 		if ( $maybe_empty ) {
-			$post_id = !empty( $postarr['ID'] ) ? $postarr['ID'] : !empty( $postarr['post_ID'] ) ? $postarr['post_ID'] : null;
-			if ( $post_id ) {
+			$post_id = null;
+			if ( !empty( $postarr['ID'] ) ) {
+				$post_id = intval( $postarr['ID'] );
+			} else if ( !empty( $postarr['post_ID'] ) ) {
+				$post_id = intval( $postarr['post_ID'] );
+			}
+			if ( $post_id !== null ) {
 				self::save_post( $post_id );
 			}
 		}
@@ -522,7 +527,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 // 						$output .= '<li>';
 // 						$output .= '<label>';
 // 						$output .= '<input name="attachments[' . $post->ID . '][' . self::CAPABILITY . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $capability->capability_id ) . '" />';
-// 						$output .= wp_filter_nohtml_kses( $capability->capability );
+// 						$output .= stripslashes( wp_filter_nohtml_kses( $capability->capability ) );
 // 						$output .= '</label>';
 // 						$output .= '</li>';
 // 					}
@@ -567,7 +572,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 								$label_title = __( 'No groups grant access through this capability. To grant access to group members using this capability, you should assign it to a group and enable the capability for access restriction.', 'groups' );
 							}
 							$output .= sprintf( '<option value="%s" %s>', esc_attr( $capability->capability_id ), in_array( $capability->capability, $read_caps ) ? ' selected="selected" ' : '' );
-							$output .= wp_filter_nohtml_kses( $capability->capability );
+							$output .= stripslashes( wp_filter_nohtml_kses( $capability->capability ) );
 							if ( $show_groups ) {
 								if ( count( $group_names ) > 0 ) {
 									$output .= ' ';

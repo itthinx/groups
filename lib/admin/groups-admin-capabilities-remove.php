@@ -142,7 +142,7 @@ function groups_admin_capabilities_bulk_remove() {
 		$output .= 	'<input id="capability_ids" name="capability_ids[]" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>';
 		$output .= '<ul>';
 		$output .= '<li>';
-		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), wp_filter_nohtml_kses( $capability->capability ) );
+		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
 		$output .= '</li>';
 		$output .= '</ul>';
 	}

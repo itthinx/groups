@@ -19,23 +19,29 @@
   * @since groups 2.8.0
   */
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 require_once GROUPS_ACCESS_LIB . '/class-groups-access-meta-boxes.php';
 
+/**
+ * In charge of registering, controlling and rendering Groups' blocks.
+ */
 class Groups_Blocks {
 
-
+	/**
+	 * Adds handlers to register blocks, REST and block categories.
+	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'groups_blocks_block_init' ) );
 		add_action( 'rest_api_init', array( __CLASS__, 'groups_rest' ) );
 		add_filter( 'block_categories', array( __CLASS__, 'groups_block_categories' ), 10, 2 );
 	}
 
-	// Create the REST API endpoints.
+	/**
+	 * Create the REST API endpoints.
+	 */
 	public static function groups_rest() {
 		register_rest_route(
 			// namespace - TODO version portion, change when merging to Groups plugin.
@@ -56,10 +62,13 @@ class Groups_Blocks {
 		);
 	}
 
-	// Callback function to retrieve existing groups.
+	/**
+	 * Callback function to retrieve existing groups.
+	 *
+	 * @return array
+	 */
 	public static function get_groups() {
 		$groups_options = array();
-
 		if ( Groups_Access_Meta_Boxes::user_can_restrict() ) {
 			$include = Groups_Access_Meta_Boxes::get_user_can_restrict_group_ids();
 			$groups  = Groups_Group::get_groups(
@@ -70,19 +79,25 @@ class Groups_Blocks {
 				)
 			);
 			foreach ( $groups as $key => $group ) {
-					$groups_options[] = array(
-						'value' => $group->group_id,
-						'label' => $group->name,
-					);
+				$groups_options[] = array(
+					'value' => $group->group_id,
+					'label' => $group->name,
+				);
 			}
 		} else {
-			$groups_options = __( 'You cannot set any access restrictions.', 'groups' );
+			$groups_options = esc_html__( 'You cannot set any access restrictions.', 'groups' );
 		}
-
 		return $groups_options;
 	}
 
-	// Add a new block category for 'groups' in the block editor
+	/**
+	 * Adds a new block category for 'groups' in the block editor.
+	 *
+	 * @param array $categories Array of block categories.
+	 * @param WP_Post $post Post being loaded.
+	 *
+	 * @return array
+	 */
 	public static function groups_block_categories( $categories, $post ) {
 		$categories = array_merge(
 			$categories,
@@ -96,6 +111,9 @@ class Groups_Blocks {
 		return $categories;
 	}
 
+	/**
+	 * Registers our blocks.
+	 */
 	public static function groups_blocks_block_init() {
 		// Skip block registration if Gutenberg is not enabled/merged.
 		if ( ! function_exists( 'register_block_type' ) ) {
@@ -154,6 +172,14 @@ class Groups_Blocks {
 		);
 	}
 
+	/**
+	 * Rendering callback for our Groups Member Block.
+	 *
+	 * @param array $attributes
+	 * @param string $content
+	 *
+	 * @return string
+	 */
 	public static function groups_member_render_content( $attributes, $content ) {
 
 		$output          = '';
@@ -183,13 +209,22 @@ class Groups_Blocks {
 				}
 			}
 		}
+
 		if ( $show_content ) {
-			$output = '<div>' . $content . '</div>';
+			$output = '<div class="groups-member-block-content">' . $content . '</div>';
 		}
 
 		return $output;
 	}
 
+	/**
+	 * Rendering callback for our Groups Non-member Block.
+	 *
+	 * @param array $attributes
+	 * @param string $content
+	 *
+	 * @return string
+	 */
 	public static function groups_non_member_render_content( $attributes, $content ) {
 
 		$output          = '';
@@ -219,8 +254,9 @@ class Groups_Blocks {
 				}
 			}
 		}
+
 		if ( $show_content ) {
-			$output = '<div>' . $content . '</div>';
+			$output = '<div class="groups-non-member-block-content">' . $content . '</div>';
 		}
 
 		return $output;
