@@ -14,6 +14,7 @@
 * Added the groups_user_has_cap filter which allows to further process after Groups has handled the user_has_cap filter.
 * Fixed issues with backslashes displayed when part of a group or capability name.
 * Added the groups_get_table_prefix filter.
+* Fixed layout issues with the add-ons containers.
 
 = 2.10.0 =
 * WordPress 5.4 compatible.

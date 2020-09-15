@@ -294,12 +294,12 @@ div.capability.edit label {
 }
 .groups-admin-add-ons ul {
 	list-style: none;
-	display: block;
+	display: flex;
+	flex-wrap: wrap;
 	padding: 0;
 	overflow: hidden;
 }
 .groups-admin-add-ons li {
-	float: left;
 	margin: 0 1em 1em 0;
 	padding: 8px;
 	vertical-align: top;
