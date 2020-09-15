@@ -292,14 +292,14 @@ div.capability.edit label {
 .groups-admin-add-ons {
 	margin: 10px 20px 0 2px;
 }
-.groups-admin-add-ons ul {
+.groups-admin-add-ons ul.add-ons {
 	list-style: none;
 	display: flex;
 	flex-wrap: wrap;
 	padding: 0;
 	overflow: hidden;
 }
-.groups-admin-add-ons li {
+.groups-admin-add-ons ul.add-ons li.add-on {
 	margin: 0 1em 1em 0;
 	padding: 8px;
 	vertical-align: top;
