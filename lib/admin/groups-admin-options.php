@@ -175,7 +175,7 @@ function groups_admin_options() {
 		$dismiss_url = wp_nonce_url( add_query_arg( 'dismiss-groups-extensions-box', '1', admin_url( 'admin.php?page=groups-admin-options' ) ), 'dismiss-box', 'groups-extensions-box-nonce' );
 		$extensions_box =
 			'<div id="groups-extensions-box">' .
-			__( 'Enhanced functionality is available via official <a href="http://www.itthinx.com/shop/">Extensions</a> for Groups.', 'groups' ) .
+			__( 'Enhanced functionality is available via official <a href="https://www.itthinx.com/shop/">Extensions</a> for Groups.', 'groups' ) .
 			sprintf( '<a class="close" href="%s">x</a>', esc_url( $dismiss_url ) ) .
 			'</div>';
 	}

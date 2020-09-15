@@ -19,12 +19,12 @@
  * @since groups 1.0.0
  *
  * Plugin Name: Groups
- * Plugin URI: http://www.itthinx.com/plugins/groups
+ * Plugin URI: https://www.itthinx.com/plugins/groups
  * Description: Groups provides group-based user membership management, group-based capabilities and content access control.
  * Version: 2.11.0
  * Author: itthinx
- * Author URI: http://www.itthinx.com
- * Donate-Link: http://www.itthinx.com
+ * Author URI: https://www.itthinx.com
+ * Donate-Link: https://www.itthinx.com/shop/
  * Text Domain: groups
  * Domain Path: /languages
  * License: GPLv3

@@ -494,7 +494,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= '<p class="description">';
 				$output .= __( 'The attachment page is restricted to authorized users, but due to technical limitations, the file can still be accessed directly via its URL.', 'groups' );
 				$output .= ' ';
-				$output .= sprintf( __( 'Please use <a href="%s" target="_blank">Groups File Access</a> for files that require complete protection.', 'groups' ), esc_url( 'http://www.itthinx.com/shop/groups-file-access/' ) );
+				$output .= sprintf( __( 'Please use <a href="%s" target="_blank">Groups File Access</a> for files that require complete protection.', 'groups' ), esc_url( 'https://www.itthinx.com/shop/groups-file-access/' ) );
 				$output .= '</p>';
 
 				$form_fields['groups_read'] = array(

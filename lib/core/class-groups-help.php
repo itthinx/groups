@@ -82,7 +82,7 @@ class Groups_Help {
 				}
 			}
 			if ( $show_groups_help ) {
-				$help = '<h3><a href="http://www.itthinx.com/plugins/groups" target="_blank">'. $help_title .'</a></h3>';
+				$help = '<h3><a href="https://www.itthinx.com/plugins/groups" target="_blank">'. $help_title .'</a></h3>';
 				$help .= '<p>';
 				$help .= __( 'The complete documentation is available on the <a href="http://docs.itthinx.com/document/groups">Documentation</a> pages for Groups.', 'groups' );
 				$help .= '</p>';
@@ -138,11 +138,11 @@ class Groups_Help {
 	public static function footer( $render = true ) {
 		$footer =
 			'<span class="groups-footer">' .
-			__( 'Thank you for using <a href="http://www.itthinx.com/plugins/groups" target="_blank">Groups</a> by <a href="http://www.itthinx.com" target="_blank">itthinx</a>.', 'groups' ) .
+			__( 'Thank you for using <a href="https://www.itthinx.com/plugins/groups" target="_blank">Groups</a> by <a href="https://www.itthinx.com" target="_blank">itthinx</a>.', 'groups' ) .
 			' ' .
 			sprintf(
 				__( 'Please give it a <a href="%s">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating.', 'groups' ),
-				esc_attr( 'http://wordpress.org/support/view/plugin-reviews/groups?filter=5#postform' )
+				esc_attr( 'https://wordpress.org/support/view/plugin-reviews/groups?filter=5#postform' )
 			) .
 			'</span>';
 		$footer = apply_filters( 'groups_footer', $footer );

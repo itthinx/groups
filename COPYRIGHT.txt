@@ -27,7 +27,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  
- Visit http://www.itthinx.com/ for help, general info and fun.
+ Visit https://www.itthinx.com/ for help, general info and fun.
  
- Plugin page: http://www.itthinx.com/plugins/groups
+ Plugin page: https://www.itthinx.com/plugins/groups
  

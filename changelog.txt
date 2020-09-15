@@ -15,6 +15,7 @@
 * Fixed issues with backslashes displayed when part of a group or capability name.
 * Added the groups_get_table_prefix filter.
 * Fixed layout issues with the add-ons containers.
+* Updated links to point to secure URLs where applicable.
 
 = 2.10.0 =
 * WordPress 5.4 compatible.
