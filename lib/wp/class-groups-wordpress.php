@@ -116,8 +116,21 @@ class Groups_WordPress {
 			$cached  = Groups_Cache::get( self::HAS_CAP . '_' . $user_id . '_' . $hash, self::CACHE_GROUP );
 
 			if ( $cached !== null ) {
-				$allcaps = $cached->value;
+				$_allcaps = $cached->value;
 				unset( $cached );
+				// Capabilities that were added after our value was cached must be added and
+				// those entries that provide different values must be adopted. This is necessary
+				// because other filters which hook into user_has_cap might have added or modified
+				// things after we had already cached the values.
+				foreach ( $allcaps as $cap => $value ) {
+					if (
+						!key_exists( $cap, $_allcaps ) ||
+						$_allcaps[$cap] !== $value
+					) {
+						$_allcaps[$cap] = $value;
+					}
+				}
+				$allcaps = $_allcaps;
 			} else {
 				$groups_user = new Groups_User( $user_id );
 				// we need to deactivate this because invoking $groups_user->can()

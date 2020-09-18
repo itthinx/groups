@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 2.11.1 =
+* Fixes missing capabilities with user_has_cap filter processing modified in 2.11.0.
+
 = 2.11.0 =
 * WordPress 5.5 compatible.
 * Minimum WordPress version 5.2 is required.
