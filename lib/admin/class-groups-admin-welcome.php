@@ -191,7 +191,7 @@ class Groups_Admin_Welcome {
 		_e( 'New Documentation', 'groups' );
 		echo '</h3>';
 		echo '<p>';
-		_e( 'Whether you are new to Groups or have been using it before, please make sure to visit the <a target="_blank" href="http://docs.itthinx.com/document/groups/">Documentation</a> pages to know more about how to use it.', 'groups' );
+		_e( 'Whether you are new to Groups or have been using it before, please make sure to visit the <a target="_blank" href="https://docs.itthinx.com/document/groups/">Documentation</a> pages to know more about how to use it.', 'groups' );
 		echo '</p>';
 
 		$legacy_enabled = Groups_Options::get_option( GROUPS_LEGACY_ENABLE );
@@ -226,7 +226,7 @@ class Groups_Admin_Welcome {
 		echo ' ';
 		_e( 'Once you have adjusted your access restrictions based on groups, you can disable legacy access control.', 'groups' );
 		echo ' ';
-		_e( 'Please refer to the <a target="_blank" href="http://docs.itthinx.com/document/groups/">Documentation</a> for details on how to switch to and use the new access restrictions.', 'groups' );
+		_e( 'Please refer to the <a target="_blank" href="https://docs.itthinx.com/document/groups/">Documentation</a> for details on how to switch to and use the new access restrictions.', 'groups' );
 		echo '</p>';
 		echo '</div>'; // .indent
 

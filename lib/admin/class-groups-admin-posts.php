@@ -99,13 +99,14 @@ class Groups_Admin_Posts {
 				echo '.groups-groups-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
 				echo '.groups-groups-container .selectize-control { min-width: 128px; }';
 				echo '.groups-groups-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }';
-				echo '.groups-groups-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
+				echo '.groups-groups-container .selectize-input { min-height: 30px; font-size: inherit; line-height: 18px; padding: 0 4px; vertical-align: middle; }';
 				echo '.groups-groups-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; }';
 				echo '.groups-groups-container input.button { margin-top: 1px; vertical-align: top; }';
 				echo '.inline-edit-row fieldset .capabilities-bulk-container label span.title { min-width: 5em; padding: 2px 1em; width: auto; }';
 				echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
 				echo '.wp-list-table td { overflow: visible; }'; // idem for bulk actions
-				echo 'label.groups-read-terms {vertical-align: middle; line-height: 28px; margin-right: 4px; }'; // Terms checkbox
+				echo 'label.groups-read-terms { vertical-align: middle; line-height: 28px; margin-right: 4px; }'; // Terms checkbox label
+				echo 'label.groups-read-terms input[type="checkbox"] { height: 1rem; }'; // Terms checkbox
 				echo 'th.column-groups, th.column-groups-read { width:10%; }';
 				echo '</style>';
 			}
