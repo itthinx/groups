@@ -402,9 +402,12 @@ class Groups_Post_Access {
 		if ( apply_filters( 'groups_post_access_wp_get_nav_menu_items_apply', true, $items, $menu, $args ) ) {
 			$user_id = get_current_user_id();
 			foreach ( $items as $item ) {
-				// @todo might want to check $item->object and $item->type first,
-				// for example these are 'page' and 'post_type' for a page
-				if ( self::user_can_read_post( $item->object_id, $user_id ) ) {
+				// Check whether the menu item is for some post type, otherwise it's for something else which we don't control.
+				if ( is_object( $item ) && isset( $item->type ) && $item->type === 'post_type' ) {
+					if ( self::user_can_read_post( $item->object_id, $user_id ) ) {
+						$result[] = $item;
+					}
+				} else {
 					$result[] = $item;
 				}
 			}
