@@ -5,6 +5,7 @@
 * Updated info on add-ons.
 * Fixed checking menu items so that only those that are related to a post type are processed for access checking.
 * Minor visual adjustments to UI controls to filter by groups on admin pages.
+* Updated documentation links to https.
 
 = 2.11.1 =
 * Fixes missing capabilities with user_has_cap filter processing modified in 2.11.0.

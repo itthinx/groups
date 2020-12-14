@@ -22,7 +22,7 @@ Enhanced functionality is available via [Official Extensions](https://www.itthin
 
 ### Documentation ###
 
-The official documentation is located at the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages.
+The official documentation is located at the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
 
 ### Features ###
 
@@ -118,7 +118,7 @@ Many thanks for your help!
 
 = Where is the documentation? =
 
-The official documentation is located at the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages.
+The official documentation is located at the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
 
 = I have a question, where do I ask? =
 
@@ -170,11 +170,11 @@ The Groups plugin provides an extensive framework to handle memberships, group-b
 
 The API documentation is available here: [Groups API](http://api.itthinx.com/groups).
 
-Also refer to the official [Groups Plugin](https://www.itthinx.com/plugins/groups/) page to post your questions and the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages.
+Also refer to the official [Groups Plugin](https://www.itthinx.com/plugins/groups/) page to post your questions and the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
 
 == Screenshots ==
 
-See also the [Groups Documentation](http://docs.itthinx.com/document/groups/) pages and the [Groups Plugin](https://www.itthinx.com/plugin/groups/) page.
+See also the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages and the [Groups Plugin](https://www.itthinx.com/plugin/groups/) page.
 
 1. Groups - this is where you add and remove groups and assign capabilities to groups.
 2. Capabilities - here you get an overview of the capabilities that are defined and you can add and remove capabilities as well.

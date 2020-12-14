@@ -84,7 +84,7 @@ class Groups_Help {
 			if ( $show_groups_help ) {
 				$help = '<h3><a href="https://www.itthinx.com/plugins/groups" target="_blank">'. $help_title .'</a></h3>';
 				$help .= '<p>';
-				$help .= __( 'The complete documentation is available on the <a href="http://docs.itthinx.com/document/groups">Documentation</a> pages for Groups.', 'groups' );
+				$help .= __( 'The complete documentation is available on the <a href="https://docs.itthinx.com/document/groups">Documentation</a> pages for Groups.', 'groups' );
 				$help .= '</p>';
 				switch ( $screen_id ) {
 					case 'groups-admin' :
