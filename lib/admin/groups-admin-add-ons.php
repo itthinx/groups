@@ -50,12 +50,19 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	echo "</$h2>";
 
 	$entries = array(
+		'groups-drip-content' => array(
+			'title'   => 'Groups Drip Content',
+			'content' => 'Release posts, pages, other post types and embedded content on a schedule. Drip content to members based on user account creation, group memberships or specific dates and times.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-drip-content.png',
+			'url'     => 'https://www.itthinx.com/shop/groups-drip-content/',
+			'index'   => 10
+		),
 		'groups-file-access' => array(
 			'title'   => 'Groups File Access',
 			'content' => 'Groups File Access is a WordPress plugin that allows to provide file download links for authorized users. Access to files is restricted to users by their group membership.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-file-access.png',
 			'url'     => 'https://www.itthinx.com/shop/groups-file-access/',
-			'index'   => 100
+			'index'   => 50
 		),
 		'groups-forums' => array(
 			'title'   => 'Groups Forums',
@@ -90,14 +97,14 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'content' => 'Sell memberships and subscriptions with Groups and PayPal.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-paypal.png',
 			'url'     => 'https://www.itthinx.com/shop/groups-paypal/',
-			'index'   => 10
+			'index'   => 100
 		),
 		'groups-restrict-categories' => array(
 			'title'   => 'Groups Restrict Categories',
 			'content' => 'Access restrictions for categories and tags, also supporting custom post types and taxonomies.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-restrict-categories.png',
 			'url'     => 'https://www.itthinx.com/shop/groups-restrict-categories/',
-			'index'   => 10
+			'index'   => 20
 		),
 		'groups-restrict-comments-pro' => array(
 			'title'   => 'Groups Restrict Comments Pro',
@@ -111,21 +118,21 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'content' => 'This extension allows you to sell memberships with WooCommerce.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-woocommerce.png',
 			'url'     => 'https://www.itthinx.com/shop/groups-woocommerce/',
-			'index'   => 20
+			'index'   => 30
 		),
 		'widgets-control-pro' => array(
 			'title'   => 'Widgets Control Pro',
 			'content' => 'An advanced Widget toolbox that adds visibility management and helps to control where widgets are shown efficiently. Show or hide widgets based on a user’s group membership.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/widgets-control-pro.png',
 			'url'     => 'https://www.itthinx.com/shop/widgets-control-pro/',
-			'index'   => 20
+			'index'   => 100
 		),
 		'woocommerce-group-coupons' => array(
 			'title'   => 'WooCommerce Group Coupons',
 			'content' => 'This extension allows to limit the validity of coupons based on groups and roles.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-group-coupons.png',
 			'url'     => 'https://www.itthinx.com/shop/woocommerce-group-coupons/',
-			'index'   => 100
+			'index'   => 40
 		),
 		'woocommerce-groups-newsletters' => array(
 			'title'   => 'WooCommerce Groups Newsletters',
@@ -163,28 +170,35 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'content' => 'Boost Sales with Affiliate Marketing for your WordPress site.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/affiliates-pro.png',
 			'url'     => 'https://www.itthinx.com/shop/affiliates-pro/',
-			'index'   => 100
+			'index'   => 30
 		),
 		'affiliates-enterprise' => array(
 			'title'   => 'Affiliates Enterprise',
 			'content' => 'Affiliates Enterprise provides an affiliate management system for sellers, shops and developers, who want to boost sales with their own affiliate program. Features affiliate campaigns, tracking pixels and multiple tiers.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/affiliates-enterprise.png',
 			'url'     => 'https://www.itthinx.com/shop/affiliates-enterprise/',
-			'index'   => 100
+			'index'   => 40
+		),
+		'itthinx-mail-queue' => array(
+			'title'   => 'Itthinx Mail Queue',
+			'content' => 'Features a fully automated SMTP email queue that substantially improves the way emails are sent out from your site. Prioritize sending by origin, eliminate delays for your visitors and balance your resources.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/itthinx-mail-queue.png',
+			'url'     => 'https://www.itthinx.com/shop/itthinx-mail-queue/',
+			'index'   => 50
 		),
 		'woocommerce-product-search' => array(
 			'title'   => 'WooCommerce Product Search',
 			'content' => 'The essential extension for every WooCommerce Store! The perfect Search Engine for your store helps your customers to find and buy the right products quickly.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-product-search.png',
 			'url'     => 'https://www.itthinx.com/shop/woocommerce-product-search/',
-			'index'   => 100
+			'index'   => 10
 		),
 		'woocommerce-sales-analysis' => array(
 			'title'   => 'Sales Analysis for WooCommerce',
 			'content' => 'Sales Analysis for Managers and Marketers. Get in-depth views on fundamental Business Intelligence. Focused on sales and net revenue trends, regional analysis, product market, and customer trends.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-sales-analysis.png',
 			'url'     => 'https://www.itthinx.com/shop/woocommerce-sales-analysis/',
-			'index'   => 100
+			'index'   => 20
 		),
 	);
 	usort( $entries, 'groups_admin_add_ons_sort' );
