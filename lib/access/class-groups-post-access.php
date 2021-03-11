@@ -755,6 +755,12 @@ class Groups_Post_Access {
 		} else {
 			if ( self::handles_post_type( $type ) ) {
 				foreach( $counts as $post_status => $count ) {
+					if ($count == 0) {
+						// wordpress computed no posts ignoring group filtering so no point in doing
+						// any additional query
+						continue;
+					}
+
 					$query_args = array(
 						'fields'           => 'ids',
 						'post_type'        => $type,
@@ -782,9 +788,14 @@ class Groups_Post_Access {
 							continue;
 						}
 					}
-					$posts = get_posts( $query_args );
-					$count = count( $posts );
-					unset( $posts );
+
+					// hack to return count instead of all rows
+					// it would be better to use a custom group sql count query similar to wordpress core
+					add_filter('posts_fields', function ($fields) {
+						remove_filter('posts_fields', __FUNCTION__);
+						return 'COUNT( * )';
+					});
+					$count = get_posts( $query_args )[0];
 					$counts->$post_status = $count;
 				}
 			}
