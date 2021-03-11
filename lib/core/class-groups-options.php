@@ -43,24 +43,6 @@ class Groups_Options {
 	const general = 'general';
 
 	/**
-	 * No instances are needed.
-	 */
-	private function __construct() {
-	}
-
-	/**
-	 * No cloning.
-	 */
-	private function __clone() {
-	}
-
-	/**
-	 * Would be pointless.
-	 */
-	private function __wakeup() {
-	}
-
-	/**
 	 * Registers Groups options (not autoloaded).
 	 */
 	public static function init() {

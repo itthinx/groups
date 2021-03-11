@@ -2,6 +2,8 @@
 
 = 2.13.0 =
 * WordPress 5.7 compatible.
+* Removed unnecessary magic method overrides in Groups_Options (also eliminates PHP 8 warning for __wakeup()).
+* Added missing scope declarations to Groups_Pagination methods.
 
 = 2.12.0 =
 * WordPress 5.6 compatible.
