@@ -63,7 +63,7 @@ class Groups_Admin_Users {
 				add_filter( 'pre_user_query', array( __CLASS__, 'pre_user_query' ) );
 				// WP_Users_List_Table implements extra_tablenav() where the restrict_manage_users action is invoked.
 				// As the extra_tablenav() method does not define a generic extension point, this is
-				// the best shot we get at inserting our group actions block (currently we're at WordPress 3.6.1). 
+				// the best shot we get at inserting our group actions block (currently we're at WordPress 3.6.1).
 				// We choose to use our own group-actions block instead of re-using the existing bulk-actions,
 				// to have a more explicit user interface which makes it clear that these actions
 				// are directed at relating users and groups.
@@ -74,7 +74,7 @@ class Groups_Admin_Users {
 
 	/**
 	 * Modify query to filter users by group.
-	 * 
+	 *
 	 * @param WP_User_Query $user_query
 	 * @return WP_User_Query
 	 */
@@ -353,7 +353,7 @@ class Groups_Admin_Users {
 	/**
 	 * Adds a new column to the users table to show the groups that users
 	 * belong to.
-	 * 
+	 *
 	 * @param array $column_headers
 	 * @return array column headers
 	 */
@@ -364,8 +364,8 @@ class Groups_Admin_Users {
 
 	/**
 	 * Renders custom column content.
-	 * 
-	 * @param string $output 
+	 *
+	 * @param string $output
 	 * @param string $column_name
 	 * @param int $user_id
 	 * @return string custom column content

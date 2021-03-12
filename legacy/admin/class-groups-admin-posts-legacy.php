@@ -153,7 +153,7 @@ class Groups_Admin_Posts_Legacy {
 
 	/**
 	 * Bulk-edit access restriction capabilities.
-	 * 
+	 *
 	 * @param string $column_name
 	 * @param string $post_type
 	 */
@@ -221,7 +221,7 @@ class Groups_Admin_Posts_Legacy {
 	 * This is called once for each post that is included in bulk-editing.
 	 * The fields that are handled here are rendered through the
 	 * bulk_edit_custom_box() method in this class.
-	 * 
+	 *
 	 * @param int $post_id
 	 */
 	public static function save_post( $post_id ) {
@@ -257,7 +257,7 @@ class Groups_Admin_Posts_Legacy {
 	/**
 	 * Query modifier to take the selected access restriction capability into
 	 * account.
-	 * 
+	 *
 	 * @param WP_Query $query query object passed by reference
 	 */
 	public static function parse_query( &$query ) {

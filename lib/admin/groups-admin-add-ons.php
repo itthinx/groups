@@ -37,7 +37,7 @@ function groups_admin_add_ons() {
 
 /**
  * Renders the content of the Add-Ons section.
- * 
+ *
  * @param $params array of options (offset is 0 by default and used to adjust heading h2)
  */
 function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {

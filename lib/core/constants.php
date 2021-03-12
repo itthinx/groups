@@ -30,7 +30,7 @@ define( 'GROUPS_DEFAULT_VERSION', '1.0.0' );
 
 /**
  * Do NOT remove this constant.
- * 
+ *
  * @var string plugin domain
  */
 define( 'GROUPS_PLUGIN_DOMAIN', 'groups' );

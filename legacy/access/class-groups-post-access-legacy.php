@@ -77,7 +77,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Restrict access to edit or delete posts based on the post's access restrictions.
-	 * 
+	 *
 	 * @param array $caps
 	 * @param string $cap
 	 * @param int $user_id
@@ -107,7 +107,7 @@ class Groups_Post_Access_Legacy {
 					if ( $cap === $edit_post_type || $cap === $delete_post_type ) {
 						$post_id = null;
 						if ( is_numeric( $args[0] ) ) {
-							$post_id = $args[0]; 
+							$post_id = $args[0];
 						} else if ( $args[0] instanceof WP_Post ) {
 							$post_id = $post->ID;
 						}
@@ -125,7 +125,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Filters out posts that the user should not be able to access.
-	 * 
+	 *
 	 * @param string $where current where conditions
 	 * @param WP_Query $query current query
 	 * @return string modified $where
@@ -187,7 +187,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Filter pages by access capability.
-	 * 
+	 *
 	 * @param array $pages
 	 */
 	public static function get_pages( $pages ) {
@@ -203,7 +203,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Filter posts by access capability.
-	 * 
+	 *
 	 * @param array $posts list of posts
 	 * @param WP_Query $query
 	 */
@@ -220,7 +220,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Filter menu items by access capability.
-	 * 
+	 *
 	 * @param array $items
 	 * @param mixed $menu
 	 * @param array $args
@@ -238,7 +238,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Filter excerpt by access capability.
-	 * 
+	 *
 	 * @param string $output
 	 * @return $output if access granted, otherwise ''
 	 */
@@ -278,19 +278,19 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Adds an access capability requirement.
-	 * 
+	 *
 	 * $map must contain 'post_id' (*)
-	 * 
+	 *
 	 * For now this only should be used to add the READ_POST_CAPABILITY which
 	 * it does automatically. Nothing else is checked for granting access.
-	 * 
+	 *
 	 * (*) Revisions : As of Groups 1.3.13 and at WordPress 3.6.1, as
 	 * add_post_meta stores postmeta for the revision's parent, we retrieve
 	 * the parent's post ID if it applies and check against that to see if
 	 * that capability is already present. This is to avoid duplicating
 	 * the already existing postmeta entry (which ocurred in previous
 	 * versions).
-	 * 
+	 *
 	 * @param array $map
 	 * @return true if the capability could be added to the post, otherwis false
 	 */
@@ -317,10 +317,10 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Returns true if the post requires the given capability to grant access.
-	 * 
+	 *
 	 * Currently only READ_POST_CAPABILITY should be used, this is also taken
 	 * as the default.
-	 * 
+	 *
 	 * @param int $post_id
 	 * @param string $capability capability label
 	 * @return true if the capability is required, otherwise false
@@ -336,7 +336,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Currently does nothing, always returns false.
-	 * 
+	 *
 	 * @param array $map
 	 * @return false
 	 */
@@ -346,7 +346,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Removes a capability requirement from a post.
-	 * 
+	 *
 	 * @param int $post_id
 	 * @param string $capability defaults to groups_read_post, removes all if null is given
 	 * @return true on success, otherwise false
@@ -365,7 +365,7 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Returns a list of capabilities that grant access to the post.
-	 * 
+	 *
 	 * @param int $post_id
 	 * @return array of string, capabilities
 	 */
@@ -375,9 +375,9 @@ class Groups_Post_Access_Legacy {
 
 	/**
 	 * Returns true if the user has any of the capabilities that grant access to the post.
-	 * 
+	 *
 	 * @param int $post_id post id
-	 * @param int $user_id user id or null for current user 
+	 * @param int $user_id user id or null for current user
 	 * @return boolean true if user can read the post
 	 */
 	public static function user_can_read_post( $post_id, $user_id = null ) {
@@ -413,7 +413,7 @@ class Groups_Post_Access_Legacy {
 	/**
 	 * Hooks into groups_deleted_capability_capability to remove existing access
 	 * restrictions based on the deleted capability.
-	 * 
+	 *
 	 * @param string $name of the deleted capability
 	 */
 	public static function groups_deleted_capability_capability( $capability ) {

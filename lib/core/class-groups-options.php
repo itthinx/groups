@@ -1,19 +1,19 @@
 <?php
 /**
  * class-groups-options.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.0.0
@@ -30,14 +30,14 @@ class Groups_Options {
 
 	/**
 	 * Groups plugin option key.
-	 * 
+	 *
 	 * @var string
 	 */
-	const option_key = 'groups_options'; 
+	const option_key = 'groups_options';
 
 	/**
 	 * General option index.
-	 * 
+	 *
 	 * @var string
 	 */
 	const general = 'general';
@@ -87,7 +87,7 @@ class Groups_Options {
 
 	/**
 	 * Returns the value of a user setting.
-	 * 
+	 *
 	 * @param string $option the option id
 	 * @param mixed $default default value to retrieve if option is not set
 	 * @param int $user_id retrieve option for this user, defaults to null for current user
@@ -162,7 +162,7 @@ class Groups_Options {
 
 	/**
 	 * Deletes a user setting.
-	 * 
+	 *
 	 * @param string $option the option's id
 	 * @param int $user_id delete option for this user, defaults to null for current user
 	 */

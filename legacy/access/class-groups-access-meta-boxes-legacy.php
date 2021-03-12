@@ -27,7 +27,7 @@ require_once GROUPS_LEGACY_LIB . '/access/class-groups-post-access-legacy.php';
 
 /**
  * Adds meta boxes to edit screens.
- * 
+ *
  * @link http://codex.wordpress.org/Function_Reference/add_meta_box
  */
 class Groups_Access_Meta_Boxes_Legacy {
@@ -132,7 +132,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 								__( 'Note that you must be a member of a group that has such a capability assigned.', 'groups' ) .
 								'</p>' .
 								'<p>' .
-								'<strong>' . __( 'Example:', 'groups' ) . '</strong>' . 
+								'<strong>' . __( 'Example:', 'groups' ) . '</strong>' .
 								'</p>' .
 								__( 'Let\'s assume that you want to limit the visibility of a post to members of the <em>Premium</em> group.', 'groups' ) .
 								'<p>' .
@@ -158,7 +158,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 								'<li>' . __( 'Go to <strong>Groups > Groups</strong> and assign the <em>premium</em> capability to the <em>Premium</em> group.', 'groups' ) . '</li>' .
 								'<li>' . __( 'Go to <strong>Groups > Options</strong> and enable the <em>premium</em> capability to restrict access.', 'groups' ) . '</li>' .
 								'<li>' . __( 'Become a member of the <em>Premium</em> group - this is required so you can choose the <em>premium</em> capability to restrict access to a post.', 'groups' ) . '</li>' .
-								'<li>' . __( 'Edit the post for which you want to restrict access and choose<sup>*</sup> the <em>premium</em> capability.', 'groups' ) . '</li>' . 
+								'<li>' . __( 'Edit the post for which you want to restrict access and choose<sup>*</sup> the <em>premium</em> capability.', 'groups' ) . '</li>' .
 								'</ol>' .
 								'<p>' .
 								__( '<sup>*</sup> For each capability, the groups that have the capability assigned are shown within parenthesis. You can choose a capability by typing part of the group\'s or the capability\'s name.', 'groups' ) .
@@ -172,9 +172,9 @@ class Groups_Access_Meta_Boxes_Legacy {
 
 	/**
 	 * Render meta box for capabilities.
-	 * 
+	 *
 	 * @see do_meta_boxes()
-	 * 
+	 *
 	 * @param Object $object
 	 * @param Object $box
 	 */
@@ -333,7 +333,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	 * At WordPress 3.6.1, this is the only way we can achieve that, because
 	 * the save_post action is not invoked if the post content is considered
 	 * empty.
-	 * 
+	 *
 	 * @param boolean $maybe_empty
 	 * @param array $postarr
 	 * @return boolean
@@ -360,7 +360,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 
 	/**
 	 * Save capability options.
-	 * 
+	 *
 	 * @param int $post_id
 	 * @param mixed $post post data (not used here)
 	 */
@@ -378,7 +378,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
 							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
 							// If the post ID is not provided, it will throw:
-							// PHP Notice:  Undefined offset: 0 in /var/www/groups-forums/wp-includes/capabilities.php on line 1067 
+							// PHP Notice:  Undefined offset: 0 in /var/www/groups-forums/wp-includes/capabilities.php on line 1067
 							$edit_post_type = 'edit_' . $post_type;
 							if ( $post_type_object = get_post_type_object( $post_type ) ) {
 								if ( !isset( $post_type_object->capabilities ) ) {
@@ -678,5 +678,5 @@ class Groups_Access_Meta_Boxes_Legacy {
 		}
 		return $result;
 	}
-} 
+}
 Groups_Access_Meta_Boxes_Legacy::init();

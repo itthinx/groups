@@ -44,7 +44,7 @@ class Groups_Post_Access {
 	const CACHE_GROUP = 'groups';
 
 	/**
-	 * 
+	 *
 	 * @var string
 	 */
 	const CAN_READ_POST = 'can_read_post';
@@ -160,7 +160,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Restrict access to edit or delete posts based on the post's access restrictions.
-	 * 
+	 *
 	 * @param array $caps
 	 * @param string $cap
 	 * @param int $user_id
@@ -190,7 +190,7 @@ class Groups_Post_Access {
 					if ( $cap === $edit_post_type || $cap === $delete_post_type ) {
 						$post_id = null;
 						if ( is_numeric( $args[0] ) ) {
-							$post_id = $args[0]; 
+							$post_id = $args[0];
 						} else if ( $args[0] instanceof WP_Post ) {
 							$post_id = $args[0]->ID;
 						}
@@ -208,7 +208,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Filters out posts that the user should not be able to access.
-	 * 
+	 *
 	 * @param string $where current where conditions
 	 * @param WP_Query $query current query
 	 * @return string modified $where
@@ -349,7 +349,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Filter pages by access capability.
-	 * 
+	 *
 	 * @param array $pages
 	 */
 	public static function get_pages( $pages ) {
@@ -369,7 +369,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Filter posts by access capability.
-	 * 
+	 *
 	 * @param array $posts list of posts
 	 * @param WP_Query $query
 	 */
@@ -390,9 +390,9 @@ class Groups_Post_Access {
 
 	/**
 	 * Filter menu items by access capability.
-	 * 
+	 *
 	 * @todo admin section: this won't inhibit the items being offered to be added, although when they're added they won't show up in the menu
-	 * 
+	 *
 	 * @param array $items
 	 * @param mixed $menu
 	 * @param array $args
@@ -419,7 +419,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Filter excerpt by access capability.
-	 * 
+	 *
 	 * @param string $output
 	 * @return $output if access granted, otherwise ''
 	 */
@@ -510,14 +510,14 @@ class Groups_Post_Access {
 
 	/**
 	 * Adds an access requirement based on post_id and group_id.
-	 * 
+	 *
 	 * (*) Revisions : As of Groups 1.3.13 and at WordPress 3.6.1, as
 	 * add_post_meta stores postmeta for the revision's parent, we retrieve
 	 * the parent's post ID if it applies and check against that to see if
 	 * that capability is already present. This is to avoid duplicating
 	 * the already existing postmeta entry (which ocurred in previous
 	 * versions).
-	 * 
+	 *
 	 * @param array $map must contain 'post_id' (*) and 'group_id'
 	 * @return true if the capability could be added to the post, otherwise false
 	 */
@@ -550,10 +550,10 @@ class Groups_Post_Access {
 
 	/**
 	 * Returns true if the post requires the user to be a member of the given group(s) to grant access.
-	 * 
+	 *
 	 * @param int $post_id ID of the post
 	 * @param array $map should provide 'post_id' and 'groups_read'
-	 * 
+	 *
 	 * @return true if the group(s) is required, otherwise false
 	 */
 	public static function read( $post_id, $map = array() ) {
@@ -582,9 +582,9 @@ class Groups_Post_Access {
 
 	/**
 	 * Update the post access restrictions.
-	 * 
+	 *
 	 * $map must provide 'post_id' (int) indicating the post's ID and 'groups_read' (int|array of int) holding group IDs that restrict read access.
-	 * 
+	 *
 	 * @param array $map
 	 * @return array of group ids, false on failure
 	 */
@@ -617,7 +617,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Removes a access restrictions from a post.
-	 * 
+	 *
 	 * @param int $post_id
 	 * @param array $map must provide 'groups_read' holding group IDs to remove from restricting access to the post; if empty, all access restrictions will be removed
 	 * @return true on success, otherwise false
@@ -645,7 +645,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Returns a list of capabilities that grant access to the post.
-	 * 
+	 *
 	 * @deprecated
 	 * @param int $post_id
 	 * @return array of string, capabilities
@@ -673,9 +673,9 @@ class Groups_Post_Access {
 
 	/**
 	 * Returns true if the user belongs to any of the groups that grant access to the post.
-	 * 
+	 *
 	 * @param int $post_id post id
-	 * @param int $user_id user id or null for current user 
+	 * @param int $user_id user id or null for current user
 	 * @return boolean true if user can read the post
 	 */
 	public static function user_can_read_post( $post_id, $user_id = null ) {
@@ -726,7 +726,7 @@ class Groups_Post_Access {
 	/**
 	 * Hooks into groups_deleted_group to remove existing access restrictions
 	 * based on the deleted group.
-	 * 
+	 *
 	 * @param int $group_id the ID of the deleted group
 	 */
 	public static function groups_deleted_group( $group_id ) {
@@ -737,7 +737,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Hooked on wp_count_posts to correct the post counts.
-	 * 
+	 *
 	 * Note: at WP 4.7.4 through WP_Posts_List_Table::prepare_items() which obtains $post_status
 	 * independent of the post type, we will come here for any post status, so don't be surprised
 	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
@@ -796,7 +796,7 @@ class Groups_Post_Access {
 	/**
 	 * Would be hooked on wp_count_attachments to correct the counts but it's not actually
 	 * being used in the current media library.
-	 * 
+	 *
 	 * @param object $counts An object containing the attachment counts by mime type.
 	 * @param string $mime_type The mime type pattern used to filter the attachments counted.
 	 */

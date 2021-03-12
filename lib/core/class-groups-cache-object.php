@@ -25,7 +25,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Cache entry encapsulation.
- * 
+ *
  * @property string $key
  * @property mixed $value
  */
@@ -45,7 +45,7 @@ class Groups_Cache_Object {
 
 	/**
 	 * Create a cache entry object that holds a value for the given key.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $value
 	 */
@@ -56,7 +56,7 @@ class Groups_Cache_Object {
 
 	/**
 	 * Getter implementation for key and value properties.
-	 * 
+	 *
 	 * @param string $name
 	 *
 	 * @return mixed property value or null
@@ -74,7 +74,7 @@ class Groups_Cache_Object {
 
 	/**
 	 * Setter for key and value properties.
-	 * 
+	 *
 	 * @param string $name
 	 * @param mixed $value
 	 */

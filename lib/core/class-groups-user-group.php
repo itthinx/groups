@@ -60,11 +60,11 @@ class Groups_User_Group {
 
 	/**
 	 * Retrieve a property by name.
-	 * 
+	 *
 	 * Possible properties:
 	 * - user_id
 	 * - group_id
-	 * 
+	 *
 	 * @param string $name property's name
 	 *
 	 * @return mixed property value, will return null if property does not exist
@@ -87,7 +87,7 @@ class Groups_User_Group {
 	 *
 	 * As of Groups 2.2.0, this is not invoked when entries for existing users are created on
 	 * plugin activation, thus the 'groups_created_user_group' action is not called for these.
-	 * 
+	 *
 	 * @param array $map attributes - must provide user_id and group_id
 	 * @return true on success, otherwise false
 	 */
@@ -134,7 +134,7 @@ class Groups_User_Group {
 
 	/**
 	 * Retrieve a user-group relation.
-	 * 
+	 *
 	 * @param int $user_id user's id
 	 * @param int $group_id group's id
 	 * @return object upon success, otherwise false
@@ -157,10 +157,10 @@ class Groups_User_Group {
 
 	/**
 	 * Update user-group relation.
-	 * 
+	 *
 	 * This is a relation and as the relation is, this does nothing and
 	 * it SHOULD do nothing.
-	 * 
+	 *
 	 * @param array $map
 	 * @return true on success, otherwise false
 	 */
@@ -179,7 +179,7 @@ class Groups_User_Group {
 
 	/**
 	 * Remove user-group relation.
-	 * 
+	 *
 	 * @param int $user_id
 	 * @param int $group_id
 	 * @return true if successful, false otherwise
@@ -213,7 +213,7 @@ class Groups_User_Group {
 	/**
 	 * Hooks into the deleted_user action to remove the deleted user from
 	 * all groups it belongs to.
-	 * 
+	 *
 	 * @param int $user_id
 	 */
 	public static function deleted_user( $user_id ) {
@@ -227,7 +227,7 @@ class Groups_User_Group {
 		if ( $rows ) {
 			foreach( $rows as $row ) {
 				// don't optimize that in preference of a standard deletion
-				// process (trigger actions ...) 
+				// process (trigger actions ...)
 				self::delete( $row->user_id, $row->group_id );
 			}
 		}
@@ -236,10 +236,10 @@ class Groups_User_Group {
 	/**
 	 * Hooks into the remove_user_from_blog action to remove the user
 	 * from groups that belong to that blog.
-	 * 
+	 *
 	 *  Note that this is preemptive as there is no
 	 *  removed_user_from_blog action.
-	 * 
+	 *
 	 * @param int $user_id
 	 * @param int $blog_id
 	 */
@@ -253,7 +253,7 @@ class Groups_User_Group {
 
 		$group_table = _groups_get_tablename( 'group' );
 		$user_group_table = _groups_get_tablename( 'user_group' );
-		// We can end up here while a blog is being deleted, in that case, 
+		// We can end up here while a blog is being deleted, in that case,
 		// the tables have already been deleted.
 		if ( ( $wpdb->get_var( "SHOW TABLES LIKE '" . $group_table . "'" ) == $group_table ) &&
 			( $wpdb->get_var( "SHOW TABLES LIKE '" . $user_group_table . "'" ) == $user_group_table )

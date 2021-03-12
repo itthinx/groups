@@ -62,7 +62,7 @@ class Groups_WordPress {
 
 	/**
 	 * Hook into actions to extend user capabilities.
-	 * 
+	 *
 	 * @todo We might want to keep up with new capabilities when added, so
 	 * that others don't have to add these explicitly to Groups when they
 	 * add them to WordPress. Currently there's no hook for when a capability
@@ -76,7 +76,7 @@ class Groups_WordPress {
 
 	/**
 	 * Extends Groups user capability with its WP_User capability.
-	 * 
+	 *
 	 * @param string $result
 	 * @param Groups_User $groups_user
 	 * @param string $capability
@@ -98,7 +98,7 @@ class Groups_WordPress {
 
 	/**
 	 * Extend user capabilities with Groups user capabilities.
-	 * 
+	 *
 	 * @param array $allcaps the capabilities the user has
 	 * @param array $caps the requested capabilities
 	 * @param array $args capability context which can provide the requested capability as $args[0], the user ID as $args[1] and the related object's ID as $args[2]

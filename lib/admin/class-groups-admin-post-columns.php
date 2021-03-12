@@ -85,7 +85,7 @@ class Groups_Admin_Post_Columns {
 	/**
 	 * Adds a new column to the post type's table showing the access
 	 * restriction groups.
-	 * 
+	 *
 	 * @param array $column_headers
 	 * @return array column headers
 	 */
@@ -100,7 +100,7 @@ class Groups_Admin_Post_Columns {
 
 	/**
 	 * Renders custom column content.
-	 * 
+	 *
 	 * @param string $column_name
 	 * @param int $post_id
 	 * @return string custom column content
@@ -204,10 +204,10 @@ class Groups_Admin_Post_Columns {
 
 	/**
 	 * Groups column is sortable.
-	 * 
+	 *
 	 * Sorting depends on the filters Groups_Admin_Posts::posts_join() and Groups_Admin_Posts::posts_orderby()
 	 * which add the relevant group information and sort by group name.
-	 * 
+	 *
 	 * @see Groups_Admin_Posts::posts_join()
 	 * @see Groups_Admin_Posts::posts_orderby()
 	 * @param array $sortable_columns

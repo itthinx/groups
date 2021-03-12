@@ -66,7 +66,7 @@ class Groups_Registered {
 
 		// For translation of the "Registered" group(s)
 		__( 'Registered', 'groups' );
-		 
+		
 		// When a blog is added, create a new "Registered" group for that blog.
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 10, 2 );
 
@@ -86,9 +86,9 @@ class Groups_Registered {
 
 	/**
 	 * Create "Registered" group for new blog and add its admin user.
-	 * 
+	 *
 	 * @see Groups_Controller::wpmu_new_blog()
-	 * 
+	 *
 	 * @param int $blog_id
 	 * @param int $user_id blog's admin user's id
 	 * @param string $domain (optional)
@@ -118,7 +118,7 @@ class Groups_Registered {
 
 	/**
 	 * Assign a newly created user to its "Registered" group.
-	 * 
+	 *
 	 * @param int $user_id
 	 */
 	public static function user_register( $user_id ) {

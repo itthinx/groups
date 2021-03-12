@@ -30,7 +30,7 @@ class Groups_Utility {
 
 	/**
 	 * Checks an id (0 is accepted => anonymous).
-	 * 
+	 *
 	 * @param string|int $id
 	 * @return int|boolean if validated, the id as an int, otherwise false
 	 */

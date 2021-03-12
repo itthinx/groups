@@ -43,7 +43,7 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * User object.
-	 * 
+	 *
 	 * @var WP_User
 	 */
 	var $user = null;
@@ -319,7 +319,7 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * Returns true if the user belongs to the group.
-	 * 
+	 *
 	 * @param int $group_id
 	 * @return boolean
 	 */
@@ -342,7 +342,7 @@ class Groups_User implements I_Capable {
 	 * Builds the cache entries for user groups and capabilities if needed.
 	 * The cache entries are built only if they do not already exist.
 	 * If you want them rebuilt, delete them before calling.
-	 * 
+	 *
 	 * @param array $capability_ids carries the capability ids for the user on return, but only if cache entries have been built; will provide an empty array by default
 	 * @param array $capabilities carries the capabilities for the user on return, but only if cache entries have been built; will provide an empty array by default
 	 * @param array $group_ids carries the group ids for the user on return, but only if cache entries have been built; will provide an empty array by default
