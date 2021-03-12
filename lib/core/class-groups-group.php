@@ -283,16 +283,27 @@ class Groups_Group implements I_Capable {
 				$formats[] = '%s';
 			}
 			if ( !empty( $parent_id ) ) {
-				// only allow to set an existing parent group (that is from the same blog)
-				$parent_group_id = $wpdb->get_var( $wpdb->prepare(
-					"SELECT group_id FROM $group_table WHERE group_id = %d",
-					Groups_Utility::id( $parent_id )
-				) );
-				if ( $parent_group_id === $parent_id ) {
-					$data['parent_id'] = Groups_Utility::id( $parent_id );
-					$formats[] = '%d';
-				} else {
-					$error = true;
+				$parent_id = Groups_Utility::id( $parent_id );
+				if ( $parent_id !== false ) {
+					// only allow to set an existing parent group (that is from the same blog)
+					$parent_group_id = $wpdb->get_var(
+						$wpdb->prepare(
+							"SELECT group_id FROM $group_table WHERE group_id = %d",
+							Groups_Utility::id( $parent_id )
+						)
+					);
+					if ( $parent_group_id !== null ) {
+						$parent_group_id = intval( $parent_group_id );
+					}
+					if (
+						$parent_group_id !== null &&
+						$parent_group_id === $parent_id
+					) {
+						$data['parent_id'] = $parent_id;
+						$formats[] = '%d';
+					} else {
+						$error = true;
+					}
 				}
 			}
 			// no duplicate names
@@ -398,7 +409,6 @@ class Groups_Group implements I_Capable {
 					Groups_Utility::id( $group_id )
 				) );
 			} else {
-				 
 				// Prohibit circular dependencies:
 				// This group cannot have a parent that is its successor
 				// at any level in its successor hierarchy.
@@ -411,9 +421,9 @@ class Groups_Group implements I_Capable {
 				// Find all successors of this group
 				$groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
 				if ( $groups !== null ) {
-					$group_ids		   = array();
-					$group_ids[]		 = Groups_Utility::id( $group_id );
-					$iterations		  = 0;
+					$group_ids   = array();
+					$group_ids[] = Groups_Utility::id( $group_id );
+					$iterations  = 0;
 					$old_group_ids_count = 0;
 					while( ( $iterations < $groups ) && ( count( $group_ids ) > 0 ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
 
