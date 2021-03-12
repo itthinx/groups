@@ -41,10 +41,10 @@ class Groups_Extra {
 	 * Up-sell and cross-sell products are obtained directly by their ids and
 	 * no normal filters are executed that would hide them. This filter is used
 	 * instead to determine the visibility.
-	 * 
+	 *
 	 * If at some point we had a get_post filter in WordPress, it could filter these
 	 * and we wouldn't need this.
-	 * 
+	 *
 	 * @param boolean $visible
 	 * @param int $product_id
 	 * @return boolean

@@ -31,7 +31,7 @@ class Groups_Group_Capability {
 	/**
 	 * Hook into appropriate actions when needed.
 	 * For now, this does nothing.
-	 * 
+	 *
 	 * @see Groups_Group::delete()
 	 */
 	public static function init() {
@@ -40,7 +40,7 @@ class Groups_Group_Capability {
 
 	/**
 	 * Persist a group-capability relation.
-	 * 
+	 *
 	 * @param array $map attributes - must provide group_id and capability_id
 	 * @return true on success, otherwise false
 	 */
@@ -79,7 +79,7 @@ class Groups_Group_Capability {
 
 	/**
 	 * Retrieve a group-capability relation.
-	 * 
+	 *
 	 * @param int $group_id group's id
 	 * @param int $capability_id capability's id
 	 * @return object upon success, otherwise false
@@ -102,9 +102,9 @@ class Groups_Group_Capability {
 
 	/**
 	 * Update group-capability relation.
-	 * 
+	 *
 	 * This changes nothing so as of now it's pointless to even call this.
-	 * 
+	 *
 	 * @param array $map
 	 * @return true if successful, false otherwise
 	 */
@@ -122,7 +122,7 @@ class Groups_Group_Capability {
 
 	/**
 	 * Remove group-capability relation.
-	 * 
+	 *
 	 * @param int $group_id
 	 * @param int $capability_id
 	 * @return true if successful, false otherwise

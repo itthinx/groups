@@ -45,7 +45,7 @@ class Groups_User_Capability {
 
 	/**
 	 * Persist a user-capability relation.
-	 * 
+	 *
 	 * @param array $map attributes - must provide user_id and capability_id
 	 * @return true on success, otherwise false
 	 */
@@ -86,7 +86,7 @@ class Groups_User_Capability {
 
 	/**
 	 * Retrieve a user-capability relation.
-	 * 
+	 *
 	 * @param int $user_id user's id
 	 * @param int $capability_id capability's id
 	 * @return object upon success, otherwise false
@@ -109,9 +109,9 @@ class Groups_User_Capability {
 
 	/**
 	 * Update user-capability relation.
-	 * 
+	 *
 	 * This changes nothing so as of now it's pointless to even call this.
-	 * 
+	 *
 	 * @param array $map
 	 * @return true if successful, false otherwise
 	 */
@@ -130,7 +130,7 @@ class Groups_User_Capability {
 
 	/**
 	 * Remove user-capability relation.
-	 * 
+	 *
 	 * @param int $user_id
 	 * @param int $capability_id
 	 * @return true if successful, false otherwise

@@ -90,7 +90,7 @@ class Groups_Controller {
 
 	/**
 	 * Run activation for a newly created blog in a multisite environment.
-	 * 
+	 *
 	 * @param int $blog_id
 	 */
 	public static function wpmu_new_blog( $blog_id, $user_id ) {
@@ -107,7 +107,7 @@ class Groups_Controller {
 	/**
 	 * Run deactivation for a blog that is about to be deleted in a multisite
 	 * environment.
-	 * 
+	 *
 	 * @param int $blog_id
 	 */
 	public static function delete_blog( $blog_id, $drop = false ) {
@@ -163,7 +163,7 @@ class Groups_Controller {
 
 	/**
 	 * Makes sure that our own translation file is loaded first.
-	 * 
+	 *
 	 * @param string $mofile
 	 * @param string $domain
 	 * @return string mofile

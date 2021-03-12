@@ -25,10 +25,10 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * User Interface Extensions.
- * 
+ *
  * This class may yet be subject to changes in method signatures. External
  * dependency is not advised until the private access restriction is removed.
- * 
+ *
  * @access private
  */
 class Groups_UIE {
@@ -47,7 +47,7 @@ class Groups_UIE {
 
 	/**
 	 * Extension chooser - determines what UI extension is used for an element.
-	 * 
+	 *
 	 * @param string $element choices: select
 	 * @param string $extension choices: selectize
 	 */

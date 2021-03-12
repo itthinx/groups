@@ -1,19 +1,19 @@
 <?php
 /**
  * class-groups-pagination.php
- * 
+ *
  * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
- * 
+ *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
- * 
+ *
  * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * This header and all notices must be kept intact.
- * 
+ *
  * @author Karim Rahimpur
  * @package groups
  * @since groups 1.0.0
@@ -29,12 +29,12 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Pagination {
 
 	/**
-	 * 
+	 *
 	 * @param int $total_items how many items there are to display
 	 * @param int $total_pages how many pages there are, normally leave set to null
 	 * @param int $per_page how many results to show on each page
 	 */
-	function __construct( $total_items, $total_pages, $per_page ) {
+	public function __construct( $total_items, $total_pages, $per_page ) {
 		$this->set_pagination_args(
 			array(
 				'total_items' => $total_items,
@@ -48,7 +48,7 @@ class Groups_Pagination {
 	 * Get the current page number
 	 * @return int the current page number
 	 */
-	function get_pagenum() {
+	public function get_pagenum() {
 		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
 		if ( !isset( $_REQUEST['paged'] ) ) { // needed with rewritten page added
 			if ( preg_match( "/(\/page\/)(\d+)/", $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $matches ) ) {
@@ -68,7 +68,7 @@ class Groups_Pagination {
 	 * @param array $args An associative array with information about the pagination
 	 * @access protected
 	 */
-	function set_pagination_args( $args ) {
+	public function set_pagination_args( $args ) {
 		$args = wp_parse_args( $args, array(
 			'total_items' => 0,
 			'total_pages' => 0,
@@ -86,7 +86,7 @@ class Groups_Pagination {
 	 * @param string $which  where it's displayed
 	 * @param boolean $echo displays if true, otherwise returns
 	 */
-	function pagination( $which, $echo = false ) {
+	public function pagination( $which, $echo = false ) {
 
 		if ( empty( $this->_pagination_args ) )
 			return;

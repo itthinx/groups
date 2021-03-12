@@ -183,7 +183,7 @@ class Groups_Group implements I_Capable {
 			$capability_table = _groups_get_tablename( 'capability' );
 			$group_capability_table = _groups_get_tablename( 'group_capability' );
 
-			// determine capability id 
+			// determine capability id
 			$capability_id = null;
 			if ( is_numeric( $capability ) ) {
 				$capability_id = Groups_Utility::id( $capability );
@@ -240,14 +240,14 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * Persist a group.
-	 * 
+	 *
 	 * Parameters:
 	 * - name (required) - the group's name
 	 * - creator_id (optional) - defaults to the current user's id
 	 * - datetime (optional) - defaults to now
 	 * - description (optional)
 	 * - parent_id (optional)
-	 * 
+	 *
 	 * @param array $map attributes
 	 *
 	 * @return int group_id on success, otherwise false
@@ -283,16 +283,27 @@ class Groups_Group implements I_Capable {
 				$formats[] = '%s';
 			}
 			if ( !empty( $parent_id ) ) {
-				// only allow to set an existing parent group (that is from the same blog)
-				$parent_group_id = $wpdb->get_var( $wpdb->prepare(
-					"SELECT group_id FROM $group_table WHERE group_id = %d",
-					Groups_Utility::id( $parent_id )
-				) );
-				if ( $parent_group_id === $parent_id ) {
-					$data['parent_id'] = Groups_Utility::id( $parent_id );
-					$formats[] = '%d';
-				} else {
-					$error = true;
+				$parent_id = Groups_Utility::id( $parent_id );
+				if ( $parent_id !== false ) {
+					// only allow to set an existing parent group (that is from the same blog)
+					$parent_group_id = $wpdb->get_var(
+						$wpdb->prepare(
+							"SELECT group_id FROM $group_table WHERE group_id = %d",
+							Groups_Utility::id( $parent_id )
+						)
+					);
+					if ( $parent_group_id !== null ) {
+						$parent_group_id = intval( $parent_group_id );
+					}
+					if (
+						$parent_group_id !== null &&
+						$parent_group_id === $parent_id
+					) {
+						$data['parent_id'] = $parent_id;
+						$formats[] = '%d';
+					} else {
+						$error = true;
+					}
 				}
 			}
 			// no duplicate names
@@ -315,7 +326,7 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * Retrieve a group.
-	 * 
+	 *
 	 * @param int $group_id group's id
 	 * @return object upon success, otherwise false
 	 */
@@ -369,7 +380,7 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * Update group.
-	 * 
+	 *
 	 * @param array $map group attribute, must contain group_id
 	 *
 	 * @return int group_id on success, otherwise false
@@ -398,22 +409,21 @@ class Groups_Group implements I_Capable {
 					Groups_Utility::id( $group_id )
 				) );
 			} else {
-				 
 				// Prohibit circular dependencies:
 				// This group cannot have a parent that is its successor
 				// at any level in its successor hierarchy.
 				// S(g)  : successor of group g
 				// S*(g) : successors of group g, any level deep
 				// P(g)  : parent of g
-				// --- 
+				// ---
 				// It must hold: !( P(g) in S*(g) )
 
 				// Find all successors of this group
 				$groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
 				if ( $groups !== null ) {
-					$group_ids		   = array();
-					$group_ids[]		 = Groups_Utility::id( $group_id );
-					$iterations		  = 0;
+					$group_ids   = array();
+					$group_ids[] = Groups_Utility::id( $group_id );
+					$iterations  = 0;
 					$old_group_ids_count = 0;
 					while( ( $iterations < $groups ) && ( count( $group_ids ) > 0 ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
 
@@ -462,7 +472,7 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * Remove group and its relations.
-	 * 
+	 *
 	 * @param int $group_id
 	 *
 	 * @return int group_id if successful, false otherwise
@@ -515,7 +525,7 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * Returns an array of group IDs.
-	 * 
+	 *
 	 * If no arguments are passed, IDs for all existing groups are returned.
 	 *
 	 * @param array $args
@@ -545,7 +555,7 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * Returns an array of database results by querying the group table.
-	 *  
+	 *
 	 * @param Array $args
 	 * - ['fields'] string with fields to get separated by comma. If empty then get all fields.
 	 * - ['order_by'] string a Groups_Group property
@@ -555,9 +565,9 @@ class Groups_Group implements I_Capable {
 	 * - ['include_by_name'] array|string with one ore more group names of groups to include, separated by comma
 	 * - ['exclude'] array|string with one or more IDs of groups to exclude, separated by comma
 	 * - ['exclude_by_name'] array|string with one ore more group names of groups to exclude, separated by comma
-	 * 
+	 *
 	 * @return array of object with query rows
-	 * 
+	 *
 	 * @since groups 1.4.9
 	 */
 	public static function get_groups( $args = array() ) {
@@ -710,7 +720,7 @@ class Groups_Group implements I_Capable {
 			$exclude_by_name = "'" . implode( "','", array_map( 'esc_sql', array_map( 'trim', $exclude_by_name ) ) ) . "'";
 			if ( strlen( $exclude_by_name ) > 0 ) {
 				if ( empty( $where ) ) {
-					$where = " WHERE name NOT IN ($exclude_by_name) "; 
+					$where = " WHERE name NOT IN ($exclude_by_name) ";
 				} else {
 					$where .= " AND name NOT IN ($exclude_by_name) ";
 				}

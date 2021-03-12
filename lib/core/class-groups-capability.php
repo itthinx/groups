@@ -48,7 +48,7 @@ class Groups_Capability {
 
 	/**
 	 * Retrieve a property by name.
-	 * 
+	 *
 	 * Possible properties:
 	 * - capability_id
 	 * - capability
@@ -56,9 +56,9 @@ class Groups_Capability {
 	 * - object
 	 * - name
 	 * - description
-	 * 
+	 *
 	 * - group_ids groups that have the capability
-	 * 
+	 *
 	 * @param string $name property's name
 	 * @return mixed property value, will return null if property does not exist
 	 */
@@ -110,15 +110,15 @@ class Groups_Capability {
 
 	/**
 	 * Persist a capability.
-	 * 
+	 *
 	 * Possible keys in $map:
-	 * 
+	 *
 	 * - "capability" (required) - unique capability label, max 20 characters
 	 * - "class" (optional) - class the capability applies to, max 100 chars
 	 * - "object" (optional) - identifies object of that class, max 100 chars
 	 * - "name" (optional) - name it if you have to
 	 * - "description" (optional) - dito
-	 * 
+	 *
 	 * @param array $map attributes, requires at least: "capability"
 	 *
 	 * @return int capability_id on success, otherwise false
@@ -169,9 +169,9 @@ class Groups_Capability {
 
 	/**
 	 * Retrieve a capability.
-	 * 
+	 *
 	 * Use Groups_Capability::read_capability() if you are trying to retrieve a capability by its unique label.
-	 * 
+	 *
 	 * @see Groups_Capability::read_by_capability()
 	 * @param int $capability_id capability's id
 	 * @return object upon success, otherwise false
@@ -199,7 +199,7 @@ class Groups_Capability {
 
 	/**
 	 * Retrieve a capability by its unique label.
-	 * 
+	 *
 	 * @param string $capability capability's unique label
 	 * @return object upon success, otherwise false
 	 */
@@ -227,7 +227,7 @@ class Groups_Capability {
 
 	/**
 	 * Update capability.
-	 * 
+	 *
 	 * @param array $map capability attribute, must contain capability_id
 	 *
 	 * @return int capability_id on success, otherwise false
@@ -285,7 +285,7 @@ class Groups_Capability {
 
 	/**
 	 * Remove capability and its relations.
-	 * 
+	 *
 	 * @param int $capability_id
 	 *
 	 * @return int capability_id if successful, false otherwise

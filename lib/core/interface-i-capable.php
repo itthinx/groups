@@ -30,9 +30,9 @@ interface I_Capable {
 
 	/**
 	 * Finds out if I have the given capability.
-	 * 
+	 *
 	 * @param string|int $capability capability or capability id
 	 * @return true if I can, otherwise false
 	 */
-	public function can( $capability ); 
+	public function can( $capability );
 }

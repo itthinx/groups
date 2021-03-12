@@ -67,7 +67,7 @@ class Groups_Admin_Post_Columns_Legacy {
 	/**
 	 * Adds a new column to the post type's table showing the access
 	 * restriction capabilities.
-	 * 
+	 *
 	 * @param array $column_headers
 	 * @return array column headers
 	 */
@@ -81,7 +81,7 @@ class Groups_Admin_Post_Columns_Legacy {
 
 	/**
 	 * Renders custom column content.
-	 * 
+	 *
 	 * @param string $column_name
 	 * @param int $post_id
 	 * @return string custom column content

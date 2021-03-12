@@ -46,7 +46,7 @@ class Groups_Access_Shortcodes {
 	 * Takes one attribute "group" which is a comma-separated list of group
 	 * names or ids (can be mixed).
 	 * The content is shown if the current user belongs to the group(s).
-	 * 
+	 *
 	 * @param array $atts attributes
 	 * @param string $content content to render
 	 */
@@ -122,7 +122,7 @@ class Groups_Access_Shortcodes {
 	 * Takes one attribute "capability" that must be a valid capability label
 	 * or a list of capabilities separated by comma.
 	 * The content is shown if the current user has one of the capabilities.
-	 * 
+	 *
 	 * @param array $atts attributes
 	 * @param string $content content to render
 	 */

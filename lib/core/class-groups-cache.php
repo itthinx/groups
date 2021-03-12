@@ -25,9 +25,9 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Cache service.
- * 
+ *
  * Uses cache objects to encapsulate cached data.
- * 
+ *
  * This makes us completely independent from the problems related to
  * incomplete cache implementations that ignore the $found parameter used
  * to disambiguate cache misses with wp_cache_get() when false is retrieved.
@@ -42,7 +42,7 @@ class Groups_Cache {
 
 	/**
 	 * Retrieve an entry from cache.
-	 * 
+	 *
 	 * @param string $key
 	 * @param string $group
 	 * @return Groups_Cache_Object|null returns a cache object on hit, null on cache miss
@@ -58,7 +58,7 @@ class Groups_Cache {
 
 	/**
 	 * Store an entry in cache.
-	 * 
+	 *
 	 * @param string $key
 	 * @param string $value
 	 * @param string $group
@@ -71,7 +71,7 @@ class Groups_Cache {
 
 	/**
 	 * Delete a cache entry.
-	 * 
+	 *
 	 * @param string $key
 	 * @param string $group
 	 * @return true if successful, otherwise false

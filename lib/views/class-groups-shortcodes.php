@@ -50,7 +50,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders the Groups login form.
-	 * 
+	 *
 	 * The user is redirected to the current page after login by default.
 	 * The user can be redirected to a specific URL after login by
 	 * indicating the <code>redirect</code> attribute.
@@ -94,7 +94,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders the Groups logout link.
-	 * 
+	 *
 	 * The link is rendered if the user is logged in.
 	 * The user is redirected to the current page after logout by default.
 	 * The user can be redirected to a specific URL after logout by
@@ -132,7 +132,7 @@ class Groups_Shortcodes {
 	 * - "format" :
 	 * - "single" : used with show="count", single form, defaults to '1'
 	 * - "plural" : used with show="count", plural form, defaults to '%d', must contain %d to show number
-	 * 
+	 *
 	 * @param array $atts attributes
 	 * @param string $content content to render
 	 *
@@ -207,7 +207,7 @@ class Groups_Shortcodes {
 	 * - "item_class" : defaults to "name"
 	 * - "order_by"   : defaults to "name", also accepts "group_id"
 	 * - "order"      : default to "ASC", also accepts "asc", "desc" and "DESC"
-	 * 
+	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
 	 *
@@ -355,7 +355,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Group comparison by name.
-	 * 
+	 *
 	 * @param Groups_Group $a
 	 * @param Groups_Group $b
 	 * @return int
@@ -455,7 +455,7 @@ class Groups_Shortcodes {
 	 * Renders a form that lets a user join a group.
 	 * * Attributes:
 	 * - "group" : (required) group name or id
-	 * 
+	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
 	 */

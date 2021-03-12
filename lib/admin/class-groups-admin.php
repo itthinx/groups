@@ -30,7 +30,7 @@ class Groups_Admin {
 
 	/**
 	 * The position of the Groups menu.
-	 * 
+	 *
 	 * @var int
 	 */
 	const MENU_POSITION = '38.381';
@@ -68,7 +68,7 @@ class Groups_Admin {
 
 	/**
 	 * Loads styles for the Groups admin section.
-	 * 
+	 *
 	 * @see Groups_Admin::admin_menu()
 	 */
 	public static function admin_print_styles() {
@@ -90,7 +90,7 @@ class Groups_Admin {
 	 * The message is filtered using wp_filter_kses() and wrapped in a div
 	 * with class 'updated' for messages of type 'info' and 'error' for
 	 * those of type 'error'.
-	 * 
+	 *
 	 * @param string $message the message
 	 * @param string $type type of message, defaults to 'info'
 	 * @uses wp_filter_kses()
@@ -107,7 +107,7 @@ class Groups_Admin {
 	/**
 	 * Returns the list of messages as a string.
 	 * An empty string is returned if there are no messages.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function render_messages() {

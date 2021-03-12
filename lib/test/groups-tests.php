@@ -90,7 +90,7 @@ if ( defined( 'ABSPATH' ) ) {
 		assert( 'Groups_Capability::read_by_capability( "dance" )' );
 
 
-		// *** users *** 
+		// *** users ***
 
 		// create test users
 		$fooname = 'foo' . rand(0, 100);
@@ -115,7 +115,7 @@ if ( defined( 'ABSPATH' ) ) {
 		assert( '$dol_user_id instanceof WP_Error === false');
 
 		// this user is a simple editor, used to test WordPress capabilities
-		$editorname = 'rotide' . rand(0, 100); 
+		$editorname = 'rotide' . rand(0, 100);
 		$editor_user_id = wp_create_user( $editorname, 'rotide', $editorname . '@example.com' );
 		assert( '$editor_user_id instanceof WP_Error === false');
 		if ( !( $editor_user_id instanceof WP_Error ) ) {
@@ -231,7 +231,7 @@ if ( defined( 'ABSPATH' ) ) {
 		assert( '!$baz->can( $sing_capability_id )' );
 		assert( '$bar->can( $sing_capability_id )' );
 
-		// only foo & baz can clap 
+		// only foo & baz can clap
 		assert( '$foo->can( "clap" )' );
 		assert( '!$dol->can( "clap" )' );
 		assert( '$baz->can( "clap" )' );
@@ -412,7 +412,7 @@ if ( defined( 'ABSPATH' ) ) {
 					echo '<input name="run" value="run" type="hidden" />';
 					echo '<input type="submit" value="Go" />';
 					wp_nonce_field( 'run-tests', 'groups-test-nonce', true, true );
-					echo '</form>'; 
+					echo '</form>';
 			}
 
 		}

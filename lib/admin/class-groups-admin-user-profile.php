@@ -60,9 +60,9 @@ class Groups_Admin_User_Profile {
 
 	/**
 	 * Hook for the form to create a new user.
-	 * 
+	 *
 	 * See wp-admin/user-new.php
-	 * 
+	 *
 	 * @param string $type form context, expecting 'add-existing-user' (Multisite), or 'add-new-user' (single site and network admin)
 	 */
 	public static function user_new_form( $type = null ) {
@@ -99,7 +99,7 @@ class Groups_Admin_User_Profile {
 	/**
 	 * Adds the new user to chosen groups when creating a new user account
 	 * from the admin side.
-	 * 
+	 *
 	 * @param int $user_id
 	 */
 	public static function user_register( $user_id ) {
@@ -196,13 +196,13 @@ class Groups_Admin_User_Profile {
 	/**
 	 * Updates the group membership when a user's own profile is saved - but
 	 * for group admins on their own profile page only.
-	 * 
+	 *
 	 * @param int $user_id
 	 * @see Groups_Admin_User_Profile::edit_user_profile_update()
 	 */
 	public static function personal_options_update( $user_id ) {
 		// We're using the same method as for editing another user's profile,
-		// but let's check for group admin here as well. 
+		// but let's check for group admin here as well.
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			self::edit_user_profile_update( $user_id );
 		}

@@ -193,7 +193,7 @@ class Groups_Admin_Posts {
 
 	/**
 	 * Bulk-edit access restriction groups.
-	 * 
+	 *
 	 * @param string $column_name
 	 * @param string $post_type
 	 */
@@ -267,7 +267,7 @@ class Groups_Admin_Posts {
 	 * This is called once for each post that is included in bulk-editing.
 	 * The fields that are handled here are rendered through the
 	 * bulk_edit_custom_box() method in this class.
-	 * 
+	 *
 	 * @param int $post_id
 	 */
 	public static function save_post( $post_id ) {
@@ -394,7 +394,7 @@ class Groups_Admin_Posts {
 	/**
 	 * Filters out posts by group. This is used when you choose groups on the post admin screen so that
 	 * only those posts who are restricted by groups are shown.
-	 * 
+	 *
 	 * @param string $where
 	 * @param WP_Query $query
 	 * @return string

@@ -37,7 +37,7 @@ function groups_admin_add_ons() {
 
 /**
  * Renders the content of the Add-Ons section.
- * 
+ *
  * @param $params array of options (offset is 0 by default and used to adjust heading h2)
  */
 function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
@@ -90,13 +90,6 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'content' => 'Newsletter Campaigns for Subscribers and Groups. Groups Newsletters helps you to communicate efficiently, providing targeted information to groups of recipients through automated campaigns.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-newsletters.png',
 			'url'     => 'https://www.itthinx.com/shop/groups-newsletters/',
-			'index'   => 100
-		),
-		'groups-paypal' => array(
-			'title'   => 'Groups PayPal',
-			'content' => 'Sell memberships and subscriptions with Groups and PayPal.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-paypal.png',
-			'url'     => 'https://www.itthinx.com/shop/groups-paypal/',
 			'index'   => 100
 		),
 		'groups-restrict-categories' => array(
