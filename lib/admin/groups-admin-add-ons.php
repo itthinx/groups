@@ -92,13 +92,6 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'url'     => 'https://www.itthinx.com/shop/groups-newsletters/',
 			'index'   => 100
 		),
-		'groups-paypal' => array(
-			'title'   => 'Groups PayPal',
-			'content' => 'Sell memberships and subscriptions with Groups and PayPal.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-paypal.png',
-			'url'     => 'https://www.itthinx.com/shop/groups-paypal/',
-			'index'   => 100
-		),
 		'groups-restrict-categories' => array(
 			'title'   => 'Groups Restrict Categories',
 			'content' => 'Access restrictions for categories and tags, also supporting custom post types and taxonomies.',
