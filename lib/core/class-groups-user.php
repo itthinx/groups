@@ -130,6 +130,16 @@ class Groups_User implements I_Capable {
 
 		if ( $this->user !== null ) {
 
+			/**
+			 * Filter the user properties.
+			 * @param WP_User
+			 * @param string
+			 */
+			$null = apply_filters( 'groups_user_get_' . $name, null, $this->user, $name );
+			if ( null !== $null ) {
+				return $null;
+			}
+
 			switch ( $name ) {
 
 				case 'capability_ids' :

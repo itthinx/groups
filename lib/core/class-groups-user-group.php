@@ -143,6 +143,19 @@ class Groups_User_Group {
 		global $wpdb;
 		$result = false;
 
+		/**
+		 * Allow short circuit the results of a user-group relation
+		 * @param  bool $result  (false)
+		 * @param  int  $user_id
+		 * @param  int  $group_id
+		 * @return bool|int  false or group object
+		 */
+		if ( $result = apply_filters( 'groups_user_is_member', $result, $user_id, $group_id ) ) {
+			if ( is_object( $result ) ) {
+				return $result;
+			}
+		}
+
 		$user_group_table = _groups_get_tablename( 'user_group' );
 		$user_group = $wpdb->get_row( $wpdb->prepare(
 			"SELECT * FROM $user_group_table WHERE user_id = %d AND group_id = %d",

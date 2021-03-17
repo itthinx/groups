@@ -68,6 +68,17 @@ class Groups_Group implements I_Capable {
 		global $wpdb;
 		$result = null;
 		if ( $this->group !== null ) {
+
+			/**
+			 * Filter the group properties.
+			 * @param WP_User
+			 * @param string
+			 */
+			$null = apply_filters( 'groups_group_get_' . $name, null, $this->group, $name );
+			if ( null !== $null ) {
+				return $null;
+			}
+
 			switch( $name ) {
 				case 'group_id' :
 				case 'parent_id' :
