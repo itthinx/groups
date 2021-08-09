@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 2.14.0 =
+* WordPress 5.8 compatible.
+
 = 2.13.0 =
 * WordPress 5.7 compatible.
 * Removed unnecessary magic method overrides in Groups_Options (also eliminates PHP 8 warning for __wakeup()).
