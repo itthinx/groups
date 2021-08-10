@@ -2,6 +2,7 @@
 
 = 2.14.0 =
 * WordPress 5.8 compatible.
+* Minimum WordPress version 5.5 is required.
 * Updated block registration to hook on the block_categories_all filter instead of the depdrecated block_categories filter.
 * Updated block scripts based on wp-scripts instead of cgb-scripts.
 * Imporved block UX to avoid confusing style-toggling when a block is selected.
