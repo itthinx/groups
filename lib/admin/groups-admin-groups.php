@@ -296,7 +296,6 @@ function groups_admin_groups() {
 		LIMIT $row_count OFFSET $offset",
 		$filter_params
 	);
-error_log( $query ); // @todo remove
 	$results = $wpdb->get_results( $query, OBJECT );
 
 	$column_display_names = array(
