@@ -150,8 +150,8 @@ function groups_admin_groups() {
 	}
 
 	// filters
-	$group_id		 = Groups_Options::get_user_option( 'groups_group_id', null );
-	$group_name	   = Groups_Options::get_user_option( 'groups_group_name', null );
+	$group_id   = Groups_Options::get_user_option( 'groups_group_id', null );
+	$group_name = Groups_Options::get_user_option( 'groups_group_name', null );
 
 	if ( isset( $_POST['clear_filters'] ) ) {
 		Groups_Options::delete_user_option( 'groups_group_id' );
@@ -264,8 +264,8 @@ function groups_admin_groups() {
 		$filter_params[] = $group_id;
 	}
 	if ( $group_name ) {
-		$filters[] = " $group_table.name LIKE '%%%s%%' ";
-		$filter_params[] = $group_name;
+		$filters[] = " $group_table.name LIKE %s ";
+		$filter_params[] = '%' . $wpdb->esc_like( $group_name ) . '%';
 	}
 
 	if ( !empty( $filters ) ) {
@@ -296,7 +296,6 @@ function groups_admin_groups() {
 		LIMIT $row_count OFFSET $offset",
 		$filter_params
 	);
-
 	$results = $wpdb->get_results( $query, OBJECT );
 
 	$column_display_names = array(
@@ -317,7 +316,7 @@ function groups_admin_groups() {
 				'<input class="group-id-filter" name="group_id" type="text" value="' . esc_attr( $group_id ) . '"/>' .
 				'</label>' . ' ' .
 				'<label class="group-name-filter">' . __( 'Group Name', 'groups' ) . ' ' .
-				'<input class="group-name-filter" name="group_name" type="text" value="' . $group_name . '"/>' .
+				'<input class="group-name-filter" name="group_name" type="text" value="' . esc_attr( stripslashes( $group_name ) ) . '"/>' .
 				'</label>' . ' ' .
 				wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_FILTER_NONCE, true, false ) .
 				'<input class="button" type="submit" value="' . __( 'Apply', 'groups' ) . '"/>' . ' ' .

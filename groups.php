@@ -2,7 +2,7 @@
 /**
  * groups.php
  *
- * Copyright (c) 2011-2020 "kento" Karim Rahimpur www.itthinx.com
+ * Copyright (c) 2011-2021 "kento" Karim Rahimpur www.itthinx.com
  *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
@@ -21,7 +21,7 @@
  * Plugin Name: Groups
  * Plugin URI: https://www.itthinx.com/plugins/groups
  * Description: Groups provides group-based user membership management, group-based capabilities and content access control.
- * Version: 2.13.0
+ * Version: 2.14.0
  * Author: itthinx
  * Author URI: https://www.itthinx.com
  * Donate-Link: https://www.itthinx.com/shop/
@@ -32,7 +32,7 @@
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'GROUPS_CORE_VERSION', '2.13.0' );
+define( 'GROUPS_CORE_VERSION', '2.14.0' );
 define( 'GROUPS_FILE', __FILE__ );
 if ( !defined( 'GROUPS_CORE_DIR' ) ) {
 	define( 'GROUPS_CORE_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );

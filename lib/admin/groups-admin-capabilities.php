@@ -144,7 +144,7 @@ function groups_admin_capabilities() {
 
 	// filters
 	$capability_id = Groups_Options::get_user_option( 'capabilities_capability_id', null );
-	$capability	= Groups_Options::get_user_option( 'capabilities_capability', null );
+	$capability    = Groups_Options::get_user_option( 'capabilities_capability', null );
 
 	if ( isset( $_POST['clear_filters'] ) ) {
 		Groups_Options::delete_user_option( 'capabilities_capability_id' );
@@ -274,8 +274,8 @@ function groups_admin_capabilities() {
 		$filter_params[] = $capability_id;
 	}
 	if ( $capability ) {
-		$filters[] = " $capability_table.capability LIKE '%%%s%%' ";
-		$filter_params[] = $capability;
+		$filters[] = " $capability_table.capability LIKE %s ";
+		$filter_params[] = '%' . $wpdb->esc_like( $capability ) . '%';
 	}
 
 	if ( !empty( $filters ) ) {
@@ -311,7 +311,7 @@ function groups_admin_capabilities() {
 
 	$column_display_names = array(
 		'capability_id' => __( 'ID', 'groups' ),
-		'capability'	=> __( 'Capability', 'groups' ),
+		'capability'    => __( 'Capability', 'groups' ),
 		'description'   => __( 'Description', 'groups' )
 	);
 
@@ -328,7 +328,7 @@ function groups_admin_capabilities() {
 				'</label>' . ' ' .
 				'<label class="capability-filter">' .
 				__( 'Capability', 'groups' ) . ' ' .
-				'<input class="capability-filter" name="capability" type="text" value="' . $capability . '"/>' .
+				'<input class="capability-filter" name="capability" type="text" value="' . esc_attr( stripslashes( $capability ) ) . '"/>' .
 				'</label>' . ' ' .
 				wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE, true, false ) .
 				'<input class="button" type="submit" value="' . __( 'Apply', 'groups' ) . '"/>' . ' ' .
