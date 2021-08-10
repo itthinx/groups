@@ -2,6 +2,14 @@
 
 = 2.14.0 =
 * WordPress 5.8 compatible.
+* Updated block registration to hook on the block_categories_all filter instead of the depdrecated block_categories filter.
+* Updated block scripts based on wp-scripts instead of cgb-scripts.
+* Imporved block UX to avoid confusing style-toggling when a block is selected.
+* Fixed slashes would appear in group names offered in block group selection.
+* Improved groups and capabilities admin pagination appearance to show navigation items as buttons.
+* Fixed Groups > Groups admin section search by group name issues with quotes and improper query escaping.
+* Fixed Groups > Capabilities admin section search by capability name issues with quotes and improper query escaping.
+* Fixed [groups_member] and [groups_non_member] shortcodes not handling group names with quotes correctly.
 
 = 2.13.0 =
 * WordPress 5.7 compatible.

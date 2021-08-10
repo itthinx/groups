@@ -355,6 +355,7 @@ class Groups_Group implements I_Capable {
 	 * Retrieve a group by name.
 	 *
 	 * @param string $name the group's name
+	 *
 	 * @return object upon success, otherwise false
 	 */
 	public static function read_by_name( $name ) {
@@ -366,10 +367,11 @@ class Groups_Group implements I_Capable {
 		} else {
 			$result = false;
 			$group_table = _groups_get_tablename( 'group' );
-			$group = $wpdb->get_row( $wpdb->prepare(
+			$query = $wpdb->prepare(
 				"SELECT * FROM $group_table WHERE name = %s",
 				$name
-			) );
+			);
+			$group = $wpdb->get_row( $query );
 			if ( isset( $group->group_id ) ) {
 				$result = $group;
 			}

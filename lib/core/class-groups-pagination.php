@@ -113,14 +113,14 @@ class Groups_Pagination {
 			$disable_last = ' disabled';
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
-			'first-page' . $disable_first,
+			'button first-page' . $disable_first,
 			esc_attr__( 'Go to the first page' ),
 			esc_url( remove_query_arg( 'paged', $current_url ) ),
 			'&laquo;'
 		);
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
-			'prev-page' . $disable_first,
+			'button prev-page' . $disable_first,
 			esc_attr__( 'Go to the previous page' ),
 			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
 			'&lsaquo;'
@@ -140,14 +140,14 @@ class Groups_Pagination {
 		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
-			'next-page' . $disable_last,
+			'button next-page' . $disable_last,
 			esc_attr__( 'Go to the next page' ),
 			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
 			'&rsaquo;'
 		);
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
-			'last-page' . $disable_last,
+			'button last-page' . $disable_last,
 			esc_attr__( 'Go to the last page' ),
 			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
 			'&raquo;'

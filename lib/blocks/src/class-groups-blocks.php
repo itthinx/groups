@@ -36,7 +36,12 @@ class Groups_Blocks {
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'groups_blocks_block_init' ) );
 		add_action( 'rest_api_init', array( __CLASS__, 'groups_rest' ) );
-		add_filter( 'block_categories', array( __CLASS__, 'groups_block_categories' ), 10, 2 );
+		// @since 2.14.0 check for this function which is available since WordPress 5.8.0; as of then, the block_categories filter is deprecated and block_categories_all should be used instead
+		if ( function_exists( 'get_default_block_categories' ) ) {
+			add_filter( 'block_categories_all', array( __CLASS__, 'block_categories_all' ), 10, 2 );
+		} else {
+			add_filter( 'block_categories', array( __CLASS__, 'groups_block_categories' ), 10, 2 );
+		}
 	}
 
 	/**
@@ -81,7 +86,7 @@ class Groups_Blocks {
 			foreach ( $groups as $key => $group ) {
 				$groups_options[] = array(
 					'value' => $group->group_id,
-					'label' => $group->name,
+					'label' => stripslashes( $group->name ),
 				);
 			}
 		} else {
@@ -91,7 +96,32 @@ class Groups_Blocks {
 	}
 
 	/**
+	 * Register the Groups block category.
+	 *
+	 * @since 2.14.0
+	 *
+	 * @param array $block_categories
+	 * @param WP_Block_Editor_Context $block_editor_context
+	 *
+	 * @return array
+	 */
+	public static function block_categories_all( $block_categories, $block_editor_context ) {
+		$block_categories = array_merge(
+			$block_categories,
+			array(
+				array(
+					'slug' => 'groups',
+					'title' => 'Groups' // do NOT translate
+				)
+			)
+		);
+		return $block_categories;
+	}
+
+	/**
 	 * Adds a new block category for 'groups' in the block editor.
+	 *
+	 * @deprecated as of 2.14.0 with WordPress 5.8.0 using the block_categories_all filter instead
 	 *
 	 * @param array $categories Array of block categories.
 	 * @param WP_Post $post Post being loaded.
@@ -119,16 +149,20 @@ class Groups_Blocks {
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
+
+		$asset_file = include GROUPS_BLOCKS_LIB . '/build/index.asset.php';
+
+		$editor_dependencies = array_merge(
+			$asset_file['dependencies'],
+			array()
+		);
+
+		// @todo if 'wp-edit-widgets' or 'wp-customize-widgets' script then don't use wp-editor ... so ?
 		// Scripts.
 		wp_register_script(
 			'groups_blocks-block-js', // Handle.
-			GROUPS_PLUGIN_URL . 'lib/blocks/dist/blocks.build.js',
-			array(
-				'wp-blocks',
-				'wp-i18n',
-				'wp-element',
-				'wp-editor',
-			),
+			GROUPS_PLUGIN_URL . 'lib/blocks/build/index.js',
+			$editor_dependencies,
 			GROUPS_CORE_VERSION
 		);
 
@@ -148,7 +182,7 @@ class Groups_Blocks {
 		// Editor Styles.
 		wp_register_style(
 			'groups_blocks-block-editor-css', // Handle.
-			GROUPS_PLUGIN_URL . 'lib/blocks/dist/blocks.editor.build.css',
+			GROUPS_PLUGIN_URL . 'lib/blocks/build/index.css',
 			array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
 			GROUPS_CORE_VERSION
 		);

@@ -58,7 +58,7 @@ class Groups_Access_Shortcodes {
 			$groups_user = new Groups_User( get_current_user_id() );
 			$groups = explode( ',', $options['group'] );
 			foreach ( $groups as $group ) {
-				$group = trim( $group );
+				$group = addslashes( trim( $group ) );
 				$current_group = Groups_Group::read( $group );
 				if ( !$current_group ) {
 					$current_group = Groups_Group::read_by_name( $group );
@@ -96,7 +96,7 @@ class Groups_Access_Shortcodes {
 			$groups_user = new Groups_User( get_current_user_id() );
 			$groups = explode( ',', $options['group'] );
 			foreach ( $groups as $group ) {
-				$group = trim( $group );
+				$group = addslashes( trim( $group ) );
 				$current_group = Groups_Group::read( $group );
 				if ( !$current_group ) {
 					$current_group = Groups_Group::read_by_name( $group );
