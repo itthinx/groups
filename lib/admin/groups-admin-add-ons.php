@@ -87,7 +87,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 		),
 		'groups-newsletters' => array(
 			'title'   => 'Groups Newsletters',
-			'content' => 'Newsletter Campaigns for Subscribers and Groups. Groups Newsletters helps you to communicate efficiently, providing targeted information to groups of recipients through automated campaigns.',
+			'content' => 'Newsletter Campaigns for Subscribers and Groups. Groups Newsletters helps you to communicate efficiently, providing targeted information to groups of recipients through automated campaigns. Integrated with WooCommerce, lets customers subscribe to newsletters at checkout.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-newsletters.png',
 			'url'     => 'https://www.itthinx.com/shop/groups-newsletters/',
 			'index'   => 100
@@ -126,14 +126,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-group-coupons.png',
 			'url'     => 'https://www.itthinx.com/shop/woocommerce-group-coupons/',
 			'index'   => 40
-		),
-		'woocommerce-groups-newsletters' => array(
-			'title'   => 'WooCommerce Groups Newsletters',
-			'content' => 'The WooCommerce Groups Newsletters extension lets customers subscribe to newsletters at checkout.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-groups-newsletters.png',
-			'url'     => 'https://www.itthinx.com/shop/woocommerce-groups-newsletters/',
-			'index'   => 100
-		),
+		)
 	);
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
