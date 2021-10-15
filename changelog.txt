@@ -4,6 +4,11 @@
 * WordPress 5.9 compatible.
 * Revised block titles and removed redundant "Block" part.
 * Updated the German translation.
+* Added German formal and informal translations for Germany, Austria and Switzerland.
+* Updated the Spanish translation.
+* Updated the French translation.
+* Updated the Indonesian translation.
+* Updated partial translations.
 
 = 2.14.1 =
 * Removed outdated changelog section info.
