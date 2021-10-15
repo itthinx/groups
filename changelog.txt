@@ -3,6 +3,7 @@
 = 2.15.0 =
 * WordPress 5.9 compatible.
 * Revised block titles and removed redundant "Block" part.
+* Updated the German translation.
 
 = 2.14.1 =
 * Removed outdated changelog section info.
