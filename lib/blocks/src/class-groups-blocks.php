@@ -207,7 +207,7 @@ class Groups_Blocks {
 	}
 
 	/**
-	 * Rendering callback for our Groups Member Block.
+	 * Rendering callback for our Groups Member block.
 	 *
 	 * @param array $attributes
 	 * @param string $content
@@ -252,7 +252,7 @@ class Groups_Blocks {
 	}
 
 	/**
-	 * Rendering callback for our Groups Non-member Block.
+	 * Rendering callback for our Groups Non-member block.
 	 *
 	 * @param array $attributes
 	 * @param string $content
