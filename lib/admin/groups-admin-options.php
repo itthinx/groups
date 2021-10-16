@@ -29,6 +29,11 @@ if ( !defined( 'ABSPATH' ) ) {
 define( 'GROUPS_ADMIN_OPTIONS_NONCE', 'groups-admin-nonce' );
 
 /**
+ * @var int 14 days in seconds
+ */
+define( 'GROUPS_SHOW_EXTENSIONS_BOX_INTERVAL', 1209600 );
+
+/**
  * Options admin screen.
  */
 function groups_admin_options() {
@@ -168,16 +173,28 @@ function groups_admin_options() {
 	$delete_data = Groups_Options::get_option( 'groups_delete_data', false );
 
 	if ( isset( $_GET['dismiss-groups-extensions-box'] ) && isset( $_GET['groups-extensions-box-nonce'] ) && wp_verify_nonce( $_GET['groups-extensions-box-nonce'], 'dismiss-box' ) ) {
-		Groups_Options::update_user_option( 'show-extensions-box', false );
+		Groups_Options::update_user_option( 'show-extensions-box', time() );
 	}
 	$extensions_box = '';
-	if ( Groups_Options::get_user_option( 'show-extensions-box', true ) ) {
+	$show_extensions_box = Groups_Options::get_user_option( 'show-extensions-box', 0 );
+	if ( ( time() - $show_extensions_box ) > GROUPS_SHOW_EXTENSIONS_BOX_INTERVAL ) {
 		$dismiss_url = wp_nonce_url( add_query_arg( 'dismiss-groups-extensions-box', '1', admin_url( 'admin.php?page=groups-admin-options' ) ), 'dismiss-box', 'groups-extensions-box-nonce' );
-		$extensions_box =
-			'<div id="groups-extensions-box">' .
-			__( 'Enhanced functionality is available via official <a href="https://www.itthinx.com/shop/">Extensions</a> for Groups.', 'groups' ) .
-			sprintf( '<a class="close" href="%s">x</a>', esc_url( $dismiss_url ) ) .
-			'</div>';
+		$extensions_box = '<div id="groups-extensions-box">';
+		$extensions_box .= sprintf( '<a title="%s" class="close" href="%s"></a>', esc_attr_x( 'Dismiss', 'title of dismiss notice link', 'groups' ), esc_url( $dismiss_url ) );
+		$extensions_box .= '<h3>';
+		$extensions_box .= esc_html__( 'Your support matters!', 'groups' );
+		$extensions_box .= '</h3>';
+		$extensions_box .= '<p>';
+		$extensions_box .= sprintf(
+			esc_html__( 'Enhanced functionality is available via official %sExtensions%s for Groups.', 'groups' ),
+			'<a href="https://www.itthinx.com/shop/">',
+			'</a>'
+		);
+		$extensions_box .= '</p>';
+		$extensions_box .= '<p>';
+		$extensions_box .= esc_html__( 'By getting an official extension, you fund the work that is necessary to maintain and improve Groups.', 'groups' );
+		$extensions_box .= '</p>';
+		$extensions_box .= '</div>';
 	}
 
 	//
@@ -248,11 +265,13 @@ function groups_admin_options() {
 		echo '</li>';
 	}
 	echo '<ul>';
-	echo
-		'<p class="description">' .
-		__( 'This determines for which post types access restriction settings are offered.', 'groups' ) . '<br/>' .
-		__( 'Disabling this setting for a post type also disables existing access restrictions on individual posts of that type.', 'groups' ) . '<br/>' .
-		'</p>';
+	echo '<p class="description">';
+	esc_html_e( 'This determines for which post types access restriction settings are offered.', 'groups' );
+	echo ' ';
+	esc_html_e( 'Disabling this setting for a post type also disables existing access restrictions on individual posts of that type.', 'groups' );
+	echo ' ';
+	esc_html_e( 'Some post types shown may not offer access restrictions even though they appear enabled here.', 'groups' );
+	echo '</p>';
 
 	echo
 		'<h2>' . __( 'User profiles', 'groups' ) . '</h2>' .
@@ -296,16 +315,20 @@ function groups_admin_options() {
 	}
 
 	$groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS_LEGACY_ENABLE_DEFAULT );
-	echo '<h2>' . __( 'Legacy Settings', 'groups' ) . '</h2>';
-	echo '<p>' .
-		'<label>' .
-		'<input name="' . GROUPS_LEGACY_ENABLE . '" type="checkbox" ' . ( $groups_legacy_enable ? 'checked="checked"' : '' ) . '/>' .
-		__( 'Enable legacy access control based on capabilities.', 'groups' ) .
-		'</label>' .
-		'</p>';
-	if ( $groups_legacy_enable ) {
-		require_once GROUPS_LEGACY_LIB . '/admin/groups-admin-options-legacy.php';
-		do_action( 'groups_admin_options_legacy', $groups_legacy_enable !== $previous_legacy_enable );
+	if (
+		defined( 'GROUPS_SHOW_LEGACY_SETTINGS' ) && GROUPS_SHOW_LEGACY_SETTINGS === true || $groups_legacy_enable
+	) {
+		echo '<h2>' . __( 'Legacy Settings', 'groups' ) . '</h2>';
+		echo '<p>' .
+			'<label>' .
+			'<input name="' . GROUPS_LEGACY_ENABLE . '" type="checkbox" ' . ( $groups_legacy_enable ? 'checked="checked"' : '' ) . '/>' .
+			__( 'Enable legacy access control based on capabilities.', 'groups' ) .
+			'</label>' .
+			'</p>';
+		if ( $groups_legacy_enable ) {
+			require_once GROUPS_LEGACY_LIB . '/admin/groups-admin-options-legacy.php';
+			do_action( 'groups_admin_options_legacy', $groups_legacy_enable !== $previous_legacy_enable );
+		}
 	}
 
 	echo

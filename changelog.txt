@@ -1,5 +1,18 @@
 == Groups by itthinx - changelog.txt
 
+= 2.15.0 =
+* WordPress 5.9 compatible.
+* Revised block titles and removed redundant "Block" part.
+* Updated the German translation.
+* Added German formal and informal translations for Germany, Austria and Switzerland.
+* Updated the Spanish translation.
+* Updated the French translation.
+* Updated the Indonesian translation.
+* Updated partial translations.
+* Added clarification on applicable post type access restrictions.
+* Revised notice on supporting Groups.
+* Removed the option to show legacy settings unless already enabled, or showing is enabled via the GROUPS_SHOW_LEGACY_SETTINGS constant.
+
 = 2.14.1 =
 * Removed outdated changelog section info.
 * Updated Add-Ons section and removed entry for subsumed integration.

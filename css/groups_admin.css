@@ -211,15 +211,47 @@ div.capability.edit label {
 	border: 1px solid #999;
 	width: 256px;
 }
+#groups-extensions-box h3 {
+	margin: 0.62em 0;
+}
+#groups-extensions-box p {
+	margin: 0.31em 0;
+}
 #groups-extensions-box a.close {
 	color: #999;
 	line-height: 18px;
 	position: absolute;
-	right: 6px;
+	right: 4px;
 	text-decoration: none;
-	top: 6px;
+	top: 4px;
 	font-family: sans;
-	font-size: 11px;
+	font-size: 12px;
+}
+#groups-extensions-box a.close::before {
+	background: transparent;
+	color: #ddd;
+	content: "\f153";
+	display: inline-block;
+	font: normal 16px/20px dashicons;
+	height: 20px;
+	text-align: center;
+	width: 20px;
+	position: relative;
+	top: 4px;
+	right: 4px;
+	transition: all .62s ease-in-out;
+}
+#groups-extensions-box a.close:hover::before {
+	color: #f00;
+}
+
+#groups-extensions-support {
+	padding: 1em;
+	margin: 0;
+	background-color: #fff;
+	border-radius: 4px;
+	color: #111;
+	border: 2px solid #7494d1;
 }
 
 .groups-bulk-container {
