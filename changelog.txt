@@ -9,6 +9,8 @@
 * Updated the French translation.
 * Updated the Indonesian translation.
 * Updated partial translations.
+* Added clarification on applicable post type access restrictions.
+* Revised notice on supporting Groups.
 
 = 2.14.1 =
 * Removed outdated changelog section info.

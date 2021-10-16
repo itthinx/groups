@@ -265,11 +265,13 @@ function groups_admin_options() {
 		echo '</li>';
 	}
 	echo '<ul>';
-	echo
-		'<p class="description">' .
-		__( 'This determines for which post types access restriction settings are offered.', 'groups' ) . '<br/>' .
-		__( 'Disabling this setting for a post type also disables existing access restrictions on individual posts of that type.', 'groups' ) . '<br/>' .
-		'</p>';
+	echo '<p class="description">';
+	esc_html_e( 'This determines for which post types access restriction settings are offered.', 'groups' );
+	echo ' ';
+	esc_html_e( 'Disabling this setting for a post type also disables existing access restrictions on individual posts of that type.', 'groups' );
+	echo ' ';
+	esc_html_e( 'Some post types shown may not offer access restrictions even though they appear enabled here.', 'groups' );
+	echo '</p>';
 
 	echo
 		'<h2>' . __( 'User profiles', 'groups' ) . '</h2>' .

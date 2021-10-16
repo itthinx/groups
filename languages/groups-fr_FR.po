@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-15 16:53+0200\n"
-"PO-Revision-Date: 2021-10-15 22:38+0200\n"
+"POT-Creation-Date: 2021-10-16 18:36+0200\n"
+"PO-Revision-Date: 2021-10-16 18:37+0200\n"
 "Last-Translator: Stéphane PASSEDOUET <s.passedouet@pheeric.com>\n"
 "Language-Team: itthinx.com\n"
 "Language: fr_FR\n"
@@ -93,12 +93,12 @@ msgid "A Duck!"
 msgstr "Un Canard !"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:280
+#: lib/admin/groups-admin-options.php:299
 msgid "A minimum set of permissions will be preserved."
 msgstr "Un minimum d'autorisations sera préservée."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:50
+#: lib/admin/groups-admin-options.php:55
 msgid "Access Groups"
 msgstr "Groupes d'Accès"
 
@@ -133,7 +133,7 @@ msgstr "Restrictions d'Accès"
 #: lib/admin/groups-admin-capabilities-edit.php:35
 #: lib/admin/groups-admin-capabilities-edit.php:96
 #: lib/admin/groups-admin-capabilities-edit.php:100
-#: lib/admin/groups-admin-options.php:39 lib/admin/groups-admin-options.php:328
+#: lib/admin/groups-admin-options.php:44 lib/admin/groups-admin-options.php:347
 #: lib/admin/groups-admin-capabilities-add.php:34
 #: lib/admin/groups-admin-capabilities-add.php:89
 #: lib/admin/groups-admin-capabilities-add.php:93
@@ -145,7 +145,7 @@ msgid "Access denied."
 msgstr "Accès refusé."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:212
+#: lib/admin/groups-admin-options.php:229
 msgid "Access restricions"
 msgstr "Restrictions d'accès"
 
@@ -213,22 +213,22 @@ msgstr ""
 "restriction d'accès"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:51
+#: lib/admin/groups-admin-options.php:56
 msgid "Administer Groups"
 msgstr "Administrer les Groupes"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:52
+#: lib/admin/groups-admin-options.php:57
 msgid "Administer Groups plugin options"
 msgstr "Administrer les Options du plugin Groups"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:198
+#: lib/admin/groups-admin-options.php:215
 msgid "Administrator Access Override"
 msgstr "Priorité Accès Administrateur"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:201
+#: lib/admin/groups-admin-options.php:218
 msgid ""
 "Administrators override all access permissions derived from Groups "
 "capabilities."
@@ -289,8 +289,16 @@ msgstr ""
 msgid "Bulk Actions"
 msgstr "Actions Groupées"
 
+#: lib/admin/groups-admin-options.php:195 lib/admin/groups-admin-add-ons.php:43
+msgid ""
+"By getting an official extension, you fund the work that is necessary to "
+"maintain and improve Groups."
+msgstr ""
+"En obtenant une extension officielle, vous financez le travail nécessaire "
+"pour maintenir et améliorer Groups."
+
 # @ groups
-#: lib/admin/groups-admin-options.php:365
+#: lib/admin/groups-admin-options.php:384
 msgid ""
 "CAUTION: If this option is active while the plugin is deactivated, ALL "
 "plugin settings and data will be DELETED for <strong>all sites</strong>. If "
@@ -306,7 +314,7 @@ msgstr ""
 "liées à celle-ci."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:294
+#: lib/admin/groups-admin-options.php:313
 msgid ""
 "CAUTION: If this option is active while the plugin is deactivated, ALL "
 "plugin settings and data will be DELETED. If you are going to use this "
@@ -475,19 +483,19 @@ msgid "Current page"
 msgstr "Page actuelle"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:286
+#: lib/admin/groups-admin-options.php:305
 msgid "Deactivation and data persistence"
 msgstr "Désactivation et Conservation des données"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:361
+#: lib/admin/groups-admin-options.php:380
 msgid "Delete all Groups plugin data for ALL sites on network deactivation"
 msgstr ""
 "Effacer toutes les données de l'extension &quot;Groups&quot; pour TOUS les "
 "sites lors de la désactivation du réseau"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:290
+#: lib/admin/groups-admin-options.php:309
 msgid "Delete all Groups plugin data on deactivation"
 msgstr ""
 "Supprimer Toutes les données de l'extension Groups lorsque le Plugin est "
@@ -504,7 +512,7 @@ msgid "Description"
 msgstr "Description"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:254
+#: lib/admin/groups-admin-options.php:271
 msgid ""
 "Disabling this setting for a post type also disables existing access "
 "restrictions on individual posts of that type."
@@ -515,6 +523,11 @@ msgstr ""
 
 #: lib/admin/class-groups-admin-welcome.php:144
 #: lib/admin/class-groups-admin-welcome.php:145
+msgid "Dismiss"
+msgstr "Supprimer"
+
+#: lib/admin/groups-admin-options.php:183
+msgctxt "title of dismiss notice link"
 msgid "Dismiss"
 msgstr "Supprimer"
 
@@ -543,11 +556,11 @@ msgstr ""
 "Modifier la publication pour laquelle vous souhaitez restreindre l'accès et "
 "choisissez<sup>*</sup> la capacité <em>premium</em>."
 
-#: lib/admin/groups-admin-options.php:303
+#: lib/admin/groups-admin-options.php:322
 msgid "Enable legacy access control based on capabilities."
 msgstr "Activez le contrôle d'accès hérité en fonction des capacités."
 
-#: lib/admin/groups-admin-options.php:207
+#: lib/admin/groups-admin-options.php:224
 msgid "Enabling this on production sites is <strong>not</strong> recommended."
 msgstr ""
 "Il n'est <strong>pas</strong> recommandé de l'activer sur les sites de "
@@ -560,13 +573,20 @@ msgid "Enforce read access"
 msgstr "Autoriser l'accès en lecture"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:178
+#: lib/admin/groups-admin-options.php:189
+#, php-format
 msgid ""
-"Enhanced functionality is available via official <a href=\"https://www."
-"itthinx.com/shop/\">Extensions</a> for Groups."
+"Enhanced functionality is available via official %sExtensions%s for Groups."
 msgstr ""
-"Des fonctionnalités améliorées sont disponibles via les <a href=\"https://"
-"www.itthinx.com/shop/\">Extensions</a> officielles pour Groups."
+"Des fonctionnalités améliorées sont disponibles via les %sExtensions%s "
+"officielles pour Groups."
+
+# @ groups
+#: lib/admin/groups-admin-add-ons.php:40
+msgid "Enhanced functionality is available via official extensions for Groups."
+msgstr ""
+"Des fonctionnalités améliorées sont disponibles via les extensions "
+"officielles pour Groups."
 
 # @ groups
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:143
@@ -800,7 +820,7 @@ msgstr "Membre des Groupes"
 msgid "Groups Non-member"
 msgstr "Non-membre des Groupes"
 
-#: lib/admin/groups-admin-options.php:120
+#: lib/admin/groups-admin-options.php:125
 msgid "Groups Options"
 msgstr "Options de Groups"
 
@@ -811,7 +831,7 @@ msgstr ""
 "Groups supprime toutes les données de l'extension lorsque il est désactivé."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:334
+#: lib/admin/groups-admin-options.php:353
 msgid "Groups network options"
 msgstr "Options de réseau de l'extension Groups"
 
@@ -856,7 +876,7 @@ msgstr ""
 "souhaitées."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:282
+#: lib/admin/groups-admin-options.php:301
 msgid "If you lock yourself out, please ask an administrator to help."
 msgstr ""
 "Si vous êtes verrouillés, veuillez demander à un administrateur afin "
@@ -930,7 +950,7 @@ msgstr "Rejoignez le groupe %s"
 msgid "Leave the %s group"
 msgstr "Quitter le groupe %s"
 
-#: lib/admin/groups-admin-options.php:299
+#: lib/admin/groups-admin-options.php:318
 msgid "Legacy Settings"
 msgstr "Paramètres hérités"
 
@@ -982,7 +1002,7 @@ msgid "Name"
 msgstr "Nom"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:356
+#: lib/admin/groups-admin-options.php:375
 msgid "Network deactivation and data persistence"
 msgstr "Désactivation du réseau et de la persistance des données"
 
@@ -1126,7 +1146,7 @@ msgid "Options"
 msgstr "Options"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:112
+#: lib/admin/groups-admin-options.php:117
 msgid "Options saved."
 msgstr "Options enregistrées."
 
@@ -1142,7 +1162,7 @@ msgstr ""
 "Compléments parfaits aux adhésions et au contrôle d'accès avec les groupes."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:276
+#: lib/admin/groups-admin-options.php:295
 msgid "Permissions"
 msgstr "Autorisations"
 
@@ -1207,7 +1227,7 @@ msgid "Post"
 msgstr "Publication"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:216
+#: lib/admin/groups-admin-options.php:233
 msgid "Post types"
 msgstr "Types de publication"
 
@@ -1238,11 +1258,11 @@ msgstr "Lecture"
 msgid "Read Post"
 msgstr "Lire la Publication"
 
-#: lib/admin/groups-admin-add-ons.php:49
+#: lib/admin/groups-admin-add-ons.php:63
 msgid "Recommended extensions for Groups"
 msgstr "Extensions recommandées pour Groups"
 
-#: lib/admin/groups-admin-add-ons.php:150
+#: lib/admin/groups-admin-add-ons.php:164
 msgid "Recommended plugins by itthinx"
 msgstr "Plugins recommandées pour itthinx"
 
@@ -1313,7 +1333,7 @@ msgstr "Supprimer les Groupes"
 msgid "Remove restriction"
 msgstr "Supprimer la restriction"
 
-#: lib/admin/groups-admin-options.php:53
+#: lib/admin/groups-admin-options.php:58
 msgid "Restrict Access"
 msgstr "Restreindre l'Accès"
 
@@ -1334,16 +1354,16 @@ msgid "Results per page"
 msgstr "Résultats par page"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:133
+#: lib/admin/groups-admin-options.php:138
 msgid "Role"
 msgstr "Rôle"
 
 # @ groups
 #: lib/admin/groups-admin-groups-edit.php:163
 #: lib/admin/groups-admin-capabilities-edit.php:77
-#: lib/admin/groups-admin-options.php:191
-#: lib/admin/groups-admin-options.php:314
-#: lib/admin/groups-admin-options.php:369
+#: lib/admin/groups-admin-options.php:208
+#: lib/admin/groups-admin-options.php:333
+#: lib/admin/groups-admin-options.php:388
 msgid "Save"
 msgstr "Sauvegarder"
 
@@ -1353,7 +1373,7 @@ msgid "Select Groups"
 msgstr "Sélectionner des Groupes"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:220
+#: lib/admin/groups-admin-options.php:237
 msgid "Show access restrictions for these post types."
 msgstr "Afficher les Restrictions d'Accès pour ces types de publications."
 
@@ -1367,14 +1387,22 @@ msgid "Show groups"
 msgstr "Afficher les Groupes"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:262
+#: lib/admin/groups-admin-options.php:281
 msgid "Show groups in user profiles."
 msgstr "Afficher le Groupe dans le profile de l'Utilisateur."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:271
+#: lib/admin/groups-admin-options.php:290
 msgid "Show the Groups tree view."
 msgstr "Afficher l'arborescence des Groupes."
+
+#: lib/admin/groups-admin-options.php:273
+msgid ""
+"Some post types shown may not offer access restrictions even though they "
+"appear enabled here."
+msgstr ""
+"Certains types de publication affichés peuvent ne pas proposer de "
+"restrictions d'accès même s'ils semblent activés ici."
 
 #: lib/admin/class-groups-admin-welcome.php:199
 #, php-format
@@ -1546,7 +1574,7 @@ msgid "These capabilities will be assigned to the group."
 msgstr "Ces capacités seront attribués au groupe."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:277
+#: lib/admin/groups-admin-options.php:296
 msgid ""
 "These permissions apply to Groups management. They do not apply to access "
 "permissions derived from Groups capabilities."
@@ -1559,7 +1587,7 @@ msgid "This could be important!"
 msgstr "Cela peut être important !"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:253
+#: lib/admin/groups-admin-options.php:269
 msgid ""
 "This determines for which post types access restriction settings are offered."
 msgstr ""
@@ -1588,7 +1616,7 @@ msgstr ""
 "Groups_Post_Access_Legacy::get_read_post_capabilities() pour récupérer les "
 "capacités à la place."
 
-#: lib/admin/groups-admin-options.php:204
+#: lib/admin/groups-admin-options.php:221
 msgid ""
 "To disable, do not define the constant <code>GROUPS_ADMINISTRATOR_OVERRIDE</"
 "code> or set it to <code>false</code>."
@@ -1627,7 +1655,7 @@ msgid "Tree of Groups"
 msgstr "Arborescence des Groupes"
 
 # @ groups
-#: lib/admin/groups-admin-options.php:267
+#: lib/admin/groups-admin-options.php:286
 msgid "Tree view"
 msgstr "Aperçu de l'Arborescence"
 
@@ -1665,7 +1693,7 @@ msgstr ""
 "publications, des pages et d'autres types de publications."
 
 # @ groups
-#: lib/admin/groups-admin-options.php:258
+#: lib/admin/groups-admin-options.php:277
 msgid "User profiles"
 msgstr "Profils d'Utilisateurs"
 
@@ -1881,6 +1909,10 @@ msgid ""
 msgstr ""
 "Vous devez utiliser Groups_Post_Access_Legacy::create() pour passer une "
 "restriction de capacité à la place."
+
+#: lib/admin/groups-admin-options.php:185 lib/admin/groups-admin-add-ons.php:37
+msgid "Your support matters!"
+msgstr "Votre soutien compte!"
 
 #: lib/blocks/src/blocks/groups-member/block.js:165
 #: lib/blocks/src/blocks/groups-non-member/block.js:149
