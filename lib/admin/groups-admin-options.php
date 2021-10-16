@@ -29,6 +29,11 @@ if ( !defined( 'ABSPATH' ) ) {
 define( 'GROUPS_ADMIN_OPTIONS_NONCE', 'groups-admin-nonce' );
 
 /**
+ * @var int 14 days in seconds
+ */
+define( 'GROUPS_SHOW_EXTENSIONS_BOX_INTERVAL', 1209600 );
+
+/**
  * Options admin screen.
  */
 function groups_admin_options() {
@@ -168,16 +173,28 @@ function groups_admin_options() {
 	$delete_data = Groups_Options::get_option( 'groups_delete_data', false );
 
 	if ( isset( $_GET['dismiss-groups-extensions-box'] ) && isset( $_GET['groups-extensions-box-nonce'] ) && wp_verify_nonce( $_GET['groups-extensions-box-nonce'], 'dismiss-box' ) ) {
-		Groups_Options::update_user_option( 'show-extensions-box', false );
+		Groups_Options::update_user_option( 'show-extensions-box', time() );
 	}
 	$extensions_box = '';
-	if ( Groups_Options::get_user_option( 'show-extensions-box', true ) ) {
+	$show_extensions_box = Groups_Options::get_user_option( 'show-extensions-box', 0 );
+	if ( ( time() - $show_extensions_box ) > GROUPS_SHOW_EXTENSIONS_BOX_INTERVAL ) {
 		$dismiss_url = wp_nonce_url( add_query_arg( 'dismiss-groups-extensions-box', '1', admin_url( 'admin.php?page=groups-admin-options' ) ), 'dismiss-box', 'groups-extensions-box-nonce' );
-		$extensions_box =
-			'<div id="groups-extensions-box">' .
-			__( 'Enhanced functionality is available via official <a href="https://www.itthinx.com/shop/">Extensions</a> for Groups.', 'groups' ) .
-			sprintf( '<a class="close" href="%s">x</a>', esc_url( $dismiss_url ) ) .
-			'</div>';
+		$extensions_box = '<div id="groups-extensions-box">';
+		$extensions_box .= sprintf( '<a title="%s" class="close" href="%s"></a>', esc_attr_x( 'Dismiss', 'title of dismiss notice link', 'groups' ), esc_url( $dismiss_url ) );
+		$extensions_box .= '<h3>';
+		$extensions_box .= esc_html__( 'Your support matters!', 'groups' );
+		$extensions_box .= '</h3>';
+		$extensions_box .= '<p>';
+		$extensions_box .= sprintf(
+			esc_html__( 'Enhanced functionality is available via official %sExtensions%s for Groups.', 'groups' ),
+			'<a href="https://www.itthinx.com/shop/">',
+			'</a>'
+		);
+		$extensions_box .= '</p>';
+		$extensions_box .= '<p>';
+		$extensions_box .= esc_html__( 'By getting an official extension, you fund the work that is necessary to maintain and improve Groups.', 'groups' );
+		$extensions_box .= '</p>';
+		$extensions_box .= '</div>';
 	}
 
 	//

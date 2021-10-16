@@ -29,8 +29,22 @@ if ( !defined( 'ABSPATH' ) ) {
 function groups_admin_add_ons() {
 	echo '<div class="groups-admin-add-ons wrap">';
 	echo '<h1>';
-	echo __( 'Add-Ons', 'groups' );
+	echo esc_html__( 'Add-Ons', 'groups' );
 	echo '</h1>';
+
+	$extensions_box = '<div id="groups-extensions-support">';
+	$extensions_box .= '<h2>';
+	$extensions_box .= esc_html__( 'Your support matters!', 'groups' );
+	$extensions_box .= '</h2>';
+	$extensions_box .= '<p>';
+	$extensions_box .= esc_html__( 'Enhanced functionality is available via official extensions for Groups.', 'groups' );
+	$extensions_box .= '</p>';
+	$extensions_box .= '<p>';
+	$extensions_box .= esc_html__( 'By getting an official extension, you fund the work that is necessary to maintain and improve Groups.', 'groups' );
+	$extensions_box .= '</p>';
+	$extensions_box .= '</div>';
+	echo $extensions_box;
+
 	groups_admin_add_ons_content();
 	echo '</div>'; // .groups-admin-add-ons.wrap
 }
@@ -46,7 +60,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	$h2 = sprintf( 'h%d', 2+$d );
 
 	echo "<$h2>";
-	echo __( 'Recommended extensions for Groups', 'groups' );
+	echo esc_html__( 'Recommended extensions for Groups', 'groups' );
 	echo "</$h2>";
 
 	$entries = array(
@@ -147,7 +161,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	echo '</ul>'; // .add-ons
 
 	echo "<$h2>";
-	echo __( 'Recommended plugins by itthinx', 'groups' );
+	echo esc_html__( 'Recommended plugins by itthinx', 'groups' );
 	echo "</$h2>";
 
 	$entries = array(
