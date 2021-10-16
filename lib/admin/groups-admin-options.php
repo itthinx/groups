@@ -315,16 +315,20 @@ function groups_admin_options() {
 	}
 
 	$groups_legacy_enable = Groups_Options::get_option( GROUPS_LEGACY_ENABLE, GROUPS_LEGACY_ENABLE_DEFAULT );
-	echo '<h2>' . __( 'Legacy Settings', 'groups' ) . '</h2>';
-	echo '<p>' .
-		'<label>' .
-		'<input name="' . GROUPS_LEGACY_ENABLE . '" type="checkbox" ' . ( $groups_legacy_enable ? 'checked="checked"' : '' ) . '/>' .
-		__( 'Enable legacy access control based on capabilities.', 'groups' ) .
-		'</label>' .
-		'</p>';
-	if ( $groups_legacy_enable ) {
-		require_once GROUPS_LEGACY_LIB . '/admin/groups-admin-options-legacy.php';
-		do_action( 'groups_admin_options_legacy', $groups_legacy_enable !== $previous_legacy_enable );
+	if (
+		defined( 'GROUPS_SHOW_LEGACY_SETTINGS' ) && GROUPS_SHOW_LEGACY_SETTINGS === true || $groups_legacy_enable
+	) {
+		echo '<h2>' . __( 'Legacy Settings', 'groups' ) . '</h2>';
+		echo '<p>' .
+			'<label>' .
+			'<input name="' . GROUPS_LEGACY_ENABLE . '" type="checkbox" ' . ( $groups_legacy_enable ? 'checked="checked"' : '' ) . '/>' .
+			__( 'Enable legacy access control based on capabilities.', 'groups' ) .
+			'</label>' .
+			'</p>';
+		if ( $groups_legacy_enable ) {
+			require_once GROUPS_LEGACY_LIB . '/admin/groups-admin-options-legacy.php';
+			do_action( 'groups_admin_options_legacy', $groups_legacy_enable !== $previous_legacy_enable );
+		}
 	}
 
 	echo
