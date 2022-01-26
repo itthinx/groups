@@ -4,6 +4,7 @@
 * WordPress 6.0 compatible.
 * Fixed slashes appearing in term-related group names in the Groups column of the administrative screens for posts.
 * Updated Groups menu position to straight integer for WordPress 6.x compatibility.
+* Fixed use of undefined variable in legacy code.
 
 = 2.15.0 =
 * WordPress 5.9 compatible.

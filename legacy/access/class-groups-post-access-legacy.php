@@ -109,7 +109,7 @@ class Groups_Post_Access_Legacy {
 						if ( is_numeric( $args[0] ) ) {
 							$post_id = $args[0];
 						} else if ( $args[0] instanceof WP_Post ) {
-							$post_id = $post->ID;
+							$post_id = $args[0]->ID;
 						}
 						if ( $post_id ) {
 							if ( !self::user_can_read_post( $post_id, $user_id ) ) {
