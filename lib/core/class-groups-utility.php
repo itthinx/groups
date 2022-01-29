@@ -115,6 +115,43 @@ class Groups_Utility {
 		}
 		$output .= '</ul>';
 	}
+	
+	public static function get_below_group_ids_from_user( $user_id ) {
+		$groups_user = new Groups_User( $user_id );
+		$user_group_ids = $groups_user->group_ids;
+		$all_groups = array();
+
+		foreach ($user_group_ids as $group){
+			array_push($all_groups, $group);
+			$somegroups = self::getChildrenIds($group);
+			$all_groups = array_merge($all_groups, $somegroups);
+
+		}
+		return $all_groups;
+	}
+
+
+	public static function get_childs(&$output, $parent) {
+		global $wpdb;
+		$group_table = _groups_get_tablename( 'group' );
+		$all_groups = $wpdb->get_results( $wpdb->prepare("SELECT group_id FROM $group_table WHERE parent_id = %d",
+			Groups_Utility::id( $parent ) ));
+
+		foreach($all_groups as $group) {
+			$output[] = $group->group_id;
+			self::get_childs($output, $group->group_id );
+		}
+		return $output;
+	}
+
+	public static function getChildrenIds($parent) {
+		$output = array();
+		self::get_childs($output, $parent);
+		return $output;
+	}
+
+	
+	
 
 	/**
 	 * Compares the two object's names, used for groups and
