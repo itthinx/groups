@@ -170,21 +170,21 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'content' => 'Boost Sales with Affiliate Marketing for your WordPress site.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/affiliates-pro.png',
 			'url'     => 'https://www.itthinx.com/shop/affiliates-pro/',
-			'index'   => 30
+			'index'   => 40
 		),
 		'affiliates-enterprise' => array(
 			'title'   => 'Affiliates Enterprise',
 			'content' => 'Affiliates Enterprise provides an affiliate management system for sellers, shops and developers, who want to boost sales with their own affiliate program. Features affiliate campaigns, tracking pixels and multiple tiers.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/affiliates-enterprise.png',
 			'url'     => 'https://www.itthinx.com/shop/affiliates-enterprise/',
-			'index'   => 40
+			'index'   => 50
 		),
 		'itthinx-mail-queue' => array(
 			'title'   => 'Itthinx Mail Queue',
 			'content' => 'Features a fully automated SMTP email queue that substantially improves the way emails are sent out from your site. Prioritize sending by origin, eliminate delays for your visitors and balance your resources.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/itthinx-mail-queue.png',
 			'url'     => 'https://www.itthinx.com/shop/itthinx-mail-queue/',
-			'index'   => 50
+			'index'   => 60
 		),
 		'woocommerce-product-search' => array(
 			'title'   => 'WooCommerce Product Search',
@@ -200,6 +200,13 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'url'     => 'https://www.itthinx.com/shop/woocommerce-sales-analysis/',
 			'index'   => 20
 		),
+		'woocommerce-volume-discount-coupons' => array(
+			'title'   => 'Volume Discount Coupons for WooCommerce',
+			'content' => 'Increase your sales by giving customers coupons and automatic discounts based on the quantities purchased.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-volume-discount-coupons.png',
+			'url'     => 'https://www.itthinx.com/shop/woocommerce-volume-discount-coupons/',
+			'index'   => 30
+		)
 	);
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
