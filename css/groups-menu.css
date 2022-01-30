@@ -17,7 +17,8 @@
  * @package groups
  * @since groups 2.16.0
  */
-li#toplevel_page_groups-admin .wp-menu-image {
+li#toplevel_page_groups-admin .wp-menu-image,
+li#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups.svg );
 	background-position: center center;
 	background-repeat: no-repeat;
