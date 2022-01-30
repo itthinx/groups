@@ -152,7 +152,7 @@ class Groups_Admin_Post_Columns {
 												if ( $group = Groups_Group::read( $group_id ) ) {
 													$entries[] = sprintf(
 														'%s <a href="%s" title="%s" style="cursor: help">%s</a>',
-														esc_html( $group->name ),
+														stripslashes( wp_strip_all_tags( $group->name ) ),
 														esc_url( $edit_term_link ),
 														esc_attr( $term_taxonomy_title),
 														esc_html( $term->name )

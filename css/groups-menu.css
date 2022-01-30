@@ -1,0 +1,57 @@
+/**
+ * groups-menu.css
+ *
+ * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
+ *
+ * This code is released under the GNU General Public License.
+ * See COPYRIGHT.txt and LICENSE.txt.
+ *
+ * This code is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This header and all notices must be kept intact.
+ *
+ * @author Karim Rahimpur
+ * @package groups
+ * @since groups 2.16.0
+ */
+li#toplevel_page_groups-admin .wp-menu-image,
+li#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups.svg );
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+body.admin-color-blue li#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-blue li#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups-dark.svg );
+}
+body.admin-color-blue li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-blue li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups.svg );
+}
+body.admin-color-ocean li#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-ocean li#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups-light.svg );
+}
+body.admin-color-ocean li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-ocean li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups.svg );
+}
+body.admin-color-sunrise li#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-sunrise li#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups-light.svg );
+}
+body.admin-color-sunrise li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-sunrise li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups.svg );
+}
+body.admin-color-light li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-light li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups-light.svg );
+}
+body.admin-color-midnight li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-midnight li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
+	background-image: url( ../images/groups-dark.svg );
+}

@@ -86,6 +86,8 @@ class Groups_Controller {
 		// wpmu_new_blog kicks in
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 9, 2 );
 		add_action( 'delete_blog', array( __CLASS__, 'delete_blog' ), 10, 2 );
+		add_action( 'wp_loaded', array( __CLASS__, 'wp_loaded' ) ); // @since 2.16.0
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) ); // @since 2.16.0
 	}
 
 	/**
@@ -145,6 +147,27 @@ class Groups_Controller {
 				require_once GROUPS_ADMIN_LIB . '/class-groups-admin-notice.php';
 			}
 		}
+	}
+
+	/**
+	 * Register the menu style.
+	 *
+	 * @since 2.16.0
+	 */
+	public static function wp_loaded() {
+		global $groups_version;
+		if ( !wp_style_is( 'groups-menu', 'registered' ) ) {
+			wp_register_style( 'groups-menu', GROUPS_PLUGIN_URL . 'css/groups-menu.css', array(), $groups_version );
+		}
+	}
+
+	/**
+	 * Enqueue the menu style.
+	 *
+	 * @since 2.16.0
+	 */
+	public static function admin_enqueue_scripts() {
+		wp_enqueue_style( 'groups-menu' );
 	}
 
 	/**

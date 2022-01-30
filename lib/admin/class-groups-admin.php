@@ -33,7 +33,7 @@ class Groups_Admin {
 	 *
 	 * @var int
 	 */
-	const MENU_POSITION = '38.381';
+	const MENU_POSITION = 38;
 
 	/**
 	 * Holds admin messages.
@@ -161,7 +161,7 @@ class Groups_Admin {
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_admin_groups' ),
-			GROUPS_PLUGIN_URL . '/images/groups.png',
+			'none', // @since 2.16.0 CSS icon from SVG
 			self::MENU_POSITION
 		);
 		$pages[] = $page;
@@ -247,7 +247,7 @@ class Groups_Admin {
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-network-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_network_admin_options' ),
-			GROUPS_PLUGIN_URL . '/images/groups.png'
+			'none', // @since 2.16.0 CSS icon from SVG
 		);
 		$pages[] = $page;
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
