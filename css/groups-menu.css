@@ -22,27 +22,35 @@ li#toplevel_page_groups-admin .wp-menu-image {
 	background-position: center center;
 	background-repeat: no-repeat;
 }
-body.admin-color-blue li#toplevel_page_groups-admin .wp-menu-image {
+body.admin-color-blue li#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-blue li#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups-dark.svg );
 }
-body.admin-color-blue li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image {
+body.admin-color-blue li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-blue li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups.svg );
 }
-body.admin-color-ocean li#toplevel_page_groups-admin .wp-menu-image {
+body.admin-color-ocean li#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-ocean li#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups-light.svg );
 }
-body.admin-color-ocean li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image {
+body.admin-color-ocean li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-ocean li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups.svg );
 }
-body.admin-color-sunrise li#toplevel_page_groups-admin .wp-menu-image {
+body.admin-color-sunrise li#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-sunrise li#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups-light.svg );
 }
-body.admin-color-sunrise li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image {
+body.admin-color-sunrise li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-sunrise li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups.svg );
 }
-body.admin-color-light li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image {
+body.admin-color-light li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-light li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups-light.svg );
 }
-body.admin-color-midnight li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image {
+body.admin-color-midnight li.wp-has-current-submenu#toplevel_page_groups-admin .wp-menu-image,
+body.admin-color-midnight li.wp-has-current-submenu#toplevel_page_groups-network-admin .wp-menu-image {
 	background-image: url( ../images/groups-dark.svg );
 }
