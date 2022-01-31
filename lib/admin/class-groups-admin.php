@@ -247,7 +247,7 @@ class Groups_Admin {
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-network-admin',
 			apply_filters( 'groups_add_menu_page_function', 'groups_network_admin_options' ),
-			'none', // @since 2.16.0 CSS icon from SVG
+			'none' // @since 2.16.0 CSS icon from SVG
 		);
 		$pages[] = $page;
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
