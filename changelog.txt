@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 2.16.1 =
+* Fixes a parse error caused by a trailing `,`.
+
 = 2.16.0 =
 * WordPress 6.0 compatible.
 * Fixed slashes appearing in term-related group names in the Groups column of the administrative screens for posts.
