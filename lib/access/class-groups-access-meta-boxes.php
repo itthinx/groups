@@ -93,6 +93,29 @@ class Groups_Access_Meta_Boxes {
 		// [1] For cases when attachments can be added to terms, e.g. WC Product Category Thumbnail.
 	}
 
+
+	/**
+	 * is_edit_page 
+	 * function to check if the current page is a post edit page
+	 * 
+	 * @author Ohad Raz <admin@bainternet.info>
+	 * 
+	 * @param  string  $new_edit what page to check for accepts new - new post page ,edit - edit post page, null for either
+	 * @return boolean
+	 */
+	public static function is_edit_page( $new_edit = null ) {
+		global $pagenow;
+		//make sure we are on the backend
+		if (!is_admin()) return false;
+
+		if($new_edit == "edit")
+			return in_array( $pagenow, array( 'post.php',  ) );
+		elseif($new_edit == "new") //check for new post page
+			return in_array( $pagenow, array( 'post-new.php' ) );
+		else //check for either new or edit
+			return in_array( $pagenow, array( 'post.php', 'post-new.php' ) );
+	}
+
 	/**
 	 * Triggered by init() to add capability meta box.
 	 */
@@ -209,7 +232,13 @@ class Groups_Access_Meta_Boxes {
 
 			$include     = self::get_user_can_restrict_group_ids();
 			$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
-			$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+			if (self::is_edit_page("new")) {
+				$user_id = get_current_user_id();
+				$user = new Groups_User($user_id);
+				$groups_read = $user->group_ids;
+			} else {
+				$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+			}
 
 			$read_help = sprintf(
 				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', 'groups' ),
