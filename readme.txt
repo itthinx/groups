@@ -5,7 +5,7 @@ Tags: groups, access, access control, membership, memberships, member, members, 
 Requires at least: 5.5
 Tested up to: 6.0
 Requires PHP: 5.6.0
-Stable tag: 2.16.1
+Stable tag: 2.16.2
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -85,6 +85,22 @@ Fully supports custom post types, so that access to post types such as products 
 
 - All features are supported independently for each blog in multisite installations
 
+### Extensions ###
+
+Enhanced functionality is available via official [Extensions](https://www.itthinx.com/shop/) for Groups.
+
+Groups is a large project that is providing essential functionality to tens of thousands of sites since 2012. By getting an official extension, you help fund the work that is necessary to maintain and improve Groups.
+
+- [Groups WooCommerce](https://www.itthinx.com/shop/groups-woocommerce/) : Sell Memberships with Groups and WooCommerce – the best Group Membership and Access Control solution for WordPress and WooCommerce.
+- [WooCommerce Group Coupons](https://www.itthinx.com/shop/woocommerce-group-coupons/) : Automatically apply and restrict coupon validity for user groups. Offer exclusive, automatic and targeted discounts for your customers.
+- [Groups Drip Content](https://www.itthinx.com/shop/groups-drip-content/) : Release content on a schedule. Content dripping can be based on user account creation, group memberships and specific dates and times.
+- [Groups File Access](https://www.itthinx.com/shop/groups-file-access/) : Allows to provide file download links for authorized users. Access to files is restricted to users by their group membership.
+- [Groups Restrict Categories](https://www.itthinx.com/shop/groups-restrict-categories/) : Features access restrictions for categories, tags and other WordPress taxonomies, including support for custom post types and taxonomies.
+- [Groups Forums](https://www.itthinx.com/shop/groups-forums/) : A powerful and yet light-weight forum system for WordPress sites.
+- [Groups Import Export](https://www.itthinx.com/shop/groups-import-export/) : Provides import and export facilities around users and groups.
+- [Groups Newsletters](https://www.itthinx.com/shop/groups-newsletters/) : Newsletter Campaigns for Subscribers and Groups.
+- [Widgets Control Pro](https://www.itthinx.com/shop/widgets-control-pro/) : An advanced Widget toolbox that adds visibility management and helps to control where widgets are shown efficiently.
+
 ### Feedback ###
 
 Feedback is welcome!
@@ -93,9 +109,11 @@ If you need help, have problems, want to leave feedback or want to provide const
 
 Please try to solve problems there before you rate this plugin or say it doesn't work. There goes a _lot_ of work into providing you with free quality plugins! Please appreciate that and help with your feedback. Many thanks!
 
-#### Twitter ####
+#### Stay informed or contribute ####
 
-[Follow @itthinx on Twitter](http://twitter.com/itthinx) for updates on this and other plugins.
+Follow @itthinx on [Twitter](https://twitter.com/itthinx) and [GETTR](https://gettr.com/user/itthinx) for news related to Groups and other plugins.
+
+Get development notifications, contribute code or open issues at the repository on [GitHub](https://github.com/itthinx/groups).
 
 ### Translations ###
 

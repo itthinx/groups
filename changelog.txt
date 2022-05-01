@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 2.16.2 =
+* Fixes a PHP 8.1 warning related to the passing of a null parameter to version_compare().
+
 = 2.16.1 =
 * Fixes a parse error caused by a trailing `,`.
 

@@ -72,7 +72,7 @@ class Groups_Admin_Welcome {
 				Groups_Options::update_user_option( 'groups-welcome-dismiss', $groups_version );
 			}
 		}
-		$groups_welcome_dismiss = Groups_Options::get_user_option( 'groups-welcome-dismiss', null );
+		$groups_welcome_dismiss = Groups_Options::get_user_option( 'groups-welcome-dismiss', '' );
 		if ( version_compare( $groups_version, $groups_welcome_dismiss ) > 0 ) {
 			if ( get_transient( 'groups_plugin_activated' ) || get_transient( 'groups_plugin_updated_legacy' ) ) {
 				$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
