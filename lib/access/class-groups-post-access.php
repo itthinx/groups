@@ -221,6 +221,11 @@ class Groups_Post_Access {
 
 			$user_id = get_current_user_id();
 
+			// If called by MailPoet (e.g., post ajax) 
+			if ( isset( $_POST['action'] ) && $_POST['action'] == 'mailpoet' ) {
+				return $where;
+			}
+			
 			// this only applies to logged in users
 			if ( _groups_admin_override() ) {
 				return $where;
