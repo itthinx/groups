@@ -519,7 +519,8 @@ class Groups_Post_Access {
 	 * versions).
 	 *
 	 * @param array $map must contain 'post_id' (*) and 'group_id'
-	 * @return true if the capability could be added to the post, otherwise false
+	 *
+	 * @return true if the access requirement could be added to the post, otherwise false
 	 */
 	public static function create( $map ) {
 		extract( $map );
@@ -540,7 +541,8 @@ class Groups_Post_Access {
 				if ( $revision_parent_id = wp_is_post_revision( $post_id ) ) {
 					$post_id = $revision_parent_id;
 				}
-				if ( !in_array( $group_id, get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ ) ) ) {
+				$stored_group_ids = self::get_read_group_ids( $post_id );
+				if ( !in_array( $group_id, $stored_group_ids ) ) {
 					$result = add_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
 				}
 			}
@@ -566,7 +568,7 @@ class Groups_Post_Access {
 				} else if ( !is_array( $groups_read ) ) {
 					$groups_read = array( $groups_read );
 				}
-				$group_ids = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
+				$group_ids = self::get_read_group_ids( $post_id );
 				if ( $group_ids ) {
 					foreach( $groups_read as $group_id ) {
 						$result = in_array( $group_id, $group_ids );
@@ -598,7 +600,7 @@ class Groups_Post_Access {
 				$groups_read = array( $groups_read );
 			}
 			$groups_read = array_map( array( 'Groups_Utility', 'id' ), $groups_read );
-			$current_groups_read = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
+			$current_groups_read = self::get_read_group_ids( $post_id );
 			$current_groups_read = array_map( array( 'Groups_Utility', 'id' ), $current_groups_read );
 			foreach( $groups_read as $group_id ) {
 				if ( !in_array( $group_id, $current_groups_read ) ) {
@@ -610,7 +612,8 @@ class Groups_Post_Access {
 					delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
 				}
 			}
-			$result = array_map( array( 'Groups_Utility', 'id' ), get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ ) );
+			$stored_group_ids = self::get_read_group_ids( $post_id );
+			$result = array_map( array( 'Groups_Utility', 'id' ), $stored_group_ids );
 		}
 		return $result;
 	}
