@@ -665,10 +665,18 @@ class Groups_Post_Access {
 	 * Returns a list of group IDs that grant read access to the post.
 	 *
 	 * @param int $post_id
+	 *
 	 * @return array of int, group IDs
 	 */
 	public static function get_read_group_ids( $post_id ) {
-		return get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
+		$result = array();
+		$group_ids = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
+		if ( is_array( $group_ids ) ) {
+			foreach ( $group_ids as $group_id ) {
+				$result[] = intval( $group_id );
+			}
+		}
+		return $result;
 	}
 
 	/**

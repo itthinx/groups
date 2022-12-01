@@ -103,6 +103,7 @@ class Groups_Admin_Post_Columns {
 	 *
 	 * @param string $column_name
 	 * @param int $post_id
+	 *
 	 * @return string custom column content
 	 */
 	public static function custom_column( $column_name, $post_id ) {
@@ -110,7 +111,8 @@ class Groups_Admin_Post_Columns {
 		switch ( $column_name ) {
 			case self::GROUPS :
 				$entries = array();
-				$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+				$groups_read = Groups_Post_Access::get_read_group_ids( $post_id );
+
 				if ( count( $groups_read ) > 0 ) {
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $groups_read ) );
 					if ( ( count( $groups ) > 0 ) ) {

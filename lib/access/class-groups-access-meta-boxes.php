@@ -209,7 +209,7 @@ class Groups_Access_Meta_Boxes {
 
 			$include     = self::get_user_can_restrict_group_ids();
 			$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
-			$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+			$groups_read = Groups_Post_Access::get_read_group_ids( $post_id );
 
 			$read_help = sprintf(
 				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', 'groups' ),
@@ -421,6 +421,7 @@ class Groups_Access_Meta_Boxes {
 	 *
 	 * @param array $form_fields
 	 * @param object $post
+	 *
 	 * @return array
 	 */
 	public static function attachment_fields_to_edit( $form_fields, $post ) {
@@ -435,7 +436,7 @@ class Groups_Access_Meta_Boxes {
 
 				$include     = self::get_user_can_restrict_group_ids();
 				$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
-				$groups_read = get_post_meta( $post->ID, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+				$groups_read = Groups_Post_Access::get_read_group_ids( $post->ID );
 
 				$output = '';
 				$post_singular_name = __( 'Media', 'groups' );
