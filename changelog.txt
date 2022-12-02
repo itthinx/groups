@@ -1,5 +1,12 @@
 == Groups by itthinx - changelog.txt
 
+= 2.17.0 =
+* WordPress 6.1 compatible.
+* Fixes potential errors with inconsistent postmeta values obtained for groups protecting posts, using own API method which has been further guarded against inconsistent values.
+* Revised code to use updated API method to obtain read access group IDs instead of accessing via get_post_meta().
+* Fixed several instances of code formatting issues.
+* Improves the performance on filtering out adjacent posts with sets of eligible post IDs cached by post type and avoids redundant queries.
+
 = 2.16.2 =
 * Fixes a PHP 8.1 warning related to the passing of a null parameter to version_compare().
 

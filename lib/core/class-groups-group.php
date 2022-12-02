@@ -200,8 +200,8 @@ class Groups_Group implements I_Capable {
 				if ( !$result ) {
 					// find all parent groups and include in the group's
 					// upward hierarchy to see if any of these can
-					$group_ids		   = array( $this->group->group_id );
-					$iterations		  = 0;
+					$group_ids  = array( $this->group->group_id );
+					$iterations = 0;
 					$old_group_ids_count = 0;
 					$all_groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
 					while( ( $iterations < $all_groups ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
@@ -432,7 +432,7 @@ class Groups_Group implements I_Capable {
 						$iterations++;
 						$old_group_ids_count = count( $group_ids );
 
-						$id_list	 = implode( ',', $group_ids );
+						$id_list = implode( ',', $group_ids );
 						// We can trust ourselves here, no need to use prepare()
 						// but careful if this query is modified!
 						$successor_group_ids = $wpdb->get_results(
