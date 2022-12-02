@@ -125,6 +125,8 @@ class Groups_Post_Access {
 		// adjacent posts
 		add_filter( 'get_previous_post_where', array( __CLASS__, 'get_previous_post_where' ), 10, 5 );
 		add_filter( 'get_next_post_where', array( __CLASS__, 'get_next_post_where' ), 10, 5 );
+		add_action( 'save_post', array( __CLASS__, 'save_post' ), PHP_INT_MAX );
+		add_filter( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), PHP_INT_MAX, 2 );
 	}
 
 	/**
@@ -492,11 +494,48 @@ class Groups_Post_Access {
 	 * @return string $where modified if appropriate
 	 */
 	public static function get_next_post_where( $where, $in_same_term, $excluded_terms, $taxonomy, $post ) {
-		if ( !empty( $post ) ) {
-			// run it through get_posts with suppress_filters set to false so that our posts_where filter is applied and assures only accessible posts are seen
-			$post_ids = get_posts( array( 'post_type' => $post->post_type, 'numberposts' => -1, 'suppress_filters' => false, 'fields' => 'ids' ) );
+		if (
+			!empty( $post ) &&
+			self::handles_post_type( $post->post_type )
+		) {
+			$cache_group = self::CACHE_GROUP . '_' . $post->post_type;
+
+			$group_ids = array();
+			$user_id = get_current_user_id();
+			if ( $user_id ) {
+				$groups_user = new Groups_User( $user_id );
+				$group_ids = $groups_user->group_ids_deep;
+				if ( is_array( $group_ids ) ) {
+					sort( $group_ids );
+					$cache_group .=  '_' . implode( '_', $group_ids );
+				}
+			}
+
+			// remember the cache group for purging
+			$stored_cache_groups = Groups_Options::get_option( 'eligible_post_ids_cache_groups', array() );
+			if ( !in_array( $cache_group, $stored_cache_groups ) ) {
+				$stored_cache_groups[] = $cache_group;
+				Groups_Options::update_option( 'eligible_post_ids_cache_groups', $stored_cache_groups );
+			}
+
+			$post_ids = array( -1 );
+			$cached = Groups_Cache::get( 'eligible_post_ids', $cache_group );
+			if ( $cached === null ) {
+				// run it through get_posts with suppress_filters set to false so that our posts_where filter is applied and assures only accessible posts are seen
+				$post_ids = get_posts( array( 'post_type' => $post->post_type, 'numberposts' => -1, 'suppress_filters' => false, 'fields' => 'ids' ) );
+				if ( is_array( $post_ids ) && count( $post_ids ) > 0 ) {
+					foreach ( $post_ids as $i => $post_id ) {
+						$post_ids[$i] = intval( $post_id );
+					}
+				} else {
+					$post_ids = array( -1 );
+				}
+				Groups_Cache::set( 'eligible_post_ids', $post_ids, $cache_group );
+			} else {
+				$post_ids = $cached->value;
+			}
+
 			if ( is_array( $post_ids ) && count( $post_ids ) > 0 ) {
-				$post_ids = array_map( 'intval', $post_ids );
 				$condition = ' p.ID IN (' . implode( ',', $post_ids ) . ') ';
 				if ( !empty( $where ) ) {
 					$where .= ' AND ' . $condition;
@@ -506,6 +545,74 @@ class Groups_Post_Access {
 			}
 		}
 		return $where;
+	}
+
+	/**
+	 * Clears cached eligible post IDs.
+	 *
+	 * @since 2.17.0
+	 *
+	 * @param int $post_id
+	 */
+	public static function save_post( $post_id ) {
+		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) ) {
+		} else {
+			$post_type = get_post_type( $post_id );
+			if ( self::handles_post_type( $post_type ) ) {
+				self::purge_eligible_post_ids_cached( $post_type );
+			}
+		}
+	}
+
+	/**
+	 * Clear cached eligible post IDs for the 'attachment' post type (the save_post action is not triggered for those).
+	 *
+	 * @since 2.17.0
+	 *
+	 * @param array $post
+	 * @param array $attachment
+	 *
+	 * @return array
+	 */
+	public static function attachment_fields_to_save( $post, $attachment ) {
+		if ( self::handles_post_type( 'attachment' ) ) {
+			$post_id = null;
+			if ( isset( $post['ID'] ) ) {
+				$post_id = $post['ID'];
+			} else if ( isset( $post['post_ID'] ) ) {
+				$post_id = $post['post_ID'];
+			}
+			if ( $post_id !== null ) {
+				self::save_post( $post_id );
+			}
+		}
+		return $post;
+	}
+
+	/**
+	 * Deletes all stored eligible post IDs cached for the given post type, or all post types (by default).
+	 *
+	 * @since 2.17.0
+	 *
+	 * @param string|null $post_type
+	 */
+	public static function purge_eligible_post_ids_cached( $post_type = null ) {
+		$changed = false;
+		$stored_cache_groups = Groups_Options::get_option( 'eligible_post_ids_cache_groups', array() );
+		foreach ( $stored_cache_groups as $cache_group ) {
+			if ( $post_type === null || strpos( $cache_group, $post_type ) !== false ) {
+				Groups_Cache::delete( 'eligible_post_ids' , $cache_group );
+				$stored_cache_groups = array_diff( $stored_cache_groups, array( $cache_group ) );
+				$changed = true;
+			}
+		}
+		if ( $changed ) {
+			if ( count( $stored_cache_groups ) > 0 ) {
+				Groups_Options::update_option( 'eligible_post_ids_cache_groups', $stored_cache_groups );
+			} else {
+				Groups_Options::delete_option( 'eligible_post_ids_cache_groups' );
+			}
+		}
 	}
 
 	/**
