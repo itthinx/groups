@@ -37,7 +37,12 @@ class Groups_Group implements I_Capable {
 	/**
 	 * @var Object Persisted group.
 	 */
-	var $group = null;
+	public $group = null;
+
+	/**
+	 * @var integer $group_id
+	 */
+	private $group_id = 0;
 
 	/**
 	 * Create by group id.
@@ -46,6 +51,14 @@ class Groups_Group implements I_Capable {
 	 */
 	public function __construct( $group_id ) {
 		$this->group = self::read( $group_id );
+	}
+
+	/**
+	 * Get group_id
+	 * @return int
+	 */
+	public function get_group_id() {
+		return $this->group->group_id;
 	}
 
 	/**
@@ -70,6 +83,8 @@ class Groups_Group implements I_Capable {
 		if ( $this->group !== null ) {
 			switch( $name ) {
 				case 'group_id' :
+					$result = $this->get_group_id();
+					break;
 				case 'parent_id' :
 				case 'creator_id' :
 				case 'datetime' :
