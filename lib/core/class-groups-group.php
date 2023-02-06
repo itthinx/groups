@@ -239,6 +239,26 @@ class Groups_Group implements I_Capable {
 	}
 
 	/**
+	 * Check if a group with the given ID exists.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @param int $group_id
+	 *
+	 * @return boolean
+	 */
+	public static function exists( $group_id ) {
+		$exists = false;
+		if ( !empty( $group_id ) && is_numeric( $group_id ) ) {
+			$group_id = Groups_Utility::id( $group_id );
+			if ( $group_id !== false ) {
+				$exists = self::read( $group_id ) !== false;
+			}
+		}
+		return $exists;
+	}
+
+	/**
 	 * Persist a group.
 	 *
 	 * Parameters:
@@ -328,6 +348,7 @@ class Groups_Group implements I_Capable {
 	 * Retrieve a group.
 	 *
 	 * @param int $group_id group's id
+	 *
 	 * @return object upon success, otherwise false
 	 */
 	public static function read( $group_id ) {

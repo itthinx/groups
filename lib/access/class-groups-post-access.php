@@ -213,6 +213,7 @@ class Groups_Post_Access {
 	 *
 	 * @param string $where current where conditions
 	 * @param WP_Query $query current query
+	 *
 	 * @return string modified $where
 	 */
 	public static function posts_where( $where, $query ) {
@@ -783,7 +784,10 @@ class Groups_Post_Access {
 		$group_ids = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
 		if ( is_array( $group_ids ) ) {
 			foreach ( $group_ids as $group_id ) {
-				$result[] = intval( $group_id );
+				// @since 2.18.0 discard invalid group IDs
+				if ( !empty( $group_id ) && Groups_Group::exists( $group_id ) ) {
+					$result[] = intval( $group_id );
+				}
 			}
 		}
 		return $result;
