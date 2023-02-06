@@ -5,7 +5,7 @@ Tags: groups, access, access control, membership, memberships, member, members, 
 Requires at least: 5.5
 Tested up to: 6.1
 Requires PHP: 5.6.0
-Stable tag: 2.17.0
+Stable tag: 2.18.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.

@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 2.18.0 =
+* WordPress 6.1 compatible.
+
 = 2.17.0 =
 * WordPress 6.1 compatible.
 * Fixes potential errors with inconsistent postmeta values obtained for groups protecting posts, using own API method which has been further guarded against inconsistent values.
