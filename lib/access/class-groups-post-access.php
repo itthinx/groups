@@ -315,18 +315,18 @@ class Groups_Post_Access {
 			// 2. Filter the posts:
 			// This allows the user to access posts where the posts are not restricted or where
 			// the user belongs to ANY of the groups:
-// 			$where .= sprintf(
-// 				" AND {$wpdb->posts}.ID IN " .
-// 				" ( " .
-// 				"   SELECT ID FROM $wpdb->posts WHERE post_type NOT IN (%s) OR ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts of a type that is not handled or posts without access restriction
-// 				"   UNION ALL " . // we don't care about duplicates here, just make it quick
-// 				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any group the user belongs to
-// 				" ) ",
-// 				$post_types_in,
-// 				self::POSTMETA_PREFIX . self::READ,
-// 				self::POSTMETA_PREFIX . self::READ,
-// 				$group_ids
-// 			);
+			// $where .= sprintf(
+			// 	" AND {$wpdb->posts}.ID IN " .
+			// 	" ( " .
+			// 	"   SELECT ID FROM $wpdb->posts WHERE post_type NOT IN (%s) OR ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts of a type that is not handled or posts without access restriction
+			// 	"   UNION ALL " . // we don't care about duplicates here, just make it quick
+			// 	"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any group the user belongs to
+			// 	" ) ",
+			// 	$post_types_in,
+			// 	self::POSTMETA_PREFIX . self::READ,
+			// 	self::POSTMETA_PREFIX . self::READ,
+			// 	$group_ids
+			// );
 			// New faster version - Exclude any post IDs from:
 			// posts restricted to groups that the user does not belong to MINUS posts restricted to groups to which the user belongs
 			$where .= sprintf(
