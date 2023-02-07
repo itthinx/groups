@@ -7,6 +7,7 @@
 * Added checks on data used to restrict posts to avoid invalid group IDs.
 * Revised the posts_where filter that restricts post access for resilience against invalid postmeta values.
 * Fixed several instances of deprecated notices related to passing null where non-null values are required (PHP 8.x compatibility).
+* Fixed the style of the Capabilities select container on the Groups admin screen.
 
 = 2.17.0 =
 * WordPress 6.1 compatible.
