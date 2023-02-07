@@ -280,7 +280,8 @@ div.capability.edit label {
 	vertical-align: middle;
 }
 .groups-bulk-container .selectize-input input[type="text"],
-.groups-bulk-container .selectize-input input[type="select-multiple"] {
+.groups-bulk-container .selectize-input input[type="select-multiple"],
+.groups-groups-container .selectize-input input[type="select-multiple"] {
 	font-size: inherit;
 	vertical-align: middle;
 	height: 28px;

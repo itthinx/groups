@@ -55,7 +55,7 @@ class Groups_Admin_Posts {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
 			add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
 			add_action( 'restrict_manage_posts', array( __CLASS__, 'restrict_manage_posts' ) );
-// 			add_filter( 'parse_query', array( __CLASS__, 'parse_query' ) );
+			// add_filter( 'parse_query', array( __CLASS__, 'parse_query' ) );
 
 			add_filter( 'posts_where', array( __CLASS__, 'posts_where' ), 10, 2 );
 			add_filter( 'posts_join', array( __CLASS__, 'posts_join' ), 10, 2 );
@@ -78,6 +78,7 @@ class Groups_Admin_Posts {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				Groups_UIE::enqueue( 'select' );
+				wp_enqueue_style( 'groups_admin_post' );
 			}
 		}
 	}
@@ -165,7 +166,7 @@ class Groups_Admin_Posts {
 							'<option value="%s" %s >%s</option>',
 							esc_attr( $group->group_id ),
 							esc_attr( $selected ),
-							stripslashes( wp_filter_nohtml_kses( $group->name ) )
+							!empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 						);
 					}
 					$output .= '</select>';
@@ -242,7 +243,7 @@ class Groups_Admin_Posts {
 						$output .= sprintf(
 							'<option value="%s" >%s</option>',
 							esc_attr( $group->group_id ),
-							stripslashes( wp_filter_nohtml_kses( $group->name ) )
+							!empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 						);
 					}
 					$output .= '</select>';
@@ -346,18 +347,18 @@ class Groups_Admin_Posts {
 								// meta_query does not handle a conjunction
 								// on the same meta field correctly
 								// (at least not up to WordPress 3.7.1)
-// 								$query->query_vars['meta_query'] = array (
-// 									'relation' => 'OR',
-// 									array (
-// 										'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
-// 										'value' => $group_ids,
-// 										'compare' => 'IN'
-// 									),
-// 									array (
-// 										'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
-// 										'compare' => 'NOT EXISTS'
-// 									)
-// 								);
+								// $query->query_vars['meta_query'] = array (
+								// 	'relation' => 'OR',
+								// 	array (
+								// 		'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
+								// 		'value' => $group_ids,
+								// 		'compare' => 'IN'
+								// 	),
+								// 	array (
+								// 		'key' => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
+								// 		'compare' => 'NOT EXISTS'
+								// 	)
+								// );
 								// we'll limit it to show just unrestricted entries
 								// until the above is solved
 								$query->query_vars['meta_query'] = array (

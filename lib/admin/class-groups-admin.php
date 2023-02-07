@@ -63,6 +63,7 @@ class Groups_Admin {
 	public static function admin_init() {
 		global $groups_version;
 		wp_register_style( 'groups_admin', GROUPS_PLUGIN_URL . 'css/groups_admin.css', array(), $groups_version );
+		wp_register_style( 'groups_admin_post', GROUPS_PLUGIN_URL . 'css/groups_admin_post.css', array(), $groups_version );
 		require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
 	}
 
