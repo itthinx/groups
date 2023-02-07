@@ -305,11 +305,10 @@ class Groups_Post_Access {
 					$group_ids = $group_ids_deep;
 				}
 			}
-
 			if ( count( $group_ids ) > 0 ) {
-				$group_ids = "'" . implode( "','", $group_ids ) . "'";
+				$group_ids = implode( ',', array_map( 'intval', $group_ids ) );
 			} else {
-				$group_ids = '\'\'';
+				$group_ids = '0';
 			}
 
 			// 2. Filter the posts:
@@ -329,13 +328,16 @@ class Groups_Post_Access {
 			// );
 			// New faster version - Exclude any post IDs from:
 			// posts restricted to groups that the user does not belong to MINUS posts restricted to groups to which the user belongs
+			$groups_table = _groups_get_tablename( 'group' );
 			$where .= sprintf(
 				" AND {$wpdb->posts}.ID NOT IN ( " .
 					"SELECT ID FROM $wpdb->posts WHERE " .
 						"post_type IN (%s) AND " .
 						"ID IN ( " .
 							"SELECT post_id FROM $wpdb->postmeta pm WHERE " .
-								"pm.meta_key = '%s' AND pm.meta_value NOT IN (%s) AND " .
+								"pm.meta_key = '%s' AND " .
+								"pm.meta_value NOT IN (%s) AND " .
+								"pm.meta_value IN ( SELECT group_id FROM $groups_table ) AND " . // @since 2.18.0 also check for group ID value integrity
 								"post_id NOT IN ( SELECT post_id FROM $wpdb->postmeta pm WHERE pm.meta_key = '%s' AND pm.meta_value IN (%s) ) " .
 						") " .
 				") ",

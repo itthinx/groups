@@ -4,6 +4,7 @@
 * WordPress 6.1 compatible.
 * Added the static exists() method to the Groups_Group class.
 * Added checks on data used to restrict posts to avoid invalid group IDs.
+* Revised the posts_where filter that restricts post access for resilience against invalid postmeta values.
 
 = 2.17.0 =
 * WordPress 6.1 compatible.
