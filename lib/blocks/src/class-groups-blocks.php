@@ -86,7 +86,7 @@ class Groups_Blocks {
 			foreach ( $groups as $group ) {
 				$groups_options[] = array(
 					'value' => $group->group_id,
-					'label' => !empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '',
+					'label' => $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '',
 				);
 			}
 		} else {
