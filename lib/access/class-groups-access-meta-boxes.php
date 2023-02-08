@@ -238,7 +238,7 @@ class Groups_Access_Meta_Boxes {
 			$output .= '<option value=""></option>';
 			foreach( $groups as $group ) {
 				$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
-				$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
+				$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 				$output .= '</option>';
 			}
 			$output .= '</select>';
@@ -451,19 +451,19 @@ class Groups_Access_Meta_Boxes {
 				// and https://core.trac.wordpress.org/ticket/28053 - this is an issue with multiple value fields and should
 				// be fixed within WordPress.
 
-// 				$output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
-// 				$output .= '<ul>';
-// 				foreach( $groups as $group ) {
-// 						$checked = in_array( $group->group_id, $groups_read ) ? ' checked="checked" ' : '';
-// 						$output .= '<li>';
-// 						$output .= '<label>';
-// 						$output .= '<input name="attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $group->group_id ) . '" />';
-// 						$output .= wp_filter_nohtml_kses( $group->name );
-// 						$output .= '</label>';
-// 						$output .= '</li>';
-// 				}
-// 				$output .= '</ul>';
-// 				$output .= '</div>';
+				// $output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
+				// $output .= '<ul>';
+				// foreach( $groups as $group ) {
+				// 		$checked = in_array( $group->group_id, $groups_read ) ? ' checked="checked" ' : '';
+				// 		$output .= '<li>';
+				// 		$output .= '<label>';
+				// 		$output .= '<input name="attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $group->group_id ) . '" />';
+				// 		$output .= wp_filter_nohtml_kses( $group->name );
+				// 		$output .= '</label>';
+				// 		$output .= '</li>';
+				// }
+				// $output .= '</ul>';
+				// $output .= '</div>';
 
 				$output .= '<div class="select-groups-container">';
 				$select_id = 'attachments-' . $post->ID . '-' . self::GROUPS_READ;
@@ -479,7 +479,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= '<option value=""></option>';
 				foreach( $groups as $group ) {
 					$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
-					$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
+					$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 					$output .= '</option>';
 				}
 				$output .= '</select>';

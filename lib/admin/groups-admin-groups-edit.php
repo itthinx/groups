@@ -25,6 +25,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Show edit group form.
+ *
  * @param int $group_id group id
  */
 function groups_admin_groups_edit( $group_id ) {
@@ -47,38 +48,50 @@ function groups_admin_groups_edit( $group_id ) {
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
-	$name		= isset( $_POST['name-field'] ) ? $_POST['name-field'] : $group->name;
+	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : $group->name;
 	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : $group->description;
 	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : $group->parent_id;
 
 	$group_table = _groups_get_tablename( 'group' );
 	$parent_select = '<select name="parent-id-field">';
-	$parent_select .= '<option value="">--</option>';
+	$parent_select .= sprintf(
+		'<option value="" %s>--</option>',
+		empty( $parent_id ) ? 'selected="selected"' : ''
+	);
 	$groups = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $group_table WHERE group_id != %d", $group->group_id ) );
 	foreach ( $groups as $g ) {
-		$selected = ( $g->group_id == $group->parent_id ? ' selected="selected" ' : '' );
-		$parent_select .= '<option ' . $selected . 'value="' . esc_attr( $g->group_id ) . '">' . wp_filter_nohtml_kses( $g->name ) . '</option>';
+		$selected = ( $g->group_id == $group->parent_id ? 'selected="selected"' : '' );
+		$parent_select .= sprintf(
+			'<option %s value="%s">%s</option>',
+			$selected,
+			esc_attr( $g->group_id ),
+			esc_html( stripslashes( wp_filter_nohtml_kses( $g->name ) ) )
+		);
 	}
 	$parent_select .= '</select>';
 
-	$name_readonly = ( $name !== Groups_Registered::REGISTERED_GROUP_NAME ) ? "" : ' readonly="readonly" ';
+	$name_readonly = ( $name !== Groups_Registered::REGISTERED_GROUP_NAME ) ? '' : 'readonly="readonly"';
 
 	$output .= '<div class="manage-groups wrap">';
 	$output .= '<h1>';
-	$output .= __( 'Edit a group', 'groups' );
+	$output .= esc_html__( 'Edit a group', 'groups' );
 	$output .= '</h1>';
 
 	$output .= Groups_Admin::render_messages();
 
-	$output .= '<form id="edit-group" action="' . esc_url( $current_url ) . '" method="post">';
+	$output .= sprintf( '<form id="edit-group" action="%s" method="post">', esc_url( $current_url ) );
 	$output .= '<div class="group edit">';
-	$output .= '<input id="group-id-field" name="group-id-field" type="hidden" value="' . esc_attr( intval( $group_id ) ) . '"/>';
+	$output .= sprintf( '<input id="group-id-field" name="group-id-field" type="hidden" value="%s"/>', esc_attr( intval( $group_id ) ) );
 
 	$output .= '<div class="field">';
 	$output .= '<label for="name-field" class="field-label first required">';
-	$output .= __( 'Name', 'groups' );
+	$output .= esc_html__( 'Name', 'groups' );
 	$output .= '</label>';
-	$output .= '<input ' . $name_readonly . ' id="name-field" name="name-field" class="namefield" type="text" value="' . esc_attr( stripslashes( $name ) ) . '"/>';
+	$output .= sprintf(
+		'<input %s id="name-field" name="name-field" class="namefield" type="text" value="%s"/>',
+		$name_readonly,
+		esc_attr( stripslashes( $name ) )
+	);
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
@@ -114,10 +127,10 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '<div class="field">';
 	$output .= '<div class="select-capability-container" style="width:62%;">';
 	$output .= '<label>';
-	$output .= __( 'Capabilities', 'groups' );
+	$output .= esc_html__( 'Capabilities', 'groups' );
 	$output .= sprintf(
 		'<select class="select capability" name="capability_ids[]" multiple="multiple" placeholder="%s">',
-		__( 'Choose capabilities &hellip;', 'groups' )
+		esc_attr__( 'Choose capabilities &hellip;', 'groups' )
 	);
 	foreach( $capabilities as $capability ) {
 		$selected = in_array( $capability->capability_id, $group_capabilities_array ) ? ' selected="selected" ' : '';
@@ -127,7 +140,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '</label>';
 	$output .= '</div>'; // .select-capability-container
 	$output .= '<p class="description">';
-	$output .= __( 'The chosen capabilities are assigned to the group.', 'groups' );
+	$output .= esc_html__( 'The chosen capabilities are assigned to the group.', 'groups' );
 	$output .= '</p>';
 	$output .= '</div>'; // .field
 	$output .= Groups_UIE::render_select( '.select.capability' );
@@ -143,11 +156,10 @@ function groups_admin_groups_edit( $group_id ) {
 	) {
 		usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
 		$output .= '<div class="field">';
-		$output .= __( 'Inherited capabilities:', 'groups' );
+		$output .= esc_html__( 'Inherited capabilities:', 'groups' );
 		$output .= ' ';
 		$inherited_caps = array();
 		foreach ( $group_capabilities_deep as $group_capability ) {
-			$class = '';
 			if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
 				$inherited_caps[] = wp_filter_nohtml_kses( $group_capability->capability->capability );
 			}
@@ -160,9 +172,9 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$output .= '<div class="field">';
 	$output .= wp_nonce_field( 'groups-edit', GROUPS_ADMIN_GROUPS_NONCE, true, false );
-	$output .= '<input class="button button-primary" type="submit" value="' . __( 'Save', 'groups' ) . '"/>';
+	$output .= sprintf( '<input class="button button-primary" type="submit" value="%s"/>', esc_attr__( 'Save', 'groups' ) );
 	$output .= '<input type="hidden" value="edit" name="action"/>';
-	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>';
+	$output .= sprintf( '<a class="cancel button" href="%s">%s</a>', esc_url( $current_url ), esc_html__( 'Cancel', 'groups' ) );
 	$output .= '</div>';
 	$output .= '</div>'; // .group.edit
 	$output .= '</form>';
@@ -173,8 +185,11 @@ function groups_admin_groups_edit( $group_id ) {
 
 /**
  * Handle edit form submission.
+ *
+ * @return int|boolean group ID or false on failure
  */
 function groups_admin_groups_edit_submit() {
+
 	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {

@@ -213,6 +213,7 @@ class Groups_Post_Access {
 	 *
 	 * @param string $where current where conditions
 	 * @param WP_Query $query current query
+	 *
 	 * @return string modified $where
 	 */
 	public static function posts_where( $where, $query ) {
@@ -304,37 +305,39 @@ class Groups_Post_Access {
 					$group_ids = $group_ids_deep;
 				}
 			}
-
 			if ( count( $group_ids ) > 0 ) {
-				$group_ids = "'" . implode( "','", $group_ids ) . "'";
+				$group_ids = implode( ',', array_map( 'intval', $group_ids ) );
 			} else {
-				$group_ids = '\'\'';
+				$group_ids = '0';
 			}
 
 			// 2. Filter the posts:
 			// This allows the user to access posts where the posts are not restricted or where
 			// the user belongs to ANY of the groups:
-// 			$where .= sprintf(
-// 				" AND {$wpdb->posts}.ID IN " .
-// 				" ( " .
-// 				"   SELECT ID FROM $wpdb->posts WHERE post_type NOT IN (%s) OR ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts of a type that is not handled or posts without access restriction
-// 				"   UNION ALL " . // we don't care about duplicates here, just make it quick
-// 				"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any group the user belongs to
-// 				" ) ",
-// 				$post_types_in,
-// 				self::POSTMETA_PREFIX . self::READ,
-// 				self::POSTMETA_PREFIX . self::READ,
-// 				$group_ids
-// 			);
+			// $where .= sprintf(
+			// 	" AND {$wpdb->posts}.ID IN " .
+			// 	" ( " .
+			// 	"   SELECT ID FROM $wpdb->posts WHERE post_type NOT IN (%s) OR ID NOT IN ( SELECT post_id FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' ) " . // posts of a type that is not handled or posts without access restriction
+			// 	"   UNION ALL " . // we don't care about duplicates here, just make it quick
+			// 	"   SELECT post_id AS ID FROM $wpdb->postmeta WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value IN (%s) " . // posts that require any group the user belongs to
+			// 	" ) ",
+			// 	$post_types_in,
+			// 	self::POSTMETA_PREFIX . self::READ,
+			// 	self::POSTMETA_PREFIX . self::READ,
+			// 	$group_ids
+			// );
 			// New faster version - Exclude any post IDs from:
 			// posts restricted to groups that the user does not belong to MINUS posts restricted to groups to which the user belongs
+			$groups_table = _groups_get_tablename( 'group' );
 			$where .= sprintf(
 				" AND {$wpdb->posts}.ID NOT IN ( " .
 					"SELECT ID FROM $wpdb->posts WHERE " .
 						"post_type IN (%s) AND " .
 						"ID IN ( " .
 							"SELECT post_id FROM $wpdb->postmeta pm WHERE " .
-								"pm.meta_key = '%s' AND pm.meta_value NOT IN (%s) AND " .
+								"pm.meta_key = '%s' AND " .
+								"pm.meta_value NOT IN (%s) AND " .
+								"pm.meta_value IN ( SELECT group_id FROM $groups_table ) AND " . // @since 2.18.0 also check for group ID value integrity
 								"post_id NOT IN ( SELECT post_id FROM $wpdb->postmeta pm WHERE pm.meta_key = '%s' AND pm.meta_value IN (%s) ) " .
 						") " .
 				") ",
@@ -783,7 +786,10 @@ class Groups_Post_Access {
 		$group_ids = get_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ );
 		if ( is_array( $group_ids ) ) {
 			foreach ( $group_ids as $group_id ) {
-				$result[] = intval( $group_id );
+				// @since 2.18.0 discard invalid group IDs
+				if ( !empty( $group_id ) && Groups_Group::exists( $group_id ) ) {
+					$result[] = intval( $group_id );
+				}
 			}
 		}
 		return $result;

@@ -33,7 +33,7 @@ function groups_admin_groups_add() {
 	$output = '';
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -47,19 +47,24 @@ function groups_admin_groups_add() {
 
 	$group_table = _groups_get_tablename( 'group' );
 	$parent_select = '<select name="parent-id-field">';
-	$parent_select .= '<option value="">--</option>';
+	$parent_select .= sprintf(
+		'<option value="" %s>--</option>',
+		empty( $parent_id ) ? 'selected="selected"' : ''
+	);
 	$groups = $wpdb->get_results( "SELECT * FROM $group_table" );
 	foreach ( $groups as $group ) {
-		$parent_select .=
-			'<option value="' . esc_attr( $group->group_id ) . '">' .
-			stripslashes( wp_filter_nohtml_kses( $group->name ) ) .
-			'</option>';
+		$parent_select .= sprintf(
+			'<option value="%s" %s>%s</option>',
+			esc_attr( $group->group_id ),
+			$parent_id == $group->group_id ? 'selected="selected"' : '',
+			$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
+		);
 	}
 	$parent_select .= '</select>';
 
 	$output .= '<div class="manage-groups wrap">';
 	$output .= '<h1>';
-	$output .= __( 'Add a new group', 'groups' );
+	$output .= esc_html__( 'Add a new group', 'groups' );
 	$output .= '</h1>';
 
 	$output .= Groups_Admin::render_messages();
@@ -69,21 +74,21 @@ function groups_admin_groups_add() {
 
 	$output .= '<div class="field">';
 	$output .= '<label for="name-field" class="field-label first required">';
-	$output .= __( 'Name', 'groups' );
+	$output .= esc_html__( 'Name', 'groups' );
 	$output .= '</label>';
-	$output .= '<input id="name-field" name="name-field" class="namefield" type="text" value="' . esc_attr( stripslashes( $name ) ) . '"/>';
+	$output .= sprintf( '<input id="name-field" name="name-field" class="namefield" type="text" value="%s"/>', esc_attr( stripslashes( $name ) ) );
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
 	$output .= '<label for="parent-id-field" class="field-label">';
-	$output .= __( 'Parent', 'groups' );
+	$output .= esc_html__( 'Parent', 'groups' );
 	$output .= '</label>';
 	$output .= $parent_select;
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
 	$output .= '<label for="description-field" class="field-label description-field">';
-	$output .= __( 'Description', 'groups' );
+	$output .= esc_html__( 'Description', 'groups' );
 	$output .= '</label>';
 	$output .= '<textarea id="description-field" name="description-field" rows="5" cols="45">';
 	$output .= stripslashes( wp_filter_nohtml_kses( $description ) );
@@ -94,22 +99,28 @@ function groups_admin_groups_add() {
 
 	$capability_table = _groups_get_tablename( "capability" );
 	$capabilities     = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+	$selected_capabilities = isset( $_POST['capability_ids'] ) && is_array( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : array();
 
 	$output .= '<div class="select-capability-container" style="width:62%;">';
 	$output .= '<label>';
-	$output .= __( 'Capabilities', 'groups' );
+	$output .= esc_html__( 'Capabilities', 'groups' );
 	$output .= sprintf(
 		'<select class="select capability" name="capability_ids[]" multiple="multiple" placeholder="%s">',
-		__( 'Choose capabilities &hellip;', 'groups' )
+		esc_attr__( 'Choose capabilities &hellip;', 'groups' )
 	);
 	foreach( $capabilities as $capability ) {
-		$output .= sprintf( '<option value="%s">%s</option>', esc_attr( $capability->capability_id ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
+		$output .= sprintf(
+			'<option value="%s" %s>%s</option>',
+			esc_attr( $capability->capability_id ),
+			in_array( $capability->capability_id, $selected_capabilities ) ? 'selected="selected"' : '',
+			stripslashes( wp_filter_nohtml_kses( $capability->capability ) )
+		);
 	}
 	$output .= '</select>';
 	$output .= '</label>';
 	$output .= '</div>';
 	$output .= '<p class="description">';
-	$output .= __( 'These capabilities will be assigned to the group.', 'groups' );
+	$output .= esc_html__( 'These capabilities will be assigned to the group.', 'groups' );
 	$output .= '</p>';
 
 	$output .= Groups_UIE::render_select( '.select.capability' );
@@ -119,9 +130,9 @@ function groups_admin_groups_add() {
 
 	$output .= '<div class="field">';
 	$output .= wp_nonce_field( 'groups-add', GROUPS_ADMIN_GROUPS_NONCE, true, false );
-	$output .= '<input class="button button-primary" type="submit" value="' . __( 'Add', 'groups' ) . '"/>';
+	$output .= sprintf( '<input class="button button-primary" type="submit" value="%s"/>', esc_attr__( 'Add', 'groups' ) );
 	$output .= '<input type="hidden" value="add" name="action"/>';
-	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>';
+	$output .= sprintf( '<a class="cancel button" href="%s">%s</a>', esc_url( $current_url ), esc_html__( 'Cancel', 'groups' ) );
 	$output .= '</div>';
 	$output .= '</div>'; // .group.new
 	$output .= '</form>';
@@ -132,11 +143,10 @@ function groups_admin_groups_add() {
 
 /**
  * Handle add group form submission.
+ *
  * @return int new group's id or false if unsuccessful
  */
 function groups_admin_groups_add_submit() {
-
-	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );

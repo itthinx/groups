@@ -1,0 +1,55 @@
+/**
+ * groups_admin_user.css
+ *
+ * Copyright (c) "kento" Karim Rahimpur www.itthinx.com
+ *
+ * This code is released under the GNU General Public License.
+ * See COPYRIGHT.txt and LICENSE.txt.
+ *
+ * This code is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This header and all notices must be kept intact.
+ *
+ * @author Karim Rahimpur
+ * @package groups
+ * @since groups 2.18.0
+ */
+
+/* .subsubsub rule added because with views_users() the list can get long icon distinguishes from role links */
+.subsubsub { white-space: normal; }
+a.group {
+	background: url(../images/groups-grey-8x8.png) transparent no-repeat left center;
+	padding-left: 10px;
+}
+
+/* groups-actions */
+.groups-bulk-container { display: inline-block; line-height: 24px; padding-bottom: 2px; vertical-align: top; margin-left: 0.31em; margin-right: 0.31em; }
+.groups-bulk-container .groups-select-container { display: inline-block; vertical-align: top; }
+.groups-bulk-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }
+.groups-bulk-container .selectize-control { min-width: 128px; }
+.groups-bulk-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }
+.groups-bulk-container .selectize-input { font-size: inherit; line-height: 18px; padding: 0px 2px 0px 2px; vertical-align: middle; }
+.groups-bulk-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; height: 24px; }
+.groups-bulk-container input.button { margin-top: 1px; vertical-align: top; }
+.tablenav .actions { overflow: visible; } /* this is important so that the selectize options aren't hidden */
+
+/* groups-filter */
+.groups-filter-container { display: inline-block; line-height: 24px; vertical-align: middle; }
+.groups-filter-container .groups-select-container { display: inline-block; vertical-align: top; }
+.groups-filter-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }
+.groups-filter-container .selectize-control { min-width: 128px; }
+.groups-filter-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }
+.groups-filter-container .selectize-input { font-size: inherit; line-height: 18px; padding: 0px 2px 0px 2px; vertical-align: middle; }
+.groups-filter-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; height: 24px; }
+.groups-filter-container .selectize-input .item a { line-height: inherit; } /* neutralize .subsubsub a rule */
+.groups-filter-container input.button { margin-top: 1px; vertical-align: top; }
+
+.groups-select-container .selectize-input input[type="select-multiple"] {
+	font-size: inherit;
+	vertical-align: middle;
+	height: 28px;
+	line-height: 28px;
+}

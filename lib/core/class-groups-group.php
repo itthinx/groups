@@ -196,11 +196,11 @@ class Groups_Group implements I_Capable {
 
 			if ( $capability_id !== null ) {
 				// check if the group itself can
-				$result = ( Groups_Group_Capability::read( $this->group->group_id, $capability_id ) !== false );
+				$result = is_object( $this->group ) ? ( Groups_Group_Capability::read( $this->group->group_id, $capability_id ) !== false ) : null;
 				if ( !$result ) {
 					// find all parent groups and include in the group's
 					// upward hierarchy to see if any of these can
-					$group_ids  = array( $this->group->group_id );
+					$group_ids = is_object( $this->group ) ? array( $this->group->group_id ) : array();
 					$iterations = 0;
 					$old_group_ids_count = 0;
 					$all_groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
@@ -236,6 +236,26 @@ class Groups_Group implements I_Capable {
 		}
 		$result = apply_filters_ref_array( 'groups_group_can', array( $result, &$this, $capability ) );
 		return $result;
+	}
+
+	/**
+	 * Check if a group with the given ID exists.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @param int $group_id
+	 *
+	 * @return boolean
+	 */
+	public static function exists( $group_id ) {
+		$exists = false;
+		if ( !empty( $group_id ) && is_numeric( $group_id ) ) {
+			$group_id = Groups_Utility::id( $group_id );
+			if ( $group_id !== false ) {
+				$exists = self::read( $group_id ) !== false;
+			}
+		}
+		return $exists;
 	}
 
 	/**
@@ -328,6 +348,7 @@ class Groups_Group implements I_Capable {
 	 * Retrieve a group.
 	 *
 	 * @param int $group_id group's id
+	 *
 	 * @return object upon success, otherwise false
 	 */
 	public static function read( $group_id ) {
