@@ -25,11 +25,10 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Shows form to confirm removal of a group.
+ *
  * @param int $group_id group id
  */
 function groups_admin_groups_remove( $group_id ) {
-
-	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
@@ -41,41 +40,39 @@ function groups_admin_groups_remove( $group_id ) {
 		wp_die( __( 'No such group.', 'groups' ) );
 	}
 
-	$group_table = _groups_get_tablename( 'group' );
-
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
-	$output =
-		'<div class="manage-groups wrap">' .
-		'<h1>' .
-		__( 'Remove a group', 'groups' ) .
-		'</h1>' .
-		'<form id="remove-group" action="' . esc_url( $current_url ) . '" method="post">' .
-		'<div class="group remove">' .
-		'<input id="group-id-field" name="group-id-field" type="hidden" value="' . esc_attr( intval( $group->group_id ) ) . '"/>' .
-		'<ul>' .
-		'<li>' . sprintf( __( 'Group Name : %s', 'groups' ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) ) . '</li>' .
-		'</ul> ' .
-		wp_nonce_field( 'groups-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" value="' . __( 'Remove', 'groups' ) . '"/>' .
-		'<input type="hidden" value="remove" name="action"/>' .
-		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>' .
-		'</div>' .
-		'</div>' . // .group.remove
-		'</form>' .
-		'</div>'; // .manage-groups
+	$output = '<div class="manage-groups wrap">';
+	$output .= '<h1>';
+	$output .= esc_html__( 'Remove a group', 'groups' );
+	$output .= '</h1>';
+	$output .= sprintf( '<form id="remove-group" action="%s" method="post">', esc_url( $current_url ) );
+	$output .= '<div class="group remove">';
+	$output .= sprintf( '<input id="group-id-field" name="group-id-field" type="hidden" value="%s"/>', esc_attr( intval( $group->group_id ) ) );
+	$output .= '<ul>';
+	$output .= '<li>';
+	$output .= sprintf( '%s : <strong>%s</strong> [%d]', esc_html__( 'Group', 'groups' ), stripslashes( wp_filter_nohtml_kses( $group->name ) ), esc_html( $group->group_id ) );
+	$output .= '</li>';
+	$output .= '</ul> ';
+	$output .= wp_nonce_field( 'groups-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false );
+	$output .= sprintf( '<input class="button button-primary" type="submit" value="%s"/>', esc_attr__( 'Remove', 'groups' ) );
+	$output .= '<input type="hidden" value="remove" name="action"/>';
+	$output .= sprintf( '<a class="cancel button" href="%s">%s</a>', esc_url( $current_url ), esc_html__( 'Cancel', 'groups' ) );
+	$output .= '</div>'; // .group.remove
+	$output .= '</form>';
+	$output .= '</div>'; // .manage-groups
 
 	echo $output;
 } // function groups_admin_groups_remove
 
 /**
  * Handle remove form submission.
+ *
+ * @return int|false group ID if successful, otherwise false
  */
 function groups_admin_groups_remove_submit() {
-
-	global $wpdb;
 
 	$result = false;
 
@@ -102,8 +99,6 @@ function groups_admin_groups_remove_submit() {
  */
 function groups_admin_groups_bulk_remove() {
 
-	global $wpdb;
-
 	$output = '';
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
@@ -124,34 +119,32 @@ function groups_admin_groups_bulk_remove() {
 		}
 	}
 
-	$group_table = _groups_get_tablename( 'group' );
-
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
 	$output .= '<div class="manage-groups wrap">';
 	$output .= '<h1>';
-	$output .= __( 'Remove groups', 'groups' );
+	$output .= esc_html__( 'Remove groups', 'groups' );
 	$output .= '</h1>';
 
 	$output .= '<form id="groups-action" method="post" action="">';
 	$output .= '<div class="group remove">';
 
 	$output .= '<p>';
-	$output .= __( 'Please confirm removal of the following groups. This action cannot be undone.', 'groups' );
+	$output .= esc_html__( 'Please confirm removal of the following groups. This action cannot be undone.', 'groups' );
 	$output .= '</p>';
 
+	$output .= '<ul class="groups-group-bulk-remove">';
 	foreach ( $groups as $group ) {
-		$output .= 	'<input id="group_ids" name="group_ids[]" type="hidden" value="' . esc_attr( intval( $group->group_id ) ) . '"/>';
-		$output .= '<ul>';
+		$output .= sprintf( '<input id="group_ids" name="group_ids[]" type="hidden" value="%s"/>', esc_attr( intval( $group->group_id ) ) );
 		$output .= '<li>';
-		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) );
+		$output .= sprintf( '<strong>%s</strong> [%d]', stripslashes( wp_filter_nohtml_kses( $group->name ) ), esc_html( $group->group_id ) );
 		$output .= '</li>';
-		$output .= '</ul>';
 	}
-	$output .= '<input class="button button-primary" type="submit" name="bulk" value="' . __( "Remove", 'groups' ) . '"/>';
-	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>';
+	$output .= '</ul>';
+	$output .= sprintf( '<input class="button button-primary" type="submit" name="bulk" value="%s"/>', esc_attr__( 'Remove', 'groups' ) );
+	$output .= sprintf( '<a class="cancel button" href="%s">%s</a>', esc_url( $current_url ), esc_html__( 'Cancel', 'groups' ) );
 
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '<input type="hidden" name="bulk-action" value="remove-group"/>';
@@ -167,10 +160,10 @@ function groups_admin_groups_bulk_remove() {
 
 /**
  * Handle remove form submission.
+ *
  * @return array of deleted groups' ids
  */
 function groups_admin_groups_bulk_remove_submit() {
-	global $wpdb;
 
 	$result = array();
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {

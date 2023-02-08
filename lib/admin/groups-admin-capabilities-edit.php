@@ -25,6 +25,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Show edit capability form.
+ *
  * @param int $capability_id capability id
  */
 function groups_admin_capabilities_edit( $capability_id ) {
@@ -50,43 +51,48 @@ function groups_admin_capabilities_edit( $capability_id ) {
 
 	$capability_readonly = ( $capability->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) ? "" : ' readonly="readonly" ';
 
-	$output =
-		'<div class="manage-capabilities wrap">' .
-			'<h1>' .
-				__( 'Edit a capability', 'groups' ) .
-			'</h1>' .
+	$output = '<div class="manage-capabilities wrap">';
+	$output .= '<h1>';
+	$output .= esc_html__( 'Edit a capability', 'groups' );
+	$output .= '</h1>';
 
-		Groups_Admin::render_messages() .
+	$output .= Groups_Admin::render_messages();
 
-		'<form id="edit-capability" action="' . esc_url( $current_url ) . '" method="post">' .
-		'<div class="capability edit">' .
-		'<input id="capability-id-field" name="capability-id-field" type="hidden" value="' . esc_attr( intval( $capability_id ) ) . '"/>' .
+	$output .= sprintf( '<form id="edit-capability" action="%s" method="post">', esc_url( $current_url ) );
+	$output .= '<div class="capability edit">';
+	$output .= sprintf( '<input id="capability-id-field" name="capability-id-field" type="hidden" value="%s"/>', esc_attr( intval( $capability_id ) ) );
 
-		'<div class="field">' .
-		'<label for="capability-field" class="field-label first required">' .__( 'Capability', 'groups' ) . '</label>' .
-		'<input ' . $capability_readonly . ' id="capability-field" name="capability-field" class="capability-field" type="text" value="' . esc_attr( stripslashes( $capability_capability ) ) . '"/>' .
-		'</div>' .
+	$output .= '<div class="field">';
+	$output .= sprintf( '<label for="capability-field" class="field-label first required">%s</label>', esc_html__( 'Capability', 'groups' ) );
+	$output .= sprintf(
+		'<input %s id="capability-field" name="capability-field" class="capability-field" type="text" value="%s"/>',
+		$capability_readonly,
+		esc_attr( stripslashes( $capability_capability ) )
+	);
+	$output .= '</div>';
 
-		'<div class="field">' .
-		'<label for="description-field" class="field-label description-field">' .__( 'Description', 'groups' ) . '</label>' .
-		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . stripslashes( wp_filter_nohtml_kses( $description ) ) . '</textarea>' .
-		'</div>' .
+	$output .= '<div class="field">';
+	$output .= sprintf( '<label for="description-field" class="field-label description-field">%s</label>', __( 'Description', 'groups' ) );
+	$output .= sprintf( '<textarea id="description-field" name="description-field" rows="5" cols="45">%s</textarea>', stripslashes( wp_filter_nohtml_kses( $description ) ) );
+	$output .= '</div>';
 
-		'<div class="field">' .
-		wp_nonce_field( 'capabilities-edit', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" value="' . __( 'Save', 'groups' ) . '"/>' .
-		'<input type="hidden" value="edit" name="action"/>' .
-		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>' .
-		'</div>' .
-		'</div>' . // .capability.edit
-		'</form>' .
-		'</div>'; // .manage-capabilities
+	$output .= '<div class="field">';
+	$output .= wp_nonce_field( 'capabilities-edit', GROUPS_ADMIN_GROUPS_NONCE, true, false );
+	$output .= sprintf( '<input class="button button-primary" type="submit" value="%s"/>', esc_attr__( 'Save', 'groups' ) );
+	$output .= '<input type="hidden" value="edit" name="action"/>';
+	$output .= sprintf( '<a class="cancel button" href="%s">%s</a>', esc_url( $current_url ), esc_html__( 'Cancel', 'groups' ) );
+	$output .= '</div>';
+	$output .= '</div>'; // .capability.edit
+	$output .= '</form>';
+	$output .= '</div>'; // .manage-capabilities
 
-		echo $output;
+	echo $output;
 } // function groups_admin_capabilities_edit
 
 /**
  * Handle edit form submission.
+ *
+ * @return int|boolean the capability ID if it was updated, otherwise false
  */
 function groups_admin_capabilities_edit_submit() {
 

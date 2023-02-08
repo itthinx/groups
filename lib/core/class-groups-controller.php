@@ -287,7 +287,7 @@ class Groups_Controller {
 		$user_capability_table = _groups_get_tablename( 'user_capability' );
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$user_capability_table'" ) != $user_capability_table ) {
 			$queries[] = "CREATE TABLE IF NOT EXISTS $user_capability_table (
-				user_id	      bigint(20) unsigned NOT NULL,
+				user_id       bigint(20) unsigned NOT NULL,
 				capability_id bigint(20) unsigned NOT NULL,
 				PRIMARY KEY   (user_id, capability_id),
 				INDEX         user_capability_cu (capability_id,user_id)

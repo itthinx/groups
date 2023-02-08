@@ -279,7 +279,9 @@ div.capability.edit label {
 	padding: 0 4px;
 	vertical-align: middle;
 }
-.groups-bulk-container .selectize-input input[type="text"] {
+.groups-bulk-container .selectize-input input[type="text"],
+.groups-bulk-container .selectize-input input[type="select-multiple"],
+.groups-groups-container .selectize-input input[type="select-multiple"] {
 	font-size: inherit;
 	vertical-align: middle;
 	height: 28px;
@@ -418,4 +420,9 @@ div.capability.edit label {
 .groups-welcome-panel .indent {
 	border: 1px solid #e5e5e5;
 	padding: 0 0.62em;
+}
+
+ul.groups-group-bulk-remove,
+ul.groups-capability-bulk-remove {
+	list-style: disc inside;
 }

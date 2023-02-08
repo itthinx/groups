@@ -209,7 +209,7 @@ class Groups_Access_Meta_Boxes {
 
 			$include     = self::get_user_can_restrict_group_ids();
 			$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
-			$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+			$groups_read = Groups_Post_Access::get_read_group_ids( $post_id );
 
 			$read_help = sprintf(
 				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', 'groups' ),
@@ -238,7 +238,7 @@ class Groups_Access_Meta_Boxes {
 			$output .= '<option value=""></option>';
 			foreach( $groups as $group ) {
 				$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
-				$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
+				$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 				$output .= '</option>';
 			}
 			$output .= '</select>';
@@ -421,6 +421,7 @@ class Groups_Access_Meta_Boxes {
 	 *
 	 * @param array $form_fields
 	 * @param object $post
+	 *
 	 * @return array
 	 */
 	public static function attachment_fields_to_edit( $form_fields, $post ) {
@@ -435,7 +436,7 @@ class Groups_Access_Meta_Boxes {
 
 				$include     = self::get_user_can_restrict_group_ids();
 				$groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
-				$groups_read = get_post_meta( $post->ID, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+				$groups_read = Groups_Post_Access::get_read_group_ids( $post->ID );
 
 				$output = '';
 				$post_singular_name = __( 'Media', 'groups' );
@@ -450,19 +451,19 @@ class Groups_Access_Meta_Boxes {
 				// and https://core.trac.wordpress.org/ticket/28053 - this is an issue with multiple value fields and should
 				// be fixed within WordPress.
 
-// 				$output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
-// 				$output .= '<ul>';
-// 				foreach( $groups as $group ) {
-// 						$checked = in_array( $group->group_id, $groups_read ) ? ' checked="checked" ' : '';
-// 						$output .= '<li>';
-// 						$output .= '<label>';
-// 						$output .= '<input name="attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $group->group_id ) . '" />';
-// 						$output .= wp_filter_nohtml_kses( $group->name );
-// 						$output .= '</label>';
-// 						$output .= '</li>';
-// 				}
-// 				$output .= '</ul>';
-// 				$output .= '</div>';
+				// $output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
+				// $output .= '<ul>';
+				// foreach( $groups as $group ) {
+				// 		$checked = in_array( $group->group_id, $groups_read ) ? ' checked="checked" ' : '';
+				// 		$output .= '<li>';
+				// 		$output .= '<label>';
+				// 		$output .= '<input name="attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $group->group_id ) . '" />';
+				// 		$output .= wp_filter_nohtml_kses( $group->name );
+				// 		$output .= '</label>';
+				// 		$output .= '</li>';
+				// }
+				// $output .= '</ul>';
+				// $output .= '</div>';
 
 				$output .= '<div class="select-groups-container">';
 				$select_id = 'attachments-' . $post->ID . '-' . self::GROUPS_READ;
@@ -478,7 +479,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= '<option value=""></option>';
 				foreach( $groups as $group ) {
 					$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
-					$output .= stripslashes( wp_filter_nohtml_kses( $group->name ) );
+					$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 					$output .= '</option>';
 				}
 				$output .= '</select>';

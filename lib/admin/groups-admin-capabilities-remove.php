@@ -25,11 +25,10 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Shows form to confirm capability deletion.
+ *
  * @param int $capability_id capability id
  */
 function groups_admin_capabilities_remove( $capability_id ) {
-
-	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
@@ -41,41 +40,40 @@ function groups_admin_capabilities_remove( $capability_id ) {
 		wp_die( __( 'No such capability.', 'groups' ) );
 	}
 
-	$capability_table = _groups_get_tablename( 'capability' );
-
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
-	$output =
-		'<div class="manage-capabilities wrap">' .
-			'<h1>' .
-				__( 'Remove a capability', 'groups' ) .
-			'</h1>' .
-		'<form id="remove-capability" action="' . esc_url( $current_url ) . '" method="post">' .
-		'<div class="capability remove">' .
-		'<input id="capability-id-field" name="capability-id-field" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>' .
-		'<ul>' .
-		'<li>' . sprintf( __( 'Capability : %s', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ) . '</li>' .
-		'</ul> ' .
-		wp_nonce_field( 'capabilities-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" value="' . __( 'Remove', 'groups' ) . '"/>' .
-		'<input type="hidden" value="remove" name="action"/>' .
-		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>' .
-		'</div>' .
-		'</div>' . // .capability.remove
-		'</form>' .
-		'</div>'; // .manage-capabilities
+	$output = '<div class="manage-capabilities wrap">';
+	$output .= '<h1>';
+	$output .= esc_html__( 'Remove a capability', 'groups' );
+	$output .= '</h1>';
+	$output .= sprintf( '<form id="remove-capability" action="%s" method="post">', esc_url( $current_url ) );
+	$output .= '<div class="capability remove">';
+	$output .= sprintf( '<input id="capability-id-field" name="capability-id-field" type="hidden" value="%s"/>', esc_attr( intval( $capability->capability_id ) ) );
+	$output .= '<ul>';
+	$output .= '<li>';
+	$output .= sprintf( '%s : %s', esc_html__( 'Capability', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
+	$output .= '</li>';
+	$output .= '</ul> ';
+	$output .= wp_nonce_field( 'capabilities-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false );
+	$output .= sprintf( '<input class="button button-primary" type="submit" value="%s"/>', esc_attr__( 'Remove', 'groups' ) );
+	$output .= '<input type="hidden" value="remove" name="action"/>';
+	$output .= sprintf( '<a class="cancel button" href="%s">%s</a>', esc_url( $current_url ), esc_html__( 'Cancel', 'groups' ) );
+	$output .= '</div>';
+	$output .= '</div>'; // .capability.remove
+	$output .= '</form>';
+	$output .= '</div>'; // .manage-capabilities
 
 	echo $output;
 } // function groups_admin_capabilities_remove
 
 /**
  * Handle remove form submission.
+ *
+ * @return int|boolean ID of the deleted capability or false on failure
  */
 function groups_admin_capabilities_remove_submit() {
-
-	global $wpdb;
 
 	$result = false;
 
@@ -101,8 +99,6 @@ function groups_admin_capabilities_remove_submit() {
  * Shows form to confirm removal bulk capabilities
  */
 function groups_admin_capabilities_bulk_remove() {
-
-	global $wpdb;
 
 	$output = '';
 
@@ -130,24 +126,24 @@ function groups_admin_capabilities_bulk_remove() {
 
 	$output .= '<div class="manage-capabilities wrap">';
 	$output .= '<h1>';
-	$output .= __( 'Remove capabilities', 'groups' );
+	$output .= esc_html__( 'Remove capabilities', 'groups' );
 	$output .= '</h1>';
 
 	$output .= '<form id="capabilities-action" method="post" action="">';
 	$output .= '<div class="capability remove">';
 	$output .= '<p>';
-	$output .= __( 'Please confirm to remove the following capabilities. This action cannot be undone.', 'groups' );
+	$output .= esc_html__( 'Please confirm to remove the following capabilities. This action cannot be undone.', 'groups' );
 	$output .= '</p>';
+	$output .= '<ul class="groups-capability-bulk-remove">';
 	foreach ( $capabilities as $capability ) {
-		$output .= 	'<input id="capability_ids" name="capability_ids[]" type="hidden" value="' . esc_attr( intval( $capability->capability_id ) ) . '"/>';
-		$output .= '<ul>';
+		$output .= sprintf( '<input id="capability_ids" name="capability_ids[]" type="hidden" value="%s"/>', esc_attr( intval( $capability->capability_id ) ) );
 		$output .= '<li>';
-		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
+		$output .= sprintf( '<strong>%s</strong>', stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
 		$output .= '</li>';
-		$output .= '</ul>';
 	}
-	$output .= '<input class="button button-primary" type="submit" name="bulk" value="' . __( "Remove", 'groups' ) . '"/>';
-	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>';
+	$output .= '</ul>';
+	$output .= sprintf( '<input class="button button-primary" type="submit" name="bulk" value="%s"/>', esc_attr__( 'Remove', 'groups' ) );
+	$output .= sprintf( '<a class="cancel button" href="%s">%s</a>', esc_url( $current_url ), esc_html__( 'Cancel', 'groups' ) );
 
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 	$output .= '<input type="hidden" name="bulk-action" value="remove"/>';
@@ -163,11 +159,10 @@ function groups_admin_capabilities_bulk_remove() {
 
 /**
  * Handle remove form submission.
+ *
  * @return array of deleted capabilities' ids
  */
 function groups_admin_capabilities_bulk_remove_submit() {
-
-	global $wpdb;
 
 	$result = array();
 

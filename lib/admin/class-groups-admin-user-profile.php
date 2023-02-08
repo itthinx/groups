@@ -84,7 +84,7 @@ class Groups_Admin_User_Profile {
 						$output .= sprintf(
 							'<option value="%d">%s</option>',
 							Groups_Utility::id( $group->group_id ),
-							stripslashes( wp_filter_nohtml_kses( $group->name ) )
+							$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 						);
 					}
 					$output .= '</select>';
@@ -130,6 +130,7 @@ class Groups_Admin_User_Profile {
 
 	/**
 	 * Own profile.
+	 *
 	 * @param WP_User $user
 	 */
 	public static function show_user_profile( $user ) {
@@ -144,10 +145,9 @@ class Groups_Admin_User_Profile {
 					usort( $groups, array( __CLASS__, 'by_group_name' ) );
 					$output .= '<ul>';
 					foreach( $groups as $group ) {
-						$output .=
-							'<li>' .
-							stripslashes( wp_filter_nohtml_kses( $group->name ) ) .
-							'</li>';
+						$output .= '<li>';
+						$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
+						$output .= '</li>';
 					}
 					$output .= '</ul>';
 				}
@@ -158,6 +158,7 @@ class Groups_Admin_User_Profile {
 
 	/**
 	 * Editing a user profile.
+	 *
 	 * @param WP_User $user
 	 */
 	public static function edit_user_profile( $user ) {
@@ -182,12 +183,12 @@ class Groups_Admin_User_Profile {
 						'<option value="%d" %s>%s</option>',
 						Groups_Utility::id( $group->group_id ),
 						$is_member ? ' selected="selected" ' : '',
-						stripslashes( wp_filter_nohtml_kses( $group->name ) )
+						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 					);
 				}
 				$output .= '</select>';
 				$output .= Groups_UIE::render_select( '#user-groups' );
-				$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
+				$output .= '<p class="description">' . esc_html__( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 			}
 			echo $output;
 		}

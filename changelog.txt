@@ -1,5 +1,33 @@
 == Groups by itthinx - changelog.txt
 
+= 2.18.0 =
+* WordPress 6.1 compatible.
+* WordPress 6.2-alpha compatible.
+* Added the static exists() method to the Groups_Group class.
+* Added checks on data used to restrict posts to avoid invalid group IDs.
+* Revised the posts_where filter that restricts post access for resilience against invalid postmeta values.
+* Fixed several instances of deprecated notices related to passing null where non-null values are required (PHP 8.x compatibility).
+* Fixed the style of the Capabilities select container on the Groups admin screen.
+* Fixed the style of the Groups select container on post admin screens and added a stylesheet for those.
+* Moved inline styles to stylesheet for the user admin screen and improved appearance of the group selection fields.
+* Revised several parts of code to fix documentation and format issues.
+* Revised the capability admin screens to add, edit and remove capabilities, improved code and fixed several instances of missing output escaping.
+* Fixed the HTML for bulk capability removal and improved styling.
+* Removed some instances of unnecessary translations.
+* Supplemented several instances of missing code docs.
+* Revised the group admin screens to add, edit and remove groups. Several code format improvements and fixes, and fixed instances of missing output escaping in related forms.
+* Fixed selected capabilities were voided when creating a group via the group add admin screen failed.
+* Fixed character escaping in parent selection on the group edit admin screen.
+* Fixed a superfluous closing tag on the group remove admin screen.
+* Removed several instances of unused code bits.
+
+= 2.17.0 =
+* WordPress 6.1 compatible.
+* Fixes potential errors with inconsistent postmeta values obtained for groups protecting posts, using own API method which has been further guarded against inconsistent values.
+* Revised code to use updated API method to obtain read access group IDs instead of accessing via get_post_meta().
+* Fixed several instances of code formatting issues.
+* Improves the performance on filtering out adjacent posts with sets of eligible post IDs cached by post type and avoids redundant queries.
+
 = 2.16.2 =
 * Fixes a PHP 8.1 warning related to the passing of a null parameter to version_compare().
 

@@ -103,6 +103,7 @@ class Groups_Admin_Post_Columns {
 	 *
 	 * @param string $column_name
 	 * @param int $post_id
+	 *
 	 * @return string custom column content
 	 */
 	public static function custom_column( $column_name, $post_id ) {
@@ -110,12 +111,13 @@ class Groups_Admin_Post_Columns {
 		switch ( $column_name ) {
 			case self::GROUPS :
 				$entries = array();
-				$groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+				$groups_read = Groups_Post_Access::get_read_group_ids( $post_id );
+
 				if ( count( $groups_read ) > 0 ) {
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $groups_read ) );
 					if ( ( count( $groups ) > 0 ) ) {
 						foreach( $groups as $group ) {
-							$entries[] = stripslashes( wp_strip_all_tags( $group->name ) );
+							$entries[] = $group->name ? stripslashes( wp_strip_all_tags( $group->name ) ) : '';
 						}
 					}
 				}
@@ -152,7 +154,7 @@ class Groups_Admin_Post_Columns {
 												if ( $group = Groups_Group::read( $group_id ) ) {
 													$entries[] = sprintf(
 														'%s <a href="%s" title="%s" style="cursor: help">%s</a>',
-														stripslashes( wp_strip_all_tags( $group->name ) ),
+														$group->name ? stripslashes( wp_strip_all_tags( $group->name ) ) : '',
 														esc_url( $edit_term_link ),
 														esc_attr( $term_taxonomy_title),
 														esc_html( $term->name )

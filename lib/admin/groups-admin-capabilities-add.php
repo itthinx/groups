@@ -28,8 +28,6 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 function groups_admin_capabilities_add() {
 
-	global $wpdb;
-
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
@@ -42,48 +40,50 @@ function groups_admin_capabilities_add() {
 	$capability  = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : '';
 	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
 
-	$capability_table = _groups_get_tablename( 'capability' );
+	$output = '<div class="manage-capabilities wrap">';
+	$output .= '<h1>';
+	$output .= esc_html__( 'Add a new capability', 'groups' );
+	$output .= '</h1>';
+	$output .= Groups_Admin::render_messages();
+	$output .= '<form id="add-capability" action="' . esc_url( $current_url ) . '" method="post">';
+	$output .= '<div class="capability new">';
 
-	$output =
-		'<div class="manage-capabilities wrap">' .
-			'<h1>' .
-				__( 'Add a new capability', 'groups' ) .
-			'</h1>' .
-		Groups_Admin::render_messages() .
-		'<form id="add-capability" action="' . esc_url( $current_url ) . '" method="post">' .
-		'<div class="capability new">' .
+	$output .= '<div class="field">';
+	$output .= sprintf( '<label for="capability-field" class="field-label first required">%s</label>', esc_html__( 'Capability', 'groups' ) );
+	$output .= sprintf(
+		'<input id="name-field" name="capability-field" class="capability-field" type="text" value="%s"/>',
+		esc_attr( stripslashes( $capability ) )
+	);
+	$output .= '</div>';
 
-		'<div class="field">' .
-		'<label for="capability-field" class="field-label first required">' .__( 'Capability', 'groups' ) . '</label>' .
-		'<input id="name-field" name="capability-field" class="capability-field" type="text" value="' . esc_attr( stripslashes( $capability ) ) . '"/>' .
-		'</div>' .
+	$output .= '<div class="field">';
+	$output .= sprintf( '<label for="description-field" class="field-label description-field">%s</label>', esc_html__( 'Description', 'groups' ) );
+	$output .= sprintf(
+		'<textarea id="description-field" name="description-field" rows="5" cols="45">%s</textarea>',
+		stripslashes( wp_filter_nohtml_kses( $description ) )
+	);
+	$output .= '</div>';
 
-		'<div class="field">' .
-		'<label for="description-field" class="field-label description-field">' .__( 'Description', 'groups' ) . '</label>' .
-		'<textarea id="description-field" name="description-field" rows="5" cols="45">' . stripslashes( wp_filter_nohtml_kses( $description ) ) . '</textarea>' .
-		'</div>' .
+	$output .= '<div class="field">';
+	$output .= wp_nonce_field( 'capabilities-add', GROUPS_ADMIN_GROUPS_NONCE, true, false );
+	$output .= sprintf( '<input class="button button-primary" type="submit" value="%s"/>', esc_attr__( 'Add', 'groups' ) );
+	$output .= '<input type="hidden" value="add" name="action"/>';
+	$output .= sprintf( '<a class="cancel button" href="%s">%s</a>', esc_url( $current_url ), esc_html__( 'Cancel', 'groups' ) );
+	$output .= '</div>';
+	$output .= '</div>'; // .capability.new
+	$output .= '</form>';
+	$output .= '</div>'; // .manage-capabilities
 
-		'<div class="field">' .
-		wp_nonce_field( 'capabilities-add', GROUPS_ADMIN_GROUPS_NONCE, true, false ) .
-		'<input class="button button-primary" type="submit" value="' . __( 'Add', 'groups' ) . '"/>' .
-		'<input type="hidden" value="add" name="action"/>' .
-		'<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>' .
-		'</div>' .
-		'</div>' . // .capability.new
-		'</form>' .
-		'</div>'; // .manage-capabilities
-
-		echo $output;
+	echo $output;
 
 } // function groups_admin_capabilities_add
 
 /**
  * Handle add capability form submission.
+ *
  * @return int new capability's id or false if unsuccessful
  */
 function groups_admin_capabilities_add_submit() {
-
-	global $wpdb;
 
 	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
