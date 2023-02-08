@@ -166,7 +166,7 @@ class Groups_Admin_Posts {
 							'<option value="%s" %s >%s</option>',
 							esc_attr( $group->group_id ),
 							esc_attr( $selected ),
-							!empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
+							$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 						);
 					}
 					$output .= '</select>';
@@ -243,7 +243,7 @@ class Groups_Admin_Posts {
 						$output .= sprintf(
 							'<option value="%s" >%s</option>',
 							esc_attr( $group->group_id ),
-							!empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
+							$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 						);
 					}
 					$output .= '</select>';

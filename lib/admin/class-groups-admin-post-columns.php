@@ -117,7 +117,7 @@ class Groups_Admin_Post_Columns {
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $groups_read ) );
 					if ( ( count( $groups ) > 0 ) ) {
 						foreach( $groups as $group ) {
-							$entries[] = !empty( $group->name ) ? stripslashes( wp_strip_all_tags( $group->name ) ) : '';
+							$entries[] = $group->name ? stripslashes( wp_strip_all_tags( $group->name ) ) : '';
 						}
 					}
 				}
@@ -154,7 +154,7 @@ class Groups_Admin_Post_Columns {
 												if ( $group = Groups_Group::read( $group_id ) ) {
 													$entries[] = sprintf(
 														'%s <a href="%s" title="%s" style="cursor: help">%s</a>',
-														!empty( $group->name ) ? stripslashes( wp_strip_all_tags( $group->name ) ) : '',
+														$group->name ? stripslashes( wp_strip_all_tags( $group->name ) ) : '',
 														esc_url( $edit_term_link ),
 														esc_attr( $term_taxonomy_title),
 														esc_html( $term->name )

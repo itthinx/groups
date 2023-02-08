@@ -64,6 +64,7 @@ class Groups_Admin {
 		global $groups_version;
 		wp_register_style( 'groups_admin', GROUPS_PLUGIN_URL . 'css/groups_admin.css', array(), $groups_version );
 		wp_register_style( 'groups_admin_post', GROUPS_PLUGIN_URL . 'css/groups_admin_post.css', array(), $groups_version );
+		wp_register_style( 'groups_admin_user', GROUPS_PLUGIN_URL . 'css/groups_admin_user.css', array(), $groups_version );
 		require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
 	}
 
@@ -94,15 +95,18 @@ class Groups_Admin {
 	 *
 	 * @param string $message the message
 	 * @param string $type type of message, defaults to 'info'
+	 *
 	 * @uses wp_filter_kses()
 	 */
 	public static function add_message( $message, $type = 'info' ) {
-		$class = 'updated';
-		switch( $type ) {
-			case 'error' :
-				$class = 'error';
+		if ( is_string( $message ) ) {
+			$class = 'updated';
+			switch( $type ) {
+				case 'error' :
+					$class = 'error';
+			}
+			self::$messages[] = '<div class="'.$class.'">' .  balanceTags( stripslashes( wp_filter_kses( $message ) ), true ) . '</div>';
 		}
-		self::$messages[] = '<div class="'.$class.'">' .  balanceTags( stripslashes( wp_filter_kses( $message ) ), true ) . '</div>';
 	}
 
 	/**

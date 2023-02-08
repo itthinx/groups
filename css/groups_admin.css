@@ -421,3 +421,7 @@ div.capability.edit label {
 	border: 1px solid #e5e5e5;
 	padding: 0 0.62em;
 }
+
+ul.groups-capability-bulk-remove {
+	list-style: disc inside;
+}

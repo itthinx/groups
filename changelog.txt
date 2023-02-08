@@ -8,7 +8,13 @@
 * Revised the posts_where filter that restricts post access for resilience against invalid postmeta values.
 * Fixed several instances of deprecated notices related to passing null where non-null values are required (PHP 8.x compatibility).
 * Fixed the style of the Capabilities select container on the Groups admin screen.
-* Fixed the style of the Groups select container on post admin screens.
+* Fixed the style of the Groups select container on post admin screens and added a stylesheet for those.
+* Moved inline styles to stylesheet for the user admin screen and improved appearance of the group selection fields.
+* Revised several parts of code to fix documentation and format issues.
+* Revised the capability admin screens to add, edit and remove capabilities, improved code and fixed several instances of missing output escaping.
+* Fixed the HTML for bulk capability removal and improved styling.
+* Removed some instances of unnecessary translations.
+* Supplemented several instances of missing code docs.
 
 = 2.17.0 =
 * WordPress 6.1 compatible.

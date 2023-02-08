@@ -61,7 +61,7 @@ function groups_admin_capabilities() {
 					$capability = Groups_Capability::read( $capability_id );
 					Groups_Admin::add_message( sprintf(
 						__( 'The <em>%s</em> capability has been created.', 'groups' ),
-						!empty( $capability->capability ) ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
+						$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 					) );
 				}
 				break;
@@ -72,7 +72,7 @@ function groups_admin_capabilities() {
 					$capability = Groups_Capability::read( $capability_id );
 					Groups_Admin::add_message( sprintf(
 						__( 'The <em>%s</em> capability has been updated.', 'groups' ),
-						!empty( $capability->capability ) ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
+						$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 					) );
 				}
 				break;
@@ -334,7 +334,7 @@ function groups_admin_capabilities() {
 				'</label>' . ' ' .
 				'<label class="capability-filter">' .
 				__( 'Capability', 'groups' ) . ' ' .
-				'<input class="capability-filter" name="capability" type="text" value="' . esc_attr( !empty( $capability ) ? stripslashes( $capability ) : '' ) . '"/>' .
+				'<input class="capability-filter" name="capability" type="text" value="' . esc_attr( $capability ? stripslashes( $capability ) : '' ) . '"/>' .
 				'</label>' . ' ' .
 				wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE, true, false ) .
 				'<input class="button" type="submit" value="' . __( 'Apply', 'groups' ) . '"/>' . ' ' .
@@ -477,11 +477,11 @@ function groups_admin_capabilities() {
 			$output .= $result->capability_id;
 			$output .= '</td>';
 			$output .= '<td class="capability">';
-			$output .= sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), !empty( $result->capability ) ? stripslashes( wp_filter_nohtml_kses( $result->capability ) ) : '' );
+			$output .= sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), $result->capability ? stripslashes( wp_filter_nohtml_kses( $result->capability ) ) : '' );
 			$output .= $row_actions;
 			$output .= '</td>';
 			$output .= '<td class="description">';
-			$output .= !empty( $result->description ) ? stripslashes( wp_filter_nohtml_kses( $result->description ) ) : '';
+			$output .= $result->description ? stripslashes( wp_filter_nohtml_kses( $result->description ) ) : '';
 			$output .= '</td>';
 
 			$output .= '</tr>';

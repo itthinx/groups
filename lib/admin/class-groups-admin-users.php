@@ -39,8 +39,7 @@ class Groups_Admin_Users {
 	}
 
 	/**
-	 * Adds the filters and actions only for users who have the right
-	 * Groups permissions.
+	 * Adds the filters and actions only for users who have the right Groups permissions.
 	 */
 	public static function setup() {
 		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
@@ -54,7 +53,7 @@ class Groups_Admin_Users {
 				// scripts
 				add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
 				// styles
-				add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
+				// add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
 				// allow to add or remove selected users to groups
 				add_action( 'load-users.php', array( __CLASS__, 'load_users' ) );
 				// add links to filter users by group
@@ -76,6 +75,7 @@ class Groups_Admin_Users {
 	 * Modify query to filter users by group.
 	 *
 	 * @param WP_User_Query $user_query
+	 *
 	 * @return WP_User_Query
 	 */
 	public static function pre_user_query( $user_query ) {
@@ -119,6 +119,7 @@ class Groups_Admin_Users {
 
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			Groups_UIE::enqueue( 'select' );
+			wp_enqueue_style( 'groups_admin_user' );
 		}
 	}
 
@@ -130,39 +131,7 @@ class Groups_Admin_Users {
 		global $pagenow;
 
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-
-			// .subsubsub rule added because with views_users() the list can get long
-			// icon distinguishes from role links
-			echo '<style type="text/css">';
-			echo '.subsubsub { white-space: normal; }';
-			echo 'a.group { background: url(' . GROUPS_PLUGIN_URL . '/images/groups-grey-8x8.png) transparent no-repeat left center; padding-left: 10px;}';
-			echo '</style>';
-
-			// group-actions
-			echo '<style type="text/css">';
-			echo '.groups-bulk-container { display: inline-block; line-height: 24px; padding-bottom: 2px; vertical-align: top; margin-left: 0.31em; margin-right: 0.31em; }';
-			echo '.groups-bulk-container .groups-select-container { display: inline-block; vertical-align: top; }';
-			echo '.groups-bulk-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
-			echo '.groups-bulk-container .selectize-control { min-width: 128px; }';
-			echo '.groups-bulk-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }';
-			echo '.groups-bulk-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
-			echo '.groups-bulk-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; height: 24px; }';
-			echo '.groups-bulk-container input.button { margin-top: 1px; vertical-align: top; }';
-			echo '.tablenav .actions { overflow: visible; }'; // this is important so that the selectize options aren't hidden
-			echo '</style>';
-
-			// groups filter
-			echo '<style type="text/css">';
-			echo '.groups-filter-container { display: inline-block; line-height: 24px; vertical-align: middle; }';
-			echo '.groups-filter-container .groups-select-container { display: inline-block; vertical-align: top; }';
-			echo '.groups-filter-container .groups-select-container select, .groups-bulk-container select.groups-action { float: none; margin-right: 4px; vertical-align: top; }';
-			echo '.groups-filter-container .selectize-control { min-width: 128px; }';
-			echo '.groups-filter-container .selectize-control, .groups-bulk-container select.groups-action { margin-right: 4px; vertical-align: top; }';
-			echo '.groups-filter-container .selectize-input { font-size: inherit; line-height: 18px; padding: 1px 2px 2px 2px; vertical-align: middle; }';
-			echo '.groups-filter-container .selectize-input input[type="text"] { font-size: inherit; vertical-align: middle; height: 24px; }';
-			echo '.groups-filter-container .selectize-input .item a { line-height: inherit; }'; // neutralize .subsubsub a rule
-			echo '.groups-filter-container input.button { margin-top: 1px; vertical-align: top; }';
-			echo '</style>';
+			// @since 2.18.0 moved to groups_admin_user.css
 		}
 	}
 
@@ -197,7 +166,7 @@ class Groups_Admin_Users {
 						'<option value="%d" %s>%s</option>',
 						Groups_Utility::id( $group->group_id ),
 						$is_member ? ' selected="selected" ' : '',
-						!empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
+						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 					);
 				}
 				$groups_select .= '</select>';
@@ -237,8 +206,8 @@ class Groups_Admin_Users {
 	}
 
 	/**
-	 * Hooked on filter in class-wp-list-table.php to
-	 * filter by group.
+	 * Hooked on filter in class-wp-list-table.php to filter by group.
+	 *
 	 * @param array $views
 	 */
 	public static function views_users( $views ) {
@@ -273,7 +242,7 @@ class Groups_Admin_Users {
 					$selected ? ' selected="selected" ' : '',
 					sprintf(
 						'%s <span class="count">(%s)</span>',
-						!empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '',
+						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '',
 						esc_html( $user_count )
 					)
 				);
@@ -351,10 +320,10 @@ class Groups_Admin_Users {
 	}
 
 	/**
-	 * Adds a new column to the users table to show the groups that users
-	 * belong to.
+	 * Adds a new column to the users table to show the groups that users belong to.
 	 *
 	 * @param array $column_headers
+	 *
 	 * @return array column headers
 	 */
 	public static function manage_users_columns( $column_headers ) {
@@ -368,6 +337,7 @@ class Groups_Admin_Users {
 	 * @param string $output
 	 * @param string $column_name
 	 * @param int $user_id
+	 *
 	 * @return string custom column content
 	 */
 	public static function manage_users_custom_column( $output, $column_name, $user_id ) {
@@ -380,7 +350,7 @@ class Groups_Admin_Users {
 					$output = '<ul>';
 					foreach( $groups as $group ) {
 						$output .= '<li>';
-						$output .= !empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
+						$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 						$output .= '</li>';
 					}
 					$output .= '</ul>';
@@ -394,8 +364,10 @@ class Groups_Admin_Users {
 
 	/**
 	 * usort helper
+	 *
 	 * @param Groups_Group $o1
 	 * @param Groups_Group $o2
+	 *
 	 * @return int strcmp result for group names
 	 */
 	public static function by_group_name( $o1, $o2 ) {
