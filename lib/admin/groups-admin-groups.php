@@ -61,8 +61,8 @@ function groups_admin_groups() {
 				} else {
 					$group = Groups_Group::read( $group_id );
 					Groups_Admin::add_message( sprintf(
-						__( "The <em>%s</em> group has been created.", 'groups' ),
-						!empty( $$group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
+						__( 'The <em>%s</em> group has been created.', 'groups' ),
+						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 					) );
 				}
 				break;
@@ -73,7 +73,7 @@ function groups_admin_groups() {
 					$group = Groups_Group::read( $group_id );
 					Groups_Admin::add_message( sprintf(
 						__( 'The <em>%s</em> group has been updated.', 'groups' ),
-						!empty( $group->name ) ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
+						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 					) );
 				}
 				break;
@@ -370,7 +370,7 @@ function groups_admin_groups() {
 		$capabilities_select .= sprintf(
 			'<option value="%s">%s</option>',
 			esc_attr( $capability->capability_id ),
-			!empty( $capability->capability ) ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
+			$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 		);
 	}
 	$capabilities_select .= '</select>';
@@ -504,7 +504,7 @@ function groups_admin_groups() {
 			$output .= sprintf(
 				'<a href="%s">%s</a>',
 				esc_url( $edit_url ),
-				!empty( $result->name ) ? stripslashes( wp_filter_nohtml_kses( $result->name ) ) : ''
+				$result->name ? stripslashes( wp_filter_nohtml_kses( $result->name ) ) : ''
 			);
 			$output .= ' ';
 			$user_count = is_array( $group->user_ids ) ? count( $group->user_ids ) : 0; // guard against null when there are no users
@@ -516,7 +516,7 @@ function groups_admin_groups() {
 			$output .= $row_actions;
 			$output .= '</td>';
 			$output .= '<td class="group-description">';
-			$output .= !empty( $result->description ) ? stripslashes( wp_filter_nohtml_kses( $result->description ) ) : '';
+			$output .= $result->description ? stripslashes( wp_filter_nohtml_kses( $result->description ) ) : '';
 			$output .= '</td>';
 
 			$output .= '<td class="capabilities">';
@@ -535,7 +535,7 @@ function groups_admin_groups() {
 					}
 					$output .= sprintf( '<span class="%s">', $class );
 					if ( isset( $group_capability->capability ) && isset( $group_capability->capability->capability ) ) {
-						$output .= !empty( $group_capability->capability->capability ) ? stripslashes( wp_filter_nohtml_kses( $group_capability->capability->capability ) ) : '';
+						$output .= $group_capability->capability->capability ? stripslashes( wp_filter_nohtml_kses( $group_capability->capability->capability ) ) : '';
 					}
 					$output .= '</span>';
 					$output .= '</li>';

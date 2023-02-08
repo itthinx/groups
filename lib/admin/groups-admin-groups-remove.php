@@ -142,14 +142,14 @@ function groups_admin_groups_bulk_remove() {
 	$output .= __( 'Please confirm removal of the following groups. This action cannot be undone.', 'groups' );
 	$output .= '</p>';
 
+	$output .= '<ul class="groups-group-bulk-remove">';
 	foreach ( $groups as $group ) {
 		$output .= 	'<input id="group_ids" name="group_ids[]" type="hidden" value="' . esc_attr( intval( $group->group_id ) ) . '"/>';
-		$output .= '<ul>';
 		$output .= '<li>';
 		$output .= sprintf( __( '<strong>%s</strong>', 'groups' ), stripslashes( wp_filter_nohtml_kses( $group->name ) ) );
 		$output .= '</li>';
-		$output .= '</ul>';
 	}
+	$output .= '</ul>';
 	$output .= '<input class="button button-primary" type="submit" name="bulk" value="' . __( "Remove", 'groups' ) . '"/>';
 	$output .= '<a class="cancel button" href="' . esc_url( $current_url ) . '">' . __( 'Cancel', 'groups' ) . '</a>';
 

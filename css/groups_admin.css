@@ -422,6 +422,7 @@ div.capability.edit label {
 	padding: 0 0.62em;
 }
 
+ul.groups-group-bulk-remove,
 ul.groups-capability-bulk-remove {
 	list-style: disc inside;
 }
