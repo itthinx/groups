@@ -19,6 +19,7 @@
 * Fixed selected capabilities were voided when creating a group via the group add admin screen failed.
 * Fixed character escaping in parent selection on the group edit admin screen.
 * Fixed a superfluous closing tag on the group remove admin screen.
+* Removed several instances of unused code bits.
 
 = 2.17.0 =
 * WordPress 6.1 compatible.
