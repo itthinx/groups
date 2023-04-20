@@ -71,7 +71,11 @@ class Groups_Admin_User_Profile {
 			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 				$output = '<h3>' . _x( 'Groups', 'Groups section heading (add user)', 'groups' ) . '</h3>';
 				$groups_table = _groups_get_tablename( 'group' );
-				if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
+				$groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" );
+				if(has_filter('groups_add_new_user')){
+					$groups = apply_filters('groups_add_new_user', $groups);
+				}
+				if ( $groups ) {
 					$output .= '<style type="text/css">';
 					$output .= '.groups .selectize-input { font-size: inherit; }';
 					$output .= '</style>';
@@ -112,7 +116,11 @@ class Groups_Admin_User_Profile {
 				if ( isset( $screen->id ) && $screen->id === 'user' ) {
 					if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 						$groups_table = _groups_get_tablename( 'group' );
-						if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table" ) ) {
+						$groups = $wpdb->get_results( "SELECT * FROM $groups_table" );
+						if(has_filter('groups_user_register')){
+							$groups = apply_filters('groups_user_register', $groups);
+						}
+						if ( $groups ) {
 							$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
 							foreach( $groups as $group ) {
 								if ( in_array( $group->group_id, $user_group_ids ) ) {
@@ -168,7 +176,11 @@ class Groups_Admin_User_Profile {
 			$user = new Groups_User( $user->ID );
 			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );
-			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
+			$groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" );
+			if(has_filter('groups_user_profile')){
+				$groups = apply_filters('groups_user_profile', $groups, $user->ID);
+			}
+			if ( $groups ) {
 				$output .= '<style type="text/css">';
 				$output .= '.groups .selectize-input { font-size: inherit; }';
 				$output .= '</style>';
@@ -217,7 +229,11 @@ class Groups_Admin_User_Profile {
 		global $wpdb;
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$groups_table = _groups_get_tablename( 'group' );
-			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table" ) ) {
+			$groups = $wpdb->get_results( "SELECT * FROM $groups_table" );
+			if(has_filter('groups_user_profile_update')){
+				$groups = apply_filters('groups_user_profile_update',$groups, $user_id);
+			}
+			if ( $groups ) {
 				$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
 				foreach( $groups as $group ) {
 					if ( in_array( $group->group_id, $user_group_ids ) ) {

@@ -152,6 +152,9 @@ class Groups_User_Group {
 		if ( $user_group !== null ) {
 			$result = $user_group;
 		}
+		if(has_filter('groups_user_read')){
+			$result = apply_filters('groups_user_read', $result, $user_id, $group_id);
+		}
 		return $result;
 	}
 
