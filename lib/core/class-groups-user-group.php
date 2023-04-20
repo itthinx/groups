@@ -152,7 +152,7 @@ class Groups_User_Group {
 		if ( $user_group !== null ) {
 			$result = $user_group;
 		}
-		return $result;
+		return apply_filters( 'groups_user_read', $result, $user_id, $group_id );
 	}
 
 	/**
