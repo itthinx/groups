@@ -230,7 +230,7 @@ class Groups_Admin_Users {
 			$user_counts = array();
 			$counts = $wpdb->get_results( "SELECT COUNT(user_id) AS count, group_id FROM $user_group_table GROUP BY group_id" );
 			
-			if(has_filter('groups_user_profile_update')){
+			if(has_filter('groups_view_users_count')){
 				$counts = apply_filters('groups_view_users_count',$counts);
 			}
 			if ( !empty( $counts ) && is_array( $counts ) ) {

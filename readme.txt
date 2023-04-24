@@ -216,3 +216,13 @@ For the full changelog see [changelog.txt](https://github.com/itthinx/groups/blo
 == Upgrade Notice ==
 
 This release has been tested with the latest version of WordPress.
+
+== Added more filters ==
+groups_user_register - applied when a new user is being saved. Called in user_new_form.
+groups_add_new_user - applied on the user options for new user form. Called in user_register.
+
+groups_user_profile - applied when a user is being edited, called in edit_user_profile.
+groups_user_profile_update - applied when a user edit is being saved called in edit_user_profile_update.
+
+groups_manage_users - options rendered in the extra_tablenav. Called in restrict_manage_users
+groups_view_users_count -  Hooked on filter in class-wp-list-table.php to filter by group. Called in views_users
