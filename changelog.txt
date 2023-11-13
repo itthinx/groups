@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 2.19.0 =
+* WordPress 6.4 compatible.
+
 = 2.18.0 =
 * WordPress 6.1 compatible.
 * WordPress 6.2-alpha compatible.
