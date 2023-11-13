@@ -52,22 +52,13 @@ function groups_admin_groups_edit( $group_id ) {
 	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : $group->description;
 	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : $group->parent_id;
 
-	$group_table = _groups_get_tablename( 'group' );
 	$parent_select = '<select name="parent-id-field">';
 	$parent_select .= sprintf(
 		'<option value="" %s>--</option>',
 		empty( $parent_id ) ? 'selected="selected"' : ''
 	);
-	$groups = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $group_table WHERE group_id != %d", $group->group_id ) );
-	foreach ( $groups as $g ) {
-		$selected = ( $g->group_id == $group->parent_id ? 'selected="selected"' : '' );
-		$parent_select .= sprintf(
-			'<option %s value="%s">%s</option>',
-			$selected,
-			esc_attr( $g->group_id ),
-			esc_html( stripslashes( wp_filter_nohtml_kses( $g->name ) ) )
-		);
-	}
+	$tree = Groups_Utility::get_group_tree();
+	Groups_Utility::render_group_tree_options( $tree, $parent_select, 0, array( $parent_id ) );
 	$parent_select .= '</select>';
 
 	$name_readonly = ( $name !== Groups_Registered::REGISTERED_GROUP_NAME ) ? '' : 'readonly="readonly"';

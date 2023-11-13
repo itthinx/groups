@@ -70,13 +70,19 @@ class Groups_Utility {
 	}
 
 
-	public static function get_group_tree( &$tree = null ) {
+	/**
+	 * Get the tree hierarchy of groups.
+	 *
+	 * @param array $tree
+	 *
+	 * @return array
+	 */
+	public static function get_group_tree( &$tree = null, $linked = false ) {
 		global $wpdb;
 		$group_table = _groups_get_tablename( 'group' );
-
 		if ( $tree === null ) {
 			$tree = array();
-			$root_groups = $wpdb->get_results( "SELECT group_id FROM $group_table WHERE parent_id IS NULL" );
+			$root_groups = $wpdb->get_results( "SELECT group_id FROM $group_table WHERE parent_id IS NULL ORDER BY name" );
 			if ( $root_groups ) {
 				foreach( $root_groups as $root_group ) {
 					$group_id = Groups_Utility::id( $root_group->group_id );
@@ -87,7 +93,7 @@ class Groups_Utility {
 		} else {
 			foreach( $tree as $group_id => $nodes ) {
 				$children = $wpdb->get_results( $wpdb->prepare(
-					"SELECT group_id FROM $group_table WHERE parent_id = %d",
+					"SELECT group_id FROM $group_table WHERE parent_id = %d ORDER BY name",
 					Groups_Utility::id( $group_id )
 				) );
 				foreach( $children as $child ) {
@@ -96,20 +102,68 @@ class Groups_Utility {
 				self::get_group_tree( $tree[$group_id] );
 			}
 		}
-
 		return $tree;
 	}
 
-	public static function render_group_tree( &$tree, &$output ) {
-		$output .= '<ul style="padding-left:1em">';
+	/**
+	 * Render options from tree for select.
+	 *
+	 * @since 2.19.0
+	 *
+	 * @param array $tree
+	 * @param string $output
+	 * @param int $level
+	 */
+	public static function render_group_tree_options( &$tree, &$output, $level = 0, $selected = array() ) {
 		foreach( $tree as $group_id => $nodes ) {
-			$output .= '<li>';
+			$output .= sprintf(
+				'<option class="node" value="%d" %s>',
+				esc_attr( $group_id ),
+				in_array( $group_id, $selected ) ? 'selected' : ''
+			);
 			$group = Groups_Group::read( $group_id );
 			if ( $group ) {
-				$output .= $group->name;
+				if ( $level > 0 ) {
+					$output .= str_repeat( "&nbsp;", $level ) . "&llcorner;";
+				}
+				$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
+			}
+			$output .= '</option>';
+			if ( !empty( $nodes ) ) {
+				self::render_group_tree_options( $nodes, $output, $level + 1, $selected );
+			}
+		}
+	}
+
+	/**
+	 * Render the group tree to the $output parameter passed by reference.
+	 *
+	 * @param array $tree
+	 * @param string $output
+	 */
+	public static function render_group_tree( &$tree, &$output, $linked = false ) {
+		$output .= '<ul class="groups-tree">';
+		foreach( $tree as $group_id => $nodes ) {
+			$output .= '<li class="groups-tree-node">';
+			$group = Groups_Group::read( $group_id );
+			if ( $group ) {
+				if ( $linked ) {
+					$edit_url = add_query_arg(
+						array(
+							'group_id' => intval( $group->group_id ),
+							'action' => 'edit'
+						),
+						get_admin_url( null, 'admin.php?page=groups-admin' )
+					);
+					$output .= sprintf( '<a href="%s">', $edit_url );
+				}
+				$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
+				if ( $linked ) {
+					$output .= '</a>';
+				}
 			}
 			if ( !empty( $nodes ) ) {
-				self::render_group_tree( $nodes, $output );
+				self::render_group_tree( $nodes, $output, $linked );
 			}
 			$output .= '</li>';
 		}

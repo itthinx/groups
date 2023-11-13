@@ -29,6 +29,16 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Pagination {
 
 	/**
+	 * @var string
+	 */
+	private $_pagination = null;
+
+	/**
+	 * @var array
+	 */
+	private $_pagination_args = null;
+
+	/**
 	 *
 	 * @param int $total_items how many items there are to display
 	 * @param int $total_pages how many pages there are, normally leave set to null
