@@ -426,3 +426,10 @@ ul.groups-group-bulk-remove,
 ul.groups-capability-bulk-remove {
 	list-style: disc inside;
 }
+
+ul.groups-tree {
+	list-style: inside;
+}
+li.groups-tree-node {
+	padding-left: 1em;
+}
