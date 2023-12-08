@@ -45,21 +45,13 @@ function groups_admin_groups_add() {
 	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : '';
 	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
 
-	$group_table = _groups_get_tablename( 'group' );
 	$parent_select = '<select name="parent-id-field">';
 	$parent_select .= sprintf(
 		'<option value="" %s>--</option>',
 		empty( $parent_id ) ? 'selected="selected"' : ''
 	);
-	$groups = $wpdb->get_results( "SELECT * FROM $group_table" );
-	foreach ( $groups as $group ) {
-		$parent_select .= sprintf(
-			'<option value="%s" %s>%s</option>',
-			esc_attr( $group->group_id ),
-			$parent_id == $group->group_id ? 'selected="selected"' : '',
-			$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
-		);
-	}
+	$tree = Groups_Utility::get_group_tree();
+	Groups_Utility::render_group_tree_options( $tree, $parent_select, 0, array( $parent_id ) );
 	$parent_select .= '</select>';
 
 	$output .= '<div class="manage-groups wrap">';

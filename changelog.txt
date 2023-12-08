@@ -1,5 +1,14 @@
 == Groups by itthinx - changelog.txt
 
+= 2.19.0 =
+* WordPress 6.4 compatible.
+* Requires at least WordPress 6.0.
+* Requires at least PHP 7.4.
+* Fixed creation of dynamic properties (PHP 8.2).
+* Revised the group parent selection to show hierarchy and group names sorted when adding or editing a group.
+* Fixed style and output escaping of the tree view.
+* Revised the tree view and linking to group edit for authorized users.
+
 = 2.18.0 =
 * WordPress 6.1 compatible.
 * WordPress 6.2-alpha compatible.

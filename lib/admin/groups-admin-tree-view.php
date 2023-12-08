@@ -28,24 +28,21 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 function groups_admin_tree_view() {
 
-	global $wpdb;
-
 	$output = '';
-	$today = date( 'Y-m-d', time() );
 
 	if ( !current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
-	$output .=
-		'<div class="groups-tree-view">' .
-		'<h1>' .
-		__( 'Tree of Groups', 'groups' ) .
-		'</h1>';
+	$output .= '<div class="groups-tree-view">';
+	$output .= '<h1>';
+	$output .= esc_html__( 'Tree of Groups', 'groups' );
+	$output .= '</h1>';
 
 	$tree = Groups_Utility::get_group_tree();
 	$tree_output = '';
-	Groups_Utility::render_group_tree( $tree, $tree_output );
+	$linked = current_user_can( GROUPS_ADMINISTER_GROUPS );
+	Groups_Utility::render_group_tree( $tree, $tree_output, $linked );
 	$output .= $tree_output;
 
 	$output .= '</div>'; // .groups-tree-view
