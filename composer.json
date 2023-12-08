@@ -1,0 +1,21 @@
+{
+    "name": "fioru/lasntgadmin-itthinx-groups",
+    "version": "2.19.0",
+    "type": "wordpress-plugin",
+    "extra": {
+        "installer-name": "lasntgadmin-itthinx-groups"
+    },
+    "repositories": [
+    ],
+    "require": {
+        "composer/installers": "~2.0"
+    },
+    "require-dev": {
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}
