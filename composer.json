@@ -3,7 +3,7 @@
     "version": "2.19.0",
     "type": "wordpress-plugin",
     "extra": {
-        "installer-name": "lasntgadmin-itthinx-groups"
+        "installer-name": "groups"
     },
     "repositories": [
     ],
