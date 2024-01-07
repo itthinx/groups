@@ -2,6 +2,11 @@
 
 = 2.20.0 =
 * WordPress 6.4 compatible.
+* Added compatibility plugin header fields.
+* Added various missing code documentation.
+* Fixed various code documentation formatting issues.
+* Removed bits of unused commented code.
+* Revised update methods that do nothing.
 
 = 2.19.0 =
 * WordPress 6.4 compatible.

@@ -35,6 +35,7 @@ class Groups_User_Group {
 
 	/**
 	 * Hook into appropriate actions.
+	 *
 	 * @see wp_delete_user()
 	 * @see remove_user_from_blog()
 	 */
@@ -51,6 +52,7 @@ class Groups_User_Group {
 	/**
 	 * Create by user and group id.
 	 * Must have been persisted.
+	 *
 	 * @param int $user_id
 	 * @param int $group_id
 	 */
@@ -89,6 +91,7 @@ class Groups_User_Group {
 	 * plugin activation, thus the 'groups_created_user_group' action is not called for these.
 	 *
 	 * @param array $map attributes - must provide user_id and group_id
+	 *
 	 * @return true on success, otherwise false
 	 */
 	public static function create( $map ) {
@@ -137,6 +140,7 @@ class Groups_User_Group {
 	 *
 	 * @param int $user_id user's id
 	 * @param int $group_id group's id
+	 *
 	 * @return object upon success, otherwise false
 	 */
 	public static function read( $user_id, $group_id ) {
@@ -158,20 +162,24 @@ class Groups_User_Group {
 	/**
 	 * Update user-group relation.
 	 *
-	 * This is a relation and as the relation is, this does nothing and
-	 * it SHOULD do nothing.
+	 * As the relation has no properties that could be updated, this method does nothing and will return false.
 	 *
 	 * @param array $map
+	 *
 	 * @return true on success, otherwise false
 	 */
 	public static function update( $map ) {
 		$result = false;
-//		if ( !empty( $user_id ) && !empty( $group_id) ) {
-		if ( !empty( $group_id) ) {
-			// make sure user and group exist
-			if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Group::read( $group_id ) ) {
-				$result = true;
-				do_action( 'groups_updated_user_group', $user_id, $group_id );
+		// @since 2.20.0 do not process
+		if ( false ) {
+			$group_id = isset( $map['group_id'] ) ? $map['group_id'] : null;
+			$user_id = isset( $map['user_id'] ) ? $map['user_id'] : null;
+			if ( $group_id !== null && $user_id !== null ) {
+				// make sure user and group exist
+				if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Group::read( $group_id ) ) {
+					$result = true;
+					do_action( 'groups_updated_user_group', $user_id, $group_id );
+				}
 			}
 		}
 		return $result;
@@ -182,6 +190,7 @@ class Groups_User_Group {
 	 *
 	 * @param int $user_id
 	 * @param int $group_id
+	 *
 	 * @return true if successful, false otherwise
 	 */
 	public static function delete( $user_id, $group_id ) {
@@ -190,7 +199,6 @@ class Groups_User_Group {
 		$result = false;
 
 		// avoid nonsense requests
-//		if ( !empty( $user_id ) && !empty( $group_id ) ) {
 		if ( !empty( $group_id ) ) {
 			// to allow deletion of an entry after a user has been deleted,
 			// we don't check if the user exists
@@ -237,8 +245,8 @@ class Groups_User_Group {
 	 * Hooks into the remove_user_from_blog action to remove the user
 	 * from groups that belong to that blog.
 	 *
-	 *  Note that this is preemptive as there is no
-	 *  removed_user_from_blog action.
+	 * Note that this is preemptive as there is no
+	 * removed_user_from_blog action.
 	 *
 	 * @param int $user_id
 	 * @param int $blog_id

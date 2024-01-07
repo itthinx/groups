@@ -65,6 +65,7 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * Clear cache objects for the user.
+	 *
 	 * @param int $user_id
 	 */
 	public static function clear_cache( $user_id ) {
@@ -81,6 +82,7 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * Clear cache objects for all users in the group.
+	 *
 	 * @param int $group_id
 	 */
 	public static function clear_cache_for_group( $group_id ) {
@@ -120,7 +122,9 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * Retrieve a user property.
+	 *
 	 * Must be "capabilities", "groups" or a property of the WP_User class.
+	 *
 	 * @param string $name property's name
 	 */
 	public function __get( $name ) {
@@ -277,12 +281,10 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
-	 * (non-PHPdoc)
 	 * @see I_Capable::can()
 	 */
 	public function can( $capability ) {
 
-		global $wpdb;
 		$result = false;
 
 		if ( $this->user !== null ) {
@@ -321,6 +323,7 @@ class Groups_User implements I_Capable {
 	 * Returns true if the user belongs to the group.
 	 *
 	 * @param int $group_id
+	 *
 	 * @return boolean
 	 */
 	public function is_member( $group_id ) {
