@@ -36,6 +36,7 @@ class Groups_Cache {
 
 	/**
 	 * Default cache group.
+	 *
 	 * @var string
 	 */
 	const CACHE_GROUP = 'groups';
@@ -45,6 +46,7 @@ class Groups_Cache {
 	 *
 	 * @param string $key
 	 * @param string $group
+	 *
 	 * @return Groups_Cache_Object|null returns a cache object on hit, null on cache miss
 	 */
 	public static function get( $key, $group = self::CACHE_GROUP ) {
@@ -62,7 +64,8 @@ class Groups_Cache {
 	 * @param string $key
 	 * @param string $value
 	 * @param string $group
-	 * @return true if successful, otherwise false
+	 *
+	 * @return boolean true if successful, otherwise false
 	 */
 	public static function set( $key, $value, $group = self::CACHE_GROUP ) {
 		$object = new Groups_Cache_Object( $key, $value );
@@ -74,7 +77,8 @@ class Groups_Cache {
 	 *
 	 * @param string $key
 	 * @param string $group
-	 * @return true if successful, otherwise false
+	 *
+	 * @return boolean true if successful, otherwise false
 	 */
 	public static function delete( $key, $group = self::CACHE_GROUP ) {
 		return wp_cache_delete( $key, $group );
