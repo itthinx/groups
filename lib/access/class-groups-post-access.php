@@ -79,6 +79,7 @@ class Groups_Post_Access {
 
 	/**
 	 * Work done on activation, currently does nothing.
+	 *
 	 * @see Groups_Controller::activate()
 	 */
 	public static function activate() {
@@ -147,6 +148,7 @@ class Groups_Post_Access {
 	 * @param array $response
 	 * @param WP_Post $post
 	 * @param string $request
+	 *
 	 * @return string[]|number[][]
 	 */
 	public static function rest_prepare_post( $response, $post, $request ) {
@@ -167,6 +169,7 @@ class Groups_Post_Access {
 	 * @param string $cap
 	 * @param int $user_id
 	 * @param array $args
+	 *
 	 * @return array
 	 */
 	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
@@ -426,6 +429,7 @@ class Groups_Post_Access {
 	 * Filter excerpt by access capability.
 	 *
 	 * @param string $output
+	 *
 	 * @return $output if access granted, otherwise ''
 	 */
 	public static function get_the_excerpt( $output ) {
@@ -450,6 +454,7 @@ class Groups_Post_Access {
 	 * Filter content by access capability.
 	 *
 	 * @param string $output
+	 *
 	 * @return $output if access granted, otherwise ''
 	 */
 	public static function the_content( $output ) {
@@ -698,6 +703,7 @@ class Groups_Post_Access {
 	 * $map must provide 'post_id' (int) indicating the post's ID and 'groups_read' (int|array of int) holding group IDs that restrict read access.
 	 *
 	 * @param array $map
+	 *
 	 * @return array of group ids, false on failure
 	 */
 	public static function update( $map ) {
@@ -733,6 +739,7 @@ class Groups_Post_Access {
 	 *
 	 * @param int $post_id
 	 * @param array $map must provide 'groups_read' holding group IDs to remove from restricting access to the post; if empty, all access restrictions will be removed
+	 *
 	 * @return true on success, otherwise false
 	 */
 	public static function delete( $post_id, $map = array() ) {
@@ -761,6 +768,7 @@ class Groups_Post_Access {
 	 *
 	 * @deprecated
 	 * @param int $post_id
+	 *
 	 * @return array of string, capabilities
 	 */
 	public static function get_read_post_capabilities( $post_id ) {
@@ -800,6 +808,7 @@ class Groups_Post_Access {
 	 *
 	 * @param int $post_id post id
 	 * @param int $user_id user id or null for current user
+	 *
 	 * @return boolean true if user can read the post
 	 */
 	public static function user_can_read_post( $post_id, $user_id = null ) {
@@ -932,6 +941,7 @@ class Groups_Post_Access {
 	 * Returns true if we are supposed to handle the post type, otherwise false.
 	 *
 	 * @param string $post_type
+	 *
 	 * @return boolean
 	 */
 	public static function handles_post_type( $post_type ) {
