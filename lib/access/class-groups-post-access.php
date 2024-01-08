@@ -128,6 +128,13 @@ class Groups_Post_Access {
 		add_filter( 'get_next_post_where', array( __CLASS__, 'get_next_post_where' ), 10, 5 );
 		add_action( 'save_post', array( __CLASS__, 'save_post' ), PHP_INT_MAX );
 		add_filter( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), PHP_INT_MAX, 2 );
+
+		// @since 2.20.0 but not used because it is overridden for dynamic blocks, so the render_block filter must be used anyhow
+		// add_filter( 'pre_render_block', array( __CLASS__, 'pre_render_block' ), 10, 3 );
+		// @since 2.20.0
+		add_filter( 'render_block', array( __CLASS__, 'render_block' ), 10, 3 );
+		// @since 2.20.0
+		add_filter( 'block_core_navigation_render_inner_blocks', array( __CLASS__, 'block_core_navigation_render_inner_blocks' ) );
 	}
 
 	/**
@@ -359,6 +366,8 @@ class Groups_Post_Access {
 	 * Filter pages by access capability.
 	 *
 	 * @param array $pages
+	 *
+	 * @return array
 	 */
 	public static function get_pages( $pages ) {
 		$result = array();
@@ -380,6 +389,8 @@ class Groups_Post_Access {
 	 *
 	 * @param array $posts list of posts
 	 * @param WP_Query $query
+	 *
+	 * @return array
 	 */
 	public static function the_posts( $posts, &$query ) {
 		$result = array();
@@ -399,11 +410,15 @@ class Groups_Post_Access {
 	/**
 	 * Filter menu items by access capability.
 	 *
-	 * @todo admin section: this won't inhibit the items being offered to be added, although when they're added they won't show up in the menu
+	 * Notes for the admin section:
+	 * 1. With themes that provide sidebars and widgets, protected items are visible and can be chosen to be added to a menu. But once the menu is saved, those items do not appear, providing a somewhat confusing user experience.
+	 * 2. With themes that support full site editing (like Twenty Twenty-Four which gets rid of sidebars and widgets), protected items are not offered to whom is editing a Navigation block. However, protected items that were added by someone who could access them, will be visible.
 	 *
 	 * @param array $items
 	 * @param mixed $menu
 	 * @param array $args
+	 *
+	 * @return array
 	 */
 	public static function wp_get_nav_menu_items( $items = null, $menu = null, $args = null ) {
 		$result = array();
@@ -430,7 +445,7 @@ class Groups_Post_Access {
 	 *
 	 * @param string $output
 	 *
-	 * @return $output if access granted, otherwise ''
+	 * @return string $output if access granted, otherwise ''
 	 */
 	public static function get_the_excerpt( $output ) {
 		global $post;
@@ -455,7 +470,7 @@ class Groups_Post_Access {
 	 *
 	 * @param string $output
 	 *
-	 * @return $output if access granted, otherwise ''
+	 * @return string $output if access granted, otherwise ''
 	 */
 	public static function the_content( $output ) {
 		global $post;
@@ -671,7 +686,7 @@ class Groups_Post_Access {
 	 * @param int $post_id ID of the post
 	 * @param array $map should provide 'post_id' and 'groups_read'
 	 *
-	 * @return true if the group(s) is required, otherwise false
+	 * @return boolean true if the group(s) is required, otherwise false
 	 */
 	public static function read( $post_id, $map = array() ) {
 		extract( $map );
@@ -740,7 +755,7 @@ class Groups_Post_Access {
 	 * @param int $post_id
 	 * @param array $map must provide 'groups_read' holding group IDs to remove from restricting access to the post; if empty, all access restrictions will be removed
 	 *
-	 * @return true on success, otherwise false
+	 * @return boolean true on success, otherwise false
 	 */
 	public static function delete( $post_id, $map = array() ) {
 		extract( $map );
@@ -878,6 +893,8 @@ class Groups_Post_Access {
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
+	 *
+	 * @return object
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
 		$user_id = get_current_user_id();
@@ -932,6 +949,8 @@ class Groups_Post_Access {
 	 *
 	 * @param object $counts An object containing the attachment counts by mime type.
 	 * @param string $mime_type The mime type pattern used to filter the attachments counted.
+	 *
+	 * @return object
 	 */
 	public static function wp_count_attachments( $counts, $mime_type ) {
 		return $counts;
@@ -987,6 +1006,105 @@ class Groups_Post_Access {
 			$post_types_option[$post_type]['add_meta_box'] = isset( $post_types[$post_type] ) && $post_types[$post_type];
 		}
 		Groups_Options::update_option( self::POST_TYPES, $post_types_option );
+	}
+
+	/**
+	 * Filter the block content of core/navigation-link and core/navigation-submenu blocks.
+	 *
+	 * This is necessary as these blocks would render their content although the corresponding post is protected.
+	 *
+	 * @param string $block_content
+	 * @param array $parsed_block
+	 * @param \WP_Block $block
+	 *
+	 * @return string
+	 */
+	public static function render_block( $block_content, $parsed_block, $block ) {
+		if ( !is_admin() ) {
+			$is_valid = true;
+			if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+				if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+					$post_id = $block->attributes['id'];
+					if ( !self::user_can_read_post( $post_id ) ) {
+						$is_valid = false;
+					}
+				}
+			}
+			if ( !$is_valid ) {
+				$block_content = '';
+			}
+		}
+		return $block_content;
+	}
+
+	/**
+	 * Short-circuits render_block() and WP_Block->render().
+	 *
+	 * This will be overridden for dynamic blocks, so the render_block filter is necessary instead.
+	 *
+	 * @see Groups_Post_Access::render_block()
+	 *
+	 * @param string|null $pre_render
+	 * @param array $parsed_block
+	 * @param \WP_Block|null $parent_block
+	 *
+	 * @return string|null
+	 */
+	public static function pre_render_block( $pre_render, $parsed_block, $parent_block ) {
+		if ( !is_admin() ) {
+			$is_valid = true;
+			$block = new \WP_Block( $parsed_block );
+			if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+				if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+					$post_id = $block->attributes['id'];
+					if ( !self::user_can_read_post( $post_id ) ) {
+						$is_valid = false;
+					}
+				}
+			}
+			if ( !$is_valid ) {
+				$pre_render = '';
+			}
+		}
+		return $pre_render;
+	}
+
+	/**
+	 * Filter inner navigation blocks.
+	 *
+	 * This will not handle the inner blocks of core/navigation-submenu blocks, so the filter on render_block implemented here in this class is necessary.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param \WP_Block_List $inner_blocks
+	 *
+	 * @return \WP_Block_List
+	 */
+	public static function block_core_navigation_render_inner_blocks( $inner_blocks ) {
+		if ( !is_admin() ) {
+			$valid_inner_blocks = array();
+			/**
+			 * @var \WP_Block[] $blocks
+			 */
+			$blocks = iterator_to_array( $inner_blocks );
+			foreach ( $blocks as $block ) {
+				$is_valid = true;
+				// @see block_core_navigation_from_block_get_post_ids( $block )
+				if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+					if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+						$post_id = $block->attributes['id'];
+						if ( !self::user_can_read_post( $post_id ) ) {
+							$is_valid = false;
+						}
+					}
+				}
+				if ( $is_valid ) {
+					$valid_inner_blocks[] = $block;
+				}
+			}
+			$inner_blocks = new WP_Block_List( $valid_inner_blocks );
+		}
+		return $inner_blocks;
 	}
 }
 Groups_Post_Access::init();
