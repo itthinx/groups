@@ -344,13 +344,15 @@ class Groups_Controller {
 		}
 
 		// run update procedure if newer version is installed
-		if ( version_compare( $previous_version, $groups_version ) < 0 ) {
-			if ( self::update( $previous_version ) ) {
-				if ( update_option( 'groups_plugin_version', $groups_version ) ) {
-					set_transient( 'groups_plugin_updated', true, 60 );
+		if ( $previous_version ) {
+			if ( version_compare( $previous_version, $groups_version ) < 0 ) {
+				if ( self::update( $previous_version ) ) {
+					if ( update_option( 'groups_plugin_version', $groups_version ) ) {
+						set_transient( 'groups_plugin_updated', true, 60 );
+					}
+				} else {
+					$groups_admin_messages[] = '<div class="error">Updating Groups plugin core <em>failed</em>.</div>';
 				}
-			} else {
-				$groups_admin_messages[] = '<div class="error">Updating Groups plugin core <em>failed</em>.</div>';
 			}
 		}
 	}
