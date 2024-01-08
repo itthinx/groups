@@ -186,9 +186,9 @@ Go to *Groups > Options* and enable the option under *User profiles*.
 
 The Groups plugin provides an extensive framework to handle memberships, group-based capabilities and access control.
 
-The API documentation is available here: [Groups API](http://api.itthinx.com/groups).
+The API documentation page is available at [API](https://docs.itthinx.com/document/groups/api/).
 
-Also refer to the official [Groups Plugin](https://www.itthinx.com/plugins/groups/) page to post your questions and the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
+Also refer to the official [Groups Plugin](https://www.itthinx.com/plugins/groups/) page to post your questions and the [Documentation](https://docs.itthinx.com/document/groups/) pages for Groups.
 
 == Screenshots ==
 
