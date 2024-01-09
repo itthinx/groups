@@ -103,14 +103,16 @@ class Groups_Post_Access {
 		add_filter( 'the_content', array( __CLASS__, 'the_content' ), 1 );
 		// edit & delete post
 		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
-		// @todo these could be interesting to add later ...
+
+		// These could be interesting to add later ...
 		// add_filter( "plugin_row_meta", array( __CLASS__, "plugin_row_meta" ), 1 );
 		// add_filter( "posts_join_paged", array( __CLASS__, "posts_join_paged" ), 1 );
 		// add_filter( "posts_where_paged", array( __CLASS__, "posts_where_paged" ), 1 );
 
 		add_action( 'groups_deleted_group', array( __CLASS__, 'groups_deleted_group' ) );
 		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 );
-		// @todo enable the filter and implement below if needed to correct attachment counts
+
+		// Enable the filter and implement below if needed to correct attachment counts ...
 		// add_filter( 'wp_count_attachments', array( __CLASS__, 'wp_count_attachments' ), 10, 2 );
 
 		// REST API
@@ -583,6 +585,7 @@ class Groups_Post_Access {
 			$post_type = get_post_type( $post_id );
 			if ( self::handles_post_type( $post_type ) ) {
 				self::purge_eligible_post_ids_cached( $post_type );
+				self::purge_count_posts_cached( $post_type );
 			}
 		}
 	}
@@ -890,30 +893,39 @@ class Groups_Post_Access {
 	 * independent of the post type, we will come here for any post status, so don't be surprised
 	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
 	 *
+	 * Counts in cache are purged when posts are saved using the purge_count_posts_cached() method.
+	 *
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
 	 *
 	 * @return object
+	 *
+	 * @see Groups_Post_Access::purge_count_posts_cached()
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
-		$user_id = get_current_user_id();
-		$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type . '_' . $user_id, self::CACHE_GROUP );
-		if ( $cached !== null ) {
-			$counts = $cached->value;
-			unset( $cached );
-		} else {
-			if ( self::handles_post_type( $type ) ) {
+		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
+			$sub_group = Groups_Cache::get_group( '' );
+			// @since 2.20.0 cached per post type gathering counts per subgroup
+			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
+			if ( $cached === null ) {
+				$type_counts = array();
+			} else {
+				$type_counts = $cached->value;
+			}
+			if ( isset( $type_counts[$sub_group] ) ) {
+				$counts = $type_counts[$sub_group];
+			} else {
 				foreach( $counts as $post_status => $count ) {
 					$query_args = array(
 						'fields'           => 'ids',
 						'post_type'        => $type,
 						'post_status'      => $post_status,
 						'numberposts'      => -1, // all
-						'suppress_filters' => 0, // don't suppress filters as we need to get restrictions taken into account
+						'suppress_filters' => false, // don't suppress filters as we need to get restrictions taken into account
 						'orderby'          => 'none', // Important! Don't waste time here.
 						'no_found_rows'    => true, // performance, omit unnecessary SQL_CALC_FOUND_ROWS in query here
-						'nopaging'         => true // no paging is needed, in case it would affect performance
+						'nopaging'         => true // no paging is needed, get all corresponding posts
 					);
 					// WooCommerce Orders
 					if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
@@ -937,10 +949,32 @@ class Groups_Post_Access {
 					unset( $posts );
 					$counts->$post_status = $count;
 				}
+				$type_counts[$sub_group] = $counts;
+				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
 			}
-			Groups_Cache::set( self::COUNT_POSTS . '_' . $type . '_' . $user_id, $counts, self::CACHE_GROUP );
 		}
 		return $counts;
+	}
+
+	/**
+	 * Purge the cached post counts for the post type.
+	 *
+	 * @param string $type post type
+	 *
+	 * @since 2.20.0
+	 *
+	 * @see Groups_Post_Access::wp_count_posts()
+	 */
+	private static function purge_count_posts_cached( $type ) {
+		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
+			$hyper_group = Groups_Cache::get_group( '' );
+			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
+			if ( $cached !== null ) {
+				$type_counts = $cached->value;
+				unset( $type_counts[$hyper_group] );
+				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
+			}
+		}
 	}
 
 	/**

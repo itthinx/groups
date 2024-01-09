@@ -12,6 +12,7 @@
 * Added filter to block_core_navigation_render_inner_blocks.
 * Added filter to render_block and pre_render_block.
 * Fixed a PHP Deprecated notice on version_compare() when Groups is newly installed (PHP 8.x compatibility).
+* Revised post count caching.
 
 = 2.19.0 =
 * WordPress 6.4 compatible.

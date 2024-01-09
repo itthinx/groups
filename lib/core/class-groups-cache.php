@@ -42,6 +42,33 @@ class Groups_Cache {
 	const CACHE_GROUP = 'groups';
 
 	/**
+	 * Cache group specializer, use the user's groups.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @var int
+	 */
+	const GROUPS_CACHE_GROUP = 0x01;
+
+	/**
+	 * Cache group specializer, use the user's roles.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @var int
+	 */
+	const ROLES_CACHE_GROUP = 0x02;
+
+	/**
+	 * Cache group specializer, use the user's ID.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @var int
+	 */
+	const USER_CACHE_GROUP = 0x04;
+
+	/**
 	 * Retrieve an entry from cache.
 	 *
 	 * @param string $key
@@ -82,5 +109,86 @@ class Groups_Cache {
 	 */
 	public static function delete( $key, $group = self::CACHE_GROUP ) {
 		return wp_cache_delete( $key, $group );
+	}
+
+	/**
+	 * Provide a specialized (groups-roles-user-based) version of the $group key.
+	 *
+	 * The $flags parameter is self::GROUPS_CACHE_GROUP | self::ROLES_CACHE_GROUP by default,
+	 * meaning a user's groups and roles are used to specialize the $group key.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param string $group group key
+	 * @param int $flags determines what to take into account, null uses groups and roles by default
+	 *
+	 * @return string
+	 */
+	public static function get_group( $group, $flags = null ) {
+
+		if ( $flags === null ) {
+			$flags = self::GROUPS_CACHE_GROUP | self::ROLES_CACHE_GROUP;
+		}
+
+		$group_ids = array();
+		$roles = array();
+		$user_id = null;
+
+		if ( function_exists( 'wp_get_current_user' ) ) {
+			$user = wp_get_current_user();
+			if ( $user->exists() ) {
+				if ( $flags & self::GROUPS_CACHE_GROUP ) {
+					if ( is_array( $user->roles ) ) {
+						$roles = $user->roles;
+						sort( $roles );
+					}
+				}
+				if ( $flags & self::ROLES_CACHE_GROUP ) {
+					if ( class_exists( '\Groups_User' ) ) {
+						$groups_user = new \Groups_User( $user->ID );
+						$group_ids = $groups_user->group_ids_deep;
+						$group_ids = array_map( 'intval', $group_ids );
+						sort( $group_ids, SORT_NUMERIC );
+					}
+				}
+				if ( $flags & self::USER_CACHE_GROUP ) {
+					$user_id = $user->ID;
+				}
+			}
+		}
+
+		if ( count( $roles ) > 0 ) {
+			$group .= '_';
+			$group .= implode( '_', $roles );
+		}
+		if ( count( $group_ids ) > 0 ) {
+			$group .= '_';
+			$group .= implode( '_', $group_ids );
+		}
+		if ( $user_id !== null ) {
+			$group .= '_';
+			$group .= $user_id;
+		}
+
+		/**
+		 * Additional specialization if needed by third-party extensions.
+		 *
+		 * @param string $suffix
+		 * @param string $group
+		 * @param int $flags
+		 *
+		 * @var string $group_suffix
+		 */
+		$group_suffix = apply_filters( 'groups_cache_group_suffix', '', $group, $flags );
+		if ( !is_string( $group_suffix ) ) {
+			$group_suffix = '';
+		} else {
+			$group_suffix = trim( $group_suffix );
+		}
+		if ( strlen( $group_suffix ) > 0 ) {
+			$group = $group . '_' . $group_suffix;
+		}
+
+		return $group;
 	}
 }
