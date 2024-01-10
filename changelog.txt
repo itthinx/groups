@@ -17,6 +17,7 @@
 * Fixed a PHP Deprecated notice on version_compare() when Groups is newly installed (PHP 8.x compatibility).
 * Revised post count caching.
 * Added the groups_user_is_member filter.
+* Additions to API methods.
 
 = 2.19.0 =
 * WordPress 6.4 compatible.

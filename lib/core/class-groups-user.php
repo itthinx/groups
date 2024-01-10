@@ -103,6 +103,31 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
+	 * Convenience method equivalent to $this->is_member( $group_id ) without having to instantiate a Groups_User object outside first.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param int|\WP_User $user user ID or user object
+	 * @param int $group_id group ID
+	 *
+	 * @return boolean
+	 */
+	public static function user_is_member( $user, $group_id ) {
+		$is_member = false;
+		$user_id = null;
+		if ( is_numeric( $user ) ) {
+			$user_id = max( 0, intval( $user ) );
+		} else if ( $user instanceof \WP_User ) {
+			$user_id = $user->ID;
+		}
+		if ( $user_id !== null ) {
+			$groups_user = new Groups_User( $user_id );
+			$is_member = $groups_user->is_member( $group_id );
+		}
+		return $is_member;
+	}
+
+	/**
 	 * Create, if $user_id = 0 an anonymous user is assumed.
 	 *
 	 * @param int $user_id
