@@ -285,6 +285,7 @@ class Groups_Admin_Users {
 								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
 								if ( $group_ids !== null ) {
 									foreach ( $group_ids as $group_id ) {
+										// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 										if ( !Groups_User_Group::read( $user_id, $group_id ) ) {
 											Groups_User_Group::create(
 												array(
@@ -300,6 +301,7 @@ class Groups_Admin_Users {
 								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
 								if ( $group_ids !== null ) {
 									foreach ( $group_ids as $group_id ) {
+										// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 										if ( Groups_User_Group::read( $user_id, $group_id ) ) {
 											Groups_User_Group::delete( $user_id, $group_id );
 										}

@@ -116,6 +116,7 @@ class Groups_Admin_User_Profile {
 							$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
 							foreach( $groups as $group ) {
 								if ( in_array( $group->group_id, $user_group_ids ) ) {
+									// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 									if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
 										Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group->group_id ) );
 									}
@@ -178,6 +179,7 @@ class Groups_Admin_User_Profile {
 					esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 				);
 				foreach( $groups as $group ) {
+					// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
 					$output .= sprintf(
 						'<option value="%d" %s>%s</option>',
@@ -221,10 +223,12 @@ class Groups_Admin_User_Profile {
 				$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
 				foreach( $groups as $group ) {
 					if ( in_array( $group->group_id, $user_group_ids ) ) {
+						// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 						if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
 							Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group->group_id ) );
 						}
 					} else {
+						// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 						if ( Groups_User_Group::read( $user_id, $group->group_id ) ) {
 							Groups_User_Group::delete( $user_id, $group->group_id );
 						}
