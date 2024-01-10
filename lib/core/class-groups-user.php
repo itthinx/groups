@@ -121,6 +121,15 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
+	 * Provide the related WP_User object.
+	 *
+	 * @return WP_User
+	 */
+	public function get_user() {
+		return $this->user;
+	}
+
+	/**
 	 * Retrieve a user property.
 	 *
 	 * Must be "capabilities", "groups" or a property of the WP_User class.
@@ -337,6 +346,21 @@ class Groups_User implements I_Capable {
 				$result = $user_group !== false;
 				unset( $user_group );
 			}
+		}
+		/**
+		 * Allow to modify the result of whether the user belongs to a given group.
+		 *
+		 * @since 2.20.0
+		 *
+		 * @param $result boolean whether the user belongs to the group
+		 * @param $this \Groups_User the Groups user object
+		 * @param int $group_id the group ID
+		 *
+		 * @return boolean $filtered_result
+		 */
+		$filtered_result = apply_filters( 'groups_user_is_member', $result, $this, $group_id );
+		if ( is_bool( $result ) ) {
+			$result = $filtered_result;
 		}
 		return $result;
 	}

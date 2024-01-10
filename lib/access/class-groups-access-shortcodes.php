@@ -67,7 +67,7 @@ class Groups_Access_Shortcodes {
 					$current_group = Groups_Group::read_by_name( $group );
 				}
 				if ( $current_group ) {
-					if ( Groups_User_Group::read( $groups_user->user->ID , $current_group->group_id ) ) {
+					if ( $groups_user->is_member( $current_group->group_id ) ) {
 						$show_content = true;
 						break;
 					}
@@ -108,7 +108,7 @@ class Groups_Access_Shortcodes {
 					$current_group = Groups_Group::read_by_name( $group );
 				}
 				if ( $current_group ) {
-					if ( Groups_User_Group::read( $groups_user->user->ID , $current_group->group_id ) ) {
+					if ( $groups_user->is_member( $current_group->group_id ) ) {
 						$show_content = false;
 						break;
 					}
