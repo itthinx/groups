@@ -1047,6 +1047,8 @@ class Groups_Post_Access {
 	 *
 	 * This is necessary as these blocks would render their content although the corresponding post is protected.
 	 *
+	 * @since 2.20.0
+	 *
 	 * @param string $block_content
 	 * @param array $parsed_block
 	 * @param \WP_Block $block
@@ -1064,8 +1066,6 @@ class Groups_Post_Access {
 			 * @param \WP_Block $block the block
 			 *
 			 * @return boolean whether to filter
-			 *
-			 * @since 2.20.0
 			 */
 			if ( apply_filters( 'groups_post_access_filter_render_block', true, $block_content, $parsed_block, $block ) ) {
 				$is_valid = true;
@@ -1092,6 +1092,8 @@ class Groups_Post_Access {
 	 *
 	 * @see Groups_Post_Access::render_block()
 	 *
+	 * @since 2.20.0
+	 *
 	 * @param string|null $pre_render
 	 * @param array $parsed_block
 	 * @param \WP_Block|null $parent_block
@@ -1109,8 +1111,6 @@ class Groups_Post_Access {
 			 * @param \WP_Block $parent_block the parent block
 			 *
 			 * @return boolean whether to filter
-			 *
-			 * @since 2.20.0
 			 */
 			if ( apply_filters( 'groups_post_access_filter_pre_render_block', true, $pre_render, $parsed_block, $parent_block ) ) {
 				$is_valid = true;
@@ -1144,27 +1144,37 @@ class Groups_Post_Access {
 	 */
 	public static function block_core_navigation_render_inner_blocks( $inner_blocks ) {
 		if ( !is_admin() ) {
-			$valid_inner_blocks = array();
 			/**
-			 * @var \WP_Block[] $blocks
+			 * Whether to filter the inner blocks.
+			 *
+			 * @param boolean $filter whether to filter
+			 * @param \WP_Block_List $inner_blocks the inner blocks
+			 *
+			 * @return \WP_Block_List the inner blocks
 			 */
-			$blocks = iterator_to_array( $inner_blocks );
-			foreach ( $blocks as $block ) {
-				$is_valid = true;
-				// @see block_core_navigation_from_block_get_post_ids( $block )
-				if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
-					if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
-						$post_id = $block->attributes['id'];
-						if ( !self::user_can_read_post( $post_id ) ) {
-							$is_valid = false;
+			if ( apply_filters( 'groups_post_access_filter_block_core_navigation_render_inner_blocks', true, $inner_blocks ) ) {
+				$valid_inner_blocks = array();
+				/**
+				 * @var \WP_Block[] $blocks
+				 */
+				$blocks = iterator_to_array( $inner_blocks );
+				foreach ( $blocks as $block ) {
+					$is_valid = true;
+					// @see block_core_navigation_from_block_get_post_ids( $block )
+					if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+						if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+							$post_id = $block->attributes['id'];
+							if ( !self::user_can_read_post( $post_id ) ) {
+								$is_valid = false;
+							}
 						}
 					}
+					if ( $is_valid ) {
+						$valid_inner_blocks[] = $block;
+					}
 				}
-				if ( $is_valid ) {
-					$valid_inner_blocks[] = $block;
-				}
+				$inner_blocks = new WP_Block_List( $valid_inner_blocks );
 			}
-			$inner_blocks = new WP_Block_List( $valid_inner_blocks );
 		}
 		return $inner_blocks;
 	}
