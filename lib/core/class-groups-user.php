@@ -44,6 +44,8 @@ class Groups_User implements I_Capable {
 	/**
 	 * User object.
 	 *
+	 * @private Use $this->get_user() instead as this property will be made private in a future release of Groups
+	 *
 	 * @var WP_User
 	 */
 	var $user = null;
