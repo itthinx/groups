@@ -11,6 +11,8 @@
 * Adds support for the Navigation blocks, so that protected items are hidden from users who should not see them.
 * Added filter to block_core_navigation_render_inner_blocks.
 * Added filter to render_block and pre_render_block.
+* Added the groups_post_access_filter_render_block filter.
+* Added the groups_post_access_filter_pre_render_block filter.
 * Fixed a PHP Deprecated notice on version_compare() when Groups is newly installed (PHP 8.x compatibility).
 * Revised post count caching.
 

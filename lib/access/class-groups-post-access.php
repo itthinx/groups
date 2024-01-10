@@ -1055,17 +1055,31 @@ class Groups_Post_Access {
 	 */
 	public static function render_block( $block_content, $parsed_block, $block ) {
 		if ( !is_admin() ) {
-			$is_valid = true;
-			if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
-				if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
-					$post_id = $block->attributes['id'];
-					if ( !self::user_can_read_post( $post_id ) ) {
-						$is_valid = false;
+			/**
+			 * Whether to process this block.
+			 *
+			 * @param boolean $filter whether to filter the block
+			 * @param string $block_content the block's content
+			 * @param array $parsed_block the parsed block
+			 * @param \WP_Block $block the block
+			 *
+			 * @return boolean whether to filter
+			 *
+			 * @since 2.20.0
+			 */
+			if ( apply_filters( 'groups_post_access_filter_render_block', true, $block_content, $parsed_block, $block ) ) {
+				$is_valid = true;
+				if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+					if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+						$post_id = $block->attributes['id'];
+						if ( !self::user_can_read_post( $post_id ) ) {
+							$is_valid = false;
+						}
 					}
 				}
-			}
-			if ( !$is_valid ) {
-				$block_content = '';
+				if ( !$is_valid ) {
+					$block_content = '';
+				}
 			}
 		}
 		return $block_content;
@@ -1086,18 +1100,32 @@ class Groups_Post_Access {
 	 */
 	public static function pre_render_block( $pre_render, $parsed_block, $parent_block ) {
 		if ( !is_admin() ) {
-			$is_valid = true;
-			$block = new \WP_Block( $parsed_block );
-			if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
-				if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
-					$post_id = $block->attributes['id'];
-					if ( !self::user_can_read_post( $post_id ) ) {
-						$is_valid = false;
+			/**
+			 * Whether to process this block pre rendering.
+			 *
+			 * @param boolean $filter whether to filter
+			 * @param string $pre_render block content
+			 * @param array $parsed_block the parsed block
+			 * @param \WP_Block $parent_block the parent block
+			 *
+			 * @return boolean whether to filter
+			 *
+			 * @since 2.20.0
+			 */
+			if ( apply_filters( 'groups_post_access_filter_pre_render_block', true, $pre_render, $parsed_block, $parent_block ) ) {
+				$is_valid = true;
+				$block = new \WP_Block( $parsed_block );
+				if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+					if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+						$post_id = $block->attributes['id'];
+						if ( !self::user_can_read_post( $post_id ) ) {
+							$is_valid = false;
+						}
 					}
 				}
-			}
-			if ( !$is_valid ) {
-				$pre_render = '';
+				if ( !$is_valid ) {
+					$pre_render = '';
+				}
 			}
 		}
 		return $pre_render;
