@@ -78,6 +78,20 @@ class Groups_Post_Access {
 	const COUNT_POSTS = 'count-posts';
 
 	/**
+	 * @since 2.20.0
+	 *
+	 * @var \WP_Block block for which to filter
+	 */
+	private static $filter_get_terms_block = null;
+
+	/**
+	 * @since 2.20.0
+	 *
+	 * @var array widget for which to filter
+	 */
+	private static $filter_get_terms_widget = null;
+
+	/**
 	 * Work done on activation, currently does nothing.
 	 *
 	 * @see Groups_Controller::activate()
@@ -131,12 +145,17 @@ class Groups_Post_Access {
 		add_action( 'save_post', array( __CLASS__, 'save_post' ), PHP_INT_MAX );
 		add_filter( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), PHP_INT_MAX, 2 );
 
-		// @since 2.20.0 but not used because it is overridden for dynamic blocks, so the render_block filter must be used anyhow
-		// add_filter( 'pre_render_block', array( __CLASS__, 'pre_render_block' ), 10, 3 );
 		// @since 2.20.0
 		add_filter( 'render_block', array( __CLASS__, 'render_block' ), 10, 3 );
 		// @since 2.20.0
 		add_filter( 'block_core_navigation_render_inner_blocks', array( __CLASS__, 'block_core_navigation_render_inner_blocks' ) );
+
+		// @since 2.20.0 adds our get_terms filter for Categories blocks:
+		add_filter( 'pre_render_block', array( __CLASS__, 'pre_render_block' ), 10, 3 );
+		// @since 2.20.0 adds our get_terms filter for Categories widgets rendered as list:
+		add_filter( 'widget_categories_args', array( __CLASS__, 'widget_categories_args' ), 10, 2 );
+		// @since 2.20.0 adds our get_terms filter for Categories widgets rendered as dropdown:
+		add_filter( 'widget_categories_dropdown_args', array( __CLASS__, 'widget_categories_dropdown_args' ), 10, 2 );
 	}
 
 	/**
@@ -1088,7 +1107,11 @@ class Groups_Post_Access {
 	/**
 	 * Short-circuits render_block() and WP_Block->render().
 	 *
-	 * This will be overridden for dynamic blocks, so the render_block filter is necessary instead.
+	 * For core/navigation-link and core/navigation-submenu blocks:
+	 * - This will be overridden for dynamic blocks, so the render_block filter is necessary instead.
+	 *
+	 * For core/categories blocks:
+	 * - We use this hook to add our get_terms filter.
 	 *
 	 * @see Groups_Post_Access::render_block()
 	 *
@@ -1113,18 +1136,24 @@ class Groups_Post_Access {
 			 * @return boolean whether to filter
 			 */
 			if ( apply_filters( 'groups_post_access_filter_pre_render_block', true, $pre_render, $parsed_block, $parent_block ) ) {
-				$is_valid = true;
 				$block = new \WP_Block( $parsed_block );
-				if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
-					if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
-						$post_id = $block->attributes['id'];
-						if ( !self::user_can_read_post( $post_id ) ) {
-							$is_valid = false;
-						}
-					}
-				}
-				if ( !$is_valid ) {
-					$pre_render = '';
+				// $is_valid = true;
+				// if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+				// 	if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+				// 		$post_id = $block->attributes['id'];
+				// 		if ( !self::user_can_read_post( $post_id ) ) {
+				// 			$is_valid = false;
+				// 		}
+				// 	}
+				// }
+				// if ( !$is_valid ) {
+				// 	$pre_render = '';
+				// }
+
+				// Detect a categories block and add our filter to update the counts
+				if ( 'core/categories' === $block->name ) {
+					self::$filter_get_terms_block = $block;
+					add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
 				}
 			}
 		}
@@ -1177,6 +1206,143 @@ class Groups_Post_Access {
 			}
 		}
 		return $inner_blocks;
+	}
+
+	/**
+	 * Hooks into the filter to activate our get_terms filter.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param array $cat_args
+	 * @param array $instance
+	 *
+	 * @return array
+	 */
+	public static function widget_categories_args( $cat_args, $instance ) {
+		if ( !is_admin() ) {
+			/**
+			 * Whether to filter get_terms.
+			 *
+			 * @param array $cat_args
+			 * @param array $instance
+			 *
+			 * @return array
+			 */
+			if ( apply_filters( 'groups_post_access_filter_widget_categories_args', true, $cat_args, $instance ) ) {
+				self::$filter_get_terms_widget = $instance;
+				add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
+			}
+		}
+	}
+
+	/**
+	 * Hooks into the filter to activate our get_terms filter.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param array $cat_args
+	 * @param array $instance
+	 *
+	 * @return array
+	 */
+	public static function widget_categories_dropdown_args( $cat_args, $instance ) {
+		if ( !is_admin() ) {
+			/**
+			 * Whether to filter get_terms.
+			 *
+			 * @param array $cat_args
+			 * @param array $instance
+			 *
+			 * @return array
+			 */
+			if ( apply_filters( 'groups_post_access_filter_widget_categories_dropdown_args', true, $cat_args, $instance ) ) {
+				self::$filter_get_terms_widget = $instance;
+				add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
+			}
+		}
+	}
+
+	/**
+	 * Filter get_terms to adjust counts.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param array $terms
+	 * @param array|null $taxonomies
+	 * @param array $query_vars
+	 * @param \WP_Term_Query $term_query
+	 *
+	 * @return array
+	 */
+	public static function get_terms( $terms, $taxonomies, $query_vars, $term_query ) {
+
+		// act only once per add_filter we do in the specific cases we cover
+		remove_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10 );
+
+		if ( !is_admin() ) {
+			/**
+			 * Whether to filter get_terms.
+			 *
+			 * @param boolean $filter whether to filter
+			 * @param array $terms
+			 * @param array|null $taxonomies
+			 * @param array $query_vars
+			 * @param \WP_Term_Query $term_query
+			 *
+			 * @return array
+			 */
+			if ( apply_filters( 'groups_post_access_filter_get_terms', true, $terms, $taxonomies, $query_vars, $term_query ) ) {
+				foreach ( $terms as $term ) {
+					$query_args = array(
+						'cat'              => $term->term_id, // this category term
+						'fields'           => 'ids',
+						'post_type'        => 'post',
+						'post_status'      => 'publish',
+						'numberposts'      => -1, // all
+						'suppress_filters' => false, // apply restrictions
+						'orderby'          => 'none', // performance
+						'no_found_rows'    => true, // performance
+						'nopaging'         => true // all
+					);
+					$post_ids = get_posts( $query_args );
+					$term->count = count( $post_ids );
+				}
+				_pad_term_counts( $terms, $taxonomies[0] );
+				$remove_empty = false;
+				if ( self::$filter_get_terms_block !== null ) {
+					if (
+						is_object( self::$filter_get_terms_block ) &&
+						property_exists( self::$filter_get_terms_block, 'attributes' ) &&
+						is_array( self::$filter_get_terms_block->attributes ) && array_key_exists( 'showEmpty', self::$filter_get_terms_block->attributes ) &&
+						!self::$filter_get_terms_block->attributes['showEmpty']
+					) {
+						$remove_empty = true;
+					}
+				}
+				if ( self::$filter_get_terms_widget !== null ) {
+					// There is no option to hide empty categories for the widget, so we always remove them.
+					// Otherwise the condition would be like ...
+					// if ( is_array( self::$filter_get_terms_widget ) && array_key_exists( 'show_empty', self::$filter_get_terms_widget ) && !self::$filter_get_terms_widget['show_empty'] )
+					// There seems to be a bug in WP_Widget_Categories with showing the counts. Even though the "Show post counts" option was checked, the post counts are not shown. Tested with WP 6.4.2 and Classic Widgets 0.3.
+					$remove_empty = true;
+				}
+				if ( $remove_empty ) {
+					$_terms = array();
+					foreach ( $terms as $term ) {
+						if ( $term->count > 0 ) {
+							$_terms[] = $term;
+						}
+					}
+					$terms = $_terms;
+				}
+			}
+		}
+
+		// void context
+		self::$filter_get_terms_block = null;
+		self::$filter_get_terms_widget = null;
+
+		return $terms;
 	}
 }
 Groups_Post_Access::init();
