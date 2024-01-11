@@ -1310,7 +1310,6 @@ class Groups_Post_Access {
 				_pad_term_counts( $terms, $taxonomies[0] );
 				$remove_empty = false;
 				if ( self::$filter_get_terms_block !== null ) {
-					// error_log( var_export( self::$filter_get_terms_block->attributes, true ) ); // @todo remove
 					if (
 						is_object( self::$filter_get_terms_block ) &&
 						// will mislead returning false because of dynamic properties : property_exists( self::$filter_get_terms_block, 'attributes' ) &&
