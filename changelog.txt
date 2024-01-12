@@ -23,6 +23,13 @@
 * Added the groups_post_access_filter_widget_categories_args filter.
 * Added the groups_post_access_filter_widget_categories_dropdown_args filter.
 * Added the groups_post_access_filter_get_terms filter.
+* Added the filter groups_admin_user_profile_user_new_form_groups.
+* Added the filter groups_admin_user_profile_user_register_groups.
+* Added the filter groups_admin_user_profile_edit_user_profile_groups.
+* Added the filter groups_admin_user_profile_edit_user_profile_update_groups.
+* Added the filter groups_admin_users_restrict_manage_users_groups.
+* Added the filter groups_admin_users_views_users_groups.
+* Added the filter groups_admin_users_views_users_counts.
 
 = 2.19.0 =
 * WordPress 6.4 compatible.
