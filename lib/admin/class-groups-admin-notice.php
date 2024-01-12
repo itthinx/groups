@@ -97,6 +97,8 @@ class Groups_Admin_Notice {
 
 	/**
 	 * Initializes if necessary and returns the init time.
+	 *
+	 * @return int
 	 */
 	public static function get_init_time() {
 		$init_time = get_site_option( self::INIT_TIME, null );

@@ -28,6 +28,11 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Admin_Users {
 
+	/**
+	 * Column key.
+	 *
+	 * @var string
+	 */
 	const GROUPS = 'groups_user_groups';
 
 	/**
@@ -210,6 +215,8 @@ class Groups_Admin_Users {
 	 * Hooked on filter in class-wp-list-table.php to filter by group.
 	 *
 	 * @param array $views
+	 *
+	 * @return array views
 	 */
 	public static function views_users( $views ) {
 		global $pagenow, $wpdb;

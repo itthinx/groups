@@ -233,6 +233,7 @@ class Groups_Admin_User_Profile {
 	 * for group admins on their own profile page only.
 	 *
 	 * @param int $user_id
+	 *
 	 * @see Groups_Admin_User_Profile::edit_user_profile_update()
 	 */
 	public static function personal_options_update( $user_id ) {
@@ -245,6 +246,7 @@ class Groups_Admin_User_Profile {
 
 	/**
 	 * Updates the group membership.
+	 *
 	 * @param int $user_id
 	 */
 	public static function edit_user_profile_update( $user_id ) {
@@ -273,8 +275,10 @@ class Groups_Admin_User_Profile {
 
 	/**
 	 * usort helper
+	 *
 	 * @param Groups_Group $o1
 	 * @param Groups_Group $o2
+	 *
 	 * @return int strcmp result for group names
 	 */
 	public static function by_group_name( $o1, $o2 ) {

@@ -290,6 +290,7 @@ class Groups_Access_Meta_Boxes {
 	 *
 	 * @param boolean $maybe_empty
 	 * @param array $postarr
+	 *
 	 * @return boolean
 	 */
 	public static function wp_insert_post_empty_content( $maybe_empty, $postarr ) {
@@ -514,6 +515,7 @@ class Groups_Access_Meta_Boxes {
 	 *
 	 * @param array $post post data
 	 * @param array $attachment attachment field data
+	 *
 	 * @return array
 	 */
 	public static function attachment_fields_to_save( $post, $attachment ) {
@@ -568,6 +570,7 @@ class Groups_Access_Meta_Boxes {
 	 * assumed by default unless a user ID is provided.
 	 *
 	 * @param int $user_id indicates the desired user, otherwise for the current user
+	 *
 	 * @return boolean
 	 */
 	public static function user_can_restrict( $user_id = null ) {
@@ -589,6 +592,7 @@ class Groups_Access_Meta_Boxes {
 	 * If the user can not GROUPS_RESTRICT_ACCESS, an empty array is returned.
 	 *
 	 * @param int $user_id if provided, retrieve results for the user indicated by user ID, otherwise for the current user
+	 *
 	 * @return array of int with the group IDs
 	 */
 	public static function get_user_can_restrict_group_ids( $user_id = null ) {
@@ -612,6 +616,7 @@ class Groups_Access_Meta_Boxes {
 
 	/**
 	 * @deprecated
+	 *
 	 * @return array of valid read capabilities for the current or given user
 	 */
 	public static function get_valid_read_caps_for_user( $user_id = null ) {
