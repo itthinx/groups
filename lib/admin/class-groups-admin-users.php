@@ -154,7 +154,8 @@ class Groups_Admin_Users {
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			// groups select
 			$groups_table = _groups_get_tablename( 'group' );
-			if ( $groups = apply_filters( 'groups_admin_users_restrict_manage_users_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) ) {
+			$groups = apply_filters( 'groups_admin_users_restrict_manage_users_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) );
+			if ( $groups ) {
 				$groups_select = sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
