@@ -214,6 +214,19 @@ div.capability.edit label {
 #groups-extensions-box h3 {
 	margin: 0.62em 0;
 }
+#groups-extensions-box h3::after {
+	content: "\f487";
+	background: transparent;
+	color: #f33;
+	display: inline-block;
+	font: normal 18px dashicons;
+	vertical-align: middle;
+	text-align: center;
+	transform: rotate(21deg);
+	position: relative;
+	top: -4px;
+	left: 4px;
+}
 #groups-extensions-box p {
 	margin: 0.31em 0;
 }
@@ -252,6 +265,19 @@ div.capability.edit label {
 	border-radius: 4px;
 	color: #111;
 	border: 2px solid #7494d1;
+}
+#groups-extensions-support h2::after {
+	content: "\f487";
+	background: transparent;
+	color: #f33;
+	display: inline-block;
+	font: normal 18px dashicons;
+	vertical-align: middle;
+	text-align: center;
+	transform: rotate(21deg);
+	position: relative;
+	top: -4px;
+	left: 4px;
 }
 
 .groups-bulk-container {
