@@ -208,7 +208,7 @@ class Groups_Access_Meta_Boxes {
 		if ( self::user_can_restrict() ) {
 
 			$include     = self::get_user_can_restrict_group_ids();
-			$groups      = Groups_Group::get_groups( apply_filters( 'groups_access_meta_boxes_groups_get_groups_options', array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) ) );
+			$groups      = Groups_Group::get_groups( apply_filters( 'groups_access_meta_boxes_groups_get_groups_options', array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ), $object, $box ) );
 			$groups_read = Groups_Post_Access::get_read_group_ids( $post_id );
 
 			$read_help = sprintf(
