@@ -71,7 +71,18 @@ class Groups_Admin_User_Profile {
 			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 				$output = '<h3>' . _x( 'Groups', 'Groups section heading (add user)', 'groups' ) . '</h3>';
 				$groups_table = _groups_get_tablename( 'group' );
-				if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
+				/**
+				 * Allow to filter the groups.
+				 *
+				 * @since 2.20.0
+				 *
+				 * @param array $groups
+				 * @param string $type form context
+				 *
+				 * @return array
+				 */
+				$groups = apply_filters( 'groups_admin_user_profile_user_new_form_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ), $type );
+				if ( $groups ) {
 					$output .= '<style type="text/css">';
 					$output .= '.groups .selectize-input { font-size: inherit; }';
 					$output .= '</style>';
@@ -112,10 +123,22 @@ class Groups_Admin_User_Profile {
 				if ( isset( $screen->id ) && $screen->id === 'user' ) {
 					if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 						$groups_table = _groups_get_tablename( 'group' );
-						if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table" ) ) {
+						/**
+						 * Allow to filter the groups offered.
+						 *
+						 * @since 2.20.0
+						 *
+						 * @param array $groups
+						 * @param int $user_id
+						 *
+						 * @return array
+						 */
+						$groups = apply_filters( 'groups_admin_user_profile_user_register_groups', $wpdb->get_results( "SELECT * FROM $groups_table" ), $user_id );
+						if ( $groups ) {
 							$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
 							foreach( $groups as $group ) {
 								if ( in_array( $group->group_id, $user_group_ids ) ) {
+									// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 									if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
 										Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group->group_id ) );
 									}
@@ -166,9 +189,19 @@ class Groups_Admin_User_Profile {
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$output = '<h3>' . _x( 'Groups', 'Groups section heading (edit user)', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
-			$user_groups = $user->groups;
 			$groups_table = _groups_get_tablename( 'group' );
-			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
+			/**
+			 * Allow to filter the groups offered.
+			 *
+			 * @since 2.20.0
+			 *
+			 * @param array $groups
+			 * @param int $user_id
+			 *
+			 * @return array
+			 */
+			$groups = apply_filters( 'groups_admin_user_profile_edit_user_profile_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ), $user->get_user()->ID );
+			if ( $groups ) {
 				$output .= '<style type="text/css">';
 				$output .= '.groups .selectize-input { font-size: inherit; }';
 				$output .= '</style>';
@@ -178,6 +211,7 @@ class Groups_Admin_User_Profile {
 					esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 				);
 				foreach( $groups as $group ) {
+					// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
 					$output .= sprintf(
 						'<option value="%d" %s>%s</option>',
@@ -199,6 +233,7 @@ class Groups_Admin_User_Profile {
 	 * for group admins on their own profile page only.
 	 *
 	 * @param int $user_id
+	 *
 	 * @see Groups_Admin_User_Profile::edit_user_profile_update()
 	 */
 	public static function personal_options_update( $user_id ) {
@@ -211,20 +246,24 @@ class Groups_Admin_User_Profile {
 
 	/**
 	 * Updates the group membership.
+	 *
 	 * @param int $user_id
 	 */
 	public static function edit_user_profile_update( $user_id ) {
 		global $wpdb;
 		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$groups_table = _groups_get_tablename( 'group' );
-			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table" ) ) {
+			$groups = apply_filters( 'groups_admin_user_profile_edit_user_profile_update_groups', $wpdb->get_results( "SELECT * FROM $groups_table" ), $user_id );
+			if ( $groups ) {
 				$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
 				foreach( $groups as $group ) {
 					if ( in_array( $group->group_id, $user_group_ids ) ) {
+						// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 						if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
 							Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group->group_id ) );
 						}
 					} else {
+						// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 						if ( Groups_User_Group::read( $user_id, $group->group_id ) ) {
 							Groups_User_Group::delete( $user_id, $group->group_id );
 						}
@@ -236,8 +275,10 @@ class Groups_Admin_User_Profile {
 
 	/**
 	 * usort helper
+	 *
 	 * @param Groups_Group $o1
 	 * @param Groups_Group $o2
+	 *
 	 * @return int strcmp result for group names
 	 */
 	public static function by_group_name( $o1, $o2 ) {

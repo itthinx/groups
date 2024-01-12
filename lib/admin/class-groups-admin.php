@@ -37,6 +37,7 @@ class Groups_Admin {
 
 	/**
 	 * Holds admin messages.
+	 *
 	 * @var string
 	 */
 	private static $messages = array();
@@ -56,6 +57,7 @@ class Groups_Admin {
 
 	/**
 	* Hooks into admin_init.
+	*
 	* @see Groups_Admin::admin_menu()
 	* @see Groups_Admin::admin_print_styles()
 	* @link http://codex.wordpress.org/Function_Reference/wp_enqueue_script#Load_scripts_only_on_plugin_pages
@@ -83,7 +85,7 @@ class Groups_Admin {
 	public static function admin_print_scripts() {
 		global $groups_version;
 		// this one's currently empty
-		//wp_enqueue_script( 'groups_admin', GROUPS_PLUGIN_URL . 'js/groups_admin.js', array( ), $groups_version );
+		// wp_enqueue_script( 'groups_admin', GROUPS_PLUGIN_URL . 'js/groups_admin.js', array( ), $groups_version );
 		Groups_UIE::enqueue( 'select' );
 	}
 
@@ -266,6 +268,8 @@ class Groups_Admin {
 	 *
 	 * @param array $links
 	 * @param array $links with additional links
+	 *
+	 * @return array
 	 */
 	public static function plugin_action_links( $links ) {
 		if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {

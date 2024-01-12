@@ -28,6 +28,11 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Admin_Users {
 
+	/**
+	 * Column key.
+	 *
+	 * @var string
+	 */
 	const GROUPS = 'groups_user_groups';
 
 	/**
@@ -154,7 +159,8 @@ class Groups_Admin_Users {
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			// groups select
 			$groups_table = _groups_get_tablename( 'group' );
-			if ( $groups = $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ) {
+			$groups = apply_filters( 'groups_admin_users_restrict_manage_users_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) );
+			if ( $groups ) {
 				$groups_select = sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
@@ -209,6 +215,8 @@ class Groups_Admin_Users {
 	 * Hooked on filter in class-wp-list-table.php to filter by group.
 	 *
 	 * @param array $views
+	 *
+	 * @return array views
 	 */
 	public static function views_users( $views ) {
 		global $pagenow, $wpdb;
@@ -222,12 +230,14 @@ class Groups_Admin_Users {
 				esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
 			);
 			$user_group_table = _groups_get_tablename( 'user_group' );
-			$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
+			$groups = apply_filters( 'groups_admin_users_views_users_groups', Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) ) );
 			$user_counts = array();
-			$counts = $wpdb->get_results( "SELECT COUNT(user_id) AS count, group_id FROM $user_group_table GROUP BY group_id" );
+			$counts = apply_filters('groups_admin_users_views_users_counts', $wpdb->get_results( "SELECT COUNT(user_id) AS count, group_id FROM $user_group_table GROUP BY group_id" ) );
 			if ( !empty( $counts ) && is_array( $counts ) ) {
 				foreach( $counts as $count ) {
-					$user_counts[$count->group_id] = $count->count;
+					if ( isset( $user_counts[$count->group_id] ) ) {
+						$user_counts[$count->group_id] = $count->count;
+					}
 				}
 			}
 			foreach( $groups as $group ) {
@@ -285,6 +295,7 @@ class Groups_Admin_Users {
 								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
 								if ( $group_ids !== null ) {
 									foreach ( $group_ids as $group_id ) {
+										// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 										if ( !Groups_User_Group::read( $user_id, $group_id ) ) {
 											Groups_User_Group::create(
 												array(
@@ -300,6 +311,7 @@ class Groups_Admin_Users {
 								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null;
 								if ( $group_ids !== null ) {
 									foreach ( $group_ids as $group_id ) {
+										// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 										if ( Groups_User_Group::read( $user_id, $group_id ) ) {
 											Groups_User_Group::delete( $user_id, $group_id );
 										}

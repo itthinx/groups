@@ -37,11 +37,23 @@ class Groups_Admin_Post_Columns {
 
 	/**
 	 * Field name.
+	 *
 	 * @var string
 	 */
 	const GROUPS_READ = 'groups-read';
 
-	const CACHE_GROUP    = 'groups';
+	/**
+	 * Cache group key.
+	 *
+	 * @var string
+	 */
+	const CACHE_GROUP = 'groups';
+
+	/**
+	 * Cache key prefix.
+	 *
+	 * @var string
+	 */
 	const EDIT_TERM_LINK = 'edit-term-link';
 
 	/**
@@ -87,6 +99,7 @@ class Groups_Admin_Post_Columns {
 	 * restriction groups.
 	 *
 	 * @param array $column_headers
+	 *
 	 * @return array column headers
 	 */
 	public static function columns( $column_headers ) {
@@ -188,6 +201,7 @@ class Groups_Admin_Post_Columns {
 	 *
 	 * @param int $term_id
 	 * @param string $taxonomy
+	 *
 	 * @return string or null if edit link could not be retrieved
 	 */
 	private static function get_edit_term_link( $term_id, $taxonomy ) {
@@ -212,7 +226,9 @@ class Groups_Admin_Post_Columns {
 	 *
 	 * @see Groups_Admin_Posts::posts_join()
 	 * @see Groups_Admin_Posts::posts_orderby()
+	 *
 	 * @param array $sortable_columns
+	 *
 	 * @return array
 	 */
 	public static function manage_edit_post_sortable_columns( $sortable_columns ) {

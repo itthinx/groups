@@ -28,8 +28,19 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Capability {
 
-	const CACHE_GROUP           = 'groups';
-	const READ_BY_CAPABILITY    = 'read_by_capability';
+	/**
+	 * @var string cache group
+	 */
+	const CACHE_GROUP = 'groups';
+
+	/**
+	 * @var string key
+	 */
+	const READ_BY_CAPABILITY = 'read_by_capability';
+
+	/**
+	 * @var string key
+	 */
 	const READ_CAPABILITY_BY_ID = 'read_capability_by_id';
 
 	/**
@@ -39,7 +50,9 @@ class Groups_Capability {
 
 	/**
 	 * Create by capability id.
+	 *
 	 * Must have been persisted.
+	 *
 	 * @param int $capability_id
 	 */
 	public function __construct( $capability_id ) {
@@ -60,6 +73,7 @@ class Groups_Capability {
 	 * - group_ids groups that have the capability
 	 *
 	 * @param string $name property's name
+	 *
 	 * @return mixed property value, will return null if property does not exist
 	 */
 	public function __get( $name ) {
@@ -174,6 +188,7 @@ class Groups_Capability {
 	 *
 	 * @see Groups_Capability::read_by_capability()
 	 * @param int $capability_id capability's id
+	 *
 	 * @return object upon success, otherwise false
 	 */
 	public static function read( $capability_id ) {
@@ -201,6 +216,7 @@ class Groups_Capability {
 	 * Retrieve a capability by its unique label.
 	 *
 	 * @param string $capability capability's unique label
+	 *
 	 * @return object upon success, otherwise false
 	 */
 	public static function read_by_capability( $capability ) {

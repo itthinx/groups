@@ -107,6 +107,7 @@ class Groups_Registered {
 		}
 		// add the blog's admin user to the group
 		if ( $group_id ) {
+			// Do NOT use Groups_User::user_is_member( ... ) here as we do not allow the result of this to be filtered:
 			if ( !Groups_User_Group::read( $user_id, $group_id ) ) {
 				Groups_User_Group::create( array( 'user_id' => $user_id, 'group_id' => $group_id ) );
 			}

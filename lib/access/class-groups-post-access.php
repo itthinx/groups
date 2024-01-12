@@ -78,7 +78,22 @@ class Groups_Post_Access {
 	const COUNT_POSTS = 'count-posts';
 
 	/**
+	 * @since 2.20.0
+	 *
+	 * @var \WP_Block block for which to filter
+	 */
+	private static $filter_get_terms_block = null;
+
+	/**
+	 * @since 2.20.0
+	 *
+	 * @var array widget for which to filter
+	 */
+	private static $filter_get_terms_widget = null;
+
+	/**
 	 * Work done on activation, currently does nothing.
+	 *
 	 * @see Groups_Controller::activate()
 	 */
 	public static function activate() {
@@ -102,14 +117,16 @@ class Groups_Post_Access {
 		add_filter( 'the_content', array( __CLASS__, 'the_content' ), 1 );
 		// edit & delete post
 		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
-		// @todo these could be interesting to add later ...
+
+		// These could be interesting to add later ...
 		// add_filter( "plugin_row_meta", array( __CLASS__, "plugin_row_meta" ), 1 );
 		// add_filter( "posts_join_paged", array( __CLASS__, "posts_join_paged" ), 1 );
 		// add_filter( "posts_where_paged", array( __CLASS__, "posts_where_paged" ), 1 );
 
 		add_action( 'groups_deleted_group', array( __CLASS__, 'groups_deleted_group' ) );
 		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 );
-		// @todo enable the filter and implement below if needed to correct attachment counts
+
+		// Enable the filter and implement below if needed to correct attachment counts ...
 		// add_filter( 'wp_count_attachments', array( __CLASS__, 'wp_count_attachments' ), 10, 2 );
 
 		// REST API
@@ -127,6 +144,18 @@ class Groups_Post_Access {
 		add_filter( 'get_next_post_where', array( __CLASS__, 'get_next_post_where' ), 10, 5 );
 		add_action( 'save_post', array( __CLASS__, 'save_post' ), PHP_INT_MAX );
 		add_filter( 'attachment_fields_to_save', array( __CLASS__, 'attachment_fields_to_save' ), PHP_INT_MAX, 2 );
+
+		// @since 2.20.0
+		add_filter( 'render_block', array( __CLASS__, 'render_block' ), 10, 3 );
+		// @since 2.20.0
+		add_filter( 'block_core_navigation_render_inner_blocks', array( __CLASS__, 'block_core_navigation_render_inner_blocks' ) );
+
+		// @since 2.20.0 adds our get_terms filter for Categories blocks:
+		add_filter( 'pre_render_block', array( __CLASS__, 'pre_render_block' ), 10, 3 );
+		// @since 2.20.0 adds our get_terms filter for Categories widgets rendered as list:
+		add_filter( 'widget_categories_args', array( __CLASS__, 'widget_categories_args' ), 10, 2 );
+		// @since 2.20.0 adds our get_terms filter for Categories widgets rendered as dropdown:
+		add_filter( 'widget_categories_dropdown_args', array( __CLASS__, 'widget_categories_dropdown_args' ), 10, 2 );
 	}
 
 	/**
@@ -147,6 +176,7 @@ class Groups_Post_Access {
 	 * @param array $response
 	 * @param WP_Post $post
 	 * @param string $request
+	 *
 	 * @return string[]|number[][]
 	 */
 	public static function rest_prepare_post( $response, $post, $request ) {
@@ -167,6 +197,7 @@ class Groups_Post_Access {
 	 * @param string $cap
 	 * @param int $user_id
 	 * @param array $args
+	 *
 	 * @return array
 	 */
 	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
@@ -356,6 +387,8 @@ class Groups_Post_Access {
 	 * Filter pages by access capability.
 	 *
 	 * @param array $pages
+	 *
+	 * @return array
 	 */
 	public static function get_pages( $pages ) {
 		$result = array();
@@ -377,6 +410,8 @@ class Groups_Post_Access {
 	 *
 	 * @param array $posts list of posts
 	 * @param WP_Query $query
+	 *
+	 * @return array
 	 */
 	public static function the_posts( $posts, &$query ) {
 		$result = array();
@@ -396,11 +431,15 @@ class Groups_Post_Access {
 	/**
 	 * Filter menu items by access capability.
 	 *
-	 * @todo admin section: this won't inhibit the items being offered to be added, although when they're added they won't show up in the menu
+	 * Notes for the admin section:
+	 * 1. With themes that provide sidebars and widgets, protected items are visible and can be chosen to be added to a menu. But once the menu is saved, those items do not appear, providing a somewhat confusing user experience.
+	 * 2. With themes that support full site editing (like Twenty Twenty-Four which gets rid of sidebars and widgets), protected items are not offered to whom is editing a Navigation block. However, protected items that were added by someone who could access them, will be visible.
 	 *
 	 * @param array $items
 	 * @param mixed $menu
 	 * @param array $args
+	 *
+	 * @return array
 	 */
 	public static function wp_get_nav_menu_items( $items = null, $menu = null, $args = null ) {
 		$result = array();
@@ -426,7 +465,8 @@ class Groups_Post_Access {
 	 * Filter excerpt by access capability.
 	 *
 	 * @param string $output
-	 * @return $output if access granted, otherwise ''
+	 *
+	 * @return string $output if access granted, otherwise ''
 	 */
 	public static function get_the_excerpt( $output ) {
 		global $post;
@@ -450,7 +490,8 @@ class Groups_Post_Access {
 	 * Filter content by access capability.
 	 *
 	 * @param string $output
-	 * @return $output if access granted, otherwise ''
+	 *
+	 * @return string $output if access granted, otherwise ''
 	 */
 	public static function the_content( $output ) {
 		global $post;
@@ -563,6 +604,7 @@ class Groups_Post_Access {
 			$post_type = get_post_type( $post_id );
 			if ( self::handles_post_type( $post_type ) ) {
 				self::purge_eligible_post_ids_cached( $post_type );
+				self::purge_count_posts_cached( $post_type );
 			}
 		}
 	}
@@ -666,7 +708,7 @@ class Groups_Post_Access {
 	 * @param int $post_id ID of the post
 	 * @param array $map should provide 'post_id' and 'groups_read'
 	 *
-	 * @return true if the group(s) is required, otherwise false
+	 * @return boolean true if the group(s) is required, otherwise false
 	 */
 	public static function read( $post_id, $map = array() ) {
 		extract( $map );
@@ -698,6 +740,7 @@ class Groups_Post_Access {
 	 * $map must provide 'post_id' (int) indicating the post's ID and 'groups_read' (int|array of int) holding group IDs that restrict read access.
 	 *
 	 * @param array $map
+	 *
 	 * @return array of group ids, false on failure
 	 */
 	public static function update( $map ) {
@@ -733,7 +776,8 @@ class Groups_Post_Access {
 	 *
 	 * @param int $post_id
 	 * @param array $map must provide 'groups_read' holding group IDs to remove from restricting access to the post; if empty, all access restrictions will be removed
-	 * @return true on success, otherwise false
+	 *
+	 * @return boolean true on success, otherwise false
 	 */
 	public static function delete( $post_id, $map = array() ) {
 		extract( $map );
@@ -761,6 +805,7 @@ class Groups_Post_Access {
 	 *
 	 * @deprecated
 	 * @param int $post_id
+	 *
 	 * @return array of string, capabilities
 	 */
 	public static function get_read_post_capabilities( $post_id ) {
@@ -800,6 +845,7 @@ class Groups_Post_Access {
 	 *
 	 * @param int $post_id post id
 	 * @param int $user_id user id or null for current user
+	 *
 	 * @return boolean true if user can read the post
 	 */
 	public static function user_can_read_post( $post_id, $user_id = null ) {
@@ -866,28 +912,39 @@ class Groups_Post_Access {
 	 * independent of the post type, we will come here for any post status, so don't be surprised
 	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
 	 *
+	 * Counts in cache are purged when posts are saved using the purge_count_posts_cached() method.
+	 *
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
+	 *
+	 * @return object
+	 *
+	 * @see Groups_Post_Access::purge_count_posts_cached()
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
-		$user_id = get_current_user_id();
-		$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type . '_' . $user_id, self::CACHE_GROUP );
-		if ( $cached !== null ) {
-			$counts = $cached->value;
-			unset( $cached );
-		} else {
-			if ( self::handles_post_type( $type ) ) {
+		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
+			$sub_group = Groups_Cache::get_group( '' );
+			// @since 2.20.0 cached per post type gathering counts per subgroup
+			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
+			if ( $cached === null ) {
+				$type_counts = array();
+			} else {
+				$type_counts = $cached->value;
+			}
+			if ( isset( $type_counts[$sub_group] ) ) {
+				$counts = $type_counts[$sub_group];
+			} else {
 				foreach( $counts as $post_status => $count ) {
 					$query_args = array(
 						'fields'           => 'ids',
 						'post_type'        => $type,
 						'post_status'      => $post_status,
 						'numberposts'      => -1, // all
-						'suppress_filters' => 0, // don't suppress filters as we need to get restrictions taken into account
+						'suppress_filters' => false, // don't suppress filters as we need to get restrictions taken into account
 						'orderby'          => 'none', // Important! Don't waste time here.
 						'no_found_rows'    => true, // performance, omit unnecessary SQL_CALC_FOUND_ROWS in query here
-						'nopaging'         => true // no paging is needed, in case it would affect performance
+						'nopaging'         => true // no paging is needed, get all corresponding posts
 					);
 					// WooCommerce Orders
 					if ( function_exists( 'wc_get_order_statuses' ) && ( $type == 'shop_order' ) ) {
@@ -911,10 +968,32 @@ class Groups_Post_Access {
 					unset( $posts );
 					$counts->$post_status = $count;
 				}
+				$type_counts[$sub_group] = $counts;
+				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
 			}
-			Groups_Cache::set( self::COUNT_POSTS . '_' . $type . '_' . $user_id, $counts, self::CACHE_GROUP );
 		}
 		return $counts;
+	}
+
+	/**
+	 * Purge the cached post counts for the post type.
+	 *
+	 * @param string $type post type
+	 *
+	 * @since 2.20.0
+	 *
+	 * @see Groups_Post_Access::wp_count_posts()
+	 */
+	private static function purge_count_posts_cached( $type ) {
+		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
+			$hyper_group = Groups_Cache::get_group( '' );
+			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
+			if ( $cached !== null ) {
+				$type_counts = $cached->value;
+				unset( $type_counts[$hyper_group] );
+				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
+			}
+		}
 	}
 
 	/**
@@ -923,6 +1002,8 @@ class Groups_Post_Access {
 	 *
 	 * @param object $counts An object containing the attachment counts by mime type.
 	 * @param string $mime_type The mime type pattern used to filter the attachments counted.
+	 *
+	 * @return object
 	 */
 	public static function wp_count_attachments( $counts, $mime_type ) {
 		return $counts;
@@ -932,6 +1013,7 @@ class Groups_Post_Access {
 	 * Returns true if we are supposed to handle the post type, otherwise false.
 	 *
 	 * @param string $post_type
+	 *
 	 * @return boolean
 	 */
 	public static function handles_post_type( $post_type ) {
@@ -977,6 +1059,291 @@ class Groups_Post_Access {
 			$post_types_option[$post_type]['add_meta_box'] = isset( $post_types[$post_type] ) && $post_types[$post_type];
 		}
 		Groups_Options::update_option( self::POST_TYPES, $post_types_option );
+	}
+
+	/**
+	 * Filter the block content of core/navigation-link and core/navigation-submenu blocks.
+	 *
+	 * This is necessary as these blocks would render their content although the corresponding post is protected.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param string $block_content
+	 * @param array $parsed_block
+	 * @param \WP_Block $block
+	 *
+	 * @return string
+	 */
+	public static function render_block( $block_content, $parsed_block, $block ) {
+		if ( !is_admin() ) {
+			/**
+			 * Whether to process this block.
+			 *
+			 * @param boolean $filter whether to filter the block
+			 * @param string $block_content the block's content
+			 * @param array $parsed_block the parsed block
+			 * @param \WP_Block $block the block
+			 *
+			 * @return boolean whether to filter
+			 */
+			if ( apply_filters( 'groups_post_access_filter_render_block', true, $block_content, $parsed_block, $block ) ) {
+				$is_valid = true;
+				if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+					if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+						$post_id = $block->attributes['id'];
+						if ( !self::user_can_read_post( $post_id ) ) {
+							$is_valid = false;
+						}
+					}
+				}
+				if ( !$is_valid ) {
+					$block_content = '';
+				}
+			}
+		}
+		return $block_content;
+	}
+
+	/**
+	 * Short-circuits render_block() and WP_Block->render().
+	 *
+	 * For core/navigation-link and core/navigation-submenu blocks:
+	 * - This will be overridden for dynamic blocks, so the render_block filter is necessary instead.
+	 *
+	 * For core/categories blocks:
+	 * - We use this hook to add our get_terms filter.
+	 *
+	 * @see Groups_Post_Access::render_block()
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param string|null $pre_render
+	 * @param array $parsed_block
+	 * @param \WP_Block|null $parent_block
+	 *
+	 * @return string|null
+	 */
+	public static function pre_render_block( $pre_render, $parsed_block, $parent_block ) {
+		if ( !is_admin() ) {
+			/**
+			 * Whether to process this block pre rendering.
+			 *
+			 * @param boolean $filter whether to filter
+			 * @param string $pre_render block content
+			 * @param array $parsed_block the parsed block
+			 * @param \WP_Block $parent_block the parent block
+			 *
+			 * @return boolean whether to filter
+			 */
+			if ( apply_filters( 'groups_post_access_filter_pre_render_block', true, $pre_render, $parsed_block, $parent_block ) ) {
+				$block = new \WP_Block( $parsed_block );
+				// $is_valid = true;
+				// if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+				// 	if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+				// 		$post_id = $block->attributes['id'];
+				// 		if ( !self::user_can_read_post( $post_id ) ) {
+				// 			$is_valid = false;
+				// 		}
+				// 	}
+				// }
+				// if ( !$is_valid ) {
+				// 	$pre_render = '';
+				// }
+
+				// Detect a categories block and add our filter to update the counts
+				if ( 'core/categories' === $block->name ) {
+					self::$filter_get_terms_block = $block;
+					add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
+				}
+			}
+		}
+		return $pre_render;
+	}
+
+	/**
+	 * Filter inner navigation blocks.
+	 *
+	 * This will not handle the inner blocks of core/navigation-submenu blocks, so the filter on render_block implemented here in this class is necessary.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param \WP_Block_List $inner_blocks
+	 *
+	 * @return \WP_Block_List
+	 */
+	public static function block_core_navigation_render_inner_blocks( $inner_blocks ) {
+		if ( !is_admin() ) {
+			/**
+			 * Whether to filter the inner blocks.
+			 *
+			 * @param boolean $filter whether to filter
+			 * @param \WP_Block_List $inner_blocks the inner blocks
+			 *
+			 * @return \WP_Block_List the inner blocks
+			 */
+			if ( apply_filters( 'groups_post_access_filter_block_core_navigation_render_inner_blocks', true, $inner_blocks ) ) {
+				$valid_inner_blocks = array();
+				/**
+				 * @var \WP_Block[] $blocks
+				 */
+				$blocks = iterator_to_array( $inner_blocks );
+				foreach ( $blocks as $block ) {
+					$is_valid = true;
+					// @see block_core_navigation_from_block_get_post_ids( $block )
+					if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+						if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] && isset( $block->attributes['id'] ) ) {
+							$post_id = $block->attributes['id'];
+							if ( !self::user_can_read_post( $post_id ) ) {
+								$is_valid = false;
+							}
+						}
+					}
+					if ( $is_valid ) {
+						$valid_inner_blocks[] = $block;
+					}
+				}
+				$inner_blocks = new WP_Block_List( $valid_inner_blocks );
+			}
+		}
+		return $inner_blocks;
+	}
+
+	/**
+	 * Hooks into the filter to activate our get_terms filter.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param array $cat_args
+	 * @param array $instance
+	 *
+	 * @return array
+	 */
+	public static function widget_categories_args( $cat_args, $instance ) {
+		if ( !is_admin() ) {
+			/**
+			 * Whether to filter get_terms.
+			 *
+			 * @param array $cat_args
+			 * @param array $instance
+			 *
+			 * @return array
+			 */
+			if ( apply_filters( 'groups_post_access_filter_widget_categories_args', true, $cat_args, $instance ) ) {
+				self::$filter_get_terms_widget = $instance;
+				add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
+			}
+		}
+	}
+
+	/**
+	 * Hooks into the filter to activate our get_terms filter.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param array $cat_args
+	 * @param array $instance
+	 *
+	 * @return array
+	 */
+	public static function widget_categories_dropdown_args( $cat_args, $instance ) {
+		if ( !is_admin() ) {
+			/**
+			 * Whether to filter get_terms.
+			 *
+			 * @param array $cat_args
+			 * @param array $instance
+			 *
+			 * @return array
+			 */
+			if ( apply_filters( 'groups_post_access_filter_widget_categories_dropdown_args', true, $cat_args, $instance ) ) {
+				self::$filter_get_terms_widget = $instance;
+				add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
+			}
+		}
+	}
+
+	/**
+	 * Filter get_terms to adjust counts.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param array $terms
+	 * @param array|null $taxonomies
+	 * @param array $query_vars
+	 * @param \WP_Term_Query $term_query
+	 *
+	 * @return array
+	 */
+	public static function get_terms( $terms, $taxonomies, $query_vars, $term_query ) {
+
+		// act only once per add_filter we do in the specific cases we cover
+		remove_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10 );
+
+		if ( !is_admin() ) {
+			/**
+			 * Whether to filter get_terms.
+			 *
+			 * @param boolean $filter whether to filter
+			 * @param array $terms
+			 * @param array|null $taxonomies
+			 * @param array $query_vars
+			 * @param \WP_Term_Query $term_query
+			 *
+			 * @return array
+			 */
+			if ( apply_filters( 'groups_post_access_filter_get_terms', true, $terms, $taxonomies, $query_vars, $term_query ) ) {
+				foreach ( $terms as $term ) {
+					$query_args = array(
+						'cat'              => $term->term_id, // this category term
+						'fields'           => 'ids',
+						'post_type'        => 'post',
+						'post_status'      => 'publish',
+						'numberposts'      => -1, // all
+						'suppress_filters' => false, // apply restrictions
+						'orderby'          => 'none', // performance
+						'no_found_rows'    => true, // performance
+						'nopaging'         => true // all
+					);
+					$post_ids = get_posts( $query_args );
+					$term->count = count( $post_ids );
+				}
+				_pad_term_counts( $terms, $taxonomies[0] );
+				$remove_empty = false;
+				if ( self::$filter_get_terms_block !== null ) {
+					if (
+						is_object( self::$filter_get_terms_block ) &&
+						// will mislead returning false because of dynamic properties : property_exists( self::$filter_get_terms_block, 'attributes' ) &&
+						is_array( self::$filter_get_terms_block->attributes ) &&
+						array_key_exists( 'showEmpty', self::$filter_get_terms_block->attributes ) &&
+						!self::$filter_get_terms_block->attributes['showEmpty']
+					) {
+						$remove_empty = true;
+					}
+				}
+				if ( self::$filter_get_terms_widget !== null ) {
+					// There is no option to hide empty categories for the widget, so we always remove them.
+					// Otherwise the condition would be like ...
+					// if ( is_array( self::$filter_get_terms_widget ) && array_key_exists( 'show_empty', self::$filter_get_terms_widget ) && !self::$filter_get_terms_widget['show_empty'] )
+					// There seems to be a bug in WP_Widget_Categories with showing the counts. Even though the "Show post counts" option was checked, the post counts are not shown. Tested with WP 6.4.2 and Classic Widgets 0.3.
+					$remove_empty = true;
+				}
+				if ( $remove_empty ) {
+					$_terms = array();
+					foreach ( $terms as $term ) {
+						if ( $term->count > 0 ) {
+							$_terms[] = $term;
+						}
+					}
+					$terms = $_terms;
+				}
+			}
+		}
+
+		// void context
+		self::$filter_get_terms_block = null;
+		self::$filter_get_terms_widget = null;
+
+		return $terms;
 	}
 }
 Groups_Post_Access::init();

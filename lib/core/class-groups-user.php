@@ -44,6 +44,8 @@ class Groups_User implements I_Capable {
 	/**
 	 * User object.
 	 *
+	 * @private Use $this->get_user() instead as this property will be made private in a future release of Groups
+	 *
 	 * @var WP_User
 	 */
 	var $user = null;
@@ -65,6 +67,7 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * Clear cache objects for the user.
+	 *
 	 * @param int $user_id
 	 */
 	public static function clear_cache( $user_id ) {
@@ -81,6 +84,7 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * Clear cache objects for all users in the group.
+	 *
 	 * @param int $group_id
 	 */
 	public static function clear_cache_for_group( $group_id ) {
@@ -98,6 +102,31 @@ class Groups_User implements I_Capable {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Convenience method equivalent to $this->is_member( $group_id ) without having to instantiate a Groups_User object outside first.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param int|\WP_User $user user ID or user object
+	 * @param int $group_id group ID
+	 *
+	 * @return boolean
+	 */
+	public static function user_is_member( $user, $group_id ) {
+		$is_member = false;
+		$user_id = null;
+		if ( is_numeric( $user ) ) {
+			$user_id = max( 0, intval( $user ) );
+		} else if ( $user instanceof \WP_User ) {
+			$user_id = $user->ID;
+		}
+		if ( $user_id !== null ) {
+			$groups_user = new Groups_User( $user_id );
+			$is_member = $groups_user->is_member( $group_id );
+		}
+		return $is_member;
 	}
 
 	/**
@@ -119,8 +148,19 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
+	 * Provide the related WP_User object.
+	 *
+	 * @return WP_User
+	 */
+	public function get_user() {
+		return $this->user;
+	}
+
+	/**
 	 * Retrieve a user property.
+	 *
 	 * Must be "capabilities", "groups" or a property of the WP_User class.
+	 *
 	 * @param string $name property's name
 	 */
 	public function __get( $name ) {
@@ -277,12 +317,10 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
-	 * (non-PHPdoc)
 	 * @see I_Capable::can()
 	 */
 	public function can( $capability ) {
 
-		global $wpdb;
 		$result = false;
 
 		if ( $this->user !== null ) {
@@ -321,6 +359,7 @@ class Groups_User implements I_Capable {
 	 * Returns true if the user belongs to the group.
 	 *
 	 * @param int $group_id
+	 *
 	 * @return boolean
 	 */
 	public function is_member( $group_id ) {
@@ -334,6 +373,21 @@ class Groups_User implements I_Capable {
 				$result = $user_group !== false;
 				unset( $user_group );
 			}
+		}
+		/**
+		 * Allow to modify the result of whether the user belongs to a given group.
+		 *
+		 * @since 2.20.0
+		 *
+		 * @param $result boolean whether the user belongs to the group
+		 * @param $this \Groups_User the Groups user object
+		 * @param int $group_id the group ID
+		 *
+		 * @return boolean $filtered_result
+		 */
+		$filtered_result = apply_filters( 'groups_user_is_member', $result, $this, $group_id );
+		if ( is_bool( $result ) ) {
+			$result = $filtered_result;
 		}
 		return $result;
 	}

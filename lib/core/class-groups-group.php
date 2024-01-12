@@ -30,9 +30,20 @@ require_once GROUPS_CORE_LIB . '/interface-i-capable.php';
  */
 class Groups_Group implements I_Capable {
 
-	const CACHE_GROUP      = 'groups';
+	/**
+	 * @var string cache group
+	 */
+	const CACHE_GROUP = 'groups';
+
+	/**
+	 * @var string key
+	 */
 	const READ_GROUP_BY_ID = 'read_group_by_id';
-	const READ_BY_NAME     = 'read_by_name';
+
+	/**
+	 * @var string key
+	 */
+	const READ_BY_NAME = 'read_by_name';
 
 	/**
 	 * @var Object Persisted group.
@@ -41,7 +52,9 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * Create by group id.
+	 *
 	 * Must have been persisted.
+	 *
 	 * @param int $group_id
 	 */
 	public function __construct( $group_id ) {
@@ -62,6 +75,7 @@ class Groups_Group implements I_Capable {
 	 * - users, returns an array of Groups_User
 	 *
 	 * @param string $name property's name
+	 *
 	 * @return mixed property value, will return null if property does not exist
 	 */
 	public function __get( $name ) {
@@ -169,7 +183,6 @@ class Groups_Group implements I_Capable {
 	}
 
 	/**
-	 * (non-PHPdoc)
 	 * @see I_Capable::can()
 	 */
 	public function can( $capability ) {

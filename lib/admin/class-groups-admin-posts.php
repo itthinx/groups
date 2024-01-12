@@ -159,7 +159,15 @@ class Groups_Admin_Posts {
 						esc_attr( __( '(any)', 'groups' ) )
 					);
 
-					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) );
+					$groups = apply_filters( 
+						'groups_admin_posts_restrict_manage_posts_get_groups', 
+						Groups_Group::get_groups( 
+							apply_filters( 
+								'groups_admin_posts_restrict_manage_posts_get_groups_options', 
+								array( 'order_by' => 'name', 'order' => 'ASC' ) 
+							) 
+						) 
+					);
 					foreach( $groups as $group ) {
 						$selected = in_array( $group->group_id, $previous_selected ) ? ' selected="selected" ' : '';
 						$output .= sprintf(

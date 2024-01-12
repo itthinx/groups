@@ -47,6 +47,7 @@ class Groups_User_Capability {
 	 * Persist a user-capability relation.
 	 *
 	 * @param array $map attributes - must provide user_id and capability_id
+	 *
 	 * @return true on success, otherwise false
 	 */
 	public static function create( $map ) {
@@ -56,7 +57,6 @@ class Groups_User_Capability {
 		$result = false;
 
 		// avoid nonsense requests
-//		if ( !empty( $user_id ) && !empty( $capability_id) ) {
 		if ( !empty( $capability_id) ) {
 			// make sure user and capability exist
 			if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Capability::read( $capability_id ) ) {
@@ -89,6 +89,7 @@ class Groups_User_Capability {
 	 *
 	 * @param int $user_id user's id
 	 * @param int $capability_id capability's id
+	 *
 	 * @return object upon success, otherwise false
 	 */
 	public static function read( $user_id, $capability_id ) {
@@ -110,19 +111,24 @@ class Groups_User_Capability {
 	/**
 	 * Update user-capability relation.
 	 *
-	 * This changes nothing so as of now it's pointless to even call this.
+	 * As the relation has no properties that could be updated, this method does nothing and will return false.
 	 *
 	 * @param array $map
+	 *
 	 * @return true if successful, false otherwise
 	 */
 	public static function update( $map ) {
 		$result = false;
-//		if ( !empty( $user_id ) && !empty( $capability_id) ) {
-		if ( !empty( $capability_id) ) {
-			// make sure user and capability exist
-			if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Capability::read( $capability_id ) ) {
-				$result = true;
-				do_action( 'groups_updated_user_capability', $user_id, $capability_id );
+		// @since 2.20.0 do not process
+		if ( false ) {
+			$capability_id = isset( $map['capability_id'] ) ? $map['capability_id'] : null;
+			$user_id = isset( $map['user_id'] ) ? $map['user_id'] : null;
+			if ( $capability_id !== null && $user_id !== null ) {
+				// make sure user and capability exist
+				if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Capability::read( $capability_id ) ) {
+					$result = true;
+					do_action( 'groups_updated_user_capability', $user_id, $capability_id );
+				}
 			}
 		}
 		return $result;
@@ -133,6 +139,7 @@ class Groups_User_Capability {
 	 *
 	 * @param int $user_id
 	 * @param int $capability_id
+	 *
 	 * @return true if successful, false otherwise
 	 */
 	public static function delete( $user_id, $capability_id ) {
@@ -141,8 +148,7 @@ class Groups_User_Capability {
 		$result = false;
 
 		// avoid nonsense requests
-//		if ( !empty( $user_id ) && !empty( $capability_id) ) {
-		if ( !empty( $capability_id) ) {
+		if ( !empty( $capability_id ) ) {
 			// to allow deletion of an entry after a user has been deleted,
 			// we don't check if the user exists
 			$user_capability_table = _groups_get_tablename( 'user_capability' );
@@ -187,6 +193,7 @@ class Groups_User_Capability {
 	/**
 	 * Hooks into groups_deleted_capability to resolve all existing relations
 	 * between users and the deleted capability.
+	 *
 	 * @param int $capability_id
 	 */
 	public static function groups_deleted_capability( $capability_id ) {

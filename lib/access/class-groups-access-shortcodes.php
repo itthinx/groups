@@ -45,10 +45,13 @@ class Groups_Access_Shortcodes {
 	/**
 	 * Takes one attribute "group" which is a comma-separated list of group
 	 * names or ids (can be mixed).
+	 *
 	 * The content is shown if the current user belongs to the group(s).
 	 *
 	 * @param array $atts attributes
 	 * @param string $content content to render
+	 *
+	 * @param string
 	 */
 	public static function groups_member( $atts, $content = null ) {
 		$output = '';
@@ -64,7 +67,7 @@ class Groups_Access_Shortcodes {
 					$current_group = Groups_Group::read_by_name( $group );
 				}
 				if ( $current_group ) {
-					if ( Groups_User_Group::read( $groups_user->user->ID , $current_group->group_id ) ) {
+					if ( $groups_user->is_member( $current_group->group_id ) ) {
 						$show_content = true;
 						break;
 					}
@@ -83,10 +86,13 @@ class Groups_Access_Shortcodes {
 	/**
 	 * Takes one attribute "group" which is a comma-separated list of group
 	 * names or ids (can be mixed).
+	 *
 	 * The content is shown if the current user does NOT belong to the group(s).
 	 *
 	 * @param array $atts attributes
 	 * @param string $content content to render
+	 *
+	 * @return string
 	 */
 	public static function groups_non_member( $atts, $content = null ) {
 		$output = '';
@@ -102,7 +108,7 @@ class Groups_Access_Shortcodes {
 					$current_group = Groups_Group::read_by_name( $group );
 				}
 				if ( $current_group ) {
-					if ( Groups_User_Group::read( $groups_user->user->ID , $current_group->group_id ) ) {
+					if ( $groups_user->is_member( $current_group->group_id ) ) {
 						$show_content = false;
 						break;
 					}
@@ -121,10 +127,13 @@ class Groups_Access_Shortcodes {
 	/**
 	 * Takes one attribute "capability" that must be a valid capability label
 	 * or a list of capabilities separated by comma.
+	 *
 	 * The content is shown if the current user has one of the capabilities.
 	 *
 	 * @param array $atts attributes
 	 * @param string $content content to render
+	 *
+	 * @return string
 	 */
 	public static function groups_can( $atts, $content = null ) {
 		$output = '';
@@ -152,11 +161,14 @@ class Groups_Access_Shortcodes {
 
 	/**
 	 * Takes one attribute "capability" that must be a valid capability label,
-	 * or a comma-separaed list of those.
+	 * or a comma-separated list of those.
+	 *
 	 * The content is shown if the current user has none of the capabilities.
 	 *
 	 * @param array $atts attributes
 	 * @param string $content content to render
+	 *
+	 * @return string
 	 */
 	public static function groups_can_not( $atts, $content = null ) {
 		$output = '';

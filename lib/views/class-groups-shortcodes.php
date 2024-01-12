@@ -57,6 +57,7 @@ class Groups_Shortcodes {
 	 *
 	 * @param array $atts
 	 * @param string $content
+	 *
 	 * @return string the rendered form or empty
 	 */
 	public static function groups_login( $atts, $content = null ) {
@@ -102,6 +103,7 @@ class Groups_Shortcodes {
 	 *
 	 * @param array $atts
 	 * @param string $content not used
+	 *
 	 * @return string logout link, is empty if not logged in
 	 */
 	public static function groups_logout( $atts, $content = null ) {
@@ -263,7 +265,7 @@ class Groups_Shortcodes {
 							$current_group = Groups_Group::read_by_name( $group );
 						}
 						if ( $current_group ) {
-							if ( Groups_User_Group::read( $user_id, $current_group->group_id ) ) {
+							if ( Groups_User::user_is_member( $user_id, $current_group->group_id ) ) {
 								$groups[] = $current_group;
 							}
 						}
@@ -347,6 +349,7 @@ class Groups_Shortcodes {
 	 *
 	 * @param Groups_Group $a
 	 * @param Groups_Group $b
+	 *
 	 * @return int
 	 */
 	public static function sort_id( $a, $b ) {
@@ -358,6 +361,7 @@ class Groups_Shortcodes {
 	 *
 	 * @param Groups_Group $a
 	 * @param Groups_Group $b
+	 *
 	 * @return int
 	 */
 	public static function sort_name( $a, $b ) {
@@ -458,6 +462,8 @@ class Groups_Shortcodes {
 	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
+	 *
+	 * @return string
 	 */
 	public static function groups_join( $atts, $content = null ) {
 		$nonce_action = 'groups_action';
@@ -509,7 +515,7 @@ class Groups_Shortcodes {
 						);
 					}
 				}
-				if ( !Groups_User_Group::read( $user_id, $current_group->group_id ) ) {
+				if ( !Groups_User::user_is_member( $user_id, $current_group->group_id ) ) {
 					$submit_text = sprintf( $options['submit_text'], wp_filter_nohtml_kses( $current_group->name ) );
 					$output .= '<div class="groups-join">';
 					$output .= '<form action="#" method="post">';
@@ -543,6 +549,8 @@ class Groups_Shortcodes {
 	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
+	 *
+	 * @return string
 	 */
 	public static function groups_leave( $atts, $content = null ) {
 		$nonce_action = 'groups_action';
@@ -585,7 +593,7 @@ class Groups_Shortcodes {
 						Groups_User_Group::delete( $user_id, $leave_group->group_id );
 					}
 				}
-				if ( Groups_User_Group::read( $user_id, $current_group->group_id ) ) {
+				if ( Groups_User::user_is_member( $user_id, $current_group->group_id ) ) {
 					$submit_text = sprintf( $options['submit_text'], wp_filter_nohtml_kses( $current_group->name ) );
 					$output .= '<div class="groups-join">';
 					$output .= '<form action="#" method="post">';

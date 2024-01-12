@@ -28,16 +28,26 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 class Groups_Comment_Access {
 
+	/**
+	 * @var string cache group key
+	 */
 	const CACHE_GROUP = 'groups';
+
+	/**
+	 * @var string comment counts key
+	 */
 	const COMMENT_COUNTS = 'comment_counts';
 
+	/**
+	 * Adds filters.
+	 */
 	public static function init() {
 		add_filter( 'comments_array', array( __CLASS__, 'comments_array' ), 10, 2 );
 		add_filter( 'comment_feed_where', array( __CLASS__, 'comment_feed_where' ), 10, 2 );
 		add_filter( 'comments_clauses', array( __CLASS__, 'comments_clauses' ), 10, 2 );
 		// the comments_clauses filter is used in WP_Comment_Query::get_comment_ids() before the
 		// comments are filtered with the_comments in WP_Comment_Query::get_comments() so we don't need to do this again
-		//add_filter( 'the_comments', array( __CLASS__, 'the_comments' ), 10, 2 );
+		// add_filter( 'the_comments', array( __CLASS__, 'the_comments' ), 10, 2 );
 		add_filter( 'wp_count_comments', array( __CLASS__, 'wp_count_comments' ), 999, 2 ); // see wp-includes/comment.php function wp_count_comments(...)
 		add_filter( 'get_comments_number', array( __CLASS__, 'get_comments_number' ), 10, 2 );
 	}
@@ -47,6 +57,8 @@ class Groups_Comment_Access {
 	 *
 	 * @param array $comments
 	 * @param int $post_id
+	 *
+	 * @return array
 	 */
 	public static function comments_array( $comments, $post_id ) {
 
@@ -67,6 +79,7 @@ class Groups_Comment_Access {
 	 *
 	 * @param array $comments
 	 * @param WP_Comment_Query $comment_query
+	 *
 	 * @return array
 	 */
 	public static function the_comments( $comments, $comment_query ) {
@@ -92,6 +105,7 @@ class Groups_Comment_Access {
 	 *
 	 * @param string $where
 	 * @param WP_Query $query
+	 *
 	 * @return string
 	 */
 	public static function comment_feed_where( $where, $query ) {
@@ -205,6 +219,7 @@ class Groups_Comment_Access {
 	 *
 	 * @param array $count
 	 * @param int $post_id
+	 *
 	 * @return object comment counts as properties of the object
 	 */
 	public static function wp_count_comments( $count, $post_id ) {
@@ -238,6 +253,7 @@ class Groups_Comment_Access {
 	 *
 	 * @param int $count
 	 * @param int $post_id
+	 *
 	 * @return int number of comments (0 if there are none or the user can't read the post)
 	 */
 	public static function get_comments_number( $count, $post_id ) {
@@ -252,6 +268,7 @@ class Groups_Comment_Access {
 	 * Adapated from get_comment_count() to user our filter.
 	 *
 	 * @param number $post_id
+	 *
 	 * @return object comment counts as properties of the returned object
 	 */
 	private static function get_comment_count( $post_id = 0 ) {
@@ -315,7 +332,7 @@ class Groups_Comment_Access {
 			}
 		}
 		$comment_count['moderated'] = $comment_count['awaiting_moderation'];
-		//unset( $stats['awaiting_moderation'] );
+		// unset( $stats['awaiting_moderation'] );
 		return (object) $comment_count;
 	}
 }

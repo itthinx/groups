@@ -5,7 +5,7 @@ Tags: groups, access, access control, membership, memberships, member, members, 
 Requires at least: 6.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 2.19.0
+Stable tag: 2.20.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -186,9 +186,9 @@ Go to *Groups > Options* and enable the option under *User profiles*.
 
 The Groups plugin provides an extensive framework to handle memberships, group-based capabilities and access control.
 
-The API documentation is available here: [Groups API](http://api.itthinx.com/groups).
+The API documentation page is available at [API](https://docs.itthinx.com/document/groups/api/).
 
-Also refer to the official [Groups Plugin](https://www.itthinx.com/plugins/groups/) page to post your questions and the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
+Also refer to the official [Groups Plugin](https://www.itthinx.com/plugins/groups/) page to post your questions and the [Documentation](https://docs.itthinx.com/document/groups/) pages for Groups.
 
 == Screenshots ==
 
