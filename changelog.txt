@@ -31,8 +31,6 @@
 * Added the filter groups_admin_users_views_users_groups.
 * Added the filter groups_admin_users_views_users_counts.
 
-
-
 = 2.19.0 =
 * WordPress 6.4 compatible.
 * Requires at least WordPress 6.0.
