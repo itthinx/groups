@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 2.20.1 =
+* WordPress 6.4 compatible.
+
 = 2.20.0 =
 * WordPress 6.4 compatible.
 * Added compatibility plugin header fields.
