@@ -235,8 +235,8 @@ class Groups_Admin_Users {
 			$counts = apply_filters('groups_admin_users_views_users_counts', $wpdb->get_results( "SELECT COUNT(user_id) AS count, group_id FROM $user_group_table GROUP BY group_id" ) );
 			if ( !empty( $counts ) && is_array( $counts ) ) {
 				foreach( $counts as $count ) {
-					if ( isset( $user_counts[$count->group_id] ) ) {
-						$user_counts[$count->group_id] = $count->count;
+					if ( isset( $count->count ) && is_numeric( $count->count ) ) {
+						$user_counts[$count->group_id] = max( 0, intval( $count->count ) );
 					}
 				}
 			}
