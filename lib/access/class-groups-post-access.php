@@ -103,6 +103,7 @@ class Groups_Post_Access {
 	 * Sets up filters to restrict access.
 	 */
 	public static function init() {
+		require_once ABSPATH . 'wp-includes/pluggable.php';
 		// post access
 		add_filter( 'posts_where', array( __CLASS__, 'posts_where' ), 10, 2 );
 		add_filter( 'get_pages', array( __CLASS__, 'get_pages' ), 1 );
