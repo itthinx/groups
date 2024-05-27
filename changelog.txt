@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 3.0.0 =
+* WordPress 6.5 compatible.
+
 = 2.20.1 =
 * WordPress 6.4 compatible.
 * Fixes user counts per group all showing zero on the Users admin screen for the group filter.
