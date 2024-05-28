@@ -34,7 +34,7 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$output = '';
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
@@ -183,7 +183,7 @@ function groups_admin_groups_edit_submit() {
 
 	global $wpdb;
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 

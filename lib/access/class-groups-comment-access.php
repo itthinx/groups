@@ -118,7 +118,7 @@ class Groups_Comment_Access {
 			return $where;
 		}
 
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			return $where;
 		}
 
@@ -144,7 +144,7 @@ class Groups_Comment_Access {
 			return $pieces;
 		}
 
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			return $pieces;
 		}
 
@@ -232,7 +232,7 @@ class Groups_Comment_Access {
 			return $count;
 		}
 
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			return $count;
 		}
 

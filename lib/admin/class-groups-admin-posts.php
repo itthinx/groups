@@ -51,7 +51,7 @@ class Groups_Admin_Posts {
 	 * capability.
 	 */
 	public static function admin_init() {
-		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
 			add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
 			add_action( 'restrict_manage_posts', array( __CLASS__, 'restrict_manage_posts' ) );

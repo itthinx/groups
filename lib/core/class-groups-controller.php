@@ -143,7 +143,7 @@ class Groups_Controller {
 
 		// load the notice class
 		if ( is_admin() ) {
-			if ( current_user_can( 'activate_plugins' ) ) { // important: after init hook
+			if ( Groups_User::current_user_can( 'activate_plugins' ) ) { // important: after init hook
 				require_once GROUPS_ADMIN_LIB . '/class-groups-admin-notice.php';
 			}
 		}

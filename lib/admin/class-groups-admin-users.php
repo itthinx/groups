@@ -47,13 +47,13 @@ class Groups_Admin_Users {
 	 * Adds the filters and actions only for users who have the right Groups permissions.
 	 */
 	public static function setup() {
-		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			// filters to display the user's groups
 			add_filter( 'manage_users_columns', array( __CLASS__, 'manage_users_columns' ) );
 			// args: unknown, string $column_name, int $user_id
 			add_filter( 'manage_users_custom_column', array( __CLASS__, 'manage_users_custom_column' ), 10, 3 );
 		}
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			if ( !is_network_admin() ) {
 				// scripts
 				add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
@@ -277,7 +277,7 @@ class Groups_Admin_Users {
 	 * Adds or removes users to/from groups.
 	 */
 	public static function load_users() {
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$users = isset( $_REQUEST['users'] ) ? $_REQUEST['users'] : null;
 			$action = null;
 			if ( !empty( $_REQUEST['groups'] ) ) {

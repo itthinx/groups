@@ -69,7 +69,7 @@ class Groups_Admin_Post_Columns {
 	 * restrictions enabled.
 	 */
 	public static function admin_init() {
-		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			$post_types = get_post_types( array( 'public' => true ) );
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			foreach ( $post_types as $post_type ) {

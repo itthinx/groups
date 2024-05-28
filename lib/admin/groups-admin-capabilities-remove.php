@@ -30,7 +30,7 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 function groups_admin_capabilities_remove( $capability_id ) {
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
@@ -77,7 +77,7 @@ function groups_admin_capabilities_remove_submit() {
 
 	$result = false;
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
@@ -102,7 +102,7 @@ function groups_admin_capabilities_bulk_remove() {
 
 	$output = '';
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
@@ -166,7 +166,7 @@ function groups_admin_capabilities_bulk_remove_submit() {
 
 	$result = array();
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 

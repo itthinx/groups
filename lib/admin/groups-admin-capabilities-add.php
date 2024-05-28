@@ -28,7 +28,7 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 function groups_admin_capabilities_add() {
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
@@ -85,7 +85,7 @@ function groups_admin_capabilities_add() {
  */
 function groups_admin_capabilities_add_submit() {
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 

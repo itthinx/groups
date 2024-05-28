@@ -381,7 +381,7 @@ if ( defined( 'ABSPATH' ) ) {
 		$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins', array() );
 	}
 	if ( in_array( 'groups/groups.php', $active_plugins ) || key_exists( 'groups/groups.php', $active_sitewide_plugins ) ) {
-		if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			wp_die( __( 'Access denied.', 'groups' ) );
 		} else {
 			$run = isset( $_POST['run'] ) ? $_POST['run'] : null;

@@ -64,7 +64,7 @@ class Groups_Admin_Welcome {
 	public static function admin_init() {
 		global $groups_version;
 		if (
-			current_user_can( GROUPS_ACCESS_GROUPS ) &&
+			Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) &&
 			isset( $_GET['groups-welcome-dismiss'] ) &&
 			isset( $_GET['_groups_welcome_nonce'] )
 		) {
@@ -84,7 +84,7 @@ class Groups_Admin_Welcome {
 					( empty( $_GET['page'] ) || $_GET['page'] !== 'groups-welcome' ) &&
 					!is_network_admin() &&
 					!isset( $_GET['activate-multi'] ) &&
-					current_user_can( GROUPS_ACCESS_GROUPS ) &&
+					Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) &&
 					apply_filters( 'groups_welcome_show', true )
 				) {
 					wp_safe_redirect( admin_url( 'index.php?page=groups-welcome' ) );

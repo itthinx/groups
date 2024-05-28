@@ -261,7 +261,7 @@ class Groups_Post_Access {
 			}
 
 			// Groups admins see everything
-			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 				return $where;
 			}
 
@@ -865,7 +865,7 @@ class Groups_Post_Access {
 				unset( $cached );
 			} else {
 				// admin override and Groups admins see everything
-				if ( _groups_admin_override() || current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+				if ( _groups_admin_override() || Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 					$result = true;
 				} else {
 					// can read if post type is not handled

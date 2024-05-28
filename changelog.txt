@@ -2,6 +2,8 @@
 
 = 3.0.0 =
 * WordPress 6.5 compatible.
+* Fixed error that could occur in certain processing flows when wp_get_current_user() is not yet defined.
+* Introduces own current user capability check class methods in Groups_User class for coherency.
 
 = 2.20.1 =
 * WordPress 6.4 compatible.

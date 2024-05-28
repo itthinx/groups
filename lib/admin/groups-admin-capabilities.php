@@ -44,7 +44,7 @@ function groups_admin_capabilities() {
 	$output = '';
 	$today = date( 'Y-m-d', time() );
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 

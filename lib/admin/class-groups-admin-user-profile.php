@@ -68,7 +68,7 @@ class Groups_Admin_User_Profile {
 	public static function user_new_form( $type = null ) {
 		global $wpdb;
 		if ( $type == 'add-new-user' ) {
-			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 				$output = '<h3>' . _x( 'Groups', 'Groups section heading (add user)', 'groups' ) . '</h3>';
 				$groups_table = _groups_get_tablename( 'group' );
 				/**
@@ -121,7 +121,7 @@ class Groups_Admin_User_Profile {
 			if ( function_exists( 'get_current_screen' ) ) {
 				$screen = get_current_screen();
 				if ( isset( $screen->id ) && $screen->id === 'user' ) {
-					if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+					if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 						$groups_table = _groups_get_tablename( 'group' );
 						/**
 						 * Allow to filter the groups offered.
@@ -157,7 +157,7 @@ class Groups_Admin_User_Profile {
 	 * @param WP_User $user
 	 */
 	public static function show_user_profile( $user ) {
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			self::edit_user_profile( $user );
 		} else {
 			$output = '<h3>' . _x( 'Groups', 'Groups section heading (user profile)', 'groups' ) . '</h3>';
@@ -186,7 +186,7 @@ class Groups_Admin_User_Profile {
 	 */
 	public static function edit_user_profile( $user ) {
 		global $wpdb;
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$output = '<h3>' . _x( 'Groups', 'Groups section heading (edit user)', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$groups_table = _groups_get_tablename( 'group' );
@@ -239,7 +239,7 @@ class Groups_Admin_User_Profile {
 	public static function personal_options_update( $user_id ) {
 		// We're using the same method as for editing another user's profile,
 		// but let's check for group admin here as well.
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			self::edit_user_profile_update( $user_id );
 		}
 	}
@@ -251,7 +251,7 @@ class Groups_Admin_User_Profile {
 	 */
 	public static function edit_user_profile_update( $user_id ) {
 		global $wpdb;
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$groups_table = _groups_get_tablename( 'group' );
 			$groups = apply_filters( 'groups_admin_user_profile_edit_user_profile_update_groups', $wpdb->get_results( "SELECT * FROM $groups_table" ), $user_id );
 			if ( $groups ) {

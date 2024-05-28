@@ -40,7 +40,7 @@ function groups_admin_options() {
 
 	global $wpdb, $wp_roles;
 
-	if ( !current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 
@@ -347,7 +347,7 @@ function groups_admin_options() {
  */
 function groups_network_admin_options() {
 
-	if ( !current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 		wp_die( __( 'Access denied.', 'groups' ) );
 	}
 

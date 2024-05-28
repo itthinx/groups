@@ -130,6 +130,74 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
+	 * Whether the current user has the capability.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $capability capability name
+	 * @param mixed ...$args optional parameters, typically an object ID
+	 *
+	 * @return boolean
+	 */
+	public static function current_user_can( $capability, ...$args ) {
+		//
+		// The global $current_user is determined in the privately scoped function _wp_get_current_user() defined in wp-includes/user.php.
+		// The only call to that function is made in wp_get_current_user(), defined in wp-includes/pluggable.php.
+		//
+		// A call to current_user_can() defined in wp-includes/capabilities.php which is using wp_get_current_user()
+		// which is defined in wp-includes/pluggable.php. The latter is simply wrapping a call to _wp_get_current_user().
+		// The wp-includes/pluggable.php is loaded after all plugins have been loaded in a loop in wp-settings.php, whereas
+		// wp-includes/user.php is loaded before. So if a plugin makes use of current_user_can() during the loop in wp-settings.php
+		// which loads all plugins, the function wp_get_current_user() is not yet defined and a call to current_user_can() ends
+		// up creating an error. The function wp_get_current_user() can be defined by a plugin in which case the native
+		// WordPress version is not used. Thus we should not simply load wp-includes/pluggable.php in the "plugin-loading-loop"
+		// as that would void the ability of overriding the wp_get_current_user() function via a plugin as the standard is loaded
+		// before that loop ends loading all plugins.
+		//
+		// So if wp_get_current_user() is not yet defined, the global $current_user is not yet determined.
+		// Because of that, a call to current_user_can() should assume the logged out or anonymous user.
+		// This is the correct way to handle the situation when wp_get_current_user() is not defined yet,
+		// and we SHOULD NOT load wp-includes/pluggable.php.
+		//
+		$user = 0;
+		if ( function_exists( 'wp_get_current_user' ) ) {
+			$user = wp_get_current_user();
+		}
+		return self::user_can( $user, $capability, ...$args );
+	}
+
+	/**
+	 * Whether the given user has the capability.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int|WP_User $user user ID or object
+	 * @param string $capability capability name
+	 * @param mixed ...$args optional parameters, typically an object ID
+	 *
+	 * @return boolean
+	 */
+	public static function user_can( $user, $capability, ...$args ) {
+		// If $user is not an object, user_can() will call get_userdata() which is defined in wp-includes/pluggable.php.
+		if ( function_exists( 'get_userdata' ) ) {
+			return user_can( $user, $capability, ...$args );
+		}
+		// So we will have just the same problem as with current_user_can() unless we avoid getting functions involved which are not yet defined.
+		// user_can() calls $user->has_cap() to produce the result, same here:
+		if ( !( $user instanceof WP_User ) ) {
+			$user = intval( $user );
+			$user = new WP_User( $user );
+			if ( $user === 0 ) {
+				$user->init( new stdClass() );
+			}
+		}
+		if ( $user instanceof WP_User ) {
+			return $user->has_cap( $capability, ...$args );
+		}
+		return false;
+	}
+
+	/**
 	 * Create, if $user_id = 0 an anonymous user is assumed.
 	 *
 	 * @param int $user_id
