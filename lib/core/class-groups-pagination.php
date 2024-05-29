@@ -56,11 +56,13 @@ class Groups_Pagination {
 
 	/**
 	 * Get the current page number
+	 *
 	 * @return int the current page number
 	 */
 	public function get_pagenum() {
 		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
 		if ( !isset( $_REQUEST['paged'] ) ) { // needed with rewritten page added
+			$matches = array();
 			if ( preg_match( "/(\/page\/)(\d+)/", $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $matches ) ) {
 				$pagenum = absint( $matches[2] );
 			}
@@ -76,6 +78,7 @@ class Groups_Pagination {
 	 * An internal method that sets all the necessary pagination arguments
 	 *
 	 * @param array $args An associative array with information about the pagination
+	 *
 	 * @access protected
 	 */
 	public function set_pagination_args( $args ) {
@@ -93,15 +96,20 @@ class Groups_Pagination {
 
 	/**
 	 * Returns or displays the pagination.
+	 *
 	 * @param string $which  where it's displayed
 	 * @param boolean $echo displays if true, otherwise returns
+	 *
+	 * @return string
 	 */
 	public function pagination( $which, $echo = false ) {
 
-		if ( empty( $this->_pagination_args ) )
+		if ( empty( $this->_pagination_args ) ) {
 			return;
+		}
 
-		extract( $this->_pagination_args );
+		$total_items = isset( $this->_pagination_args['total_items'] ) ? $this->_pagination_args['total_items'] : 0;
+		$total_pages = isset( $this->_pagination_args['total_pages'] ) ? $this->_pagination_args['total_pages'] : 0;
 
 		$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
 

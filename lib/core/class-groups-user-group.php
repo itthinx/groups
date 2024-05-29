@@ -97,8 +97,11 @@ class Groups_User_Group {
 	public static function create( $map ) {
 
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
+
+		$group_id = isset( $map['group_id'] ) ? $map['group_id'] : null;
+		$user_id = isset( $map['user_id'] ) ? $map['user_id'] : null;
 
 		// avoid nonsense requests
 		if ( !empty( $group_id ) ) {

@@ -286,10 +286,17 @@ class Groups_Group implements I_Capable {
 	 * @return int group_id on success, otherwise false
 	 */
 	public static function create( $map ) {
+
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
 		$error = false;
+
+		$name = isset( $map['name'] ) ? $map['name'] : null;
+		$creator_id = isset( $map['creator_id'] ) ? $map['creator_id'] : null;
+		$datetime = isset( $map['datetime'] ) ? $map['datetime'] : null;
+		$description = isset( $map['description'] ) ? $map['description'] : null;
+		$parent_id = isset( $map['parent_id'] ) ? $map['parent_id'] : null;
 
 		if ( !empty( $name ) ) {
 
@@ -297,17 +304,17 @@ class Groups_Group implements I_Capable {
 
 			$data = array( 'name' => $name );
 			$formats = array( '%s' );
-			if ( !isset( $creator_id ) ) {
+			if ( $creator_id === null ) {
 				$creator_id = get_current_user_id();
 			}
-			if ( isset( $creator_id ) ) {
+			if ( $creator_id !== null ) {
 				$data['creator_id'] = Groups_Utility::id( $creator_id );
 				$formats[] = '%d';
 			}
-			if ( !isset( $datetime ) ) {
+			if ( $datetime === null ) {
 				$datetime = date( 'Y-m-d H:i:s', time() );
 			}
-			if ( isset( $datetime ) ) {
+			if ( !empty( $datetime ) ) {
 				$data['datetime'] = $datetime;
 				$formats[] = '%s';
 			}
@@ -424,8 +431,13 @@ class Groups_Group implements I_Capable {
 	public static function update( $map ) {
 
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
+
+		$group_id = isset( $map['group_id'] ) ? $map['group_id'] : null;
+		$name = isset( $map['name'] ) ? $map['name'] : null;
+		$description = isset( $map['description'] ) ? $map['description'] : null;
+		$parent_id = isset( $map['parent_id'] ) ? $map['parent_id'] : null;
 
 		if ( isset( $group_id ) && !empty( $name ) ) {
 			$old_group = Groups_Group::read( $group_id );
@@ -609,7 +621,14 @@ class Groups_Group implements I_Capable {
 	public static function get_groups( $args = array() ) {
 		global $wpdb;
 
-		extract( $args );
+		$fields = isset( $args['fields'] ) ? $args['fields'] : null;
+		$order = isset( $args['order'] ) ? $args['order'] : null;
+		$order_by = isset( $args['order_by'] ) ? $args['order_by'] : null;
+		$parent_id = isset( $args['parent_id'] ) ? $args['parent_id'] : null;
+		$include = isset( $args['include'] ) ? $args['include'] : null;
+		$include_by_name = isset( $args['include_by_name'] ) ? $args['include_by_name'] : null;
+		$exclude = isset( $args['exclude'] ) ? $args['exclude'] : null;
+		$exclude_by_name = isset( $args['exclude_by_name'] ) ? $args['exclude_by_name'] : null;
 
 		if ( !isset( $fields ) ) {
 			$fields = '*';

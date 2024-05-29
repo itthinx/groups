@@ -62,17 +62,15 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_login( $atts, $content = null ) {
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		extract(
-			shortcode_atts(
-				array(
-					'redirect'        => $current_url,
-					'show_logout'     => 'no'
-				),
-				$atts
-			)
+		$atts = shortcode_atts(
+			array(
+				'redirect'        => $current_url,
+				'show_logout'     => 'no'
+			),
+			$atts
 		);
-		$redirect    = trim( $redirect );
-		$show_logout = trim( strtolower( $show_logout ) );
+		$redirect    = isset( $atts['redirect'] ) ? trim( $atts['redirect'] ) : $current_url;
+		$show_logout = isset( $atts['show_logout'] ) ? trim( strtolower( $atts['show_logout'] ) ) : 'no';
 		$output      = '';
 		if ( !is_user_logged_in() ) {
 			$output .= wp_login_form(
@@ -108,15 +106,13 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_logout( $atts, $content = null ) {
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		extract(
-			shortcode_atts(
-				array(
-					'redirect' => $current_url
-				),
-				$atts
-			)
+		$atts = shortcode_atts(
+			array(
+				'redirect' => $current_url
+			),
+			$atts
 		);
-		$redirect = trim( $redirect );
+		$redirect = isset( $atts['redirect'] ) ? trim( $atts['redirect'] ) : $current_url;
 		$output   = '';
 		if ( is_user_logged_in() ) {
 			$output .= sprintf( '<a href="%s">', esc_url( wp_logout_url( $redirect ) ) );
@@ -479,13 +475,29 @@ class Groups_Shortcodes {
 			),
 			$atts
 		);
-		extract( $options );
 
-		if ( $display_message === 'false' ) {
-			$display_message = false;
+		$display_message = is_string( $options['display_message'] ) ? strtolower( $options['display_message'] ) : $options['display_message'];
+		$display_is_member = is_string( $options['display_is_member'] ) ? strtolower( $options['display_is_member'] ) : $options['display_is_member'];
+		$submit_text = $options['submit_text'];
+
+		switch ( $display_message ) {
+			case 'false':
+			case 'no':
+			case false:
+				$display_message = false;
+				break;
+			default:
+				$display_message = true;
 		}
-		if ( $display_is_member === 'true' ) {
-			$display_is_member = true;
+
+		switch ( $display_is_member ) {
+			case 'true':
+			case 'yes':
+			case true:
+				$display_is_member = true;
+				break;
+			default:
+				$display_is_member = false;
 		}
 
 		$group = trim( $options['group'] );
@@ -521,19 +533,19 @@ class Groups_Shortcodes {
 					$output .= '<form action="#" method="post">';
 					$output .= '<input type="hidden" name="groups_action" value="join" />';
 					$output .= '<input type="hidden" name="group_id" value="' . esc_attr( $current_group->group_id ) . '" />';
-					$output .= '<input type="submit" value="' . $submit_text . '" />';
+					$output .= '<input type="submit" value="' . esc_attr( $submit_text ) . '" />';
 					$output .=  wp_nonce_field( $nonce_action, $nonce, true, false );
 					$output .= '</form>';
 					$output .= '</div>';
 				} else if ( $display_message ) {
 					if ( $submitted && !$invalid_nonce && isset( $join_group ) && $join_group->group_id === $current_group->group_id ) {
 						$output .= '<div class="groups-join joined">';
-						$output .= sprintf( __( 'You have joined the %s group.', 'groups' ), wp_filter_nohtml_kses( $join_group->name ) );
+						$output .= sprintf( esc_html__( 'You have joined the %s group.', 'groups' ), wp_filter_nohtml_kses( $join_group->name ) );
 						$output .= '</div>';
 					}
 					else if ( $display_is_member && isset( $current_group ) && $current_group !== false ) {
 						$output .= '<div class="groups-join member">';
-						$output .= sprintf( __( 'You are a member of the %s group.', 'groups' ), wp_filter_nohtml_kses( $current_group->name ) );
+						$output .= sprintf( esc_html__( 'You are a member of the %s group.', 'groups' ), wp_filter_nohtml_kses( $current_group->name ) );
 						$output .= '</div>';
 					}
 				}
@@ -565,10 +577,18 @@ class Groups_Shortcodes {
 			),
 			$atts
 		);
-		extract( $options );
 
-		if ( $display_message === 'false' ) {
-			$display_message = false;
+		$display_message = is_string( $options['display_message'] ) ? strtolower( $options['display_message'] ) : $options['display_message'];
+		$submit_text = $options['submit_text'];
+
+		switch ( $display_message ) {
+			case 'false':
+			case 'no':
+			case false:
+				$display_message = false;
+				break;
+			default:
+				$display_message = true;
 		}
 
 		$group = trim( $options['group'] );
@@ -599,14 +619,14 @@ class Groups_Shortcodes {
 					$output .= '<form action="#" method="post">';
 					$output .= '<input type="hidden" name="groups_action" value="leave" />';
 					$output .= '<input type="hidden" name="group_id" value="' . esc_attr( $current_group->group_id ) . '" />';
-					$output .= '<input type="submit" value="' . $submit_text . '" />';
+					$output .= '<input type="submit" value="' . esc_attr( $submit_text ) . '" />';
 					$output .=  wp_nonce_field( $nonce_action, $nonce, true, false );
 					$output .= '</form>';
 					$output .= '</div>';
 				} else if ( $display_message ) {
 					if ( $submitted && !$invalid_nonce && isset( $leave_group ) && $leave_group->group_id === $current_group->group_id ) {
 						$output .= '<div class="groups-join left">';
-						$output .= sprintf( __( 'You have left the %s group.', 'groups' ), wp_filter_nohtml_kses( $leave_group->name ) );
+						$output .= sprintf( esc_html__( 'You have left the %s group.', 'groups' ), wp_filter_nohtml_kses( $leave_group->name ) );
 						$output .= '</div>';
 					}
 				}

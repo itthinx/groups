@@ -140,18 +140,21 @@ class Groups_Capability {
 	public static function create( $map ) {
 
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
 
+		$capability = isset( $map['capability'] ) ? $map['capability'] : null;
+		$class = isset( $map['class'] ) ? $map['class'] : null;
+		$object = isset( $map['object'] ) ? $map['object'] : null;
+		$name = isset( $map['name'] ) ? $map['name'] : null;
+		$description = isset( $map['description'] ) ? $map['description'] : null;
+
 		if ( !empty( $capability ) ) {
-
 			if ( self::read_by_capability( $capability ) === false ) {
-
 				$data = array(
 					'capability' => $capability
 				);
 				$formats = array( '%s' );
-
 				if ( !empty( $class ) ) {
 					$data['class'] = $class;
 					$formats[] = '%s';
@@ -251,28 +254,34 @@ class Groups_Capability {
 	public static function update( $map ) {
 
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
 
-		if ( isset( $capability_id ) && !empty( $capability ) ) {
+		$capability_id = isset( $map['capability_id'] ) ? $map['capability_id'] : null;
+		$capability = isset( $map['capability'] ) ? $map['capability'] : null;
+		$class = isset( $map['class'] ) ? $map['class'] : null;
+		$object = isset( $map['object'] ) ? $map['object'] : null;
+		$name = isset( $map['name'] ) ? $map['name'] : null;
+		$description = isset( $map['description'] ) ? $map['description'] : null;
+
+		if ( $capability_id !== null ) {
 			$capability_table = _groups_get_tablename( 'capability' );
 			$old_capability = Groups_Capability::read( $capability_id );
 			if ( $old_capability ) {
-				if ( isset( $capability ) ) {
+				if ( $capability !== null ) {
 					$old_capability_capability = $old_capability->capability;
 					$old_capability->capability = $capability;
 				}
-				if ( isset( $class ) ) {
+				if ( $class !== null ) {
 					$old_capability->class = $class;
 				}
-				if ( isset( $object ) ) {
+				if ( $object !== null ) {
 					$old_capability->object = $object;
 				}
-				if ( isset( $name ) ) {
-					$old_name = $old_capability->name;
+				if ( $name !== null ) {
 					$old_capability->name = $name;
 				}
-				if ( isset( $description ) ) {
+				if ( $description !== null ) {
 					$old_capability->description = $description;
 				}
 				$rows = $wpdb->query( $wpdb->prepare(

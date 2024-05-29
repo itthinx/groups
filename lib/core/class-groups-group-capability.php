@@ -42,13 +42,17 @@ class Groups_Group_Capability {
 	 * Persist a group-capability relation.
 	 *
 	 * @param array $map attributes - must provide group_id and capability_id
+	 *
 	 * @return true on success, otherwise false
 	 */
 	public static function create( $map ) {
 
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
+
+		$group_id = isset( $map['group_id'] ) ? $map['group_id'] : null;
+		$capability_id = isset( $map['capability_id'] ) ? $map['capability_id'] : null;
 
 		// avoid nonsense requests
 		if ( !empty( $group_id ) && !empty( $capability_id) ) {
@@ -82,6 +86,7 @@ class Groups_Group_Capability {
 	 *
 	 * @param int $group_id group's id
 	 * @param int $capability_id capability's id
+	 *
 	 * @return object upon success, otherwise false
 	 */
 	public static function read( $group_id, $capability_id ) {
@@ -106,15 +111,21 @@ class Groups_Group_Capability {
 	 * This changes nothing so as of now it's pointless to even call this.
 	 *
 	 * @param array $map
+	 *
 	 * @return true if successful, false otherwise
 	 */
 	public static function update( $map ) {
 		$result = false;
-		if ( !empty( $group_id ) && !empty( $capability_id) ) {
-			// make sure group and capability exist
-			if ( Groups_Group::read( $group_id ) && Groups_Capability::read( $capability_id ) ) {
-				$result = true;
-				do_action( 'groups_updated_group_capability', $group_id, $capability_id );
+		// @since 3.0.0 do not process until this actually changes anything
+		if ( false ) {
+			$group_id = isset( $map['group_id'] ) ? $map['group_id'] : null;
+			$capability_id = isset( $map['capability_id'] ) ? $map['capability_id'] : null;
+			if ( !empty( $group_id ) && !empty( $capability_id) ) {
+				// make sure group and capability exist
+				if ( Groups_Group::read( $group_id ) && Groups_Capability::read( $capability_id ) ) {
+					$result = true;
+					do_action( 'groups_updated_group_capability', $group_id, $capability_id );
+				}
 			}
 		}
 		return $result;
@@ -125,6 +136,7 @@ class Groups_Group_Capability {
 	 *
 	 * @param int $group_id
 	 * @param int $capability_id
+	 *
 	 * @return true if successful, false otherwise
 	 */
 	public static function delete( $group_id, $capability_id ) {

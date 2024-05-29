@@ -53,8 +53,11 @@ class Groups_User_Capability {
 	public static function create( $map ) {
 
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
+
+		$user_id = isset( $map['user_id'] ) ? $map['user_id'] : null;
+		$capability_id = isset( $map['capability_id'] ) ? $map['capability_id'] : null;
 
 		// avoid nonsense requests
 		if ( !empty( $capability_id) ) {
