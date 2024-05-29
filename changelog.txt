@@ -9,6 +9,7 @@
 * Added several instances of missing code documentation.
 * Revised needed code doc formatting.
 * Replaced uses of the extract function with specific parameter handling.
+* Removed the tests folder and script.
 
 = 2.20.1 =
 * WordPress 6.4 compatible.
