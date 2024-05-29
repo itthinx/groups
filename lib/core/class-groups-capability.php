@@ -46,7 +46,7 @@ class Groups_Capability {
 	/**
 	 * @var object persisted capability object
 	 */
-	var $capability = null;
+	public $capability = null;
 
 	/**
 	 * Create by capability id.

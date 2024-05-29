@@ -48,7 +48,7 @@ class Groups_Group implements I_Capable {
 	/**
 	 * @var Object Persisted group.
 	 */
-	var $group = null;
+	public $group = null;
 
 	/**
 	 * Create by group id.

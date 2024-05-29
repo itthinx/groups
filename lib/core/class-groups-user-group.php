@@ -31,7 +31,7 @@ class Groups_User_Group {
 	/**
 	 * @var object persisted object
 	 */
-	var $user_group = null;
+	public $user_group = null;
 
 	/**
 	 * Hook into appropriate actions.

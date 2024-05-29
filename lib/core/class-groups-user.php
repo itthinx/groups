@@ -31,15 +31,50 @@ require_once GROUPS_CORE_LIB . '/class-groups-capability.php';
  */
 class Groups_User implements I_Capable {
 
-	const CACHE_GROUP         = 'groups';
-	const CAPABILITIES        = 'capabilities';
-	const CAPABILITIES_BASE   = 'capabilities_base';
-	const CAPABILITY_IDS      = 'capability_ids';
+	/**
+	 * @var string cache group key
+	 */
+	const CACHE_GROUP = 'groups';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const CAPABILITIES = 'capabilities';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const CAPABILITIES_BASE = 'capabilities_base';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const CAPABILITY_IDS = 'capability_ids';
+
+	/**
+	 * @var string cache key prefix
+	 */
 	const CAPABILITY_IDS_BASE = 'capability_ids_base';
-	const GROUP_IDS           = 'group_ids';
-	const GROUP_IDS_BASE      = 'group_ids_base';
-	const GROUPS              = 'groups';
-	const GROUPS_BASE         = 'groups_base';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const GROUP_IDS = 'group_ids';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const GROUP_IDS_BASE = 'group_ids_base';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const GROUPS = 'groups';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const GROUPS_BASE = 'groups_base';
 
 	/**
 	 * User object.
@@ -48,7 +83,7 @@ class Groups_User implements I_Capable {
 	 *
 	 * @var WP_User
 	 */
-	var $user = null;
+	public $user = null;
 
 	/**
 	 * Hook cache clearers to actions that can modify the capabilities.
