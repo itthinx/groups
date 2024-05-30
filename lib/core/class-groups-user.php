@@ -79,7 +79,7 @@ class Groups_User implements I_Capable {
 	/**
 	 * User object.
 	 *
-	 * @private Use $this->get_user() instead as this property will be made private in a future release of Groups
+	 * @access private - Use $this->get_user() instead as this property will be made private in a future release of Groups
 	 *
 	 * @var WP_User
 	 */
@@ -257,6 +257,87 @@ class Groups_User implements I_Capable {
 	 */
 	public function get_user() {
 		return $this->user;
+	}
+
+	/**
+	 * Set the related WP_User object.
+	 *
+	 * @param WP_User $user the user object
+	 */
+	public function set_user( $user ) {
+		if ( $user instanceof WP_User ) {
+			$this->user = $user;
+		}
+	}
+
+	/**
+	 * Provides the capabilities of the object.
+	 *
+	 * @return Groups_Capability[]
+	 */
+	public function get_capabilities() {
+		return $this->capabilities;
+	}
+
+	/**
+	 * Provides the IDs of the capabilities of this object.
+	 *
+	 * @return int[]
+	 */
+	public function get_capability_ids() {
+		return $this->capability_ids;
+	}
+
+	/**
+	 * Provides the capabilities of the object, those of the user's roles and those of the object's groups, including from ancestor groups.
+	 *
+	 * @return Groups_Capability[]
+	 */
+	public function get_capabilities_deep() {
+		return $this->capabilities_deep;
+	}
+
+	/**
+	 * Provides the IDs of the capabilities of object, those of the user's roles and those of the object's groups, including from ancestor groups.
+	 *
+	 * @return int[]
+	 */
+	public function get_capability_ids_deep() {
+		return $this->capability_ids_deep;
+	}
+
+	/**
+	 * Provides the groups this object relates to.
+	 *
+	 * @return Groups_Group[]
+	 */
+	public function get_groups() {
+		return $this->groups;
+	}
+
+	/**
+	 * Provides the groups that this object relates to and includes their ancestors.
+	 *
+	 * @return Groups_Group[]
+	 */
+	public function get_groups_deep() {
+		return $this->groups_deep;
+	}
+
+	/**
+	 * Provides the IDs of the groups that this object relates to.
+	 *
+	 * @return int[]
+	 */
+	public function get_group_ids() {
+		return $this->group_ids;
+	}
+
+	/**
+	 * Provide the IDs of the groups that this object relates to and from ancestor groups.
+	 */
+	public function get_group_ids_deep() {
+		return $this->group_ids_deep;
 	}
 
 	/**
@@ -557,7 +638,7 @@ class Groups_User implements I_Capable {
 						// Retrieve the capabilities and only add those that are
 						// recognized. Note that this also effectively filters out
 						// all roles and that this is desired.
-						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN (" . implode( ',', $caps ) . ")" ) ) {
+						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN (" . implode( ',', esc_sql( $caps ) ) . ")" ) ) {
 							foreach( $role_capabilities as $role_capability ) {
 								$capabilities[]   = $role_capability->capability;
 								$capability_ids[] = $role_capability->capability_id;

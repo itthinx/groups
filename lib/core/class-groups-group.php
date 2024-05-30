@@ -47,6 +47,8 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * @var Object Persisted group.
+	 *
+	 * @access private - do not access this property directly, the visibility will be made private in the future
 	 */
 	public $group = null;
 
@@ -59,6 +61,123 @@ class Groups_Group implements I_Capable {
 	 */
 	public function __construct( $group_id ) {
 		$this->group = self::read( $group_id );
+	}
+
+	/**
+	 * Provides the object ID.
+	 *
+	 * @return int
+	 */
+	public function get_id() {
+		return $this->get_group_id();
+	}
+
+	/**
+	 * Provides the object ID.
+	 *
+	 * @return int
+	 */
+	public function get_group_id() {
+		return $this->group_id;
+	}
+
+	/**
+	 * Provides the parent group's ID.
+	 *
+	 * @return int
+	 */
+	public function get_parent_id() {
+		return $this->parent_id;
+	}
+
+	/**
+	 * Provides the creator's ID.
+	 *
+	 * @return int
+	 */
+	public function get_creator_id() {
+		return $this->creator_id;
+	}
+
+	/**
+	 * Provides the date and time of creation.
+	 *
+	 * @return string
+	 */
+	public function get_datetime() {
+		return $this->datetime;
+	}
+
+	/**
+	 * Provides the group's name.
+	 *
+	 * @return string
+	 */
+	public function get_name() {
+		return $this->name;
+	}
+
+	/**
+	 * Provides the group's description.
+	 *
+	 * @return string
+	 */
+	public function get_description() {
+		return $this->description;
+	}
+
+	/**
+	 * Provides the capabilities of the group.
+	 *
+	 * @return Groups_Capability[]
+	 */
+	public function get_capabilities() {
+		return $this->capabilities;
+	}
+
+	/**
+	 * Provides the IDs of the capabilities of this group.
+	 *
+	 * @return int[]
+	 */
+	public function get_capability_ids() {
+		return $this->capability_ids;
+	}
+
+	/**
+	 * Provides the capabilities of the group and of all its ancestors.
+	 *
+	 * @return Groups_Capability[]
+	 */
+	public function get_capabilities_deep() {
+		return $this->capabilities_deep;
+	}
+
+	/**
+	 * Provides the IDs of the capabilities of this group and of all its ancestors.
+	 *
+	 * @return int[]
+	 */
+	public function get_capability_ids_deep() {
+		return $this->capability_ids_deep;
+	}
+
+	/**
+	 * Provides the members of the group.
+	 *
+	 * @return Groups_User[]
+	 */
+	public function get_users() {
+		return $this->users;
+	}
+
+	/**
+	 * Provides the user IDs of the members of this group.
+	 *
+	 * @return int[]
+	 */
+	public function get_user_ids() {
+		return $this->user_ids;
 	}
 
 	/**
@@ -91,22 +210,29 @@ class Groups_Group implements I_Capable {
 				case 'description' :
 					$result = $this->group->$name;
 					break;
-				case 'capabilities' :
+				case 'capability_ids' :
+					$result = array();
 					$group_capability_table = _groups_get_tablename( 'group_capability' );
 					$rows = $wpdb->get_results( $wpdb->prepare(
 						"SELECT capability_id FROM $group_capability_table WHERE group_id = %d",
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $rows ) {
-						$result = array();
 						foreach ( $rows as $row ) {
-							$result[] = new Groups_Capability( $row->capability_id );
+							$result[] = $row->capability_id;
 						}
 					}
 					break;
-				case 'capabilities_deep' :
-					$capability_ids = $this->capability_ids_deep;
+				case 'capabilities' :
 					$result = array();
+					$capability_ids = $this->capability_ids;
+					foreach ( $capability_ids as $capability_id ) {
+						$result[] = new Groups_Capability( $capability_id );
+					}
+					break;
+				case 'capabilities_deep' :
+					$result = array();
+					$capability_ids = $this->capability_ids_deep;
 					foreach( $capability_ids as $capability_id ) {
 						$result[] = new Groups_Capability( $capability_id );
 					}
@@ -150,28 +276,28 @@ class Groups_Group implements I_Capable {
 					$result = $capability_ids;
 					break;
 				case 'users' :
+					$result = array();
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
 						"SELECT $wpdb->users.* FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $users ) {
-						$result = array();
 						foreach( $users as $user ) {
 							$groups_user = new Groups_User();
-							$groups_user->user = new WP_User( $user );
+							$groups_user->set_user( new WP_User( $user ) );
 							$result[] = $groups_user;
 						}
 					}
 					break;
 				case 'user_ids' :
+					$result = array();
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$user_ids = $wpdb->get_results( $wpdb->prepare(
 						"SELECT $wpdb->users.ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $user_ids ) {
-						$result = array();
 						foreach( $user_ids as $user_id ) {
 							$result[] = $user_id->ID;
 						}

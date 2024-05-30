@@ -45,6 +45,8 @@ class Groups_Capability {
 
 	/**
 	 * @var object persisted capability object
+	 *
+	 * @access private - do not access this property directly, the visibility will be made private in the future
 	 */
 	public $capability = null;
 
@@ -57,6 +59,78 @@ class Groups_Capability {
 	 */
 	public function __construct( $capability_id ) {
 		$this->capability = self::read( $capability_id );
+	}
+
+	/**
+	 * Provides the object ID.
+	 *
+	 * @return int
+	 */
+	public function get_id() {
+		return $this->get_capability_id();
+	}
+
+	/**
+	 * Provides the object ID.
+	 *
+	 * @return int
+	 */
+	public function get_capability_id() {
+		return $this->capability_id;
+	}
+
+	/**
+	 * Provides the capability's class.
+	 *
+	 * @return string
+	 */
+	public function get_class() {
+		return $this->class;
+	}
+
+	/**
+	 * Provides the capability's object.
+	 *
+	 * @return string
+	 */
+	public function get_object() {
+		return $this->object;
+	}
+
+	/**
+	 * Provides the capability's name.
+	 *
+	 * @return string
+	 */
+	public function get_name() {
+		return $this->name;
+	}
+
+	/**
+	 * Provides the capability's description.
+	 *
+	 * @return string
+	 */
+	public function get_description() {
+		return $this->description;
+	}
+
+	/**
+	 * Provides the IDs of groups that have the capability.
+	 *
+	 * @return int[]
+	 */
+	public function get_group_ids(){
+		return $this->group_ids;
+	}
+
+	/**
+	 * Provides the groups that have the capability.
+	 *
+	 * @return Groups_Group[]
+	 */
+	public function get_groups() {
+		return $this->groups;
 	}
 
 	/**
