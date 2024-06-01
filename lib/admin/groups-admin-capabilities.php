@@ -60,7 +60,7 @@ function groups_admin_capabilities() {
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
 					Groups_Admin::add_message( sprintf(
-						wp_kses_post( __( 'The <em>%s</em> capability has been created.', 'groups' ) ),
+						__( 'The <em>%s</em> capability has been created.', 'groups' ),
 						$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 					) );
 				}
@@ -71,14 +71,14 @@ function groups_admin_capabilities() {
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
 					Groups_Admin::add_message( sprintf(
-						wp_kses_post( __( 'The <em>%s</em> capability has been updated.', 'groups' ) ),
+						__( 'The <em>%s</em> capability has been updated.', 'groups' ),
 						$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 					) );
 				}
 				break;
 			case 'remove' :
 				if ( $capability_id = groups_admin_capabilities_remove_submit() ) {
-					Groups_Admin::add_message( esc_html__( 'The capability has been deleted.', 'groups' ) );
+					Groups_Admin::add_message( __( 'The capability has been deleted.', 'groups' ) );
 				}
 				break;
 			// bulk actions on groups: capabilities

@@ -35,13 +35,13 @@ function groups_admin_groups_edit( $group_id ) {
 	$output = '';
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$group = Groups_Group::read( intval( $group_id ) );
 
 	if ( empty( $group ) ) {
-		wp_die( __( 'No such group.', 'groups' ) );
+		wp_die( esc_html__( 'No such group.', 'groups' ) );
 	}
 
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -87,14 +87,14 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$output .= '<div class="field">';
 	$output .= '<label for="parent-id-field" class="field-label">';
-	$output .= __( 'Parent', 'groups' );
+	$output .= esc_html__( 'Parent', 'groups' );
 	$output .= '</label>';
 	$output .= $parent_select;
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
 	$output .= '<label for="description-field" class="field-label description-field">';
-	$output .=  __( 'Description', 'groups' );
+	$output .=  esc_html__( 'Description', 'groups' );
 	$output .= '</label>';
 	$output .= '<textarea id="description-field" name="description-field" rows="5" cols="45">';
 	$output .= stripslashes( wp_filter_nohtml_kses( $description ) );
@@ -184,11 +184,11 @@ function groups_admin_groups_edit_submit() {
 	global $wpdb;
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'groups-edit' ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$group_id = isset( $_POST['group-id-field'] ) ? $_POST['group-id-field'] : null;

@@ -31,13 +31,13 @@ if ( !defined( 'ABSPATH' ) ) {
 function groups_admin_groups_remove( $group_id ) {
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$group = Groups_Group::read( intval( $group_id ) );
 
 	if ( empty( $group ) ) {
-		wp_die( __( 'No such group.', 'groups' ) );
+		wp_die( esc_html__( 'No such group.', 'groups' ) );
 	}
 
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -77,11 +77,11 @@ function groups_admin_groups_remove_submit() {
 	$result = false;
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-remove' ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$group_id = isset( $_POST['group-id-field'] ) ? $_POST['group-id-field'] : null;
@@ -102,13 +102,13 @@ function groups_admin_groups_bulk_remove() {
 	$output = '';
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$group_ids = isset( $_POST['group_ids'] ) ? $_POST['group_ids'] : null;
 
 	if ( ! $group_ids ) {
-		wp_die( __( 'No such groups.', 'groups' ) );
+		wp_die( esc_html__( 'No such groups.', 'groups' ) );
 	}
 
 	$groups = array();
@@ -167,11 +167,11 @@ function groups_admin_groups_bulk_remove_submit() {
 
 	$result = array();
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$group_ids = isset( $_POST['group_ids'] ) ? $_POST['group_ids'] : null;

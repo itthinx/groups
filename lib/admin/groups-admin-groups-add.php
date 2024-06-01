@@ -141,11 +141,11 @@ function groups_admin_groups_add() {
 function groups_admin_groups_add_submit() {
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-add' ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$creator_id  = get_current_user_id();

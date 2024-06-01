@@ -31,7 +31,7 @@ function groups_admin_tree_view() {
 	$output = '';
 
 	if ( !Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$output .= '<div class="groups-tree-view">';

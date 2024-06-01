@@ -116,7 +116,7 @@ class Groups_Shortcodes {
 		$output   = '';
 		if ( is_user_logged_in() ) {
 			$output .= sprintf( '<a href="%s">', esc_url( wp_logout_url( $redirect ) ) );
-			$output .= __( 'Log out', 'groups' );
+			$output .= esc_html__( 'Log out', 'groups' );
 			$output .= '</a>';
 		}
 		return $output;
@@ -471,7 +471,7 @@ class Groups_Shortcodes {
 				'group'             => '',
 				'display_message'   => true,
 				'display_is_member' => false,
-				'submit_text'       => __( 'Join the %s group', 'groups' )
+				'submit_text'       => esc_html__( 'Join the %s group', 'groups' )
 			),
 			$atts
 		);
@@ -573,7 +573,7 @@ class Groups_Shortcodes {
 			array(
 				'group'           => '',
 				'display_message' => true,
-				'submit_text'     => __( 'Leave the %s group', 'groups' ),
+				'submit_text'     => esc_html__( 'Leave the %s group', 'groups' ),
 			),
 			$atts
 		);
