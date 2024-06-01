@@ -163,8 +163,8 @@ class Groups_Admin_Users {
 			if ( $groups ) {
 				$groups_select = sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
-					esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
+					esc_attr__( 'Choose groups &hellip;', 'groups' ),
+					esc_attr__( 'Choose groups &hellip;', 'groups' )
 				);
 				foreach( $groups as $group ) {
 					$is_member = false;
@@ -184,11 +184,11 @@ class Groups_Admin_Users {
 			$box .= $groups_select;
 			$box .= '</div>';
 			$box .= '<select class="groups-action" name="groups-action">';
-			$box .= '<option selected="selected" value="-1">' . __( 'Group Actions', 'groups' ) . '</option>';
-			$box .= '<option value="add-group">' . __( 'Add to group', 'groups' ) . '</option>';
-			$box .= '<option value="remove-group">' . __( 'Remove from group', 'groups' ) . '</option>';
+			$box .= '<option selected="selected" value="-1">' . esc_html__( 'Group Actions', 'groups' ) . '</option>';
+			$box .= '<option value="add-group">' . esc_html__( 'Add to group', 'groups' ) . '</option>';
+			$box .= '<option value="remove-group">' . esc_html__( 'Remove from group', 'groups' ) . '</option>';
 			$box .= '</select>';
-			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', __( 'Apply', 'groups' ) );
+			$box .= sprintf( '<input class="button" type="submit" name="groups" value="%s" />', esc_attr__( 'Apply', 'groups' ) );
 			$box .= '</div>';
 			$box = str_replace( '"', "'", $box );
 
@@ -226,8 +226,8 @@ class Groups_Admin_Users {
 			$output .= '<div class="groups-select-container">';
 			$output .= sprintf(
 				'<select id="filter-groups" class="groups" name="filter_group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-				esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
-				esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
+				esc_attr__( 'Choose groups &hellip;', 'groups' ),
+				esc_attr__( 'Choose groups &hellip;', 'groups' )
 			);
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$groups = apply_filters( 'groups_admin_users_views_users_groups', Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) ) );
@@ -265,7 +265,7 @@ class Groups_Admin_Users {
 			$output .= sprintf( '<input class="filter-groups-conjunctive" name="filter_groups_conjunctive" type="checkbox" value="1" %s />', $conjunctive ? ' checked="checked" ' : '' );
 			$output .= esc_html_x( '&cap;', 'label for conjunctive groups filter checkbox', 'groups' );
 			$output .= '</label>';
-			$output .= '<input class="button" style="vertical-align:middle" type="submit" value="' . esc_attr( __( 'Filter', 'groups' ) ) . '"/>';
+			$output .= '<input class="button" style="vertical-align:middle" type="submit" value="' . esc_attr__( 'Filter', 'groups' ) . '"/>';
 			$output .= '</form>';
 			$output .= Groups_UIE::render_select( '#filter-groups' );
 			$views['groups'] = $output;
@@ -367,7 +367,7 @@ class Groups_Admin_Users {
 					}
 					$output .= '</ul>';
 				} else {
-					$output .= __( '--', 'groups' );
+					$output .= esc_html__( '--', 'groups' );
 				}
 				break;
 		}

@@ -88,8 +88,8 @@ class Groups_Admin_User_Profile {
 					$output .= '</style>';
 					$output .= sprintf(
 						'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-						esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
-						esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
+						esc_attr__( 'Choose groups &hellip;', 'groups' ),
+						esc_attr__( 'Choose groups &hellip;', 'groups' )
 					);
 					foreach( $groups as $group ) {
 						$output .= sprintf(
@@ -100,7 +100,7 @@ class Groups_Admin_User_Profile {
 					}
 					$output .= '</select>';
 					$output .= Groups_UIE::render_select( '#user-groups' );
-					$output .= '<p class="description">' . __( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
+					$output .= '<p class="description">' . esc_html__( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 				}
 				echo $output;
 			}
@@ -207,8 +207,8 @@ class Groups_Admin_User_Profile {
 				$output .= '</style>';
 				$output .= sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
-					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ) ,
-					esc_attr( __( 'Choose groups &hellip;', 'groups' ) )
+					esc_attr__( 'Choose groups &hellip;', 'groups' ),
+					esc_attr__( 'Choose groups &hellip;', 'groups' )
 				);
 				foreach( $groups as $group ) {
 					// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:

@@ -130,27 +130,27 @@ class Groups_Admin_Notice {
 
 		$output .= '<div class="updated groups-rating">';
 		$output .= '<p>';
-		$output .= __( 'Many thanks for using <strong>Groups</strong>!', 'groups' );
+		$output .= wp_kses_post( __( 'Many thanks for using <strong>Groups</strong>!', 'groups' ) );
 		$output .= ' ';
-		$output .= __( 'Could you please spare a minute and give it a review over at WordPress.org?', 'groups' );
+		$output .= esc_html__( 'Could you please spare a minute and give it a review over at WordPress.org?', 'groups' );
 		$output .= ' ';
 		$output .= sprintf(
 			'<a style="color:inherit;white-space:nowrap;" href="%s">%s</a>',
 			esc_url( $hide_url ),
-			esc_html( __( 'I have already done that.', 'groups' ) )
+			esc_html__( 'I have already done that.', 'groups' )
 		);
 		$output .= '</p>';
 		$output .= '<p>';
 		$output .= sprintf(
 			'<a class="button button-primary" href="%s" target="_blank">%s</a>',
 			esc_url( 'https://wordpress.org/support/view/plugin-reviews/groups?filter=5#postform' ),
-			__( 'Yes, here we go!', 'groups' )
+			esc_html__( 'Yes, here we go!', 'groups' )
 		);
 		$output .= '&emsp;';
 		$output .= sprintf(
 			'<a class="button" href="%s">%s</a>',
 			esc_url( $remind_url ),
-			esc_html( __( 'Remind me later', 'groups' ) )
+			esc_html__( 'Remind me later', 'groups' )
 		);
 
 		$output .= '</p>';

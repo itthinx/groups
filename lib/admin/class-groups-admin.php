@@ -312,11 +312,11 @@ class Groups_Admin {
 				echo '<div style="border: 2px solid #dc3232; padding: 1em">';
 				echo '<p>';
 				echo '<strong>';
-				echo esc_html( __( 'Warning!', 'groups' ) );
+				echo esc_html__( 'Warning!', 'groups' );
 				echo '</strong>';
 				echo '</p>';
 				echo '<p>';
-				echo esc_html( __( 'Groups is configured to delete its plugin data on deactivation.', 'groups' ) );
+				echo esc_html__( 'Groups is configured to delete its plugin data on deactivation.', 'groups' );
 				echo '</p>';
 				echo '</div>';
 				echo '</td>';

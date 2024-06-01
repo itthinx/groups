@@ -45,7 +45,7 @@ function groups_admin_capabilities() {
 	$today = date( 'Y-m-d', time() );
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	//
@@ -60,7 +60,7 @@ function groups_admin_capabilities() {
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
 					Groups_Admin::add_message( sprintf(
-						__( 'The <em>%s</em> capability has been created.', 'groups' ),
+						wp_kses_post( __( 'The <em>%s</em> capability has been created.', 'groups' ) ),
 						$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 					) );
 				}
@@ -71,14 +71,14 @@ function groups_admin_capabilities() {
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
 					Groups_Admin::add_message( sprintf(
-						__( 'The <em>%s</em> capability has been updated.', 'groups' ),
+						wp_kses_post( __( 'The <em>%s</em> capability has been updated.', 'groups' ) ),
 						$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 					) );
 				}
 				break;
 			case 'remove' :
 				if ( $capability_id = groups_admin_capabilities_remove_submit() ) {
-					Groups_Admin::add_message( __( 'The capability has been deleted.', 'groups' ) );
+					Groups_Admin::add_message( esc_html__( 'The capability has been deleted.', 'groups' ) );
 				}
 				break;
 			// bulk actions on groups: capabilities
@@ -126,10 +126,10 @@ function groups_admin_capabilities() {
 					if ( $n > 0 ) {
 						$output .= '<div class="updated fade"><p>' . sprintf( _n( 'One capability has been added.', '%d capabilities have been added.', $n, 'groups' ), $n ) . '</p></div>';
 					} else {
-						$output .= '<div class="updated fade"><p>' . __( 'No new capabilities have been found.', 'groups' ) .  '</p></div>';
+						$output .= '<div class="updated fade"><p>' . esc_html__( 'No new capabilities have been found.', 'groups' ) .  '</p></div>';
 					}
 				} else {
-					wp_die( __( 'A Duck!', 'groups' ) );
+					wp_die( esc_html__( 'A Duck!', 'groups' ) );
 				}
 				break;
 		}
@@ -144,7 +144,7 @@ function groups_admin_capabilities() {
 		isset( $_POST['capability'] )
 	) {
 		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE], 'admin' ) ) {
-			wp_die( __( 'Access denied.', 'groups' ) );
+			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
@@ -175,13 +175,13 @@ function groups_admin_capabilities() {
 
 	if ( isset( $_POST['row_count'] ) ) {
 		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_NONCE_1], 'admin' ) ) {
-			wp_die( __( 'Access denied.', 'groups' ) );
+			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
 	if ( isset( $_POST['paged'] ) ) {
 		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_NONCE_2], 'admin' ) ) {
-			wp_die( __( 'Access denied.', 'groups' ) );
+			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
@@ -195,37 +195,37 @@ function groups_admin_capabilities() {
 	$output .=
 		'<div class="manage-capabilities wrap">' .
 		'<h1>' .
-		__( 'Capabilities', 'groups' ) .
+		esc_html__( 'Capabilities', 'groups' ) .
 		// add capability
 		sprintf(
 			'<a title="%s" class="add page-title-action" href="%s">',
-			esc_attr( __( 'Click to add a new capability', 'groups' ) ),
+			esc_attr__( 'Click to add a new capability', 'groups' ),
 			esc_url( $current_url . '&action=add' )
 		) .
 		sprintf(
 			'<img class="icon" alt="%s" src="%s" />',
-			esc_attr( __( 'Add', 'groups' ) ),
+			esc_attr__( 'Add', 'groups' ),
 			esc_url( GROUPS_PLUGIN_URL . 'images/add.png' )
 		) .
 		sprintf(
 			'<span class="label">%s</span>',
-			stripslashes( wp_filter_nohtml_kses( __( 'New Capability', 'groups' ) ) )
+			esc_html__( 'New Capability', 'groups' )
 		) .
 		'</a>' .
 		// refresh capabilities
 		sprintf(
 			'<a title="%s" class="refresh page-title-action" href="%s">',
-			esc_attr( __( 'Click to refresh capabilities', 'groups' ) ),
+			esc_attr__( 'Click to refresh capabilities', 'groups' ),
 			esc_url( wp_nonce_url( $current_url . '&action=refresh', 'refresh' ) )
 		) .
 		sprintf(
 			'<img class="icon" alt="%s" src="%s" />',
-			esc_attr( __( 'Refresh', 'groups' ) ),
+			esc_attr__( 'Refresh', 'groups' ),
 			esc_url( GROUPS_PLUGIN_URL . 'images/refresh.png' )
 		) .
 		sprintf(
 			'<span class="label">%s</span>',
-			stripslashes( wp_filter_nohtml_kses( __( 'Refresh', 'groups' ) ) )
+			esc_html__( 'Refresh', 'groups' )
 		) .
 		'</a>' .
 		'</h1>';
@@ -327,18 +327,18 @@ function groups_admin_capabilities() {
 		'<div class="filters">' .
 			'<form id="setfilters" action="" method="post">' .
 				'<fieldset>' .
-				'<legend>' . __( 'Filters', 'groups' ) . '</legend>' .
+				'<legend>' . esc_html__( 'Filters', 'groups' ) . '</legend>' .
 				'<label class="capability-id-filter">' .
-				__( 'Capability ID', 'groups' ) . ' ' .
+				esc_html__( 'Capability ID', 'groups' ) . ' ' .
 				'<input class="capability-id-filter" name="capability_id" type="text" value="' . esc_attr( $capability_id ) . '"/>' .
 				'</label>' . ' ' .
 				'<label class="capability-filter">' .
-				__( 'Capability', 'groups' ) . ' ' .
+				esc_html__( 'Capability', 'groups' ) . ' ' .
 				'<input class="capability-filter" name="capability" type="text" value="' . esc_attr( $capability ? stripslashes( $capability ) : '' ) . '"/>' .
 				'</label>' . ' ' .
 				wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE, true, false ) .
-				'<input class="button" type="submit" value="' . __( 'Apply', 'groups' ) . '"/>' . ' ' .
-				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', 'groups' ) . '"/>' .
+				'<input class="button" type="submit" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>' . ' ' .
+				'<input class="button" type="submit" name="clear_filters" value="' . esc_attr__( 'Clear', 'groups' ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
 				'</fieldset>' .
 			'</form>' .
@@ -360,10 +360,10 @@ function groups_admin_capabilities() {
 	$output .= '<div class="page-options right">';
 	$output .= '<form id="setrowcount" action="" method="post">';
 	$output .= '<div>';
-	$output .= '<label for="row_count">' . __( 'Results per page', 'groups' ) . '</label>';
+	$output .= '<label for="row_count">' . esc_html__( 'Results per page', 'groups' ) . '</label>';
 	$output .= '<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />';
 	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_NONCE_1, true, false );
-	$output .= '<input class="button" type="submit" value="' . __( 'Apply', 'groups' ) . '"/>';
+	$output .= '<input class="button" type="submit" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>';
 	$output .= '</div>';
 	$output .= '</form>';
 	$output .= '</div>';
@@ -374,10 +374,10 @@ function groups_admin_capabilities() {
 	$output .= '<div class="capabilities-bulk-container">';
 	$output .= '<div class="alignleft actions">';
 	$output .= '<select name="bulk-action">';
-	$output .= '<option selected="selected" value="-1">' . esc_html( __( 'Bulk Actions', 'groups' ) ) . '</option>';
-	$output .= '<option value="remove">' . esc_html( __( 'Remove', 'groups' ) ) . '</option>';
+	$output .= '<option selected="selected" value="-1">' . esc_html__( 'Bulk Actions', 'groups' ) . '</option>';
+	$output .= '<option value="remove">' . esc_html__( 'Remove', 'groups' ) . '</option>';
 	$output .= '</select>';
-	$output .= '<input class="button" type="submit" name="bulk" value="' . esc_attr( __( "Apply", 'groups' ) ) . '"/>';
+	$output .= '<input class="button" type="submit" name="bulk" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>';
 	$output .= '</div>';
 	$output .= '</div>';
 	$output .= '</div>';
@@ -487,7 +487,7 @@ function groups_admin_capabilities() {
 			$output .= '</tr>';
 		}
 	} else {
-		$output .= '<tr><td colspan="3">' . __( 'There are no results.', 'groups' ) . '</td></tr>';
+		$output .= '<tr><td colspan="3">' . esc_html__( 'There are no results.', 'groups' ) . '</td></tr>';
 	}
 
 	$output .= '</tbody>';
