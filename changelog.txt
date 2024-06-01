@@ -11,6 +11,9 @@
 * Revised needed code doc formatting.
 * Replaced uses of the extract function with specific parameter handling.
 * Removed the tests folder and script.
+* Added output escaping to instances in code where it was missing.
+* Updated the translation template.
+* Updated the included translations.
 
 = 2.20.1 =
 * WordPress 6.4 compatible.

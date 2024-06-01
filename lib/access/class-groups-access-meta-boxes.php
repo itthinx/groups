@@ -225,7 +225,7 @@ class Groups_Access_Meta_Boxes {
 				'<label title="%s">',
 				esc_attr( $read_help )
 			);
-			$output .= __( 'Read', 'groups' );
+			$output .= esc_html__( 'Read', 'groups' );
 			$output .= ' ';
 
 			$output .= sprintf(
@@ -251,14 +251,14 @@ class Groups_Access_Meta_Boxes {
 			);
 			$output .= '<p class="description">';
 			$output .= sprintf(
-				__( 'Restricts the visibility of this %s to members of the chosen groups.', 'groups' ),
-				$post_singular_name
+				esc_html__( 'Restricts the visibility of this %s to members of the chosen groups.', 'groups' ),
+				esc_html( $post_singular_name )
 			);
 			$output .= '</p>';
 
 		} else {
 			$output .= '<p class="description">';
-			$output .= sprintf( __( 'You cannot set any access restrictions.', 'groups' ), $post_singular_name );
+			$output .= esc_html__( 'You cannot set any access restrictions.', 'groups' );
 			$style = 'cursor:help;vertical-align:middle;';
 			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 				$style = 'cursor:pointer;vertical-align:middle;';
@@ -440,9 +440,8 @@ class Groups_Access_Meta_Boxes {
 				$groups_read = Groups_Post_Access::get_read_group_ids( $post->ID );
 
 				$output = '';
-				$post_singular_name = __( 'Media', 'groups' );
-
-				$output .= __( 'Read', 'groups' );
+				// $post_singular_name = __( 'Media', 'groups' );
+				$output .= esc_html__( 'Read', 'groups' );
 
 				// On attachments edited within the 'Insert Media' popup, the update is triggered too soon and we end up with only the last capability selected.
 				// This occurs when using normal checkboxes as well as the select below (Chosen and Selectize tested).
@@ -470,12 +469,12 @@ class Groups_Access_Meta_Boxes {
 				$select_id = 'attachments-' . $post->ID . '-' . self::GROUPS_READ;
 				$output .= sprintf(
 					'<select id="%s" class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
-					$select_id,
-					'attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]',
+					esc_attr( $select_id ),
+					'attachments[' . esc_attr( $post->ID ) . '][' . esc_attr( self::GROUPS_READ ) . '][]',
 					esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
 					esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
-					__( 'You can restrict the visibility to group members. Choose one or more groups to restrict access. If no groups are chosen, this entry is visible to anyone.', 'groups' ) .
-					Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . __( 'You can create a new group by indicating the group\'s name.', 'groups' ) : ''
+					esc_attr__( 'You can restrict the visibility to group members. Choose one or more groups to restrict access. If no groups are chosen, this entry is visible to anyone.', 'groups' ) .
+					Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . esc_attr__( 'You can create a new group by indicating the group\'s name.', 'groups' ) : ''
 				);
 				$output .= '<option value=""></option>';
 				foreach( $groups as $group ) {
@@ -490,13 +489,16 @@ class Groups_Access_Meta_Boxes {
 				$output .= '</div>';
 
 				$output .= '<p class="description">';
-				$output .= __( 'Restricts the visibility of this entry to members of the chosen groups.', 'groups' );
+				$output .= esc_html__( 'Restricts the visibility of this entry to members of the chosen groups.', 'groups' );
 				$output .= '</p>';
 
 				$output .= '<p class="description">';
-				$output .= __( 'The attachment page is restricted to authorized users, but due to technical limitations, the file can still be accessed directly via its URL.', 'groups' );
+				$output .= esc_html__( 'The attachment page is restricted to authorized users, but due to technical limitations, the file can still be accessed directly via its URL.', 'groups' );
 				$output .= ' ';
-				$output .= sprintf( __( 'Please use <a href="%s" target="_blank">Groups File Access</a> for files that require complete protection.', 'groups' ), esc_url( 'https://www.itthinx.com/shop/groups-file-access/' ) );
+				$output .= sprintf(
+					esc_html__( 'Please use %s for files that require complete protection.', 'groups' ),
+					'<a href="https://www.itthinx.com/shop/groups-file-access/" target="_blank">Groups File Access</a>'
+				);
 				$output .= '</p>';
 
 				$form_fields['groups_read'] = array(
