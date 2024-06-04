@@ -247,7 +247,7 @@ class Groups_Shortcodes {
 		}
 		if ( $user_id !== null ) {
 			$user = new Groups_User( $user_id );
-			$groups = $user->groups;
+			$groups = $user->get_groups();
 
 			if ( !empty( $groups ) ) {
 			// group attr

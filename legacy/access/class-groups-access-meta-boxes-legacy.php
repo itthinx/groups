@@ -218,7 +218,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 				if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 					if ( $user->can( $capability->capability ) ) {
 						$c = new Groups_Capability( $capability->capability_id );
-						$groups = $c->groups;
+						$groups = $c->get_groups();
 						$group_names = array();
 						if ( !empty( $groups ) ) {
 							foreach( $groups as $group ) {
@@ -550,7 +550,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 					if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 						if ( $user->can( $capability->capability ) ) {
 							$c = new Groups_Capability( $capability->capability_id );
-							$groups = $c->groups;
+							$groups = $c->get_groups();
 							$group_names = array();
 							if ( !empty( $groups ) ) {
 								foreach( $groups as $group ) {

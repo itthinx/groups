@@ -145,7 +145,7 @@ class Groups_Post_Access_Legacy {
 		// 1. Get all the capabilities that the user has, including those that are inherited:
 		$caps = array();
 		if ( $user = new Groups_User( $user_id ) ) {
-			$capabilities = $user->capabilities_deep;
+			$capabilities = $user->get_capabilities_deep();
 			if ( is_array( $capabilities ) ) {
 				foreach ( $capabilities as $capability ) {
 					$caps[] = "'". $capability . "'";

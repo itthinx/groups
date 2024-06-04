@@ -181,7 +181,7 @@ class Groups_Comment_Access {
 		$user_id = get_current_user_id();
 		$group_ids = array();
 		if ( $user = new Groups_User( $user_id ) ) {
-			$group_ids_deep = $user->group_ids_deep;
+			$group_ids_deep = $user->get_group_ids_deep();
 			if ( is_array( $group_ids_deep ) ) {
 				$group_ids = $group_ids_deep;
 			}

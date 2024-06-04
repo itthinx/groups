@@ -183,11 +183,9 @@ class Groups_Utility {
 	public static function cmp( $o1, $o2 ) {
 		$result = 0;
 		if ( $o1 instanceof Groups_Group && $o2 instanceof Groups_Group ) {
-			$result = strcmp( $o1->name, $o2->name );
+			$result = strcmp( $o1->get_name(), $o2->get_name() );
 		} else if ( $o1 instanceof Groups_Capability && $o2 instanceof Groups_Capability ) {
-			$c1 = is_object( $o1->capability ) && isset( $o1->capability->capability ) ? $o1->capability->capability : '';
-			$c2 = is_object( $o2->capability ) && isset( $o2->capability->capability ) ? $o2->capability->capability : '';
-			$result = strcmp( $c1, $c2 );
+			$result = strcmp( $o1->get_capability(), $o2->get_capability() );
 		}
 		return $result;
 	}

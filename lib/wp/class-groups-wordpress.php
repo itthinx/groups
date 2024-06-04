@@ -69,27 +69,52 @@ class Groups_WordPress {
 	 * is added and checking this in any other way is too costly.
 	 */
 	public static function init() {
-		// args: string $result, Groups_User $groups_user, string $capability
-		add_filter( 'groups_user_can', array( __CLASS__, 'groups_user_can' ), self::GROUPS_USER_CAN_FILTER_PRIORITY, 3 );
+		// args: boolean $result, Groups_User $groups_user, string $capability
+		add_filter( 'groups_user_can', array( __CLASS__, 'groups_user_can' ), self::GROUPS_USER_CAN_FILTER_PRIORITY, 5 );
 		add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY, 4 );
 	}
 
 	/**
 	 * Extends Groups user capability with its WP_User capability.
 	 *
-	 * @param string $result
+	 * @param boolean $result
 	 * @param Groups_User $groups_user
 	 * @param string $capability
+	 * @param mixed $object
+	 * @param mixed $args
+	 *
+	 * @return boolean
 	 */
-	public static function groups_user_can( $result, $groups_user, $capability ) {
+	public static function groups_user_can( $result, $groups_user, $capability, $object, $args ) {
 		if ( !$result ) {
 			// Check if the capability exists, otherwise this will
 			// produce a deprecation warning "Usage of user levels by plugins
 			// and themes is deprecated", not because we actually use a
 			// deprecated user level, but because it doesn't exist.
 			if ( Groups_Capability::read_by_capability( $capability ) ) {
-				if ( isset( $groups_user->user ) && isset( $groups_user->user->ID ) ) {
-					$result = user_can( $groups_user->user->ID, $capability );
+				if ( $groups_user instanceof Groups_User ) {
+					$user_id = $groups_user->get_user_id();
+					if ( $user_id !== null ) {
+						if ( $object === null ) {
+							$result = user_can( $user_id, $capability );
+						} else {
+							// @since 3.0.0
+							$object_id = null;
+							if ( is_numeric( $object ) ) {
+								$object_id = Groups_Utility::id( $object_id );
+							} else if ( is_object( $object ) && method_exists( $object, 'get_id' ) ) {
+								$object_id = $object->get_id();
+							}
+							// PHP >= 8.1.0 named arguments can be used after unpacking ...$args
+							// With prior PHP versions, the order in which values appear in an $args array
+							// determines the order of the parameters passed.
+							if ( $object_id !== null ) {
+								$result = user_can( $user_id, $capability, $object_id, ...$args );
+							} else {
+								$result = user_can( $user_id, $capability, $object, ...$args );
+							}
+						}
+					}
 				}
 			}
 		}

@@ -14,6 +14,10 @@
 * Added output escaping to instances in code where it was missing.
 * Updated the translation template.
 * Updated the included translations.
+* Extended capability handling methods for group and user objects with object and additional arguments.
+* Refactored to access properties via methods.
+* Fixed deprecated notice for null parameter when editing a group with no description.
+* Fixed deprecated notice for null parameter when editing a capability with no description.
 
 = 2.20.1 =
 * WordPress 6.4 compatible.

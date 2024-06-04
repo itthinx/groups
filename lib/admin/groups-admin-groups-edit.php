@@ -49,7 +49,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
 	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : $group->name;
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : $group->description;
+	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : ( $group->description !== null ? $group->description : '' );
 	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : $group->parent_id;
 
 	$parent_select = '<select name="parent-id-field">';
@@ -137,8 +137,8 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= Groups_UIE::render_select( '.select.capability' );
 
 	$group_object = new Groups_Group( $group_id );
-	$group_capabilities = $group_object->capabilities;
-	$group_capabilities_deep = $group_object->capabilities_deep;
+	$group_capabilities = $group_object->get_capabilities();
+	$group_capabilities_deep = $group_object->get_capabilities_deep();
 	if (
 		(
 			( !empty( $group_capabilities_deep ) ? count( $group_capabilities_deep ) : 0 ) -
@@ -152,7 +152,7 @@ function groups_admin_groups_edit( $group_id ) {
 		$inherited_caps = array();
 		foreach ( $group_capabilities_deep as $group_capability ) {
 			if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
-				$inherited_caps[] = wp_filter_nohtml_kses( $group_capability->capability->capability );
+				$inherited_caps[] = wp_filter_nohtml_kses( $group_capability->get_capability() );
 			}
 		}
 		$output .= implode( ' ', $inherited_caps );

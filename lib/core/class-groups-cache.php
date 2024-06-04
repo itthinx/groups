@@ -146,7 +146,7 @@ class Groups_Cache {
 				if ( $flags & self::ROLES_CACHE_GROUP ) {
 					if ( class_exists( '\Groups_User' ) ) {
 						$groups_user = new \Groups_User( $user->ID );
-						$group_ids = $groups_user->group_ids_deep;
+						$group_ids = $groups_user->get_group_ids_deep();
 						$group_ids = array_map( 'intval', $group_ids );
 						sort( $group_ids, SORT_NUMERIC );
 					}

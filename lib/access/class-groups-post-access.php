@@ -331,7 +331,7 @@ class Groups_Post_Access {
 			// 1. Get all the groups that the user belongs to, including those that are inherited:
 			$group_ids = array();
 			if ( $user = new Groups_User( $user_id ) ) {
-				$group_ids_deep = $user->group_ids_deep;
+				$group_ids_deep = $user->get_group_ids_deep();
 				if ( is_array( $group_ids_deep ) ) {
 					$group_ids = $group_ids_deep;
 				}
@@ -548,7 +548,7 @@ class Groups_Post_Access {
 			$user_id = get_current_user_id();
 			if ( $user_id ) {
 				$groups_user = new Groups_User( $user_id );
-				$group_ids = $groups_user->group_ids_deep;
+				$group_ids = $groups_user->get_group_ids_deep();
 				if ( is_array( $group_ids ) ) {
 					sort( $group_ids );
 					$cache_group .=  '_' . implode( '_', $group_ids );
@@ -898,7 +898,7 @@ class Groups_Post_Access {
 						if ( empty( $group_ids ) ) {
 							$result = true;
 						} else {
-							$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
+							$ids = array_intersect( $groups_user->get_group_ids_deep(), $group_ids );
 							$result = !empty( $ids );
 						}
 					}

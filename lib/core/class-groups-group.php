@@ -311,7 +311,7 @@ class Groups_Group implements I_Capable {
 	/**
 	 * @see I_Capable::can()
 	 */
-	public function can( $capability ) {
+	public function can( $capability, $object = null, $args = null ) {
 
 		global $wpdb;
 		$result = false;
@@ -373,7 +373,21 @@ class Groups_Group implements I_Capable {
 				}
 			}
 		}
-		$result = apply_filters_ref_array( 'groups_group_can', array( $result, &$this, $capability ) );
+		/**
+		 * Filter whether the group has the capability.
+		 *
+		 * @since 3.0.0 $object
+		 * @since 3.0.0 $args
+		 *
+		 * @param boolean $result
+		 * @param Groups_Group $group
+		 * @param string $capability
+		 * @param mixed $object
+		 * @param mixed $args
+		 *
+		 * @return boolean
+		 */
+		$result = apply_filters_ref_array( 'groups_group_can', array( $result, &$this, $capability, $object, $args ) );
 		return $result;
 	}
 

@@ -31,9 +31,14 @@ interface I_Capable {
 	/**
 	 * Finds out if I have the given capability.
 	 *
+	 * @since 3.0.0 the optional $object parameter has been added (experimental)
+	 * @since 3.0.0 the optional $type parameter has been added (experimental)
+	 *
 	 * @param string|int $capability capability or capability id
+	 * @param mixed|null $object (experimental, declaration might change)
+	 * @param mixed|null $args (experimental, declaration might change)
 	 *
 	 * @return true if I can, otherwise false
 	 */
-	public function can( $capability );
+	public function can( $capability, $object = null, $args = null );
 }

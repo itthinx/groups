@@ -607,7 +607,7 @@ class Groups_Access_Meta_Boxes {
 				$group_ids = Groups_Group::get_group_ids();
 			} else {
 				$user = new Groups_User( $user_id );
-				$group_ids = $user->group_ids_deep;
+				$group_ids = $user->get_group_ids_deep();
 			}
 			if ( !empty( $group_ids ) && is_array( $group_ids ) ) {
 				$group_ids = array_map (array( 'Groups_Utility','id'), $group_ids );

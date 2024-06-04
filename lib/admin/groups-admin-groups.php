@@ -507,7 +507,8 @@ function groups_admin_groups() {
 				$result->name ? stripslashes( wp_filter_nohtml_kses( $result->name ) ) : ''
 			);
 			$output .= ' ';
-			$user_count = is_array( $group->user_ids ) ? count( $group->user_ids ) : 0; // guard against null when there are no users
+			$user_ids = $group->get_user_ids();
+			$user_count = is_array( $user_ids ) ? count( $user_ids ) : 0; // guard against null when there are no users
 			$output .= sprintf(
 				'(<a href="%s">%s</a>)',
 				esc_url( $users_url ),
@@ -521,8 +522,8 @@ function groups_admin_groups() {
 
 			$output .= '<td class="capabilities">';
 
-			$group_capabilities = $group->capabilities;
-			$group_capabilities_deep = $group->capabilities_deep;
+			$group_capabilities = $group->get_capabilities();
+			$group_capabilities_deep = $group->get_capabilities_deep();
 			usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
 
 			if ( count( $group_capabilities_deep ) > 0 ) {
@@ -534,9 +535,7 @@ function groups_admin_groups() {
 						$class = 'inherited';
 					}
 					$output .= sprintf( '<span class="%s">', $class );
-					if ( isset( $group_capability->capability ) && isset( $group_capability->capability->capability ) ) {
-						$output .= $group_capability->capability->capability ? stripslashes( wp_filter_nohtml_kses( $group_capability->capability->capability ) ) : '';
-					}
+					$output .= stripslashes( wp_filter_nohtml_kses( $group_capability->get_capability() ) );
 					$output .= '</span>';
 					$output .= '</li>';
 				}

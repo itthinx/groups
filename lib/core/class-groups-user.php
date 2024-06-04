@@ -271,6 +271,19 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
+	 * Provide the ID of the related WP_User object.
+	 *
+	 * @return int|null
+	 */
+	public function get_user_id() {
+		$user_id = null;
+		if ( $this->user !== null && $this->user instanceof WP_User ) {
+			$user_id = $this->user->ID;
+		}
+		return $user_id;
+	}
+
+	/**
 	 * Provides the capabilities of the object.
 	 *
 	 * @return Groups_Capability[]
@@ -503,7 +516,7 @@ class Groups_User implements I_Capable {
 	/**
 	 * @see I_Capable::can()
 	 */
-	public function can( $capability ) {
+	public function can( $capability, $object = null, $args = null ) {
 
 		$result = false;
 
@@ -535,7 +548,21 @@ class Groups_User implements I_Capable {
 				}
 			}
 		}
-		$result = apply_filters_ref_array( 'groups_user_can', array( $result, &$this, $capability ) );
+		/**
+		 * Filter whether the user has the capability.
+		 *
+		 * @since 3.0.0 $object
+		 * @since 3.0.0 $args
+		 *
+		 * @param boolean $result
+		 * @param Groups_User $group_user
+		 * @param string $capability
+		 * @param mixed $object
+		 * @param mixed $args
+		 *
+		 * @return boolean
+		 */
+		$result = apply_filters_ref_array( 'groups_user_can', array( $result, &$this, $capability, $object, $args ) );
 		return $result;
 	}
 
@@ -631,14 +658,14 @@ class Groups_User implements I_Capable {
 					$caps = array();
 					foreach( $role_caps as $role_cap => $has ) {
 						if ( $has && !in_array( $role_cap, $capabilities ) ) {
-							$caps[] = "'" . $role_cap . "'";
+							$caps[] = $role_cap;
 						}
 					}
 					if ( !empty( $caps ) ) {
 						// Retrieve the capabilities and only add those that are
 						// recognized. Note that this also effectively filters out
 						// all roles and that this is desired.
-						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN (" . implode( ',', esc_sql( $caps ) ) . ")" ) ) {
+						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN ('" . implode( "','", esc_sql( $caps ) ) . "')" ) ) {
 							foreach( $role_capabilities as $role_capability ) {
 								$capabilities[]   = $role_capability->capability;
 								$capability_ids[] = $role_capability->capability_id;

@@ -162,7 +162,7 @@ class Groups_Admin_User_Profile {
 		} else {
 			$output = '<h3>' . _x( 'Groups', 'Groups section heading (user profile)', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
-			$groups = $user->groups;
+			$groups = $user->get_groups();
 			if ( is_array( $groups ) ) {
 				if ( count( $groups ) > 0 ) {
 					usort( $groups, array( __CLASS__, 'by_group_name' ) );

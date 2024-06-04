@@ -34,7 +34,7 @@ function groups_admin_capabilities_remove( $capability_id ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability = Groups_Capability::read( intval( $capability_id ) );
+	$capability = new Groups_Capability( $capability_id );
 
 	if ( empty( $capability ) ) {
 		wp_die( esc_html__( 'No such capability.', 'groups' ) );
@@ -50,10 +50,10 @@ function groups_admin_capabilities_remove( $capability_id ) {
 	$output .= '</h1>';
 	$output .= sprintf( '<form id="remove-capability" action="%s" method="post">', esc_url( $current_url ) );
 	$output .= '<div class="capability remove">';
-	$output .= sprintf( '<input id="capability-id-field" name="capability-id-field" type="hidden" value="%s"/>', esc_attr( intval( $capability->capability_id ) ) );
+	$output .= sprintf( '<input id="capability-id-field" name="capability-id-field" type="hidden" value="%s"/>', esc_attr( intval( $capability->get_capability_id() ) ) );
 	$output .= '<ul>';
 	$output .= '<li>';
-	$output .= sprintf( '%s : %s', esc_html__( 'Capability', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
+	$output .= sprintf( '%s : %s', esc_html__( 'Capability', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->get_capability() ) ) );
 	$output .= '</li>';
 	$output .= '</ul> ';
 	$output .= wp_nonce_field( 'capabilities-remove', GROUPS_ADMIN_GROUPS_NONCE, true, false );

@@ -80,6 +80,23 @@ class Groups_Capability {
 	}
 
 	/**
+	 * Provides the literal capability.
+	 *
+	 * @return string
+	 */
+	public function get_capability() {
+		$capability = '';
+		if (
+			$this->capability !== null &&
+			is_object( $this->capability ) &&
+			!empty( $this->capability->capability )
+		) {
+			$capability = $this->capability->capability;
+		}
+		return $capability;
+	}
+
+	/**
 	 * Provides the capability's class.
 	 *
 	 * @return string
