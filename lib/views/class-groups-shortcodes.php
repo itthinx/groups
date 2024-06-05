@@ -318,10 +318,14 @@ class Groups_Shortcodes {
 						case 'list' :
 						case 'ul' :
 						case 'ol' :
-							$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $group->name ) ) . '</li>';
+							// @todo mixed assignments done above, unify to Groups_Group objects only
+							$name = $group instanceof Groups_Group ? $group->get_name() : $group->name;
+							$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $name ) ) . '</li>';
 							break;
 						default :
-							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $group->name ) ) . '</div>';
+							// @todo mixed assignments done above, unify to Groups_Group objects only
+							$name = $group instanceof Groups_Group ? $group->get_name() : $group->name;
+							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $name ) ) . '</div>';
 					}
 				}
 				switch( $options['format'] ) {

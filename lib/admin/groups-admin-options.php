@@ -397,8 +397,10 @@ function groups_network_admin_options() {
 
 /**
  * Compare two post types, considering those that have $public and/or $show_ui true as coming first.
+ *
  * @param object $o1
  * @param object $o2
+ *
  * @return int
  */
 function groups_admin_options_compare_post_types( $o1, $o2 ) {

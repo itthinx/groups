@@ -282,7 +282,7 @@ class Groups_Admin_User_Profile {
 	 * @return int strcmp result for group names
 	 */
 	public static function by_group_name( $o1, $o2 ) {
-		return strcmp( $o1->name, $o2->name );
+		return strcmp( $o1->get_name(), $o2->get_name() );
 	}
 
 }

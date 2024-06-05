@@ -222,7 +222,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 						$group_names = array();
 						if ( !empty( $groups ) ) {
 							foreach( $groups as $group ) {
-								$group_names[] = $group->name;
+								$group_names[] = $group->get_name();
 							}
 						}
 						if ( count( $group_names ) > 0 ) {
@@ -554,7 +554,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 							$group_names = array();
 							if ( !empty( $groups ) ) {
 								foreach( $groups as $group ) {
-									$group_names[] = $group->name;
+									$group_names[] = $group->get_name();
 								}
 							}
 							if ( count( $group_names ) > 0 ) {
