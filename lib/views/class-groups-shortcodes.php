@@ -318,10 +318,10 @@ class Groups_Shortcodes {
 						case 'list' :
 						case 'ul' :
 						case 'ol' :
-							$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</li>';
+							$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $group->name ) ) . '</li>';
 							break;
 						default :
-							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</div>';
+							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $group->name ) ) . '</div>';
 					}
 				}
 				switch( $options['format'] ) {
@@ -349,7 +349,7 @@ class Groups_Shortcodes {
 	 * @return int
 	 */
 	public static function sort_id( $a, $b ) {
-		return $a->group_id - $b->group_id;
+		return $a->get_id() - $b->get_id();
 	}
 
 	/**
@@ -361,7 +361,7 @@ class Groups_Shortcodes {
 	 * @return int
 	 */
 	public static function sort_name( $a, $b ) {
-		return strcmp( $a->name, $b->name );
+		return strcmp( $a->get_name(), $b->get_name() );
 	}
 
 	/**
@@ -410,9 +410,8 @@ class Groups_Shortcodes {
 				$order = 'ASC';
 		}
 		$group_table = _groups_get_tablename( 'group' );
-		if ( $groups = $wpdb->get_results(
-			"SELECT group_id FROM $group_table ORDER BY $order_by $order"
-		) ) {
+		$groups = $wpdb->get_results( "SELECT group_id FROM $group_table ORDER BY $order_by $order" );
+		if ( is_array( $groups ) && count( $groups ) > 0 ) {
 			switch( $options['format'] ) {
 				case 'list' :
 				case 'ul' :
@@ -430,10 +429,10 @@ class Groups_Shortcodes {
 					case 'list' :
 					case 'ul' :
 					case 'ol' :
-						$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</li>';
+						$output .= '<li class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $group->get_name() ) ) . '</li>';
 						break;
 					default :
-						$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . $group->name . '</div>';
+						$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $group->get_name() ) ) . '</div>';
 				}
 			}
 			switch( $options['format'] ) {
