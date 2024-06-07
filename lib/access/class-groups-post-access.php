@@ -261,7 +261,7 @@ class Groups_Post_Access {
 			}
 
 			// Groups admins see everything
-			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 				return $where;
 			}
 
@@ -331,7 +331,7 @@ class Groups_Post_Access {
 			// 1. Get all the groups that the user belongs to, including those that are inherited:
 			$group_ids = array();
 			if ( $user = new Groups_User( $user_id ) ) {
-				$group_ids_deep = $user->group_ids_deep;
+				$group_ids_deep = $user->get_group_ids_deep();
 				if ( is_array( $group_ids_deep ) ) {
 					$group_ids = $group_ids_deep;
 				}
@@ -548,7 +548,7 @@ class Groups_Post_Access {
 			$user_id = get_current_user_id();
 			if ( $user_id ) {
 				$groups_user = new Groups_User( $user_id );
-				$group_ids = $groups_user->group_ids_deep;
+				$group_ids = $groups_user->get_group_ids_deep();
 				if ( is_array( $group_ids ) ) {
 					sort( $group_ids );
 					$cache_group .=  '_' . implode( '_', $group_ids );
@@ -675,10 +675,14 @@ class Groups_Post_Access {
 	 * @return true if the access requirement could be added to the post, otherwise false
 	 */
 	public static function create( $map ) {
-		extract( $map );
+
 		$result = false;
 
-		if ( isset( $capability ) ) {
+		$capability = isset( $map['capability'] ) ? $map['capability'] : null;;
+		$post_id = isset( $map['post_id'] ) ? $map['post_id'] : null;
+		$group_id = isset( $map['group_id'] ) ? $map['group_id'] : null;
+
+		if ( $capability !== null ) {
 			_doing_it_wrong(
 				__CLASS__ . '::' . __METHOD__,
 				__( 'You should use Groups_Post_Access_Legacy::create() to pass a capability restriction instead.', 'groups' ),
@@ -711,10 +715,14 @@ class Groups_Post_Access {
 	 * @return boolean true if the group(s) is required, otherwise false
 	 */
 	public static function read( $post_id, $map = array() ) {
-		extract( $map );
+
 		$result = false;
+
+		$post_id = isset( $map['post_id'] ) ? $map['post_id'] : null;
+		$groups_read = isset( $map['groups_read'] ) ? $map['groups_read'] : null;
+
 		if ( !empty( $post_id ) ) {
-			if ( isset( $groups_read ) ) {
+			if ( $groups_read !== null ) {
 				if ( empty( $groups_read ) ) {
 					$groups_read = array();
 				} else if ( !is_array( $groups_read ) ) {
@@ -744,8 +752,12 @@ class Groups_Post_Access {
 	 * @return array of group ids, false on failure
 	 */
 	public static function update( $map ) {
-		extract( $map );
+
 		$result = false;
+
+		$post_id = isset( $map['post_id'] ) ? $map['post_id'] : null;
+		$groups_read = isset( $map['groups_read'] ) ? $map['groups_read'] : null;
+
 		if ( !empty( $post_id ) ) {
 			if ( empty( $groups_read ) ) {
 				$groups_read = array();
@@ -780,8 +792,12 @@ class Groups_Post_Access {
 	 * @return boolean true on success, otherwise false
 	 */
 	public static function delete( $post_id, $map = array() ) {
-		extract( $map );
+
 		$result = false;
+
+		$post_id = isset( $map['post_id'] ) ? $map['post_id'] : null;
+		$groups_read = isset( $map['groups_read'] ) ? $map['groups_read'] : null;
+
 		if ( !empty( $post_id ) ) {
 			if ( empty( $groups_read ) ) {
 				$groups_read = array();
@@ -804,6 +820,7 @@ class Groups_Post_Access {
 	 * Returns a list of capabilities that grant access to the post.
 	 *
 	 * @deprecated
+	 *
 	 * @param int $post_id
 	 *
 	 * @return array of string, capabilities
@@ -865,7 +882,7 @@ class Groups_Post_Access {
 				unset( $cached );
 			} else {
 				// admin override and Groups admins see everything
-				if ( _groups_admin_override() || current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+				if ( _groups_admin_override() || Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 					$result = true;
 				} else {
 					// can read if post type is not handled
@@ -881,7 +898,7 @@ class Groups_Post_Access {
 						if ( empty( $group_ids ) ) {
 							$result = true;
 						} else {
-							$ids = array_intersect( $groups_user->group_ids_deep, $group_ids );
+							$ids = array_intersect( $groups_user->get_group_ids_deep(), $group_ids );
 							$result = !empty( $ids );
 						}
 					}

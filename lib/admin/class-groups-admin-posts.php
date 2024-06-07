@@ -51,7 +51,7 @@ class Groups_Admin_Posts {
 	 * capability.
 	 */
 	public static function admin_init() {
-		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
 			add_action( 'admin_head', array( __CLASS__, 'admin_head' ) );
 			add_action( 'restrict_manage_posts', array( __CLASS__, 'restrict_manage_posts' ) );
@@ -137,8 +137,8 @@ class Groups_Admin_Posts {
 					$output .= sprintf(
 						'<select class="select group" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ ),
-						esc_attr( __( 'Groups &hellip;', 'groups' ) ) ,
-						esc_attr( __( 'Groups &hellip;', 'groups' ) )
+						esc_attr__( 'Groups &hellip;', 'groups' ),
+						esc_attr__( 'Groups &hellip;', 'groups' )
 					);
 
 					$previous_selected = array();
@@ -151,12 +151,12 @@ class Groups_Admin_Posts {
 					$output .= sprintf(
 						'<option value="%s" %s >%s</option>', self::NOT_RESTRICTED,
 						esc_attr( in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '' ),
-						esc_attr( __( '(none)', 'groups' ) )
+						esc_attr__( '(none)', 'groups' )
 					);
 					$output .= sprintf(
 						'<option value="%s" %s >%s</option>', self::RESTRICTED,
 						esc_attr( in_array( self::RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '' ),
-						esc_attr( __( '(any)', 'groups' ) )
+						esc_attr__( '(any)', 'groups' )
 					);
 
 					$groups = apply_filters( 
@@ -165,8 +165,8 @@ class Groups_Admin_Posts {
 							apply_filters( 
 								'groups_admin_posts_restrict_manage_posts_get_groups_options', 
 								array( 'order_by' => 'name', 'order' => 'ASC' ) 
-							) 
-						) 
+							)
+						)
 					);
 					foreach( $groups as $group ) {
 						$selected = in_array( $group->group_id, $previous_selected ) ? ' selected="selected" ' : '';
@@ -187,9 +187,9 @@ class Groups_Admin_Posts {
 						method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
 						method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0, the method isn't used here but it wouldn't make any sense to query unless we're >= 2.0.0
 					) {
-						$output .= sprintf( '<label class="groups-read-terms" title="%s">', esc_attr( __( 'Also look for groups related to terms', 'groups' ) ) );
+						$output .= sprintf( '<label class="groups-read-terms" title="%s">', esc_attr__( 'Also look for groups related to terms', 'groups' ) );
 						$output .= sprintf( '<input type="checkbox" name="groups-read-terms" value="1" %s />', empty( $_GET['groups-read-terms'] ) ? '' : ' checked="checked" ' );
-						$output .= __( 'Terms', 'groups' );
+						$output .= esc_html__( 'Terms', 'groups' );
 						$output .= '</label>';
 					}
 					echo $output;
@@ -229,9 +229,9 @@ class Groups_Admin_Posts {
 					$output .= _x( 'Groups', 'Bulk edit field label', 'groups' );
 					$output .= '</span>';
 					$output .= '<select class="groups-action" name="groups-action">';
-					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', 'groups' ) . '</option>';
-					$output .= '<option value="add-group">' . __( 'Add restriction', 'groups' ) . '</option>';
-					$output .= '<option value="remove-group">' . __( 'Remove restriction', 'groups' ) . '</option>';
+					$output .= '<option selected="selected" value="-1">' . esc_html__( '&mdash; No Change &mdash;', 'groups' ) . '</option>';
+					$output .= '<option value="add-group">' . esc_html__( 'Add restriction', 'groups' ) . '</option>';
+					$output .= '<option value="remove-group">' . esc_html__( 'Remove restriction', 'groups' ) . '</option>';
 					$output .= '</select>';
 					$output .= '</label>';
 
@@ -243,8 +243,8 @@ class Groups_Admin_Posts {
 					$output .= sprintf(
 						'<select class="select bulk-group" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ ),
-						esc_attr( __( 'Choose access restriction groups &hellip;', 'groups' ) ) ,
-						esc_attr( __( 'Choose access restriction groups &hellip;', 'groups' ) )
+						esc_attr__( 'Choose access restriction groups &hellip;', 'groups' ),
+						esc_attr__( 'Choose access restriction groups &hellip;', 'groups' )
 					);
 
 					foreach( $groups as $group ) {

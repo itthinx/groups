@@ -53,7 +53,7 @@ class Groups_Access_Meta_Boxes {
 	 * Hooks for capabilities meta box and saving options.
 	 */
 	public static function wp_init() {
-		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
 
 			add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ), 10, 2 );
@@ -138,7 +138,7 @@ class Groups_Access_Meta_Boxes {
 								'</p>' .
 								'<p>' .
 								esc_html__( 'You can select one or more groups to restrict access to its members.', 'groups' ) .
-								( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
+								( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
 									' ' .
 									esc_html__( 'Note that you must be a member of a group to use it to restrict access.', 'groups' )
 									:
@@ -160,7 +160,7 @@ class Groups_Access_Meta_Boxes {
 									array( 'em' => array() )
 								) .
 								'<p>' .
-								( current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
+								( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
 									'<p>' .
 									esc_html__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it.', 'groups' ) .
 									'</p>'
@@ -217,7 +217,7 @@ class Groups_Access_Meta_Boxes {
 				$post_singular_name,
 				$post_singular_name
 			);
-			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 				$read_help .= ' ' . __( 'You can create a new group by indicating the group\'s name.', 'groups' );
 			}
 
@@ -225,7 +225,7 @@ class Groups_Access_Meta_Boxes {
 				'<label title="%s">',
 				esc_attr( $read_help )
 			);
-			$output .= __( 'Read', 'groups' );
+			$output .= esc_html__( 'Read', 'groups' );
 			$output .= ' ';
 
 			$output .= sprintf(
@@ -247,25 +247,25 @@ class Groups_Access_Meta_Boxes {
 				'.select.groups-read',
 				true,
 				true,
-				current_user_can( GROUPS_ADMINISTER_GROUPS )
+				Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS )
 			);
 			$output .= '<p class="description">';
 			$output .= sprintf(
-				__( 'Restricts the visibility of this %s to members of the chosen groups.', 'groups' ),
-				$post_singular_name
+				esc_html__( 'Restricts the visibility of this %s to members of the chosen groups.', 'groups' ),
+				esc_html( $post_singular_name )
 			);
 			$output .= '</p>';
 
 		} else {
 			$output .= '<p class="description">';
-			$output .= sprintf( __( 'You cannot set any access restrictions.', 'groups' ), $post_singular_name );
+			$output .= esc_html__( 'You cannot set any access restrictions.', 'groups' );
 			$style = 'cursor:help;vertical-align:middle;';
-			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 				$style = 'cursor:pointer;vertical-align:middle;';
 				$output .= sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=groups-admin-options' ) ) );
 			}
 			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You need to have permission to set access restrictions.', 'groups' ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
-			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 				$output .= '</a>';
 			}
 			$output .= '</p>';
@@ -356,7 +356,7 @@ class Groups_Access_Meta_Boxes {
 									}
 								}
 
-								if ( current_user_can( $edit_post_type, $post_id ) ) {
+								if ( Groups_User::current_user_can( $edit_post_type, $post_id ) ) {
 									$include = self::get_user_can_restrict_group_ids();
 									$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 									$user_group_ids_deep = array();
@@ -373,7 +373,7 @@ class Groups_Access_Meta_Boxes {
 												$group_ids[] = $group_id;
 											}
 										} else {
-											if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+											if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 												$creator_id = get_current_user_id();
 												$datetime   = date( 'Y-m-d H:i:s', time() );
 												$name       = ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
@@ -440,9 +440,8 @@ class Groups_Access_Meta_Boxes {
 				$groups_read = Groups_Post_Access::get_read_group_ids( $post->ID );
 
 				$output = '';
-				$post_singular_name = __( 'Media', 'groups' );
-
-				$output .= __( 'Read', 'groups' );
+				// $post_singular_name = __( 'Media', 'groups' );
+				$output .= esc_html__( 'Read', 'groups' );
 
 				// On attachments edited within the 'Insert Media' popup, the update is triggered too soon and we end up with only the last capability selected.
 				// This occurs when using normal checkboxes as well as the select below (Chosen and Selectize tested).
@@ -470,12 +469,12 @@ class Groups_Access_Meta_Boxes {
 				$select_id = 'attachments-' . $post->ID . '-' . self::GROUPS_READ;
 				$output .= sprintf(
 					'<select id="%s" class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
-					$select_id,
-					'attachments[' . $post->ID . '][' . self::GROUPS_READ . '][]',
+					esc_attr( $select_id ),
+					'attachments[' . esc_attr( $post->ID ) . '][' . esc_attr( self::GROUPS_READ ) . '][]',
 					esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
 					esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
-					__( 'You can restrict the visibility to group members. Choose one or more groups to restrict access. If no groups are chosen, this entry is visible to anyone.', 'groups' ) .
-					current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . __( 'You can create a new group by indicating the group\'s name.', 'groups' ) : ''
+					esc_attr__( 'You can restrict the visibility to group members. Choose one or more groups to restrict access. If no groups are chosen, this entry is visible to anyone.', 'groups' ) .
+					Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . esc_attr__( 'You can create a new group by indicating the group\'s name.', 'groups' ) : ''
 				);
 				$output .= '<option value=""></option>';
 				foreach( $groups as $group ) {
@@ -485,18 +484,21 @@ class Groups_Access_Meta_Boxes {
 				}
 				$output .= '</select>';
 
-				$output .= Groups_UIE::render_select( '#'.$select_id, true, true, current_user_can( GROUPS_ADMINISTER_GROUPS ) );
+				$output .= Groups_UIE::render_select( '#'.$select_id, true, true, Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) );
 
 				$output .= '</div>';
 
 				$output .= '<p class="description">';
-				$output .= __( 'Restricts the visibility of this entry to members of the chosen groups.', 'groups' );
+				$output .= esc_html__( 'Restricts the visibility of this entry to members of the chosen groups.', 'groups' );
 				$output .= '</p>';
 
 				$output .= '<p class="description">';
-				$output .= __( 'The attachment page is restricted to authorized users, but due to technical limitations, the file can still be accessed directly via its URL.', 'groups' );
+				$output .= esc_html__( 'The attachment page is restricted to authorized users, but due to technical limitations, the file can still be accessed directly via its URL.', 'groups' );
 				$output .= ' ';
-				$output .= sprintf( __( 'Please use <a href="%s" target="_blank">Groups File Access</a> for files that require complete protection.', 'groups' ), esc_url( 'https://www.itthinx.com/shop/groups-file-access/' ) );
+				$output .= sprintf(
+					esc_html__( 'Please use %s for files that require complete protection.', 'groups' ),
+					'<a href="https://www.itthinx.com/shop/groups-file-access/" target="_blank">Groups File Access</a>'
+				);
 				$output .= '</p>';
 
 				$form_fields['groups_read'] = array(
@@ -601,11 +603,11 @@ class Groups_Access_Meta_Boxes {
 			$user_id = get_current_user_id();
 		}
 		if ( self::user_can_restrict( $user_id ) ) {
-			if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 				$group_ids = Groups_Group::get_group_ids();
 			} else {
 				$user = new Groups_User( $user_id );
-				$group_ids = $user->group_ids_deep;
+				$group_ids = $user->get_group_ids_deep();
 			}
 			if ( !empty( $group_ids ) && is_array( $group_ids ) ) {
 				$group_ids = array_map (array( 'Groups_Utility','id'), $group_ids );

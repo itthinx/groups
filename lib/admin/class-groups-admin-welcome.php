@@ -64,7 +64,7 @@ class Groups_Admin_Welcome {
 	public static function admin_init() {
 		global $groups_version;
 		if (
-			current_user_can( GROUPS_ACCESS_GROUPS ) &&
+			Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) &&
 			isset( $_GET['groups-welcome-dismiss'] ) &&
 			isset( $_GET['_groups_welcome_nonce'] )
 		) {
@@ -84,7 +84,7 @@ class Groups_Admin_Welcome {
 					( empty( $_GET['page'] ) || $_GET['page'] !== 'groups-welcome' ) &&
 					!is_network_admin() &&
 					!isset( $_GET['activate-multi'] ) &&
-					current_user_can( GROUPS_ACCESS_GROUPS ) &&
+					Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) &&
 					apply_filters( 'groups_welcome_show', true )
 				) {
 					wp_safe_redirect( admin_url( 'index.php?page=groups-welcome' ) );
@@ -107,8 +107,8 @@ class Groups_Admin_Welcome {
 				'welcome' => sprintf(
 					'<a href="%s" title="%s">%s</a>',
 					esc_url( admin_url( 'index.php?page=groups-welcome' ) ),
-					esc_attr( __( 'View the Welcome screen for this version of Groups', 'groups' ) ),
-					esc_html( __( 'Welcome', 'groups' ) )
+					esc_attr__( 'View the Welcome screen for this version of Groups', 'groups' ),
+					esc_html__( 'Welcome', 'groups' )
 				)
 			);
 			return array_merge( $links, $row_meta );
@@ -135,14 +135,14 @@ class Groups_Admin_Welcome {
 		printf( '<img class="groups-welcome-icon" width="64" height="64" src="%s"/>', esc_attr( GROUPS_PLUGIN_URL . 'images/groups-256x256.png' ) );
 
 		echo '<h1>';
-		printf( __( 'Welcome to Groups %s', 'groups' ), esc_html( $groups_version ) );
+		printf( esc_html__( 'Welcome to Groups %s', 'groups' ), esc_html( $groups_version ) );
 		echo '</h1>';
 
 		printf(
 			'<a class="notice-dismiss" href="%s" title="%s" aria-label="%s"></a>',
 			esc_url( wp_nonce_url( add_query_arg( 'groups-welcome-dismiss', '1', admin_url() ), 'groups_welcome_dismiss', '_groups_welcome_nonce' ) ),
-			esc_attr( __( 'Dismiss', 'groups' ) ),
-			esc_html( __( 'Dismiss', 'groups' ) )
+			esc_attr__( 'Dismiss', 'groups' ),
+			esc_html__( 'Dismiss', 'groups' )
 		);
 
 		echo '<p class="headline">';
@@ -157,7 +157,7 @@ class Groups_Admin_Welcome {
 			echo '<br/><br/>';
 			_e( 'It seems that you have updated from Groups 1.x where access restrictions were based on capabilities.', 'groups' );
 			echo '<br/>';
-			printf( __( 'Please make sure to read the notes on <strong>Switching to Groups %s</strong> below.', 'groups' ), esc_html( $groups_version ) );
+			printf( wp_kses_post( __( 'Please make sure to read the notes on <strong>Switching to Groups %s</strong> below.', 'groups' ) ), esc_html( $groups_version ) );
 			echo '</p>';
 		}
 
@@ -196,10 +196,10 @@ class Groups_Admin_Welcome {
 
 		$legacy_enabled = Groups_Options::get_option( GROUPS_LEGACY_ENABLE );
 		echo '<h2>';
-		printf( __( 'Switching to Groups %s', 'groups' ), esc_html( $groups_version ) );
+		printf( esc_html__( 'Switching to Groups %s', 'groups' ), esc_html( $groups_version ) );
 		echo '</h2>';
 		echo '<p>';
-		printf( __( 'Groups %s features a simpler model for access restrictions based on groups instead of capabilities used in previous versions.', 'groups' ), esc_html( $groups_version ) );
+		printf( esc_html__( 'Groups %s features a simpler model for access restrictions based on groups instead of capabilities used in previous versions.', 'groups' ), esc_html( $groups_version ) );
 		echo ' ';
 		_e( 'To put it simple, previously you would have used capabilities to restrict access to posts and now you simply use groups.', 'groups' );
 		echo ' ';

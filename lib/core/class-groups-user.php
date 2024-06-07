@@ -31,24 +31,59 @@ require_once GROUPS_CORE_LIB . '/class-groups-capability.php';
  */
 class Groups_User implements I_Capable {
 
-	const CACHE_GROUP         = 'groups';
-	const CAPABILITIES        = 'capabilities';
-	const CAPABILITIES_BASE   = 'capabilities_base';
-	const CAPABILITY_IDS      = 'capability_ids';
+	/**
+	 * @var string cache group key
+	 */
+	const CACHE_GROUP = 'groups';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const CAPABILITIES = 'capabilities';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const CAPABILITIES_BASE = 'capabilities_base';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const CAPABILITY_IDS = 'capability_ids';
+
+	/**
+	 * @var string cache key prefix
+	 */
 	const CAPABILITY_IDS_BASE = 'capability_ids_base';
-	const GROUP_IDS           = 'group_ids';
-	const GROUP_IDS_BASE      = 'group_ids_base';
-	const GROUPS              = 'groups';
-	const GROUPS_BASE         = 'groups_base';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const GROUP_IDS = 'group_ids';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const GROUP_IDS_BASE = 'group_ids_base';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const GROUPS = 'groups';
+
+	/**
+	 * @var string cache key prefix
+	 */
+	const GROUPS_BASE = 'groups_base';
 
 	/**
 	 * User object.
 	 *
-	 * @private Use $this->get_user() instead as this property will be made private in a future release of Groups
+	 * @access private - Use $this->get_user() instead as this property will be made private in a future release of Groups
 	 *
 	 * @var WP_User
 	 */
-	var $user = null;
+	public $user = null;
 
 	/**
 	 * Hook cache clearers to actions that can modify the capabilities.
@@ -130,6 +165,74 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
+	 * Whether the current user has the capability.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $capability capability name
+	 * @param mixed ...$args optional parameters, typically an object ID
+	 *
+	 * @return boolean
+	 */
+	public static function current_user_can( $capability, ...$args ) {
+		//
+		// The global $current_user is determined in the privately scoped function _wp_get_current_user() defined in wp-includes/user.php.
+		// The only call to that function is made in wp_get_current_user(), defined in wp-includes/pluggable.php.
+		//
+		// A call to current_user_can() defined in wp-includes/capabilities.php which is using wp_get_current_user()
+		// which is defined in wp-includes/pluggable.php. The latter is simply wrapping a call to _wp_get_current_user().
+		// The wp-includes/pluggable.php is loaded after all plugins have been loaded in a loop in wp-settings.php, whereas
+		// wp-includes/user.php is loaded before. So if a plugin makes use of current_user_can() during the loop in wp-settings.php
+		// which loads all plugins, the function wp_get_current_user() is not yet defined and a call to current_user_can() ends
+		// up creating an error. The function wp_get_current_user() can be defined by a plugin in which case the native
+		// WordPress version is not used. Thus we should not simply load wp-includes/pluggable.php in the "plugin-loading-loop"
+		// as that would void the ability of overriding the wp_get_current_user() function via a plugin as the standard is loaded
+		// before that loop ends loading all plugins.
+		//
+		// So if wp_get_current_user() is not yet defined, the global $current_user is not yet determined.
+		// Because of that, a call to current_user_can() should assume the logged out or anonymous user.
+		// This is the correct way to handle the situation when wp_get_current_user() is not defined yet,
+		// and we SHOULD NOT load wp-includes/pluggable.php.
+		//
+		$user = 0;
+		if ( function_exists( 'wp_get_current_user' ) ) {
+			$user = wp_get_current_user();
+		}
+		return self::user_can( $user, $capability, ...$args );
+	}
+
+	/**
+	 * Whether the given user has the capability.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int|WP_User $user user ID or object
+	 * @param string $capability capability name
+	 * @param mixed ...$args optional parameters, typically an object ID
+	 *
+	 * @return boolean
+	 */
+	public static function user_can( $user, $capability, ...$args ) {
+		// If $user is not an object, user_can() will call get_userdata() which is defined in wp-includes/pluggable.php.
+		if ( function_exists( 'get_userdata' ) ) {
+			return user_can( $user, $capability, ...$args );
+		}
+		// So we will have just the same problem as with current_user_can() unless we avoid getting functions involved which are not yet defined.
+		// user_can() calls $user->has_cap() to produce the result, same here:
+		if ( !( $user instanceof WP_User ) ) {
+			$user = intval( $user );
+			$user = new WP_User( $user );
+			if ( $user === 0 ) {
+				$user->init( new stdClass() );
+			}
+		}
+		if ( $user instanceof WP_User ) {
+			return $user->has_cap( $capability, ...$args );
+		}
+		return false;
+	}
+
+	/**
 	 * Create, if $user_id = 0 an anonymous user is assumed.
 	 *
 	 * @param int $user_id
@@ -154,6 +257,100 @@ class Groups_User implements I_Capable {
 	 */
 	public function get_user() {
 		return $this->user;
+	}
+
+	/**
+	 * Set the related WP_User object.
+	 *
+	 * @param WP_User $user the user object
+	 */
+	public function set_user( $user ) {
+		if ( $user instanceof WP_User ) {
+			$this->user = $user;
+		}
+	}
+
+	/**
+	 * Provide the ID of the related WP_User object.
+	 *
+	 * @return int|null
+	 */
+	public function get_user_id() {
+		$user_id = null;
+		if ( $this->user !== null && $this->user instanceof WP_User ) {
+			$user_id = $this->user->ID;
+		}
+		return $user_id;
+	}
+
+	/**
+	 * Provides the capabilities of the object.
+	 *
+	 * @return Groups_Capability[]
+	 */
+	public function get_capabilities() {
+		return $this->capabilities;
+	}
+
+	/**
+	 * Provides the IDs of the capabilities of this object.
+	 *
+	 * @return int[]
+	 */
+	public function get_capability_ids() {
+		return $this->capability_ids;
+	}
+
+	/**
+	 * Provides the capabilities of the object, those of the user's roles and those of the object's groups, including from ancestor groups.
+	 *
+	 * @return Groups_Capability[]
+	 */
+	public function get_capabilities_deep() {
+		return $this->capabilities_deep;
+	}
+
+	/**
+	 * Provides the IDs of the capabilities of object, those of the user's roles and those of the object's groups, including from ancestor groups.
+	 *
+	 * @return int[]
+	 */
+	public function get_capability_ids_deep() {
+		return $this->capability_ids_deep;
+	}
+
+	/**
+	 * Provides the groups this object relates to.
+	 *
+	 * @return Groups_Group[]
+	 */
+	public function get_groups() {
+		return $this->groups;
+	}
+
+	/**
+	 * Provides the groups that this object relates to and includes their ancestors.
+	 *
+	 * @return Groups_Group[]
+	 */
+	public function get_groups_deep() {
+		return $this->groups_deep;
+	}
+
+	/**
+	 * Provides the IDs of the groups that this object relates to.
+	 *
+	 * @return int[]
+	 */
+	public function get_group_ids() {
+		return $this->group_ids;
+	}
+
+	/**
+	 * Provide the IDs of the groups that this object relates to and from ancestor groups.
+	 */
+	public function get_group_ids_deep() {
+		return $this->group_ids_deep;
 	}
 
 	/**
@@ -319,7 +516,7 @@ class Groups_User implements I_Capable {
 	/**
 	 * @see I_Capable::can()
 	 */
-	public function can( $capability ) {
+	public function can( $capability, $object = null, $args = null ) {
 
 		$result = false;
 
@@ -351,7 +548,21 @@ class Groups_User implements I_Capable {
 				}
 			}
 		}
-		$result = apply_filters_ref_array( 'groups_user_can', array( $result, &$this, $capability ) );
+		/**
+		 * Filter whether the user has the capability.
+		 *
+		 * @since 3.0.0 $object
+		 * @since 3.0.0 $args
+		 *
+		 * @param boolean $result
+		 * @param Groups_User $group_user
+		 * @param string $capability
+		 * @param mixed $object
+		 * @param mixed $args
+		 *
+		 * @return boolean
+		 */
+		$result = apply_filters_ref_array( 'groups_user_can', array( $result, &$this, $capability, $object, $args ) );
 		return $result;
 	}
 
@@ -447,14 +658,14 @@ class Groups_User implements I_Capable {
 					$caps = array();
 					foreach( $role_caps as $role_cap => $has ) {
 						if ( $has && !in_array( $role_cap, $capabilities ) ) {
-							$caps[] = "'" . $role_cap . "'";
+							$caps[] = $role_cap;
 						}
 					}
 					if ( !empty( $caps ) ) {
 						// Retrieve the capabilities and only add those that are
 						// recognized. Note that this also effectively filters out
 						// all roles and that this is desired.
-						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN (" . implode( ',', $caps ) . ")" ) ) {
+						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN ('" . implode( "','", esc_sql( $caps ) ) . "')" ) ) {
 							foreach( $role_capabilities as $role_capability ) {
 								$capabilities[]   = $role_capability->capability;
 								$capability_ids[] = $role_capability->capability_id;

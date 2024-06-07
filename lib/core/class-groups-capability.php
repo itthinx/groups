@@ -45,8 +45,10 @@ class Groups_Capability {
 
 	/**
 	 * @var object persisted capability object
+	 *
+	 * @access private - do not access this property directly, the visibility will be made private in the future
 	 */
-	var $capability = null;
+	public $capability = null;
 
 	/**
 	 * Create by capability id.
@@ -57,6 +59,95 @@ class Groups_Capability {
 	 */
 	public function __construct( $capability_id ) {
 		$this->capability = self::read( $capability_id );
+	}
+
+	/**
+	 * Provides the object ID.
+	 *
+	 * @return int
+	 */
+	public function get_id() {
+		return $this->get_capability_id();
+	}
+
+	/**
+	 * Provides the object ID.
+	 *
+	 * @return int
+	 */
+	public function get_capability_id() {
+		return $this->capability_id;
+	}
+
+	/**
+	 * Provides the literal capability.
+	 *
+	 * @return string
+	 */
+	public function get_capability() {
+		$capability = '';
+		if (
+			$this->capability !== null &&
+			is_object( $this->capability ) &&
+			!empty( $this->capability->capability )
+		) {
+			$capability = $this->capability->capability;
+		}
+		return $capability;
+	}
+
+	/**
+	 * Provides the capability's class.
+	 *
+	 * @return string
+	 */
+	public function get_class() {
+		return $this->class;
+	}
+
+	/**
+	 * Provides the capability's object.
+	 *
+	 * @return string
+	 */
+	public function get_object() {
+		return $this->object;
+	}
+
+	/**
+	 * Provides the capability's name.
+	 *
+	 * @return string
+	 */
+	public function get_name() {
+		return $this->name;
+	}
+
+	/**
+	 * Provides the capability's description.
+	 *
+	 * @return string
+	 */
+	public function get_description() {
+		return $this->description;
+	}
+
+	/**
+	 * Provides the IDs of groups that have the capability.
+	 *
+	 * @return int[]
+	 */
+	public function get_group_ids(){
+		return $this->group_ids;
+	}
+
+	/**
+	 * Provides the groups that have the capability.
+	 *
+	 * @return Groups_Group[]
+	 */
+	public function get_groups() {
+		return $this->groups;
 	}
 
 	/**
@@ -140,18 +231,21 @@ class Groups_Capability {
 	public static function create( $map ) {
 
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
 
+		$capability = isset( $map['capability'] ) ? $map['capability'] : null;
+		$class = isset( $map['class'] ) ? $map['class'] : null;
+		$object = isset( $map['object'] ) ? $map['object'] : null;
+		$name = isset( $map['name'] ) ? $map['name'] : null;
+		$description = isset( $map['description'] ) ? $map['description'] : null;
+
 		if ( !empty( $capability ) ) {
-
 			if ( self::read_by_capability( $capability ) === false ) {
-
 				$data = array(
 					'capability' => $capability
 				);
 				$formats = array( '%s' );
-
 				if ( !empty( $class ) ) {
 					$data['class'] = $class;
 					$formats[] = '%s';
@@ -251,28 +345,34 @@ class Groups_Capability {
 	public static function update( $map ) {
 
 		global $wpdb;
-		extract( $map );
+
 		$result = false;
 
-		if ( isset( $capability_id ) && !empty( $capability ) ) {
+		$capability_id = isset( $map['capability_id'] ) ? $map['capability_id'] : null;
+		$capability = isset( $map['capability'] ) ? $map['capability'] : null;
+		$class = isset( $map['class'] ) ? $map['class'] : null;
+		$object = isset( $map['object'] ) ? $map['object'] : null;
+		$name = isset( $map['name'] ) ? $map['name'] : null;
+		$description = isset( $map['description'] ) ? $map['description'] : null;
+
+		if ( $capability_id !== null ) {
 			$capability_table = _groups_get_tablename( 'capability' );
 			$old_capability = Groups_Capability::read( $capability_id );
 			if ( $old_capability ) {
-				if ( isset( $capability ) ) {
+				if ( $capability !== null ) {
 					$old_capability_capability = $old_capability->capability;
 					$old_capability->capability = $capability;
 				}
-				if ( isset( $class ) ) {
+				if ( $class !== null ) {
 					$old_capability->class = $class;
 				}
-				if ( isset( $object ) ) {
+				if ( $object !== null ) {
 					$old_capability->object = $object;
 				}
-				if ( isset( $name ) ) {
-					$old_name = $old_capability->name;
+				if ( $name !== null ) {
 					$old_capability->name = $name;
 				}
-				if ( isset( $description ) ) {
+				if ( $description !== null ) {
 					$old_capability->description = $description;
 				}
 				$rows = $wpdb->query( $wpdb->prepare(

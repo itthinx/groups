@@ -69,7 +69,7 @@ class Groups_Admin_Post_Columns {
 	 * restrictions enabled.
 	 */
 	public static function admin_init() {
-		if ( current_user_can( GROUPS_ACCESS_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) ) {
 			$post_types = get_post_types( array( 'public' => true ) );
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			foreach ( $post_types as $post_type ) {
@@ -105,8 +105,8 @@ class Groups_Admin_Post_Columns {
 	public static function columns( $column_headers ) {
 		$column_headers[self::GROUPS] = sprintf(
 			'<span title="%s">%s</span>',
-			esc_attr( __( 'One or more groups granting access to entries.', 'groups' ) ),
-			esc_html( _x( 'Groups', 'Column header', 'groups' ) )
+			esc_attr__( 'One or more groups granting access to entries.', 'groups' ),
+			esc_html_x( 'Groups', 'Column header', 'groups' )
 		);
 		return $column_headers;
 	}

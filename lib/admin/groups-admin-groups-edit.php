@@ -34,14 +34,14 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$output = '';
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$group = Groups_Group::read( intval( $group_id ) );
 
 	if ( empty( $group ) ) {
-		wp_die( __( 'No such group.', 'groups' ) );
+		wp_die( esc_html__( 'No such group.', 'groups' ) );
 	}
 
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -49,7 +49,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
 	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : $group->name;
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : $group->description;
+	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : ( $group->description !== null ? $group->description : '' );
 	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : $group->parent_id;
 
 	$parent_select = '<select name="parent-id-field">';
@@ -87,14 +87,14 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$output .= '<div class="field">';
 	$output .= '<label for="parent-id-field" class="field-label">';
-	$output .= __( 'Parent', 'groups' );
+	$output .= esc_html__( 'Parent', 'groups' );
 	$output .= '</label>';
 	$output .= $parent_select;
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
 	$output .= '<label for="description-field" class="field-label description-field">';
-	$output .=  __( 'Description', 'groups' );
+	$output .=  esc_html__( 'Description', 'groups' );
 	$output .= '</label>';
 	$output .= '<textarea id="description-field" name="description-field" rows="5" cols="45">';
 	$output .= stripslashes( wp_filter_nohtml_kses( $description ) );
@@ -137,8 +137,8 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= Groups_UIE::render_select( '.select.capability' );
 
 	$group_object = new Groups_Group( $group_id );
-	$group_capabilities = $group_object->capabilities;
-	$group_capabilities_deep = $group_object->capabilities_deep;
+	$group_capabilities = $group_object->get_capabilities();
+	$group_capabilities_deep = $group_object->get_capabilities_deep();
 	if (
 		(
 			( !empty( $group_capabilities_deep ) ? count( $group_capabilities_deep ) : 0 ) -
@@ -152,7 +152,7 @@ function groups_admin_groups_edit( $group_id ) {
 		$inherited_caps = array();
 		foreach ( $group_capabilities_deep as $group_capability ) {
 			if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
-				$inherited_caps[] = wp_filter_nohtml_kses( $group_capability->capability->capability );
+				$inherited_caps[] = wp_filter_nohtml_kses( $group_capability->get_capability() );
 			}
 		}
 		$output .= implode( ' ', $inherited_caps );
@@ -183,12 +183,12 @@ function groups_admin_groups_edit_submit() {
 
 	global $wpdb;
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'groups-edit' ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$group_id = isset( $_POST['group-id-field'] ) ? $_POST['group-id-field'] : null;

@@ -272,7 +272,7 @@ class Groups_Admin {
 	 * @return array
 	 */
 	public static function plugin_action_links( $links ) {
-		if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 			array_unshift(
 				$links,
 				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin-options' ) . '">' .
@@ -280,7 +280,7 @@ class Groups_Admin {
 				'</a>'
 			);
 		}
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			array_unshift(
 				$links,
 				'<a href="' . get_admin_url( null, 'admin.php?page=groups-admin' ) . '">' .
@@ -303,8 +303,8 @@ class Groups_Admin {
 			$delete_data         = Groups_Options::get_option( 'groups_delete_data', false );
 			$delete_network_data = Groups_Options::get_option( 'groups_network_delete_data', false );
 			if (
-				( is_plugin_active( $plugin_file ) && $delete_data && current_user_can( 'install_plugins' ) ) ||
-				( is_plugin_active_for_network( $plugin_file ) && $delete_network_data  && current_user_can( 'manage_network_plugins' ) )
+				( is_plugin_active( $plugin_file ) && $delete_data && Groups_User::current_user_can( 'install_plugins' ) ) ||
+				( is_plugin_active_for_network( $plugin_file ) && $delete_network_data  && Groups_User::current_user_can( 'manage_network_plugins' ) )
 			) {
 				echo '<tr class="active">';
 				echo '<td>&nbsp;</td>';
@@ -312,11 +312,11 @@ class Groups_Admin {
 				echo '<div style="border: 2px solid #dc3232; padding: 1em">';
 				echo '<p>';
 				echo '<strong>';
-				echo esc_html( __( 'Warning!', 'groups' ) );
+				echo esc_html__( 'Warning!', 'groups' );
 				echo '</strong>';
 				echo '</p>';
 				echo '<p>';
-				echo esc_html( __( 'Groups is configured to delete its plugin data on deactivation.', 'groups' ) );
+				echo esc_html__( 'Groups is configured to delete its plugin data on deactivation.', 'groups' );
 				echo '</p>';
 				echo '</div>';
 				echo '</td>';

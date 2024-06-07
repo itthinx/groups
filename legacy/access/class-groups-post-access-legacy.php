@@ -82,6 +82,7 @@ class Groups_Post_Access_Legacy {
 	 * @param string $cap
 	 * @param int $user_id
 	 * @param array $args
+	 *
 	 * @return array
 	 */
 	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
@@ -144,7 +145,7 @@ class Groups_Post_Access_Legacy {
 		// 1. Get all the capabilities that the user has, including those that are inherited:
 		$caps = array();
 		if ( $user = new Groups_User( $user_id ) ) {
-			$capabilities = $user->capabilities_deep;
+			$capabilities = $user->get_capabilities_deep();
 			if ( is_array( $capabilities ) ) {
 				foreach ( $capabilities as $capability ) {
 					$caps[] = "'". $capability . "'";
@@ -162,11 +163,11 @@ class Groups_Post_Access_Legacy {
 		// have, or in other words: exclude posts that the user must NOT access:
 
 		// The following is not correct in that it requires the user to have ALL capabilities:
-// 		$where .= sprintf(
-// 			" AND {$wpdb->posts}.ID NOT IN (SELECT DISTINCT ID FROM $wpdb->posts LEFT JOIN $wpdb->postmeta on {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value NOT IN (%s) ) ",
-// 			self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY,
-// 			$caps
-// 		);
+		// $where .= sprintf(
+		// " AND {$wpdb->posts}.ID NOT IN (SELECT DISTINCT ID FROM $wpdb->posts LEFT JOIN $wpdb->postmeta on {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id WHERE {$wpdb->postmeta}.meta_key = '%s' AND {$wpdb->postmeta}.meta_value NOT IN (%s) ) ",
+		// self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY,
+		// $caps
+		// );
 
 		// This allows the user to access posts where the posts are not restricted or where
 		// the user has ANY of the capabilities:
@@ -189,6 +190,8 @@ class Groups_Post_Access_Legacy {
 	 * Filter pages by access capability.
 	 *
 	 * @param array $pages
+	 *
+	 * @return array
 	 */
 	public static function get_pages( $pages ) {
 		$result = array();
@@ -206,6 +209,8 @@ class Groups_Post_Access_Legacy {
 	 *
 	 * @param array $posts list of posts
 	 * @param WP_Query $query
+	 *
+	 * @return array
 	 */
 	public static function the_posts( $posts, &$query ) {
 		$result = array();
@@ -224,6 +229,8 @@ class Groups_Post_Access_Legacy {
 	 * @param array $items
 	 * @param mixed $menu
 	 * @param array $args
+	 *
+	 * @return array
 	 */
 	public static function wp_get_nav_menu_items( $items = null, $menu = null, $args = null ) {
 		$result = array();
@@ -240,6 +247,7 @@ class Groups_Post_Access_Legacy {
 	 * Filter excerpt by access capability.
 	 *
 	 * @param string $output
+	 *
 	 * @return $output if access granted, otherwise ''
 	 */
 	public static function get_the_excerpt( $output ) {
@@ -260,6 +268,7 @@ class Groups_Post_Access_Legacy {
 	 * Filter content by access capability.
 	 *
 	 * @param string $output
+	 *
 	 * @return $output if access granted, otherwise ''
 	 */
 	public static function the_content( $output ) {
@@ -292,12 +301,15 @@ class Groups_Post_Access_Legacy {
 	 * versions).
 	 *
 	 * @param array $map
-	 * @return true if the capability could be added to the post, otherwis false
+	 *
+	 * @return true if the capability could be added to the post, otherwise false
 	 */
 	public static function create( $map ) {
-		extract( $map );
+
 		$result = false;
 
+		$post_id = isset( $map['post_id'] ) ? $map['post_id'] : null;
+		$capability = isset( $map['capability'] ) ? $map['capability'] : null;
 		if ( !isset( $capability ) ) {
 			$capability = self::READ_POST_CAPABILITY;
 		}
@@ -323,6 +335,7 @@ class Groups_Post_Access_Legacy {
 	 *
 	 * @param int $post_id
 	 * @param string $capability capability label
+	 *
 	 * @return true if the capability is required, otherwise false
 	 */
 	public static function read( $post_id, $capability = self::READ_POST_CAPABILITY ) {
@@ -338,6 +351,7 @@ class Groups_Post_Access_Legacy {
 	 * Currently does nothing, always returns false.
 	 *
 	 * @param array $map
+	 *
 	 * @return false
 	 */
 	public static function update( $map ) {
@@ -349,6 +363,7 @@ class Groups_Post_Access_Legacy {
 	 *
 	 * @param int $post_id
 	 * @param string $capability defaults to groups_read_post, removes all if null is given
+	 *
 	 * @return true on success, otherwise false
 	 */
 	public static function delete( $post_id, $capability = self::READ_POST_CAPABILITY ) {
@@ -367,6 +382,7 @@ class Groups_Post_Access_Legacy {
 	 * Returns a list of capabilities that grant access to the post.
 	 *
 	 * @param int $post_id
+	 *
 	 * @return array of string, capabilities
 	 */
 	public static function get_read_post_capabilities( $post_id ) {
@@ -378,6 +394,7 @@ class Groups_Post_Access_Legacy {
 	 *
 	 * @param int $post_id post id
 	 * @param int $user_id user id or null for current user
+	 *
 	 * @return boolean true if user can read the post
 	 */
 	public static function user_can_read_post( $post_id, $user_id = null ) {

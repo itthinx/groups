@@ -32,22 +32,22 @@ function groups_admin_capabilities_edit( $capability_id ) {
 
 	global $wpdb;
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$capability = Groups_Capability::read( intval( $capability_id ) );
 
 	if ( empty( $capability ) ) {
-		wp_die( __( 'No such capability.', 'groups' ) );
+		wp_die( esc_html__( 'No such capability.', 'groups' ) );
 	}
 
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
-	$capability_capability  = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : $capability->capability;
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : $capability->description;
+	$capability_capability = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : ( $capability->capability !== null ? $capability->capability : '' );
+	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : ( $capability->description !==null ? $capability->description : '' );
 
 	$capability_readonly = ( $capability->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) ? "" : ' readonly="readonly" ';
 
@@ -72,7 +72,7 @@ function groups_admin_capabilities_edit( $capability_id ) {
 	$output .= '</div>';
 
 	$output .= '<div class="field">';
-	$output .= sprintf( '<label for="description-field" class="field-label description-field">%s</label>', __( 'Description', 'groups' ) );
+	$output .= sprintf( '<label for="description-field" class="field-label description-field">%s</label>', esc_html__( 'Description', 'groups' ) );
 	$output .= sprintf( '<textarea id="description-field" name="description-field" rows="5" cols="45">%s</textarea>', stripslashes( wp_filter_nohtml_kses( $description ) ) );
 	$output .= '</div>';
 
@@ -98,19 +98,20 @@ function groups_admin_capabilities_edit_submit() {
 
 	$result = false;
 
-	if ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'capabilities-edit' ) ) {
-		wp_die( __( 'Access denied.', 'groups' ) );
+		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null;
 	$capability = Groups_Capability::read( $capability_id );
 	if ( $capability ) {
-		$capability_id	= $capability->capability_id;
-		if ( $capability->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) {
+		$capability = new Groups_Capability( $capability_id );
+		$capability_id = $capability->get_capability_id();
+		if ( $capability->get_capability() !== Groups_Post_Access::READ_POST_CAPABILITY ) {
 			$capability_field = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : null;
 		} else {
 			$capability_field = Groups_Post_Access::READ_POST_CAPABILITY;
@@ -129,7 +130,7 @@ function groups_admin_capabilities_edit_submit() {
 				if ( $capability_id ) {
 					$result = $capability_id;
 				} else {
-					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability could not be updated.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability ) ) ), 'error' );
+					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability could not be updated.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->get_capability() ) ) ), 'error' );
 				}
 			}
 		} else {

@@ -24,7 +24,7 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Post access restrictions.
+ * Comment access restrictions.
  */
 class Groups_Comment_Access {
 
@@ -118,7 +118,7 @@ class Groups_Comment_Access {
 			return $where;
 		}
 
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			return $where;
 		}
 
@@ -144,7 +144,7 @@ class Groups_Comment_Access {
 			return $pieces;
 		}
 
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			return $pieces;
 		}
 
@@ -181,7 +181,7 @@ class Groups_Comment_Access {
 		$user_id = get_current_user_id();
 		$group_ids = array();
 		if ( $user = new Groups_User( $user_id ) ) {
-			$group_ids_deep = $user->group_ids_deep;
+			$group_ids_deep = $user->get_group_ids_deep();
 			if ( is_array( $group_ids_deep ) ) {
 				$group_ids = $group_ids_deep;
 			}
@@ -232,7 +232,7 @@ class Groups_Comment_Access {
 			return $count;
 		}
 
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			return $count;
 		}
 
