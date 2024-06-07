@@ -30,6 +30,8 @@ class Groups_User_Group {
 
 	/**
 	 * @var object persisted object
+	 *
+	 * @access private - do not access this property directly, the visibility will be made private in the future
 	 */
 	public $user_group = null;
 
@@ -58,6 +60,24 @@ class Groups_User_Group {
 	 */
 	public function __construct( $user_id, $group_id ) {
 		$this->user_group = self::read( $user_id, $group_id );
+	}
+
+	/**
+	 * Provide the user ID related to this object.
+	 *
+	 * @return int|null
+	 */
+	public function get_user_id() {
+		return $this->user_id;
+	}
+
+	/**
+	 * Provide the group ID related to this object.
+	 *
+	 * @return int|null
+	 */
+	public function get_group_id() {
+		return $this->group_id;
 	}
 
 	/**
