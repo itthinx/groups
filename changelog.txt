@@ -21,6 +21,7 @@
 * Fixed backslashes rendered for some quoted characters in group names rendered with the [groups_groups] shortcode, added missing escaping.
 * Fixed backslashes rendered for some quoted characters in group names rendered with the [groups_user_groups] shortcode, added missing escaping.
 * Fixed several instances of code format issues, superfluous whitespace.
+* Code doc corrections and revisions.
 
 = 2.20.1 =
 * WordPress 6.4 compatible.

@@ -24,7 +24,7 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Post access restrictions.
+ * Comment access restrictions.
  */
 class Groups_Comment_Access {
 
