@@ -128,6 +128,8 @@ class Groups_WordPress {
 	 * @param array $caps the requested capabilities
 	 * @param array $args capability context which can provide the requested capability as $args[0], the user ID as $args[1] and the related object's ID as $args[2]
 	 * @param WP_User $user the user object
+	 *
+	 * @return array
 	 */
 	public static function user_has_cap( $allcaps, $caps, $args, $user ) {
 		if ( is_array( $caps ) ) {
@@ -178,6 +180,7 @@ class Groups_WordPress {
 	/**
 	 * Adds WordPress capabilities to Groups capabilities.
 	 * Must be called explicitly.
+	 *
 	 * @see Groups_Controller::activate()
 	 */
 	public static function activate() {
@@ -186,6 +189,7 @@ class Groups_WordPress {
 
 	/**
 	 * Refreshes Groups capabilities based on WordPress capabilities.
+	 *
 	 * @return int number of capabilities added
 	 */
 	public static function refresh_capabilities() {
