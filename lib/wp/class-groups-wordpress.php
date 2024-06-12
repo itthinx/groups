@@ -40,7 +40,7 @@ class Groups_WordPress {
 	 *
 	 * @var string
 	 */
-	const HAS_CAP     = 'has_cap';
+	const HAS_CAP = 'has_cap';
 
 	/**
 	 * Filter priority: groups_user_can
@@ -86,6 +86,16 @@ class Groups_WordPress {
 	 * @return boolean
 	 */
 	public static function groups_user_can( $result, $groups_user, $capability, $object, $args ) {
+		//
+		// We MUST NOT call Groups_User::user_can() instead of user_can() here!
+		//
+		// The intention here is to complement capabilities from groups with those from the user.
+		// Our user_has_cap filter extends user capabilities with those from groups, i.e. the reverse complementary.
+		// Thus, our user_has_cap filter should not be involved here. Also, we want to avoid any potential circular
+		// dependency which could arise from having our groups_user_can fired again while we attend to that action here.
+		//
+		remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY ); // @since 3.1.0
+		remove_filter( 'groups_user_can', array( __CLASS__, 'groups_user_can' ), self::GROUPS_USER_CAN_FILTER_PRIORITY ); // @since 3.1.0
 		if ( !$result ) {
 			// Check if the capability exists, otherwise this will
 			// produce a deprecation warning "Usage of user levels by plugins
@@ -118,6 +128,8 @@ class Groups_WordPress {
 				}
 			}
 		}
+		add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY, 4 ); // @since 3.1.0
+		add_filter( 'groups_user_can', array( __CLASS__, 'groups_user_can' ), self::GROUPS_USER_CAN_FILTER_PRIORITY, 5 ); // @since 3.1.0
 		return $result;
 	}
 
