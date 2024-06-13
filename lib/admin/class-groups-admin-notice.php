@@ -74,21 +74,23 @@ class Groups_Admin_Notice {
 	 * Hooked on the admin_init action.
 	 */
 	public static function admin_init() {
-		if ( Groups_User::current_user_can( 'activate_plugins' ) ) {
-			$user_id = get_current_user_id();
-			if ( !empty( $_GET[self::HIDE_REVIEW_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'hide' ) ) {
-				add_user_meta( $user_id, self::HIDE_REVIEW_NOTICE, true );
-			}
-			if ( !empty( $_GET[self::REMIND_LATER_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'later' ) ) {
-				update_user_meta( $user_id, self::REMIND_LATER_NOTICE, time() + self::REMIND_LAPSE );
-			}
-			$hide_review_notice = get_user_meta( $user_id, self::HIDE_REVIEW_NOTICE, true );
-			if ( empty( $hide_review_notice ) ) {
-				$d = time() - self::get_init_time();
-				if ( $d >= self::SHOW_LAPSE ) {
-					$remind_later_notice = get_user_meta( $user_id, self::REMIND_LATER_NOTICE, true );
-					if ( empty( $remind_later_notice ) || ( time() > $remind_later_notice ) ) {
-						add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
+		if ( class_exists( 'Groups_User' ) && method_exists( 'Groups_User', 'current_user_can' ) ) { // @since 3.1.0 make sure the class and method exists, in case script load order and action triggers conflict
+			if ( Groups_User::current_user_can( 'activate_plugins' ) ) {
+				$user_id = get_current_user_id();
+				if ( !empty( $_GET[self::HIDE_REVIEW_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'hide' ) ) {
+					add_user_meta( $user_id, self::HIDE_REVIEW_NOTICE, true );
+				}
+				if ( !empty( $_GET[self::REMIND_LATER_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'later' ) ) {
+					update_user_meta( $user_id, self::REMIND_LATER_NOTICE, time() + self::REMIND_LAPSE );
+				}
+				$hide_review_notice = get_user_meta( $user_id, self::HIDE_REVIEW_NOTICE, true );
+				if ( empty( $hide_review_notice ) ) {
+					$d = time() - self::get_init_time();
+					if ( $d >= self::SHOW_LAPSE ) {
+						$remind_later_notice = get_user_meta( $user_id, self::REMIND_LATER_NOTICE, true );
+						if ( empty( $remind_later_notice ) || ( time() > $remind_later_notice ) ) {
+							add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
+						}
 					}
 				}
 			}
