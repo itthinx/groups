@@ -710,7 +710,7 @@ class Groups_Post_Access {
 	 * Returns true if the post requires the user to be a member of the given group(s) to grant access.
 	 *
 	 * @param int $post_id ID of the post
-	 * @param array $map should provide 'post_id' and 'groups_read'
+	 * @param array $map should provide one or more group IDs via 'groups_read'
 	 *
 	 * @return boolean true if the group(s) is required, otherwise false
 	 */
@@ -718,7 +718,6 @@ class Groups_Post_Access {
 
 		$result = false;
 
-		$post_id = isset( $map['post_id'] ) ? $map['post_id'] : null;
 		$groups_read = isset( $map['groups_read'] ) ? $map['groups_read'] : null;
 
 		if ( !empty( $post_id ) ) {
@@ -784,7 +783,7 @@ class Groups_Post_Access {
 	}
 
 	/**
-	 * Removes a access restrictions from a post.
+	 * Removes access restrictions from a post.
 	 *
 	 * @param int $post_id
 	 * @param array $map must provide 'groups_read' holding group IDs to remove from restricting access to the post; if empty, all access restrictions will be removed
@@ -795,7 +794,6 @@ class Groups_Post_Access {
 
 		$result = false;
 
-		$post_id = isset( $map['post_id'] ) ? $map['post_id'] : null;
 		$groups_read = isset( $map['groups_read'] ) ? $map['groups_read'] : null;
 
 		if ( !empty( $post_id ) ) {

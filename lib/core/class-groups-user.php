@@ -214,7 +214,7 @@ class Groups_User implements I_Capable {
 	 */
 	public static function user_can( $user, $capability, ...$args ) {
 		// If $user is not an object, user_can() will call get_userdata() which is defined in wp-includes/pluggable.php.
-		if ( function_exists( 'get_userdata' ) ) {
+		if ( function_exists( 'user_can' ) && function_exists( 'get_userdata' ) ) {
 			return user_can( $user, $capability, ...$args );
 		}
 		// So we will have just the same problem as with current_user_can() unless we avoid getting functions involved which are not yet defined.

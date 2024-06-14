@@ -140,7 +140,9 @@ require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
 
 /**
  * Returns the prefixed DB table name.
+ *
  * @param string $name the name of the DB table
+ *
  * @return string prefixed DB table name
  */
 function _groups_get_tablename( $name ) {
@@ -181,6 +183,7 @@ function _groups_get_tablename( $name ) {
  * Enabling this is NOT recommended for production sites.
  *
  * @param int $user_id indicate the user ID or omit to check for the current user
+ *
  * @return boolean
  */
 function _groups_admin_override( $user_id = null ) {
@@ -190,8 +193,11 @@ function _groups_admin_override( $user_id = null ) {
 	}
 	if ( $user_id ) {
 		if ( defined( 'GROUPS_ADMINISTRATOR_OVERRIDE' ) && ( GROUPS_ADMINISTRATOR_OVERRIDE === true ) ) {
-			if ( user_can( $user_id, 'administrator' ) ) {
-				$result = true;
+			// @since 3.1.0 user_can() relies on get_userdata() which is defined in wp-includes/pluggable.php
+			if ( function_exists( 'user_can' ) && function_exists( 'get_userdata' ) ) {
+				if ( user_can( $user_id, 'administrator' ) ) {
+					$result = true;
+				}
 			}
 		}
 	}
