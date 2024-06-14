@@ -6,6 +6,7 @@
 * Implements cautionary filter adjustments to avoid potential circular dependencies.
 * Added resilience in user capability checks which depend on core scripts load order.
 * Added checks to assure the existence of a Groups_User class method to avoid potential errors on install or update.
+* Fixed an issue where removing access restrictions in bulk did not work due to a regression bug introduced in version 3.0.0.
 
 = 3.0.0 =
 * WordPress 6.5 compatible.
