@@ -74,7 +74,8 @@ class Groups_Admin_Notice {
 	 * Hooked on the admin_init action.
 	 */
 	public static function admin_init() {
-		if ( class_exists( 'Groups_User' ) && method_exists( 'Groups_User', 'current_user_can' ) ) { // @since 3.1.0 make sure the class and method exists, in case script load order and action triggers conflict
+		// @since 3.1.0 make sure the class and method exists, in case script load order and action triggers conflict
+		if ( class_exists( 'Groups_User' ) && method_exists( 'Groups_User', 'current_user_can' ) ) {
 			if ( Groups_User::current_user_can( 'activate_plugins' ) ) {
 				$user_id = get_current_user_id();
 				if ( !empty( $_GET[self::HIDE_REVIEW_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'hide' ) ) {
