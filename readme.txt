@@ -117,7 +117,11 @@ Get development notifications, contribute code or open issues at the repository 
 
 ### Translations ###
 
-Brazilian Portuguese translation by [Walter Jaworski](http://wjaworski.com),
+Translations have been contributed by many from the WordPress community, via the GitHub repository [Groups](https://github.com/itthinx/groups/), the section for Groups on [Translating WordPress](https://translate.wordpress.org/projects/wp-plugins/groups/) or as direct contributions.
+
+This includes translations from the following contributors and many others to ...
+
+Brazilian Portuguese by [Walter Jaworski](http://wjaworski.com), [Eric Sornoso](https://Mealfan.com),
 Dutch translation by [Carsten Alsemgeest](http://presis.nl),
 French translation by [Stéphane Passedouet](http://www.pheeric.com),
 German translation by [itthinx](https://www.itthinx.com),

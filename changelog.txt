@@ -2,6 +2,11 @@
 
 = 3.2.0 =
 * WordPress 6.6 compatible.
+* Revised Welcome screen.
+* The option to show groups in user profiles is now enabled by default.
+* Revised legacy option information.
+* Updated the translation template.
+* Updated the included translations.
 
 = 3.1.0 =
 * WordPress 6.5 compatible.

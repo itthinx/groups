@@ -684,10 +684,10 @@ msgstr "Gruppen"
 #, php-format
 msgid ""
 "Groups %s features a simpler model for access restrictions based on groups "
-"instead of capabilities used in previous versions."
+"instead of capabilities used in Groups 1.x."
 msgstr ""
 "Groups %s bietet ein vereinfachtes Model für Zugriffsberechtigungen, "
-"basierend auf Gruppen anstatt Kapazitäten aus vorigen Versionen."
+"basierend auf Gruppen anstatt Kapazitäten aus Groups 1.x."
 
 #: lib/admin/class-groups-admin-posts.php:140
 #: lib/admin/class-groups-admin-posts.php:141

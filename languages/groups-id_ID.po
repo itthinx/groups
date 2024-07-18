@@ -670,11 +670,11 @@ msgstr "Grup"
 #, php-format
 msgid ""
 "Groups %s features a simpler model for access restrictions based on groups "
-"instead of capabilities used in previous versions."
+"instead of capabilities used in Groups 1.x."
 msgstr ""
 "Groups %s menampilkan model yang lebih sederhana untuk pembatasan akses "
-"berdasarkan pada kelompok alih-alih kemampuan yang digunakan dalam versi "
-"sebelumnya."
+"berdasarkan pada kelompok alih-alih kemampuan yang digunakan dalam "
+"Groups 1.x."
 
 #: lib/admin/class-groups-admin-posts.php:140
 #: lib/admin/class-groups-admin-posts.php:141
