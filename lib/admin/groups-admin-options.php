@@ -38,7 +38,7 @@ define( 'GROUPS_SHOW_EXTENSIONS_BOX_INTERVAL', 1209600 );
  */
 function groups_admin_options() {
 
-	global $wpdb, $wp_roles;
+	global $wp_roles, $groups_version;
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
@@ -329,6 +329,42 @@ function groups_admin_options() {
 			require_once GROUPS_LEGACY_LIB . '/admin/groups-admin-options-legacy.php';
 			do_action( 'groups_admin_options_legacy', $groups_legacy_enable !== $previous_legacy_enable );
 		}
+
+		$legacy_enabled = Groups_Options::get_option( GROUPS_LEGACY_ENABLE );
+		echo '<h3>';
+		printf( esc_html__( 'Switching to Groups %s', 'groups' ), esc_html( $groups_version ) );
+		echo '</h3>';
+		echo '<p>';
+		printf( esc_html__( 'Groups %s features a simpler model for access restrictions based on groups instead of capabilities used in Groups 1.x.', 'groups' ), esc_html( $groups_version ) );
+		echo ' ';
+		_e( 'To put it simple, previously you would have used capabilities to restrict access to posts and now you simply use groups.', 'groups' );
+		echo ' ';
+		_e( 'To make it easier to transition to the new model for those who migrate from a previous version, we have included legacy access control based on capabilities.', 'groups' );
+		echo '</p>';
+		echo '<div class="indent">';
+		echo '<p>';
+		_e( 'The following is only of interest if you have upgraded from Groups 1.x:', 'groups' );
+		echo '<br/>';
+		if ( $legacy_enabled ) {
+			_e( 'You are running the system with legacy access control based on capabilities enabled.', 'groups' );
+			echo ' ';
+			_e( 'This means that if you had access restrictions in place that were based on capabilities, your entries will still be protected.', 'groups' );
+		} else {
+			_e( 'You are running the system with legacy access control based on capabilities disabled.', 'groups' );
+			echo ' ';
+			_e( 'This could be important!', 'groups' );
+			echo ' ';
+			_e( 'If you had any access restrictions in place based on capabilities, the entries will now be unprotected, unless you enable legacy access restrictions or place appropriate access restrictions based on groups on the desired entries.', 'groups' );
+		}
+		echo '</p>';
+		echo '<p>';
+		_e( 'If you would like to switch to access restrictions based on groups (recommended) instead of capabilities, you can easily do so by setting the appropriate groups on your protected posts, pages and other entries to restrict access.', 'groups' );
+		echo ' ';
+		_e( 'Once you have adjusted your access restrictions based on groups, you can disable legacy access control.', 'groups' );
+		echo ' ';
+		_e( 'Please refer to the <a target="_blank" href="https://docs.itthinx.com/document/groups/">Documentation</a> for details on how to switch to and use the new access restrictions.', 'groups' );
+		echo '</p>';
+		echo '</div>'; // .indent
 	}
 
 	echo

@@ -1,11 +1,11 @@
 === Groups ===
 Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
-Tags: groups, access, access control, membership, memberships, member, members, capability, capabilities, content, download, downloads, file, file access, files, paypal, permission, permissions, subscription, subscriptions, woocommerce
+Tags: groups, access, access control, member, membership
 Requires at least: 6.0
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 3.1.0
+Stable tag: 3.2.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -117,7 +117,11 @@ Get development notifications, contribute code or open issues at the repository 
 
 ### Translations ###
 
-Brazilian Portuguese translation by [Walter Jaworski](http://wjaworski.com),
+Translations have been contributed by many from the WordPress community, via the GitHub repository [Groups](https://github.com/itthinx/groups/), the section for Groups on [Translating WordPress](https://translate.wordpress.org/projects/wp-plugins/groups/) or as direct contributions.
+
+This includes translations from the following contributors and many others to ...
+
+Brazilian Portuguese by [Walter Jaworski](http://wjaworski.com), [Eric Sornoso](https://Mealfan.com),
 Dutch translation by [Carsten Alsemgeest](http://presis.nl),
 French translation by [Stéphane Passedouet](http://www.pheeric.com),
 German translation by [itthinx](https://www.itthinx.com),

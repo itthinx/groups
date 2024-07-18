@@ -27,3 +27,6 @@
 .selectize-dropdown.capability .selectize-dropdown-content .option {
 	text-align: initial;
 }
+.select-read-groups-container .selectize-control.groups-read div.selectize-input {
+	box-sizing: border-box;
+}
