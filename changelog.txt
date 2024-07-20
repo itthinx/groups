@@ -2,6 +2,8 @@
 
 = 3.2.1 =
 * WordPress 6.6 compatible.
+* Updates script dependencies for blocks.
+* Fixes blocks not available (regression bug in 3.2.0).
 
 = 3.2.0 =
 * WordPress 6.6 compatible.
