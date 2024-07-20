@@ -4,6 +4,7 @@
 * WordPress 6.6 compatible.
 * Updates script dependencies for blocks.
 * Fixes blocks not available (regression bug in 3.2.0).
+* Unified store used by blocks, avoids duplicate definition and console warning.
 
 = 3.2.0 =
 * WordPress 6.6 compatible.
