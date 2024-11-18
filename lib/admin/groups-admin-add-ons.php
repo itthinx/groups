@@ -59,8 +59,97 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	$d = intval( $params['offset'] );
 	$h2 = sprintf( 'h%d', 2+$d );
 
+	echo "<$h2 class='woocommerce'>";
+	echo esc_html__( 'Discover our favorite Extensions for Groups and WooCommerce', 'groups' );
+	echo "</$h2>";
+
+	$entries = array(
+		'groups-woocommerce' => array(
+			'title'   => 'Groups for WooCommerce',
+			'content' => 'Sell Memberships with Groups and WooCommerce – the best Group Membership and Access Control solution for WordPress and WooCommerce.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/groups-woocommerce.png',
+			'url'     => 'https://woocommerce.com/products/groups-woocommerce/',
+			'index'   => 10
+		),
+		'woocommerce-group-coupons' => array(
+			'title'   => 'Group Coupons',
+			'content' => 'Automatically apply and restrict coupon validity for user groups. Offer exclusive, automatic and targeted discounts for your customers.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/group-coupons.png',
+			'url'     => 'https://woocommerce.com/products/group-coupons/',
+			'index'   => 20
+		),
+		'woocommerce-product-search' => array(
+			'title'   => 'WooCommerce Product Search',
+			'content' => 'The perfect Search Engine helps customers to find and buy products quickly – essential for every WooCommerce store.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/woocommerce-product-search.png',
+			'url'     => 'https://woocommerce.com/products/woocommerce-product-search/',
+			'index'   => 30
+		),
+		'woocommerce-sales-analysis' => array(
+			'title'   => 'Sales Analysis',
+			'content' => 'Sales Analysis for WooCommerce offers reporting for Marketers & Managers. Get insights on key metrics, international sales, revenue, product and customer trends.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/sales-analysis.png',
+			'url'     => 'https://woocommerce.com/products/sales-analysis-for-woocommerce/',
+			'index'   => 40
+		),
+		'volume-discount-coupons' => array(
+			'title'   => 'Volume Discount Coupons',
+			'content' => 'Increase your sales by giving customers coupons and automatic discounts based on the quantities purchased.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/volume-discount-coupons.png',
+			'url'     => 'https://woocommerce.com/shop/volume-discount-coupons/',
+			'index'   => 50
+		),
+		'woocommerce-bookings' => array(
+			'title'   => 'WooCommerce Bookings',
+			'content' => 'Allow customers to book appointments, make reservations or rent equipment without leaving your site.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/woocommerce-bookings.png',
+			'url'     => 'https://woocommerce.com/products/woocommerce-bookings/',
+			'index'   => 60
+		),
+		'woopayments' => array(
+			'title'   => 'WooPayments',
+			'content' => 'The only payment solution fully integrated to Woo. Accept credit/debit cards and local payment options with no setup or monthly fees.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/woopayments.png',
+			'url'     => 'https://woocommerce.com/products/woopayments/',
+			'index'   => 70
+		),
+		'woocommerce-subscriptions' => array(
+			'title'   => 'WooCommerce Subscriptions',
+			'content' => 'Let customers subscribe to your products or services and pay on a weekly, monthly or annual basis.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/woocommerce-subscriptions.png',
+			'url'     => 'https://woocommerce.com/products/woocommerce-subscriptions/',
+			'index'   => 80
+		),
+		'woo' => array(
+			'title'   => 'WooCommerce Marketplace',
+			'content' => 'Explore more extensions on the WooCommerce Marketplace. Products you can trust, built by the WooCommerce team and trusted partners.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/woo.png',
+			'url'     => 'https://woocommerce.com/products/',
+			'index'   => 90
+		)
+	);
+	usort( $entries, 'groups_admin_add_ons_sort' );
+
+	echo '<ul class="woocommerce add-ons">';
+	foreach( $entries as $key => $entry ) {
+		echo '<li class="add-on">';
+		echo sprintf( '<a href="%s">', $entry['url'] );
+		echo '<h3>';
+		echo sprintf( '<img src="%s"/>', $entry['image'] );
+		echo '<span class="title">';
+		echo $entry['title'];
+		echo '</span>';
+		echo '</h3>';
+		echo '<p class="content">';
+		echo $entry['content'];
+		echo '</p>';
+		echo '</a>';
+		echo '</li>'; // .add-on
+	}
+	echo '</ul>'; // .add-ons
+
 	echo "<$h2>";
-	echo esc_html__( 'Recommended extensions for Groups', 'groups' );
+	echo esc_html__( 'More recommended Extensions for Groups', 'groups' );
 	echo "</$h2>";
 
 	$entries = array(
@@ -113,44 +202,25 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'url'     => 'https://www.itthinx.com/shop/groups-restrict-categories/',
 			'index'   => 20
 		),
-		'groups-restrict-comments-pro' => array(
-			'title'   => 'Groups Restrict Comments Pro',
-			'content' => 'This extension allows to restrict who can post or read comments based on a user’s group membership.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-restrict-comments-pro.png',
-			'url'     => 'https://www.itthinx.com/shop/groups-restrict-comments-pro/',
-			'index'   => 100
-		),
-		'groups-woocommerce' => array(
-			'title'   => 'Groups WooCommerce',
-			'content' => 'This extension allows you to sell memberships with WooCommerce.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/groups-woocommerce.png',
-			'url'     => 'https://www.itthinx.com/shop/groups-woocommerce/',
-			'index'   => 30
-		),
 		'widgets-control-pro' => array(
 			'title'   => 'Widgets Control Pro',
 			'content' => 'An advanced Widget toolbox that adds visibility management and helps to control where widgets are shown efficiently. Show or hide widgets based on a user’s group membership.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/widgets-control-pro.png',
 			'url'     => 'https://www.itthinx.com/shop/widgets-control-pro/',
 			'index'   => 100
-		),
-		'woocommerce-group-coupons' => array(
-			'title'   => 'WooCommerce Group Coupons',
-			'content' => 'This extension allows to limit the validity of coupons based on groups and roles.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-group-coupons.png',
-			'url'     => 'https://www.itthinx.com/shop/woocommerce-group-coupons/',
-			'index'   => 40
 		)
 	);
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
-	echo '<ul class="add-ons">';
+	echo '<ul class="groups add-ons">';
 	foreach( $entries as $key => $entry ) {
 		echo '<li class="add-on">';
 		echo sprintf( '<a href="%s">', $entry['url'] );
 		echo '<h3>';
 		echo sprintf( '<img src="%s"/>', $entry['image'] );
+		echo '<span class="title">';
 		echo $entry['title'];
+		echo '</span>';
 		echo '</h3>';
 		echo '<p>';
 		echo $entry['content'];
@@ -161,7 +231,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	echo '</ul>'; // .add-ons
 
 	echo "<$h2>";
-	echo esc_html__( 'Recommended plugins by itthinx', 'groups' );
+	echo esc_html__( 'Other recommended Tools', 'groups' );
 	echo "</$h2>";
 
 	$entries = array(
@@ -170,53 +240,34 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'content' => 'Boost Sales with Affiliate Marketing for your WordPress site.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/affiliates-pro.png',
 			'url'     => 'https://www.itthinx.com/shop/affiliates-pro/',
-			'index'   => 40
+			'index'   => 10
 		),
 		'affiliates-enterprise' => array(
 			'title'   => 'Affiliates Enterprise',
 			'content' => 'Affiliates Enterprise provides an affiliate management system for sellers, shops and developers, who want to boost sales with their own affiliate program. Features affiliate campaigns, tracking pixels and multiple tiers.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/affiliates-enterprise.png',
 			'url'     => 'https://www.itthinx.com/shop/affiliates-enterprise/',
-			'index'   => 50
+			'index'   => 20
 		),
 		'itthinx-mail-queue' => array(
 			'title'   => 'Itthinx Mail Queue',
 			'content' => 'Features a fully automated SMTP email queue that substantially improves the way emails are sent out from your site. Prioritize sending by origin, eliminate delays for your visitors and balance your resources.',
 			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/itthinx-mail-queue.png',
 			'url'     => 'https://www.itthinx.com/shop/itthinx-mail-queue/',
-			'index'   => 60
-		),
-		'woocommerce-product-search' => array(
-			'title'   => 'WooCommerce Product Search',
-			'content' => 'The essential extension for every WooCommerce Store! The perfect Search Engine for your store helps your customers to find and buy the right products quickly.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-product-search.png',
-			'url'     => 'https://www.itthinx.com/shop/woocommerce-product-search/',
-			'index'   => 10
-		),
-		'woocommerce-sales-analysis' => array(
-			'title'   => 'Sales Analysis for WooCommerce',
-			'content' => 'Sales Analysis for Managers and Marketers. Get in-depth views on fundamental Business Intelligence. Focused on sales and net revenue trends, regional analysis, product market, and customer trends.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-sales-analysis.png',
-			'url'     => 'https://www.itthinx.com/shop/woocommerce-sales-analysis/',
-			'index'   => 20
-		),
-		'woocommerce-volume-discount-coupons' => array(
-			'title'   => 'Volume Discount Coupons for WooCommerce',
-			'content' => 'Increase your sales by giving customers coupons and automatic discounts based on the quantities purchased.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce-volume-discount-coupons.png',
-			'url'     => 'https://www.itthinx.com/shop/woocommerce-volume-discount-coupons/',
 			'index'   => 30
 		)
 	);
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
-	echo '<ul class="add-ons">';
+	echo '<ul class="other add-ons">';
 	foreach( $entries as $key => $entry ) {
 		echo '<li class="add-on">';
 		echo sprintf( '<a href="%s">', $entry['url'] );
 		echo '<h3>';
 		echo sprintf( '<img src="%s"/>', $entry['image'] );
+		echo '<span class="title">';
 		echo $entry['title'];
+		echo '</span>';
 		echo '</h3>';
 		echo '<p>';
 		echo $entry['content'];

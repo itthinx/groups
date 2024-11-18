@@ -260,11 +260,15 @@ div.capability.edit label {
 
 #groups-extensions-support {
 	padding: 1em;
-	margin: 0;
+	margin: 0 0 24px 0;
 	background-color: #fff;
 	border-radius: 4px;
 	color: #111;
 	border: 2px solid #7494d1;
+}
+#groups-extensions-support p {
+	font-size: 14px;
+	color: #333;
 }
 #groups-extensions-support h2::after {
 	content: "\f487";
@@ -350,7 +354,7 @@ div.capability.edit label {
 }
 
 .groups-admin-add-ons {
-	margin: 10px 20px 0 2px;
+	margin: 24px 24px 0 2px;
 }
 .groups-admin-add-ons ul.add-ons {
 	list-style: none;
@@ -361,23 +365,46 @@ div.capability.edit label {
 }
 .groups-admin-add-ons ul.add-ons li.add-on {
 	margin: 0 1em 1em 0;
-	padding: 8px;
+	padding: 16px;
 	vertical-align: top;
 	width: 256px;
 	min-height: 158px;
 	background-color: #fff;
 	border: 1px solid #ccc;
+	border-radius: 3px;
+	flex: 1 1 22%;
+	max-width: 384px;
+}
+.groups-admin-add-ons ul.woocommerce.add-ons li.add-on p {
+	font-size: 15px;
+}
+.groups-admin-add-ons ul.woocommerce.add-ons li.add-on h3 {
+	font-size: 18px;
+	font-weight: 600;
+}
+.groups-admin-add-ons ul.groups.add-ons li.add-on,
+.groups-admin-add-ons ul.other.add-ons li.add-on {
+	max-width: 256px;
+	min-height: 128px;
 }
 .groups-admin-add-ons .add-ons h3 {
 	margin: 0;
-	display: block;
-	clear: both;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+}
+.groups-admin-add-ons h3.woocommerce {
+	font-size: 18px;
 }
 .groups-admin-add-ons .add-ons h3 img {
 	vertical-align: middle;
+	height: 36px;
 	margin: 0 8px 0 0;
-	display: block;
-	float: left;
+	border-radius: 3px;
+}
+.groups-admin-add-ons .woocommerce.add-ons h3 img {
+	width: 48px;
+	height: auto;
 }
 .groups-admin-add-ons .add-ons a {
 	text-decoration: none;
@@ -390,6 +417,15 @@ div.capability.edit label {
 	clear: both;
 	display: block;
 	color: #333;
+	font-size: 14px;
+}
+
+.groups-admin-add-ons .woocommerce-marketplace {
+	margin: 0 0 2em 0;
+	padding: 8px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	display: inline-block;
 }
 
 .groups-welcome-panel {
@@ -401,24 +437,31 @@ div.capability.edit label {
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	background: #fff;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 2.1em;
 }
 .groups-welcome-panel h2 {
 	margin: 1.62em 0 0 0;
 	font-size: 21px;
-	font-weight: 400;
+	font-weight: 600;
 	line-height: 1.2;
 }
 .groups-welcome-panel h3 {
 	margin: 1.33em 0 0;
-	font-size: 16px;
+	font-weight: 500;
+	font-size: 17px;
 }
 .groups-welcome-panel li {
 	font-size: 14px;
 }
 .groups-welcome-panel p {
 	color: #72777c;
+	font-size: 15px;
+	line-height: 1.6em;
+	margin: 1em 0;
+}
+.groups-welcome-panel-description p {
+	font-size: 16px;
 }
 .groups-welcome-panel a {
 	text-decoration: none;

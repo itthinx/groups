@@ -132,6 +132,8 @@ class Groups_Admin_Welcome {
 		echo '<div class="groups-welcome-panel">';
 		echo '<div class="groups-welcome-panel-content">';
 
+		echo '<div class="groups-welcome-panel-description">';
+
 		printf( '<img class="groups-welcome-icon" width="64" height="64" src="%s"/>', esc_attr( GROUPS_PLUGIN_URL . 'images/groups-256x256.png' ) );
 
 		echo '<h1>';
@@ -146,53 +148,60 @@ class Groups_Admin_Welcome {
 		);
 
 		echo '<p class="headline">';
-		_e( 'Thanks for using Groups! We have made it even easier to protect your content and hope you like it :)', 'groups' );
+		esc_html_e( 'Thanks for using Groups! We have made it even easier to protect your content and hope you like it :)', 'groups' );
 		echo '</p>';
 
 		if ( $legacy_update ) {
 			echo '<p class="important">';
 			echo '<strong>';
-			_e( 'Important', 'groups' );
+			esc_html_e( 'Important', 'groups' );
 			echo '</strong>';
 			echo '<br/><br/>';
-			_e( 'It seems that you have updated from Groups 1.x where access restrictions were based on capabilities.', 'groups' );
+			esc_html_e( 'It seems that you have updated from Groups 1.x where access restrictions were based on capabilities.', 'groups' );
 			echo '<br/>';
 			printf( wp_kses_post( __( 'Please make sure to read the notes on <strong>Switching to Groups %s</strong> below.', 'groups' ) ), esc_html( $groups_version ) );
 			echo '</p>';
 		}
 
 		echo '<h2>';
-		_e( "What's New?", 'groups' );
+		esc_html_e( "What's New?", 'groups' );
 		echo '</h2>';
 
 		echo '<h3>';
-		_e( 'Protect Content Easily', 'groups' );
+		esc_html_e( 'Protect Content Easily', 'groups' );
 		echo '</h3>';
 		echo '<p>';
-		_e( 'We have made it even easier to protect your content!', 'groups' );
+		esc_html_e( 'We have made it even easier to protect your content!', 'groups' );
 		echo ' ';
-		_e( 'Now you can protect your posts, pages and any other custom post type like products or events by simply assigning them to one or more groups.', 'groups' );
+		esc_html_e( 'Now you can protect your posts, pages and any other custom post type like products or events by simply assigning them to one or more groups.', 'groups' );
 		echo '</p>';
 
 		echo '<h3>';
-		_e( 'Efficient User Interface', 'groups' );
+		esc_html_e( 'Efficient User Interface', 'groups' );
 		echo '</h3>';
 		echo '<p>';
-		_e( 'Manage groups and users with a minimal footprint on the administrative screens.', 'groups' );
+		esc_html_e( 'Manage groups and users with a minimal footprint on the administrative screens.', 'groups' );
 		echo '</p>';
 
 		echo '<h3>';
-		_e( 'Documentation', 'groups' );
+		esc_html_e( 'Documentation', 'groups' );
 		echo '</h3>';
 		echo '<p>';
-		_e( 'Whether you are new to Groups or have been using it before, please make sure to visit the <a target="_blank" href="https://docs.itthinx.com/document/groups/">Documentation</a> pages to know more about how to use it.', 'groups' );
+		printf(
+			/* translators: 1: opening tag, 2: closing tag */
+			esc_html__( 'Whether you are new to Groups or have been using it before, please make sure to visit the %1$sDocumentation%2$s pages to know more about how to use it.', 'groups' ),
+			'<a target="_blank" href="https://docs.itthinx.com/document/groups/">',
+			'</a>'
+		);
 		echo '</p>';
+
+		echo '</div>'; // .groups-welcome-panel-description
 
 		echo '<h2>';
-		_e( 'Add-Ons', 'groups' );
+		esc_html_e( 'Add-Ons', 'groups' );
 		echo '</h2>';
 		echo '<p>';
-		_e( 'Perfect complements to memberships and access control with Groups.', 'groups' );
+		esc_html_e( 'Perfect complements to memberships and access control with Groups.', 'groups' );
 		echo '</p>';
 		echo '<div class="groups-admin-add-ons">';
 		groups_admin_add_ons_content( array( 'offset' => 1 ) );

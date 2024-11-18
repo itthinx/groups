@@ -2,6 +2,8 @@
 
 = 3.3.0 =
 * WordPress 6.7 compatible.
+* Revised information and presentation of the welcome and add-ons sections.
+* Added several instances of missing output escaping.
 
 = 3.2.1 =
 * WordPress 6.6 compatible.
