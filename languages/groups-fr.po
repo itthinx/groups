@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-18 17:27+0100\n"
-"PO-Revision-Date: 2024-11-18 18:25+0100\n"
+"PO-Revision-Date: 2024-11-18 18:41+0100\n"
 "Last-Translator: Stéphane PASSEDOUET <s.passedouet@pheeric.com>\n"
 "Language-Team: itthinx.com\n"
 "Language: fr_FR\n"
@@ -494,7 +494,7 @@ msgstr ""
 
 #: lib/admin/groups-admin-add-ons.php:63
 msgid "Discover our favorite Extensions for Groups and WooCommerce"
-msgstr ""
+msgstr "Découvrez nos extensions préférées pour Groups et WooCommerce"
 
 #: lib/admin/class-groups-admin-welcome.php:146
 #: lib/admin/class-groups-admin-welcome.php:147
@@ -976,10 +976,8 @@ msgstr[1] ""
 "Les Membres des groupee %1$s peuvent accéder à %2$s grâce à cette capacité."
 
 #: lib/admin/groups-admin-add-ons.php:152
-#, fuzzy
-#| msgid "Recommended extensions for Groups"
 msgid "More recommended Extensions for Groups"
-msgstr "Extensions recommandées pour Groups"
+msgstr "Autres Extensions recommandées pour Groups"
 
 # @ groups
 #: lib/admin/groups-admin-groups-edit.php:79
@@ -1125,7 +1123,7 @@ msgstr "Options enregistrées."
 
 #: lib/admin/groups-admin-add-ons.php:234
 msgid "Other recommended Tools"
-msgstr ""
+msgstr "Autres Outils recommandés"
 
 # @ groups
 #: lib/admin/groups-admin-groups-edit.php:90
