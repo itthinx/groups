@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-18 15:00+0200\n"
-"PO-Revision-Date: 2024-07-18 15:29+0200\n"
+"POT-Creation-Date: 2024-11-18 17:27+0100\n"
+"PO-Revision-Date: 2024-11-18 18:17+0100\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
-"Language: de_CH\n"
+"Language: de_DE@formal\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: lib/core/class-groups-pagination.php:158
 #, php-format
@@ -169,7 +169,7 @@ msgid "Add to group"
 msgstr "Zur Gruppe hinzufügen"
 
 #: lib/admin/class-groups-admin.php:229 lib/admin/groups-admin-add-ons.php:32
-#: lib/admin/class-groups-admin-welcome.php:192
+#: lib/admin/class-groups-admin-welcome.php:201
 msgid "Add-Ons"
 msgstr "Add-Ons"
 
@@ -386,12 +386,12 @@ msgstr ""
 "Klicken zum Umschalten, ob gewährende Gruppen zu den Kapazitäten angezeigt "
 "werden."
 
-#: lib/blocks/src/blocks/groups-member/block.js:231
+#: lib/blocks/src/blocks/groups-member/block.js:139
 msgid "Content will be shown to users that are members of these groups:"
 msgstr ""
 "Der Inhalt wird Benutzern angezeigt die Mitglieder dieser Gruppen sind:"
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:212
+#: lib/blocks/src/blocks/groups-non-member/block.js:139
 msgid "Content will be shown to users that are not members of these groups:"
 msgstr ""
 "Der Inhalt wird Benutzern angezeigt die nicht Mitglieder dieser Gruppen sind:"
@@ -439,8 +439,12 @@ msgstr ""
 "bestehende Zugriffsbeschränkungen für einzelne Beiträge dieses Typs "
 "aufgehoben."
 
-#: lib/admin/class-groups-admin-welcome.php:144
-#: lib/admin/class-groups-admin-welcome.php:145
+#: lib/admin/groups-admin-add-ons.php:63
+msgid "Discover our favorite Extensions for Groups and WooCommerce"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:146
+#: lib/admin/class-groups-admin-welcome.php:147
 msgid "Dismiss"
 msgstr "Ausblenden"
 
@@ -449,7 +453,7 @@ msgctxt "title of dismiss notice link"
 msgid "Dismiss"
 msgstr "Ausblenden"
 
-#: lib/admin/class-groups-admin-welcome.php:185
+#: lib/admin/class-groups-admin-welcome.php:187
 msgid "Documentation"
 msgstr "Dokumentation"
 
@@ -474,7 +478,7 @@ msgstr ""
 "Bearbeiten Sie den Beitrag für den Sie Zugang beschränken möchten und "
 "wählen<sup>*</sup> Sie die <em>premium</em> Kapazität aus."
 
-#: lib/admin/class-groups-admin-welcome.php:178
+#: lib/admin/class-groups-admin-welcome.php:180
 msgid "Efficient User Interface"
 msgstr "Effiziente Benutzeroberfläche"
 
@@ -496,8 +500,8 @@ msgstr "Lesezugriff beschränken"
 msgid ""
 "Enhanced functionality is available via official %sExtensions%s for Groups."
 msgstr ""
-"Zusätzliche Leistungsmerkmale sind erhältlich über offizielle %sErweiterungen"
-"%s für Groups."
+"Zusätzliche Leistungsmerkmale sind erhältlich über offizielle "
+"%sErweiterungen%s für Groups."
 
 #: lib/admin/groups-admin-add-ons.php:40
 msgid "Enhanced functionality is available via official extensions for Groups."
@@ -694,11 +698,11 @@ msgstr "Groups Add-Ons"
 msgid "Groups Capabilities"
 msgstr "Gruppenkapazitäten"
 
-#: lib/blocks/src/blocks/groups-member/block.js:161
+#: lib/blocks/src/blocks/groups-member/block.js:72
 msgid "Groups Member"
 msgstr "Groups Mitglieder"
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:145
+#: lib/blocks/src/blocks/groups-non-member/block.js:72
 msgid "Groups Non-member"
 msgstr "Groups Nicht-Mitglieder"
 
@@ -726,7 +730,7 @@ msgstr ""
 "Hier können Sie Gruppen <strong>hinzufügen</strong>, <strong>bearbeiten</"
 "strong> und <strong>löschen</strong>."
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:146
+#: lib/blocks/src/blocks/groups-non-member/block.js:73
 msgid "Hide content from group members"
 msgstr "Inhalt vor Gruppenmitgliedern verbergen"
 
@@ -768,7 +772,7 @@ msgstr ""
 "geschützten Beiträge, Seiten und andere Einträge setzt um den Zugang "
 "einzuschränken."
 
-#: lib/admin/class-groups-admin-welcome.php:155
+#: lib/admin/class-groups-admin-welcome.php:157
 msgid "Important"
 msgstr "Wichtig"
 
@@ -799,7 +803,7 @@ msgstr "Geerbte Kapazitäten:"
 msgid "Invalid post ID."
 msgstr "Ungültige Beitrags-ID."
 
-#: lib/admin/class-groups-admin-welcome.php:158
+#: lib/admin/class-groups-admin-welcome.php:160
 msgid ""
 "It seems that you have updated from Groups 1.x where access restrictions "
 "were based on capabilities."
@@ -830,8 +834,8 @@ msgstr ""
 "Angenommen Sie wollen einen Beitrag nur Mitgliedern der <em>Premium</em> "
 "Gruppe sichtbar machen."
 
-#: lib/blocks/src/blocks/groups-member/block.js:221
-#: lib/blocks/src/blocks/groups-non-member/block.js:202
+#: lib/blocks/src/blocks/groups-member/block.js:129
+#: lib/blocks/src/blocks/groups-non-member/block.js:129
 msgid "Loading..."
 msgstr "Lade..."
 
@@ -839,7 +843,7 @@ msgstr "Lade..."
 msgid "Log out"
 msgstr "Abmelden"
 
-#: lib/admin/class-groups-admin-welcome.php:181
+#: lib/admin/class-groups-admin-welcome.php:183
 msgid ""
 "Manage groups and users with a minimal footprint on the administrative "
 "screens."
@@ -867,6 +871,12 @@ msgstr[0] ""
 msgstr[1] ""
 "Mitglieder der Gruppen %1$s können über diese Kapazität auf diese(n) %2$s "
 "zugreifen."
+
+#: lib/admin/groups-admin-add-ons.php:152
+#, fuzzy
+#| msgid "Recommended extensions for Groups"
+msgid "More recommended Extensions for Groups"
+msgstr "Empfohlene Erweiterungen für Groups"
 
 #: lib/admin/groups-admin-groups-edit.php:79
 #: lib/admin/groups-admin-groups-add.php:69
@@ -932,7 +942,7 @@ msgstr ""
 "Es ist zu beachten dass man Mitglied einer Gruppe sein muss, um diese zur "
 "Zugangsbeschränkung verwenden zu können."
 
-#: lib/admin/class-groups-admin-welcome.php:174
+#: lib/admin/class-groups-admin-welcome.php:176
 msgid ""
 "Now you can protect your posts, pages and any other custom post type like "
 "products or events by simply assigning them to one or more groups."
@@ -992,12 +1002,16 @@ msgstr "Optionen"
 msgid "Options saved."
 msgstr "Optionen gespeichert."
 
+#: lib/admin/groups-admin-add-ons.php:234
+msgid "Other recommended Tools"
+msgstr ""
+
 #: lib/admin/groups-admin-groups-edit.php:90
 #: lib/admin/groups-admin-groups-add.php:76
 msgid "Parent"
 msgstr "Vorläufer"
 
-#: lib/admin/class-groups-admin-welcome.php:195
+#: lib/admin/class-groups-admin-welcome.php:204
 msgid "Perfect complements to memberships and access control with Groups."
 msgstr ""
 "Perfekte Ergänzungen für Mitgliedschaften und Zugangskontrolle mit Groups."
@@ -1030,7 +1044,7 @@ msgstr ""
 "Bitte geben Sie eine <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
 "Bewertung ab!"
 
-#: lib/admin/class-groups-admin-welcome.php:160
+#: lib/admin/class-groups-admin-welcome.php:162
 #, php-format
 msgid ""
 "Please make sure to read the notes on <strong>Switching to Groups %s</"
@@ -1064,7 +1078,7 @@ msgstr "Beitrag"
 msgid "Post types"
 msgstr "Beitragstypen"
 
-#: lib/admin/class-groups-admin-welcome.php:169
+#: lib/admin/class-groups-admin-welcome.php:171
 msgid "Protect Content Easily"
 msgstr "Inhalte Einfach Schützen"
 
@@ -1080,14 +1094,6 @@ msgstr "Lesen"
 #: legacy/access/class-groups-post-access-legacy.php:52
 msgid "Read Post"
 msgstr "Beitrag Lesen"
-
-#: lib/admin/groups-admin-add-ons.php:63
-msgid "Recommended extensions for Groups"
-msgstr "Empfohlene Erweiterungen für Groups"
-
-#: lib/admin/groups-admin-add-ons.php:164
-msgid "Recommended plugins by itthinx"
-msgstr "Empfohlene Plugins von itthinx"
 
 #: lib/admin/groups-admin-capabilities.php:223
 #: lib/admin/groups-admin-capabilities.php:228
@@ -1178,8 +1184,8 @@ msgstr "Rolle"
 msgid "Save"
 msgstr "Speichern"
 
-#: lib/blocks/src/blocks/groups-member/block.js:228
-#: lib/blocks/src/blocks/groups-non-member/block.js:209
+#: lib/blocks/src/blocks/groups-member/block.js:136
+#: lib/blocks/src/blocks/groups-non-member/block.js:136
 msgid "Select Groups"
 msgstr "Gruppen auswählen"
 
@@ -1187,7 +1193,7 @@ msgstr "Gruppen auswählen"
 msgid "Show access restrictions for these post types."
 msgstr "Zugangsbeschränkungen für diese Beitragstypen zeigen."
 
-#: lib/blocks/src/blocks/groups-member/block.js:162
+#: lib/blocks/src/blocks/groups-member/block.js:73
 msgid "Show content for group members"
 msgstr "Inhalt Gruppenmitgliedern anzeigen"
 
@@ -1223,14 +1229,14 @@ msgstr "Begriffe"
 #: lib/core/class-groups-help.php:141
 msgid ""
 "Thank you for using <a href=\"https://www.itthinx.com/plugins/groups\" "
-"target=\"_blank\">Groups</a> by <a href=\"https://www.itthinx.com\" target="
-"\"_blank\">itthinx</a>."
-msgstr ""
-"Danke für das Vertrauen in <a href=\"https://www.itthinx.com/plugins/groups"
-"\" target=\"_blank\">Groups</a> von <a href=\"https://www.itthinx.com\" "
+"target=\"_blank\">Groups</a> by <a href=\"https://www.itthinx.com\" "
 "target=\"_blank\">itthinx</a>."
+msgstr ""
+"Danke für das Vertrauen in <a href=\"https://www.itthinx.com/plugins/"
+"groups\" target=\"_blank\">Groups</a> von <a href=\"https://www.itthinx."
+"com\" target=\"_blank\">itthinx</a>."
 
-#: lib/admin/class-groups-admin-welcome.php:149
+#: lib/admin/class-groups-admin-welcome.php:151
 msgid ""
 "Thanks for using Groups! We have made it even easier to protect your content "
 "and hope you like it :)"
@@ -1508,7 +1514,7 @@ msgstr "Den Begrüßungsbildschirm für diese Version von Groups anzeigen"
 msgid "Warning!"
 msgstr "Achtung!"
 
-#: lib/admin/class-groups-admin-welcome.php:172
+#: lib/admin/class-groups-admin-welcome.php:174
 msgid "We have made it even easier to protect your content!"
 msgstr "Wir haben es noch einfacher gemacht Inhalte zu schützen!"
 
@@ -1521,25 +1527,24 @@ msgstr "Willkommen"
 msgid "Welcome to Groups"
 msgstr "Willkommen zu Groups"
 
-#: lib/admin/class-groups-admin-welcome.php:138
+#: lib/admin/class-groups-admin-welcome.php:140
 #, php-format
 msgid "Welcome to Groups %s"
 msgstr "Willkommen zu Groups %s"
 
-#: lib/admin/class-groups-admin-welcome.php:165
+#: lib/admin/class-groups-admin-welcome.php:167
 msgid "What's New?"
 msgstr "Was gibt’s Neues?"
 
-#: lib/admin/class-groups-admin-welcome.php:188
+#: lib/admin/class-groups-admin-welcome.php:192
+#, php-format
 msgid ""
 "Whether you are new to Groups or have been using it before, please make sure "
-"to visit the <a target=\"_blank\" href=\"https://docs.itthinx.com/document/"
-"groups/\">Documentation</a> pages to know more about how to use it."
+"to visit the %1$sDocumentation%2$s pages to know more about how to use it."
 msgstr ""
-"Egal ob man bei Groups neu ist oder es bereits zuvor verwendet hat, raten "
-"wir es an die <a target=\"_blank\" href=\"https://docs.itthinx.com/document/"
-"groups/\">Dokumentation</a> anzusehen, um mehr darüber zu erfahren wie man "
-"es verwendet."
+"Egal ob man bei Groups neu ist oder es bereits zuvor verwendet hat, wir "
+"empfehlen die %1$sDokumentation%2$s anzusehen, um mehr darüber zu erfahren "
+"wie man es verwendet."
 
 #: lib/admin/class-groups-admin-notice.php:150
 msgid "Yes, here we go!"
@@ -1569,13 +1574,13 @@ msgstr ""
 #: lib/admin/class-groups-admin-notice.php:162
 #, php-format
 msgid ""
-"You can also follow <a href=\"%s\">@itthinx</a> on Twitter or visit <a href="
-"\"%s\" target=\"_blank\">itthinx.com</a> to check out other free and premium "
-"plugins we provide."
+"You can also follow <a href=\"%s\">@itthinx</a> on Twitter or visit <a "
+"href=\"%s\" target=\"_blank\">itthinx.com</a> to check out other free and "
+"premium plugins we provide."
 msgstr ""
-"Sie können auch <a href=\"%s\">@itthinx</a> auf Twitter folgen oder <a href="
-"\"%s\" target=\"_blank\">itthinx.com</a> um mehr über weitere kostenfreie "
-"und Premium Plugins die wir bereitstellen zu erfahren."
+"Sie können auch <a href=\"%s\">@itthinx</a> auf Twitter folgen oder <a "
+"href=\"%s\" target=\"_blank\">itthinx.com</a> um mehr über weitere "
+"kostenfreie und Premium Plugins die wir bereitstellen zu erfahren."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:312
 msgid ""
@@ -1680,20 +1685,23 @@ msgstr ""
 msgid "Your support matters!"
 msgstr "Ihre Unterstützung zählt!"
 
-#: lib/blocks/src/blocks/groups-member/block.js:165
-#: lib/blocks/src/blocks/groups-non-member/block.js:149
+#: lib/blocks/src/blocks/groups-member/block.js:76
+#: lib/blocks/src/blocks/groups-non-member/block.js:76
 msgid "access"
 msgstr "Zugang"
 
-#: lib/blocks/src/blocks/groups-member/block.js:165
-#: lib/blocks/src/blocks/groups-non-member/block.js:149
+#: lib/blocks/src/blocks/groups-member/block.js:76
+#: lib/blocks/src/blocks/groups-non-member/block.js:76
 msgid "groups"
 msgstr "Gruppen"
 
-#: lib/blocks/src/blocks/groups-member/block.js:165
-#: lib/blocks/src/blocks/groups-non-member/block.js:149
+#: lib/blocks/src/blocks/groups-member/block.js:76
+#: lib/blocks/src/blocks/groups-non-member/block.js:76
 msgid "members"
 msgstr "Mitglieder"
+
+#~ msgid "Recommended plugins by itthinx"
+#~ msgstr "Empfohlene Plugins von itthinx"
 
 #~ msgid ""
 #~ "And you can now filter the list of users by one or multiple groups with "
