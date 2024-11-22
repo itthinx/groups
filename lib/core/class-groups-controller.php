@@ -366,7 +366,7 @@ class Groups_Controller {
 	 */
 	public static function version_check() {
 		global $groups_version, $groups_admin_messages;
-		$previous_version = get_option( 'groups_plugin_version', null );
+		$previous_version = get_option( 'groups_plugin_version', '' );
 		$groups_version = GROUPS_CORE_VERSION;
 		// auto-enable legacy support on upgrade from Groups previous to 2.0.0
 		if ( $previous_version ) {
