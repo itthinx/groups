@@ -104,7 +104,8 @@ class Groups_Admin_Post_Columns {
 	 */
 	public static function columns( $column_headers ) {
 		$column_headers[self::GROUPS] = sprintf(
-			'<span title="%s">%s</span>',
+			'<span title="%s">%s</span>' .
+			' <span style="float: unset; font-size: inherit; vertical-align: middle; line-height: inherit; font-weight: normal;" class="dashicons dashicons-lock"></span>',
 			esc_attr__( 'One or more groups granting access to entries.', 'groups' ),
 			esc_html_x( 'Groups', 'Column header', 'groups' )
 		);

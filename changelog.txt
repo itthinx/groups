@@ -9,6 +9,7 @@
 * Updated the translation template.
 * Updated the included translations.
 * Revised several instances of code doc format.
+* Added a lock icon for distinction on the Groups column header.
 
 = 3.2.1 =
 * WordPress 6.6 compatible.
