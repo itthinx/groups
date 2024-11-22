@@ -3,6 +3,7 @@
 = 3.3.0 =
 * WordPress 6.7 compatible.
 * Revised information and presentation of the welcome and add-ons sections.
+* Revised the information provided in the readme.txt.
 * Added several instances of missing output escaping.
 * Using generic translations based on language (and form) when available.
 * Updated the translation template.
