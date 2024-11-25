@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+= 3.3.1 =
+* WordPress 6.7 compatible.
+
 = 3.3.0 =
 * WordPress 6.7 compatible.
 * Revised information and presentation of the welcome and add-ons sections.
