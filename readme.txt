@@ -3,9 +3,9 @@ Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
 Requires at least: 6.0
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 3.2.1
+Stable tag: 3.3.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -18,7 +18,9 @@ It provides group-based user membership management, group-based capabilities and
 
 Groups is light-weight and offers an easy user interface, while it acts as a framework and integrates standard WordPress capabilities and application-specific capabilities along with an extensive API.
 
-Enhanced functionality is available via [Official Extensions](https://www.itthinx.com/product-category/groups/) for Groups.
+Groups integrates with [WooCommerce](https://wordpress.org/plugins/woocommerce/) to protect access to products, so that certain products can be purchased by members only.
+
+Enhanced functionality is available via the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/) and [Extensions](https://www.itthinx.com/product-category/groups/) for Groups.
 
 ### Documentation ###
 
@@ -91,14 +93,15 @@ Enhanced functionality is available via official [Extensions](https://www.itthin
 
 Groups is a large project that is providing essential functionality to tens of thousands of sites since 2012. By getting an official extension, you help fund the work that is necessary to maintain and improve Groups.
 
-- [Groups WooCommerce](https://www.itthinx.com/shop/groups-woocommerce/) : Sell Memberships with Groups and WooCommerce – the best Group Membership and Access Control solution for WordPress and WooCommerce.
-- [WooCommerce Group Coupons](https://www.itthinx.com/shop/woocommerce-group-coupons/) : Automatically apply and restrict coupon validity for user groups. Offer exclusive, automatic and targeted discounts for your customers.
+- [Groups WooCommerce](https://woocommerce.com/products/groups-woocommerce/) : Sell Memberships with Groups and WooCommerce – the best Group Membership and Access Control solution for WordPress and WooCommerce.
+- [WooCommerce Group Coupons](https://woocommerce.com/products/group-coupons/) : Automatically apply and restrict coupon validity for user groups. Offer exclusive, automatic and targeted discounts for your customers.
 - [Groups Drip Content](https://www.itthinx.com/shop/groups-drip-content/) : Release content on a schedule. Content dripping can be based on user account creation, group memberships and specific dates and times.
 - [Groups File Access](https://www.itthinx.com/shop/groups-file-access/) : Allows to provide file download links for authorized users. Access to files is restricted to users by their group membership.
 - [Groups Restrict Categories](https://www.itthinx.com/shop/groups-restrict-categories/) : Features access restrictions for categories, tags and other WordPress taxonomies, including support for custom post types and taxonomies.
 - [Groups Forums](https://www.itthinx.com/shop/groups-forums/) : A powerful and yet light-weight forum system for WordPress sites.
 - [Groups Import Export](https://www.itthinx.com/shop/groups-import-export/) : Provides import and export facilities around users and groups.
 - [Groups Newsletters](https://www.itthinx.com/shop/groups-newsletters/) : Newsletter Campaigns for Subscribers and Groups.
+- [WooCommerce Product Search](https://woocommerce.com/products/woocommerce-product-search/) : The perfect Search Engine helps customers to find and buy products quickly – essential for every WooCommerce store. The search engine honors access restrictions imposed by Groups and supports caching based on WordPress roles and memberships with Groups.
 - [Widgets Control Pro](https://www.itthinx.com/shop/widgets-control-pro/) : An advanced Widget toolbox that adds visibility management and helps to control where widgets are shown efficiently.
 
 ### Feedback ###
@@ -111,9 +114,9 @@ Please try to solve problems there before you rate this plugin or say it doesn't
 
 #### Stay informed or contribute ####
 
-Follow @itthinx on [Twitter](https://twitter.com/itthinx) and [GETTR](https://gettr.com/user/itthinx) for news related to Groups and other plugins.
+Follow @‌itthinx on [GitHub](https://github.com/itthinx/), [X - Twitter](https://twitter.com/itthinx), [Reddit](https://www.reddit.com/r/itthinx/), [Mastodon](https://mastodon.social/@itthinx), [Rumble](https://rumble.com/user/itthinx), [YouTube](https://www.youtube.com/@itthinx_official) for news related to Groups and other plugins.
 
-Get development notifications, contribute code or open issues at the repository on [GitHub](https://github.com/itthinx/groups).
+Get development notifications, contribute code or open issues at the Groups repository on [GitHub](https://github.com/itthinx/).
 
 ### Translations ###
 
@@ -126,7 +129,7 @@ Dutch translation by [Carsten Alsemgeest](http://presis.nl),
 French translation by [Stéphane Passedouet](http://www.pheeric.com),
 German translation by [itthinx](https://www.itthinx.com),
 Lithuanian translation by [Vincent G](http://www.Host1Free.com),
-Spanish translation by [Juan Amor](http://www.lamadjinpa.es),
+Spanish translation by [itthinx](https://www.itthinx.com), [Juan Amor](http://www.lamadjinpa.es),
 Swedish translation by [Andréas Lundgren](http://adevade.com).
 
 Many thanks for your help!
@@ -141,6 +144,15 @@ Many thanks for your help!
 = Where is the documentation? =
 
 The official documentation is located at the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
+
+= Where can I get official extensions for Groups? =
+
+Official extensions are distributed exclusively via the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/) and [Extensions](https://www.itthinx.com/product-category/groups/) for Groups.
+
+= I want to sell group memberships, which extension do I need? Does it support subscriptions? =
+
+You can sell memberships with [Groups for WooCommerce](https://woocommerce.com/products/groups-woocommerce/), the best Group Membership and Access Control solution for WordPress and WooCommerce.
+It also supports [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/).
 
 = I have a question, where do I ask? =
 

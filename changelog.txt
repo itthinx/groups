@@ -1,5 +1,16 @@
 == Groups by itthinx - changelog.txt
 
+= 3.3.0 =
+* WordPress 6.7 compatible.
+* Revised information and presentation of the welcome and add-ons sections.
+* Revised the information provided in the readme.txt.
+* Added several instances of missing output escaping.
+* Using generic translations based on language (and form) when available.
+* Updated the translation template.
+* Updated the included translations.
+* Revised several instances of code doc format.
+* Added a lock icon for distinction on the Groups column header.
+
 = 3.2.1 =
 * WordPress 6.6 compatible.
 * Updates script dependencies for blocks.

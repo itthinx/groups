@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-18 15:00+0200\n"
-"PO-Revision-Date: 2024-07-18 15:32+0200\n"
+"POT-Creation-Date: 2024-11-18 17:27+0100\n"
+"PO-Revision-Date: 2024-11-18 18:26+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: id_ID\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: lib/core/class-groups-pagination.php:158
 #, php-format
@@ -168,7 +168,7 @@ msgid "Add to group"
 msgstr "Tambahkan ke grup"
 
 #: lib/admin/class-groups-admin.php:229 lib/admin/groups-admin-add-ons.php:32
-#: lib/admin/class-groups-admin-welcome.php:192
+#: lib/admin/class-groups-admin-welcome.php:201
 msgid "Add-Ons"
 msgstr "Add-on"
 
@@ -378,11 +378,11 @@ msgstr "Klik untuk menyegarkan kemampuan"
 msgid "Click to toggle the display of groups that grant the capabilities."
 msgstr "Klik untuk mengganti tampilan grup yang memberikan kemampuan."
 
-#: lib/blocks/src/blocks/groups-member/block.js:231
+#: lib/blocks/src/blocks/groups-member/block.js:139
 msgid "Content will be shown to users that are members of these groups:"
 msgstr "Konten akan ditampilkan kepada pengguna yang menjadi anggota grup ini:"
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:212
+#: lib/blocks/src/blocks/groups-non-member/block.js:139
 msgid "Content will be shown to users that are not members of these groups:"
 msgstr "Konten akan ditampilkan kepada pengguna yang bukan anggota grup ini:"
 
@@ -427,8 +427,12 @@ msgstr ""
 "Menonaktifkan pengaturan ini untuk jenis posting juga menonaktifkan "
 "pembatasan akses yang ada pada setiap posting dari jenis itu."
 
-#: lib/admin/class-groups-admin-welcome.php:144
-#: lib/admin/class-groups-admin-welcome.php:145
+#: lib/admin/groups-admin-add-ons.php:63
+msgid "Discover our favorite Extensions for Groups and WooCommerce"
+msgstr ""
+
+#: lib/admin/class-groups-admin-welcome.php:146
+#: lib/admin/class-groups-admin-welcome.php:147
 msgid "Dismiss"
 msgstr "Memberhentikan"
 
@@ -437,7 +441,7 @@ msgctxt "title of dismiss notice link"
 msgid "Dismiss"
 msgstr "Memberhentikan"
 
-#: lib/admin/class-groups-admin-welcome.php:185
+#: lib/admin/class-groups-admin-welcome.php:187
 msgid "Documentation"
 msgstr "Dokumentasi"
 
@@ -462,7 +466,7 @@ msgstr ""
 "Edit pos yang ingin Anda batasi akses dan pilih kemampuan <sup> * </sup> "
 "<em> premium </em>."
 
-#: lib/admin/class-groups-admin-welcome.php:178
+#: lib/admin/class-groups-admin-welcome.php:180
 msgid "Efficient User Interface"
 msgstr "Antarmuka Pengguna yang Efisien"
 
@@ -681,11 +685,11 @@ msgstr "Pengaya Grup"
 msgid "Groups Capabilities"
 msgstr "Kemampuan Grup"
 
-#: lib/blocks/src/blocks/groups-member/block.js:161
+#: lib/blocks/src/blocks/groups-member/block.js:72
 msgid "Groups Member"
 msgstr "Anggota Grup"
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:145
+#: lib/blocks/src/blocks/groups-non-member/block.js:72
 msgid "Groups Non-member"
 msgstr "Grup Non-anggota"
 
@@ -713,7 +717,7 @@ msgstr ""
 "Di sini Anda dapat <strong> menambahkan </strong>, <strong> mengedit </"
 "strong> dan <strong> menghapus </strong> grup."
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:146
+#: lib/blocks/src/blocks/groups-non-member/block.js:73
 msgid "Hide content from group members"
 msgstr "Sembunyikan konten dari anggota grup"
 
@@ -754,7 +758,7 @@ msgstr ""
 "grup yang sesuai pada posting, halaman, dan entri lain yang dilindungi untuk "
 "membatasi akses."
 
-#: lib/admin/class-groups-admin-welcome.php:155
+#: lib/admin/class-groups-admin-welcome.php:157
 msgid "Important"
 msgstr "Penting"
 
@@ -784,7 +788,7 @@ msgstr "Kemampuan yang diwariskan:"
 msgid "Invalid post ID."
 msgstr "ID kiriman tidak valid."
 
-#: lib/admin/class-groups-admin-welcome.php:158
+#: lib/admin/class-groups-admin-welcome.php:160
 msgid ""
 "It seems that you have updated from Groups 1.x where access restrictions "
 "were based on capabilities."
@@ -815,8 +819,8 @@ msgstr ""
 "Mari kita asumsikan bahwa Anda ingin membatasi visibilitas posting ke "
 "anggota grup <em> Premium </em>."
 
-#: lib/blocks/src/blocks/groups-member/block.js:221
-#: lib/blocks/src/blocks/groups-non-member/block.js:202
+#: lib/blocks/src/blocks/groups-member/block.js:129
+#: lib/blocks/src/blocks/groups-non-member/block.js:129
 msgid "Loading..."
 msgstr "Memuat..."
 
@@ -824,7 +828,7 @@ msgstr "Memuat..."
 msgid "Log out"
 msgstr "Keluar"
 
-#: lib/admin/class-groups-admin-welcome.php:181
+#: lib/admin/class-groups-admin-welcome.php:183
 msgid ""
 "Manage groups and users with a minimal footprint on the administrative "
 "screens."
@@ -845,6 +849,12 @@ msgid "Members of the %1$s group can access this %2$s through this capability."
 msgid_plural ""
 "Members of the %1$s groups can access this %2$s through this capability."
 msgstr[0] "Anggota grup %1$s dapat mengakses %2$s ini melalui kemampuan ini."
+
+#: lib/admin/groups-admin-add-ons.php:152
+#, fuzzy
+#| msgid "Recommended extensions for Groups"
+msgid "More recommended Extensions for Groups"
+msgstr "Ekstensi yang disarankan untuk Grup"
 
 #: lib/admin/groups-admin-groups-edit.php:79
 #: lib/admin/groups-admin-groups-add.php:69
@@ -910,7 +920,7 @@ msgstr ""
 "Perhatikan bahwa Anda harus menjadi anggota grup untuk menggunakannya untuk "
 "membatasi akses."
 
-#: lib/admin/class-groups-admin-welcome.php:174
+#: lib/admin/class-groups-admin-welcome.php:176
 msgid ""
 "Now you can protect your posts, pages and any other custom post type like "
 "products or events by simply assigning them to one or more groups."
@@ -969,12 +979,16 @@ msgstr "Pilihan"
 msgid "Options saved."
 msgstr "Opsi disimpan."
 
+#: lib/admin/groups-admin-add-ons.php:234
+msgid "Other recommended Tools"
+msgstr ""
+
 #: lib/admin/groups-admin-groups-edit.php:90
 #: lib/admin/groups-admin-groups-add.php:76
 msgid "Parent"
 msgstr "Induk"
 
-#: lib/admin/class-groups-admin-welcome.php:195
+#: lib/admin/class-groups-admin-welcome.php:204
 msgid "Perfect complements to memberships and access control with Groups."
 msgstr "Pelengkap sempurna untuk keanggotaan dan kontrol akses dengan Grup."
 
@@ -1006,7 +1020,7 @@ msgstr ""
 "Tolong beri nilai <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;</"
 "a>."
 
-#: lib/admin/class-groups-admin-welcome.php:160
+#: lib/admin/class-groups-admin-welcome.php:162
 #, php-format
 msgid ""
 "Please make sure to read the notes on <strong>Switching to Groups %s</"
@@ -1039,7 +1053,7 @@ msgstr "Pos"
 msgid "Post types"
 msgstr "Jenis posting"
 
-#: lib/admin/class-groups-admin-welcome.php:169
+#: lib/admin/class-groups-admin-welcome.php:171
 msgid "Protect Content Easily"
 msgstr "Lindungi Konten dengan Mudah"
 
@@ -1055,14 +1069,6 @@ msgstr "Baca baca"
 #: legacy/access/class-groups-post-access-legacy.php:52
 msgid "Read Post"
 msgstr "Baca Posting"
-
-#: lib/admin/groups-admin-add-ons.php:63
-msgid "Recommended extensions for Groups"
-msgstr "Ekstensi yang disarankan untuk Grup"
-
-#: lib/admin/groups-admin-add-ons.php:164
-msgid "Recommended plugins by itthinx"
-msgstr "Plugin yang disarankan oleh itthinx"
 
 #: lib/admin/groups-admin-capabilities.php:223
 #: lib/admin/groups-admin-capabilities.php:228
@@ -1150,8 +1156,8 @@ msgstr "Peran"
 msgid "Save"
 msgstr "Menyimpan"
 
-#: lib/blocks/src/blocks/groups-member/block.js:228
-#: lib/blocks/src/blocks/groups-non-member/block.js:209
+#: lib/blocks/src/blocks/groups-member/block.js:136
+#: lib/blocks/src/blocks/groups-non-member/block.js:136
 msgid "Select Groups"
 msgstr "Pilih Grup"
 
@@ -1159,7 +1165,7 @@ msgstr "Pilih Grup"
 msgid "Show access restrictions for these post types."
 msgstr "Tampilkan batasan akses untuk jenis posting ini."
 
-#: lib/blocks/src/blocks/groups-member/block.js:162
+#: lib/blocks/src/blocks/groups-member/block.js:73
 msgid "Show content for group members"
 msgstr "Tampilkan konten untuk anggota grup"
 
@@ -1195,14 +1201,14 @@ msgstr "Ketentuan"
 #: lib/core/class-groups-help.php:141
 msgid ""
 "Thank you for using <a href=\"https://www.itthinx.com/plugins/groups\" "
-"target=\"_blank\">Groups</a> by <a href=\"https://www.itthinx.com\" target="
-"\"_blank\">itthinx</a>."
+"target=\"_blank\">Groups</a> by <a href=\"https://www.itthinx.com\" "
+"target=\"_blank\">itthinx</a>."
 msgstr ""
 "Terima kasih telah menggunakan <a href=\"https://www.itthinx.com/plugins/"
-"groups\" target=\"_blank\">Groups</a> oleh <a href=\"https://www.itthinx.com"
-"\" target=\"_blank\">itthinx</a>."
+"groups\" target=\"_blank\">Groups</a> oleh <a href=\"https://www.itthinx."
+"com\" target=\"_blank\">itthinx</a>."
 
-#: lib/admin/class-groups-admin-welcome.php:149
+#: lib/admin/class-groups-admin-welcome.php:151
 msgid ""
 "Thanks for using Groups! We have made it even easier to protect your content "
 "and hope you like it :)"
@@ -1475,7 +1481,7 @@ msgstr "Lihat layar Selamat Datang untuk versi Grup ini"
 msgid "Warning!"
 msgstr "Peringatan!"
 
-#: lib/admin/class-groups-admin-welcome.php:172
+#: lib/admin/class-groups-admin-welcome.php:174
 msgid "We have made it even easier to protect your content!"
 msgstr "Kami telah membuatnya lebih mudah untuk melindungi konten Anda!"
 
@@ -1488,25 +1494,24 @@ msgstr "Selamat datang"
 msgid "Welcome to Groups"
 msgstr "Selamat datang di Grup"
 
-#: lib/admin/class-groups-admin-welcome.php:138
+#: lib/admin/class-groups-admin-welcome.php:140
 #, php-format
 msgid "Welcome to Groups %s"
 msgstr "Selamat datang di Grup %s"
 
-#: lib/admin/class-groups-admin-welcome.php:165
+#: lib/admin/class-groups-admin-welcome.php:167
 msgid "What's New?"
 msgstr "Apa yang baru?"
 
-#: lib/admin/class-groups-admin-welcome.php:188
+#: lib/admin/class-groups-admin-welcome.php:192
+#, php-format
 msgid ""
 "Whether you are new to Groups or have been using it before, please make sure "
-"to visit the <a target=\"_blank\" href=\"https://docs.itthinx.com/document/"
-"groups/\">Documentation</a> pages to know more about how to use it."
+"to visit the %1$sDocumentation%2$s pages to know more about how to use it."
 msgstr ""
 "Baik Anda baru di Grup atau pernah menggunakannya sebelumnya, pastikan untuk "
-"mengunjungi <a target=\"_blank\" href=\"https://docs.itthinx.com/document/"
-"groups/\">Dokumentasi</a> halaman untuk mengetahui lebih banyak tentang cara "
-"menggunakannya."
+"mengunjungi %1$sDokumentasi%2$s halaman untuk mengetahui lebih banyak "
+"tentang cara menggunakannya."
 
 #: lib/admin/class-groups-admin-notice.php:150
 msgid "Yes, here we go!"
@@ -1536,9 +1541,9 @@ msgstr ""
 #: lib/admin/class-groups-admin-notice.php:162
 #, php-format
 msgid ""
-"You can also follow <a href=\"%s\">@itthinx</a> on Twitter or visit <a href="
-"\"%s\" target=\"_blank\">itthinx.com</a> to check out other free and premium "
-"plugins we provide."
+"You can also follow <a href=\"%s\">@itthinx</a> on Twitter or visit <a "
+"href=\"%s\" target=\"_blank\">itthinx.com</a> to check out other free and "
+"premium plugins we provide."
 msgstr ""
 "Anda juga dapat mengikuti <a href=\"%s\">@itthinx</a> di Twitter atau "
 "mengunjungi <a href=\"%s\" target=\"_blank\">itthinx.com</a> untuk memeriksa "
@@ -1642,20 +1647,23 @@ msgstr ""
 msgid "Your support matters!"
 msgstr "Dukungan Anda penting!"
 
-#: lib/blocks/src/blocks/groups-member/block.js:165
-#: lib/blocks/src/blocks/groups-non-member/block.js:149
+#: lib/blocks/src/blocks/groups-member/block.js:76
+#: lib/blocks/src/blocks/groups-non-member/block.js:76
 msgid "access"
 msgstr "mengakses"
 
-#: lib/blocks/src/blocks/groups-member/block.js:165
-#: lib/blocks/src/blocks/groups-non-member/block.js:149
+#: lib/blocks/src/blocks/groups-member/block.js:76
+#: lib/blocks/src/blocks/groups-non-member/block.js:76
 msgid "groups"
 msgstr "kelompok"
 
-#: lib/blocks/src/blocks/groups-member/block.js:165
-#: lib/blocks/src/blocks/groups-non-member/block.js:149
+#: lib/blocks/src/blocks/groups-member/block.js:76
+#: lib/blocks/src/blocks/groups-non-member/block.js:76
 msgid "members"
 msgstr "anggota"
+
+#~ msgid "Recommended plugins by itthinx"
+#~ msgstr "Plugin yang disarankan oleh itthinx"
 
 #~ msgid ""
 #~ "And you can now filter the list of users by one or multiple groups with "

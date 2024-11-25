@@ -30,6 +30,7 @@ class Groups_Controller {
 
 	/**
 	 * Version 2.0.0 number
+	 *
 	 * @var string
 	 */
 	const GROUPS_200 = '2.0.0';
@@ -75,6 +76,7 @@ class Groups_Controller {
 
 	/**
 	 * Boot the plugin.
+	 *
 	 * @see Groups_Registered::wpmu_new_blog()
 	 */
 	public static function boot() {
@@ -172,6 +174,7 @@ class Groups_Controller {
 
 	/**
 	 * Builds the mofile string for our own translations.
+	 *
 	 * @return string mofile
 	 */
 	private static function get_mofile() {
@@ -181,6 +184,41 @@ class Groups_Controller {
 		}
 		$locale = apply_filters( 'plugin_locale', $locale, 'groups' );
 		$mofile = GROUPS_CORE_DIR . '/languages/groups-' . $locale . '.mo';
+		// @since 3.3.0 load language-generic translation if available
+		if ( !file_exists( $mofile ) ) {
+			$parts = explode( '_', $locale );
+			$language = $parts[0];
+			$country  = isset( $parts[1] ) ? $parts[1] : '';
+			$form     = isset( $parts[2] ) ? $parts[2] : '';
+			switch ( $country ) {
+				case 'CH':
+					switch ( $form ) {
+						case 'informal':
+							$form = '';
+							break;
+						case '':
+							$form = 'formal';
+							break;
+					}
+					break;
+			}
+			$the_mofile = null;
+			if ( $form !== '' ) {
+				$the_mofile = GROUPS_CORE_DIR . '/languages/groups' . '-' . $language . '_' . $form . '.mo';
+				if ( !file_exists( $the_mofile ) ) {
+					$the_mofile = null;
+				}
+			}
+			if ( $the_mofile === null ) {
+				$the_mofile = GROUPS_CORE_DIR . '/languages/groups' . '-' . $language . '.mo';
+				if ( !file_exists( $the_mofile ) ) {
+					$the_mofile = null;
+				}
+			}
+			if ( $the_mofile !== null ) {
+				$mofile = $the_mofile;
+			}
+		}
 		return $mofile;
 	}
 
@@ -189,6 +227,7 @@ class Groups_Controller {
 	 *
 	 * @param string $mofile
 	 * @param string $domain
+	 *
 	 * @return string mofile
 	 */
 	public static function load_textdomain_mofile( $mofile, $domain ) {
@@ -207,6 +246,7 @@ class Groups_Controller {
 
 	/**
 	 * Plugin activation.
+	 *
 	 * @param boolean $network_wide
 	 */
 	public static function activate( $network_wide = false ) {
@@ -326,7 +366,7 @@ class Groups_Controller {
 	 */
 	public static function version_check() {
 		global $groups_version, $groups_admin_messages;
-		$previous_version = get_option( 'groups_plugin_version', null );
+		$previous_version = get_option( 'groups_plugin_version', '' );
 		$groups_version = GROUPS_CORE_VERSION;
 		// auto-enable legacy support on upgrade from Groups previous to 2.0.0
 		if ( $previous_version ) {
@@ -425,6 +465,7 @@ class Groups_Controller {
 	/**
 	* Drop tables and clear data if the plugin is deactivated.
 	* This will happen only if the user chooses to delete data upon deactivation.
+	*
 	* @param boolean $network_wide
 	*/
 	public static function deactivate( $network_wide = false ) {
@@ -491,7 +532,9 @@ class Groups_Controller {
 	 * to lock yourself out (although deactivating and then activating
 	 * the plugin would have the same effect but with the danger of
 	 * deleting all plugin data).
+	 *
 	 * @param boolean $activate defaults to true, when this function is called upon plugin activation
+	 *
 	 * @access private
 	 */
 	public static function set_default_capabilities() {
@@ -545,6 +588,7 @@ class Groups_Controller {
 	 * @param number $max_acquire
 	 * @param number $perm
 	 * @param number $auto_release
+	 *
 	 * @return boolean|resource
 	 */
 	private static function sem_get( $key, $max_acquire = 1, $perm = 0666, $auto_release = 1 ) {
@@ -569,6 +613,7 @@ class Groups_Controller {
 	 *
 	 * @param resource $sem_identifier
 	 * @param string $nowait (only taken into account and effective on PHP >= 5.6.1)
+	 *
 	 * @return boolean
 	 */
 	private static function sem_acquire( $sem_identifier, $nowait = false ) {
@@ -589,6 +634,7 @@ class Groups_Controller {
 	 * @see sem_release()
 	 *
 	 * @param resource $sem_identifier
+	 *
 	 * @return boolean
 	 */
 	private static function sem_release( $sem_identifier ) {
