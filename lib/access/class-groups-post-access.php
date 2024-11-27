@@ -938,6 +938,8 @@ class Groups_Post_Access {
 	 * @see Groups_Post_Access::purge_count_posts_cached()
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
+		// @since 3.3.1 remove temporarily to avoid potential infinite recursion https://github.com/itthinx/groups/pull/160
+		remove_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10 );
 		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
 			$sub_group = Groups_Cache::get_group( '' );
 			// @since 2.20.0 cached per post type gathering counts per subgroup
@@ -987,6 +989,7 @@ class Groups_Post_Access {
 				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
 			}
 		}
+		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 ); // @since 3.3.1 reestablish filter for next use
 		return $counts;
 	}
 

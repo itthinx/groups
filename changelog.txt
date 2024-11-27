@@ -3,6 +3,7 @@
 = 3.3.1 =
 * WordPress 6.7 compatible.
 * Adds fixes for "Translation loading for the ... domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early. ..." PHP notices raised as of WordPress 6.7.0 in certain scenarios when translations are requested before the init or the after_setup_theme action have fired.
+* Avoids a potential infinite recursion when evaluating post counts.
 
 = 3.3.0 =
 * WordPress 6.7 compatible.
