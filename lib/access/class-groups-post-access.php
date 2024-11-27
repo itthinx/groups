@@ -92,6 +92,11 @@ class Groups_Post_Access {
 	private static $filter_get_terms_widget = null;
 
 	/**
+ 	* @var bool prevent recursion in self::wp_count_posts()
+  	*/
+	private static $skip_count_posts = false;
+
+	/**
 	 * Work done on activation, currently does nothing.
 	 *
 	 * @see Groups_Controller::activate()
@@ -938,6 +943,12 @@ class Groups_Post_Access {
 	 * @see Groups_Post_Access::purge_count_posts_cached()
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
+		if ( self::$skip_count_posts ) {
+			return $counts;
+		}
+
+		self::$skip_count_posts = true;
+		
 		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
 			$sub_group = Groups_Cache::get_group( '' );
 			// @since 2.20.0 cached per post type gathering counts per subgroup
@@ -987,6 +998,9 @@ class Groups_Post_Access {
 				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
 			}
 		}
+
+		self::$skip_count_posts = false;
+		
 		return $counts;
 	}
 
