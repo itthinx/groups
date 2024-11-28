@@ -83,12 +83,19 @@ class Groups_Admin_Welcome {
 					!$doing_cron &&
 					( empty( $_GET['page'] ) || $_GET['page'] !== 'groups-welcome' ) &&
 					!is_network_admin() &&
-					!isset( $_GET['activate-multi'] ) &&
+					isset( $_REQUEST['activate'] ) && // @since 3.3.1 must be single activation
+					!isset( $_REQUEST['activate-multi'] ) &&
+					!isset( $_REQUEST['activate-selected'] ) && // @since 3.3.1 must not be multiple activation
+					!isset( $_REQUEST['update-selected'] ) && // @since 3.3.1 must not be multiple update
 					Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) &&
 					apply_filters( 'groups_welcome_show', true )
 				) {
 					wp_safe_redirect( admin_url( 'index.php?page=groups-welcome' ) );
 					exit;
+				} else {
+					// @since 3.3.1 remove transients as we don't want to trigger a redirect in any other case than direct activation of the Groups plugin, also see above
+					delete_transient( 'groups_plugin_activated' );
+					delete_transient( 'groups_plugin_updated_legacy' );
 				}
 			}
 		}
