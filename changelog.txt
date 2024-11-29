@@ -1,5 +1,13 @@
 == Groups by itthinx - changelog.txt
 
+= 3.3.1 =
+* WordPress 6.7 compatible.
+* Adds fixes for "Translation loading for the ... domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early. ..." PHP notices raised as of WordPress 6.7.0 in certain scenarios when translations are requested before the init or the after_setup_theme action have fired.
+* Avoids a potential infinite recursion when evaluating post counts.
+* Restrict the redirect to the welcome screen so it happens only when Groups is activated alone and not in bulk. Updates do not trigger a redirect. A legacy update does not trigger a redirect and now only causes an admin notice to be displayed temporarily.
+* Updated the translation template.
+* Updated the included translations.
+
 = 3.3.0 =
 * WordPress 6.7 compatible.
 * Revised information and presentation of the welcome and add-ons sections.

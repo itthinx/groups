@@ -64,9 +64,9 @@ class Groups_Registered {
 	 */
 	public static function init() {
 
-		// For translation of the "Registered" group(s)
-		__( 'Registered', 'groups' );
-		
+		// @since 3.3.1
+		add_action( 'init', array( __CLASS__, 'wp_init' ) );
+
 		// When a blog is added, create a new "Registered" group for that blog.
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 10, 2 );
 
@@ -82,6 +82,17 @@ class Groups_Registered {
 		add_action( 'add_user_to_blog', array( __CLASS__, 'add_user_to_blog' ), 10, 3 );
 
 		// Note : When a user is removed from a blog it's handled from core.
+	}
+
+	/**
+	 * Hooked on the init action.
+	 *
+	 * @since 3.3.1
+	 */
+	public static function wp_init() {
+		// For translation of the "Registered" group(s)
+		// @since 3.3.1 postponed to after the init action fired
+		__( 'Registered', 'groups' );
 	}
 
 	/**

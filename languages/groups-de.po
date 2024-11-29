@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-18 17:27+0100\n"
-"PO-Revision-Date: 2024-11-18 18:38+0100\n"
+"POT-Creation-Date: 2024-11-29 19:16+0100\n"
+"PO-Revision-Date: 2024-11-29 19:18+0100\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: de_DE\n"
@@ -169,7 +169,7 @@ msgid "Add to group"
 msgstr "Zur Gruppe hinzufügen"
 
 #: lib/admin/class-groups-admin.php:229 lib/admin/groups-admin-add-ons.php:32
-#: lib/admin/class-groups-admin-welcome.php:201
+#: lib/admin/class-groups-admin-welcome.php:229
 msgid "Add-Ons"
 msgstr "Add-Ons"
 
@@ -443,8 +443,8 @@ msgstr ""
 msgid "Discover our favorite Extensions for Groups and WooCommerce"
 msgstr "Entdecke unsere beliebtesten Erweiterungen für Groups und WooCommerce"
 
-#: lib/admin/class-groups-admin-welcome.php:146
-#: lib/admin/class-groups-admin-welcome.php:147
+#: lib/admin/class-groups-admin-welcome.php:186
+#: lib/admin/class-groups-admin-welcome.php:187
 msgid "Dismiss"
 msgstr "Ausblenden"
 
@@ -453,7 +453,7 @@ msgctxt "title of dismiss notice link"
 msgid "Dismiss"
 msgstr "Ausblenden"
 
-#: lib/admin/class-groups-admin-welcome.php:187
+#: lib/admin/class-groups-admin-welcome.php:215
 msgid "Documentation"
 msgstr "Dokumentation"
 
@@ -478,7 +478,7 @@ msgstr ""
 "Bearbeiten Sie den Beitrag für den Sie Zugang beschränken möchten und "
 "wählen<sup>*</sup> Sie die <em>premium</em> Kapazität aus."
 
-#: lib/admin/class-groups-admin-welcome.php:180
+#: lib/admin/class-groups-admin-welcome.php:208
 msgid "Efficient User Interface"
 msgstr "Effiziente Benutzeroberfläche"
 
@@ -606,7 +606,7 @@ msgctxt "Bulk edit field label"
 msgid "Groups"
 msgstr "Gruppen"
 
-#: lib/admin/class-groups-admin-post-columns.php:109
+#: lib/admin/class-groups-admin-post-columns.php:110
 msgctxt "Column header"
 msgid "Groups"
 msgstr "Gruppen"
@@ -772,7 +772,7 @@ msgstr ""
 "geschützten Beiträge, Seiten und andere Einträge setzt um den Zugang "
 "einzuschränken."
 
-#: lib/admin/class-groups-admin-welcome.php:157
+#: lib/admin/class-groups-admin-welcome.php:72
 msgid "Important"
 msgstr "Wichtig"
 
@@ -803,7 +803,7 @@ msgstr "Geerbte Kapazitäten:"
 msgid "Invalid post ID."
 msgstr "Ungültige Beitrags-ID."
 
-#: lib/admin/class-groups-admin-welcome.php:160
+#: lib/admin/class-groups-admin-welcome.php:75
 msgid ""
 "It seems that you have updated from Groups 1.x where access restrictions "
 "were based on capabilities."
@@ -843,7 +843,7 @@ msgstr "Lade..."
 msgid "Log out"
 msgstr "Abmelden"
 
-#: lib/admin/class-groups-admin-welcome.php:183
+#: lib/admin/class-groups-admin-welcome.php:211
 msgid ""
 "Manage groups and users with a minimal footprint on the administrative "
 "screens."
@@ -940,7 +940,7 @@ msgstr ""
 "Es ist zu beachten dass man Mitglied einer Gruppe sein muss, um diese zur "
 "Zugangsbeschränkung verwenden zu können."
 
-#: lib/admin/class-groups-admin-welcome.php:176
+#: lib/admin/class-groups-admin-welcome.php:204
 msgid ""
 "Now you can protect your posts, pages and any other custom post type like "
 "products or events by simply assigning them to one or more groups."
@@ -968,7 +968,7 @@ msgstr[1] "%d Kapazitäten wurden hinzugefügt."
 msgid "One or more capabilities required to read the entry."
 msgstr "Eine oder mehr Kapazitäten sind benötigt um den Beitrag zu lesen."
 
-#: lib/admin/class-groups-admin-post-columns.php:108
+#: lib/admin/class-groups-admin-post-columns.php:109
 msgid "One or more groups granting access to entries."
 msgstr "Eine oder mehr Gruppen die Zugriff auf Einträge erstatten."
 
@@ -1009,7 +1009,7 @@ msgstr "Andere empfohlene Werkzeuge"
 msgid "Parent"
 msgstr "Vorläufer"
 
-#: lib/admin/class-groups-admin-welcome.php:204
+#: lib/admin/class-groups-admin-welcome.php:232
 msgid "Perfect complements to memberships and access control with Groups."
 msgstr ""
 "Perfekte Ergänzungen für Mitgliedschaften und Zugangskontrolle mit Groups."
@@ -1042,14 +1042,10 @@ msgstr ""
 "Bitte geben Sie eine <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
 "Bewertung ab!"
 
-#: lib/admin/class-groups-admin-welcome.php:162
+#: lib/admin/class-groups-admin-welcome.php:79
 #, php-format
-msgid ""
-"Please make sure to read the notes on <strong>Switching to Groups %s</"
-"strong> below."
-msgstr ""
-"Bitte beachte die Hinweise unten bezüglich <strong>Umstellen auf Groups %s</"
-"strong>."
+msgid "Please make sure to read the %1$sMigration Guide%2$s."
+msgstr "Bitte lese den %1$sMigrationsleitfaden%2$s."
 
 #: lib/admin/groups-admin-options.php:365
 msgid ""
@@ -1076,7 +1072,7 @@ msgstr "Beitrag"
 msgid "Post types"
 msgstr "Beitragstypen"
 
-#: lib/admin/class-groups-admin-welcome.php:171
+#: lib/admin/class-groups-admin-welcome.php:199
 msgid "Protect Content Easily"
 msgstr "Inhalte Einfach Schützen"
 
@@ -1098,7 +1094,7 @@ msgstr "Beitrag Lesen"
 msgid "Refresh"
 msgstr "Aktualisieren"
 
-#: lib/auto/class-groups-registered.php:68
+#: lib/auto/class-groups-registered.php:95
 msgid "Registered"
 msgstr "Registriert"
 
@@ -1234,7 +1230,7 @@ msgstr ""
 "groups\" target=\"_blank\">Groups</a> von <a href=\"https://www.itthinx."
 "com\" target=\"_blank\">itthinx</a>."
 
-#: lib/admin/class-groups-admin-welcome.php:151
+#: lib/admin/class-groups-admin-welcome.php:191
 msgid ""
 "Thanks for using Groups! We have made it even easier to protect your content "
 "and hope you like it :)"
@@ -1504,7 +1500,7 @@ msgstr ""
 "Zugriffsbeschränkung aktiviert. Um die Kapazität verwenden zu können, wird "
 "ihr Benutzerkonto der Gruppe hinzugefügt."
 
-#: lib/admin/class-groups-admin-welcome.php:110
+#: lib/admin/class-groups-admin-welcome.php:148
 msgid "View the Welcome screen for this version of Groups"
 msgstr "Den Begrüßungsbildschirm für diese Version von Groups anzeigen"
 
@@ -1512,29 +1508,29 @@ msgstr "Den Begrüßungsbildschirm für diese Version von Groups anzeigen"
 msgid "Warning!"
 msgstr "Achtung!"
 
-#: lib/admin/class-groups-admin-welcome.php:174
+#: lib/admin/class-groups-admin-welcome.php:202
 msgid "We have made it even easier to protect your content!"
 msgstr "Wir haben es noch einfacher gemacht Inhalte zu schützen!"
 
-#: lib/admin/class-groups-admin-welcome.php:111
+#: lib/admin/class-groups-admin-welcome.php:149
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: lib/admin/class-groups-admin-welcome.php:46
 #: lib/admin/class-groups-admin-welcome.php:47
+#: lib/admin/class-groups-admin-welcome.php:48
 msgid "Welcome to Groups"
 msgstr "Willkommen zu Groups"
 
-#: lib/admin/class-groups-admin-welcome.php:140
+#: lib/admin/class-groups-admin-welcome.php:180
 #, php-format
 msgid "Welcome to Groups %s"
 msgstr "Willkommen zu Groups %s"
 
-#: lib/admin/class-groups-admin-welcome.php:167
+#: lib/admin/class-groups-admin-welcome.php:195
 msgid "What's New?"
 msgstr "Was gibt’s Neues?"
 
-#: lib/admin/class-groups-admin-welcome.php:192
+#: lib/admin/class-groups-admin-welcome.php:220
 #, php-format
 msgid ""
 "Whether you are new to Groups or have been using it before, please make sure "
@@ -1697,6 +1693,14 @@ msgstr "Gruppen"
 #: lib/blocks/src/blocks/groups-non-member/block.js:76
 msgid "members"
 msgstr "Mitglieder"
+
+#, php-format
+#~ msgid ""
+#~ "Please make sure to read the notes on <strong>Switching to Groups %s</"
+#~ "strong> below."
+#~ msgstr ""
+#~ "Bitte beachte die Hinweise unten bezüglich <strong>Umstellen auf Groups "
+#~ "%s</strong>."
 
 #~ msgid "Recommended plugins by itthinx"
 #~ msgstr "Empfohlene Plugins von itthinx"
