@@ -261,7 +261,10 @@ class Groups_Controller {
 				}
 			} else {
 				self::setup();
-				set_transient( 'groups_plugin_activated', true, 60 );
+				// @since 3.3.1 Check here already if it is a single activation of Groups and only then set the transient
+				if ( self::is_single_activate() ) {
+					set_transient( 'groups_plugin_activated', true, 60 );
+				}
 			}
 			if ( $sem_id !== false ) {
 				self::sem_release( $sem_id );
@@ -521,6 +524,47 @@ class Groups_Controller {
 			delete_option( 'groups_plugin_version' );
 			delete_option( 'groups_delete_data' );
 		}
+	}
+
+	/**
+	 * Whether this is an individual activation of the plugin.
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return boolean
+	 */
+	private static function is_single_activate() {
+		$is = false;
+		$groups_basename = plugin_basename( GROUPS_FILE );
+		if ( isset( $_REQUEST['action'] ) ) {
+			switch ( $_REQUEST['action'] ) {
+				case 'activate':
+					// Single plugin activation of Groups:
+					if ( !empty( $_REQUEST['plugin'] ) ) {
+						$slug = wp_unslash( $_REQUEST['plugin'] );
+						if ( $slug === $groups_basename ) {
+							$is = true;
+						}
+					}
+					break;
+				case 'activate-selected':
+					// Bulk plugin activation of Groups but it is the only plugin being activated:
+					if ( !empty( $_REQUEST['checked'] ) ) {
+						if ( is_array( $_REQUEST['checked'] ) ) {
+							if ( count( $_REQUEST['checked'] ) === 1 ) {
+								$slugs = wp_unslash( $_REQUEST['checked'] );
+								$slug = array_pop( $slugs );
+								if ( $slug === $groups_basename ) {
+									$is = true;
+									break;
+								}
+							}
+						}
+					}
+					break;
+			}
+		}
+		return $is;
 	}
 
 	/**
