@@ -159,7 +159,7 @@ class Groups_Admin_Users {
 		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
 			// groups select
 			$groups_table = _groups_get_tablename( 'group' );
-			$groups = apply_filters( 'groups_admin_users_restrict_manage_users_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) );
+			$groups = apply_filters( 'groups_admin_users_restrict_manage_users_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			if ( $groups ) {
 				$groups_select = sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
@@ -232,7 +232,7 @@ class Groups_Admin_Users {
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$groups = apply_filters( 'groups_admin_users_views_users_groups', Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC' ) ) );
 			$user_counts = array();
-			$counts = apply_filters('groups_admin_users_views_users_counts', $wpdb->get_results( "SELECT COUNT(user_id) AS count, group_id FROM $user_group_table GROUP BY group_id" ) );
+			$counts = apply_filters('groups_admin_users_views_users_counts', $wpdb->get_results( "SELECT COUNT(user_id) AS count, group_id FROM $user_group_table GROUP BY group_id" ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			if ( !empty( $counts ) && is_array( $counts ) ) {
 				foreach( $counts as $count ) {
 					if ( isset( $count->count ) && is_numeric( $count->count ) ) {

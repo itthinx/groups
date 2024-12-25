@@ -67,7 +67,7 @@ class Groups_User_Capability {
 				// don't try to create duplicate entries
 				// also it would raise an error for duplicate PK
 				if ( 0 === intval( $wpdb->get_var( $wpdb->prepare(
-					"SELECT COUNT(*) FROM $user_capability_table WHERE user_id = %d AND capability_id = %d",
+					"SELECT COUNT(*) FROM $user_capability_table WHERE user_id = %d AND capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					Groups_Utility::id( $user_id ),
 					Groups_Utility::id( $capability_id )
 				) ) ) ) {
@@ -101,7 +101,7 @@ class Groups_User_Capability {
 
 		$user_capability_table = _groups_get_tablename( 'user_capability' );
 		$user_capability = $wpdb->get_row( $wpdb->prepare(
-			"SELECT * FROM $user_capability_table WHERE user_id = %d AND capability_id = %d",
+			"SELECT * FROM $user_capability_table WHERE user_id = %d AND capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			Groups_Utility::id( $user_id ),
 			Groups_Utility::id( $capability_id )
 		) );
@@ -157,7 +157,7 @@ class Groups_User_Capability {
 			$user_capability_table = _groups_get_tablename( 'user_capability' );
 			// get rid of it
 			$rows = $wpdb->query( $wpdb->prepare(
-				"DELETE FROM $user_capability_table WHERE user_id = %d AND capability_id = %d",
+				"DELETE FROM $user_capability_table WHERE user_id = %d AND capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $user_id ),
 				Groups_Utility::id( $capability_id )
 			) );
@@ -181,7 +181,7 @@ class Groups_User_Capability {
 
 		$user_capability_table = _groups_get_tablename( 'user_capability' );
 		$rows = $wpdb->get_results( $wpdb->prepare(
-			"SELECT * FROM $user_capability_table WHERE user_id = %d",
+			"SELECT * FROM $user_capability_table WHERE user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			Groups_Utility::id( $user_id )
 		) );
 		if ( $rows ) {
@@ -204,7 +204,7 @@ class Groups_User_Capability {
 
 		$user_capability_table = _groups_get_tablename( 'user_capability' );
 		$rows = $wpdb->get_results( $wpdb->prepare(
-			"SELECT * FROM $user_capability_table WHERE capability_id = %d",
+			"SELECT * FROM $user_capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			Groups_Utility::id( $capability_id )
 		) );
 		if ( $rows ) {

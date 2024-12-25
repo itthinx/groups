@@ -62,7 +62,7 @@ class Groups_Group_Capability {
 				// don't try to create duplicate entries
 				// also it would raise an error for duplicate PK
 				if ( 0 === intval( $wpdb->get_var( $wpdb->prepare(
-					"SELECT COUNT(*) FROM $group_capability_table WHERE group_id = %d AND capability_id = %d",
+					"SELECT COUNT(*) FROM $group_capability_table WHERE group_id = %d AND capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					Groups_Utility::id( $group_id ),
 					Groups_Utility::id( $capability_id )
 				) ) ) ) {
@@ -95,7 +95,7 @@ class Groups_Group_Capability {
 
 		$group_capability_table = _groups_get_tablename( 'group_capability' );
 		$group_capability = $wpdb->get_row( $wpdb->prepare(
-			"SELECT * FROM $group_capability_table WHERE group_id = %d AND capability_id = %d",
+			"SELECT * FROM $group_capability_table WHERE group_id = %d AND capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			Groups_Utility::id( $group_id ),
 			Groups_Utility::id( $capability_id )
 		) );
@@ -151,7 +151,7 @@ class Groups_Group_Capability {
 			$group_capability_table = _groups_get_tablename( 'group_capability' );
 			// get rid of it
 			$rows = $wpdb->query( $wpdb->prepare(
-				"DELETE FROM $group_capability_table WHERE group_id = %d AND capability_id = %d",
+				"DELETE FROM $group_capability_table WHERE group_id = %d AND capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $group_id ),
 				Groups_Utility::id( $capability_id )
 			) );
