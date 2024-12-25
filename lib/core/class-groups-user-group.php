@@ -286,8 +286,8 @@ class Groups_User_Group {
 		$user_group_table = _groups_get_tablename( 'user_group' );
 		// We can end up here while a blog is being deleted, in that case,
 		// the tables have already been deleted.
-		if ( ( $wpdb->get_var( "SHOW TABLES LIKE '" . $group_table . "'" ) == $group_table ) &&
-			( $wpdb->get_var( "SHOW TABLES LIKE '" . $user_group_table . "'" ) == $user_group_table )
+		if ( ( $wpdb->get_var( "SHOW TABLES LIKE '" . $group_table . "'" ) == $group_table ) && // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			( $wpdb->get_var( "SHOW TABLES LIKE '" . $user_group_table . "'" ) == $user_group_table ) // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		) {
 
 			$rows = $wpdb->get_results( $wpdb->prepare(

@@ -357,7 +357,7 @@ class Groups_Controller {
 			//require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			//dbDelta( $queries );
 			foreach( $queries as $query ) {
-				$wpdb->query( $query );
+				$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			}
 		}
 		// needs to be called to create its capabilities
@@ -517,11 +517,11 @@ class Groups_Controller {
 				$role->remove_cap( GROUPS_ADMINISTER_OPTIONS );
 				$role->remove_cap( GROUPS_RESTRICT_ACCESS );
 			}
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group' ) );
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'capability' ) );
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_group' ) );
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_capability' ) );
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group_capability' ) );
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group' ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'capability' ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_group' ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'user_capability' ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . _groups_get_tablename( 'group_capability' ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			Groups_Options::flush_options();
 			if ( class_exists( 'Groups_Admin_Notice' ) ) {
 				delete_metadata( 'user', null, Groups_Admin_Notice::HIDE_REVIEW_NOTICE, null, true );

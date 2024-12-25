@@ -552,7 +552,7 @@ class Groups_Group implements I_Capable {
 				"SELECT * FROM $group_table WHERE name = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$name
 			);
-			$group = $wpdb->get_row( $query );
+			$group = $wpdb->get_row( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			if ( isset( $group->group_id ) ) {
 				$result = $group;
 			}

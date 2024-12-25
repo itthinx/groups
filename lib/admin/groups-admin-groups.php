@@ -282,7 +282,7 @@ function groups_admin_groups() {
 
 	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$count_query = $wpdb->prepare( "SELECT COUNT(*) FROM $group_table $filters", $filter_params );
-	$count  = $wpdb->get_var( $count_query );
+	$count  = $wpdb->get_var( $count_query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	if ( $count > $row_count ) {
 		$paginate = true;
 	} else {
@@ -300,7 +300,7 @@ function groups_admin_groups() {
 		"SELECT * FROM $group_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$filter_params
 	);
-	$results = $wpdb->get_results( $query, OBJECT );
+	$results = $wpdb->get_results( $query, OBJECT ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 	$column_display_names = array(
 		'group_id'     => __( 'ID', 'groups' ),

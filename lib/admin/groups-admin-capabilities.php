@@ -291,7 +291,7 @@ function groups_admin_capabilities() {
 	}
 
 	$count_query = $wpdb->prepare( "SELECT COUNT(*) FROM $capability_table $filters", $filter_params ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$count  = $wpdb->get_var( $count_query );
+	$count  = $wpdb->get_var( $count_query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	if ( $count > $row_count ) {
 		$paginate = true;
 	} else {
@@ -310,7 +310,7 @@ function groups_admin_capabilities() {
 		$filter_params
 	);
 
-	$results = $wpdb->get_results( $query, OBJECT );
+	$results = $wpdb->get_results( $query, OBJECT ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 	$column_display_names = array(
 		'capability_id' => __( 'ID', 'groups' ),
