@@ -90,7 +90,7 @@ function groups_admin_groups_add() {
 	$output .= '<div class="field">';
 
 	$capability_table = _groups_get_tablename( "capability" );
-	$capabilities     = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+	$capabilities     = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$selected_capabilities = isset( $_POST['capability_ids'] ) && is_array( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : array();
 
 	$output .= '<div class="select-capability-container" style="width:62%;">';

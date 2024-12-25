@@ -138,7 +138,7 @@ class Groups_User_Group {
 					// don't try to create duplicate entries
 					// also it would raise an error for duplicate PK
 					if ( 0 === intval( $wpdb->get_var( $wpdb->prepare(
-						"SELECT COUNT(*) FROM $user_group_table WHERE user_id = %d AND group_id = %d",
+						"SELECT COUNT(*) FROM $user_group_table WHERE user_id = %d AND group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $user_id ),
 						Groups_Utility::id( $group_id ) ) ) )
 					) {
@@ -172,7 +172,7 @@ class Groups_User_Group {
 
 		$user_group_table = _groups_get_tablename( 'user_group' );
 		$user_group = $wpdb->get_row( $wpdb->prepare(
-			"SELECT * FROM $user_group_table WHERE user_id = %d AND group_id = %d",
+			"SELECT * FROM $user_group_table WHERE user_id = %d AND group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			Groups_Utility::id( $user_id ),
 			Groups_Utility::id( $group_id )
 		) );
@@ -228,7 +228,7 @@ class Groups_User_Group {
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			// get rid of it
 			$rows = $wpdb->query( $wpdb->prepare(
-				"DELETE FROM $user_group_table WHERE user_id = %d AND group_id = %d",
+				"DELETE FROM $user_group_table WHERE user_id = %d AND group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $user_id ),
 				Groups_Utility::id( $group_id )
 			) );
@@ -252,7 +252,7 @@ class Groups_User_Group {
 
 		$user_group_table = _groups_get_tablename( 'user_group' );
 		$rows = $wpdb->get_results( $wpdb->prepare(
-			"SELECT * FROM $user_group_table WHERE user_id = %d",
+			"SELECT * FROM $user_group_table WHERE user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			Groups_Utility::id( $user_id )
 		) );
 		if ( $rows ) {
@@ -291,10 +291,7 @@ class Groups_User_Group {
 		) {
 
 			$rows = $wpdb->get_results( $wpdb->prepare(
-				"SELECT * FROM $user_group_table
-				LEFT JOIN $group_table ON $user_group_table.group_id = $group_table.group_id
-				WHERE $user_group_table.user_id = %d
-				",
+				"SELECT * FROM $user_group_table LEFT JOIN $group_table ON $user_group_table.group_id = $group_table.group_id WHERE $user_group_table.user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $user_id )
 			) );
 			if ( $rows ) {

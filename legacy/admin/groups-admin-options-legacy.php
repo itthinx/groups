@@ -63,7 +63,7 @@ function groups_admin_options_legacy( $legacy_switched ) {
 		'</p>';
 
 	$capability_table = _groups_get_tablename( 'capability' );
-	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 	echo '<div class="select-capability-container" style="width:62%;">';
 	printf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );

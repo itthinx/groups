@@ -165,7 +165,7 @@ class Groups_Shortcodes {
 				case 'count' :
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$count = $wpdb->get_var( $wpdb->prepare(
-						"SELECT COUNT(*) FROM $user_group_table WHERE group_id = %d",
+						"SELECT COUNT(*) FROM $user_group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $current_group->group_id )
 					) );
 					if ( $count === null ) {
@@ -179,7 +179,7 @@ class Groups_Shortcodes {
 				case 'users' :
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
-						"SELECT * FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+						"SELECT * FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $current_group->group_id )
 					) );
 					if ( $users ) {
@@ -414,7 +414,7 @@ class Groups_Shortcodes {
 				$order = 'ASC';
 		}
 		$group_table = _groups_get_tablename( 'group' );
-		$groups = $wpdb->get_results( "SELECT group_id FROM $group_table ORDER BY $order_by $order" );
+		$groups = $wpdb->get_results( "SELECT group_id FROM $group_table ORDER BY $order_by $order" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( is_array( $groups ) && count( $groups ) > 0 ) {
 			switch( $options['format'] ) {
 				case 'list' :

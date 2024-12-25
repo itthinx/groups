@@ -290,7 +290,7 @@ function groups_admin_capabilities() {
 		$filters = '';
 	}
 
-	$count_query = $wpdb->prepare( "SELECT COUNT(*) FROM $capability_table $filters", $filter_params );
+	$count_query = $wpdb->prepare( "SELECT COUNT(*) FROM $capability_table $filters", $filter_params ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$count  = $wpdb->get_var( $count_query );
 	if ( $count > $row_count ) {
 		$paginate = true;
@@ -306,10 +306,7 @@ function groups_admin_capabilities() {
 	}
 
 	$query = $wpdb->prepare(
-		"SELECT * FROM $capability_table
-		$filters
-		ORDER BY $orderby $order
-		LIMIT $row_count OFFSET $offset",
+		"SELECT * FROM $capability_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$filter_params
 	);
 

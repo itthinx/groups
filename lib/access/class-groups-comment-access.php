@@ -290,7 +290,7 @@ class Groups_Comment_Access {
 		$totals = (array) $wpdb->get_results(
 			"SELECT comment_approved, COUNT( * ) AS total " .
 			"FROM {$wpdb->comments} " .
-			"{$where} " .
+			"{$where} " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			"GROUP BY comment_approved ",
 			ARRAY_A
 		);
