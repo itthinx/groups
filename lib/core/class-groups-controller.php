@@ -292,6 +292,7 @@ class Groups_Controller {
 
 		// create tables
 		$group_table = _groups_get_tablename( 'group' );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$group_table'" ) != $group_table ) {
 			$queries[] = "CREATE TABLE IF NOT EXISTS $group_table (
 				group_id     BIGINT(20) UNSIGNED NOT NULL auto_increment,
@@ -305,6 +306,7 @@ class Groups_Controller {
 			) $charset_collate;";
 		}
 		$capability_table = _groups_get_tablename( 'capability' );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) != $capability_table ) {
 			$queries[] = "CREATE TABLE IF NOT EXISTS $capability_table (
 				capability_id BIGINT(20) UNSIGNED NOT NULL auto_increment,
@@ -319,6 +321,7 @@ class Groups_Controller {
 			) $charset_collate;";
 		}
 		$user_group_table = _groups_get_tablename( 'user_group' );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$user_group_table'" ) != $user_group_table ) {
 			$queries[] = "CREATE TABLE IF NOT EXISTS $user_group_table (
 				user_id     bigint(20) unsigned NOT NULL,
@@ -328,6 +331,7 @@ class Groups_Controller {
 			) $charset_collate;";
 		}
 		$user_capability_table = _groups_get_tablename( 'user_capability' );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$user_capability_table'" ) != $user_capability_table ) {
 			$queries[] = "CREATE TABLE IF NOT EXISTS $user_capability_table (
 				user_id       bigint(20) unsigned NOT NULL,
@@ -337,6 +341,7 @@ class Groups_Controller {
 			) $charset_collate;";
 		}
 		$group_capability_table = _groups_get_tablename( 'group_capability' );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$group_capability_table'" ) != $group_capability_table ) {
 			$queries[] = "CREATE TABLE IF NOT EXISTS $group_capability_table (
 				group_id      bigint(20) unsigned NOT NULL,
@@ -415,6 +420,7 @@ class Groups_Controller {
 			switch ( $previous_version ) {
 				case '1.0.0' :
 					$capability_table = _groups_get_tablename( 'capability' );
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
 						// increase column sizes
 						$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";
@@ -430,6 +436,7 @@ class Groups_Controller {
 					break;
 				case '1.0.0-beta-3d' :
 					$capability_table = _groups_get_tablename( 'capability' );
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					if ( $wpdb->get_var( "SHOW TABLES LIKE '$capability_table'" ) == $capability_table ) {
 						// increase column sizes
 						$queries[] = "ALTER TABLE $capability_table MODIFY capability VARCHAR(255) UNIQUE NOT NULL;";

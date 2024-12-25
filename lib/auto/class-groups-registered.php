@@ -51,6 +51,7 @@ class Groups_Registered {
 		if ( $group_id ) {
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$query = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				"INSERT IGNORE INTO $user_group_table " .
 				"SELECT ID, %d FROM $wpdb->users",
 				Groups_Utility::id( $group_id )

@@ -280,6 +280,7 @@ function groups_admin_groups() {
 		$filters = '';
 	}
 
+	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$count_query = $wpdb->prepare( "SELECT COUNT(*) FROM $group_table $filters", $filter_params );
 	$count  = $wpdb->get_var( $count_query );
 	if ( $count > $row_count ) {
@@ -295,11 +296,9 @@ function groups_admin_groups() {
 		$offset = ( $paged - 1 ) * $row_count;
 	}
 
+	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$query = $wpdb->prepare(
-		"SELECT * FROM $group_table
-		$filters
-		ORDER BY $orderby $order
-		LIMIT $row_count OFFSET $offset",
+		"SELECT * FROM $group_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset",
 		$filter_params
 	);
 	$results = $wpdb->get_results( $query, OBJECT );
@@ -360,6 +359,7 @@ function groups_admin_groups() {
 	$group_capability_table = _groups_get_tablename( "group_capability" );
 
 	// capabilities select
+	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
 	$capabilities_select = sprintf(
 		'<select class="select capability" name="capability_id[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
