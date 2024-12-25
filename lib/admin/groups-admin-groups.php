@@ -296,9 +296,8 @@ function groups_admin_groups() {
 		$offset = ( $paged - 1 ) * $row_count;
 	}
 
-	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$query = $wpdb->prepare(
-		"SELECT * FROM $group_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset",
+		"SELECT * FROM $group_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$filter_params
 	);
 	$results = $wpdb->get_results( $query, OBJECT );

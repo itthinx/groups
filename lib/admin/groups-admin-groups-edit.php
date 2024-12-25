@@ -103,9 +103,8 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$capability_table       = _groups_get_tablename( 'capability' );
 	$group_capability_table = _groups_get_tablename( 'group_capability' );
-	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$group_capabilities     = $wpdb->get_results( $wpdb->prepare(
-		"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )",
+		"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		Groups_Utility::id( $group_id )
 	) );
 	$group_capabilities_array = array();
@@ -114,8 +113,8 @@ function groups_admin_groups_edit( $group_id ) {
 			$group_capabilities_array[] = $group_capability->capability_id;
 		}
 	}
-	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+
+	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	$output .= '<div class="field">';
 	$output .= '<div class="select-capability-container" style="width:62%;">';
@@ -226,9 +225,8 @@ function groups_admin_groups_edit_submit() {
 		if ( $group_id ) {
 			$capability_table       = _groups_get_tablename( "capability" );
 			$group_capability_table = _groups_get_tablename( "group_capability" );
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$group_capabilities = $wpdb->get_results( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )",
+				"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $group_id )
 			) );
 			$group_capabilities_array = array();
