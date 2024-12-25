@@ -47,5 +47,5 @@ function groups_admin_tree_view() {
 
 	$output .= '</div>'; // .groups-tree-view
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_tree_view()

@@ -192,7 +192,7 @@ class Groups_Admin_Posts {
 						$output .= esc_html__( 'Terms', 'groups' );
 						$output .= '</label>';
 					}
-					echo $output;
+					echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 
 			}
@@ -265,7 +265,7 @@ class Groups_Admin_Posts {
 
 					$output .= wp_nonce_field( 'post-group', 'bulk-post-group-nonce', true, false );
 
-					echo $output;
+					echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			}
 		}

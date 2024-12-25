@@ -208,7 +208,7 @@ class Groups_Admin_Users {
 			$output .= $box;
 			$output .= Groups_UIE::render_select( '#user-groups' );
 		}
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

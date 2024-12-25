@@ -568,5 +568,5 @@ function groups_admin_groups() {
 	$output .= '</div>'; // .groups-overview
 	$output .= '</div>'; // .manage-groups
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_groups()

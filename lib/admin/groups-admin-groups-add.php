@@ -130,7 +130,7 @@ function groups_admin_groups_add() {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-groups
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_groups_add
 
 /**

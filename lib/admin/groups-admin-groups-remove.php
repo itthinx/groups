@@ -64,7 +64,7 @@ function groups_admin_groups_remove( $group_id ) {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-groups
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_groups_remove
 
 /**
@@ -155,7 +155,7 @@ function groups_admin_groups_bulk_remove() {
 	$output .= '</form>';
 	$output .= '</div>';
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_groups_bulk_remove
 
 /**

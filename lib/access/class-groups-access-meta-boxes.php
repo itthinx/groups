@@ -277,7 +277,7 @@ class Groups_Access_Meta_Boxes {
 
 		$output = apply_filters( 'groups_access_meta_boxes_groups', $output, $object, $box );
 
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

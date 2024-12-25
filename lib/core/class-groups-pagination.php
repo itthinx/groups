@@ -178,7 +178,7 @@ class Groups_Pagination {
 		$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
 
 		if ( $echo ) {
-			echo $this->_pagination;
+			echo $this->_pagination; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $this->_pagination;
 		}

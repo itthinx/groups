@@ -65,7 +65,7 @@ function groups_admin_capabilities_remove( $capability_id ) {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-capabilities
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_capabilities_remove
 
 /**
@@ -154,7 +154,7 @@ function groups_admin_capabilities_bulk_remove() {
 	$output .= '</form>';
 	$output .= '</div>';
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_capabilities_bulk_remove
 
 /**

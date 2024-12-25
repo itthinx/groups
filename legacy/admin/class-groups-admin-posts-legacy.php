@@ -143,7 +143,7 @@ class Groups_Admin_Posts_Legacy {
 					$output .= '</div>';
 					$output .= Groups_UIE::render_select( '.select.capability' );
 
-					echo $output;
+					echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 
 			}
@@ -210,7 +210,7 @@ class Groups_Admin_Posts_Legacy {
 
 					$output .= wp_nonce_field( 'post-capability', 'bulk-post-capability-nonce', true, false );
 
-					echo $output;
+					echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			}
 		}

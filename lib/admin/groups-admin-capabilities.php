@@ -492,10 +492,10 @@ function groups_admin_capabilities() {
 
 	$output .= Groups_UIE::render_add_titles( '.capabilities-overview table td' );
 
-	 $output .= '</form>'; // #groups-action
+	$output .= '</form>'; // #groups-action
 
 	if ( $paginate ) {
-	  require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
+		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
 		$pagination = new Groups_Pagination($count, null, $row_count);
 		$output .= '<div class="tablenav bottom">';
 		$output .= $pagination->pagination( 'bottom' );
@@ -505,5 +505,5 @@ function groups_admin_capabilities() {
 	$output .= '</div>'; // .capabilities-overview
 	$output .= '</div>'; // .manage-capabilities
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_capabilities()

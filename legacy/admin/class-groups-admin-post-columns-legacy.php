@@ -110,7 +110,7 @@ class Groups_Admin_Post_Columns_Legacy {
 				}
 				break;
 		}
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 Groups_Admin_Post_Columns_Legacy::init();

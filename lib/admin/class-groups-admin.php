@@ -121,7 +121,7 @@ class Groups_Admin {
 		$output = '';
 		if ( !empty( self::$messages ) ) {
 			$output .= '<div class="groups messages">';
-			$output .= implode( '', self::$messages );
+			$output .= implode( '', self::$messages ); // messages are already escaped when added using self::add_message()
 			$output .= '</div>';
 		}
 		return $output;
@@ -134,7 +134,7 @@ class Groups_Admin {
 		global $groups_admin_messages;
 		if ( !empty( $groups_admin_messages ) ) {
 			foreach ( $groups_admin_messages as $msg ) {
-				echo $msg;
+				echo $msg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}

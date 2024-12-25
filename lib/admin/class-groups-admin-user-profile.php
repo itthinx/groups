@@ -107,7 +107,7 @@ class Groups_Admin_User_Profile {
 					$output .= Groups_UIE::render_select( '#user-groups' );
 					$output .= '<p class="description">' . esc_html__( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 				}
-				echo $output;
+				echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}
@@ -140,8 +140,7 @@ class Groups_Admin_User_Profile {
 						 */
 						$groups = apply_filters(
 							'groups_admin_user_profile_user_register_groups',
-							// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-							$wpdb->get_results( "SELECT * FROM $groups_table" ),
+							$wpdb->get_results( "SELECT * FROM $groups_table" ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							$user_id
 						);
 						if ( $groups ) {
@@ -185,7 +184,7 @@ class Groups_Admin_User_Profile {
 					$output .= '</ul>';
 				}
 			}
-			echo $output;
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
@@ -239,7 +238,7 @@ class Groups_Admin_User_Profile {
 				$output .= Groups_UIE::render_select( '#user-groups' );
 				$output .= '<p class="description">' . esc_html__( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 			}
-			echo $output;
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

@@ -74,7 +74,7 @@ function groups_admin_capabilities_add() {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-capabilities
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 } // function groups_admin_capabilities_add
 

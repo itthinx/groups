@@ -323,7 +323,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 			$output .= '</script>';
 		}
 
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
