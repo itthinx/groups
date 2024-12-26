@@ -543,12 +543,12 @@ class Groups_Controller {
 	private static function is_single_activate() {
 		$is = false;
 		$groups_basename = plugin_basename( GROUPS_FILE );
-		if ( isset( $_REQUEST['action'] ) ) {
-			switch ( $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			switch ( $_REQUEST['action'] ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				case 'activate':
 					// Single plugin activation of Groups:
-					if ( !empty( $_REQUEST['plugin'] ) ) {
-						$slug = wp_unslash( $_REQUEST['plugin'] );
+					if ( !empty( $_REQUEST['plugin'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						$slug = wp_unslash( $_REQUEST['plugin'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						if ( $slug === $groups_basename ) {
 							$is = true;
 						}
@@ -556,10 +556,10 @@ class Groups_Controller {
 					break;
 				case 'activate-selected':
 					// Bulk plugin activation of Groups but it is the only plugin being activated:
-					if ( !empty( $_REQUEST['checked'] ) ) {
-						if ( is_array( $_REQUEST['checked'] ) ) {
-							if ( count( $_REQUEST['checked'] ) === 1 ) {
-								$slugs = wp_unslash( $_REQUEST['checked'] );
+					if ( !empty( $_REQUEST['checked'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						if ( is_array( $_REQUEST['checked'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+							if ( count( $_REQUEST['checked'] ) === 1 ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+								$slugs = wp_unslash( $_REQUEST['checked'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 								$slug = array_pop( $slugs );
 								if ( $slug === $groups_basename ) {
 									$is = true;
