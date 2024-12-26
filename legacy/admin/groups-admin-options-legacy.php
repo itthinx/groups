@@ -39,9 +39,10 @@ function groups_admin_options_legacy( $legacy_switched ) {
 	if ( isset( $_POST['submit'] ) && !$legacy_switched ) {
 		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$valid_read_caps = array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
-			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
-				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
+			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) && is_array( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
+				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES]; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				foreach( $read_caps as $read_cap ) {
+					$read_cap = sanitize_text_field( $read_cap );
 					if ( $valid_cap = Groups_Capability::read( $read_cap ) ) {
 						if ( !in_array( $valid_cap->capability, $valid_read_caps ) ) {
 							$valid_read_caps[] = $valid_cap->capability;

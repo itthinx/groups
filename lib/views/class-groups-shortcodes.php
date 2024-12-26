@@ -88,7 +88,7 @@ class Groups_Shortcodes {
 				);
 			}
 		}
-		return $output; // nosemgrep: audit.php.wp.security.sqli.shortcode-attr, audit.php.wp.security.xss.shortcode-attr
+		return $output; // nosemgrep audit.php.wp.security.sqli.shortcode-attr, audit.php.wp.security.xss.shortcode-attr
 	}
 
 	/**
@@ -193,7 +193,7 @@ class Groups_Shortcodes {
 					break;
 			}
 		}
-		return $output; // nosemgrep: audit.php.wp.security.sqli.shortcode-attr, audit.php.wp.security.xss.shortcode-attr
+		return $output; // nosemgrep audit.php.wp.security.sqli.shortcode-attr, audit.php.wp.security.xss.shortcode-attr
 	}
 
 	/**
