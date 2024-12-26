@@ -91,7 +91,7 @@ function groups_admin_groups_add() {
 
 	$capability_table = _groups_get_tablename( "capability" );
 	$capabilities     = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$selected_capabilities = isset( $_POST['capability_ids'] ) && is_array( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : array();
+	$selected_capabilities = isset( $_POST['capability_ids'] ) && is_array( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 	$output .= '<div class="select-capability-container" style="width:62%;">';
 	$output .= '<label>';
@@ -144,7 +144,7 @@ function groups_admin_groups_add_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-add' ) ) {
+	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-add' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 

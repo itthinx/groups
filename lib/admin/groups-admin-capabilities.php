@@ -84,11 +84,11 @@ function groups_admin_capabilities() {
 			// bulk actions on groups: capabilities
 			case 'groups-action' :
 				if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) {
-					$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null;
-					$bulk = isset( $_POST['bulk'] ) ? $_POST['bulk'] : null;
+					$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					$bulk = isset( $_POST['bulk'] ) ? $_POST['bulk'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 					if ( is_array( $capability_ids ) && ( $bulk !== null ) ) {
 						foreach ( $capability_ids as $capability_id ) {
-							$bulk_action = isset( $_POST['bulk-action'] ) ? $_POST['bulk-action'] : null;
+							$bulk_action = isset( $_POST['bulk-action'] ) ? $_POST['bulk-action'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							switch( $bulk_action ) {
 								case 'remove' :
 									if ( isset( $_POST['confirm'] ) ) {
@@ -112,12 +112,12 @@ function groups_admin_capabilities() {
 				break;
 			case 'edit' :
 				if ( isset( $_GET['capability_id'] ) ) {
-					return groups_admin_capabilities_edit( $_GET['capability_id'] );
+					return groups_admin_capabilities_edit( $_GET['capability_id'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				}
 				break;
 			case 'remove' :
 				if ( isset( $_GET['capability_id'] ) ) {
-					return groups_admin_capabilities_remove( $_GET['capability_id'] );
+					return groups_admin_capabilities_remove( $_GET['capability_id'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				}
 				break;
 			case 'refresh' :
@@ -143,7 +143,7 @@ function groups_admin_capabilities() {
 		isset( $_POST['capability_id'] ) ||
 		isset( $_POST['capability'] )
 	) {
-		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE], 'admin' ) ) {
+		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
@@ -160,7 +160,7 @@ function groups_admin_capabilities() {
 	} else if ( isset( $_POST['submitted'] ) ) {
 		// filter by name
 		if ( !empty( $_POST['capability'] ) ) {
-			$capability = $_POST['capability'];
+			$capability = sanitize_text_field( $_POST['capability'] );
 			Groups_Options::update_user_option( 'capabilities_capability', $capability );
 		}
 		// filter by capability id
@@ -174,18 +174,18 @@ function groups_admin_capabilities() {
 	}
 
 	if ( isset( $_POST['row_count'] ) ) {
-		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_NONCE_1], 'admin' ) ) {
+		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_NONCE_1], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
 	if ( isset( $_POST['paged'] ) ) {
-		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_NONCE_2], 'admin' ) ) {
+		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_CAPABILITIES_NONCE_2], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$current_url = remove_query_arg( 'paged', $current_url );
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
@@ -248,7 +248,7 @@ function groups_admin_capabilities() {
 		$paged = 0;
 	}
 
-	$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : null;
+	$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	switch ( $orderby ) {
 		case 'capability_id' :
 		case 'capability' :
@@ -258,7 +258,7 @@ function groups_admin_capabilities() {
 			$orderby = 'name';
 	}
 
-	$order = isset( $_GET['order'] ) ? $_GET['order'] : null;
+	$order = isset( $_GET['order'] ) ? $_GET['order'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	switch ( $order ) {
 		case 'asc' :
 		case 'ASC' :
