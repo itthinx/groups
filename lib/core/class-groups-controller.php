@@ -464,7 +464,7 @@ class Groups_Controller {
 				Groups_WordPress::refresh_capabilities();
 			}
 			foreach ( $queries as $query ) {
-				if ( $wpdb->query( $query ) === false ) {
+				if ( $wpdb->query( $query ) === false ) { // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 					$result = false;
 				}
 			}
