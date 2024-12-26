@@ -189,7 +189,6 @@ class Groups_Shortcodes {
 						}
 						$output .= '</ul>';
 					}
-
 					break;
 			}
 		}
