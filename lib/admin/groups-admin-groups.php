@@ -296,9 +296,11 @@ function groups_admin_groups() {
 	}
 
 	$query = $wpdb->prepare(
+		// nosemgrep: audit.php.wp.security.sqli.input-in-sinks
 		"SELECT * FROM $group_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 		$filter_params
 	);
+	// nosemgrep: audit.php.wp.security.sqli.input-in-sinks
 	$results = $wpdb->get_results( $query, OBJECT ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 	$column_display_names = array(

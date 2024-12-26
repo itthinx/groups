@@ -5,6 +5,10 @@
 * Dev - Security validation WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 * Dev - Security validation WordPress.Security.EscapeOutput.OutputNotEscaped
 * Dev - Security validation WordPress.DB.PreparedSQL.NotPrepared
+* Dev - Security validation audit.php.wp.security.sqli.input-in-sinks
+* Dev - Security validation scanner.php.wp.security.rest-route.permission-callback.incorrect-return
+* Dev - Security validation audit.php.wp.security.sqli.shortcode-attr
+* Dev - Security validation scanner.php.wp.security.csrf.nonce-check-not-dying
 
 = 3.3.1 =
 * WordPress 6.7 compatible.

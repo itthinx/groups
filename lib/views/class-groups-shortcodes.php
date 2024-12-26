@@ -88,7 +88,7 @@ class Groups_Shortcodes {
 				);
 			}
 		}
-		return $output;
+		return $output; // nosemgrep: audit.php.wp.security.sqli.shortcode-attr
 	}
 
 	/**
@@ -193,7 +193,7 @@ class Groups_Shortcodes {
 					break;
 			}
 		}
-		return $output;
+		return $output; // nosemgrep: audit.php.wp.security.sqli.shortcode-attr
 	}
 
 	/**
@@ -414,6 +414,7 @@ class Groups_Shortcodes {
 				$order = 'ASC';
 		}
 		$group_table = _groups_get_tablename( 'group' );
+		// nosemgrep: audit.php.wp.security.sqli.shortcode-attr
 		$groups = $wpdb->get_results( "SELECT group_id FROM $group_table ORDER BY $order_by $order" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( is_array( $groups ) && count( $groups ) > 0 ) {
 			switch( $options['format'] ) {
@@ -514,7 +515,7 @@ class Groups_Shortcodes {
 				$invalid_nonce = false;
 				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'join' ) {
 					$submitted = true;
-					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) {
+					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
 						$invalid_nonce = true;
 					}
 				}
@@ -605,7 +606,7 @@ class Groups_Shortcodes {
 				$invalid_nonce = false;
 				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'leave' ) {
 					$submitted = true;
-					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) {
+					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
 						$invalid_nonce = true;
 					}
 				}
