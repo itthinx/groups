@@ -24,6 +24,8 @@
  * Version: 3.4.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
+ * WC requires at least: 8.2
+ * WC tested up to: 9.6
  * Author: itthinx
  * Author URI: https://www.itthinx.com
  * Donate-Link: https://www.itthinx.com/shop/
