@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-29 19:16+0100\n"
-"PO-Revision-Date: 2024-11-29 19:20+0100\n"
+"POT-Creation-Date: 2024-12-26 14:37+0100\n"
+"PO-Revision-Date: 2024-12-26 14:48+0100\n"
 "Last-Translator: Andréas Lundgren <adevade@gmail.com>\n"
 "Language-Team: 035 Media Group <info@035media.se>\n"
 "Language: sv_SE\n"
@@ -90,8 +90,8 @@ msgstr "Tillträdesbegränsningar"
 
 #: lib/admin/groups-admin-tree-view.php:34
 #: lib/admin/groups-admin-groups-edit.php:38
-#: lib/admin/groups-admin-groups-edit.php:187
-#: lib/admin/groups-admin-groups-edit.php:191
+#: lib/admin/groups-admin-groups-edit.php:188
+#: lib/admin/groups-admin-groups-edit.php:192
 #: lib/admin/groups-admin-groups-add.php:36
 #: lib/admin/groups-admin-groups-add.php:144
 #: lib/admin/groups-admin-groups-add.php:148
@@ -210,11 +210,11 @@ msgstr ""
 msgid "Anyone &hellip;"
 msgstr ""
 
-#: lib/admin/groups-admin-groups.php:328 lib/admin/groups-admin-groups.php:354
+#: lib/admin/groups-admin-groups.php:327 lib/admin/groups-admin-groups.php:353
 #: lib/admin/groups-admin-groups.php:394
-#: lib/admin/groups-admin-capabilities.php:340
-#: lib/admin/groups-admin-capabilities.php:366
-#: lib/admin/groups-admin-capabilities.php:380
+#: lib/admin/groups-admin-capabilities.php:339
+#: lib/admin/groups-admin-capabilities.php:365
+#: lib/admin/groups-admin-capabilities.php:379
 #: lib/admin/class-groups-admin-users.php:191
 msgid "Apply"
 msgstr "Utför"
@@ -228,7 +228,7 @@ msgstr ""
 "välja förmågan <em>premium</em> för att begränsa tillträde till ett inlägg."
 
 #: lib/admin/groups-admin-groups.php:389
-#: lib/admin/groups-admin-capabilities.php:377
+#: lib/admin/groups-admin-capabilities.php:376
 msgid "Bulk Actions"
 msgstr "Åtgärder"
 
@@ -268,7 +268,7 @@ msgstr ""
 "att du själv ansvarar för all förlust av data eller andra konsekvenser som "
 "kan följa."
 
-#: lib/admin/groups-admin-groups-edit.php:168
+#: lib/admin/groups-admin-groups-edit.php:169
 #: lib/admin/groups-admin-groups-add.php:127
 #: lib/admin/groups-admin-groups-remove.php:62
 #: lib/admin/groups-admin-groups-remove.php:147
@@ -280,9 +280,9 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: legacy/admin/groups-admin-options-legacy.php:59
-#: lib/admin/groups-admin-groups-edit.php:121
+#: lib/admin/groups-admin-groups-edit.php:122
 #: lib/admin/groups-admin-groups-add.php:98
-#: lib/admin/class-groups-admin.php:203 lib/admin/groups-admin-groups.php:311
+#: lib/admin/class-groups-admin.php:203 lib/admin/groups-admin-groups.php:310
 #: lib/admin/groups-admin-capabilities.php:198
 msgid "Capabilities"
 msgstr "Förmågor"
@@ -299,12 +299,12 @@ msgstr "Förmågor&hellip;"
 #: lib/admin/groups-admin-capabilities-remove.php:56
 #: lib/admin/groups-admin-capabilities-edit.php:66
 #: lib/admin/groups-admin-capabilities-add.php:52
-#: lib/admin/groups-admin-capabilities.php:320
-#: lib/admin/groups-admin-capabilities.php:336
+#: lib/admin/groups-admin-capabilities.php:319
+#: lib/admin/groups-admin-capabilities.php:335
 msgid "Capability"
 msgstr "Förmåga"
 
-#: lib/admin/groups-admin-capabilities.php:332
+#: lib/admin/groups-admin-capabilities.php:331
 msgid "Capability ID"
 msgstr ""
 
@@ -318,15 +318,15 @@ msgstr ""
 msgid "Choose access restrictions &hellip;"
 msgstr "Välj tillträdesbegränsningar&hellip;"
 
-#: lib/admin/groups-admin-groups-edit.php:124
+#: lib/admin/groups-admin-groups-edit.php:125
 #: lib/admin/groups-admin-groups-add.php:101
 msgid "Choose capabilities &hellip;"
 msgstr "Välj förmågor&hellip;"
 
-#: lib/admin/class-groups-admin-user-profile.php:91
-#: lib/admin/class-groups-admin-user-profile.php:92
-#: lib/admin/class-groups-admin-user-profile.php:210
-#: lib/admin/class-groups-admin-user-profile.php:211
+#: lib/admin/class-groups-admin-user-profile.php:96
+#: lib/admin/class-groups-admin-user-profile.php:97
+#: lib/admin/class-groups-admin-user-profile.php:224
+#: lib/admin/class-groups-admin-user-profile.php:225
 #: lib/admin/class-groups-admin-users.php:166
 #: lib/admin/class-groups-admin-users.php:167
 #: lib/admin/class-groups-admin-users.php:229
@@ -353,8 +353,8 @@ msgid ""
 "<em>Groups</em> box and save or update the post (or hit Enter)."
 msgstr ""
 
-#: lib/admin/groups-admin-groups.php:329
-#: lib/admin/groups-admin-capabilities.php:341
+#: lib/admin/groups-admin-groups.php:328
+#: lib/admin/groups-admin-capabilities.php:340
 msgid "Clear"
 msgstr "Rensa"
 
@@ -405,10 +405,10 @@ msgstr "Radera all tilläggsdata vid inaktivering"
 
 #: lib/admin/groups-admin-groups-edit.php:97
 #: lib/admin/groups-admin-groups-add.php:83
-#: lib/admin/groups-admin-groups.php:310
+#: lib/admin/groups-admin-groups.php:309
 #: lib/admin/groups-admin-capabilities-edit.php:75
 #: lib/admin/groups-admin-capabilities-add.php:60
-#: lib/admin/groups-admin-capabilities.php:321
+#: lib/admin/groups-admin-capabilities.php:320
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -424,6 +424,7 @@ msgstr ""
 msgid "Discover our favorite Extensions for Groups and WooCommerce"
 msgstr ""
 
+#: lib/admin/class-groups-admin-notice.php:144
 #: lib/admin/class-groups-admin-welcome.php:186
 #: lib/admin/class-groups-admin-welcome.php:187
 msgid "Dismiss"
@@ -439,7 +440,7 @@ msgid "Documentation"
 msgstr ""
 
 #: lib/admin/groups-admin-groups.php:479
-#: lib/admin/groups-admin-capabilities.php:455
+#: lib/admin/groups-admin-capabilities.php:454
 msgid "Edit"
 msgstr "Redigera"
 
@@ -506,10 +507,15 @@ msgstr "Exempel:"
 msgid "Filter"
 msgstr ""
 
-#: lib/admin/groups-admin-groups.php:320
-#: lib/admin/groups-admin-capabilities.php:330
+#: lib/admin/groups-admin-groups.php:319
+#: lib/admin/groups-admin-capabilities.php:329
 msgid "Filters"
 msgstr "Filter"
+
+#: lib/admin/class-groups-admin-notice.php:166
+#, php-format
+msgid "Follow %1$s and visit %2$s to stay tuned for free and premium tools."
+msgstr ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:157
 msgid ""
@@ -559,7 +565,7 @@ msgid "Go to the previous page"
 msgstr ""
 
 #: lib/admin/groups-admin-groups-remove.php:56
-#: lib/admin/groups-admin-groups.php:309
+#: lib/admin/groups-admin-groups.php:308
 msgid "Group"
 msgstr "Grupp"
 
@@ -567,11 +573,11 @@ msgstr "Grupp"
 msgid "Group Actions"
 msgstr "Gruppåtgärder"
 
-#: lib/admin/groups-admin-groups.php:321
+#: lib/admin/groups-admin-groups.php:320
 msgid "Group ID"
 msgstr ""
 
-#: lib/admin/groups-admin-groups.php:324
+#: lib/admin/groups-admin-groups.php:323
 msgid "Group Name"
 msgstr "Gruppnamn"
 
@@ -600,12 +606,12 @@ msgctxt "Groups section heading (add user)"
 msgid "Groups"
 msgstr "Grupper"
 
-#: lib/admin/class-groups-admin-user-profile.php:190
+#: lib/admin/class-groups-admin-user-profile.php:199
 msgctxt "Groups section heading (edit user)"
 msgid "Groups"
 msgstr "Grupper"
 
-#: lib/admin/class-groups-admin-user-profile.php:163
+#: lib/admin/class-groups-admin-user-profile.php:172
 msgctxt "Groups section heading (user profile)"
 msgid "Groups"
 msgstr "Grupper"
@@ -711,12 +717,20 @@ msgstr ""
 msgid "Hide content from group members"
 msgstr ""
 
-#: lib/admin/class-groups-admin-notice.php:143
-msgid "I have already done that."
+#: lib/admin/class-groups-admin-notice.php:142
+msgid "I have already done that or do not want to submit a review."
 msgstr ""
 
-#: lib/admin/groups-admin-groups.php:308
-#: lib/admin/groups-admin-capabilities.php:319
+#: lib/admin/class-groups-admin-notice.php:157
+msgid "I want to submit a review later, remind me!"
+msgstr ""
+
+#: lib/admin/class-groups-admin-notice.php:150
+msgid "I want to submit a review right now!"
+msgstr ""
+
+#: lib/admin/groups-admin-groups.php:307
+#: lib/admin/groups-admin-capabilities.php:318
 msgid "ID"
 msgstr ""
 
@@ -760,7 +774,7 @@ msgstr ""
 "förmågorna kommer att finnas tillgängliga när användare begränsar tillträde "
 "till inlägg."
 
-#: lib/admin/groups-admin-groups-edit.php:150
+#: lib/admin/groups-admin-groups-edit.php:151
 msgid "Inherited capabilities:"
 msgstr ""
 
@@ -774,12 +788,12 @@ msgid ""
 "were based on capabilities."
 msgstr ""
 
-#: lib/views/class-groups-shortcodes.php:477
+#: lib/views/class-groups-shortcodes.php:478
 #, php-format
 msgid "Join the %s group"
 msgstr "Gå med i gruppen %s"
 
-#: lib/views/class-groups-shortcodes.php:579
+#: lib/views/class-groups-shortcodes.php:580
 #, php-format
 msgid "Leave the %s group"
 msgstr "Lämna gruppen %s"
@@ -1031,11 +1045,11 @@ msgstr "Läs inlägg"
 msgid "Refresh"
 msgstr "Uppdatera"
 
-#: lib/auto/class-groups-registered.php:95
+#: lib/auto/class-groups-registered.php:96
 msgid "Registered"
 msgstr "Registrerad"
 
-#: lib/admin/class-groups-admin-notice.php:156
+#: lib/admin/class-groups-admin-notice.php:159
 msgid "Remind me later"
 msgstr ""
 
@@ -1044,8 +1058,8 @@ msgstr ""
 #: lib/admin/groups-admin-capabilities-remove.php:60
 #: lib/admin/groups-admin-capabilities-remove.php:145
 #: lib/admin/groups-admin-groups.php:488
-#: lib/admin/groups-admin-capabilities.php:378
-#: lib/admin/groups-admin-capabilities.php:464
+#: lib/admin/groups-admin-capabilities.php:377
+#: lib/admin/groups-admin-capabilities.php:463
 msgid "Remove"
 msgstr "Radera"
 
@@ -1095,8 +1109,8 @@ msgstr ""
 msgid "Restricts the visibility of this entry to members of the chosen groups."
 msgstr ""
 
-#: lib/admin/groups-admin-groups.php:351
-#: lib/admin/groups-admin-capabilities.php:363
+#: lib/admin/groups-admin-groups.php:350
+#: lib/admin/groups-admin-capabilities.php:362
 msgid "Results per page"
 msgstr "Resultat per sida"
 
@@ -1104,7 +1118,7 @@ msgstr "Resultat per sida"
 msgid "Role"
 msgstr "Roll"
 
-#: lib/admin/groups-admin-groups-edit.php:166
+#: lib/admin/groups-admin-groups-edit.php:167
 #: lib/admin/groups-admin-capabilities-edit.php:81
 #: lib/admin/groups-admin-options.php:208
 #: lib/admin/groups-admin-options.php:373
@@ -1196,7 +1210,7 @@ msgstr "Förmågan <em>%s</em> har skapats."
 msgid "The <em>%s</em> capability has been updated."
 msgstr "Förmågan <em>%s</em> har uppdaterats."
 
-#: lib/admin/groups-admin-groups-edit.php:215
+#: lib/admin/groups-admin-groups-edit.php:216
 #, php-format
 msgid ""
 "The <em>%s</em> group already exists and cannot be used to name this one."
@@ -1223,7 +1237,7 @@ msgstr "Gruppen <em>%s</em> har uppdaterats."
 msgid "The <em>Capability</em> must not be empty."
 msgstr "<em>Förmågan</em> kan inte vara tom."
 
-#: lib/admin/groups-admin-groups-edit.php:207
+#: lib/admin/groups-admin-groups-edit.php:208
 msgid "The <em>Name</em> must not be empty."
 msgstr "<em>Namnet</em> kan inte vara tomt."
 
@@ -1237,7 +1251,7 @@ msgstr ""
 msgid "The capability has been deleted."
 msgstr "Förmågan har raderats."
 
-#: lib/admin/groups-admin-groups-edit.php:134
+#: lib/admin/groups-admin-groups-edit.php:135
 msgid "The chosen capabilities are assigned to the group."
 msgstr "De valda förmågorna är tilldelade gruppen."
 
@@ -1269,13 +1283,13 @@ msgstr "Namnet kan inte vara tomt."
 msgid "The quick way:"
 msgstr "Den snabba vägen:"
 
-#: lib/admin/class-groups-admin-user-profile.php:103
-#: lib/admin/class-groups-admin-user-profile.php:225
+#: lib/admin/class-groups-admin-user-profile.php:108
+#: lib/admin/class-groups-admin-user-profile.php:239
 msgid "The user is a member of the chosen groups."
 msgstr "Användaren är medlem i en av de valda grupperna."
 
 #: lib/admin/groups-admin-groups.php:551
-#: lib/admin/groups-admin-capabilities.php:490
+#: lib/admin/groups-admin-capabilities.php:489
 msgid "There are no results."
 msgstr "Det finns inga resultat."
 
@@ -1445,11 +1459,11 @@ msgid ""
 "to visit the %1$sDocumentation%2$s pages to know more about how to use it."
 msgstr ""
 
-#: lib/admin/class-groups-admin-notice.php:150
+#: lib/admin/class-groups-admin-notice.php:152
 msgid "Yes, here we go!"
 msgstr ""
 
-#: lib/views/class-groups-shortcodes.php:551
+#: lib/views/class-groups-shortcodes.php:552
 #, php-format
 msgid "You are a member of the %s group."
 msgstr "Du är medlem i gruppen %s."
@@ -1464,14 +1478,6 @@ msgstr ""
 msgid ""
 "You are running the system with legacy access control based on capabilities "
 "enabled."
-msgstr ""
-
-#: lib/admin/class-groups-admin-notice.php:162
-#, php-format
-msgid ""
-"You can also follow <a href=\"%s\">@itthinx</a> on Twitter or visit <a "
-"href=\"%s\" target=\"_blank\">itthinx.com</a> to check out other free and "
-"premium plugins we provide."
 msgstr ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:312
@@ -1526,12 +1532,12 @@ msgstr ""
 msgid "You cannot set any access restrictions."
 msgstr "Du kan inte ställa in några tillträdesbegränsningar."
 
-#: lib/views/class-groups-shortcodes.php:546
+#: lib/views/class-groups-shortcodes.php:547
 #, php-format
 msgid "You have joined the %s group."
 msgstr "Du har gått med i gruppen %s."
 
-#: lib/views/class-groups-shortcodes.php:632
+#: lib/views/class-groups-shortcodes.php:633
 #, php-format
 msgid "You have left the %s group."
 msgstr "Du har lämnat gruppen %s."
