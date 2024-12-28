@@ -121,7 +121,7 @@ class Groups_Admin {
 		$output = '';
 		if ( !empty( self::$messages ) ) {
 			$output .= '<div class="groups messages">';
-			$output .= implode( '', self::$messages );
+			$output .= implode( '', self::$messages ); // messages are already escaped when added using self::add_message()
 			$output .= '</div>';
 		}
 		return $output;
@@ -134,7 +134,7 @@ class Groups_Admin {
 		global $groups_admin_messages;
 		if ( !empty( $groups_admin_messages ) ) {
 			foreach ( $groups_admin_messages as $msg ) {
-				echo $msg;
+				echo $msg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}
@@ -175,7 +175,7 @@ class Groups_Admin {
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 
-		if ( isset( $_POST[GROUPS_ADMIN_OPTIONS_NONCE] ) && wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
+		if ( isset( $_POST[GROUPS_ADMIN_OPTIONS_NONCE] ) && wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$show_tree_view = !empty( $_POST[GROUPS_SHOW_TREE_VIEW] );
 		} else {
 			$show_tree_view = Groups_Options::get_option( GROUPS_SHOW_TREE_VIEW, GROUPS_SHOW_TREE_VIEW_DEFAULT );

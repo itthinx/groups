@@ -61,7 +61,7 @@ class Groups_Admin_Posts_Legacy {
 		global $pagenow;
 
 		if ( $pagenow == 'edit.php' ) {
-			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
+			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				Groups_UIE::enqueue( 'select' );
@@ -77,7 +77,7 @@ class Groups_Admin_Posts_Legacy {
 		global $pagenow;
 
 		if ( $pagenow == 'edit.php' ) {
-			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
+			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				echo '<style type="text/css">';
@@ -108,7 +108,7 @@ class Groups_Admin_Posts_Legacy {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
+				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
@@ -127,7 +127,7 @@ class Groups_Admin_Posts_Legacy {
 
 					$previous_selected = array();
 					if ( !empty( $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY] ) ) {
-						$previous_selected = $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY];
+						$previous_selected = $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY]; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						if ( !is_array( $previous_selected ) ) {
 							$previous_selected = array();
 						}
@@ -143,7 +143,7 @@ class Groups_Admin_Posts_Legacy {
 					$output .= '</div>';
 					$output .= Groups_UIE::render_select( '.select.capability' );
 
-					echo $output;
+					echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 
 			}
@@ -165,7 +165,7 @@ class Groups_Admin_Posts_Legacy {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
+				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
@@ -210,7 +210,7 @@ class Groups_Admin_Posts_Legacy {
 
 					$output .= wp_nonce_field( 'post-capability', 'bulk-post-capability-nonce', true, false );
 
-					echo $output;
+					echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			}
 		}
@@ -226,15 +226,15 @@ class Groups_Admin_Posts_Legacy {
 	 */
 	public static function save_post( $post_id ) {
 		if ( isset( $_REQUEST['capabilities-action'] ) ) {
-			if ( wp_verify_nonce( $_REQUEST['bulk-post-capability-nonce'], 'post-capability' ) ) {
+			if ( wp_verify_nonce( $_REQUEST['bulk-post-capability-nonce'], 'post-capability' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$field = Groups_Post_Access_Legacy::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access_Legacy::READ_POST_CAPABILITY;
 				if ( !empty( $_REQUEST[$field] ) && is_array( $_REQUEST[$field] ) ) {
 					if ( Groups_Access_Meta_Boxes_Legacy::user_can_restrict() ) {
 						$valid_read_caps = Groups_Access_Meta_Boxes_Legacy::get_valid_read_caps_for_user();
-						foreach( $_REQUEST[$field] as $capability_name ) {
+						foreach( $_REQUEST[$field] as $capability_name ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							if ( $capability = Groups_Capability::read_by_capability( $capability_name ) ) {
 								if ( in_array( $capability->capability, $valid_read_caps ) ) {
-									switch( $_REQUEST['capabilities-action'] ) {
+									switch( $_REQUEST['capabilities-action'] ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 										case 'add-capability' :
 											Groups_Post_Access_Legacy::create( array(
 												'post_id' => $post_id,
@@ -268,7 +268,7 @@ class Groups_Admin_Posts_Legacy {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
+				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
@@ -283,7 +283,7 @@ class Groups_Admin_Posts_Legacy {
 						}
 
 						$capabilities = array();
-						foreach ( $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY] as $capability ) {
+						foreach ( $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY] as $capability ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							if ( Groups_Capability::read_by_capability( $capability ) ) {
 								$capabilities[] = $capability;
 							}

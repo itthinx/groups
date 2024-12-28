@@ -43,7 +43,7 @@ function groups_admin_add_ons() {
 	$extensions_box .= esc_html__( 'By getting an official extension, you fund the work that is necessary to maintain and improve Groups.', 'groups' );
 	$extensions_box .= '</p>';
 	$extensions_box .= '</div>';
-	echo $extensions_box;
+	echo $extensions_box; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	groups_admin_add_ons_content();
 	echo '</div>'; // .groups-admin-add-ons.wrap
@@ -59,9 +59,9 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	$d = intval( $params['offset'] );
 	$h2 = sprintf( 'h%d', 2+$d );
 
-	echo "<$h2 class='woocommerce'>";
+	echo "<$h2 class='woocommerce'>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo esc_html__( 'Discover our favorite Extensions for Groups and WooCommerce', 'groups' );
-	echo "</$h2>";
+	echo "</$h2>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	$entries = array(
 		'groups-woocommerce' => array(
@@ -133,24 +133,24 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	echo '<ul class="woocommerce add-ons">';
 	foreach( $entries as $key => $entry ) {
 		echo '<li class="add-on">';
-		echo sprintf( '<a href="%s">', $entry['url'] );
+		echo sprintf( '<a href="%s">', esc_url( $entry['url'] ) );
 		echo '<h3>';
-		echo sprintf( '<img src="%s"/>', $entry['image'] );
+		echo sprintf( '<img src="%s"/>', esc_url( $entry['image'] ) );
 		echo '<span class="title">';
-		echo $entry['title'];
+		echo esc_html( $entry['title'] );
 		echo '</span>';
 		echo '</h3>';
 		echo '<p class="content">';
-		echo $entry['content'];
+		echo wp_kses_post( $entry['content'] );
 		echo '</p>';
 		echo '</a>';
 		echo '</li>'; // .add-on
 	}
 	echo '</ul>'; // .add-ons
 
-	echo "<$h2>";
+	echo "<$h2>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo esc_html__( 'More recommended Extensions for Groups', 'groups' );
-	echo "</$h2>";
+	echo "</$h2>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	$entries = array(
 		'groups-drip-content' => array(
@@ -215,24 +215,24 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	echo '<ul class="groups add-ons">';
 	foreach( $entries as $key => $entry ) {
 		echo '<li class="add-on">';
-		echo sprintf( '<a href="%s">', $entry['url'] );
+		echo sprintf( '<a href="%s">', esc_url( $entry['url'] ) );
 		echo '<h3>';
-		echo sprintf( '<img src="%s"/>', $entry['image'] );
+		echo sprintf( '<img src="%s"/>', esc_url( $entry['image'] ) );
 		echo '<span class="title">';
-		echo $entry['title'];
+		echo esc_html( $entry['title'] );
 		echo '</span>';
 		echo '</h3>';
 		echo '<p>';
-		echo $entry['content'];
+		echo wp_kses_post( $entry['content'] );
 		echo '</p>';
 		echo '</a>';
 		echo '</li>'; // .add-on
 	}
 	echo '</ul>'; // .add-ons
 
-	echo "<$h2>";
+	echo "<$h2>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo esc_html__( 'Other recommended Tools', 'groups' );
-	echo "</$h2>";
+	echo "</$h2>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	$entries = array(
 		'affiliates-pro' => array(
@@ -262,15 +262,15 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	echo '<ul class="other add-ons">';
 	foreach( $entries as $key => $entry ) {
 		echo '<li class="add-on">';
-		echo sprintf( '<a href="%s">', $entry['url'] );
+		echo sprintf( '<a href="%s">', esc_url( $entry['url'] ) );
 		echo '<h3>';
-		echo sprintf( '<img src="%s"/>', $entry['image'] );
+		echo sprintf( '<img src="%s"/>', esc_url( $entry['image'] ) );
 		echo '<span class="title">';
-		echo $entry['title'];
+		echo esc_html( $entry['title'] );
 		echo '</span>';
 		echo '</h3>';
 		echo '<p>';
-		echo $entry['content'];
+		echo wp_kses_post( $entry['content'] );
 		echo '</p>';
 		echo '</a>';
 		echo '</li>'; // .add-on

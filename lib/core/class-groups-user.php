@@ -128,7 +128,7 @@ class Groups_User implements I_Capable {
 			// not using $group->users, as we don't need a lot of user objects created here
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$users = $wpdb->get_results( $wpdb->prepare(
-				"SELECT ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+				"SELECT ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $group_id )
 			) );
 			if ( $users ) {
@@ -377,7 +377,7 @@ class Groups_User implements I_Capable {
 					} else {
 						$user_capability_table = _groups_get_tablename( 'user_capability' );
 						$rows = $wpdb->get_results( $wpdb->prepare(
-							"SELECT capability_id FROM $user_capability_table WHERE user_id = %d",
+							"SELECT capability_id FROM $user_capability_table WHERE user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							Groups_Utility::id( $this->user->ID )
 						) );
 						if ( $rows ) {
@@ -411,7 +411,7 @@ class Groups_User implements I_Capable {
 					} else {
 						$user_group_table = _groups_get_tablename( 'user_group' );
 						$rows = $wpdb->get_results( $wpdb->prepare(
-							"SELECT group_id FROM $user_group_table WHERE user_id = %d",
+							"SELECT group_id FROM $user_group_table WHERE user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							Groups_Utility::id( $this->user->ID )
 						) );
 						if ( $rows ) {
@@ -445,7 +445,7 @@ class Groups_User implements I_Capable {
 					} else {
 						$user_capability_table = _groups_get_tablename( 'user_capability' );
 						$rows = $wpdb->get_results( $wpdb->prepare(
-							"SELECT capability_id FROM $user_capability_table WHERE user_id = %d",
+							"SELECT capability_id FROM $user_capability_table WHERE user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							Groups_Utility::id( $this->user->ID )
 						) );
 						if ( $rows ) {
@@ -479,7 +479,7 @@ class Groups_User implements I_Capable {
 					} else {
 						$user_group_table = _groups_get_tablename( 'user_group' );
 						$rows = $wpdb->get_results( $wpdb->prepare(
-							"SELECT group_id FROM $user_group_table WHERE user_id = %d",
+							"SELECT group_id FROM $user_group_table WHERE user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							Groups_Utility::id( $this->user->ID )
 						) );
 						if ( $rows ) {
@@ -627,7 +627,7 @@ class Groups_User implements I_Capable {
 			$user_group_table       = _groups_get_tablename( 'user_group' );
 			$user_capability_table  = _groups_get_tablename( 'user_capability' );
 
-			$limit = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
+			$limit = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			if ( $limit === null ) {
 				$limit = 1;
 			}
@@ -635,13 +635,13 @@ class Groups_User implements I_Capable {
 			// note that limits by blog_id for multisite are
 			// enforced when a user is added to a blog
 			$user_groups = $wpdb->get_results( $wpdb->prepare(
-				"SELECT group_id FROM $user_group_table WHERE user_id = %d",
+				"SELECT group_id FROM $user_group_table WHERE user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $this->user->ID )
 			) );
 			// get all capabilities directly assigned (those granted through
 			// groups are added below
 			$user_capabilities = $wpdb->get_results( $wpdb->prepare(
-				"SELECT c.capability_id, c.capability FROM $user_capability_table uc LEFT JOIN $capability_table c ON c.capability_id = uc.capability_id WHERE user_id = %d",
+				"SELECT c.capability_id, c.capability FROM $user_capability_table uc LEFT JOIN $capability_table c ON c.capability_id = uc.capability_id WHERE user_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $this->user->ID )
 			) );
 			if ( $user_capabilities ) {
@@ -665,7 +665,7 @@ class Groups_User implements I_Capable {
 						// Retrieve the capabilities and only add those that are
 						// recognized. Note that this also effectively filters out
 						// all roles and that this is desired.
-						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN ('" . implode( "','", esc_sql( $caps ) ) . "')" ) ) {
+						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN ('" . implode( "','", esc_sql( $caps ) ) . "')" ) ) { // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							foreach( $role_capabilities as $role_capability ) {
 								$capabilities[]   = $role_capability->capability;
 								$capability_ids[] = $role_capability->capability_id;
@@ -689,7 +689,7 @@ class Groups_User implements I_Capable {
 						$old_group_ids_count = count( $group_ids );
 						$id_list = implode( ',', $group_ids );
 						$parent_group_ids = $wpdb->get_results(
-							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)"
+							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $parent_group_ids ) {
 							foreach( $parent_group_ids as $parent_group_id ) {
@@ -702,7 +702,7 @@ class Groups_User implements I_Capable {
 					}
 					$id_list = implode( ',', $group_ids );
 					$rows = $wpdb->get_results(
-						"SELECT $group_capability_table.capability_id, $capability_table.capability FROM $group_capability_table LEFT JOIN $capability_table ON $group_capability_table.capability_id = $capability_table.capability_id WHERE group_id IN ($id_list)"
+						"SELECT $group_capability_table.capability_id, $capability_table.capability FROM $group_capability_table LEFT JOIN $capability_table ON $group_capability_table.capability_id = $capability_table.capability_id WHERE group_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					);
 					if ( count( $rows ) > 0 ) {
 						foreach ( $rows as $row ) {

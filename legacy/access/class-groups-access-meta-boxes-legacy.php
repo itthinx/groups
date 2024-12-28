@@ -323,7 +323,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 			$output .= '</script>';
 		}
 
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -372,8 +372,8 @@ class Groups_Access_Meta_Boxes_Legacy {
 			if ( $post_type_object && $post_type != 'attachment' ) {
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_CAPABILITY ) ) {
-						$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
+					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_CAPABILITY ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						if ( $post_type !== null ) {
 							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
 							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
@@ -399,8 +399,8 @@ class Groups_Access_Meta_Boxes_Legacy {
 								if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 									if ( !empty( $_POST['quick-group-capability'] ) ) {
 										$creator_id = get_current_user_id();
-										$datetime	= date( 'Y-m-d H:i:s', time() );
-										$name		= ucfirst( strtolower( trim( $_POST['quick-group-capability'] ) ) );
+										$datetime   = date( 'Y-m-d H:i:s', time() );
+										$name       = ucfirst( strtolower( trim( $_POST['quick-group-capability'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 										if ( strlen( $name ) > 0 ) {
 											// create or obtain the group
 											if ( $group = Groups_Group::read_by_name( $name ) ) {

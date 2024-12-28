@@ -103,7 +103,7 @@ class Groups_Admin_Welcome {
 			isset( $_GET['groups-welcome-dismiss'] ) &&
 			isset( $_GET['_groups_welcome_nonce'] )
 		) {
-			if ( wp_verify_nonce( $_GET['_groups_welcome_nonce'], 'groups_welcome_dismiss' ) ) {
+			if ( wp_verify_nonce( $_GET['_groups_welcome_nonce'], 'groups_welcome_dismiss' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				Groups_Options::update_user_option( 'groups-welcome-dismiss', $groups_version );
 			}
 		}

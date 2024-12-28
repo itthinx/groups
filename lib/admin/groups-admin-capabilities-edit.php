@@ -42,12 +42,12 @@ function groups_admin_capabilities_edit( $capability_id ) {
 		wp_die( esc_html__( 'No such capability.', 'groups' ) );
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
-	$capability_capability = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : ( $capability->capability !== null ? $capability->capability : '' );
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : ( $capability->description !==null ? $capability->description : '' );
+	$capability_capability = isset( $_POST['capability-field'] ) ? sanitize_text_field( $_POST['capability-field'] ) : ( $capability->capability !== null ? $capability->capability : '' );
+	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : ( $capability->description !==null ? $capability->description : '' );
 
 	$capability_readonly = ( $capability->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) ? "" : ' readonly="readonly" ';
 
@@ -86,7 +86,7 @@ function groups_admin_capabilities_edit( $capability_id ) {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-capabilities
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_capabilities_edit
 
 /**
@@ -102,17 +102,17 @@ function groups_admin_capabilities_edit_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'capabilities-edit' ) ) {
+	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'capabilities-edit' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null;
+	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$capability = Groups_Capability::read( $capability_id );
 	if ( $capability ) {
 		$capability = new Groups_Capability( $capability_id );
 		$capability_id = $capability->get_capability_id();
 		if ( $capability->get_capability() !== Groups_Post_Access::READ_POST_CAPABILITY ) {
-			$capability_field = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : null;
+			$capability_field = isset( $_POST['capability-field'] ) ? sanitize_text_field( $_POST['capability-field'] ) : null;
 		} else {
 			$capability_field = Groups_Post_Access::READ_POST_CAPABILITY;
 		}
@@ -125,7 +125,7 @@ function groups_admin_capabilities_edit_submit() {
 				}
 			}
 			if ( $update ) {
-				$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
+				$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
 				$capability_id = Groups_Capability::update( array( 'capability_id' => $capability_id, 'capability' => $capability_field, 'description' => $description ) );
 				if ( $capability_id ) {
 					$result = $capability_id;

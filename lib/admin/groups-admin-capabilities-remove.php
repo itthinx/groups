@@ -40,7 +40,7 @@ function groups_admin_capabilities_remove( $capability_id ) {
 		wp_die( esc_html__( 'No such capability.', 'groups' ) );
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
@@ -65,7 +65,7 @@ function groups_admin_capabilities_remove( $capability_id ) {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-capabilities
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_capabilities_remove
 
 /**
@@ -81,11 +81,11 @@ function groups_admin_capabilities_remove_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'capabilities-remove' ) ) {
+	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'capabilities-remove' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null;
+	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$capability = Groups_Capability::read( $capability_id );
 	if ( $capability ) {
 		if ( $capability->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) {
@@ -106,9 +106,9 @@ function groups_admin_capabilities_bulk_remove() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null;
+	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-	if ( ! $capability_ids ) {
+	if ( $capability_ids === null || !is_array( $capability_ids ) ) {
 		wp_die( esc_html__( 'No such capabilities.', 'groups' ) );
 	}
 
@@ -120,7 +120,7 @@ function groups_admin_capabilities_bulk_remove() {
 		}
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
@@ -154,7 +154,7 @@ function groups_admin_capabilities_bulk_remove() {
 	$output .= '</form>';
 	$output .= '</div>';
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_capabilities_bulk_remove
 
 /**
@@ -170,13 +170,13 @@ function groups_admin_capabilities_bulk_remove_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) {
+	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null;
+	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-	if ( $capability_ids ) {
+	if ( $capability_ids !== null && is_array( $capability_ids ) ) {
 		foreach ( $capability_ids as $capability_id ) {
 			$capability = Groups_Capability::read( $capability_id );
 			if ( $capability ) {

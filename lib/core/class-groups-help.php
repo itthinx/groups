@@ -147,7 +147,7 @@ class Groups_Help {
 			'</span>';
 		$footer = apply_filters( 'groups_footer', $footer );
 		if ( $render ) {
-			echo $footer;
+			echo $footer; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $footer;
 		}

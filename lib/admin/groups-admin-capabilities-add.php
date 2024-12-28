@@ -32,13 +32,13 @@ function groups_admin_capabilities_add() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$current_url = remove_query_arg( 'paged', $current_url );
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'capability_id', $current_url );
 
-	$capability  = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : '';
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
+	$capability  = isset( $_POST['capability-field'] ) ? sanitize_text_field( $_POST['capability-field'] ) : '';
+	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
 
 	$output = '<div class="manage-capabilities wrap">';
 	$output .= '<h1>';
@@ -74,7 +74,7 @@ function groups_admin_capabilities_add() {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-capabilities
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 } // function groups_admin_capabilities_add
 
@@ -89,12 +89,12 @@ function groups_admin_capabilities_add_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'capabilities-add' ) ) {
+	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'capabilities-add' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability  = isset( $_POST['capability-field'] ) ? $_POST['capability-field'] : null;
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
+	$capability  = isset( $_POST['capability-field'] ) ? sanitize_text_field( $_POST['capability-field'] ) : null;
+	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
 
 	$capability_id = Groups_Capability::create( compact( "capability", "description" ) );
 	if ( !$capability_id ) {

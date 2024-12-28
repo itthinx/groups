@@ -185,7 +185,7 @@ class Groups_Capability {
 				case 'group_ids' :
 					$group_capability_table = _groups_get_tablename( 'group_capability' );
 					$rows = $wpdb->get_results( $wpdb->prepare(
-						"SELECT group_id FROM $group_capability_table WHERE capability_id = %d",
+						"SELECT group_id FROM $group_capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $this->capability->capability_id )
 					) );
 					if ( $rows ) {
@@ -198,7 +198,7 @@ class Groups_Capability {
 				case 'groups' :
 					$group_capability_table = _groups_get_tablename( 'group_capability' );
 					$rows = $wpdb->get_results( $wpdb->prepare(
-						"SELECT group_id FROM $group_capability_table WHERE capability_id = %d",
+						"SELECT group_id FROM $group_capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $this->capability->capability_id )
 					) );
 					if ( $rows ) {
@@ -295,7 +295,7 @@ class Groups_Capability {
 		} else {
 			$capability_table = _groups_get_tablename( 'capability' );
 			$capability = $wpdb->get_row( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability_id = %d",
+				"SELECT * FROM $capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $capability_id )
 			) );
 			if ( isset( $capability->capability_id ) ) {
@@ -324,7 +324,7 @@ class Groups_Capability {
 			$result = false;
 			$capability_table = _groups_get_tablename( 'capability' );
 			$capability = $wpdb->get_row( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability = %s",
+				"SELECT * FROM $capability_table WHERE capability = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$capability
 			) );
 			if ( isset( $capability->capability_id ) ) {
@@ -376,7 +376,7 @@ class Groups_Capability {
 					$old_capability->description = $description;
 				}
 				$rows = $wpdb->query( $wpdb->prepare(
-					"UPDATE $capability_table SET capability = %s, class = %s, object = %s, name = %s, description = %s WHERE capability_id = %d",
+					"UPDATE $capability_table SET capability = %s, class = %s, object = %s, name = %s, description = %s WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					$old_capability->capability,
 					$old_capability->class,
 					$old_capability->object,
@@ -416,7 +416,7 @@ class Groups_Capability {
 			$capability_table = _groups_get_tablename( 'capability' );
 			// get rid of it
 			if ( $rows = $wpdb->query( $wpdb->prepare(
-				"DELETE FROM $capability_table WHERE capability_id = %d",
+				"DELETE FROM $capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $capability_id )
 			) ) ) {
 				$result = $capability_id;

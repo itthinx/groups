@@ -82,7 +82,7 @@ class Groups_Utility {
 		$group_table = _groups_get_tablename( 'group' );
 		if ( $tree === null ) {
 			$tree = array();
-			$root_groups = $wpdb->get_results( "SELECT group_id FROM $group_table WHERE parent_id IS NULL ORDER BY name" );
+			$root_groups = $wpdb->get_results( "SELECT group_id FROM $group_table WHERE parent_id IS NULL ORDER BY name" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			if ( $root_groups ) {
 				foreach( $root_groups as $root_group ) {
 					$group_id = Groups_Utility::id( $root_group->group_id );
@@ -93,7 +93,7 @@ class Groups_Utility {
 		} else {
 			foreach( $tree as $group_id => $nodes ) {
 				$children = $wpdb->get_results( $wpdb->prepare(
-					"SELECT group_id FROM $group_table WHERE parent_id = %d ORDER BY name",
+					"SELECT group_id FROM $group_table WHERE parent_id = %d ORDER BY name", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					Groups_Utility::id( $group_id )
 				) );
 				foreach( $children as $child ) {

@@ -214,7 +214,7 @@ class Groups_Group implements I_Capable {
 					$result = array();
 					$group_capability_table = _groups_get_tablename( 'group_capability' );
 					$rows = $wpdb->get_results( $wpdb->prepare(
-						"SELECT capability_id FROM $group_capability_table WHERE group_id = %d",
+						"SELECT capability_id FROM $group_capability_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $rows ) {
@@ -245,13 +245,13 @@ class Groups_Group implements I_Capable {
 					$group_ids  = array( Groups_Utility::id( $this->group->group_id ) );
 					$iterations = 0;
 					$old_group_ids_count = 0;
-					$all_groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
+					$all_groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					while( ( $iterations < $all_groups ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
 						$iterations++;
 						$old_group_ids_count = count( $group_ids );
 						$id_list = implode( ',', $group_ids );
 						$parent_group_ids = $wpdb->get_results(
-							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)"
+							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $parent_group_ids ) {
 							foreach( $parent_group_ids as $parent_group_id ) {
@@ -265,7 +265,7 @@ class Groups_Group implements I_Capable {
 					if ( count( $group_ids ) > 0 ) {
 						$id_list = implode( ',', $group_ids );
 						$rows = $wpdb->get_results(
-							"SELECT DISTINCT capability_id FROM $group_capability_table WHERE group_id IN ($id_list)"
+							"SELECT DISTINCT capability_id FROM $group_capability_table WHERE group_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $rows ) {
 							foreach ( $rows as $row ) {
@@ -279,7 +279,7 @@ class Groups_Group implements I_Capable {
 					$result = array();
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
-						"SELECT $wpdb->users.* FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+						"SELECT $wpdb->users.* FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $users ) {
@@ -294,7 +294,7 @@ class Groups_Group implements I_Capable {
 					$result = array();
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$user_ids = $wpdb->get_results( $wpdb->prepare(
-						"SELECT $wpdb->users.ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+						"SELECT $wpdb->users.ID FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $user_ids ) {
@@ -328,7 +328,7 @@ class Groups_Group implements I_Capable {
 				$capability_id = Groups_Utility::id( $capability );
 			} else if ( is_string( $capability ) ) {
 				$capability_id = $wpdb->get_var( $wpdb->prepare(
-					"SELECT capability_id FROM $capability_table WHERE capability = %s",
+					"SELECT capability_id FROM $capability_table WHERE capability = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					$capability
 				) );
 			}
@@ -342,13 +342,13 @@ class Groups_Group implements I_Capable {
 					$group_ids = is_object( $this->group ) ? array( $this->group->group_id ) : array();
 					$iterations = 0;
 					$old_group_ids_count = 0;
-					$all_groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
+					$all_groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					while( ( $iterations < $all_groups ) && ( count( $group_ids ) !== $old_group_ids_count ) ) {
 						$iterations++;
 						$old_group_ids_count = count( $group_ids );
 						$id_list = implode( ',', $group_ids );
 						$parent_group_ids = $wpdb->get_results(
-							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)"
+							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $parent_group_ids ) {
 							foreach( $parent_group_ids as $parent_group_id ) {
@@ -362,7 +362,7 @@ class Groups_Group implements I_Capable {
 					if ( count( $group_ids ) > 0 ) {
 						$id_list = implode( ',', $group_ids );
 						$rows = $wpdb->get_results( $wpdb->prepare(
-							"SELECT capability_id FROM $group_capability_table WHERE capability_id = %d AND group_id IN ($id_list)",
+							"SELECT capability_id FROM $group_capability_table WHERE capability_id = %d AND group_id IN ($id_list)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							Groups_Utility::id( $capability_id )
 						) );
 
@@ -468,7 +468,7 @@ class Groups_Group implements I_Capable {
 					// only allow to set an existing parent group (that is from the same blog)
 					$parent_group_id = $wpdb->get_var(
 						$wpdb->prepare(
-							"SELECT group_id FROM $group_table WHERE group_id = %d",
+							"SELECT group_id FROM $group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							Groups_Utility::id( $parent_id )
 						)
 					);
@@ -521,7 +521,7 @@ class Groups_Group implements I_Capable {
 		} else {
 			$group_table = _groups_get_tablename( 'group' );
 			$group = $wpdb->get_row( $wpdb->prepare(
-				"SELECT * FROM $group_table WHERE group_id = %d",
+				"SELECT * FROM $group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $group_id )
 			) );
 			if ( isset( $group->group_id ) ) {
@@ -549,10 +549,10 @@ class Groups_Group implements I_Capable {
 			$result = false;
 			$group_table = _groups_get_tablename( 'group' );
 			$query = $wpdb->prepare(
-				"SELECT * FROM $group_table WHERE name = %s",
+				"SELECT * FROM $group_table WHERE name = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$name
 			);
-			$group = $wpdb->get_row( $query );
+			$group = $wpdb->get_row( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			if ( isset( $group->group_id ) ) {
 				$result = $group;
 			}
@@ -586,14 +586,14 @@ class Groups_Group implements I_Capable {
 				$description = '';
 			}
 			$wpdb->query( $wpdb->prepare(
-				"UPDATE $group_table SET name = %s, description = %s WHERE group_id = %d",
+				"UPDATE $group_table SET name = %s, description = %s WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$name,
 				$description,
 				Groups_Utility::id( $group_id )
 			) );
 			if ( empty( $parent_id ) ) {
 				$wpdb->query( $wpdb->prepare(
-					"UPDATE $group_table SET parent_id = NULL WHERE group_id = %d",
+					"UPDATE $group_table SET parent_id = NULL WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					Groups_Utility::id( $group_id )
 				) );
 			} else {
@@ -607,7 +607,7 @@ class Groups_Group implements I_Capable {
 				// It must hold: !( P(g) in S*(g) )
 
 				// Find all successors of this group
-				$groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" );
+				$groups = $wpdb->get_var( "SELECT COUNT(*) FROM $group_table" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				if ( $groups !== null ) {
 					$group_ids   = array();
 					$group_ids[] = Groups_Utility::id( $group_id );
@@ -622,7 +622,7 @@ class Groups_Group implements I_Capable {
 						// We can trust ourselves here, no need to use prepare()
 						// but careful if this query is modified!
 						$successor_group_ids = $wpdb->get_results(
-							"SELECT group_id FROM $group_table WHERE parent_id IS NOT NULL AND parent_id IN ($id_list)"
+							"SELECT group_id FROM $group_table WHERE parent_id IS NOT NULL AND parent_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $successor_group_ids ) {
 							foreach( $successor_group_ids as $successor_group_id ) {
@@ -636,7 +636,7 @@ class Groups_Group implements I_Capable {
 					// only add if condition holds
 					if ( !in_array( Groups_Utility::id( $parent_id ), $group_ids ) ) {
 						$wpdb->query( $wpdb->prepare(
-							"UPDATE $group_table SET parent_id = %d WHERE group_id = %d",
+							"UPDATE $group_table SET parent_id = %d WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 							Groups_Utility::id( $parent_id),
 							Groups_Utility::id( $group_id )
 						) );
@@ -675,27 +675,27 @@ class Groups_Group implements I_Capable {
 			// delete group-capabilities
 			$group_capability_table = _groups_get_tablename( 'group_capability' );
 			$wpdb->query( $wpdb->prepare(
-				"DELETE FROM $group_capability_table WHERE group_id = %d",
+				"DELETE FROM $group_capability_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $group->group_id )
 			) );
 
 			// delete group-users
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$wpdb->query( $wpdb->prepare(
-				"DELETE FROM $user_group_table WHERE group_id = %d",
+				"DELETE FROM $user_group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$group->group_id
 			) );
 
 			// set parent_id to null where this group is parent
 			$group_table = _groups_get_tablename( 'group' );
 			$wpdb->query( $wpdb->prepare(
-				"UPDATE $group_table SET parent_id = NULL WHERE parent_id = %d",
+				"UPDATE $group_table SET parent_id = NULL WHERE parent_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$group->group_id
 			) );
 
 			// delete group
 			if ( $wpdb->query( $wpdb->prepare(
-				"DELETE FROM $group_table WHERE group_id = %d",
+				"DELETE FROM $group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$group->group_id
 			) ) ) {
 				$result = $group->group_id;
@@ -923,7 +923,7 @@ class Groups_Group implements I_Capable {
 		}
 
 		$groups_table = _groups_get_tablename( 'group' );
-		$groups = $wpdb->get_results( "SELECT $fields FROM $groups_table $where $order_by" );
+		$groups = $wpdb->get_results( "SELECT $fields FROM $groups_table $where $order_by" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $groups;
 	}

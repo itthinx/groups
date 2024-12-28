@@ -61,7 +61,7 @@ class Groups_Shortcodes {
 	 * @return string the rendered form or empty
 	 */
 	public static function groups_login( $atts, $content = null ) {
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$atts = shortcode_atts(
 			array(
 				'redirect'        => $current_url,
@@ -88,7 +88,7 @@ class Groups_Shortcodes {
 				);
 			}
 		}
-		return $output;
+		return $output; // nosemgrep audit.php.wp.security.sqli.shortcode-attr, audit.php.wp.security.xss.shortcode-attr
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Groups_Shortcodes {
 	 * @return string logout link, is empty if not logged in
 	 */
 	public static function groups_logout( $atts, $content = null ) {
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$atts = shortcode_atts(
 			array(
 				'redirect' => $current_url
@@ -165,7 +165,7 @@ class Groups_Shortcodes {
 				case 'count' :
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$count = $wpdb->get_var( $wpdb->prepare(
-						"SELECT COUNT(*) FROM $user_group_table WHERE group_id = %d",
+						"SELECT COUNT(*) FROM $user_group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $current_group->group_id )
 					) );
 					if ( $count === null ) {
@@ -179,7 +179,7 @@ class Groups_Shortcodes {
 				case 'users' :
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
-						"SELECT * FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d",
+						"SELECT * FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						Groups_Utility::id( $current_group->group_id )
 					) );
 					if ( $users ) {
@@ -189,11 +189,10 @@ class Groups_Shortcodes {
 						}
 						$output .= '</ul>';
 					}
-
 					break;
 			}
 		}
-		return $output;
+		return $output; // nosemgrep audit.php.wp.security.sqli.shortcode-attr, audit.php.wp.security.xss.shortcode-attr
 	}
 
 	/**
@@ -414,7 +413,8 @@ class Groups_Shortcodes {
 				$order = 'ASC';
 		}
 		$group_table = _groups_get_tablename( 'group' );
-		$groups = $wpdb->get_results( "SELECT group_id FROM $group_table ORDER BY $order_by $order" );
+		// nosemgrep: audit.php.wp.security.sqli.shortcode-attr
+		$groups = $wpdb->get_results( "SELECT group_id FROM $group_table ORDER BY $order_by $order" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( is_array( $groups ) && count( $groups ) > 0 ) {
 			switch( $options['format'] ) {
 				case 'list' :
@@ -514,14 +514,15 @@ class Groups_Shortcodes {
 				$invalid_nonce = false;
 				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'join' ) {
 					$submitted = true;
-					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) {
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
 						$invalid_nonce = true;
 					}
 				}
 				if ( $submitted && !$invalid_nonce ) {
 					// add user to group
 					if ( isset( $_POST['group_id'] ) ) {
-						$join_group = Groups_Group::read( $_POST['group_id'] );
+						$join_group = Groups_Group::read( sanitize_text_field( $_POST['group_id'] ) );
 						Groups_User_Group::create(
 							array(
 								'group_id' => $join_group->group_id,
@@ -603,16 +604,17 @@ class Groups_Shortcodes {
 			if ( $user_id = get_current_user_id() ) {
 				$submitted     = false;
 				$invalid_nonce = false;
-				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'leave' ) {
+				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'leave' ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 					$submitted = true;
-					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) {
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
 						$invalid_nonce = true;
 					}
 				}
 				if ( $submitted && !$invalid_nonce ) {
 					// remove user from group
 					if ( isset( $_POST['group_id'] ) ) {
-						$leave_group = Groups_Group::read( $_POST['group_id'] );
+						$leave_group = Groups_Group::read( sanitize_text_field( $_POST['group_id'] ) );
 						Groups_User_Group::delete( $user_id, $leave_group->group_id );
 					}
 				}

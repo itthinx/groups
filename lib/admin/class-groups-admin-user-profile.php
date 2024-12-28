@@ -81,7 +81,12 @@ class Groups_Admin_User_Profile {
 				 *
 				 * @return array
 				 */
-				$groups = apply_filters( 'groups_admin_user_profile_user_new_form_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ), $type );
+				$groups = apply_filters(
+					'groups_admin_user_profile_user_new_form_groups',
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ),
+					$type
+				);
 				if ( $groups ) {
 					$output .= '<style type="text/css">';
 					$output .= '.groups .selectize-input { font-size: inherit; }';
@@ -102,7 +107,7 @@ class Groups_Admin_User_Profile {
 					$output .= Groups_UIE::render_select( '#user-groups' );
 					$output .= '<p class="description">' . esc_html__( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 				}
-				echo $output;
+				echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}
@@ -133,9 +138,13 @@ class Groups_Admin_User_Profile {
 						 *
 						 * @return array
 						 */
-						$groups = apply_filters( 'groups_admin_user_profile_user_register_groups', $wpdb->get_results( "SELECT * FROM $groups_table" ), $user_id );
+						$groups = apply_filters(
+							'groups_admin_user_profile_user_register_groups',
+							$wpdb->get_results( "SELECT * FROM $groups_table" ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+							$user_id
+						);
 						if ( $groups ) {
-							$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
+							$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							foreach( $groups as $group ) {
 								if ( in_array( $group->group_id, $user_group_ids ) ) {
 									// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
@@ -175,7 +184,7 @@ class Groups_Admin_User_Profile {
 					$output .= '</ul>';
 				}
 			}
-			echo $output;
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
@@ -200,7 +209,12 @@ class Groups_Admin_User_Profile {
 			 *
 			 * @return array
 			 */
-			$groups = apply_filters( 'groups_admin_user_profile_edit_user_profile_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ), $user->get_user()->ID );
+			$groups = apply_filters(
+				'groups_admin_user_profile_edit_user_profile_groups',
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ),
+				$user->get_user()->ID
+			);
 			if ( $groups ) {
 				$output .= '<style type="text/css">';
 				$output .= '.groups .selectize-input { font-size: inherit; }';
@@ -224,7 +238,7 @@ class Groups_Admin_User_Profile {
 				$output .= Groups_UIE::render_select( '#user-groups' );
 				$output .= '<p class="description">' . esc_html__( 'The user is a member of the chosen groups.', 'groups' ) . '</p>';
 			}
-			echo $output;
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
@@ -253,9 +267,14 @@ class Groups_Admin_User_Profile {
 		global $wpdb;
 		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$groups_table = _groups_get_tablename( 'group' );
-			$groups = apply_filters( 'groups_admin_user_profile_edit_user_profile_update_groups', $wpdb->get_results( "SELECT * FROM $groups_table" ), $user_id );
+			$groups = apply_filters(
+				'groups_admin_user_profile_edit_user_profile_update_groups',
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$wpdb->get_results( "SELECT * FROM $groups_table" ),
+				$user_id
+			);
 			if ( $groups ) {
-				$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array();
+				$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				foreach( $groups as $group ) {
 					if ( in_array( $group->group_id, $user_group_ids ) ) {
 						// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:

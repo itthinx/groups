@@ -44,13 +44,13 @@ function groups_admin_groups_edit( $group_id ) {
 		wp_die( esc_html__( 'No such group.', 'groups' ) );
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
-	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : $group->name;
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : ( $group->description !== null ? $group->description : '' );
-	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : $group->parent_id;
+	$name        = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : $group->name;
+	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : ( $group->description !== null ? $group->description : '' );
+	$parent_id   = isset( $_POST['parent-id-field'] ) ? sanitize_text_field( $_POST['parent-id-field'] ) : $group->parent_id;
 
 	$parent_select = '<select name="parent-id-field">';
 	$parent_select .= sprintf(
@@ -104,7 +104,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$capability_table       = _groups_get_tablename( 'capability' );
 	$group_capability_table = _groups_get_tablename( 'group_capability' );
 	$group_capabilities     = $wpdb->get_results( $wpdb->prepare(
-		"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )",
+		"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		Groups_Utility::id( $group_id )
 	) );
 	$group_capabilities_array = array();
@@ -113,7 +113,8 @@ function groups_admin_groups_edit( $group_id ) {
 			$group_capabilities_array[] = $group_capability->capability_id;
 		}
 	}
-	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+
+	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	$output .= '<div class="field">';
 	$output .= '<div class="select-capability-container" style="width:62%;">';
@@ -171,7 +172,7 @@ function groups_admin_groups_edit( $group_id ) {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-groups
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_groups_edit
 
 /**
@@ -187,21 +188,21 @@ function groups_admin_groups_edit_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'groups-edit' ) ) {
+	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE],  'groups-edit' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$group_id = isset( $_POST['group-id-field'] ) ? $_POST['group-id-field'] : null;
+	$group_id = isset( $_POST['group-id-field'] ) ? $_POST['group-id-field'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$group = Groups_Group::read( $group_id );
 	if ( $group ) {
 		$group_id = $group->group_id;
 		if ( $group->name !== Groups_Registered::REGISTERED_GROUP_NAME ) {
-			$name = isset( $_POST['name-field'] ) ? $_POST['name-field'] : null;
+			$name = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : null;
 		} else {
 			$name = Groups_Registered::REGISTERED_GROUP_NAME;
 		}
-		$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : null;
-		$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
+		$parent_id   = isset( $_POST['parent-id-field'] ) ? sanitize_text_field( $_POST['parent-id-field'] ) : null;
+		$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
 
 		if ( empty( $name ) ) {
 			Groups_Admin::add_message( __( 'The <em>Name</em> must not be empty.', 'groups' ), 'error' );
@@ -225,7 +226,7 @@ function groups_admin_groups_edit_submit() {
 			$capability_table       = _groups_get_tablename( "capability" );
 			$group_capability_table = _groups_get_tablename( "group_capability" );
 			$group_capabilities = $wpdb->get_results( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )",
+				"SELECT * FROM $capability_table WHERE capability_id IN ( SELECT capability_id FROM $group_capability_table WHERE group_id = %d )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $group_id )
 			) );
 			$group_capabilities_array = array();
@@ -234,8 +235,8 @@ function groups_admin_groups_edit_submit() {
 			}
 
 			$caps = array();
-			if ( isset( $_POST['capability_ids'] ) ) {
-				$caps = $_POST['capability_ids'];
+			if ( isset( $_POST['capability_ids'] ) && is_array( $_POST['capability_ids'] ) ) {
+				$caps = array_map( 'sanitize_text_field', $_POST['capability_ids'] );
 			}
 			// delete
 			foreach( $group_capabilities_array as $group_cap ) {

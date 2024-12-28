@@ -37,11 +37,12 @@ function groups_admin_options_legacy( $legacy_switched ) {
 	// handle legacy options after form submission
 	//
 	if ( isset( $_POST['submit'] ) && !$legacy_switched ) {
-		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
+		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$valid_read_caps = array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
-			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
-				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES];
+			if ( !empty( $_POST[GROUPS_READ_POST_CAPABILITIES] ) && is_array( $_POST[GROUPS_READ_POST_CAPABILITIES] ) ) {
+				$read_caps = $_POST[GROUPS_READ_POST_CAPABILITIES]; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				foreach( $read_caps as $read_cap ) {
+					$read_cap = sanitize_text_field( $read_cap );
 					if ( $valid_cap = Groups_Capability::read( $read_cap ) ) {
 						if ( !in_array( $valid_cap->capability, $valid_read_caps ) ) {
 							$valid_read_caps[] = $valid_cap->capability;
@@ -56,28 +57,28 @@ function groups_admin_options_legacy( $legacy_switched ) {
 	//
 	// render legacy settings
 	//
-	echo '<h3>' . __( 'Capabilities', 'groups' ) . '</h3>';
+	echo '<h3>' . esc_html__( 'Capabilities', 'groups' ) . '</h3>';
 
 	echo '<p class="description">' .
-		__( 'Include these capabilities to enforce read access on posts. The selected capabilities will be offered to restrict access to posts.', 'groups' ) .
+		esc_html__( 'Include these capabilities to enforce read access on posts. The selected capabilities will be offered to restrict access to posts.', 'groups' ) .
 		'</p>';
 
 	$capability_table = _groups_get_tablename( 'capability' );
-	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
+	$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 	echo '<div class="select-capability-container" style="width:62%;">';
-	printf( '<select class="select capability" name="%s" multiple="multiple">', GROUPS_READ_POST_CAPABILITIES . '[]' );
+	printf( '<select class="select capability" name="%s" multiple="multiple">', esc_attr( GROUPS_READ_POST_CAPABILITIES . '[]' ) );
 	foreach( $capabilities as $capability ) {
 		$selected = in_array( $capability->capability, $applicable_read_caps ) ? ' selected="selected" ' : '';
 		if ( $capability->capability == Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) {
 			$selected .= ' disabled="disabled" ';
 		}
-		printf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
+		printf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 	echo '</select>';
 	echo '</div>'; // .select-capability-container
 
-	echo Groups_UIE::render_select( '.select.capability' );
+	echo Groups_UIE::render_select( '.select.capability' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 }
 

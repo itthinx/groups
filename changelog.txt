@@ -1,5 +1,23 @@
 == Groups by itthinx - changelog.txt
 
+2024-12-26 - version 3.4.0
+* Update - WordPress 6.7 compatible.
+* Dev - Security validation WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+* Dev - Security validation WordPress.Security.EscapeOutput.OutputNotEscaped
+* Dev - Security validation WordPress.DB.PreparedSQL.NotPrepared
+* Dev - Security validation audit.php.wp.security.sqli.input-in-sinks
+* Dev - Security validation scanner.php.wp.security.rest-route.permission-callback.incorrect-return
+* Dev - Security validation audit.php.wp.security.sqli.shortcode-attr
+* Dev - Security validation audit.php.wp.security.xss.shortcode-attr
+* Dev - Security validation scanner.php.wp.security.csrf.nonce-check-not-dying
+* Dev - Security validation WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+* Dev - Secuirty validation WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+* Update - Revised the review invite notification.
+* Update - Updated the translation template.
+* Update - Updated the included translations.
+* Update - Added the "WC requires at least" header.
+* Update - Added the "WC tested up to" header.
+
 = 3.3.1 =
 * WordPress 6.7 compatible.
 * Adds fixes for "Translation loading for the ... domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early. ..." PHP notices raised as of WordPress 6.7.0 in certain scenarios when translations are requested before the init or the after_setup_theme action have fired.

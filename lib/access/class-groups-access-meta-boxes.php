@@ -277,7 +277,7 @@ class Groups_Access_Meta_Boxes {
 
 		$output = apply_filters( 'groups_access_meta_boxes_groups', $output, $object, $box );
 
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -333,8 +333,8 @@ class Groups_Access_Meta_Boxes {
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
 					if ( self::user_can_restrict() ) {
-						if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) {
-							$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
+						if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+							$post_type = isset( $_POST['post_type'] ) ? sanitize_text_field( $_POST['post_type'] ) : null;
 							if ( $post_type !== null ) {
 
 								// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
@@ -364,7 +364,7 @@ class Groups_Access_Meta_Boxes {
 										$user_group_ids_deep[] = $group->group_id;
 									}
 									$group_ids = array();
-									$submitted_group_ids = !empty( $_POST[self::GROUPS_READ] ) && is_array( $_POST[self::GROUPS_READ] ) ? $_POST[self::GROUPS_READ] : array();
+									$submitted_group_ids = !empty( $_POST[self::GROUPS_READ] ) && is_array( $_POST[self::GROUPS_READ] ) ? $_POST[self::GROUPS_READ] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 									// assign requested groups and create and assign new groups if allowed
 									foreach( $submitted_group_ids as $group_id ) {

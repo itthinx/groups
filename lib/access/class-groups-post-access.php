@@ -685,7 +685,7 @@ class Groups_Post_Access {
 		if ( $capability !== null ) {
 			_doing_it_wrong(
 				__CLASS__ . '::' . __METHOD__,
-				__( 'You should use Groups_Post_Access_Legacy::create() to pass a capability restriction instead.', 'groups' ),
+				__( 'You should use Groups_Post_Access_Legacy::create() to pass a capability restriction instead.', 'groups' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				'2.0.0'
 			);
 		}
@@ -826,7 +826,7 @@ class Groups_Post_Access {
 	public static function get_read_post_capabilities( $post_id ) {
 		_doing_it_wrong(
 			__CLASS__ . '::' . __METHOD__,
-			__( 'This method is deprecated. You should use Groups_Post_Access_Legacy::get_read_post_capabilities() to retrieve the capabilities instead.', 'groups' ),
+			__( 'This method is deprecated. You should use Groups_Post_Access_Legacy::get_read_post_capabilities() to retrieve the capabilities instead.', 'groups' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'2.0.0'
 		);
 

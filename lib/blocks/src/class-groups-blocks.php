@@ -60,7 +60,7 @@ class Groups_Blocks {
 					'callback'            => array( __CLASS__, 'get_groups' ),
 					// Restrict access for the endpoint only to users that can administrate groups restrictions.
 					'permission_callback' => function () {
-						return Groups_Access_Meta_Boxes::user_can_restrict();
+						return Groups_Access_Meta_Boxes::user_can_restrict(); // nosemgrep: scanner.php.wp.security.rest-route.permission-callback.incorrect-return
 					},
 				),
 			)

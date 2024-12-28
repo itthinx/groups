@@ -78,10 +78,10 @@ class Groups_Admin_Notice {
 		if ( class_exists( 'Groups_User' ) && method_exists( 'Groups_User', 'current_user_can' ) ) {
 			if ( Groups_User::current_user_can( 'activate_plugins' ) ) {
 				$user_id = get_current_user_id();
-				if ( !empty( $_GET[self::HIDE_REVIEW_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'hide' ) ) {
+				if ( !empty( $_GET[self::HIDE_REVIEW_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'hide' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 					add_user_meta( $user_id, self::HIDE_REVIEW_NOTICE, true );
 				}
-				if ( !empty( $_GET[self::REMIND_LATER_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'later' ) ) {
+				if ( !empty( $_GET[self::REMIND_LATER_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'later' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 					update_user_meta( $user_id, self::REMIND_LATER_NOTICE, time() + self::REMIND_LAPSE );
 				}
 				$hide_review_notice = get_user_meta( $user_id, self::HIDE_REVIEW_NOTICE, true );
@@ -117,7 +117,7 @@ class Groups_Admin_Notice {
 	 */
 	public static function admin_notices() {
 
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$hide_url    = wp_nonce_url( add_query_arg( self::HIDE_REVIEW_NOTICE, true, $current_url ), 'hide', 'groups_notice' );
 		$remind_url  = wp_nonce_url( add_query_arg( self::REMIND_LATER_NOTICE, true, $current_url ), 'later', 'groups_notice' );
 
@@ -138,20 +138,23 @@ class Groups_Admin_Notice {
 		$output .= esc_html__( 'Could you please spare a minute and give it a review over at WordPress.org?', 'groups' );
 		$output .= ' ';
 		$output .= sprintf(
-			'<a style="color:inherit;white-space:nowrap;" href="%s">%s</a>',
+			'<a title="%s" style="color:inherit;white-space:nowrap;cursor:help;opacity:0.5;" href="%s">%s</a>',
+			esc_attr__( 'I have already done that or do not want to submit a review.', 'groups' ),
 			esc_url( $hide_url ),
-			esc_html__( 'I have already done that.', 'groups' )
+			esc_html__( 'Dismiss', 'groups' )
 		);
 		$output .= '</p>';
 		$output .= '<p>';
 		$output .= sprintf(
-			'<a class="button button-primary" href="%s" target="_blank">%s</a>',
+			'<a title="%s" class="button button-primary" href="%s" target="_blank">%s</a>',
+			esc_attr__( 'I want to submit a review right now!', 'groups' ),
 			esc_url( 'https://wordpress.org/support/view/plugin-reviews/groups?filter=5#postform' ),
 			esc_html__( 'Yes, here we go!', 'groups' )
 		);
 		$output .= '&emsp;';
 		$output .= sprintf(
-			'<a class="button" href="%s">%s</a>',
+			'<a title="%s" class="button" href="%s">%s</a>',
+			esc_attr__( 'I want to submit a review later, remind me!', 'groups' ),
 			esc_url( $remind_url ),
 			esc_html__( 'Remind me later', 'groups' )
 		);
@@ -159,14 +162,15 @@ class Groups_Admin_Notice {
 		$output .= '</p>';
 		$output .= '<p>';
 		$output .= sprintf(
-			__( 'You can also follow <a href="%s">@itthinx</a> on Twitter or visit <a href="%s" target="_blank">itthinx.com</a> to check out other free and premium plugins we provide.', 'groups' ),
-			esc_url( 'https://twitter.com/itthinx' ),
-			esc_url( 'https://www.itthinx.com' )
+			/* translators: 1: link, 2: link */
+			__( 'Follow %1$s and visit %2$s to stay tuned for free and premium tools.', 'groups' ),
+			'<a href="https://x.com/itthinx" target="_blank">@itthinx</a>',
+			'<a href="https://www.itthinx.com" target="_blank">itthinx.com</a>'
 		);
 		$output .= '</p>';
 		$output .= '</div>';
 
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 Groups_Admin_Notice::init();

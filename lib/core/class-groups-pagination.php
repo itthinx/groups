@@ -63,7 +63,7 @@ class Groups_Pagination {
 		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
 		if ( !isset( $_REQUEST['paged'] ) ) { // needed with rewritten page added
 			$matches = array();
-			if ( preg_match( "/(\/page\/)(\d+)/", $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $matches ) ) {
+			if ( preg_match( "/(\/page\/)(\d+)/", $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $matches ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$pagenum = absint( $matches[2] );
 			}
 		}
@@ -115,7 +115,7 @@ class Groups_Pagination {
 
 		$current = $this->get_pagenum();
 
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
 
@@ -178,7 +178,7 @@ class Groups_Pagination {
 		$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
 
 		if ( $echo ) {
-			echo $this->_pagination;
+			echo $this->_pagination; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $this->_pagination;
 		}

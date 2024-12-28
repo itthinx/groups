@@ -64,10 +64,10 @@ function groups_admin_options() {
 	// handle options form submission
 	//
 	if ( isset( $_POST['submit'] ) ) {
-		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
+		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 			$post_types = get_post_types();
-			$selected_post_types = !empty( $_POST['add_meta_boxes'] ) && is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array();
+			$selected_post_types = !empty( $_POST['add_meta_boxes'] ) && is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			foreach( $post_types as $post_type ) {
 				$handle_post_types[$post_type] = in_array( $post_type, $selected_post_types );
 			}
@@ -125,7 +125,7 @@ function groups_admin_options() {
 		esc_html__( 'Groups Options', 'groups' ) .
 		'</h1>';
 
-	echo Groups_Admin::render_messages();
+	echo Groups_Admin::render_messages(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	$show_tree_view = Groups_Options::get_option( GROUPS_SHOW_TREE_VIEW, GROUPS_SHOW_TREE_VIEW_DEFAULT );
 	$show_in_user_profile = Groups_Options::get_option( GROUPS_SHOW_IN_USER_PROFILE, GROUPS_SHOW_IN_USER_PROFILE_DEFAULT );
@@ -139,7 +139,7 @@ function groups_admin_options() {
 	$caps_table .= '</td>';
 	foreach ( $caps as $cap ) {
 		$caps_table .= '<td class="cap">';
-		$caps_table .= $cap;
+		$caps_table .= esc_html( $cap );
 		$caps_table .= '</td>';
 	}
 
@@ -150,7 +150,7 @@ function groups_admin_options() {
 		$role = $wp_roles->get_role( $rolekey );
 		$caps_table .= '<tr>';
 		$caps_table .= '<td>';
-		$caps_table .= translate_user_role( $rolename );
+		$caps_table .= esc_html( translate_user_role( $rolename ) );
 		$caps_table .= '</td>';
 		foreach ( $caps as $capkey => $capname ) {
 
@@ -162,7 +162,7 @@ function groups_admin_options() {
 
 			$caps_table .= '<td class="checkbox">';
 			$role_cap_id = $rolekey.'-'.$capkey;
-			$caps_table .= '<input type="checkbox" name="' . $role_cap_id . '" id="' . $role_cap_id . '" ' . $checked . '/>';
+			$caps_table .= '<input type="checkbox" name="' . esc_attr( $role_cap_id ) . '" id="' . esc_attr( $role_cap_id ) . '" ' . $checked . '/>';
 			$caps_table .= '</td>';
 		}
 		$caps_table .= '</tr>';
@@ -172,7 +172,7 @@ function groups_admin_options() {
 
 	$delete_data = Groups_Options::get_option( 'groups_delete_data', false );
 
-	if ( isset( $_GET['dismiss-groups-extensions-box'] ) && isset( $_GET['groups-extensions-box-nonce'] ) && wp_verify_nonce( $_GET['groups-extensions-box-nonce'], 'dismiss-box' ) ) {
+	if ( isset( $_GET['dismiss-groups-extensions-box'] ) && isset( $_GET['groups-extensions-box-nonce'] ) && wp_verify_nonce( $_GET['groups-extensions-box-nonce'], 'dismiss-box' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		Groups_Options::update_user_option( 'show-extensions-box', time() );
 	}
 	$extensions_box = '';
@@ -206,13 +206,13 @@ function groups_admin_options() {
 
 		'<p>' .
 		'<input class="button button-primary" type="submit" name="submit" value="' . esc_attr__( 'Save', 'groups' ) . '"/>' .
-		$extensions_box .
+		$extensions_box . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		'</p>';
 
 	if ( _groups_admin_override() ) {
 		echo
 			'<h2 style="color:red">' .
-			__( 'Administrator Access Override', 'groups' ) .
+			esc_html__( 'Administrator Access Override', 'groups' ) .
 			'</h2>' .
 			'<p>' .
 			esc_html__( 'Administrators override all access permissions derived from Groups capabilities.', 'groups' ) .
@@ -250,7 +250,7 @@ function groups_admin_options() {
 			$label = __( $labels->singular_name );
 		}
 		$checked = Groups_Post_Access::handles_post_type( $post_type ) ? ' checked="checked" ' : '';
-		echo '<input name="add_meta_boxes[]" type="checkbox" value="' . esc_attr( $post_type ) . '" ' . $checked . '/>';
+		echo '<input name="add_meta_boxes[]" type="checkbox" value="' . esc_attr( $post_type ) . '" ' . $checked . '/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		$is_public = isset( $post_type_object->public ) && $post_type_object->public;
 		echo $is_public ? '<strong>' : '';
 		echo esc_html( $label );
@@ -277,8 +277,8 @@ function groups_admin_options() {
 		'<h2>' . esc_html__( 'User profiles', 'groups' ) . '</h2>' .
 		'<p>' .
 		'<label>' .
-		'<input name="' . GROUPS_SHOW_IN_USER_PROFILE . '" type="checkbox" ' . ( $show_in_user_profile ? 'checked="checked"' : '' ) . '/>' .
-		__( 'Show groups in user profiles.', 'groups' ) .
+		'<input name="' . GROUPS_SHOW_IN_USER_PROFILE . '" type="checkbox" ' . ( $show_in_user_profile ? 'checked="checked"' : '' ) . '/>' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		esc_html__( 'Show groups in user profiles.', 'groups' ) .
 		'</label>' .
 		'</p>';
 
@@ -286,19 +286,19 @@ function groups_admin_options() {
 		'<h2>' . esc_html__( 'Tree view', 'groups' ) . '</h2>' .
 		'<p>' .
 		'<label>' .
-		'<input name="' . GROUPS_SHOW_TREE_VIEW . '" type="checkbox" ' . ( $show_tree_view ? 'checked="checked"' : '' ) . '/>' .
-		__( 'Show the Groups tree view.', 'groups' ) .
+		'<input name="' . GROUPS_SHOW_TREE_VIEW . '" type="checkbox" ' . ( $show_tree_view ? 'checked="checked"' : '' ) . '/>' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		esc_html__( 'Show the Groups tree view.', 'groups' ) .
 		'</label>' .
 		'</p>';
 
 	echo
 		'<h2>' . esc_html__( 'Permissions', 'groups' ) . '</h2>' .
 		'<p>' . esc_html__( 'These permissions apply to Groups management. They do not apply to access permissions derived from Groups capabilities.', 'groups' ) . '</p>' .
-		$caps_table .
+		$caps_table . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		'<p class="description">' .
-		__( 'A minimum set of permissions will be preserved.', 'groups' ) .
+		esc_html__( 'A minimum set of permissions will be preserved.', 'groups' ) .
 		'<br/>' .
-		__( 'If you lock yourself out, please ask an administrator to help.', 'groups' ) .
+		esc_html__( 'If you lock yourself out, please ask an administrator to help.', 'groups' ) .
 		'</p>';
 	if ( !$is_sitewide_plugin ) {
 		echo
@@ -306,11 +306,11 @@ function groups_admin_options() {
 			'<p>' .
 			'<label>' .
 			'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
-			__( 'Delete all Groups plugin data on deactivation', 'groups' ) .
+			esc_html__( 'Delete all Groups plugin data on deactivation', 'groups' ) .
 			'</label>' .
 			'</p>' .
 			'<p class="description warning">' .
-			__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', 'groups' ) .
+			esc_html__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', 'groups' ) .
 			'</p>';
 	}
 
@@ -321,8 +321,8 @@ function groups_admin_options() {
 		echo '<h2>' . esc_html__( 'Legacy Settings', 'groups' ) . '</h2>';
 		echo '<p>' .
 			'<label>' .
-			'<input name="' . GROUPS_LEGACY_ENABLE . '" type="checkbox" ' . ( $groups_legacy_enable ? 'checked="checked"' : '' ) . '/>' .
-			__( 'Enable legacy access control based on capabilities.', 'groups' ) .
+			'<input name="' . esc_attr( GROUPS_LEGACY_ENABLE ) . '" type="checkbox" ' . ( $groups_legacy_enable ? 'checked="checked"' : '' ) . '/>' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			esc_html__( 'Enable legacy access control based on capabilities.', 'groups' ) .
 			'</label>' .
 			'</p>';
 		if ( $groups_legacy_enable ) {
@@ -337,39 +337,39 @@ function groups_admin_options() {
 		echo '<p>';
 		printf( esc_html__( 'Groups %s features a simpler model for access restrictions based on groups instead of capabilities used in Groups 1.x.', 'groups' ), esc_html( $groups_version ) );
 		echo ' ';
-		_e( 'To put it simple, previously you would have used capabilities to restrict access to posts and now you simply use groups.', 'groups' );
+		esc_html_e( 'To put it simple, previously you would have used capabilities to restrict access to posts and now you simply use groups.', 'groups' );
 		echo ' ';
-		_e( 'To make it easier to transition to the new model for those who migrate from a previous version, we have included legacy access control based on capabilities.', 'groups' );
+		esc_html_e( 'To make it easier to transition to the new model for those who migrate from a previous version, we have included legacy access control based on capabilities.', 'groups' );
 		echo '</p>';
 		echo '<div class="indent">';
 		echo '<p>';
-		_e( 'The following is only of interest if you have upgraded from Groups 1.x:', 'groups' );
+		esc_html_e( 'The following is only of interest if you have upgraded from Groups 1.x:', 'groups' );
 		echo '<br/>';
 		if ( $legacy_enabled ) {
-			_e( 'You are running the system with legacy access control based on capabilities enabled.', 'groups' );
+			esc_html_e( 'You are running the system with legacy access control based on capabilities enabled.', 'groups' );
 			echo ' ';
-			_e( 'This means that if you had access restrictions in place that were based on capabilities, your entries will still be protected.', 'groups' );
+			esc_html_e( 'This means that if you had access restrictions in place that were based on capabilities, your entries will still be protected.', 'groups' );
 		} else {
-			_e( 'You are running the system with legacy access control based on capabilities disabled.', 'groups' );
+			esc_html_e( 'You are running the system with legacy access control based on capabilities disabled.', 'groups' );
 			echo ' ';
-			_e( 'This could be important!', 'groups' );
+			esc_html_e( 'This could be important!', 'groups' );
 			echo ' ';
-			_e( 'If you had any access restrictions in place based on capabilities, the entries will now be unprotected, unless you enable legacy access restrictions or place appropriate access restrictions based on groups on the desired entries.', 'groups' );
+			esc_html_e( 'If you had any access restrictions in place based on capabilities, the entries will now be unprotected, unless you enable legacy access restrictions or place appropriate access restrictions based on groups on the desired entries.', 'groups' );
 		}
 		echo '</p>';
 		echo '<p>';
-		_e( 'If you would like to switch to access restrictions based on groups (recommended) instead of capabilities, you can easily do so by setting the appropriate groups on your protected posts, pages and other entries to restrict access.', 'groups' );
+		esc_html_e( 'If you would like to switch to access restrictions based on groups (recommended) instead of capabilities, you can easily do so by setting the appropriate groups on your protected posts, pages and other entries to restrict access.', 'groups' );
 		echo ' ';
-		_e( 'Once you have adjusted your access restrictions based on groups, you can disable legacy access control.', 'groups' );
+		esc_html_e( 'Once you have adjusted your access restrictions based on groups, you can disable legacy access control.', 'groups' );
 		echo ' ';
-		_e( 'Please refer to the <a target="_blank" href="https://docs.itthinx.com/document/groups/">Documentation</a> for details on how to switch to and use the new access restrictions.', 'groups' );
+		echo wp_kses_post( __( 'Please refer to the <a target="_blank" href="https://docs.itthinx.com/document/groups/">Documentation</a> for details on how to switch to and use the new access restrictions.', 'groups' ) );
 		echo '</p>';
 		echo '</div>'; // .indent
 	}
 
 	echo
 		'<p>' .
-		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) .
+		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		'<input class="button button-primary" type="submit" name="submit" value="' . esc_attr__( 'Save', 'groups' ) . '"/>' .
 		'</p>' .
 		'</div>' .
@@ -390,13 +390,13 @@ function groups_network_admin_options() {
 	echo
 		'<div>' .
 		'<h1>' .
-		__( 'Groups network options', 'groups' ) .
+		esc_html__( 'Groups network options', 'groups' ) .
 		'</h1>' .
 		'</div>';
 
 	// handle options form submission
 	if ( isset( $_POST['submit'] ) ) {
-		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
+		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			// delete data
 			if ( !empty( $_POST['delete-data'] ) ) {
 				Groups_Options::update_option( 'groups_network_delete_data', true );
@@ -417,14 +417,14 @@ function groups_network_admin_options() {
 		'<label>' .
 		'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
 		' ' .
-		__( 'Delete all Groups plugin data for ALL sites on network deactivation', 'groups' ) .
+		esc_html__( 'Delete all Groups plugin data for ALL sites on network deactivation', 'groups' ) .
 		'</label>' .
 		'</p>' .
 		'<p class="description warning">' .
-		__( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED for <strong>all sites</strong>. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', 'groups' ) .
+		wp_kses_post( __( 'CAUTION: If this option is active while the plugin is deactivated, ALL plugin settings and data will be DELETED for <strong>all sites</strong>. If you are going to use this option, now would be a good time to make a backup. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', 'groups' ) ) .
 		'</p>' .
 		'<p>' .
-		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) .
+		wp_nonce_field( 'admin', GROUPS_ADMIN_OPTIONS_NONCE, true, false ) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		'<input class="button button-primary" type="submit" name="submit" value="' . esc_attr__( 'Save', 'groups' ) . '"/>' .
 		'</p>' .
 		'</div>' .

@@ -194,7 +194,7 @@ class Groups_Admin_Post_Columns {
 				}
 				break;
 		}
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

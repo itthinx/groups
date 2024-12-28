@@ -36,14 +36,14 @@ function groups_admin_groups_add() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$current_url = remove_query_arg( 'paged', $current_url );
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
-	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : '';
-	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : '';
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
+	$parent_id   = isset( $_POST['parent-id-field'] ) ? sanitize_text_field( $_POST['parent-id-field'] ) : '';
+	$name        = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : '';
+	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
 
 	$parent_select = '<select name="parent-id-field">';
 	$parent_select .= sprintf(
@@ -90,8 +90,8 @@ function groups_admin_groups_add() {
 	$output .= '<div class="field">';
 
 	$capability_table = _groups_get_tablename( "capability" );
-	$capabilities     = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" );
-	$selected_capabilities = isset( $_POST['capability_ids'] ) && is_array( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : array();
+	$capabilities     = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$selected_capabilities = isset( $_POST['capability_ids'] ) && is_array( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 	$output .= '<div class="select-capability-container" style="width:62%;">';
 	$output .= '<label>';
@@ -130,7 +130,7 @@ function groups_admin_groups_add() {
 	$output .= '</form>';
 	$output .= '</div>'; // .manage-groups
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } // function groups_admin_groups_add
 
 /**
@@ -144,22 +144,25 @@ function groups_admin_groups_add_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-add' ) ) {
+	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-add' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$creator_id  = get_current_user_id();
 	$datetime    = date( 'Y-m-d H:i:s', time() );
-	$parent_id   = isset( $_POST['parent-id-field'] ) ? $_POST['parent-id-field'] : null;
-	$description = isset( $_POST['description-field'] ) ? $_POST['description-field'] : '';
-	$name        = isset( $_POST['name-field'] ) ? $_POST['name-field'] : null;
+	$parent_id   = isset( $_POST['parent-id-field'] ) ? sanitize_text_field( $_POST['parent-id-field'] ) : null;
+	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
+	$name        = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : null;
 
 	$group_id = Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
 	if ( $group_id ) {
 		if ( !empty( $_POST['capability_ids'] ) ) {
-			$caps = $_POST['capability_ids'];
-			foreach( $caps as $cap ) {
-				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
+			$caps = $_POST['capability_ids']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( is_array( $caps ) ) {
+				$caps = array_map( 'sanitize_text_field', $caps );
+				foreach( $caps as $cap ) {
+					Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
+				}
 			}
 		}
 		do_action( 'groups_admin_groups_add_submit_success', $group_id );

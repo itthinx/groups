@@ -51,11 +51,12 @@ class Groups_Registered {
 		if ( $group_id ) {
 			$user_group_table = _groups_get_tablename( 'user_group' );
 			$query = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				"INSERT IGNORE INTO $user_group_table " .
 				"SELECT ID, %d FROM $wpdb->users",
 				Groups_Utility::id( $group_id )
 			);
-			$rows = $wpdb->query( $query );
+			$rows = $wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		}
 	}
 
@@ -188,7 +189,7 @@ class Groups_Registered {
 		// created the tables and all users of the new blog are added to
 		// that blog's "Registered" group.
 		$group_table = _groups_get_tablename( 'group' );
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $group_table . "'" ) == $group_table ) {
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $group_table . "'" ) == $group_table ) { // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$registered_group = Groups_Group::read_by_name( self::REGISTERED_GROUP_NAME );
 			if ( !$registered_group ) {
 				$registered_group_id = Groups_Group::create( array( 'name' => self::REGISTERED_GROUP_NAME ) );
