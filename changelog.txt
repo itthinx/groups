@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+2024-12-29 - version 3.4.1
+* Update - Declare WooCommerce HPOS compatibility.
+
 2024-12-26 - version 3.4.0
 * Update - WordPress 6.7 compatible.
 * Dev - Security validation WordPress.DB.PreparedSQL.InterpolatedNotPrepared
