@@ -29,6 +29,14 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Extra {
 
 	/**
+	 * Early actions.
+	 */
+	public static function boot() {
+		add_action( 'init', array( __CLASS__, 'init' ) );
+		add_action( 'before_woocommerce_init', array( __CLASS__, 'before_woocommerce_init' ) );
+	}
+
+	/**
 	 * Registers actions, filters ...
 	 */
 	public static function init() {
@@ -47,6 +55,7 @@ class Groups_Extra {
 	 *
 	 * @param boolean $visible
 	 * @param int $product_id
+	 *
 	 * @return boolean
 	 */
 	public static function woocommerce_product_is_visible( $visible, $product_id ) {
@@ -61,6 +70,7 @@ class Groups_Extra {
 	 *
 	 * @param string $where
 	 * @param int $post_id
+	 *
 	 * @return string
 	 */
 	public static function groups_comment_access_comment_count_where( $where, $post_id ) {
@@ -92,5 +102,17 @@ class Groups_Extra {
 		}
 		return $post_types;
 	}
+
+	/**
+	 * Declare WooCommerce feature compatibility.
+	 *
+	 * @since 3.4.1
+	 */
+	public static function before_woocommerce_init() {
+		// HPOS
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', GROUPS_FILE, true );
+		}
+	}
 }
-add_action( 'init', array( 'Groups_Extra', 'init' ) );
+Groups_Extra::boot();
