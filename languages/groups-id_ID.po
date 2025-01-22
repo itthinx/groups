@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-26 14:37+0100\n"
-"PO-Revision-Date: 2024-12-26 14:44+0100\n"
+"POT-Creation-Date: 2025-01-22 19:31+0100\n"
+"PO-Revision-Date: 2025-01-22 19:37+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: id_ID\n"
@@ -18,11 +18,17 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.4.4\n"
 
-#: lib/core/class-groups-pagination.php:158
+#: lib/core/class-groups-pagination.php:159
 #, php-format
 msgctxt "paging"
 msgid "%1$s of %2$s"
 msgstr "%1$s dari %2$s"
+
+#: lib/core/class-groups-pagination.php:115
+#, php-format
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] "%s barang"
 
 #: lib/admin/class-groups-admin-users.php:266
 msgctxt "label for conjunctive groups filter checkbox"
@@ -46,17 +52,11 @@ msgstr "(tidak ada)"
 msgid "(only unrestricted)"
 msgstr "(hanya tidak dibatasi)"
 
-#: lib/admin/class-groups-admin-users.php:370
+#: lib/admin/class-groups-admin-users.php:371
 msgid "--"
 msgstr "-"
 
-#: lib/core/class-groups-pagination.php:114
-#, php-format
-msgid "1 item"
-msgid_plural "%s items"
-msgstr[0] "%s barang"
-
-#: legacy/admin/class-groups-admin-post-columns-legacy.php:76
+#: legacy/admin/class-groups-admin-post-columns-legacy.php:77
 #, php-format
 msgid "<span title=\"%s\">Access Restrictions</span>"
 msgstr "<span title=\"%s\">Pembatasan Akses</span>"
@@ -71,11 +71,11 @@ msgstr ""
 "ditugaskan ditampilkan dalam kurung. Anda dapat memilih kapabilitas dengan "
 "mengetik bagian dari grup atau nama kapabilitas."
 
-#: lib/admin/groups-admin-capabilities.php:132
+#: lib/admin/groups-admin-capabilities.php:135
 msgid "A Duck!"
 msgstr "Seekor bebek!"
 
-#: lib/admin/groups-admin-options.php:299
+#: lib/admin/groups-admin-options.php:300
 msgid "A minimum set of permissions will be preserved."
 msgstr "Serangkaian izin minimum akan dipertahankan."
 
@@ -98,31 +98,31 @@ msgstr "Batasan Akses"
 #: lib/admin/groups-admin-groups-remove.php:80
 #: lib/admin/groups-admin-groups-remove.php:84
 #: lib/admin/groups-admin-groups-remove.php:105
-#: lib/admin/groups-admin-groups-remove.php:170
-#: lib/admin/groups-admin-groups-remove.php:174
+#: lib/admin/groups-admin-groups-remove.php:169
+#: lib/admin/groups-admin-groups-remove.php:173
 #: lib/admin/groups-admin-capabilities-remove.php:34
 #: lib/admin/groups-admin-capabilities-remove.php:81
 #: lib/admin/groups-admin-capabilities-remove.php:85
 #: lib/admin/groups-admin-capabilities-remove.php:106
 #: lib/admin/groups-admin-capabilities-remove.php:170
 #: lib/admin/groups-admin-capabilities-remove.php:174
-#: lib/admin/groups-admin-groups.php:49 lib/admin/groups-admin-groups.php:154
-#: lib/admin/groups-admin-groups.php:185 lib/admin/groups-admin-groups.php:191
+#: lib/admin/groups-admin-groups.php:49 lib/admin/groups-admin-groups.php:156
+#: lib/admin/groups-admin-groups.php:187 lib/admin/groups-admin-groups.php:193
 #: lib/admin/groups-admin-capabilities-edit.php:36
 #: lib/admin/groups-admin-capabilities-edit.php:102
 #: lib/admin/groups-admin-capabilities-edit.php:106
-#: lib/admin/groups-admin-options.php:44 lib/admin/groups-admin-options.php:387
+#: lib/admin/groups-admin-options.php:44 lib/admin/groups-admin-options.php:390
 #: lib/admin/groups-admin-capabilities-add.php:32
 #: lib/admin/groups-admin-capabilities-add.php:89
 #: lib/admin/groups-admin-capabilities-add.php:93
 #: lib/admin/groups-admin-capabilities.php:48
-#: lib/admin/groups-admin-capabilities.php:147
-#: lib/admin/groups-admin-capabilities.php:178
-#: lib/admin/groups-admin-capabilities.php:184
+#: lib/admin/groups-admin-capabilities.php:150
+#: lib/admin/groups-admin-capabilities.php:181
+#: lib/admin/groups-admin-capabilities.php:187
 msgid "Access denied."
 msgstr "Akses ditolak."
 
-#: lib/admin/groups-admin-options.php:229
+#: lib/admin/groups-admin-options.php:230
 msgid "Access restricions"
 msgstr "Pembatasan akses"
 
@@ -130,7 +130,7 @@ msgstr "Pembatasan akses"
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:107
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:121
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:124
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:597
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:601
 msgid "Access restrictions"
 msgstr "Pembatasan akses"
 
@@ -140,9 +140,9 @@ msgid "Access restrictions &hellip;"
 msgstr "Pembatasan akses & hellip;"
 
 #: lib/admin/groups-admin-groups-add.php:125
-#: lib/admin/groups-admin-groups.php:213
+#: lib/admin/groups-admin-groups.php:215
 #: lib/admin/groups-admin-capabilities-add.php:69
-#: lib/admin/groups-admin-capabilities.php:207
+#: lib/admin/groups-admin-capabilities.php:210
 msgid "Add"
 msgstr "Menambahkan"
 
@@ -154,7 +154,7 @@ msgstr "Tambahkan kemampuan baru"
 msgid "Add a new group"
 msgstr "Tambahkan grup baru"
 
-#: lib/admin/groups-admin-groups.php:391
+#: lib/admin/groups-admin-groups.php:393
 msgid "Add capability"
 msgstr "Tambahkan kemampuan"
 
@@ -168,7 +168,7 @@ msgid "Add to group"
 msgstr "Tambahkan ke grup"
 
 #: lib/admin/class-groups-admin.php:229 lib/admin/groups-admin-add-ons.php:32
-#: lib/admin/class-groups-admin-welcome.php:229
+#: lib/admin/class-groups-admin-welcome.php:231
 msgid "Add-Ons"
 msgstr "Add-on"
 
@@ -188,11 +188,11 @@ msgstr "Administer Groups"
 msgid "Administer Groups plugin options"
 msgstr "Mengelola opsi plugin Grup"
 
-#: lib/admin/groups-admin-options.php:215
+#: lib/admin/groups-admin-options.php:216
 msgid "Administrator Access Override"
 msgstr "Pengesampingan Akses Administrator"
 
-#: lib/admin/groups-admin-options.php:218
+#: lib/admin/groups-admin-options.php:219
 msgid ""
 "Administrators override all access permissions derived from Groups "
 "capabilities."
@@ -203,18 +203,18 @@ msgstr ""
 msgid "Also look for groups related to terms"
 msgstr "Cari juga grup yang terkait dengan istilah"
 
-#: lib/access/class-groups-access-meta-boxes.php:234
 #: lib/access/class-groups-access-meta-boxes.php:235
-#: lib/access/class-groups-access-meta-boxes.php:474
-#: lib/access/class-groups-access-meta-boxes.php:475
+#: lib/access/class-groups-access-meta-boxes.php:236
+#: lib/access/class-groups-access-meta-boxes.php:476
+#: lib/access/class-groups-access-meta-boxes.php:477
 msgid "Anyone &hellip;"
 msgstr "Siapa saja & hellip;"
 
-#: lib/admin/groups-admin-groups.php:327 lib/admin/groups-admin-groups.php:353
-#: lib/admin/groups-admin-groups.php:394
-#: lib/admin/groups-admin-capabilities.php:339
-#: lib/admin/groups-admin-capabilities.php:365
-#: lib/admin/groups-admin-capabilities.php:379
+#: lib/admin/groups-admin-groups.php:329 lib/admin/groups-admin-groups.php:355
+#: lib/admin/groups-admin-groups.php:396
+#: lib/admin/groups-admin-capabilities.php:342
+#: lib/admin/groups-admin-capabilities.php:368
+#: lib/admin/groups-admin-capabilities.php:382
 #: lib/admin/class-groups-admin-users.php:191
 msgid "Apply"
 msgstr "Menerapkan"
@@ -227,12 +227,12 @@ msgstr ""
 "Menjadi anggota grup <em> Premium </em> - ini diperlukan agar Anda dapat "
 "memilih kemampuan <em> premium </em> untuk membatasi akses ke sebuah posting."
 
-#: lib/admin/groups-admin-groups.php:389
-#: lib/admin/groups-admin-capabilities.php:376
+#: lib/admin/groups-admin-groups.php:391
+#: lib/admin/groups-admin-capabilities.php:379
 msgid "Bulk Actions"
 msgstr "Aksi besar"
 
-#: lib/admin/groups-admin-options.php:195 lib/admin/groups-admin-add-ons.php:43
+#: lib/admin/groups-admin-options.php:196 lib/admin/groups-admin-add-ons.php:43
 msgid ""
 "By getting an official extension, you fund the work that is necessary to "
 "maintain and improve Groups."
@@ -240,7 +240,7 @@ msgstr ""
 "Dengan mendapatkan perpanjangan resmi, Anda mendanai pekerjaan yang "
 "diperlukan untuk mempertahankan dan meningkatkan Grup."
 
-#: lib/admin/groups-admin-options.php:424
+#: lib/admin/groups-admin-options.php:427
 msgid ""
 "CAUTION: If this option is active while the plugin is deactivated, ALL "
 "plugin settings and data will be DELETED for <strong>all sites</strong>. If "
@@ -254,7 +254,7 @@ msgstr ""
 "Dengan mengaktifkan opsi ini, Anda setuju untuk sepenuhnya bertanggung jawab "
 "atas kehilangan data atau konsekuensi lainnya."
 
-#: lib/admin/groups-admin-options.php:313
+#: lib/admin/groups-admin-options.php:314
 msgid ""
 "CAUTION: If this option is active while the plugin is deactivated, ALL "
 "plugin settings and data will be DELETED. If you are going to use this "
@@ -271,7 +271,7 @@ msgstr ""
 #: lib/admin/groups-admin-groups-edit.php:169
 #: lib/admin/groups-admin-groups-add.php:127
 #: lib/admin/groups-admin-groups-remove.php:62
-#: lib/admin/groups-admin-groups-remove.php:147
+#: lib/admin/groups-admin-groups-remove.php:146
 #: lib/admin/groups-admin-capabilities-remove.php:62
 #: lib/admin/groups-admin-capabilities-remove.php:146
 #: lib/admin/groups-admin-capabilities-edit.php:83
@@ -279,11 +279,11 @@ msgstr ""
 msgid "Cancel"
 msgstr "Membatalkan"
 
-#: legacy/admin/groups-admin-options-legacy.php:59
+#: legacy/admin/groups-admin-options-legacy.php:60
 #: lib/admin/groups-admin-groups-edit.php:122
 #: lib/admin/groups-admin-groups-add.php:98
-#: lib/admin/class-groups-admin.php:203 lib/admin/groups-admin-groups.php:310
-#: lib/admin/groups-admin-capabilities.php:198
+#: lib/admin/class-groups-admin.php:203 lib/admin/groups-admin-groups.php:312
+#: lib/admin/groups-admin-capabilities.php:201
 msgid "Capabilities"
 msgstr "Kemampuan"
 
@@ -292,19 +292,19 @@ msgctxt "Help tab title and heading"
 msgid "Capabilities"
 msgstr "Kemampuan"
 
-#: lib/admin/groups-admin-groups.php:366 lib/admin/groups-admin-groups.php:367
+#: lib/admin/groups-admin-groups.php:368 lib/admin/groups-admin-groups.php:369
 msgid "Capabilities &hellip;"
 msgstr "Kemampuan & hellip;"
 
 #: lib/admin/groups-admin-capabilities-remove.php:56
 #: lib/admin/groups-admin-capabilities-edit.php:66
 #: lib/admin/groups-admin-capabilities-add.php:52
-#: lib/admin/groups-admin-capabilities.php:319
-#: lib/admin/groups-admin-capabilities.php:335
+#: lib/admin/groups-admin-capabilities.php:322
+#: lib/admin/groups-admin-capabilities.php:338
 msgid "Capability"
 msgstr "Kemampuan"
 
-#: lib/admin/groups-admin-capabilities.php:331
+#: lib/admin/groups-admin-capabilities.php:334
 msgid "Capability ID"
 msgstr "ID kemampuan"
 
@@ -335,7 +335,7 @@ msgid "Choose groups &hellip;"
 msgstr "Pilih grup & hellip;"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:214
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:546
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:548
 msgid ""
 "Choose one or more capabilities to restrict access. Groups that grant access "
 "through the capabilities are shown in parenthesis. If no capabilities are "
@@ -357,24 +357,24 @@ msgstr ""
 "terletak di kotak <em> Grup </em> dan simpan atau perbarui posting (atau "
 "tekan Enter)."
 
-#: lib/admin/groups-admin-groups.php:328
-#: lib/admin/groups-admin-capabilities.php:340
+#: lib/admin/groups-admin-groups.php:330
+#: lib/admin/groups-admin-capabilities.php:343
 msgid "Clear"
 msgstr "Bersih"
 
-#: lib/admin/groups-admin-capabilities.php:202
+#: lib/admin/groups-admin-capabilities.php:205
 msgid "Click to add a new capability"
 msgstr "Klik untuk menambahkan kemampuan baru"
 
-#: lib/admin/groups-admin-groups.php:208
+#: lib/admin/groups-admin-groups.php:210
 msgid "Click to add a new group"
 msgstr "Klik untuk menambahkan grup baru"
 
-#: lib/admin/groups-admin-capabilities.php:218
+#: lib/admin/groups-admin-capabilities.php:221
 msgid "Click to refresh capabilities"
 msgstr "Klik untuk menyegarkan kemampuan"
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:274
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:276
 msgid "Click to toggle the display of groups that grant the capabilities."
 msgstr "Klik untuk mengganti tampilan grup yang memberikan kemampuan."
 
@@ -393,33 +393,33 @@ msgstr ""
 "Bisakah Anda menyisihkan waktu sebentar dan memberikan ulasan di WordPress."
 "org?"
 
-#: lib/core/class-groups-pagination.php:151
+#: lib/core/class-groups-pagination.php:152
 msgid "Current page"
 msgstr "Halaman saat ini"
 
-#: lib/admin/groups-admin-options.php:305
+#: lib/admin/groups-admin-options.php:306
 msgid "Deactivation and data persistence"
 msgstr "Deaktivasi dan kegigihan data"
 
-#: lib/admin/groups-admin-options.php:420
+#: lib/admin/groups-admin-options.php:423
 msgid "Delete all Groups plugin data for ALL sites on network deactivation"
 msgstr ""
 "Hapus semua data plugin Grup untuk SEMUA situs di penonaktifan jaringan"
 
-#: lib/admin/groups-admin-options.php:309
+#: lib/admin/groups-admin-options.php:310
 msgid "Delete all Groups plugin data on deactivation"
 msgstr "Hapus semua data plugin Grup pada penonaktifan"
 
 #: lib/admin/groups-admin-groups-edit.php:97
 #: lib/admin/groups-admin-groups-add.php:83
-#: lib/admin/groups-admin-groups.php:309
+#: lib/admin/groups-admin-groups.php:311
 #: lib/admin/groups-admin-capabilities-edit.php:75
 #: lib/admin/groups-admin-capabilities-add.php:60
-#: lib/admin/groups-admin-capabilities.php:320
+#: lib/admin/groups-admin-capabilities.php:323
 msgid "Description"
 msgstr "Deskripsi"
 
-#: lib/admin/groups-admin-options.php:271
+#: lib/admin/groups-admin-options.php:272
 msgid ""
 "Disabling this setting for a post type also disables existing access "
 "restrictions on individual posts of that type."
@@ -432,8 +432,8 @@ msgid "Discover our favorite Extensions for Groups and WooCommerce"
 msgstr ""
 
 #: lib/admin/class-groups-admin-notice.php:144
-#: lib/admin/class-groups-admin-welcome.php:186
-#: lib/admin/class-groups-admin-welcome.php:187
+#: lib/admin/class-groups-admin-welcome.php:188
+#: lib/admin/class-groups-admin-welcome.php:189
 msgid "Dismiss"
 msgstr "Memberhentikan"
 
@@ -442,12 +442,12 @@ msgctxt "title of dismiss notice link"
 msgid "Dismiss"
 msgstr "Memberhentikan"
 
-#: lib/admin/class-groups-admin-welcome.php:215
+#: lib/admin/class-groups-admin-welcome.php:217
 msgid "Documentation"
 msgstr "Dokumentasi"
 
-#: lib/admin/groups-admin-groups.php:479
-#: lib/admin/groups-admin-capabilities.php:454
+#: lib/admin/groups-admin-groups.php:481
+#: lib/admin/groups-admin-capabilities.php:457
 msgid "Edit"
 msgstr "Edit"
 
@@ -467,31 +467,32 @@ msgstr ""
 "Edit pos yang ingin Anda batasi akses dan pilih kemampuan <sup> * </sup> "
 "<em> premium </em>."
 
-#: lib/admin/class-groups-admin-welcome.php:208
+#: lib/admin/class-groups-admin-welcome.php:210
 msgid "Efficient User Interface"
 msgstr "Antarmuka Pengguna yang Efisien"
 
-#: lib/admin/groups-admin-options.php:325
+#: lib/admin/groups-admin-options.php:326
 msgid "Enable legacy access control based on capabilities."
 msgstr "Aktifkan kontrol akses lawas berdasarkan kemampuan."
 
-#: lib/admin/groups-admin-options.php:224
+#: lib/admin/groups-admin-options.php:225
 msgid "Enabling this on production sites is <strong>not</strong> recommended."
 msgstr ""
 "Disarankan untuk mengaktifkan ini di situs produksi <strong> tidak </strong>."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:204
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:510
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:512
 msgid "Enforce read access"
 msgstr "Menegakkan akses baca"
 
-#: lib/admin/groups-admin-options.php:189
+#: lib/admin/groups-admin-options.php:190
 #, php-format
 msgid ""
-"Enhanced functionality is available via official %sExtensions%s for Groups."
+"Enhanced functionality is available via official %1$sExtensions%2$s for "
+"Groups."
 msgstr ""
-"Fungsionalitas yang disempurnakan tersedia melalui %sEkstensi%s resmi untuk "
-"Grup."
+"Fungsionalitas yang disempurnakan tersedia melalui %1$sEkstensi%2$s resmi "
+"untuk Grup."
 
 #: lib/admin/groups-admin-add-ons.php:40
 msgid "Enhanced functionality is available via official extensions for Groups."
@@ -515,8 +516,8 @@ msgstr "Contoh:"
 msgid "Filter"
 msgstr "Filter"
 
-#: lib/admin/groups-admin-groups.php:319
-#: lib/admin/groups-admin-capabilities.php:329
+#: lib/admin/groups-admin-groups.php:321
+#: lib/admin/groups-admin-capabilities.php:332
 msgid "Filters"
 msgstr "Filter"
 
@@ -555,24 +556,24 @@ msgstr ""
 "Buka <strong> Grup> Opsi </strong> dan aktifkan kemampuan <em> premium </em> "
 "untuk membatasi akses."
 
-#: lib/core/class-groups-pagination.php:135
+#: lib/core/class-groups-pagination.php:136
 msgid "Go to the first page"
 msgstr "Pergi ke halaman pertama"
 
-#: lib/core/class-groups-pagination.php:169
+#: lib/core/class-groups-pagination.php:170
 msgid "Go to the last page"
 msgstr "Pergi ke halaman terakhir"
 
-#: lib/core/class-groups-pagination.php:162
+#: lib/core/class-groups-pagination.php:163
 msgid "Go to the next page"
 msgstr "Pergi ke halaman berikutnya"
 
-#: lib/core/class-groups-pagination.php:142
+#: lib/core/class-groups-pagination.php:143
 msgid "Go to the previous page"
 msgstr "Pergi ke halaman sebelumnya"
 
 #: lib/admin/groups-admin-groups-remove.php:56
-#: lib/admin/groups-admin-groups.php:308
+#: lib/admin/groups-admin-groups.php:310
 msgid "Group"
 msgstr "Kelompok"
 
@@ -580,15 +581,15 @@ msgstr "Kelompok"
 msgid "Group Actions"
 msgstr "Tindakan Kelompok"
 
-#: lib/admin/groups-admin-groups.php:320
+#: lib/admin/groups-admin-groups.php:322
 msgid "Group ID"
 msgstr "ID grup"
 
-#: lib/admin/groups-admin-groups.php:323
+#: lib/admin/groups-admin-groups.php:325
 msgid "Group Name"
 msgstr "Nama grup"
 
-#: lib/access/class-groups-access-meta-boxes.php:505
+#: lib/access/class-groups-access-meta-boxes.php:508
 msgctxt "Attachment field label"
 msgid "Groups"
 msgstr "Grup"
@@ -603,7 +604,7 @@ msgctxt "Column header"
 msgid "Groups"
 msgstr "Grup"
 
-#: lib/admin/class-groups-admin-users.php:342
+#: lib/admin/class-groups-admin-users.php:343
 msgctxt "Column header (Users)"
 msgid "Groups"
 msgstr "Grup"
@@ -663,12 +664,12 @@ msgctxt "menu item title"
 msgid "Groups"
 msgstr "Grup"
 
-#: lib/admin/class-groups-admin.php:166 lib/admin/groups-admin-groups.php:205
+#: lib/admin/class-groups-admin.php:166 lib/admin/groups-admin-groups.php:207
 msgctxt "page-title"
 msgid "Groups"
 msgstr "Grup"
 
-#: lib/admin/groups-admin-options.php:338
+#: lib/admin/groups-admin-options.php:341
 #, php-format
 msgid ""
 "Groups %s features a simpler model for access restrictions based on groups "
@@ -707,7 +708,7 @@ msgstr "Opsi Grup"
 msgid "Groups is configured to delete its plugin data on deactivation."
 msgstr "Grup dikonfigurasikan untuk menghapus data pengaya pada penonaktifan."
 
-#: lib/admin/groups-admin-options.php:393
+#: lib/admin/groups-admin-options.php:396
 msgid "Groups network options"
 msgstr "Opsi jaringan grup"
 
@@ -739,12 +740,12 @@ msgstr ""
 msgid "I want to submit a review right now!"
 msgstr ""
 
-#: lib/admin/groups-admin-groups.php:307
-#: lib/admin/groups-admin-capabilities.php:318
+#: lib/admin/groups-admin-groups.php:309
+#: lib/admin/groups-admin-capabilities.php:321
 msgid "ID"
 msgstr "ID"
 
-#: lib/admin/groups-admin-options.php:357
+#: lib/admin/groups-admin-options.php:360
 msgid ""
 "If you had any access restrictions in place based on capabilities, the "
 "entries will now be unprotected, unless you enable legacy access "
@@ -756,11 +757,11 @@ msgstr ""
 "pembatasan akses lawas atau menempatkan pembatasan akses yang sesuai "
 "berdasarkan grup pada entri yang diinginkan."
 
-#: lib/admin/groups-admin-options.php:301
+#: lib/admin/groups-admin-options.php:302
 msgid "If you lock yourself out, please ask an administrator to help."
 msgstr "Jika Anda mengunci diri, silakan minta administrator untuk membantu."
 
-#: lib/admin/groups-admin-options.php:361
+#: lib/admin/groups-admin-options.php:364
 msgid ""
 "If you would like to switch to access restrictions based on groups "
 "(recommended) instead of capabilities, you can easily do so by setting the "
@@ -786,7 +787,7 @@ msgstr ""
 "grup peka huruf besar-kecil. Agar dapat menggunakan grup baru, akun pengguna "
 "Anda akan ditugaskan untuk itu."
 
-#: legacy/admin/groups-admin-options-legacy.php:62
+#: legacy/admin/groups-admin-options-legacy.php:63
 msgid ""
 "Include these capabilities to enforce read access on posts. The selected "
 "capabilities will be offered to restrict access to posts."
@@ -815,12 +816,12 @@ msgstr ""
 msgid "Join the %s group"
 msgstr "Bergabunglah dengan grup %s"
 
-#: lib/views/class-groups-shortcodes.php:580
+#: lib/views/class-groups-shortcodes.php:584
 #, php-format
 msgid "Leave the %s group"
 msgstr "Tinggalkan grup %s"
 
-#: lib/admin/groups-admin-options.php:321
+#: lib/admin/groups-admin-options.php:322
 msgid "Legacy Settings"
 msgstr "Pengaturan Warisan"
 
@@ -842,7 +843,7 @@ msgstr "Memuat..."
 msgid "Log out"
 msgstr "Keluar"
 
-#: lib/admin/class-groups-admin-welcome.php:211
+#: lib/admin/class-groups-admin-welcome.php:213
 msgid ""
 "Manage groups and users with a minimal footprint on the administrative "
 "screens."
@@ -852,12 +853,12 @@ msgstr "Kelola grup dan pengguna dengan jejak minimal di layar administratif."
 msgid "Many thanks for using <strong>Groups</strong>!"
 msgstr "Banyak terima kasih telah menggunakan <strong> Grup </strong>!"
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:508
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:510
 msgid "Media"
 msgstr "Media"
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:231
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:563
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:232
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:566
 #, php-format
 msgid "Members of the %1$s group can access this %2$s through this capability."
 msgid_plural ""
@@ -865,30 +866,28 @@ msgid_plural ""
 msgstr[0] "Anggota grup %1$s dapat mengakses %2$s ini melalui kemampuan ini."
 
 #: lib/admin/groups-admin-add-ons.php:152
-#, fuzzy
-#| msgid "Recommended extensions for Groups"
 msgid "More recommended Extensions for Groups"
-msgstr "Ekstensi yang disarankan untuk Grup"
+msgstr "Ekstensi yang disarankan untuk Groups"
 
 #: lib/admin/groups-admin-groups-edit.php:79
 #: lib/admin/groups-admin-groups-add.php:69
 msgid "Name"
 msgstr "Nama"
 
-#: lib/admin/groups-admin-options.php:415
+#: lib/admin/groups-admin-options.php:418
 msgid "Network deactivation and data persistence"
 msgstr "Deaktivasi jaringan dan kegigihan data"
 
-#: lib/admin/groups-admin-capabilities.php:212
+#: lib/admin/groups-admin-capabilities.php:215
 msgid "New Capability"
 msgstr "Kemampuan Baru"
 
-#: lib/admin/groups-admin-groups.php:218
+#: lib/admin/groups-admin-groups.php:220
 msgid "New Group"
 msgstr "Grup baru"
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:240
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:572
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:241
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:575
 msgid ""
 "No groups grant access through this capability. To grant access to group "
 "members using this capability, you should assign it to a group and enable "
@@ -898,7 +897,7 @@ msgstr ""
 "akses kepada anggota grup menggunakan kemampuan ini, Anda harus "
 "menugaskannya ke grup dan mengaktifkan kemampuan untuk pembatasan akses."
 
-#: lib/admin/groups-admin-capabilities.php:129
+#: lib/admin/groups-admin-capabilities.php:132
 msgid "No new capabilities have been found."
 msgstr "Tidak ada kemampuan baru yang ditemukan."
 
@@ -916,7 +915,7 @@ msgstr "Tidak ada kemampuan seperti itu."
 msgid "No such group."
 msgstr "Tidak ada grup seperti itu."
 
-#: lib/admin/groups-admin-groups-remove.php:111
+#: lib/admin/groups-admin-groups-remove.php:110
 msgid "No such groups."
 msgstr "Tidak ada grup seperti itu."
 
@@ -934,7 +933,7 @@ msgstr ""
 "Perhatikan bahwa Anda harus menjadi anggota grup untuk menggunakannya untuk "
 "membatasi akses."
 
-#: lib/admin/class-groups-admin-welcome.php:204
+#: lib/admin/class-groups-admin-welcome.php:206
 msgid ""
 "Now you can protect your posts, pages and any other custom post type like "
 "products or events by simply assigning them to one or more groups."
@@ -943,7 +942,7 @@ msgstr ""
 "lainnya seperti produk atau acara hanya dengan menetapkannya ke satu atau "
 "beberapa grup."
 
-#: lib/admin/groups-admin-options.php:363
+#: lib/admin/groups-admin-options.php:366
 msgid ""
 "Once you have adjusted your access restrictions based on groups, you can "
 "disable legacy access control."
@@ -951,13 +950,13 @@ msgstr ""
 "Setelah menyesuaikan batasan akses berdasarkan grup, Anda dapat "
 "menonaktifkan kontrol akses lawas."
 
-#: lib/admin/groups-admin-capabilities.php:127
+#: lib/admin/groups-admin-capabilities.php:130
 #, php-format
 msgid "One capability has been added."
 msgid_plural "%d capabilities have been added."
 msgstr[0] "%d kemampuan telah ditambahkan."
 
-#: legacy/admin/class-groups-admin-post-columns-legacy.php:77
+#: legacy/admin/class-groups-admin-post-columns-legacy.php:78
 msgid "One or more capabilities required to read the entry."
 msgstr "Diperlukan satu atau lebih kemampuan untuk membaca entri."
 
@@ -965,8 +964,8 @@ msgstr "Diperlukan satu atau lebih kemampuan untuk membaca entri."
 msgid "One or more groups granting access to entries."
 msgstr "Satu atau lebih grup yang memberikan akses ke entri."
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:270
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:593
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:272
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:597
 #, php-format
 msgid ""
 "Only groups or users that have one of the selected capabilities are allowed "
@@ -1002,15 +1001,15 @@ msgstr ""
 msgid "Parent"
 msgstr "Induk"
 
-#: lib/admin/class-groups-admin-welcome.php:232
+#: lib/admin/class-groups-admin-welcome.php:234
 msgid "Perfect complements to memberships and access control with Groups."
 msgstr "Pelengkap sempurna untuk keanggotaan dan kontrol akses dengan Grup."
 
-#: lib/admin/groups-admin-options.php:295
+#: lib/admin/groups-admin-options.php:296
 msgid "Permissions"
 msgstr "Izin"
 
-#: lib/admin/groups-admin-groups-remove.php:135
+#: lib/admin/groups-admin-groups-remove.php:134
 msgid ""
 "Please confirm removal of the following groups. This action cannot be undone."
 msgstr ""
@@ -1025,7 +1024,7 @@ msgstr ""
 "Harap konfirmasi untuk menghapus kemampuan berikut. Tindakan ini tidak bisa "
 "dibatalkan."
 
-#: lib/core/class-groups-help.php:144
+#: lib/core/class-groups-help.php:145
 #, php-format
 msgid ""
 "Please give it a <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
@@ -1034,12 +1033,12 @@ msgstr ""
 "Tolong beri nilai <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;</"
 "a>."
 
-#: lib/admin/class-groups-admin-welcome.php:79
+#: lib/admin/class-groups-admin-welcome.php:80
 #, php-format
 msgid "Please make sure to read the %1$sMigration Guide%2$s."
 msgstr ""
 
-#: lib/admin/groups-admin-options.php:365
+#: lib/admin/groups-admin-options.php:368
 msgid ""
 "Please refer to the <a target=\"_blank\" href=\"https://docs.itthinx.com/"
 "document/groups/\">Documentation</a> for details on how to switch to and use "
@@ -1049,7 +1048,7 @@ msgstr ""
 "document/groups/\">Dokumentasi</a> untuk detail tentang cara beralih ke dan "
 "menggunakan yang baru pembatasan akses."
 
-#: lib/access/class-groups-access-meta-boxes.php:499
+#: lib/access/class-groups-access-meta-boxes.php:502
 #, php-format
 msgid "Please use %s for files that require complete protection."
 msgstr "Harap gunakan %s untuk file yang membutuhkan perlindungan lengkap."
@@ -1059,20 +1058,20 @@ msgstr "Harap gunakan %s untuk file yang membutuhkan perlindungan lengkap."
 msgid "Post"
 msgstr "Pos"
 
-#: lib/admin/groups-admin-options.php:233
+#: lib/admin/groups-admin-options.php:234
 msgid "Post types"
 msgstr "Jenis posting"
 
-#: lib/admin/class-groups-admin-welcome.php:199
+#: lib/admin/class-groups-admin-welcome.php:201
 msgid "Protect Content Easily"
 msgstr "Lindungi Konten dengan Mudah"
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:308
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:310
 msgid "Quick-create group &amp; capability"
 msgstr "Buat grup cepat & amp; kemampuan"
 
-#: lib/access/class-groups-access-meta-boxes.php:228
-#: lib/access/class-groups-access-meta-boxes.php:444
+#: lib/access/class-groups-access-meta-boxes.php:229
+#: lib/access/class-groups-access-meta-boxes.php:446
 msgid "Read"
 msgstr "Baca baca"
 
@@ -1080,8 +1079,8 @@ msgstr "Baca baca"
 msgid "Read Post"
 msgstr "Baca Posting"
 
-#: lib/admin/groups-admin-capabilities.php:223
-#: lib/admin/groups-admin-capabilities.php:228
+#: lib/admin/groups-admin-capabilities.php:226
+#: lib/admin/groups-admin-capabilities.php:231
 msgid "Refresh"
 msgstr "Menyegarkan"
 
@@ -1094,12 +1093,12 @@ msgid "Remind me later"
 msgstr "Ingatkan aku nanti"
 
 #: lib/admin/groups-admin-groups-remove.php:60
-#: lib/admin/groups-admin-groups-remove.php:146
+#: lib/admin/groups-admin-groups-remove.php:145
 #: lib/admin/groups-admin-capabilities-remove.php:60
 #: lib/admin/groups-admin-capabilities-remove.php:145
-#: lib/admin/groups-admin-groups.php:488
-#: lib/admin/groups-admin-capabilities.php:377
-#: lib/admin/groups-admin-capabilities.php:463
+#: lib/admin/groups-admin-groups.php:490
+#: lib/admin/groups-admin-capabilities.php:380
+#: lib/admin/groups-admin-capabilities.php:466
 msgid "Remove"
 msgstr "Menghapus"
 
@@ -1115,7 +1114,7 @@ msgstr "Hapus grup"
 msgid "Remove capabilities"
 msgstr "Hapus kemampuan"
 
-#: lib/admin/groups-admin-groups.php:392
+#: lib/admin/groups-admin-groups.php:394
 msgid "Remove capability"
 msgstr "Hapus kemampuan"
 
@@ -1123,11 +1122,11 @@ msgstr "Hapus kemampuan"
 msgid "Remove from group"
 msgstr "Hapus dari grup"
 
-#: lib/admin/groups-admin-groups.php:390
+#: lib/admin/groups-admin-groups.php:392
 msgid "Remove group"
 msgstr "Hapus grup"
 
-#: lib/admin/groups-admin-groups-remove.php:128
+#: lib/admin/groups-admin-groups-remove.php:127
 msgid "Remove groups"
 msgstr "Hapus grup"
 
@@ -1140,17 +1139,17 @@ msgstr "Hapus batasan"
 msgid "Restrict Access"
 msgstr "Batasi Akses"
 
-#: lib/access/class-groups-access-meta-boxes.php:254
+#: lib/access/class-groups-access-meta-boxes.php:256
 #, php-format
 msgid "Restricts the visibility of this %s to members of the chosen groups."
 msgstr "Membatasi visibilitas %s kepada anggota grup yang dipilih."
 
-#: lib/access/class-groups-access-meta-boxes.php:492
+#: lib/access/class-groups-access-meta-boxes.php:494
 msgid "Restricts the visibility of this entry to members of the chosen groups."
 msgstr "Membatasi visibilitas entri ini kepada anggota grup yang dipilih."
 
-#: lib/admin/groups-admin-groups.php:350
-#: lib/admin/groups-admin-capabilities.php:362
+#: lib/admin/groups-admin-groups.php:352
+#: lib/admin/groups-admin-capabilities.php:365
 msgid "Results per page"
 msgstr "Hasil per halaman"
 
@@ -1160,9 +1159,9 @@ msgstr "Peran"
 
 #: lib/admin/groups-admin-groups-edit.php:167
 #: lib/admin/groups-admin-capabilities-edit.php:81
-#: lib/admin/groups-admin-options.php:208
-#: lib/admin/groups-admin-options.php:373
-#: lib/admin/groups-admin-options.php:428
+#: lib/admin/groups-admin-options.php:209
+#: lib/admin/groups-admin-options.php:376
+#: lib/admin/groups-admin-options.php:431
 msgid "Save"
 msgstr "Menyimpan"
 
@@ -1171,7 +1170,7 @@ msgstr "Menyimpan"
 msgid "Select Groups"
 msgstr "Pilih Grup"
 
-#: lib/admin/groups-admin-options.php:237
+#: lib/admin/groups-admin-options.php:238
 msgid "Show access restrictions for these post types."
 msgstr "Tampilkan batasan akses untuk jenis posting ini."
 
@@ -1179,19 +1178,19 @@ msgstr "Tampilkan batasan akses untuk jenis posting ini."
 msgid "Show content for group members"
 msgstr "Tampilkan konten untuk anggota grup"
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:277
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:279
 msgid "Show groups"
 msgstr "Perlihatkan grup"
 
-#: lib/admin/groups-admin-options.php:281
+#: lib/admin/groups-admin-options.php:282
 msgid "Show groups in user profiles."
 msgstr "Tampilkan grup di profil pengguna."
 
-#: lib/admin/groups-admin-options.php:290
+#: lib/admin/groups-admin-options.php:291
 msgid "Show the Groups tree view."
 msgstr "Tampilkan tampilan hierarki Grup."
 
-#: lib/admin/groups-admin-options.php:273
+#: lib/admin/groups-admin-options.php:274
 msgid ""
 "Some post types shown may not offer access restrictions even though they "
 "appear enabled here."
@@ -1199,7 +1198,7 @@ msgstr ""
 "Beberapa jenis posting yang ditampilkan mungkin tidak menawarkan pembatasan "
 "akses meskipun tampaknya diaktifkan di sini."
 
-#: lib/admin/groups-admin-options.php:335
+#: lib/admin/groups-admin-options.php:337
 #, php-format
 msgid "Switching to Groups %s"
 msgstr "Beralih ke Grup %s"
@@ -1218,7 +1217,7 @@ msgstr ""
 "groups\" target=\"_blank\">Groups</a> oleh <a href=\"https://www.itthinx."
 "com\" target=\"_blank\">itthinx</a>."
 
-#: lib/admin/class-groups-admin-welcome.php:191
+#: lib/admin/class-groups-admin-welcome.php:193
 msgid ""
 "Thanks for using Groups! We have made it even easier to protect your content "
 "and hope you like it :)"
@@ -1226,34 +1225,34 @@ msgstr ""
 "Terima kasih telah menggunakan Grup! Kami telah membuatnya lebih mudah untuk "
 "melindungi konten Anda dan berharap Anda menyukainya :)"
 
-#: lib/admin/groups-admin-capabilities-edit.php:123
+#: lib/admin/groups-admin-capabilities-edit.php:124
 #, php-format
 msgid ""
 "The <em>%s</em> capability already exists and cannot be assigned to this one."
 msgstr ""
 "Kemampuan <em>%s</em> sudah ada dan tidak dapat ditetapkan untuk yang ini."
 
-#: lib/admin/groups-admin-capabilities-add.php:104
+#: lib/admin/groups-admin-capabilities-add.php:105
 #, php-format
 msgid "The <em>%s</em> capability already exists."
 msgstr "Kemampuan <em>%s</em> sudah ada."
 
-#: lib/admin/groups-admin-capabilities-edit.php:133
+#: lib/admin/groups-admin-capabilities-edit.php:135
 #, php-format
 msgid "The <em>%s</em> capability could not be updated."
 msgstr "Kemampuan <em>%s</em> tidak dapat diperbarui."
 
-#: lib/admin/groups-admin-capabilities.php:63
+#: lib/admin/groups-admin-capabilities.php:64
 #, php-format
 msgid "The <em>%s</em> capability has been created."
 msgstr "Kemampuan <em>%s</em> telah dibuat."
 
-#: lib/admin/groups-admin-capabilities.php:74
+#: lib/admin/groups-admin-capabilities.php:76
 #, php-format
 msgid "The <em>%s</em> capability has been updated."
 msgstr "Kemampuan <em>%s</em> telah diperbarui."
 
-#: lib/admin/groups-admin-groups-edit.php:216
+#: lib/admin/groups-admin-groups-edit.php:217
 #, php-format
 msgid ""
 "The <em>%s</em> group already exists and cannot be used to name this one."
@@ -1261,22 +1260,22 @@ msgstr ""
 "Grup <em>%s</em> sudah ada dan tidak dapat digunakan untuk memberi nama grup "
 "ini."
 
-#: lib/admin/groups-admin-groups-add.php:170
+#: lib/admin/groups-admin-groups-add.php:174
 #, php-format
 msgid "The <em>%s</em> group already exists."
 msgstr "Grup <em>%s</em> sudah ada."
 
-#: lib/admin/groups-admin-groups.php:64
+#: lib/admin/groups-admin-groups.php:65
 #, php-format
 msgid "The <em>%s</em> group has been created."
 msgstr "Grup <em>%s</em> telah dibuat."
 
-#: lib/admin/groups-admin-groups.php:75
+#: lib/admin/groups-admin-groups.php:77
 #, php-format
 msgid "The <em>%s</em> group has been updated."
 msgstr "Grup <em>%s</em> telah diperbarui."
 
-#: lib/admin/groups-admin-capabilities-edit.php:137
+#: lib/admin/groups-admin-capabilities-edit.php:139
 #: lib/admin/groups-admin-capabilities-add.php:102
 msgid "The <em>Capability</em> must not be empty."
 msgstr "<em> Kemampuan </em> tidak boleh kosong."
@@ -1285,7 +1284,7 @@ msgstr "<em> Kemampuan </em> tidak boleh kosong."
 msgid "The <em>Name</em> must not be empty."
 msgstr "<em> Nama </em> tidak boleh kosong."
 
-#: lib/access/class-groups-access-meta-boxes.php:496
+#: lib/access/class-groups-access-meta-boxes.php:498
 msgid ""
 "The attachment page is restricted to authorized users, but due to technical "
 "limitations, the file can still be accessed directly via its URL."
@@ -1293,7 +1292,7 @@ msgstr ""
 "Halaman lampiran dibatasi untuk pengguna yang berwenang, tetapi karena "
 "keterbatasan teknis, file masih dapat diakses langsung melalui URL-nya."
 
-#: lib/admin/groups-admin-capabilities.php:81
+#: lib/admin/groups-admin-capabilities.php:83
 msgid "The capability has been deleted."
 msgstr "Kemampuan telah dihapus."
 
@@ -1309,12 +1308,12 @@ msgstr ""
 "Dokumentasi lengkap tersedia di halaman <a href=\"https://docs.itthinx.com/"
 "document/groups\">Dokumentasi</a> untuk Grup."
 
-#: lib/admin/groups-admin-options.php:346
+#: lib/admin/groups-admin-options.php:349
 msgid "The following is only of interest if you have upgraded from Groups 1.x:"
 msgstr ""
 "Yang berikut ini hanya menarik jika Anda telah meningkatkan dari Grup 1.x:"
 
-#: lib/admin/groups-admin-groups.php:82
+#: lib/admin/groups-admin-groups.php:84
 msgid "The group has been deleted."
 msgstr "Grup telah dihapus."
 
@@ -1322,7 +1321,7 @@ msgstr "Grup telah dihapus."
 msgid "The manual way:"
 msgstr "Cara manual:"
 
-#: lib/admin/groups-admin-groups-add.php:168
+#: lib/admin/groups-admin-groups-add.php:171
 msgid "The name must not be empty."
 msgstr "Nama tidak boleh kosong."
 
@@ -1335,8 +1334,8 @@ msgstr "Cara cepat:"
 msgid "The user is a member of the chosen groups."
 msgstr "Pengguna adalah anggota grup yang dipilih."
 
-#: lib/admin/groups-admin-groups.php:551
-#: lib/admin/groups-admin-capabilities.php:489
+#: lib/admin/groups-admin-groups.php:553
+#: lib/admin/groups-admin-capabilities.php:492
 msgid "There are no results."
 msgstr "Tidak ada hasil."
 
@@ -1344,7 +1343,7 @@ msgstr "Tidak ada hasil."
 msgid "These capabilities will be assigned to the group."
 msgstr "Kemampuan ini akan ditugaskan ke grup."
 
-#: lib/admin/groups-admin-options.php:296
+#: lib/admin/groups-admin-options.php:297
 msgid ""
 "These permissions apply to Groups management. They do not apply to access "
 "permissions derived from Groups capabilities."
@@ -1352,21 +1351,21 @@ msgstr ""
 "Izin ini berlaku untuk manajemen Grup. Mereka tidak berlaku untuk izin akses "
 "yang berasal dari kemampuan Grup."
 
-#: lib/admin/groups-admin-options.php:355
+#: lib/admin/groups-admin-options.php:358
 msgid "This could be important!"
 msgstr "Ini bisa jadi penting!"
 
-#: lib/admin/groups-admin-options.php:269
+#: lib/admin/groups-admin-options.php:270
 msgid ""
 "This determines for which post types access restriction settings are offered."
 msgstr ""
 "Ini menentukan pengaturan pembatasan akses jenis posting apa yang ditawarkan."
 
-#: lib/admin/groups-admin-groups.php:544
+#: lib/admin/groups-admin-groups.php:546
 msgid "This group has no capabilities."
 msgstr "Grup ini tidak memiliki kemampuan."
 
-#: lib/admin/groups-admin-options.php:351
+#: lib/admin/groups-admin-options.php:354
 msgid ""
 "This means that if you had access restrictions in place that were based on "
 "capabilities, your entries will still be protected."
@@ -1382,7 +1381,7 @@ msgstr ""
 "Metode ini sudah usang. Anda harus menggunakan Groups_Post_Access_Legacy :: "
 "get_read_post_capabilities () untuk mengambil kemampuan sebagai gantinya."
 
-#: lib/admin/groups-admin-options.php:221
+#: lib/admin/groups-admin-options.php:222
 msgid ""
 "To disable, do not define the constant <code>GROUPS_ADMINISTRATOR_OVERRIDE</"
 "code> or set it to <code>false</code>."
@@ -1390,7 +1389,7 @@ msgstr ""
 "Untuk menonaktifkan, jangan mendefinisikan konstanta <code> "
 "GROUPS_ADMINISTRATOR_OVERRIDE </code> atau setel ke <code> false </code>."
 
-#: lib/admin/groups-admin-options.php:342
+#: lib/admin/groups-admin-options.php:345
 msgid ""
 "To make it easier to transition to the new model for those who migrate from "
 "a previous version, we have included legacy access control based on "
@@ -1400,7 +1399,7 @@ msgstr ""
 "versi sebelumnya, kami telah menyertakan kontrol akses lawas berdasarkan "
 "kemampuan."
 
-#: lib/admin/groups-admin-options.php:340
+#: lib/admin/groups-admin-options.php:343
 msgid ""
 "To put it simple, previously you would have used capabilities to restrict "
 "access to posts and now you simply use groups."
@@ -1416,7 +1415,7 @@ msgstr "Pohon"
 msgid "Tree of Groups"
 msgstr "Pohon Kelompok"
 
-#: lib/admin/groups-admin-options.php:286
+#: lib/admin/groups-admin-options.php:287
 msgid "Tree view"
 msgstr "Tampilan pohon"
 
@@ -1430,7 +1429,7 @@ msgstr ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:212
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:213
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:545
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:547
 msgid "Type and choose &hellip;"
 msgstr "Ketik dan pilih & hellip;"
 
@@ -1450,7 +1449,7 @@ msgstr ""
 "Gunakan kotak <em> Grup </em> untuk membatasi visibilitas posting, halaman, "
 "dan jenis posting lainnya."
 
-#: lib/admin/groups-admin-options.php:277
+#: lib/admin/groups-admin-options.php:278
 msgid "User profiles"
 msgstr "Profil pengguna"
 
@@ -1483,7 +1482,7 @@ msgstr ""
 "akses baca. Agar dapat menggunakan kapabilitas, akun pengguna Anda akan "
 "ditugaskan ke grup."
 
-#: lib/admin/class-groups-admin-welcome.php:148
+#: lib/admin/class-groups-admin-welcome.php:149
 msgid "View the Welcome screen for this version of Groups"
 msgstr "Lihat layar Selamat Datang untuk versi Grup ini"
 
@@ -1491,11 +1490,11 @@ msgstr "Lihat layar Selamat Datang untuk versi Grup ini"
 msgid "Warning!"
 msgstr "Peringatan!"
 
-#: lib/admin/class-groups-admin-welcome.php:202
+#: lib/admin/class-groups-admin-welcome.php:204
 msgid "We have made it even easier to protect your content!"
 msgstr "Kami telah membuatnya lebih mudah untuk melindungi konten Anda!"
 
-#: lib/admin/class-groups-admin-welcome.php:149
+#: lib/admin/class-groups-admin-welcome.php:150
 msgid "Welcome"
 msgstr "Selamat datang"
 
@@ -1504,16 +1503,16 @@ msgstr "Selamat datang"
 msgid "Welcome to Groups"
 msgstr "Selamat datang di Grup"
 
-#: lib/admin/class-groups-admin-welcome.php:180
+#: lib/admin/class-groups-admin-welcome.php:182
 #, php-format
 msgid "Welcome to Groups %s"
 msgstr "Selamat datang di Grup %s"
 
-#: lib/admin/class-groups-admin-welcome.php:195
+#: lib/admin/class-groups-admin-welcome.php:197
 msgid "What's New?"
 msgstr "Apa yang baru?"
 
-#: lib/admin/class-groups-admin-welcome.php:220
+#: lib/admin/class-groups-admin-welcome.php:222
 #, php-format
 msgid ""
 "Whether you are new to Groups or have been using it before, please make sure "
@@ -1527,12 +1526,12 @@ msgstr ""
 msgid "Yes, here we go!"
 msgstr "Ya, ini dia!"
 
-#: lib/views/class-groups-shortcodes.php:552
+#: lib/views/class-groups-shortcodes.php:555
 #, php-format
 msgid "You are a member of the %s group."
 msgstr "Anda adalah anggota grup %s."
 
-#: lib/admin/groups-admin-options.php:353
+#: lib/admin/groups-admin-options.php:356
 msgid ""
 "You are running the system with legacy access control based on capabilities "
 "disabled."
@@ -1540,7 +1539,7 @@ msgstr ""
 "Anda menjalankan sistem dengan kontrol akses lawas berdasarkan kemampuan "
 "yang dinonaktifkan."
 
-#: lib/admin/groups-admin-options.php:349
+#: lib/admin/groups-admin-options.php:352
 msgid ""
 "You are running the system with legacy access control based on capabilities "
 "enabled."
@@ -1548,7 +1547,7 @@ msgstr ""
 "Anda menjalankan sistem dengan kontrol akses lama berdasarkan kapabilitas "
 "yang diaktifkan."
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:312
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:314
 msgid ""
 "You can create a new group and capability here. The capability will be "
 "assigned to the group and enabled to enforce read access. Group names are "
@@ -1567,12 +1566,12 @@ msgstr ""
 "sudah ada, kemampuan diaktifkan untuk menegakkan akses baca. Agar dapat "
 "menggunakan kapabilitas, akun pengguna Anda akan ditugaskan ke grup."
 
-#: lib/access/class-groups-access-meta-boxes.php:221
-#: lib/access/class-groups-access-meta-boxes.php:477
+#: lib/access/class-groups-access-meta-boxes.php:222
+#: lib/access/class-groups-access-meta-boxes.php:479
 msgid "You can create a new group by indicating the group's name."
 msgstr "Anda dapat membuat grup baru dengan menunjukkan nama grup."
 
-#: lib/access/class-groups-access-meta-boxes.php:215
+#: lib/access/class-groups-access-meta-boxes.php:216
 #, php-format
 msgid ""
 "You can restrict the visibility of this %1$s to group members. Choose one or "
@@ -1583,7 +1582,7 @@ msgstr ""
 "lebih grup yang diizinkan membaca ini %2$s . Jika tidak ada grup yang "
 "dipilih, %3$s dapat dilihat oleh siapa saja."
 
-#: lib/access/class-groups-access-meta-boxes.php:476
+#: lib/access/class-groups-access-meta-boxes.php:478
 msgid ""
 "You can restrict the visibility to group members. Choose one or more groups "
 "to restrict access. If no groups are chosen, this entry is visible to anyone."
@@ -1606,23 +1605,23 @@ msgstr ""
 "Anda dapat memilih satu atau beberapa grup untuk membatasi akses ke "
 "anggotanya."
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:290
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:292
 #: lib/blocks/src/class-groups-blocks.php:93
-#: lib/access/class-groups-access-meta-boxes.php:261
+#: lib/access/class-groups-access-meta-boxes.php:263
 msgid "You cannot set any access restrictions."
 msgstr "Anda tidak dapat menetapkan batasan akses apa pun."
 
-#: lib/views/class-groups-shortcodes.php:547
+#: lib/views/class-groups-shortcodes.php:549
 #, php-format
 msgid "You have joined the %s group."
 msgstr "Anda telah bergabung dengan grup %s."
 
-#: lib/views/class-groups-shortcodes.php:633
+#: lib/views/class-groups-shortcodes.php:639
 #, php-format
 msgid "You have left the %s group."
 msgstr "Anda telah meninggalkan grup %s."
 
-#: legacy/access/class-groups-access-meta-boxes-legacy.php:296
+#: legacy/access/class-groups-access-meta-boxes-legacy.php:298
 msgid ""
 "You must be in a group that has at least one capability enabled to enforce "
 "read access."
@@ -1630,7 +1629,7 @@ msgstr ""
 "Anda harus berada dalam grup yang memiliki setidaknya satu kemampuan yang "
 "diaktifkan untuk menegakkan akses baca."
 
-#: lib/access/class-groups-access-meta-boxes.php:267
+#: lib/access/class-groups-access-meta-boxes.php:269
 msgid "You need to have permission to set access restrictions."
 msgstr "Anda harus memiliki izin untuk menetapkan batasan akses."
 
