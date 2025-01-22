@@ -6,6 +6,7 @@
 * Dev - Added missing translators: comments.
 * Dev - Replaced deprecated null parameter.
 * Dev - Validation hints.
+* Dev - Removed return type declaration for two actions.
 
 2024-12-29 - version 3.4.1
 * Update - Declare WooCommerce HPOS compatibility.

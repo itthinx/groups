@@ -117,8 +117,6 @@ class Groups_Admin_Post_Columns {
 	 *
 	 * @param string $column_name
 	 * @param int $post_id
-	 *
-	 * @return string custom column content
 	 */
 	public static function custom_column( $column_name, $post_id ) {
 		$output = '';
