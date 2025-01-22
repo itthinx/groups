@@ -4,6 +4,7 @@
 * Dev - Removed unnecessary translation function calls.
 * Dev - Revised some instances of missing output escaping.
 * Dev - Added missing translators: comments.
+* Dev - replaced deprecated null parameter.
 
 2024-12-29 - version 3.4.1
 * Update - Declare WooCommerce HPOS compatibility.
