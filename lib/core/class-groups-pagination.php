@@ -100,7 +100,7 @@ class Groups_Pagination {
 	 * @param string $which  where it's displayed
 	 * @param boolean $echo displays if true, otherwise returns
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function pagination( $which, $echo = false ) {
 
@@ -111,7 +111,8 @@ class Groups_Pagination {
 		$total_items = isset( $this->_pagination_args['total_items'] ) ? $this->_pagination_args['total_items'] : 0;
 		$total_pages = isset( $this->_pagination_args['total_pages'] ) ? $this->_pagination_args['total_pages'] : 0;
 
-		$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
+		/* translators: number of items */
+		$output = '<span class="displaying-num">' . sprintf( _n( '%s item', '%s items', $total_items, 'groups' ), number_format_i18n( $total_items ) ) . '</span>';
 
 		$current = $this->get_pagenum();
 
@@ -132,14 +133,14 @@ class Groups_Pagination {
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'button first-page' . $disable_first,
-			esc_attr__( 'Go to the first page' ),
+			esc_attr__( 'Go to the first page', 'groups' ),
 			esc_url( remove_query_arg( 'paged', $current_url ) ),
 			'&laquo;'
 		);
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'button prev-page' . $disable_first,
-			esc_attr__( 'Go to the previous page' ),
+			esc_attr__( 'Go to the previous page', 'groups' ),
 			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
 			'&lsaquo;'
 		);
@@ -148,25 +149,25 @@ class Groups_Pagination {
 			$html_current_page = $current;
 		else
 			$html_current_page = sprintf( '<input class="current-page" title="%s" type="text" name="%s" value="%s" size="%d" />',
-				esc_attr__( 'Current page' ),
+				esc_attr__( 'Current page', 'groups' ),
 				esc_attr( 'paged' ),
 				$current,
 				strlen( $total_pages )
 			);
 
 		$html_total_pages = sprintf( '<span class="total-pages">%s</span>', number_format_i18n( $total_pages ) );
-		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
+		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'button next-page' . $disable_last,
-			esc_attr__( 'Go to the next page' ),
+			esc_attr__( 'Go to the next page', 'groups' ),
 			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
 			'&rsaquo;'
 		);
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'button last-page' . $disable_last,
-			esc_attr__( 'Go to the last page' ),
+			esc_attr__( 'Go to the last page', 'groups' ),
 			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
 			'&raquo;'
 		);

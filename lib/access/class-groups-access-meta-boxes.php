@@ -194,7 +194,7 @@ class Groups_Access_Meta_Boxes {
 			$labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
 			if ( $labels !== null ) {
 				if ( isset( $labels->singular_name ) ) {
-					$post_singular_name = __( $labels->singular_name );
+					$post_singular_name = $labels->singular_name; // // this is already translated
 				}
 			}
 		}
@@ -212,6 +212,7 @@ class Groups_Access_Meta_Boxes {
 			$groups_read = Groups_Post_Access::get_read_group_ids( $post_id );
 
 			$read_help = sprintf(
+				/* translators: 1: post type name 2: post type name 3: post type name */
 				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', 'groups' ),
 				$post_singular_name,
 				$post_singular_name,
@@ -251,6 +252,7 @@ class Groups_Access_Meta_Boxes {
 			);
 			$output .= '<p class="description">';
 			$output .= sprintf(
+				/* translators: post type name */
 				esc_html__( 'Restricts the visibility of this %s to members of the chosen groups.', 'groups' ),
 				esc_html( $post_singular_name )
 			);
@@ -375,7 +377,7 @@ class Groups_Access_Meta_Boxes {
 										} else {
 											if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 												$creator_id = get_current_user_id();
-												$datetime   = date( 'Y-m-d H:i:s', time() );
+												$datetime   = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore  WordPress.DateTime.RestrictedFunctions.date_date
 												$name       = ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
 												if ( strlen( $name ) > 0 ) {
 													if ( !( $group = Groups_Group::read_by_name( $name ) ) ) {
@@ -496,6 +498,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= esc_html__( 'The attachment page is restricted to authorized users, but due to technical limitations, the file can still be accessed directly via its URL.', 'groups' );
 				$output .= ' ';
 				$output .= sprintf(
+					/* translators: extension name */
 					esc_html__( 'Please use %s for files that require complete protection.', 'groups' ),
 					'<a href="https://www.itthinx.com/shop/groups-file-access/" target="_blank">Groups File Access</a>'
 				);

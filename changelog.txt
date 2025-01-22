@@ -1,5 +1,18 @@
 == Groups by itthinx - changelog.txt
 
+2025-01-22 - version 3.4.2
+* Dev - Removed unnecessary translation function calls.
+* Dev - Revised some instances of missing output escaping.
+* Dev - Added missing translators: comments.
+* Dev - Replaced deprecated null parameter.
+* Dev - Validation hints.
+* Dev - Removed return type declaration for two actions.
+* Fix - Fixed missing return value for a widget_categories_args filter.
+* Fix - Fixed missing return value for a widget_categories_dropdown_args filter.
+* Fix - Fixed optional return value declaration.
+* Update - Updated the translation template.
+* Update - Updated the included translations.
+
 2024-12-29 - version 3.4.1
 * Update - Declare WooCommerce HPOS compatibility.
 

@@ -183,7 +183,7 @@ class Groups_Post_Access {
 		if ( isset( $post->ID ) && !self::user_can_read_post( $post->ID ) ) {
 			$response = array(
 				'code' => 'rest_post_invalid_id',
-				'message' => __( 'Invalid post ID.' ),
+				'message' => __( 'Invalid post ID.' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
 				'data' => array( 'status' => 404 )
 			);
 		}
@@ -1251,6 +1251,7 @@ class Groups_Post_Access {
 				add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
 			}
 		}
+		return $cat_args;
 	}
 
 	/**
@@ -1278,6 +1279,7 @@ class Groups_Post_Access {
 				add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
 			}
 		}
+		return $cat_args;
 	}
 
 	/**

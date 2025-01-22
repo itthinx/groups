@@ -76,6 +76,7 @@ class Groups_Admin_Welcome {
 			$message .= '</p>';
 			$message .= '<p>';
 			$message .= sprintf(
+				/* translators: 1: opening tag 2: closing tag */
 				esc_html__( 'Please make sure to read the %1$sMigration Guide%2$s.', 'groups' ),
 				'<a href="https://docs.itthinx.com/document/groups/migration-guide/">',
 				'</a>'
@@ -177,6 +178,7 @@ class Groups_Admin_Welcome {
 		printf( '<img class="groups-welcome-icon" width="64" height="64" src="%s"/>', esc_attr( GROUPS_PLUGIN_URL . 'images/groups-256x256.png' ) );
 
 		echo '<h1>';
+		/* translators: version number */
 		printf( esc_html__( 'Welcome to Groups %s', 'groups' ), esc_html( $groups_version ) );
 		echo '</h1>';
 

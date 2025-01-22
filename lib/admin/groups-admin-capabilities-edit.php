@@ -120,6 +120,7 @@ function groups_admin_capabilities_edit_submit() {
 			$update = true;
 			if ( $other_capability = Groups_Capability::read_by_capability( $capability_field ) ) {
 				if ( $other_capability->capability_id != $capability_id ) {
+					/* translators: capability name */
 					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability already exists and cannot be assigned to this one.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $other_capability->capability ) ) ), 'error' );
 					$update = false;
 				}
@@ -130,6 +131,7 @@ function groups_admin_capabilities_edit_submit() {
 				if ( $capability_id ) {
 					$result = $capability_id;
 				} else {
+					/* translators: capability name */
 					Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability could not be updated.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $capability->get_capability() ) ) ), 'error' );
 				}
 			}

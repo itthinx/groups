@@ -73,6 +73,7 @@ class Groups_Admin_Post_Columns_Legacy {
 	 */
 	public static function columns( $column_headers ) {
 		$column_headers[self::CAPABILITIES] = sprintf(
+			/* translators: explanation */
 			__( '<span title="%s">Access Restrictions</span>', 'groups' ),
 			esc_attr( __( 'One or more capabilities required to read the entry.', 'groups' ) )
 		);
@@ -84,7 +85,6 @@ class Groups_Admin_Post_Columns_Legacy {
 	 *
 	 * @param string $column_name
 	 * @param int $post_id
-	 * @return string custom column content
 	 */
 	public static function custom_column( $column_name, $post_id ) {
 		$output = '';

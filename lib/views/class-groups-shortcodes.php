@@ -173,7 +173,7 @@ class Groups_Shortcodes {
 					} else {
 						$count = intval( $count );
 					}
-					$output .= _n( $options['single'], sprintf( $options['plural'], $count ), $count, 'groups' );
+					$output .= _n( $options['single'], sprintf( $options['plural'], $count ), $count, 'groups' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
 					break;
 				// @todo experimental - could use pagination, sorting, link to profile, ...
 				case 'users' :
@@ -474,6 +474,7 @@ class Groups_Shortcodes {
 				'group'             => '',
 				'display_message'   => true,
 				'display_is_member' => false,
+				/* translators: group name */
 				'submit_text'       => esc_html__( 'Join the %s group', 'groups' )
 			),
 			$atts
@@ -544,11 +545,13 @@ class Groups_Shortcodes {
 				} else if ( $display_message ) {
 					if ( $submitted && !$invalid_nonce && isset( $join_group ) && $join_group->group_id === $current_group->group_id ) {
 						$output .= '<div class="groups-join joined">';
+						/* translators: group name */
 						$output .= sprintf( esc_html__( 'You have joined the %s group.', 'groups' ), wp_filter_nohtml_kses( $join_group->name ) );
 						$output .= '</div>';
 					}
 					else if ( $display_is_member && isset( $current_group ) && $current_group !== false ) {
 						$output .= '<div class="groups-join member">';
+						/* translators: group name */
 						$output .= sprintf( esc_html__( 'You are a member of the %s group.', 'groups' ), wp_filter_nohtml_kses( $current_group->name ) );
 						$output .= '</div>';
 					}
@@ -577,6 +580,7 @@ class Groups_Shortcodes {
 			array(
 				'group'           => '',
 				'display_message' => true,
+				/* translators: group name */
 				'submit_text'     => esc_html__( 'Leave the %s group', 'groups' ),
 			),
 			$atts
@@ -631,6 +635,7 @@ class Groups_Shortcodes {
 				} else if ( $display_message ) {
 					if ( $submitted && !$invalid_nonce && isset( $leave_group ) && $leave_group->group_id === $current_group->group_id ) {
 						$output .= '<div class="groups-join left">';
+						/* translators: group name */
 						$output .= sprintf( esc_html__( 'You have left the %s group.', 'groups' ), wp_filter_nohtml_kses( $leave_group->name ) );
 						$output .= '</div>';
 					}

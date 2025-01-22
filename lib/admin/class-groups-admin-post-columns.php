@@ -117,8 +117,6 @@ class Groups_Admin_Post_Columns {
 	 *
 	 * @param string $column_name
 	 * @param int $post_id
-	 *
-	 * @return string custom column content
 	 */
 	public static function custom_column( $column_name, $post_id ) {
 		$output = '';
@@ -154,11 +152,11 @@ class Groups_Admin_Post_Columns {
 											$edit_term_link = self::get_edit_term_link( $term->term_id, $term->taxonomy );
 											$taxonomy_label = '';
 											if ( $taxonomy = get_taxonomy( $term->taxonomy ) ) {
-												$taxonomy_label = isset( $taxonomy->label ) ? __( $taxonomy->label ) : '';
+												$taxonomy_label = isset( $taxonomy->label ) ? $taxonomy->label : ''; // $taxonomy->label is already translated
 												$labels = isset( $taxonomy->labels ) ? $taxonomy->labels : null;
 												if ( $labels !== null ) {
-													if ( isset( $labels->singular_name ) )  {
-														$taxonomy_label = __( $labels->singular_name );
+													if ( isset( $labels->singular_name ) ) {
+														$taxonomy_label = $labels->singular_name; // this is already translated
 													}
 												}
 											}

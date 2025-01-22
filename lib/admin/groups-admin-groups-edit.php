@@ -213,6 +213,7 @@ function groups_admin_groups_edit_submit() {
 			if ( $other_group->group_id != $group_id ) {
 				Groups_Admin::add_message(
 					sprintf(
+						/* translators: group name */
 						__( 'The <em>%s</em> group already exists and cannot be used to name this one.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $other_group->name ) )
 					),
 					'error'

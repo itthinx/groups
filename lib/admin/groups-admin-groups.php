@@ -43,7 +43,7 @@ function groups_admin_groups() {
 	global $wpdb;
 
 	$output = '';
-	$today = date( 'Y-m-d', time() );
+	$today = date( 'Y-m-d', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
@@ -61,6 +61,7 @@ function groups_admin_groups() {
 				} else {
 					$group = Groups_Group::read( $group_id );
 					Groups_Admin::add_message( sprintf(
+						/* translators: group name */
 						__( 'The <em>%s</em> group has been created.', 'groups' ),
 						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 					) );
@@ -72,6 +73,7 @@ function groups_admin_groups() {
 				} else {
 					$group = Groups_Group::read( $group_id );
 					Groups_Admin::add_message( sprintf(
+						/* translators: group name */
 						__( 'The <em>%s</em> group has been updated.', 'groups' ),
 						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 					) );

@@ -49,7 +49,7 @@ class Groups_Options {
 		$options = get_option( self::option_key );
 		if ( $options === false ) {
 			$options = array( self::general => array() );
-			add_option( self::option_key, $options, null, 'no' );
+			add_option( self::option_key, $options, '', 'no' );
 		}
 	}
 

@@ -42,7 +42,7 @@ function groups_admin_capabilities() {
 	global $wpdb;
 
 	$output = '';
-	$today = date( 'Y-m-d', time() );
+	$today = date( 'Y-m-d', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
@@ -60,6 +60,7 @@ function groups_admin_capabilities() {
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
 					Groups_Admin::add_message( sprintf(
+						/* translators: capability name */
 						__( 'The <em>%s</em> capability has been created.', 'groups' ),
 						$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 					) );
@@ -71,6 +72,7 @@ function groups_admin_capabilities() {
 				} else {
 					$capability = Groups_Capability::read( $capability_id );
 					Groups_Admin::add_message( sprintf(
+						/* translators: capability name */
 						__( 'The <em>%s</em> capability has been updated.', 'groups' ),
 						$capability->capability ? stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) : ''
 					) );
@@ -124,7 +126,8 @@ function groups_admin_capabilities() {
 				if ( check_admin_referer( 'refresh' ) ) {
 					$n = Groups_WordPress::refresh_capabilities();
 					if ( $n > 0 ) {
-						$output .= '<div class="updated fade"><p>' . sprintf( _n( 'One capability has been added.', '%d capabilities have been added.', $n, 'groups' ), $n ) . '</p></div>';
+						/* translators: count */
+						$output .= '<div class="updated fade"><p>' . sprintf( _n( 'One capability has been added.', '%d capabilities have been added.', $n, 'groups' ), $n ) . '</p></div>'; // phpcs:ignore WordPress.WP.I18n.MissingSingularPlaceholder
 					} else {
 						$output .= '<div class="updated fade"><p>' . esc_html__( 'No new capabilities have been found.', 'groups' ) .  '</p></div>';
 					}

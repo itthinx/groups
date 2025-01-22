@@ -180,7 +180,7 @@ class Groups_WordPress {
 			} else if ( isset( $args[1] ) ) {
 				$user_id = intval( $args[1] );
 			}
-			$hash    = md5( json_encode( $caps ) . json_encode( $args ) );
+			$hash    = md5( json_encode( $caps ) . json_encode( $args ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
 			$cached  = Groups_Cache::get( self::HAS_CAP . '_' . $user_id . '_' . $hash, self::CACHE_GROUP );
 
 			if ( $cached !== null ) {

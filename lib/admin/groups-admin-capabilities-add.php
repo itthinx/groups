@@ -101,6 +101,7 @@ function groups_admin_capabilities_add_submit() {
 		if ( empty( $capability ) ) {
 			Groups_Admin::add_message( __( 'The <em>Capability</em> must not be empty.', 'groups' ), 'error' );
 		} else if ( Groups_Capability::read_by_capability( $capability ) ) {
+			/* translators: capability name */
 			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> capability already exists.', 'groups' ), stripslashes( wp_filter_nohtml_kses( ( $capability ) ) ) ), 'error' );
 		}
 	}
