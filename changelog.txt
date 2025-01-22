@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+2025-01-22 - version 3.4.2
+* Update - WordPress 6.7 compatible.
+
 2024-12-29 - version 3.4.1
 * Update - Declare WooCommerce HPOS compatibility.
 
