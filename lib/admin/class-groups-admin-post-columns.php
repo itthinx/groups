@@ -154,7 +154,7 @@ class Groups_Admin_Post_Columns {
 											$edit_term_link = self::get_edit_term_link( $term->term_id, $term->taxonomy );
 											$taxonomy_label = '';
 											if ( $taxonomy = get_taxonomy( $term->taxonomy ) ) {
-												$taxonomy_label = isset( $taxonomy->label ) ? __( $taxonomy->label ) : '';
+												$taxonomy_label = isset( $taxonomy->label ) ? $taxonomy->label : ''; // $taxonomy->label is already translated
 												$labels = isset( $taxonomy->labels ) ? $taxonomy->labels : null;
 												if ( $labels !== null ) {
 													if ( isset( $labels->singular_name ) ) {

@@ -212,6 +212,7 @@ class Groups_Access_Meta_Boxes {
 			$groups_read = Groups_Post_Access::get_read_group_ids( $post_id );
 
 			$read_help = sprintf(
+				/* translators: 1: post type name 2: post type name 3: post type name */
 				__( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', 'groups' ),
 				$post_singular_name,
 				$post_singular_name,
@@ -251,6 +252,7 @@ class Groups_Access_Meta_Boxes {
 			);
 			$output .= '<p class="description">';
 			$output .= sprintf(
+				/* translators: post type name */
 				esc_html__( 'Restricts the visibility of this %s to members of the chosen groups.', 'groups' ),
 				esc_html( $post_singular_name )
 			);
@@ -496,6 +498,7 @@ class Groups_Access_Meta_Boxes {
 				$output .= esc_html__( 'The attachment page is restricted to authorized users, but due to technical limitations, the file can still be accessed directly via its URL.', 'groups' );
 				$output .= ' ';
 				$output .= sprintf(
+					/* translators: extension name */
 					esc_html__( 'Please use %s for files that require complete protection.', 'groups' ),
 					'<a href="https://www.itthinx.com/shop/groups-file-access/" target="_blank">Groups File Access</a>'
 				);

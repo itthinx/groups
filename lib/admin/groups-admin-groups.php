@@ -61,6 +61,7 @@ function groups_admin_groups() {
 				} else {
 					$group = Groups_Group::read( $group_id );
 					Groups_Admin::add_message( sprintf(
+						/* translators: group name */
 						__( 'The <em>%s</em> group has been created.', 'groups' ),
 						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 					) );
@@ -72,6 +73,7 @@ function groups_admin_groups() {
 				} else {
 					$group = Groups_Group::read( $group_id );
 					Groups_Admin::add_message( sprintf(
+						/* translators: group name */
 						__( 'The <em>%s</em> group has been updated.', 'groups' ),
 						$group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : ''
 					) );

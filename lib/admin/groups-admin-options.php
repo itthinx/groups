@@ -186,7 +186,8 @@ function groups_admin_options() {
 		$extensions_box .= '</h3>';
 		$extensions_box .= '<p>';
 		$extensions_box .= sprintf(
-			esc_html__( 'Enhanced functionality is available via official %sExtensions%s for Groups.', 'groups' ),
+		/* translators: 1: opening tag 2: closing tag */
+			esc_html__( 'Enhanced functionality is available via official %1$sExtensions%2$s for Groups.', 'groups' ),
 			'<a href="https://www.itthinx.com/shop/">',
 			'</a>'
 		);
@@ -332,9 +333,11 @@ function groups_admin_options() {
 
 		$legacy_enabled = Groups_Options::get_option( GROUPS_LEGACY_ENABLE );
 		echo '<h3>';
+		/* translators: version number */
 		printf( esc_html__( 'Switching to Groups %s', 'groups' ), esc_html( $groups_version ) );
 		echo '</h3>';
 		echo '<p>';
+		/* translators: version number */
 		printf( esc_html__( 'Groups %s features a simpler model for access restrictions based on groups instead of capabilities used in Groups 1.x.', 'groups' ), esc_html( $groups_version ) );
 		echo ' ';
 		esc_html_e( 'To put it simple, previously you would have used capabilities to restrict access to posts and now you simply use groups.', 'groups' );

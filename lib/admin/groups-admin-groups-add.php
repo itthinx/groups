@@ -170,6 +170,7 @@ function groups_admin_groups_add_submit() {
 		if ( !$name ) {
 			Groups_Admin::add_message( __( 'The name must not be empty.', 'groups' ), 'error' );
 		} else if ( Groups_Group::read_by_name( $name ) ) {
+			/* translators: group name */
 			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group already exists.', 'groups' ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ), 'error' );
 		}
 	}
