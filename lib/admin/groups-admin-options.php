@@ -247,7 +247,7 @@ function groups_admin_options() {
 		$label = $post_type;
 		$labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
 		if ( ( $labels !== null ) && isset( $labels->singular_name ) ) {
-			$label = __( $labels->singular_name );
+			$label = $labels->singular_name; // this is already translated
 		}
 		$checked = Groups_Post_Access::handles_post_type( $post_type ) ? ' checked="checked" ' : '';
 		echo '<input name="add_meta_boxes[]" type="checkbox" value="' . esc_attr( $post_type ) . '" ' . $checked . '/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

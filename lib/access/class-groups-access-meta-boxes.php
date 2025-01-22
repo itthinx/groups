@@ -194,7 +194,7 @@ class Groups_Access_Meta_Boxes {
 			$labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
 			if ( $labels !== null ) {
 				if ( isset( $labels->singular_name ) ) {
-					$post_singular_name = __( $labels->singular_name );
+					$post_singular_name = $labels->singular_name; // // this is already translated
 				}
 			}
 		}

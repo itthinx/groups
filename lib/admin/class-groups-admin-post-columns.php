@@ -157,8 +157,8 @@ class Groups_Admin_Post_Columns {
 												$taxonomy_label = isset( $taxonomy->label ) ? __( $taxonomy->label ) : '';
 												$labels = isset( $taxonomy->labels ) ? $taxonomy->labels : null;
 												if ( $labels !== null ) {
-													if ( isset( $labels->singular_name ) )  {
-														$taxonomy_label = __( $labels->singular_name );
+													if ( isset( $labels->singular_name ) ) {
+														$taxonomy_label = $labels->singular_name; // this is already translated
 													}
 												}
 											}

@@ -1,7 +1,9 @@
 == Groups by itthinx - changelog.txt
 
 2025-01-22 - version 3.4.2
-* Update - WordPress 6.7 compatible.
+* Dev - Removed unnecessary translation function calls.
+* Dev - Revised some instances of missing output escaping.
+* Dev - Added missing translators: comments.
 
 2024-12-29 - version 3.4.1
 * Update - Declare WooCommerce HPOS compatibility.
