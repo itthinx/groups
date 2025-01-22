@@ -100,7 +100,7 @@ class Groups_Pagination {
 	 * @param string $which  where it's displayed
 	 * @param boolean $echo displays if true, otherwise returns
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function pagination( $which, $echo = false ) {
 

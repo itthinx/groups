@@ -1251,6 +1251,7 @@ class Groups_Post_Access {
 				add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
 			}
 		}
+		return $cat_args;
 	}
 
 	/**
@@ -1278,6 +1279,7 @@ class Groups_Post_Access {
 				add_filter( 'get_terms', array( __CLASS__, 'get_terms' ), 10, 4 );
 			}
 		}
+		return $cat_args;
 	}
 
 	/**
