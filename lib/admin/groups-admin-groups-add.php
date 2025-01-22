@@ -149,7 +149,7 @@ function groups_admin_groups_add_submit() {
 	}
 
 	$creator_id  = get_current_user_id();
-	$datetime    = date( 'Y-m-d H:i:s', time() );
+	$datetime    = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 	$parent_id   = isset( $_POST['parent-id-field'] ) ? sanitize_text_field( $_POST['parent-id-field'] ) : null;
 	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
 	$name        = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : null;

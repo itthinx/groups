@@ -452,7 +452,7 @@ class Groups_Group implements I_Capable {
 				$formats[] = '%d';
 			}
 			if ( $datetime === null ) {
-				$datetime = date( 'Y-m-d H:i:s', time() );
+				$datetime = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 			}
 			if ( !empty( $datetime ) ) {
 				$data['datetime'] = $datetime;

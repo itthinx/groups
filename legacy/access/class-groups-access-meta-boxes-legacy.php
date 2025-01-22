@@ -401,7 +401,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 								if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 									if ( !empty( $_POST['quick-group-capability'] ) ) {
 										$creator_id = get_current_user_id();
-										$datetime   = date( 'Y-m-d H:i:s', time() );
+										$datetime   = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 										$name       = ucfirst( strtolower( trim( $_POST['quick-group-capability'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 										if ( strlen( $name ) > 0 ) {
 											// create or obtain the group

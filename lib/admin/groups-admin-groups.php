@@ -43,7 +43,7 @@ function groups_admin_groups() {
 	global $wpdb;
 
 	$output = '';
-	$today = date( 'Y-m-d', time() );
+	$today = date( 'Y-m-d', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );

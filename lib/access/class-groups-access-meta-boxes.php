@@ -377,7 +377,7 @@ class Groups_Access_Meta_Boxes {
 										} else {
 											if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 												$creator_id = get_current_user_id();
-												$datetime   = date( 'Y-m-d H:i:s', time() );
+												$datetime   = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore  WordPress.DateTime.RestrictedFunctions.date_date
 												$name       = ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
 												if ( strlen( $name ) > 0 ) {
 													if ( !( $group = Groups_Group::read_by_name( $name ) ) ) {
