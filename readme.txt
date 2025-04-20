@@ -141,7 +141,7 @@ Enhanced functionality is available via official [Extensions](https://www.itthin
 
 Groups is a large project that is providing essential functionality to tens of thousands of sites since 2012. By getting an official extension, you help fund the work that is necessary to maintain and improve Groups.
 
-- [Groups WooCommerce](https://woocommerce.com/products/groups-woocommerce/) : Sell Memberships with Groups and WooCommerce – the best Group Membership and Access Control solution for WordPress and WooCommerce.
+- [Groups Integration for WooCommerce](https://woocommerce.com/products/groups-woocommerce/) : Sell Memberships with Groups and WooCommerce – the best Group Membership and Access Control solution for WordPress and WooCommerce.
 - [WooCommerce Group Coupons](https://woocommerce.com/products/group-coupons/) : Automatically apply and restrict coupon validity for user groups. Offer exclusive, automatic and targeted discounts for your customers.
 - [Groups Drip Content](https://www.itthinx.com/shop/groups-drip-content/) : Release content on a schedule. Content dripping can be based on user account creation, group memberships and specific dates and times.
 - [Groups File Access](https://www.itthinx.com/shop/groups-file-access/) : Allows to provide file download links for authorized users. Access to files is restricted to users by their group membership.
