@@ -72,7 +72,9 @@ Groups is light-weight and offers an easy user interface, while it acts as a fra
 
 The official documentation is located at the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
 
-### Features ###
+### Comprehensive Features ###
+
+Groups is powerful and effective, yet simple and easy to use. While its flexibility covers a wide range of functions, some of the most commonly used aspects include:
 
 #### User groups ####
 
