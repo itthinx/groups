@@ -22,7 +22,7 @@
  * Plugin URI: https://www.itthinx.com/plugins/groups
  * Description: Groups provides group-based user membership management, group-based capabilities and content access control.
  * Version: 3.5.0
- * Requires at least: 6.0
+ * Requires at least: 6.3
  * Requires PHP: 7.4
  * WC requires at least: 8.2
  * WC tested up to: 9.6

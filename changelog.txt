@@ -2,7 +2,9 @@
 
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.
+* Update - Requires at least WordPress 6.3.
 * Update - Updated recommendations.
+* Update - Updated description.
 
 2025-01-22 - version 3.4.2
 * Dev - Removed unnecessary translation function calls.
