@@ -678,7 +678,7 @@ class Groups_Post_Access {
 
 		$result = false;
 
-		$capability = isset( $map['capability'] ) ? $map['capability'] : null;;
+		$capability = isset( $map['capability'] ) ? $map['capability'] : null;
 		$post_id = isset( $map['post_id'] ) ? $map['post_id'] : null;
 		$group_id = isset( $map['group_id'] ) ? $map['group_id'] : null;
 

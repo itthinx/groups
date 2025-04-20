@@ -2,15 +2,65 @@
 Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
-Requires at least: 6.0
-Tested up to: 6.7
+Requires at least: 6.3
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.4.2
+Stable tag: 3.5.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
 
 == Description ==
+
+### What is Groups? ###
+
+The Groups plugin for WordPress is an essential tool that helps you organize users on your website. Think of it like sorting people into different clubs or teams, where each club has its own set of rules about who can access and do what.
+
+### Why use it? ###
+
+This plugin is very useful if you want to control who can see certain content or perform specific actions on your website. It helps you to keep some parts of your website exclusive to specific groups or to give special rights to some users.
+
+Groups works great with WooCommerce, so you can make some products only available to members of certain groups.
+
+### What it Does ###
+
+It allows you to create groups, assign users to these groups, and set permissions for what each group can do or see on your site.
+
+### Ease of Use ###
+
+The Groups plugin works within the familiar WordPress Dashboard, so you do not need to learn something completely new. Clean views and clear functions make it quick and easy to work with.
+
+### Control Content ###
+
+You can make parts of your website visible to members of specific groups only, which is great for managing exclusive areas and products. You can protect whole pages, products and other types of content. You can also protect sections within pages.
+
+### Control Permissions ###
+
+Define what actions users in particular groups can perform, based on standard WordPress capabilities and custom capabilities provided by plugins.
+
+### In a Nutshell ###
+
+The Groups plugin makes managing your WordPress site easier, especially if you need to control who can do what or see what. It is designed to be easy to use, reducing the complexity of user management and content access.
+
+Groups integrates with [WooCommerce](https://wordpress.org/plugins/woocommerce/) to protect access to products, so that certain products can be purchased by members only.
+
+Enhanced functionality is available via the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/) and [Extensions](https://www.itthinx.com/product-category/groups/) for Groups.
+
+### Key Features ###
+
+#### Membership Management ####
+
+You can put users into different groups, similar to assigning them to different classes or teams.
+
+#### Content Access Control ####
+
+You can decide that only specific groups can see certain content, posts, pages or products. If you are not in the right group, you will not see that protected content.
+
+#### Capabilities ####
+
+You can assign special rights to users based on which group they are a member of.
+
+### Framework ###
 
 Groups is designed as an efficient, powerful and flexible solution for group-oriented memberships and content access control.
 
@@ -18,15 +68,13 @@ It provides group-based user membership management, group-based capabilities and
 
 Groups is light-weight and offers an easy user interface, while it acts as a framework and integrates standard WordPress capabilities and application-specific capabilities along with an extensive API.
 
-Groups integrates with [WooCommerce](https://wordpress.org/plugins/woocommerce/) to protect access to products, so that certain products can be purchased by members only.
-
-Enhanced functionality is available via the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/) and [Extensions](https://www.itthinx.com/product-category/groups/) for Groups.
-
 ### Documentation ###
 
 The official documentation is located at the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
 
-### Features ###
+### Comprehensive Features ###
+
+Groups is powerful and effective, yet simple and easy to use. While its flexibility covers a wide range of functions, some of the most commonly used aspects include:
 
 #### User groups ####
 
@@ -93,7 +141,7 @@ Enhanced functionality is available via official [Extensions](https://www.itthin
 
 Groups is a large project that is providing essential functionality to tens of thousands of sites since 2012. By getting an official extension, you help fund the work that is necessary to maintain and improve Groups.
 
-- [Groups WooCommerce](https://woocommerce.com/products/groups-woocommerce/) : Sell Memberships with Groups and WooCommerce – the best Group Membership and Access Control solution for WordPress and WooCommerce.
+- [Groups Integration for WooCommerce](https://woocommerce.com/products/groups-woocommerce/) : Sell Memberships with Groups and WooCommerce – the best Group Membership and Access Control solution for WordPress and WooCommerce.
 - [WooCommerce Group Coupons](https://woocommerce.com/products/group-coupons/) : Automatically apply and restrict coupon validity for user groups. Offer exclusive, automatic and targeted discounts for your customers.
 - [Groups Drip Content](https://www.itthinx.com/shop/groups-drip-content/) : Release content on a schedule. Content dripping can be based on user account creation, group memberships and specific dates and times.
 - [Groups File Access](https://www.itthinx.com/shop/groups-file-access/) : Allows to provide file download links for authorized users. Access to files is restricted to users by their group membership.
@@ -102,7 +150,11 @@ Groups is a large project that is providing essential functionality to tens of t
 - [Groups Import Export](https://www.itthinx.com/shop/groups-import-export/) : Provides import and export facilities around users and groups.
 - [Groups Newsletters](https://www.itthinx.com/shop/groups-newsletters/) : Newsletter Campaigns for Subscribers and Groups.
 - [WooCommerce Product Search](https://woocommerce.com/products/woocommerce-product-search/) : The perfect Search Engine helps customers to find and buy products quickly – essential for every WooCommerce store. The search engine honors access restrictions imposed by Groups and supports caching based on WordPress roles and memberships with Groups.
+- [Restrict Payment Methods](https://woocommerce.com/products/restrict-payment-methods/) : Limit the use of WooCommerce Payment Methods by Group Memberships, Roles, Countries, and Order Amounts.
 - [Widgets Control Pro](https://www.itthinx.com/shop/widgets-control-pro/) : An advanced Widget toolbox that adds visibility management and helps to control where widgets are shown efficiently.
+- [Groups 404 Redirect](https://wordpress.org/plugins/groups-404-redirect/) : This plugin redirects 404’s caused by hits on pages that are protected by Groups.
+- [Groups Blog Protect](https://wordpress.org/plugins/groups-blog-protect/) : The plugin protects a site so that only members can access its pages.
+- [Groups bbPress](https://wordpress.org/plugins/groups-bbpress/) : Integrates Groups and bbPress so that all topics and replies related to protected forums are also protected automatically.
 
 ### Feedback ###
 
