@@ -2,6 +2,7 @@
 
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.
+* Update - Updated recommendations.
 
 2025-01-22 - version 3.4.2
 * Dev - Removed unnecessary translation function calls.

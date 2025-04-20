@@ -99,11 +99,11 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 			'url'     => 'https://woocommerce.com/shop/volume-discount-coupons/',
 			'index'   => 50
 		),
-		'woocommerce-bookings' => array(
-			'title'   => 'WooCommerce Bookings',
-			'content' => 'Allow customers to book appointments, make reservations or rent equipment without leaving your site.',
-			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/woocommerce-bookings.png',
-			'url'     => 'https://woocommerce.com/products/woocommerce-bookings/',
+		'restrict-payment-methods' => array(
+			'title'   => 'Restrict Payment Methods',
+			'content' => 'Limit the use of Payment Methods by Group Memberships, Roles, Countries, and Order Amounts.',
+			'image'   => GROUPS_PLUGIN_URL . 'images/add-ons/woocommerce/restrict-payment-methods.png',
+			'url'     => 'https://woocommerce.com/products/restrict-payment-methods/',
 			'index'   => 60
 		),
 		'woopayments' => array(
