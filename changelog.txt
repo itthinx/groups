@@ -7,6 +7,10 @@
 * Add - Added support for the class and submit_class shortcode parameters to the [groups_join] shortcode.
 * Add - Added support for the class and submit_class shortcode parameters to the [groups_leave] shortcode.
 * Fix - Fixed inappropriate class used for the container of the [groups_leave] shortcode.
+* Update - A successful submission via the [groups_join] shortcode will cause a redirect to the current page so that the membership change is reflected.
+* Add - Added the groups_join_submit_redirect filter.
+* Update - A successful submission via the [groups_leave] shortcode will cause a redirect to the current page so that the membership change is reflected.
+* Add - Added the groups_leave_submit_redirect filter.
 
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.

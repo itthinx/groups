@@ -456,8 +456,16 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders a form that lets a user join a group.
-	 * * Attributes:
+	 *
+	 * Attributes:
+	 *
 	 * - "group" : (required) group name or id
+	 * - "class" : (optional) container class to add
+	 * - "display_message" : (optional) whether to display the message
+	 * - "display_is_member" : (optional) whether to display the message that a user is a member
+	 * - "redirect" : (optional) whether to redirect after accepted submission
+	 * - "submit_class" : (optional) submit HTML element class to add
+	 * - "submit_text" : (optional) submit HTML element text to use
 	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
@@ -475,6 +483,7 @@ class Groups_Shortcodes {
 				'group'             => '',
 				'display_message'   => true,
 				'display_is_member' => false,
+				'redirect'          => true,
 				'submit_class'      => '',
 				/* translators: group name */
 				'submit_text'       => esc_html__( 'Join the %s group', 'groups' )
@@ -484,6 +493,7 @@ class Groups_Shortcodes {
 
 		$display_message = is_string( $options['display_message'] ) ? strtolower( $options['display_message'] ) : $options['display_message'];
 		$display_is_member = is_string( $options['display_is_member'] ) ? strtolower( $options['display_is_member'] ) : $options['display_is_member'];
+		$redirect = is_string( $options['redirect'] ) ? strtolower( $options['redirect'] ) : $options['redirect'];
 		$submit_text = $options['submit_text'];
 
 		switch ( $display_message ) {
@@ -504,6 +514,28 @@ class Groups_Shortcodes {
 				break;
 			default:
 				$display_is_member = false;
+		}
+
+		if ( !is_bool( $redirect ) ) {
+			switch( $redirect ) {
+				case 'true':
+				case 'yes':
+					$redirect = true;
+					break;
+				case 'false':
+				case 'no':
+					$redirect = false;
+					break;
+				default:
+					if ( is_string( $redirect ) ) {
+						$redirect = trim( $redirect );
+						if ( strlen( $redirect ) === 0 ) {
+							$redirect = true;
+						}
+					} else {
+						$redirect = true;
+					}
+			}
 		}
 
 		$class = trim( $options['class'] );
@@ -534,6 +566,25 @@ class Groups_Shortcodes {
 								'user_id' => $user_id
 							)
 						);
+						/**
+						 * Whether to redirect after submit and successful addition to group.
+						 *
+						 * @since 3.6.0
+						 *
+						 * @param boolean|string $redirect true to redirect to current ULR, string to redirect to specific URL, false not to redirect
+						 * @param array $atts shortcode attributes
+						 * @param array $options evaluated shortcode options
+						 *
+						 * @return boolean|string
+						 */
+						if ( apply_filters( 'groups_join_submit_redirect', $redirect, $atts, $options ) ) {
+							if ( is_string( $redirect ) ) {
+								$redirect_url = $redirect;
+							} else {
+								$redirect_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+							}
+							wp_redirect( $redirect_url );
+						}
 					}
 				}
 				if ( !Groups_User::user_is_member( $user_id, $current_group->group_id ) ) {
@@ -574,8 +625,15 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders a form that lets a user leave a group.
-	 * * Attributes:
+	 *
+	 * Attributes:
+	 *
 	 * - "group" : (required) group name or id
+	 * - "class" : (optional) container class to add
+	 * - "display_message" : (optional) whether to display the message
+	 * - "redirect" : (optional) whether to redirect after accepted submission
+	 * - "submit_class" : (optional) submit HTML element class to add
+	 * - "submit_text" : (optional) submit HTML element text to use
 	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
@@ -592,6 +650,7 @@ class Groups_Shortcodes {
 				'class'           => '',
 				'group'           => '',
 				'display_message' => true,
+				'redirect'        => true,
 				'submit_class'    => '',
 				/* translators: group name */
 				'submit_text'     => esc_html__( 'Leave the %s group', 'groups' ),
@@ -600,6 +659,7 @@ class Groups_Shortcodes {
 		);
 
 		$display_message = is_string( $options['display_message'] ) ? strtolower( $options['display_message'] ) : $options['display_message'];
+		$redirect = is_string( $options['redirect'] ) ? strtolower( $options['redirect'] ) : $options['redirect'];
 		$submit_text = $options['submit_text'];
 
 		switch ( $display_message ) {
@@ -610,6 +670,28 @@ class Groups_Shortcodes {
 				break;
 			default:
 				$display_message = true;
+		}
+
+		if ( !is_bool( $redirect ) ) {
+			switch( $redirect ) {
+				case 'true':
+				case 'yes':
+					$redirect = true;
+					break;
+				case 'false':
+				case 'no':
+					$redirect = false;
+					break;
+				default:
+					if ( is_string( $redirect ) ) {
+						$redirect = trim( $redirect );
+						if ( strlen( $redirect ) === 0 ) {
+							$redirect = true;
+						}
+					} else {
+						$redirect = true;
+					}
+			}
 		}
 
 		$class = trim( $options['class'] );
@@ -635,6 +717,25 @@ class Groups_Shortcodes {
 					if ( isset( $_POST['group_id'] ) ) {
 						$leave_group = Groups_Group::read( sanitize_text_field( $_POST['group_id'] ) );
 						Groups_User_Group::delete( $user_id, $leave_group->group_id );
+						/**
+						 * Whether to redirect after acceptedsubmit and successful removal from group.
+						 *
+						 * @since 3.6.0
+						 *
+						 * @param boolean|string $redirect true to redirect to current ULR, string to redirect to specific URL, false not to redirect
+						 * @param array $atts shortcode attributes
+						 * @param array $options evaluated shortcode options
+						 *
+						 * @return boolean|string
+						 */
+						if ( apply_filters( 'groups_leave_submit_redirect', $redirect, $atts, $options ) ) {
+							if ( is_string( $redirect ) ) {
+								$redirect_url = $redirect;
+							} else {
+								$redirect_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+							}
+							wp_redirect( $redirect_url );
+						}
 					}
 				}
 				if ( Groups_User::user_is_member( $user_id, $current_group->group_id ) ) {
