@@ -589,8 +589,10 @@ class Groups_Shortcodes {
 
 		$options = shortcode_atts(
 			array(
+				'class'           => '',
 				'group'           => '',
 				'display_message' => true,
+				'submit_class'    => '',
 				/* translators: group name */
 				'submit_text'     => esc_html__( 'Leave the %s group', 'groups' ),
 			),
@@ -610,6 +612,8 @@ class Groups_Shortcodes {
 				$display_message = true;
 		}
 
+		$class = trim( $options['class'] );
+		$submit_class = trim( $options['submit_class'] );
 		$group = trim( $options['group'] );
 		$current_group = Groups_Group::read( $group );
 		if ( !$current_group ) {
@@ -635,11 +639,18 @@ class Groups_Shortcodes {
 				}
 				if ( Groups_User::user_is_member( $user_id, $current_group->group_id ) ) {
 					$submit_text = sprintf( $options['submit_text'], wp_filter_nohtml_kses( $current_group->name ) );
-					$output .= '<div class="groups-join">';
+					$output .= sprintf(
+						'<div class="groups-leave%s">',
+						strlen( $class ) > 0 ? ' ' . esc_attr( $class ) : '',
+					);
 					$output .= '<form action="#" method="post">';
 					$output .= '<input type="hidden" name="groups_action" value="leave" />';
 					$output .= '<input type="hidden" name="group_id" value="' . esc_attr( $current_group->group_id ) . '" />';
-					$output .= '<input type="submit" value="' . esc_attr( $submit_text ) . '" />';
+					$output .= sprintf(
+						'<input class="groups-leave-submit%s" type="submit" value="%s" />',
+						strlen( $submit_class ) > 0 ? ' ' . esc_attr( $submit_class ) : '',
+						esc_attr( $submit_text )
+					);
 					$output .= wp_nonce_field( $nonce_action, $nonce, true, false );
 					$output .= '</form>';
 					$output .= '</div>';
