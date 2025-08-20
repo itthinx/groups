@@ -551,7 +551,7 @@ class Groups_Post_Access {
 				$group_ids = $groups_user->get_group_ids_deep();
 				if ( is_array( $group_ids ) ) {
 					sort( $group_ids );
-					$cache_group .=  '_' . implode( '_', $group_ids );
+					$cache_group .= '_' . implode( '_', $group_ids );
 				}
 			}
 

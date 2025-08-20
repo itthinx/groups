@@ -4,6 +4,7 @@
 * Update - WordPress 6.8 compatible.
 * Dev - Removed superfluous spaces in several translations.
 * Dev - Removed superfluous spaces in code and text.
+* Add - Added support for the class and submit_class shortcode parameters to the [groups_join] shortcode.
 
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.
