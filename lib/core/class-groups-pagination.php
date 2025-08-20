@@ -97,7 +97,7 @@ class Groups_Pagination {
 	/**
 	 * Returns or displays the pagination.
 	 *
-	 * @param string $which  where it's displayed
+	 * @param string $which where it's displayed
 	 * @param boolean $echo displays if true, otherwise returns
 	 *
 	 * @return string|null

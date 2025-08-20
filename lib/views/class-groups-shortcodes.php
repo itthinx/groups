@@ -41,11 +41,11 @@ class Groups_Shortcodes {
 		// user groups
 		add_shortcode( 'groups_user_groups', array( __CLASS__, 'groups_user_groups' ) );
 		// groups
-		add_shortcode( 'groups_groups',  array( __CLASS__, 'groups_groups' ) );
+		add_shortcode( 'groups_groups', array( __CLASS__, 'groups_groups' ) );
 		// join a group
-		add_shortcode( 'groups_join',  array( __CLASS__, 'groups_join' ) );
+		add_shortcode( 'groups_join', array( __CLASS__, 'groups_join' ) );
 		// leave a group
-		add_shortcode( 'groups_leave',  array( __CLASS__, 'groups_leave' ) );
+		add_shortcode( 'groups_leave', array( __CLASS__, 'groups_leave' ) );
 	}
 
 	/**

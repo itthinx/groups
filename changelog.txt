@@ -2,6 +2,8 @@
 
 2025-08-20 - version 3.6.0
 * Update - WordPress 6.8 compatible.
+* Dev - Removed superfluous spaces in several translations.
+* Dev - Removed superfluous spaces in code and text.
 
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.
