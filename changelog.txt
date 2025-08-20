@@ -1,5 +1,8 @@
 == Groups by itthinx - changelog.txt
 
+2025-08-20 - version 3.6.0
+* Update - WordPress 6.8 compatible.
+
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.
 * Update - Requires at least WordPress 6.3.
