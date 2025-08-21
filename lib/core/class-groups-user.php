@@ -48,6 +48,13 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * @var string cache key prefix
+	 *
+	 * @since 3.6.0
+	 */
+	const CAPABILITIES_DEEP = 'capabilities_deep';
+
+	/**
+	 * @var string cache key prefix
 	 */
 	const CAPABILITY_IDS = 'capability_ids';
 
@@ -109,6 +116,7 @@ class Groups_User implements I_Capable {
 		// be lazy, clear the entries so they are rebuilt when requested
 		Groups_Cache::delete( self::CAPABILITIES . $user_id, self::CACHE_GROUP );
 		Groups_Cache::delete( self::CAPABILITIES_BASE . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::CAPABILITIES_DEEP . $user_id, self::CACHE_GROUP );
 		Groups_Cache::delete( self::CAPABILITY_IDS . $user_id, self::CACHE_GROUP );
 		Groups_Cache::delete( self::CAPABILITY_IDS_BASE . $user_id, self::CACHE_GROUP );
 		Groups_Cache::delete( self::GROUP_IDS . $user_id, self::CACHE_GROUP );
@@ -460,14 +468,29 @@ class Groups_User implements I_Capable {
 
 				case 'capabilities_deep' :
 					if ( $this->user !== null ) {
-						$cached = Groups_Cache::get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
+						// @since 3.6. provide cached objects
+						$cached = Groups_Cache::get( self::CAPABILITIES_DEEP . $this->user->ID, self::CACHE_GROUP );
 						if ( $cached !== null ) {
-							$capabilities = $cached->value;
+							$result = $cached->value;
 							unset( $cached );
 						} else {
-							$this->init_cache( $capability_ids, $capabilities );
+							$cached = Groups_Cache::get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
+							if ( $cached !== null ) {
+								$capabilities = $cached->value;
+								unset( $cached );
+							} else {
+								$this->init_cache( $capability_ids, $capabilities );
+							}
+							// @since 3.6.0 provide expected return type Groups_Capability[]
+							$result = array();
+							foreach ( $capabilities as $capability ) {
+								$capobj = Groups_Capability::read_by_capability( $capability );
+								if ( $capobj ) {
+									$result[] = new Groups_Capability( $capobj->capability_id );
+								}
+							}
+							Groups_Cache::set( self::CAPABILITIES_DEEP . $this->user->ID, $result, self::CACHE_GROUP );
 						}
-						$result = $capabilities;
 					}
 					break;
 

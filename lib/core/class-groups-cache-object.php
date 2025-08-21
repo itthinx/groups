@@ -33,12 +33,14 @@ class Groups_Cache_Object {
 
 	/**
 	 * Cache key.
+	 *
 	 * @var string
 	 */
 	private $key = null;
 
 	/**
 	 * Cached value.
+	 *
 	 * @var mixed
 	 */
 	private $value = null;
@@ -50,7 +52,9 @@ class Groups_Cache_Object {
 	 * @param mixed $value
 	 */
 	public function __construct( $key, $value ) {
-		$this->key = $key;
+		if ( is_string( $key ) ) {
+			$this->key = $key;
+		}
 		$this->value = $value;
 	}
 
@@ -81,9 +85,59 @@ class Groups_Cache_Object {
 	public function __set( $name, $value ) {
 		switch( $name ) {
 			case 'key' :
+				if ( is_string( $value ) ) {
+					$this->key = $value;
+				}
+				break;
 			case 'value' :
-				$this->$name = $value;
+				$this->value = $value;
 				break;
 		}
+	}
+
+	/**
+	 * Provide the key of this object.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @return string
+	 */
+	public function get_key() {
+		return $this->key;
+	}
+
+	/**
+	 * Set the key of this object.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param string $key
+	 */
+	public function set_key( $key ) {
+		if ( is_string( $key ) ) {
+			$this->key = $key;
+		}
+	}
+
+	/**
+	 * Provide the value of this object.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @return mixed
+	 */
+	public function get_value() {
+		return $this->value;
+	}
+
+	/**
+	 * Set the value of this object.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param mixed $value
+	 */
+	public function set_value( $value ) {
+		$this->value = $value;
 	}
 }

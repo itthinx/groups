@@ -148,7 +148,7 @@ class Groups_Post_Access_Legacy {
 			$capabilities = $user->get_capabilities_deep();
 			if ( is_array( $capabilities ) ) {
 				foreach ( $capabilities as $capability ) {
-					$caps[] = "'". $capability . "'";
+					$caps[] = "'". $capability->get_capability() . "'";
 				}
 			}
 		}
