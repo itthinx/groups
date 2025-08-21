@@ -577,13 +577,8 @@ class Groups_Shortcodes {
 						 *
 						 * @return boolean|string
 						 */
-						if ( apply_filters( 'groups_join_submit_redirect', $redirect, $atts, $options ) ) {
-							if ( is_string( $redirect ) ) {
-								$redirect_url = $redirect;
-							} else {
-								$redirect_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-							}
-							wp_redirect( $redirect_url );
+						if ( apply_filters( 'groups_join_submit_redirect', $redirect, $atts, $options ) !== false ) {
+							self::maybe_redirect( $redirect );
 						}
 					}
 				}
@@ -728,13 +723,8 @@ class Groups_Shortcodes {
 						 *
 						 * @return boolean|string
 						 */
-						if ( apply_filters( 'groups_leave_submit_redirect', $redirect, $atts, $options ) ) {
-							if ( is_string( $redirect ) ) {
-								$redirect_url = $redirect;
-							} else {
-								$redirect_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-							}
-							wp_redirect( $redirect_url );
+						if ( apply_filters( 'groups_leave_submit_redirect', $redirect, $atts, $options ) !== false ) {
+							self::maybe_redirect( $redirect );
 						}
 					}
 				}
@@ -767,5 +757,78 @@ class Groups_Shortcodes {
 		}
 		return $output;
 	}
+
+	/**
+	 * Try to redirect.
+	 *
+	 * No redirect will happen if $redirect is false.
+	 *
+	 * A redirect to the current URL is attempted if $redirect is an empty string.
+	 *
+	 * Relative paths will try to redirect to the path off the home URL and other URL components present.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param boolean|string $redirect
+	 */
+	private static function maybe_redirect( $redirect ) {
+
+		// Don't redirect
+		if ( is_bool( $redirect ) && !$redirect ) {
+			return;
+		}
+
+		// Use the current URL if no specific URL is provided
+		if ( is_string( $redirect ) && trim( $redirect ) !== '' ) {
+			$redirect_url = trim( $redirect );
+		} else {
+			$redirect_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		}
+
+		// Try to handle a relative URL, determine missing parts
+		$parts = parse_url( $redirect_url );
+		if ( !isset( $parts['scheme'] ) ) {
+			$parts['scheme'] = is_ssl() ? 'https' : 'http';
+		}
+		if ( !isset( $parts['host'] ) ) {
+			$parts['host'] = parse_url( home_url(), PHP_URL_HOST );
+		}
+		if ( !isset( $parts['path'] ) ) {
+			$parts['path'] = parse_url( home_url(), PHP_URL_PATH );
+		} else {
+			$home_path = parse_url( home_url(), PHP_URL_PATH );
+			if ( strpos( $parts['path'], $home_path ) !== 0 ) {
+				$parts['path'] = trailingslashit( $home_path ) . ltrim( $parts['path'], '/\\' );
+			}
+		}
+		// Put the absolute URL together
+		$url = $parts['scheme'] . ':';
+		if ( !empty( $parts['user'] ) && !empty( $parts['password'] ) ) {
+			$url .= $parts['user'] . ':' . $parts['password'] . '@';
+		}
+		$url .= '//' . $parts['host'];
+		if ( !empty( $parts['path'] ) ) {
+			$url .= $parts['path'];
+		}
+		if ( !empty( $parts['query'] ) ) {
+			$url .= '?' . $parts['query'];
+		}
+		if ( !empty( $parts['fragment'] ) ) {
+			$url .= '#' . $parts['fragment'];
+		}
+		$redirect_url = $url;
+
+		// validate the URL and restrict to allowed hosts, uses the allowed_redirect_hosts filter restricting to the domain of the current site
+		$redirect_url = wp_validate_redirect( $redirect_url ); // default fallback is ''
+		if ( is_string( $redirect_url ) ) {
+			$redirect_url = trim( $redirect_url );
+		}
+		if ( $redirect_url !== null && $redirect_url !== false && $redirect_url !== '' ) {
+			if ( wp_redirect( $redirect_url ) ) {
+				exit;
+			}
+		}
+	}
+
 }
 Groups_Shortcodes::init();
