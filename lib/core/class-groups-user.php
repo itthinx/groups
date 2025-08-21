@@ -614,7 +614,7 @@ class Groups_User implements I_Capable {
 		 * @since 2.20.0
 		 *
 		 * @param boolean $result whether the user belongs to the group
-		 * @param Groups_User $this this object
+		 * @param Groups_User $object this object
 		 * @param int $group_id the group ID
 		 *
 		 * @return boolean $filtered_result
