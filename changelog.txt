@@ -11,6 +11,7 @@
 * Add - Added the groups_join_submit_redirect filter.
 * Update - A successful submission via the [groups_leave] shortcode will cause a redirect to the current page so that the membership change is reflected.
 * Add - Added the groups_leave_submit_redirect filter.
+* Dev - Instances of using proper API methods instead of supermagic properties to obtain data.
 
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.
