@@ -209,7 +209,7 @@ class Groups_Post_Access {
 					$delete_post_type = 'delete_' . $post_type;
 					if ( $post_type_object = get_post_type_object( $post_type ) ) {
 						if ( !isset( $post_type_object->capabilities ) ) {
-							$post_type_object->capabilities = array();
+							$post_type_object->capabilities = array(); // @phpstan-ignore property.notFound
 						}
 						$caps_object = get_post_type_capabilities( $post_type_object );
 						if ( isset( $caps_object->edit_post ) ) {

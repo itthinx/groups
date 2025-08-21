@@ -297,7 +297,7 @@ class Groups_User implements I_Capable {
 	 * @return Groups_Capability[]
 	 */
 	public function get_capabilities() {
-		return $this->capabilities;
+		return $this->capabilities; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -306,7 +306,7 @@ class Groups_User implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_capability_ids() {
-		return $this->capability_ids;
+		return $this->capability_ids; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -315,7 +315,7 @@ class Groups_User implements I_Capable {
 	 * @return Groups_Capability[]
 	 */
 	public function get_capabilities_deep() {
-		return $this->capabilities_deep;
+		return $this->capabilities_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -324,7 +324,7 @@ class Groups_User implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_capability_ids_deep() {
-		return $this->capability_ids_deep;
+		return $this->capability_ids_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -333,7 +333,7 @@ class Groups_User implements I_Capable {
 	 * @return Groups_Group[]
 	 */
 	public function get_groups() {
-		return $this->groups;
+		return $this->groups; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -342,7 +342,7 @@ class Groups_User implements I_Capable {
 	 * @return Groups_Group[]
 	 */
 	public function get_groups_deep() {
-		return $this->groups_deep;
+		return $this->groups_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -351,14 +351,14 @@ class Groups_User implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_group_ids() {
-		return $this->group_ids;
+		return $this->group_ids; // @phpstan-ignore property.notFound
 	}
 
 	/**
 	 * Provide the IDs of the groups that this object relates to and from ancestor groups.
 	 */
 	public function get_group_ids_deep() {
-		return $this->group_ids_deep;
+		return $this->group_ids_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -522,7 +522,7 @@ class Groups_User implements I_Capable {
 						unset( $cached );
 					} else {
 						$result = array();
-						foreach( $this->group_ids_deep as $group_id ) {
+						foreach( $this->group_ids_deep as $group_id ) { // @phpstan-ignore property.notFound
 							$result[] = new Groups_Group( $group_id );
 						}
 						Groups_Cache::set( self::GROUPS . $this->user->ID, $result, self::CACHE_GROUP );

@@ -68,7 +68,7 @@ class Groups_User_Group {
 	 * @return int|null
 	 */
 	public function get_user_id() {
-		return $this->user_id;
+		return $this->user_id; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Groups_User_Group {
 	 * @return int|null
 	 */
 	public function get_group_id() {
-		return $this->group_id;
+		return $this->group_id; // @phpstan-ignore property.notFound
 	}
 
 	/**

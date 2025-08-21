@@ -178,7 +178,7 @@ class Groups_Admin_User_Profile {
 					$output .= '<ul>';
 					foreach( $groups as $group ) {
 						$output .= '<li>';
-						$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
+						$output .= $group->get_name() ? stripslashes( wp_filter_nohtml_kses( $group->get_name() ) ) : '';
 						$output .= '</li>';
 					}
 					$output .= '</ul>';

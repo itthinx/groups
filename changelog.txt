@@ -16,6 +16,9 @@
 * Dev - Updated Groups_User to provide expected return type Groups_Capability[] instead of string[] when asking for capabilities_deep.
 * Dev - API improvement, added additional getters and setters to cache object, added key type checks.
 * Dev - Revised and fixed several code formatting issues.
+* Dev - Fixed instances of incorrect code documentation.
+* Dev - Validation hints for verified property access (empty.variable).
+* Dev - Validation hints for verified property access (property.notFound).
 
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.
