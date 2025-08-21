@@ -129,6 +129,7 @@ class Groups_Post_Access_Legacy {
 	 *
 	 * @param string $where current where conditions
 	 * @param WP_Query $query current query
+	 *
 	 * @return string modified $where
 	 */
 	public static function posts_where( $where, $query ) {
