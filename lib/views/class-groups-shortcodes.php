@@ -824,7 +824,7 @@ class Groups_Shortcodes {
 			$redirect_url = trim( $redirect_url );
 		}
 		if ( $redirect_url !== null && $redirect_url !== false && $redirect_url !== '' ) {
-			if ( wp_redirect( $redirect_url ) ) { // phpcs:igore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+			if ( wp_redirect( $redirect_url ) ) { // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 				exit;
 			}
 		}
