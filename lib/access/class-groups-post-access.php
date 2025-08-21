@@ -539,7 +539,7 @@ class Groups_Post_Access {
 	 */
 	public static function get_next_post_where( $where, $in_same_term, $excluded_terms, $taxonomy, $post ) {
 		if (
-			!empty( $post ) &&
+			!empty( $post ) && // @phpstan-ignore empty.variable
 			self::handles_post_type( $post->post_type )
 		) {
 			$cache_group = self::CACHE_GROUP . '_' . $post->post_type;
@@ -1241,8 +1241,9 @@ class Groups_Post_Access {
 			/**
 			 * Whether to filter get_terms.
 			 *
-			 * @param array $cat_args
-			 * @param array $instance
+			 * @param boolean $filter whether to filter
+			 * @param array $cat_args category parameters
+			 * @param array $instance instance details
 			 *
 			 * @return array
 			 */
@@ -1269,8 +1270,9 @@ class Groups_Post_Access {
 			/**
 			 * Whether to filter get_terms.
 			 *
-			 * @param array $cat_args
-			 * @param array $instance
+			 * @param boolean $filter whether to filter
+			 * @param array $cat_args category parameters
+			 * @param array $instance instance details
 			 *
 			 * @return array
 			 */

@@ -36,7 +36,7 @@ function groups_admin_groups_remove( $group_id ) {
 
 	$group = Groups_Group::read( intval( $group_id ) );
 
-	if ( empty( $group ) ) {
+	if ( empty( $group ) ) { // @phpstan-ignore empty.variable
 		wp_die( esc_html__( 'No such group.', 'groups' ) );
 	}
 

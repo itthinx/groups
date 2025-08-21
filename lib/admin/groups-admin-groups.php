@@ -276,7 +276,7 @@ function groups_admin_groups() {
 		$filter_params[] = '%' . $wpdb->esc_like( $group_name ) . '%';
 	}
 
-	if ( !empty( $filters ) ) {
+	if ( !empty( $filters ) ) { // @phpstan-ignore empty.variable
 		$filters = " WHERE " . implode( " AND ", $filters );
 	} else {
 		$filters = '';

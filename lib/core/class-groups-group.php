@@ -647,10 +647,10 @@ class Groups_Group implements I_Capable {
 			if ( !empty( $group_id ) ) {
 				Groups_Cache::delete( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
 			}
-			if ( !empty( $name ) ) {
+			if ( !empty( $name ) ) { // @phpstan-ignore empty.variable
 				Groups_Cache::delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
 			}
-			if ( !empty( $old_group ) && !empty( $old_group->name ) ) {
+			if ( !empty( $old_group ) && !empty( $old_group->name ) ) { // @phpstan-ignore empty.variable
 				Groups_Cache::delete( self::READ_BY_NAME . '_' . $old_group->name, self::CACHE_GROUP );
 			}
 			do_action( 'groups_updated_group', $result );

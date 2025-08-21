@@ -160,6 +160,7 @@ class Groups_Admin_Users {
 			// groups select
 			$groups_table = _groups_get_tablename( 'group' );
 			$groups = apply_filters( 'groups_admin_users_restrict_manage_users_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$groups_select = '';
 			if ( $groups ) {
 				$groups_select = sprintf(
 					'<select id="user-groups" class="groups" name="group_ids[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',

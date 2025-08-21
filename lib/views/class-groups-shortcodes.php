@@ -605,8 +605,7 @@ class Groups_Shortcodes {
 						/* translators: group name */
 						$output .= sprintf( esc_html__( 'You have joined the %s group.', 'groups' ), wp_filter_nohtml_kses( $join_group->name ) );
 						$output .= '</div>';
-					}
-					else if ( $display_is_member && isset( $current_group ) && $current_group !== false ) {
+					} else if ( $display_is_member && $current_group !== false ) {
 						$output .= '<div class="groups-join member">';
 						/* translators: group name */
 						$output .= sprintf( esc_html__( 'You are a member of the %s group.', 'groups' ), wp_filter_nohtml_kses( $current_group->name ) );

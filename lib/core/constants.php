@@ -24,116 +24,116 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 /**
- * @var string plugin version dummy
+ * @var string GROUPS_DEFAULT_VERSION plugin version dummy
  */
 define( 'GROUPS_DEFAULT_VERSION', '1.0.0' );
 
 /**
  * Do NOT remove this constant.
  *
- * @var string plugin domain
+ * @var string GROUPS_PLUGIN_DOMAIN plugin domain
  */
 define( 'GROUPS_PLUGIN_DOMAIN', 'groups' );
 
 /**
- * @var string plugin directory on the server
+ * @var string GROUPS_PLUGIN_DIR plugin directory on the server
  */
 define( 'GROUPS_PLUGIN_DIR', GROUPS_CORE_DIR );
 
 /**
- * @var string plugin url
+ * @var string GROUPS_PLUGIN_URL plugin url
  */
 define( 'GROUPS_PLUGIN_URL', trailingslashit( GROUPS_CORE_URL ) );
 
 /**
- * @var string groups table prefix
+ * @var string GROUPS_TP groups table prefix
  */
 define( 'GROUPS_TP', 'groups_' );
 
 // administrative capabilities
 
 /**
- * @var string grants access to the groups section
+ * @var string GROUPS_ACCESS_GROUPS grants access to the groups section
  */
 define( 'GROUPS_ACCESS_GROUPS', 'groups_access' );
 
 /**
- * @var string grants CRUD for groups (CRUD)
+ * @var string GROUPS_ADMINISTER_GROUPS grants CRUD for groups (CRUD)
  */
 define( 'GROUPS_ADMINISTER_GROUPS', 'groups_admin_groups');
 
 /**
- * @var string grants to administer plugin options
+ * @var string GROUPS_ADMINISTER_OPTIONS grants to administer plugin options
  */
 define( 'GROUPS_ADMINISTER_OPTIONS', 'groups_admin_options');
 
 /**
- * @var string grants permission to restrict access on posts etc.
+ * @var string GROUPS_RESTRICT_ACCESS grants permission to restrict access on posts etc.
  */
 define( 'GROUPS_RESTRICT_ACCESS', 'groups_restrict_access' );
 
 /**
- * @var string admin nonce
+ * @var string GROUPS_ADMIN_GROUPS_NONCE admin nonce
  */
 define( 'GROUPS_ADMIN_GROUPS_NONCE', 'groups-admin-nonce' );
 
 /**
- * @var string admin override option
+ * @var string GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE admin override option
  *
  * @deprecated since 2.1.1
  */
 define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE', 'groups-admin-override' );
 
 /**
- * @var string admin override option default setting
+ * @var string GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT admin override option default setting
  *
  * @deprecated since 2.1.1
  */
 define( 'GROUPS_ADMINISTRATOR_ACCESS_OVERRIDE_DEFAULT', false );
 
 /**
- * @var string read post capabilities option
+ * @var string GROUPS_READ_POST_CAPABILITIES read post capabilities option
  */
 define( 'GROUPS_READ_POST_CAPABILITIES', 'groups-read-post-capabilities' );
 
 /**
  * Tree view option
  *
- * @var string
+ * @var string GROUPS_SHOW_TREE_VIEW
  */
 define( 'GROUPS_SHOW_TREE_VIEW', 'groups-show-tree-view' );
 
 /**
 * Tree view option default.
 *
-* @var boolean
+* @var boolean GROUPS_SHOW_TREE_VIEW_DEFAULT
 */
 define( 'GROUPS_SHOW_TREE_VIEW_DEFAULT', false );
 
 /**
  * Option to show groups info in the user profile.
  *
- * @var string
+ * @var string GROUPS_SHOW_IN_USER_PROFILE
  */
 define( 'GROUPS_SHOW_IN_USER_PROFILE', 'groups-show-in-user-profile' );
 
 /**
  * Default for showing groups in user profiles.
  *
- * @var boolean
+ * @var boolean GROUPS_SHOW_IN_USER_PROFILE_DEFAULT
  */
 define( 'GROUPS_SHOW_IN_USER_PROFILE_DEFAULT', true );
 
 /**
  * Whether legacy functions should be supported.
  *
- * @var string
+ * @var string GROUPS_LEGACY_ENABLE
  */
 define( 'GROUPS_LEGACY_ENABLE', 'groups-legacy-enable' );
 
 /**
  * Default value for legacy support.
  *
- * @var boolean
+ * @var boolean GROUPS_LEGACY_ENABLE_DEFAULT
  */
 define( 'GROUPS_LEGACY_ENABLE_DEFAULT', false );

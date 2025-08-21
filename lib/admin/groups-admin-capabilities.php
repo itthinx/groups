@@ -287,7 +287,7 @@ function groups_admin_capabilities() {
 		$filter_params[] = '%' . $wpdb->esc_like( $capability ) . '%';
 	}
 
-	if ( !empty( $filters ) ) {
+	if ( !empty( $filters ) ) { // @phpstan-ignore empty.variable
 		$filters = " WHERE " . implode( " AND ", $filters );
 	} else {
 		$filters = '';

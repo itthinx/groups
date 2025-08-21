@@ -17,8 +17,11 @@
 * Dev - API improvement, added additional getters and setters to cache object, added key type checks.
 * Dev - Revised and fixed several code formatting issues.
 * Dev - Fixed instances of incorrect code documentation.
+* Dev - Revised code documentation format where improper.
 * Dev - Validation hints for verified property access (empty.variable).
 * Dev - Validation hints for verified property access (property.notFound).
+* Dev - Fixed potentially undefined variables.
+* Dev - Added missing code documentation.
 
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.

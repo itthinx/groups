@@ -38,7 +38,7 @@ function groups_admin_capabilities_edit( $capability_id ) {
 
 	$capability = Groups_Capability::read( intval( $capability_id ) );
 
-	if ( empty( $capability ) ) {
+	if ( empty( $capability ) ) { // @phpstan-ignore empty.variable
 		wp_die( esc_html__( 'No such capability.', 'groups' ) );
 	}
 

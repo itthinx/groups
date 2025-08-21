@@ -386,7 +386,7 @@ class Groups_Capability {
 				) );
 				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
-					if ( !empty( $old_capability ) && !empty( $old_capability->capability ) ) {
+					if ( !empty( $old_capability ) && !empty( $old_capability->capability ) ) { // @phpstan-ignore empty.variable
 						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability->capability, self::CACHE_GROUP );
 					}
 					if ( !empty( $old_capability_capability ) ) {
