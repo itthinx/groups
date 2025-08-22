@@ -388,7 +388,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 									// when trying to merge the missing property otherwise. It's either a
 									// bug or the function's documentation should make it clear that you
 									// have to provide that.
-									$post_type_object->capabilities = array();
+									$post_type_object->capabilities = array(); // @phpstan-ignore property.notFound
 								}
 								$caps_object = get_post_type_capabilities( $post_type_object );
 								if ( isset( $caps_object->edit_post ) ) {

@@ -584,8 +584,6 @@ class Groups_Controller {
 	 * the plugin would have the same effect but with the danger of
 	 * deleting all plugin data).
 	 *
-	 * @param boolean $activate defaults to true, when this function is called upon plugin activation
-	 *
 	 * @access private
 	 */
 	public static function set_default_capabilities() {
@@ -663,7 +661,7 @@ class Groups_Controller {
 	 * @see sem_acquire()
 	 *
 	 * @param resource $sem_identifier
-	 * @param string $nowait (only taken into account and effective on PHP >= 5.6.1)
+	 * @param boolean $nowait (only taken into account and effective on PHP >= 5.6.1)
 	 *
 	 * @return boolean
 	 */

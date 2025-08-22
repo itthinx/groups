@@ -76,7 +76,7 @@ class Groups_Capability {
 	 * @return int
 	 */
 	public function get_capability_id() {
-		return $this->capability_id;
+		return $this->capability_id; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Groups_Capability {
 	 * @return string
 	 */
 	public function get_class() {
-		return $this->class;
+		return $this->class; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Groups_Capability {
 	 * @return string
 	 */
 	public function get_object() {
-		return $this->object;
+		return $this->object; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Groups_Capability {
 	 * @return string
 	 */
 	public function get_name() {
-		return $this->name;
+		return $this->name; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Groups_Capability {
 	 * @return string
 	 */
 	public function get_description() {
-		return $this->description;
+		return $this->description; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -138,7 +138,7 @@ class Groups_Capability {
 	 * @return int[]
 	 */
 	public function get_group_ids(){
-		return $this->group_ids;
+		return $this->group_ids; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Groups_Capability {
 	 * @return Groups_Group[]
 	 */
 	public function get_groups() {
-		return $this->groups;
+		return $this->groups; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -386,7 +386,7 @@ class Groups_Capability {
 				) );
 				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
-					if ( !empty( $old_capability ) && !empty( $old_capability->capability ) ) {
+					if ( !empty( $old_capability ) && !empty( $old_capability->capability ) ) { // @phpstan-ignore empty.variable
 						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability->capability, self::CACHE_GROUP );
 					}
 					if ( !empty( $old_capability_capability ) ) {

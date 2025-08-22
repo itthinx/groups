@@ -97,7 +97,7 @@ class Groups_Options {
 	public static function get_user_option( $option, $default = null, $user_id = null ) {
 		if ( $user_id === null ) {
 			$current_user = wp_get_current_user();
-			if ( !empty( $current_user ) ) {
+			if ( !empty( $current_user ) ) { // @phpstan-ignore empty.variable
 				$user_id = $current_user->ID;
 			}
 		}
@@ -135,7 +135,7 @@ class Groups_Options {
 
 		if ( $user_id === null ) {
 			$current_user = wp_get_current_user();
-			if ( !empty( $current_user ) ) {
+			if ( !empty( $current_user ) ) { // @phpstan-ignore empty.variable
 				$user_id = $current_user->ID;
 			}
 		}
@@ -170,7 +170,7 @@ class Groups_Options {
 
 		if ( $user_id === null ) {
 			$current_user = wp_get_current_user();
-			if ( !empty( $current_user ) ) {
+			if ( !empty( $current_user ) ) { // @phpstan-ignore empty.variable
 				$user_id = $current_user->ID;
 			}
 		}

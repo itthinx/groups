@@ -48,6 +48,13 @@ class Groups_User implements I_Capable {
 
 	/**
 	 * @var string cache key prefix
+	 *
+	 * @since 3.6.0
+	 */
+	const CAPABILITIES_DEEP = 'capabilities_deep';
+
+	/**
+	 * @var string cache key prefix
 	 */
 	const CAPABILITY_IDS = 'capability_ids';
 
@@ -109,6 +116,7 @@ class Groups_User implements I_Capable {
 		// be lazy, clear the entries so they are rebuilt when requested
 		Groups_Cache::delete( self::CAPABILITIES . $user_id, self::CACHE_GROUP );
 		Groups_Cache::delete( self::CAPABILITIES_BASE . $user_id, self::CACHE_GROUP );
+		Groups_Cache::delete( self::CAPABILITIES_DEEP . $user_id, self::CACHE_GROUP );
 		Groups_Cache::delete( self::CAPABILITY_IDS . $user_id, self::CACHE_GROUP );
 		Groups_Cache::delete( self::CAPABILITY_IDS_BASE . $user_id, self::CACHE_GROUP );
 		Groups_Cache::delete( self::GROUP_IDS . $user_id, self::CACHE_GROUP );
@@ -289,7 +297,7 @@ class Groups_User implements I_Capable {
 	 * @return Groups_Capability[]
 	 */
 	public function get_capabilities() {
-		return $this->capabilities;
+		return $this->capabilities; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -298,7 +306,7 @@ class Groups_User implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_capability_ids() {
-		return $this->capability_ids;
+		return $this->capability_ids; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -307,7 +315,7 @@ class Groups_User implements I_Capable {
 	 * @return Groups_Capability[]
 	 */
 	public function get_capabilities_deep() {
-		return $this->capabilities_deep;
+		return $this->capabilities_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -316,7 +324,7 @@ class Groups_User implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_capability_ids_deep() {
-		return $this->capability_ids_deep;
+		return $this->capability_ids_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -325,7 +333,7 @@ class Groups_User implements I_Capable {
 	 * @return Groups_Group[]
 	 */
 	public function get_groups() {
-		return $this->groups;
+		return $this->groups; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -334,7 +342,7 @@ class Groups_User implements I_Capable {
 	 * @return Groups_Group[]
 	 */
 	public function get_groups_deep() {
-		return $this->groups_deep;
+		return $this->groups_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -343,14 +351,14 @@ class Groups_User implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_group_ids() {
-		return $this->group_ids;
+		return $this->group_ids; // @phpstan-ignore property.notFound
 	}
 
 	/**
 	 * Provide the IDs of the groups that this object relates to and from ancestor groups.
 	 */
 	public function get_group_ids_deep() {
-		return $this->group_ids_deep;
+		return $this->group_ids_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -460,14 +468,29 @@ class Groups_User implements I_Capable {
 
 				case 'capabilities_deep' :
 					if ( $this->user !== null ) {
-						$cached = Groups_Cache::get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
+						// @since 3.6. provide cached objects
+						$cached = Groups_Cache::get( self::CAPABILITIES_DEEP . $this->user->ID, self::CACHE_GROUP );
 						if ( $cached !== null ) {
-							$capabilities = $cached->value;
+							$result = $cached->value;
 							unset( $cached );
 						} else {
-							$this->init_cache( $capability_ids, $capabilities );
+							$cached = Groups_Cache::get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
+							if ( $cached !== null ) {
+								$capabilities = $cached->value;
+								unset( $cached );
+							} else {
+								$this->init_cache( $capability_ids, $capabilities );
+							}
+							// @since 3.6.0 provide expected return type Groups_Capability[]
+							$result = array();
+							foreach ( $capabilities as $capability ) {
+								$capobj = Groups_Capability::read_by_capability( $capability );
+								if ( $capobj ) {
+									$result[] = new Groups_Capability( $capobj->capability_id );
+								}
+							}
+							Groups_Cache::set( self::CAPABILITIES_DEEP . $this->user->ID, $result, self::CACHE_GROUP );
 						}
-						$result = $capabilities;
 					}
 					break;
 
@@ -499,7 +522,7 @@ class Groups_User implements I_Capable {
 						unset( $cached );
 					} else {
 						$result = array();
-						foreach( $this->group_ids_deep as $group_id ) {
+						foreach( $this->group_ids_deep as $group_id ) { // @phpstan-ignore property.notFound
 							$result[] = new Groups_Group( $group_id );
 						}
 						Groups_Cache::set( self::GROUPS . $this->user->ID, $result, self::CACHE_GROUP );
@@ -590,8 +613,8 @@ class Groups_User implements I_Capable {
 		 *
 		 * @since 2.20.0
 		 *
-		 * @param $result boolean whether the user belongs to the group
-		 * @param $this \Groups_User the Groups user object
+		 * @param boolean $result whether the user belongs to the group
+		 * @param Groups_User $object this object
 		 * @param int $group_id the group ID
 		 *
 		 * @return boolean $filtered_result

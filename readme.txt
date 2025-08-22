@@ -5,7 +5,7 @@ Tags: groups, access, access control, member, membership
 Requires at least: 6.3
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.5.0
+Stable tag: 3.6.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -228,7 +228,7 @@ After you publish or update your posts, only members of the *Premium* group will
 
 Example: Advanced and Premium members
 
-1. Go to *Groups > Groups > New Group* and add two new  groups, let's call them *Advanced* and *Premium* - select *Advanced* as the *Parent* for the *Premium* group.
+1. Go to *Groups > Groups > New Group* and add two new groups, let's call them *Advanced* and *Premium* - select *Advanced* as the *Parent* for the *Premium* group.
 2. Now create an example post that only members of the *Advanced* group should be able to access and choose the *Advanced* group in the _Read_ field of the _Groups_ box.
 3. Create another post for members of the *Premium* group and choose the *Premium* group for that post.
 4. Assign test users to both groups, log in as each user in turn and see which posts will be accessible.

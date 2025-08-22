@@ -51,7 +51,7 @@ class Groups_Access_Shortcodes {
 	 * @param array $atts attributes
 	 * @param string $content content to render
 	 *
-	 * @param string
+	 * @return string
 	 */
 	public static function groups_member( $atts, $content = null ) {
 		$output = '';

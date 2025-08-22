@@ -289,7 +289,7 @@ class Groups_Admin_Posts_Legacy {
 							}
 						}
 
-						if ( !empty( $capabilities ) ) {
+						if ( !empty( $capabilities ) ) { // @phpstan-ignore empty.variable
 							if ( $include_unrestricted ) {
 								// meta_query does not handle a conjunction
 								// on the same meta field correctly

@@ -36,7 +36,7 @@ function groups_admin_capabilities_remove( $capability_id ) {
 
 	$capability = new Groups_Capability( $capability_id );
 
-	if ( empty( $capability ) ) {
+	if ( empty( $capability ) ) { // @phpstan-ignore empty.variable
 		wp_die( esc_html__( 'No such capability.', 'groups' ) );
 	}
 

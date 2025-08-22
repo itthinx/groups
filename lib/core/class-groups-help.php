@@ -110,7 +110,8 @@ class Groups_Help {
 	/**
 	 * Provides the footer text for Groups on relevant screens.
 	 *
-	 * @param string $footer_text
+	 * @param string $text
+	 *
 	 * @return mixed
 	 */
 	public static function admin_footer_text( $text ) {
@@ -134,6 +135,8 @@ class Groups_Help {
 	 * Returns or renders the footer.
 	 *
 	 * @param boolean $render
+	 *
+	 * @return string|null
 	 */
 	public static function footer( $render = true ) {
 		$footer =
@@ -148,7 +151,8 @@ class Groups_Help {
 			'</span>';
 		$footer = apply_filters( 'groups_footer', $footer );
 		if ( $render ) {
-			echo $footer; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $footer; // @phpstan-ignore return.missing
 		} else {
 			return $footer;
 		}

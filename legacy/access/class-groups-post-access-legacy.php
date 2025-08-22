@@ -94,7 +94,7 @@ class Groups_Post_Access_Legacy {
 					$delete_post_type = 'delete_' . $post_type;
 					if ( $post_type_object = get_post_type_object( $post_type ) ) {
 						if ( !isset( $post_type_object->capabilities ) ) {
-							$post_type_object->capabilities = array();
+							$post_type_object->capabilities = array(); // @phpstan-ignore property.notFound
 						}
 						$caps_object = get_post_type_capabilities( $post_type_object );
 						if ( isset( $caps_object->edit_post ) ) {
@@ -129,6 +129,7 @@ class Groups_Post_Access_Legacy {
 	 *
 	 * @param string $where current where conditions
 	 * @param WP_Query $query current query
+	 *
 	 * @return string modified $where
 	 */
 	public static function posts_where( $where, $query ) {
@@ -148,7 +149,7 @@ class Groups_Post_Access_Legacy {
 			$capabilities = $user->get_capabilities_deep();
 			if ( is_array( $capabilities ) ) {
 				foreach ( $capabilities as $capability ) {
-					$caps[] = "'". $capability . "'";
+					$caps[] = "'". $capability->get_capability() . "'";
 				}
 			}
 		}
@@ -248,7 +249,7 @@ class Groups_Post_Access_Legacy {
 	 *
 	 * @param string $output
 	 *
-	 * @return $output if access granted, otherwise ''
+	 * @return string $output if access granted, otherwise ''
 	 */
 	public static function get_the_excerpt( $output ) {
 		global $post;
@@ -269,7 +270,7 @@ class Groups_Post_Access_Legacy {
 	 *
 	 * @param string $output
 	 *
-	 * @return $output if access granted, otherwise ''
+	 * @return string $output if access granted, otherwise ''
 	 */
 	public static function the_content( $output ) {
 		global $post;
@@ -431,7 +432,7 @@ class Groups_Post_Access_Legacy {
 	 * Hooks into groups_deleted_capability_capability to remove existing access
 	 * restrictions based on the deleted capability.
 	 *
-	 * @param string $name of the deleted capability
+	 * @param string $capability name of the deleted capability
 	 */
 	public static function groups_deleted_capability_capability( $capability ) {
 		delete_metadata( 'post', null, self::POSTMETA_PREFIX . self::READ_POST_CAPABILITY, $capability, true );

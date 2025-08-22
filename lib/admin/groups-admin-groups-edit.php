@@ -40,7 +40,7 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$group = Groups_Group::read( intval( $group_id ) );
 
-	if ( empty( $group ) ) {
+	if ( empty( $group ) ) { // @phpstan-ignore empty.variable
 		wp_die( esc_html__( 'No such group.', 'groups' ) );
 	}
 
@@ -94,7 +94,7 @@ function groups_admin_groups_edit( $group_id ) {
 
 	$output .= '<div class="field">';
 	$output .= '<label for="description-field" class="field-label description-field">';
-	$output .=  esc_html__( 'Description', 'groups' );
+	$output .= esc_html__( 'Description', 'groups' );
 	$output .= '</label>';
 	$output .= '<textarea id="description-field" name="description-field" rows="5" cols="45">';
 	$output .= stripslashes( wp_filter_nohtml_kses( $description ) );

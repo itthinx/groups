@@ -350,7 +350,7 @@ class Groups_Access_Meta_Boxes {
 										// when trying to merge the missing property otherwise. It's either a
 										// bug or the function's documentation should make it clear that you
 										// have to provide that.
-										$post_type_object->capabilities = array();
+										$post_type_object->capabilities = array(); // @phpstan-ignore property.notFound
 									}
 									$caps_object = get_post_type_capabilities( $post_type_object );
 									if ( isset( $caps_object->edit_post ) ) {
@@ -377,7 +377,7 @@ class Groups_Access_Meta_Boxes {
 										} else {
 											if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 												$creator_id = get_current_user_id();
-												$datetime   = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore  WordPress.DateTime.RestrictedFunctions.date_date
+												$datetime   = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 												$name       = ucwords( strtolower( trim( preg_replace( '/\s+/', ' ', $group_id ) ) ) );
 												if ( strlen( $name ) > 0 ) {
 													if ( !( $group = Groups_Group::read_by_name( $name ) ) ) {

@@ -178,7 +178,7 @@ class Groups_Admin_User_Profile {
 					$output .= '<ul>';
 					foreach( $groups as $group ) {
 						$output .= '<li>';
-						$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
+						$output .= $group->get_name() ? stripslashes( wp_filter_nohtml_kses( $group->get_name() ) ) : '';
 						$output .= '</li>';
 					}
 					$output .= '</ul>';
@@ -226,7 +226,7 @@ class Groups_Admin_User_Profile {
 				);
 				foreach( $groups as $group ) {
 					// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
-					$is_member = Groups_User_Group::read( $user->ID, $group->group_id ) ? true : false;
+					$is_member = Groups_User_Group::read( $user->get_user_id(), $group->group_id ) ? true : false;
 					$output .= sprintf(
 						'<option value="%d" %s>%s</option>',
 						Groups_Utility::id( $group->group_id ),

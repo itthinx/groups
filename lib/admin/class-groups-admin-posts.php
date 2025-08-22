@@ -25,19 +25,32 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Additions to post overview admin screens:
+ *
  * - Filter posts by group.
  * - Apply bulk actions to add or remove group access restrictions.
  */
 class Groups_Admin_Posts {
 
 	/**
-	 * Field name
+	 * Field name.
+	 *
 	 * @var string
 	 */
 	const GROUPS_READ = 'groups-read';
 
+	/**
+	 * Constant for not restricted.
+	 *
+	 * @var string NOT_RESTRICTED
+	 */
 	const NOT_RESTRICTED = '#not-restricted#';
-	const RESTRICTED     = '#restricted#';
+
+	/**
+	 * Constant for restricted.
+	 *
+	 * @var string RESTRICTED
+	 */
+	const RESTRICTED = '#restricted#';
 
 	/**
 	 * Sets up an admin_init hook where our actions and filters are added.
@@ -319,6 +332,7 @@ class Groups_Admin_Posts {
 	 * account.
 	 *
 	 * @deprecated not used
+	 *
 	 * @param WP_Query $query query object passed by reference
 	 */
 	public static function parse_query( &$query ) {
@@ -350,7 +364,7 @@ class Groups_Admin_Posts {
 							}
 						}
 
-						if ( !empty( $group_ids ) ) {
+						if ( !empty( $group_ids ) ) { // @phpstan-ignore empty.variable
 							if ( $include_unrestricted ) {
 								// meta_query does not handle a conjunction
 								// on the same meta field correctly
@@ -406,6 +420,7 @@ class Groups_Admin_Posts {
 	 *
 	 * @param string $where
 	 * @param WP_Query $query
+	 *
 	 * @return string
 	 */
 	public static function posts_where( $where, $query ) {
@@ -561,6 +576,7 @@ class Groups_Admin_Posts {
 	 *
 	 * @param $string $orderby
 	 * @param WP_Query $query
+	 *
 	 * @return string
 	 */
 	public static function posts_orderby( $orderby, $query ) {
@@ -586,6 +602,7 @@ class Groups_Admin_Posts {
 	 * Check if we should apply our posts_join and posts_orderby filters. Used in those.
 	 *
 	 * @param WP_Query $query
+	 *
 	 * @return boolean
 	 */
 	private static function extend_for_orderby_groups_read( &$query ) {
@@ -624,6 +641,7 @@ class Groups_Admin_Posts {
 	 * Check if we should apply our posts_where filter. Used in it.
 	 *
 	 * @param WP_Query $query
+	 *
 	 * @return boolean
 	 */
 	private static function extend_for_filter_groups_read( &$query ) {

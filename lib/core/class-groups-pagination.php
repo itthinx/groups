@@ -97,7 +97,7 @@ class Groups_Pagination {
 	/**
 	 * Returns or displays the pagination.
 	 *
-	 * @param string $which  where it's displayed
+	 * @param string $which where it's displayed
 	 * @param boolean $echo displays if true, otherwise returns
 	 *
 	 * @return string|null
@@ -179,7 +179,8 @@ class Groups_Pagination {
 		$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
 
 		if ( $echo ) {
-			echo $this->_pagination; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $this->_pagination; // @phpstan-ignore return.missing
 		} else {
 			return $this->_pagination;
 		}

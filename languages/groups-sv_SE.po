@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-22 19:31+0100\n"
-"PO-Revision-Date: 2025-01-22 19:45+0100\n"
+"PO-Revision-Date: 2025-08-20 20:15+0200\n"
 "Last-Translator: Andréas Lundgren <adevade@gmail.com>\n"
 "Language-Team: 035 Media Group <info@035media.se>\n"
 "Language: sv_SE\n"
@@ -535,7 +535,7 @@ msgstr ""
 msgid ""
 "Go to <strong>Groups > Groups</strong> and add the <em>Premium</em> group."
 msgstr ""
-"Gå till <strong>Grupper  > Grupper</strong> och lägg till gruppen "
+"Gå till <strong>Grupper > Grupper</strong> och lägg till gruppen "
 "<em>Premium</em>."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:158
@@ -551,7 +551,7 @@ msgid ""
 "Go to <strong>Groups > Options</strong> and enable the <em>premium</em> "
 "capability to restrict access."
 msgstr ""
-"Gå till <strong>Grupper  > Inställningar</strong> och aktivera förmågan "
+"Gå till <strong>Grupper > Inställningar</strong> och aktivera förmågan "
 "<em>premium</em> för att begränsa tillträde."
 
 #: lib/core/class-groups-pagination.php:136
@@ -716,7 +716,7 @@ msgid ""
 "Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</"
 "strong> groups."
 msgstr ""
-"Här kan du <strong>lägga till</strong>, <strong>redigera</strong> och  "
+"Här kan du <strong>lägga till</strong>, <strong>redigera</strong> och "
 "<strong>radera</strong> grupper."
 
 #: lib/blocks/src/blocks/groups-non-member/block.js:73
@@ -1301,7 +1301,7 @@ msgstr "Det finns inga resultat."
 
 #: lib/admin/groups-admin-groups-add.php:115
 msgid "These capabilities will be assigned to the group."
-msgstr "Dessa förmågor kommer att  tilldelas gruppen."
+msgstr "Dessa förmågor kommer att tilldelas gruppen."
 
 #: lib/admin/groups-admin-options.php:297
 msgid ""

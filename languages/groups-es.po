@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Groups\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-22 19:31+0100\n"
-"PO-Revision-Date: 2025-01-22 19:34+0100\n"
+"PO-Revision-Date: 2025-08-20 20:14+0200\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: es_ES\n"
@@ -870,10 +870,9 @@ msgid "Members of the %1$s group can access this %2$s through this capability."
 msgid_plural ""
 "Members of the %1$s groups can access this %2$s through this capability."
 msgstr[0] ""
-"Miembros del grupo %1$s  pueden acceder a %2$s a través de esta capacidad."
+"Miembros del grupo %1$s pueden acceder a %2$s a través de esta capacidad."
 msgstr[1] ""
-"Miembros de los grupos %1$s  pueden acceder a %2$s a través de esta "
-"capacidad."
+"Miembros de los grupos %1$s pueden acceder a %2$s a través de esta capacidad."
 
 #: lib/admin/groups-admin-add-ons.php:152
 msgid "More recommended Extensions for Groups"
@@ -1267,12 +1266,12 @@ msgstr "Se ha actualizado la capacidad <em>%s</em>."
 #, php-format
 msgid ""
 "The <em>%s</em> group already exists and cannot be used to name this one."
-msgstr "El grupo <em>%s</em>  ya existe y no se puede usar para nombrar éste."
+msgstr "El grupo <em>%s</em> ya existe y no se puede usar para nombrar éste."
 
 #: lib/admin/groups-admin-groups-add.php:174
 #, php-format
 msgid "The <em>%s</em> group already exists."
-msgstr "El grupo <em>%s</em>  ya existe."
+msgstr "El grupo <em>%s</em> ya existe."
 
 #: lib/admin/groups-admin-groups.php:65
 #, php-format

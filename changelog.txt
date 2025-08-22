@@ -1,5 +1,28 @@
 == Groups by itthinx - changelog.txt
 
+2025-08-20 - version 3.6.0
+* Update - WordPress 6.8 compatible.
+* Dev - Removed superfluous spaces in several translations.
+* Dev - Removed superfluous spaces in code and text.
+* Add - Added support for the class and submit_class shortcode parameters to the [groups_join] shortcode.
+* Add - Added support for the class and submit_class shortcode parameters to the [groups_leave] shortcode.
+* Fix - Fixed inappropriate class used for the container of the [groups_leave] shortcode.
+* Update - A successful submission via the [groups_join] shortcode will cause a redirect to the current page so that the membership change is reflected.
+* Add - Added the groups_join_submit_redirect filter.
+* Update - A successful submission via the [groups_leave] shortcode will cause a redirect to the current page so that the membership change is reflected.
+* Add - Added the groups_leave_submit_redirect filter.
+* Dev - Instances of using proper API methods instead of supermagic properties to obtain data.
+* Dev - Revised for PHPStan validation (rules via phpstan.neon).
+* Dev - Updated Groups_User to provide expected return type Groups_Capability[] instead of string[] when asking for capabilities_deep.
+* Dev - API improvement, added additional getters and setters to cache object, added key type checks.
+* Dev - Revised and fixed several code formatting issues.
+* Dev - Fixed instances of incorrect code documentation.
+* Dev - Revised code documentation format where improper.
+* Dev - Validation hints for verified property access (empty.variable).
+* Dev - Validation hints for verified property access (property.notFound).
+* Dev - Fixed potentially undefined variables.
+* Dev - Added missing code documentation.
+
 2025-04-20 - version 3.5.0
 * Update - WordPress 6.8 compatible.
 * Update - Requires at least WordPress 6.3.

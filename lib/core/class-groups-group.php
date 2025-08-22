@@ -78,7 +78,7 @@ class Groups_Group implements I_Capable {
 	 * @return int
 	 */
 	public function get_group_id() {
-		return $this->group_id;
+		return $this->group_id; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Groups_Group implements I_Capable {
 	 * @return int
 	 */
 	public function get_parent_id() {
-		return $this->parent_id;
+		return $this->parent_id; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Groups_Group implements I_Capable {
 	 * @return int
 	 */
 	public function get_creator_id() {
-		return $this->creator_id;
+		return $this->creator_id; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Groups_Group implements I_Capable {
 	 * @return string
 	 */
 	public function get_datetime() {
-		return $this->datetime;
+		return $this->datetime; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Groups_Group implements I_Capable {
 	 * @return string
 	 */
 	public function get_name() {
-		return $this->name;
+		return $this->name; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Groups_Group implements I_Capable {
 	 * @return string
 	 */
 	public function get_description() {
-		return $this->description;
+		return $this->description; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Groups_Group implements I_Capable {
 	 * @return Groups_Capability[]
 	 */
 	public function get_capabilities() {
-		return $this->capabilities;
+		return $this->capabilities; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Groups_Group implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_capability_ids() {
-		return $this->capability_ids;
+		return $this->capability_ids; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -150,7 +150,7 @@ class Groups_Group implements I_Capable {
 	 * @return Groups_Capability[]
 	 */
 	public function get_capabilities_deep() {
-		return $this->capabilities_deep;
+		return $this->capabilities_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -159,7 +159,7 @@ class Groups_Group implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_capability_ids_deep() {
-		return $this->capability_ids_deep;
+		return $this->capability_ids_deep; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Groups_Group implements I_Capable {
 	 * @return Groups_User[]
 	 */
 	public function get_users() {
-		return $this->users;
+		return $this->users; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Groups_Group implements I_Capable {
 	 * @return int[]
 	 */
 	public function get_user_ids() {
-		return $this->user_ids;
+		return $this->user_ids; // @phpstan-ignore property.notFound
 	}
 
 	/**
@@ -225,14 +225,14 @@ class Groups_Group implements I_Capable {
 					break;
 				case 'capabilities' :
 					$result = array();
-					$capability_ids = $this->capability_ids;
+					$capability_ids = $this->capability_ids; // @phpstan-ignore property.notFound
 					foreach ( $capability_ids as $capability_id ) {
 						$result[] = new Groups_Capability( $capability_id );
 					}
 					break;
 				case 'capabilities_deep' :
 					$result = array();
-					$capability_ids = $this->capability_ids_deep;
+					$capability_ids = $this->capability_ids_deep; // @phpstan-ignore property.notFound
 					foreach( $capability_ids as $capability_id ) {
 						$result[] = new Groups_Capability( $capability_id );
 					}
@@ -647,10 +647,10 @@ class Groups_Group implements I_Capable {
 			if ( !empty( $group_id ) ) {
 				Groups_Cache::delete( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
 			}
-			if ( !empty( $name ) ) {
+			if ( !empty( $name ) ) { // @phpstan-ignore empty.variable
 				Groups_Cache::delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
 			}
-			if ( !empty( $old_group ) && !empty( $old_group->name ) ) {
+			if ( !empty( $old_group ) && !empty( $old_group->name ) ) { // @phpstan-ignore empty.variable
 				Groups_Cache::delete( self::READ_BY_NAME . '_' . $old_group->name, self::CACHE_GROUP );
 			}
 			do_action( 'groups_updated_group', $result );
