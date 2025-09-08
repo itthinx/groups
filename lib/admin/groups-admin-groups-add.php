@@ -50,8 +50,8 @@ function groups_admin_groups_add() {
 		'<option value="" %s>--</option>',
 		empty( $parent_id ) ? 'selected="selected"' : ''
 	);
-	$tree = Groups_Utility::get_group_tree();
-	Groups_Utility::render_group_tree_options( $tree, $parent_select, 0, array( $parent_id ) );
+	$tree = Groups_Utility::get_tree();
+	Groups_Utility::render_tree_options( $tree, $parent_select, 0, array( $parent_id ) );
 	$parent_select .= '</select>';
 
 	$output .= '<div class="manage-groups wrap">';
