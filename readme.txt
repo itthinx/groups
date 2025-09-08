@@ -2,7 +2,7 @@
 Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
-Requires at least: 6.3
+Requires at least: 6.5
 Tested up to: 6.8
 Requires PHP: 7.4
 Stable tag: 3.7.0
