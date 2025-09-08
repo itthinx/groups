@@ -155,7 +155,7 @@ class Groups_Utility {
 			} else {
 				// complete name from parent entry created
 				if ( $objects[$entry->group_id]->name === null ) {
-					$objects[$entry->group_id]-> name = $entry->name;
+					$objects[$entry->group_id]->name = $entry->name;
 				}
 				if ( $entry->parent_id !== null ) {
 					$objects[$entry->parent_id]->children[] = $objects[$entry->group_id];
