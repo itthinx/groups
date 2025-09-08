@@ -185,7 +185,7 @@ class Groups_Utility {
 				$o->children = array();
 				$objects[$o->group_id] = $o;
 				if ( $entry->parent_id !== null ) {
-					$objects[$entry->parent_id]->children[] = $o;
+					$objects[$entry->parent_id]->children[$entry->group_id] = $o;
 					uasort( $objects[$entry->parent_id]->children, array( __CLASS__, 'namesort' ) );
 				}
 			} else {
@@ -194,7 +194,7 @@ class Groups_Utility {
 					$objects[$entry->group_id]->name = $entry->name;
 				}
 				if ( $entry->parent_id !== null ) {
-					$objects[$entry->parent_id]->children[] = $objects[$entry->group_id];
+					$objects[$entry->parent_id]->children[$entry->group_id] = $objects[$entry->group_id];
 					uasort( $objects[$entry->parent_id]->children, array( __CLASS__, 'namesort' ) );
 				}
 			}
