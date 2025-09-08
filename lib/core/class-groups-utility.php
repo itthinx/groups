@@ -47,6 +47,42 @@ class Groups_Utility {
 	private static $cache = array();
 
 	/**
+	 * Register action hooks.
+	 */
+	public static function boot() {
+		add_action( 'groups_created_group', array( __CLASS__, 'groups_created_group' ) );
+		add_action( 'groups_updated_group', array( __CLASS__, 'groups_updated_group' ) );
+		add_action( 'groups_deleted_group', array( __CLASS__, 'groups_deleted_group' ) );
+	}
+
+	/**
+	 * Delete tree transient to refresh when new group is created.
+	 *
+	 * @param int $group_id
+	 */
+	public static function groups_created_group( $group_id ) {
+		delete_transient( 'groups_utility_tree' );
+	}
+
+	/**
+	 * Delete tree transient to refresh when a group is updated.
+	 *
+	 * @param int $group_id
+	 */
+	public static function groups_updated_group( $group_id ) {
+		delete_transient( 'groups_utility_tree' );
+	}
+
+	/**
+	 * Delete tree transient to refresh when a group is deleted.
+	 *
+	 * @param int $group_id
+	 */
+	public static function groups_deleted_group( $group_id ) {
+		delete_transient( 'groups_utility_tree' );
+	}
+
+	/**
 	 * Checks an id (0 is accepted => anonymous).
 	 *
 	 * @param string|int $id
@@ -375,3 +411,5 @@ class Groups_Utility {
 		return $result;
 	}
 }
+
+Groups_Utility::boot();
