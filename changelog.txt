@@ -4,6 +4,23 @@
 * Update - WordPress 6.8 compatible.
 * Update - Requires at least WordPress 6.5.
 * Update - WooCommerce 10.2 compatible.
+* Update - Improved the row action rendering in the Groups admin screen.
+* Dev - Revised unused bits of code.
+* Dev - Added the groups_admin_groups_query filter.
+* Dev - Added the groups_admin_groups_results filter.
+* Dev - Added the groups_admin_groups_columns filter.
+* Dev - Added the groups_admin_groups_filters_fields_epilogue filter.
+* Dev - Added the groups_admin_groups_filters_html filter.
+* Dev - Added the groups_admin_groups_bulk_actions_fields_epilogue filter.
+* Dev - Added the groups_admin_groups_bulk_actions_html filter.
+* Dev - Added the groups_admin_groups_row_actions filter.
+* Dev - Added the groups_admin_groups_row_actions_html filter.
+* Dev - Added the groups_admin_groups_column_content filter.
+* Dev - Added the groups_admin_groups_handle_action action.
+* Dev - Added the groups_admin_groups_handle_action_submit filter.
+* Dev - Added the groups_admin_groups_handle_action_confirm action.
+* Dev - Added the groups_admin_groups_handle_action_reject action.
+* Dev - Added the groups_admin_groups_handle_bulk_action action.
 
 2025-08-20 - version 3.6.0
 * Update - WordPress 6.8 compatible.
