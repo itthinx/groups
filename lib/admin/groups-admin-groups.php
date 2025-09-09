@@ -141,6 +141,7 @@ function groups_admin_groups() {
 					 *
 					 * @since 3.7.0
 					 *
+					 * @param boolean $handle whether to handle the posted action
 					 * @param string $action the requested action
 					 *
 					 * @return boolean whether the posted data was accepted and action was taken
@@ -450,7 +451,7 @@ function groups_admin_groups() {
 	 *
 	 * @param string $filters_html markup
 	 *
-	 * @param string
+	 * @return string
 	 */
 	$output .= apply_filters( 'groups_admin_groups_filters_html', $filters_html );
 
@@ -536,7 +537,7 @@ function groups_admin_groups() {
 	 *
 	 * @param string $bulk_html markup
 	 *
-	 * @param string
+	 * @return string
 	 */
 	$output .= apply_filters( 'groups_admin_groups_bulk_actions_html', $bulk_html );
 
@@ -630,7 +631,7 @@ function groups_admin_groups() {
 			 * @param array $row_actions row actions as HTML
 			 * @param int $group_id ID of the group
 			 *
-			 * @param array
+			 * @return array
 			 */
 			$row_actions = apply_filters( 'groups_admin_groups_row_actions', $row_actions, intval( $result->group_id ) );
 
@@ -655,7 +656,7 @@ function groups_admin_groups() {
 			 * @param string $row_actions_html markup
 			 * @param int $group_id ID of the group
 			 *
-			 * @param string
+			 * @return string
 			 */
 			$row_actions_html = apply_filters( 'groups_admin_groups_row_actions_html', $row_actions_html, intval( $result->group_id ) );
 
@@ -726,8 +727,8 @@ function groups_admin_groups() {
 						/**
 						 * Provide the row's output for the column identified by $key for the group given by its ID.
 						 *
-						 * @param $content column content
-						 * @param $key the column key
+						 * @param string $content column content
+						 * @param string $key the column key
 						 * @param int $group_id the group's ID
 						 *
 						 * @return string content HTML
