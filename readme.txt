@@ -72,6 +72,17 @@ Groups is light-weight and offers an easy user interface, while it acts as a fra
 
 The official documentation is located at the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
 
+### Funding and Sponsors ###
+
+Your support matters!
+
+By getting an official extension or contributing, you help fund the work that is necessary to maintain and improve Groups.
+
+- Contribute directly to the Bitcoin address *bc1q7klf9ge8gvtl4h4qlh6c73tgk0cdehfv5vcq0g* where sats received are used to fund developers who help to maintain and develop Groups
+- Purchase an official [Extension for Groups](https://www.itthinx.com/product-category/groups/)
+- Purchase an extension on the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/)
+- Sponsor the development of new features: [get in touch](https://www.itthinx.com/contact/)
+
 ### Comprehensive Features ###
 
 Groups is powerful and effective, yet simple and easy to use. While its flexibility covers a wide range of functions, some of the most commonly used aspects include:
@@ -207,7 +218,7 @@ The success of Groups and its continued development depends on your support. The
 
 - Purchase an official [Extension for Groups](https://www.itthinx.com/product-category/groups/)
 - Purchase an extension on the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/)
-- Contribute to the Bitcoin address *bc1q7klf9ge8gvtl4h4qlh6c73tgk0cdehfv5vcq0g* - funds received are justly shared with the developers who help to maintain and develop Groups
+- Contribute to the Bitcoin address *bc1q7klf9ge8gvtl4h4qlh6c73tgk0cdehfv5vcq0g* - sats received are used to fund developers who help to maintain and develop Groups
 
 = I want to sell group memberships, which extension do I need? Does it support subscriptions? =
 
