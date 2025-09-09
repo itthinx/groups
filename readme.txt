@@ -201,6 +201,14 @@ The official documentation is located at the [Groups Documentation](https://docs
 
 Official extensions are distributed exclusively via the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/) and [Extensions](https://www.itthinx.com/product-category/groups/) for Groups.
 
+= How can I help fund or contribute Bitcoin to the continued development of Groups? =
+
+The success of Groups and its continued development depends on your support. There are several ways in which you can help fund the project:
+
+- Purchase an official [Extension for Groups](https://www.itthinx.com/product-category/groups/)
+- Purchase an extension on the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/)
+- Contribute to the Bitcoin address *bc1q7klf9ge8gvtl4h4qlh6c73tgk0cdehfv5vcq0g* - funds received are justly shared with the developers who help to maintain and develop Groups
+
 = I want to sell group memberships, which extension do I need? Does it support subscriptions? =
 
 You can sell memberships with [Groups for WooCommerce](https://woocommerce.com/products/groups-woocommerce/), the best Group Membership and Access Control solution for WordPress and WooCommerce.

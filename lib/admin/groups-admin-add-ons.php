@@ -32,7 +32,9 @@ function groups_admin_add_ons() {
 	echo esc_html__( 'Add-Ons', 'groups' );
 	echo '</h1>';
 
+	echo '<div class="groups-extensions-support-contribute">';
 	$extensions_box = '<div id="groups-extensions-support">';
+	$extensions_box .= '<div id="groups-extensions-support-inside">';
 	$extensions_box .= '<h2>';
 	$extensions_box .= esc_html__( 'Your support matters!', 'groups' );
 	$extensions_box .= '</h2>';
@@ -43,7 +45,13 @@ function groups_admin_add_ons() {
 	$extensions_box .= esc_html__( 'By getting an official extension, you fund the work that is necessary to maintain and improve Groups.', 'groups' );
 	$extensions_box .= '</p>';
 	$extensions_box .= '</div>';
+	$extensions_box .= Groups_Admin_Notice::get_groups_bitcoin_box( array( 'type' => 'horizontal', 'where' => 'add-ons' ) );
+	$extensions_box .= '</div>';
 	echo $extensions_box; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+// 	echo Groups_Admin_Notice::get_groups_bitcoin_box( array( 'type' => 'horizontal', 'where' => 'add-ons' ) );
+
+	echo '</div>'; // .groups-extensions-support-contribute
 
 	groups_admin_add_ons_content();
 	echo '</div>'; // .groups-admin-add-ons.wrap

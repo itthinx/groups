@@ -258,6 +258,113 @@ div.capability.edit label {
 	color: #f00;
 }
 
+.groups-bitcoin-box {
+	padding: 1em;
+	margin: 1em;
+	background-color: #fff;
+	border-radius: 4px;
+	color: #111;
+	border: 1px solid #999;
+	width: 256px;
+}
+.groups-bitcoin-box.options {
+	position: relative;
+	float: right;
+}
+.groups-bitcoin-box-inside {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.groups-bitcoin-box span {
+	margin: 0.31em 0;
+	flex-grow: 1;
+	text-align: center;
+}
+.groups-bitcoin-box .groups-bitcoin-cta {
+	font-weight: bold;
+	padding-bottom: 16px;
+}
+.groups-bitcoin-box .groups-bitcoin-image img {
+	width: 100%;
+}
+.groups-bitcoin-box.small .groups-bitcoin-image img {
+	width: 128px;
+}
+.groups-bitcoin-box .groups-bitcoin-description {
+	padding-top: 12px;
+}
+.groups-bitcoin-box .groups-bitcoin-description .groups-bitcoin-address {
+	word-wrap: anywhere;
+	vertical-align: middle;
+	font-weight: bold;
+}
+.groups-bitcoin-box .groups-bitcoin-description .dashicons.dashicons-admin-page {
+	opacity: 0.42;
+	vertical-align: middle;
+}
+
+.groups-bitcoin-box.horizontal {
+	flex: auto;
+	max-width: 384px;
+	min-width: 256px;
+	width: auto;
+	padding: 8px;
+	margin: 8px;
+}
+.groups-bitcoin-box.horizontal .groups-bitcoin-box-inside {
+	display: grid;
+	grid-template-rows: 25% 75%;
+	grid-template-columns: 35% 65%;
+}
+.groups-bitcoin-box.horizontal .groups-bitcoin-cta {
+	grid-column-start: 2;
+	grid-row-start: 1;
+	padding: 4px;
+}
+.groups-bitcoin-box.horizontal .groups-bitcoin-image {
+	grid-row-start: 1;
+	grid-column-start: 1;
+	grid-row-end: span 2;
+}
+.groups-bitcoin-box.horizontal .groups-bitcoin-image img {
+	width: 128px;
+}
+.groups-bitcoin-box.horizontal .groups-bitcoin-description {
+	grid-row-start: 2;
+	grid-column-start: 2;
+	padding: 4px;
+}
+
+.groups-bitcoin-box a.close {
+	color: #999;
+	line-height: 18px;
+	position: absolute;
+	right: 4px;
+	text-decoration: none;
+	top: 4px;
+	font-family: sans;
+	font-size: 12px;
+}
+.groups-bitcoin-box a.close::before {
+	background: transparent;
+	color: #ddd;
+	content: "\f153";
+	display: inline-block;
+	font: normal 16px/20px dashicons;
+	height: 20px;
+	text-align: center;
+	width: 20px;
+	position: relative;
+	top: 4px;
+	right: 4px;
+	transition: all .62s ease-in-out;
+}
+.groups-bitcoin-box a.close:hover::before {
+	color: #f00;
+}
+
 #groups-extensions-support {
 	padding: 1em;
 	margin: 0 0 24px 0;
@@ -265,6 +372,10 @@ div.capability.edit label {
 	border-radius: 4px;
 	color: #111;
 	border: 2px solid #7494d1;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
 }
 #groups-extensions-support p {
 	font-size: 14px;
@@ -283,7 +394,10 @@ div.capability.edit label {
 	top: -4px;
 	left: 4px;
 }
-
+#groups-extensions-support-inside {
+	flex: 1;
+	min-width: 256px;
+}
 .groups-bulk-container {
 	padding-bottom: 1em;
 }

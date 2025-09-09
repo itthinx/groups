@@ -199,6 +199,8 @@ function groups_admin_options() {
 		$extensions_box .= '</div>';
 	}
 
+	$bitcoin_box = Groups_Admin_Notice::get_groups_bitcoin_box( array( 'where' => 'options' ) );
+
 	//
 	// print the options form
 	//
@@ -208,6 +210,7 @@ function groups_admin_options() {
 
 		'<p>' .
 		'<input class="button button-primary" type="submit" name="submit" value="' . esc_attr__( 'Save', 'groups' ) . '"/>' .
+		$bitcoin_box . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		$extensions_box . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		'</p>';
 
