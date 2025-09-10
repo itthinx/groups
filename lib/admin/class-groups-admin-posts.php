@@ -121,7 +121,7 @@ class Groups_Admin_Posts {
 				echo '.wp-list-table td { overflow: visible; }'; // idem for bulk actions
 				echo 'label.groups-read-terms { vertical-align: middle; line-height: 28px; margin-right: 4px; }'; // Terms checkbox label
 				echo 'label.groups-read-terms input[type="checkbox"] { height: 1rem; }'; // Terms checkbox
-				echo 'th.column-groups, th.column-groups-read { width:10%; }';
+				echo 'th.column-groups, th.column-groups-read, th.column-capabilities { width:10%; }';
 				echo '</style>';
 			}
 		}

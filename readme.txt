@@ -2,10 +2,10 @@
 Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
-Requires at least: 6.3
+Requires at least: 6.5
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.6.0
+Stable tag: 3.7.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -71,6 +71,17 @@ Groups is light-weight and offers an easy user interface, while it acts as a fra
 ### Documentation ###
 
 The official documentation is located at the [Groups Documentation](https://docs.itthinx.com/document/groups/) pages.
+
+### Funding and Sponsors ###
+
+Your support matters!
+
+By getting an official extension or contributing, you help fund the work that is necessary to maintain and improve Groups.
+
+- Contribute directly to the Bitcoin address *bc1q7klf9ge8gvtl4h4qlh6c73tgk0cdehfv5vcq0g* where sats received are used to fund developers who help to maintain and develop Groups
+- Purchase an official [Extension for Groups](https://www.itthinx.com/product-category/groups/)
+- Purchase an extension on the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/)
+- Sponsor the development of new features: [get in touch](https://www.itthinx.com/contact/)
 
 ### Comprehensive Features ###
 
@@ -200,6 +211,14 @@ The official documentation is located at the [Groups Documentation](https://docs
 = Where can I get official extensions for Groups? =
 
 Official extensions are distributed exclusively via the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/) and [Extensions](https://www.itthinx.com/product-category/groups/) for Groups.
+
+= How can I help fund or contribute Bitcoin to the continued development of Groups? =
+
+The success of Groups and its continued development depends on your support. There are several ways in which you can help fund the project:
+
+- Purchase an official [Extension for Groups](https://www.itthinx.com/product-category/groups/)
+- Purchase an extension on the [WooCommerce Marketplace](https://woocommerce.com/vendor/itthinx/)
+- Contribute to the Bitcoin address *bc1q7klf9ge8gvtl4h4qlh6c73tgk0cdehfv5vcq0g* - sats received are used to fund developers who help to maintain and develop Groups
 
 = I want to sell group memberships, which extension do I need? Does it support subscriptions? =
 

@@ -39,10 +39,10 @@ function groups_admin_tree_view() {
 	$output .= esc_html__( 'Tree of Groups', 'groups' );
 	$output .= '</h1>';
 
-	$tree = Groups_Utility::get_group_tree();
+	$tree = Groups_Utility::get_tree();
 	$tree_output = '';
 	$linked = Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS );
-	Groups_Utility::render_group_tree( $tree, $tree_output, $linked );
+	Groups_Utility::render_tree( $tree, $tree_output, $linked );
 	$output .= $tree_output;
 
 	$output .= '</div>'; // .groups-tree-view

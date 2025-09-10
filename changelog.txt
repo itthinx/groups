@@ -1,5 +1,31 @@
 == Groups by itthinx - changelog.txt
 
+2025-09-08 - version 3.7.0
+* Update - WordPress 6.8 compatible.
+* Update - Requires at least WordPress 6.5.
+* Update - WooCommerce 10.2 compatible.
+* Update - Requires at least WooCommerce 8.5.
+* Update - Improved the row action rendering in the Groups admin screen.
+* Dev - Revised unused bits of code.
+* Dev - Added the groups_admin_groups_query filter.
+* Dev - Added the groups_admin_groups_results filter.
+* Dev - Added the groups_admin_groups_columns filter.
+* Dev - Added the groups_admin_groups_filters_fields_epilogue filter.
+* Dev - Added the groups_admin_groups_filters_html filter.
+* Dev - Added the groups_admin_groups_bulk_actions_fields_epilogue filter.
+* Dev - Added the groups_admin_groups_bulk_actions_html filter.
+* Dev - Added the groups_admin_groups_row_actions filter.
+* Dev - Added the groups_admin_groups_row_actions_html filter.
+* Dev - Added the groups_admin_groups_column_content filter.
+* Dev - Added the groups_admin_groups_handle_action action.
+* Dev - Added the groups_admin_groups_handle_action_submit filter.
+* Dev - Added the groups_admin_groups_handle_action_confirm action.
+* Dev - Added the groups_admin_groups_handle_action_reject action.
+* Dev - Added the groups_admin_groups_handle_bulk_action action.
+* Fix - Resolves performance issues with large sets of groups rendering using the group tree functions, as reported in https://github.com/itthinx/groups/issues/158
+* Fix - Legacy column for capabilities collapsing.
+* Add - Added info on contributing Bitcoin to support Groups development.
+
 2025-08-20 - version 3.6.0
 * Update - WordPress 6.8 compatible.
 * Dev - Removed superfluous spaces in several translations.

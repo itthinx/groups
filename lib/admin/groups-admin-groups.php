@@ -43,7 +43,7 @@ function groups_admin_groups() {
 	global $wpdb;
 
 	$output = '';
-	$today = date( 'Y-m-d', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+	// $today = date( 'Y-m-d', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 
 	if ( !Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
@@ -119,11 +119,58 @@ function groups_admin_groups() {
 										return groups_admin_groups_bulk_remove();
 									}
 									break;
+								default:
+									if ( has_action( 'groups_admin_groups_handle_bulk_action' ) ) {
+										/**
+										 * Handle the requested bulk action.
+										 *
+										 * @param string $bulk_action the requested bulk action
+										 * @param string|int $group_id the requested group ID
+										 */
+										do_action( 'groups_admin_groups_handle_bulk_action', sanitize_text_field( $bulk_action ), $group_id );
+									}
 							}
 						}
 					}
 				}
 				break;
+			default:
+				if ( has_filter( 'groups_admin_groups_handle_action_submit' ) ) {
+					/**
+					 * Handle a requested action after $_POST.
+					 *
+					 * @since 3.7.0
+					 *
+					 * @param boolean $handle whether to handle the posted action
+					 * @param string $action the requested action
+					 *
+					 * @return boolean whether the posted data was accepted and action was taken
+					 */
+					if ( apply_filters( 'groups_admin_groups_handle_action_submit', false, sanitize_text_field( $_POST['action'] ) ) ) {
+						/**
+						 * Fires after the posted data for an action was accepted.
+						 *
+						 * Should produce output to provide feedback to the user.
+						 *
+						 * @since 3.7.0
+						 *
+						 * @param string $action the requested action
+						 */
+						do_action( 'groups_admin_groups_handle_action_confirm', sanitize_text_field( $_POST['action'] ) );
+					} else {
+						/**
+						 * Fires after the posted data for an action was rejected.
+						 *
+						 * Should produce output to provide feedback to the user.
+						 *
+						 * @since 3.7.0
+						 *
+						 * @param string $action the requested action
+						 */
+						do_action( 'groups_admin_groups_handle_action_reject', sanitize_text_field( $_POST['action'] ) );
+						return;
+					}
+				}
 		}
 	} else if ( isset ( $_GET['action'] ) ) {
 		// handle action request - show form
@@ -141,6 +188,19 @@ function groups_admin_groups() {
 					return groups_admin_groups_remove( $_GET['group_id'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				}
 				break;
+			default:
+				if ( isset( $_GET['group_id'] ) ) {
+					if ( has_action( 'groups_admin_groups_handle_action' ) ) {
+						/**
+						 * Handle the requested action and produce the corresponding output.
+						 *
+						 * @param string $action the requested action
+						 * @param string|int $group_id the requested group ID
+						 */
+						do_action( 'groups_admin_groups_handle_action', sanitize_text_field( $_GET['action'] ), sanitize_text_field( $_GET['group_id'] ) );
+						return;
+					}
+				}
 		}
 	}
 
@@ -302,36 +362,98 @@ function groups_admin_groups() {
 		"SELECT * FROM $group_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 		$filter_params
 	);
+
+	/**
+	 * Allows to modify the query for the groups table.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $query the query
+	 *
+	 * @return string
+	 */
+	$query = apply_filters( 'groups_admin_groups_query', $query );
+
 	// nosemgrep: audit.php.wp.security.sqli.input-in-sinks
 	$results = $wpdb->get_results( $query, OBJECT ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
-	$column_display_names = array(
-		'group_id'     => __( 'ID', 'groups' ),
-		'name'         => __( 'Group', 'groups' ),
-		'description'  => __( 'Description', 'groups' ),
-		'capabilities' => __( 'Capabilities', 'groups' )
+	/**
+	 * Allows to modify the results for the groups table.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param object[] $results result to show
+	 *
+	 * @return object[]
+	 */
+	$results = apply_filters( 'groups_admin_groups_results', $results );
+
+	$columns = array(
+		'group_id'     => array( 'label' => __( 'ID', 'groups' ), 'sortable' => true ),
+		'name'         => array( 'label' => __( 'Group', 'groups' ), 'sortable' => true ),
+		'description'  => array( 'label' => __( 'Description', 'groups' ), 'sortable' => true ),
+		'capabilities' => array( 'label' => __( 'Capabilities', 'groups' ), 'sortable' => false )
 	);
+
+	/**
+	 * Allows to modify the columns of the groups table.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $columns maps column keys to column details; keys must be alphanumeric allowing also for underscores '_' and dashes '-', columns with invalid keys are removed; 'checkbox' is a reserved column key and must not be used
+	 *
+	 * @return array
+	 */
+	$columns = apply_filters( 'groups_admin_groups_columns', $columns );
+	unset( $columns['checkbox'] );
+	foreach ( $columns as $key => $column ) {
+		if ( preg_replace( '/[^a-zA-Z0-9_-]/', '', $key ) !== $key ) {
+			unset( $columns[$key] );
+		}
+	}
+
+	$column_count = count( $columns ) + 1;
 
 	$output .= '<div class="groups-overview">';
 
-	$output .=
-		'<div class="filters">' .
-			'<form id="setfilters" action="" method="post">' .
-				'<fieldset>' .
-				'<legend>' . esc_html__( 'Filters', 'groups' ) . '</legend>' .
-				'<label class="group-id-filter">' . esc_html__( 'Group ID', 'groups' ) . ' ' .
-				'<input class="group-id-filter" name="group_id" type="text" value="' . esc_attr( $group_id ) . '"/>' .
-				'</label>' . ' ' .
-				'<label class="group-name-filter">' . esc_html__( 'Group Name', 'groups' ) . ' ' .
-				'<input class="group-name-filter" name="group_name" type="text" value="' . esc_attr( stripslashes( $group_name !== null ? $group_name : '' ) ) . '"/>' .
-				'</label>' . ' ' .
-				wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_FILTER_NONCE, true, false ) .
-				'<input class="button" type="submit" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>' . ' ' .
-				'<input class="button" type="submit" name="clear_filters" value="' . esc_attr__( 'Clear', 'groups' ) . '"/>' .
-				'<input type="hidden" value="submitted" name="submitted"/>' .
-				'</fieldset>' .
-			'</form>' .
-		'</div>';
+	$filters_html = '<div class="filters">';
+	$filters_html .= '<form id="setfilters" action="" method="post">';
+	$filters_html .= '<fieldset>';
+	$filters_html .= '<legend>' . esc_html__( 'Filters', 'groups' ) . '</legend>';
+	$filters_html .= '<label class="group-id-filter">' . esc_html__( 'Group ID', 'groups' ) . ' ';
+	$filters_html .= '<input class="group-id-filter" name="group_id" type="text" value="' . esc_attr( $group_id ) . '"/>';
+	$filters_html .= '</label>' . ' ';
+	$filters_html .= '<label class="group-name-filter">' . esc_html__( 'Group Name', 'groups' ) . ' ';
+	$filters_html .= '<input class="group-name-filter" name="group_name" type="text" value="' . esc_attr( stripslashes( $group_name !== null ? $group_name : '' ) ) . '"/>';
+	$filters_html .= '</label>' . ' ';
+	/**
+	 * Allows to add markup after the standard filter fields of the groups table.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $markup additional markup
+	 *
+	 * @return string
+	 */
+	$filters_html .= apply_filters( 'groups_admin_groups_filters_fields_epilogue', '' );
+	$filters_html .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_FILTER_NONCE, true, false );
+	$filters_html .= '<input class="button" type="submit" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>' . ' ';
+	$filters_html .= '<input class="button" type="submit" name="clear_filters" value="' . esc_attr__( 'Clear', 'groups' ) . '"/>';
+	$filters_html .= '<input type="hidden" value="submitted" name="submitted"/>';
+	$filters_html .= '</fieldset>';
+	$filters_html .= '</form>';
+	$filters_html .= '</div>'; // .filters
+
+	/**
+	 * Allows to process the HTML of the filters section of the groups table.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $filters_html markup
+	 *
+	 * @return string
+	 */
+	$output .= apply_filters( 'groups_admin_groups_filters_html', $filters_html );
 
 	if ( $paginate ) {
 		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
@@ -358,7 +480,7 @@ function groups_admin_groups() {
 	$output .= '</div>';
 
 	$capability_table = _groups_get_tablename( "capability" );
-	$group_capability_table = _groups_get_tablename( "group_capability" );
+	// $group_capability_table = _groups_get_tablename( "group_capability" );
 
 	// capabilities select
 	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -382,21 +504,42 @@ function groups_admin_groups() {
 
 	$output .= '<div class="tablenav top">';
 
-	$output .= '<div class="groups-bulk-container">';
-	$output .= '<div class="capabilities-select-container">';
-	$output .= $capabilities_select;
-	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
-	$output .= '</div>';
-	$output .= '<select class="bulk-action" name="bulk-action">';
-	$output .= '<option selected="selected" value="-1">' . esc_html__( 'Bulk Actions', 'groups' ) . '</option>';
-	$output .= '<option value="remove-group">' . esc_html__( 'Remove group', 'groups' ) . '</option>';
-	$output .= '<option value="add-capability">' . esc_html__( 'Add capability', 'groups' ) . '</option>';
-	$output .= '<option value="remove-capability">' . esc_html__( 'Remove capability', 'groups' ) . '</option>';
-	$output .= '</select>';
-	$output .= sprintf( '<input class="button" type="submit" name="bulk" value="%s" />', esc_attr__( 'Apply', 'groups' ) );
-	$output .= '<input type="hidden" name="action" value="groups-action"/>';
-	$output .= '</div>';
-	$output .= '</div>';
+	$bulk_html = '<div class="groups-bulk-container">';
+	$bulk_html .= '<div class="capabilities-select-container">';
+	$bulk_html .= $capabilities_select;
+	$bulk_html .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
+	$bulk_html .= '</div>';
+	$bulk_html .= '<select class="bulk-action" name="bulk-action">';
+	$bulk_html .= '<option selected="selected" value="-1">' . esc_html__( 'Bulk Actions', 'groups' ) . '</option>';
+	$bulk_html .= '<option value="remove-group">' . esc_html__( 'Remove group', 'groups' ) . '</option>';
+	$bulk_html .= '<option value="add-capability">' . esc_html__( 'Add capability', 'groups' ) . '</option>';
+	$bulk_html .= '<option value="remove-capability">' . esc_html__( 'Remove capability', 'groups' ) . '</option>';
+	$bulk_html .= '</select>';
+	/**
+	 * Allows to add markup after the standard bulk actions fields of the groups table.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $markup additional markup
+	 *
+	 * @return string
+	 */
+	$filters_html .= apply_filters( 'groups_admin_groups_bulk_actions_fields_epilogue', '' );
+	$bulk_html .= sprintf( '<input class="button" type="submit" name="bulk" value="%s" />', esc_attr__( 'Apply', 'groups' ) );
+	$bulk_html .= '<input type="hidden" name="action" value="groups-action"/>';
+	$bulk_html .= '</div>';
+	$bulk_html .= '</div>';
+
+	/**
+	 * Allows to process the HTML of the bulk actions section of the groups table.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $bulk_html markup
+	 *
+	 * @return string
+	 */
+	$output .= apply_filters( 'groups_admin_groups_bulk_actions_html', $bulk_html );
 
 	$output .= '<table id="" class="wp-list-table widefat fixed" cellspacing="0">';
 	$output .= '<thead>';
@@ -404,32 +547,32 @@ function groups_admin_groups() {
 
 	$output .= '<th id="cb" class="manage-column column-cb check-column" scope="col"><input type="checkbox"></th>';
 
-	foreach ( $column_display_names as $key => $column_display_name ) {
+	foreach ( $columns as $key => $column ) {
 		$options = array(
 			'orderby' => $key,
 			'order'   => $switch_order
 		);
 		$class = $key;
-		if ( !in_array( $key, array( 'capabilities' ) ) ) {
+		if ( isset( $column['sortable'] ) && $column['sortable'] ) {
 			if ( strcmp( $key, $orderby ) == 0 ) {
 				$lorder = strtolower( $order );
 				$class = "$key manage-column sorted $lorder";
 			} else {
 				$class = "$key manage-column sortable";
 			}
-			$column_display_name =
+			$heading =
 				sprintf(
 					'<a href="%s"><span>%s</span><span class="sorting-indicator"></span></a>',
 					esc_url( add_query_arg( $options, $current_url ) ),
-					esc_html( $column_display_name )
+					esc_html( $column['label'] )
 				);
 		} else {
-			$column_display_name = esc_html( $column_display_name );
+			$heading = esc_html( $column['label'] );
 		}
 		$output .= sprintf(
 			'<th scope="col" class="%s">%s</th>',
 			esc_attr( $class ),
-			$column_display_name
+			$heading
 		);
 	}
 
@@ -473,84 +616,135 @@ function groups_admin_groups() {
 			);
 
 			// Construct row actions for this group.
-			$row_actions =
-				'<div class="row-actions">' .
-				'<span class="edit">' .
-				'<a href="' . esc_url( $edit_url ) . '">' .
-				'<img src="' . GROUPS_PLUGIN_URL . 'images/edit.png"/>' .
-				__( 'Edit', 'groups' ) .
-				'</a>';
+			$row_actions = array(
+				'edit' => sprintf( '<a href="%s"><img src="%s"/>&nbsp;%s</a>', esc_url( $edit_url ), esc_url( GROUPS_PLUGIN_URL . 'images/edit.png' ), esc_html__( 'Edit', 'groups' ) )
+			);
 			if ( $result->name !== Groups_Registered::REGISTERED_GROUP_NAME ) {
-				$row_actions .=
-					' | ' .
-					'</span>' .
-					'<span class="remove trash">' .
-					'<a href="' . esc_url( $delete_url ) . '" class="submitdelete">' .
-					'<img src="' . GROUPS_PLUGIN_URL . 'images/remove.png"/>' .
-					__( 'Remove', 'groups' ) .
-					'</a>' .
-					'</span>';
+				$row_actions['remove trash'] = sprintf( '<a href="%s" class="submitdelete"><img src="%s"/>&nbsp;%s</a>', esc_url( $delete_url ), esc_url( GROUPS_PLUGIN_URL . 'images/remove.png' ), esc_html__( 'Remove', 'groups' ) );
+			}
+
+			/**
+			 * Allows to alter the row actions for a group in the groups table.
+			 *
+			 * @since 3.7.0
+			 *
+			 * @param array $row_actions row actions as HTML
+			 * @param int $group_id ID of the group
+			 *
+			 * @return array
+			 */
+			$row_actions = apply_filters( 'groups_admin_groups_row_actions', $row_actions, intval( $result->group_id ) );
+
+			$n = 1;
+			$row_actions_html = '<div class="row-actions">';
+			foreach ( $row_actions as $row_action_key => $row_action ) {
+				$row_actions_html .= sprintf( '<span class="%s">', esc_attr( $row_action_key ) );
+				$row_actions_html .= $row_action;
+				$row_actions_html .= '</span>';
+				if ( $n < count( $row_actions ) ) {
+					$row_actions_html .= '&emsp;|&emsp;';
 				}
-			$row_actions .= '</div>'; // .row-actions
+				$n++;
+			}
+			$row_actions_html .= '</div>'; // .row-actions
+
+			/**
+			 * Allows to process the HTML of the row actions for a group in the groups table.
+			 *
+			 * @since 3.7.0
+			 *
+			 * @param string $row_actions_html markup
+			 * @param int $group_id ID of the group
+			 *
+			 * @return string
+			 */
+			$row_actions_html = apply_filters( 'groups_admin_groups_row_actions_html', $row_actions_html, intval( $result->group_id ) );
 
 			$output .= '<tr class="' . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
 
-			$output .= '<th class="check-column">';
-			$output .= '<input type="checkbox" value="' . esc_attr( $result->group_id ) . '" name="group_ids[]"/>';
-			$output .= '</th>';
-
-			$output .= '<td class="group-id">';
-			$output .= $result->group_id;
-			$output .= '</td>';
-			$output .= '<td class="group-name">';
-			$output .= sprintf(
-				'<a href="%s">%s</a>',
-				esc_url( $edit_url ),
-				$result->name ? stripslashes( wp_filter_nohtml_kses( $result->name ) ) : ''
-			);
-			$output .= ' ';
-			$user_ids = $group->get_user_ids();
-			$user_count = is_array( $user_ids ) ? count( $user_ids ) : 0; // guard against null when there are no users
-			$output .= sprintf(
-				'(<a href="%s">%s</a>)',
-				esc_url( $users_url ),
-				$user_count
-			);
-			$output .= $row_actions;
-			$output .= '</td>';
-			$output .= '<td class="group-description">';
-			$output .= $result->description ? stripslashes( wp_filter_nohtml_kses( $result->description ) ) : '';
-			$output .= '</td>';
-
-			$output .= '<td class="capabilities">';
-
-			$group_capabilities = $group->get_capabilities();
-			$group_capabilities_deep = $group->get_capabilities_deep();
-			usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
-
-			if ( count( $group_capabilities_deep ) > 0 ) {
-				$output .= '<ul>';
-				foreach ( $group_capabilities_deep as $group_capability ) {
-					$output .= '<li>';
-					$class = '';
-					if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
-						$class = 'inherited';
-					}
-					$output .= sprintf( '<span class="%s">', $class );
-					$output .= stripslashes( wp_filter_nohtml_kses( $group_capability->get_capability() ) );
-					$output .= '</span>';
-					$output .= '</li>';
+			$columns = array( 'checkbox' => array() ) + $columns;
+			foreach ( $columns as $key => $column ) {
+				switch ( $key ) {
+					case 'checkbox':
+						$output .= '<th class="check-column">';
+						$output .= '<input type="checkbox" value="' . esc_attr( $result->group_id ) . '" name="group_ids[]"/>';
+						$output .= '</th>';
+						break;
+					case 'group_id':
+						$output .= '<td class="group-id">';
+						$output .= $result->group_id;
+						$output .= '</td>';
+						break;
+					case 'name':
+						$output .= '<td class="group-name">';
+						$output .= sprintf(
+							'<a href="%s">%s</a>',
+							esc_url( $edit_url ),
+							$result->name ? stripslashes( wp_filter_nohtml_kses( $result->name ) ) : ''
+							);
+						$output .= ' ';
+						$user_ids = $group->get_user_ids();
+						$user_count = is_array( $user_ids ) ? count( $user_ids ) : 0; // guard against null when there are no users
+						$output .= sprintf(
+							'(<a href="%s">%s</a>)',
+							esc_url( $users_url ),
+							$user_count
+							);
+						$output .= $row_actions_html;
+						$output .= '</td>';
+						break;
+					case 'description':
+						$output .= '<td class="group-description">';
+						$output .= $result->description ? stripslashes( wp_filter_nohtml_kses( $result->description ) ) : '';
+						$output .= '</td>';
+						break;
+					case 'capabilities':
+						$output .= '<td class="capabilities">';
+						$group_capabilities = $group->get_capabilities();
+						$group_capabilities_deep = $group->get_capabilities_deep();
+						usort( $group_capabilities_deep, array( 'Groups_Utility', 'cmp' ) );
+						if ( count( $group_capabilities_deep ) > 0 ) {
+							$output .= '<ul>';
+							foreach ( $group_capabilities_deep as $group_capability ) {
+								$output .= '<li>';
+								$class = '';
+								if ( empty( $group_capabilities ) || !in_array( $group_capability, $group_capabilities ) ) {
+									$class = 'inherited';
+								}
+								$output .= sprintf( '<span class="%s">', $class );
+								$output .= stripslashes( wp_filter_nohtml_kses( $group_capability->get_capability() ) );
+								$output .= '</span>';
+								$output .= '</li>';
+							}
+							$output .= '</ul>';
+						} else {
+							$output .= esc_html__( 'This group has no capabilities.', 'groups' );
+						}
+						$output .= '</td>';
+						break;
+					default:
+						$output .= sprintf( '<td class="custom-column %s">', esc_attr( $key ) );
+						/**
+						 * Provide the row's output for the column identified by $key for the group given by its ID.
+						 *
+						 * @param string $content column content
+						 * @param string $key the column key
+						 * @param int $group_id the group's ID
+						 *
+						 * @return string content HTML
+						 */
+						$output .= apply_filters( 'groups_admin_groups_column_content', '', $key, $group->get_group_id() );
+						$output .= '</td>'; // .custom-column ...
 				}
-				$output .= '</ul>';
-			} else {
-				$output .= esc_html__( 'This group has no capabilities.', 'groups' );
 			}
-			$output .= '</td>';
-
 			$output .= '</tr>';
 		}
 	} else {
-		$output .= '<tr><td colspan="4">' . esc_html__( 'There are no results.', 'groups' ) . '</td></tr>';
+		$output .= '<tr>';
+		$output .= sprintf( '<td colspan="%d">', esc_attr( $column_count ) );
+		$output .= esc_html__( 'There are no results.', 'groups' );
+		$output .= '</td>';
+		$output .= '</tr>';
 	}
 
 	$output .= '</tbody>';
