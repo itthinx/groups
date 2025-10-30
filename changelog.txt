@@ -6,6 +6,7 @@
 * Update - WooCommerce 10.3 compatible.
 * Update - Requires at least WooCommerce 10.0.
 * Dev - Revised block script dependencies.
+* Dev - Revised the join and leave shortcode processing logic.
 
 2025-09-08 - version 3.7.0
 * Update - WordPress 6.8 compatible.
