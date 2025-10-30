@@ -29,6 +29,13 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Shortcodes {
 
 	/**
+	 * Maximum amount of time to accept hashes for join and leave requests.
+	 *
+	 * @var int
+	 */
+	const MAX_TIME_DELTA = 3600;
+
+	/**
 	 * Adds shortcodes.
 	 */
 	public static function init() {
@@ -566,28 +573,31 @@ class Groups_Shortcodes {
 						$hash = trim( sanitize_text_field( $_POST['groups-join-data'] ) );
 						$groups_join_data = get_user_meta( $user_id, 'groups-join-data', true );
 						if ( is_array( $groups_join_data ) && isset( $groups_join_data[$hash] ) ) {
-							if ( isset( $groups_join_data[$hash]['group_id'] ) ) {
+							if ( isset( $groups_join_data[$hash]['group_id'] ) && isset( $groups_join_data[$hash]['time'] ) ) {
 								$group_id = $groups_join_data[$hash]['group_id'];
-								$joined = Groups_User_Group::create(
-									array(
-										'group_id' => $group_id,
-										'user_id' => $user_id
-									)
-								);
-								if ( $joined ) {
-									/**
-									 * Whether to redirect after submit and successful addition to group.
-									 *
-									 * @since 3.6.0
-									 *
-									 * @param boolean|string $redirect true to redirect to current ULR, string to redirect to specific URL, false not to redirect
-									 * @param array $atts shortcode attributes
-									 * @param array $options evaluated shortcode options
-									 *
-									 * @return boolean|string
-									 */
-									if ( apply_filters( 'groups_join_submit_redirect', $redirect, $atts, $options ) !== false ) {
-										self::maybe_redirect( $redirect );
+								$dt = time() - $groups_join_data[$hash]['time'];
+								if ( $dt < apply_filters( 'groups_join_submit_max_time_delta', self::MAX_TIME_DELTA ) ) {
+									$joined = Groups_User_Group::create(
+										array(
+											'group_id' => $group_id,
+											'user_id' => $user_id
+										)
+									);
+									if ( $joined ) {
+										/**
+										 * Whether to redirect after submit and successful addition to group.
+										 *
+										 * @since 3.6.0
+										 *
+										 * @param boolean|string $redirect true to redirect to current ULR, string to redirect to specific URL, false not to redirect
+										 * @param array $atts shortcode attributes
+										 * @param array $options evaluated shortcode options
+										 *
+										 * @return boolean|string
+										 */
+										if ( apply_filters( 'groups_join_submit_redirect', $redirect, $atts, $options ) !== false ) {
+											self::maybe_redirect( $redirect );
+										}
 									}
 								}
 							}
@@ -746,23 +756,26 @@ class Groups_Shortcodes {
 						$hash = trim( sanitize_text_field( $_POST['groups-leave-data'] ) );
 						$groups_leave_data = get_user_meta( $user_id, 'groups-leave-data', true );
 						if ( is_array( $groups_leave_data ) && isset( $groups_leave_data[$hash] ) ) {
-							if ( isset( $groups_leave_data[$hash]['group_id'] ) ) {
+							if ( isset( $groups_leave_data[$hash]['group_id'] ) && isset( $groups_leave_data[$hash]['time'] ) ) {
 								$group_id = $groups_leave_data[$hash]['group_id'];
-								$left = Groups_User_Group::delete( $user_id, $group_id );
-								if ( $left ) {
-									/**
-									 * Whether to redirect after acceptedsubmit and successful removal from group.
-									 *
-									 * @since 3.6.0
-									 *
-									 * @param boolean|string $redirect true to redirect to current ULR, string to redirect to specific URL, false not to redirect
-									 * @param array $atts shortcode attributes
-									 * @param array $options evaluated shortcode options
-									 *
-									 * @return boolean|string
-									 */
-									if ( apply_filters( 'groups_leave_submit_redirect', $redirect, $atts, $options ) !== false ) {
-										self::maybe_redirect( $redirect );
+								$dt = time() - $groups_leave_data[$hash]['time'];
+								if ( $dt < apply_filters( 'groups_leave_submit_max_time_delta', self::MAX_TIME_DELTA ) ) {
+									$left = Groups_User_Group::delete( $user_id, $group_id );
+									if ( $left ) {
+										/**
+										 * Whether to redirect after acceptedsubmit and successful removal from group.
+										 *
+										 * @since 3.6.0
+										 *
+										 * @param boolean|string $redirect true to redirect to current ULR, string to redirect to specific URL, false not to redirect
+										 * @param array $atts shortcode attributes
+										 * @param array $options evaluated shortcode options
+										 *
+										 * @return boolean|string
+										 */
+										if ( apply_filters( 'groups_leave_submit_redirect', $redirect, $atts, $options ) !== false ) {
+											self::maybe_redirect( $redirect );
+										}
 									}
 								}
 							}
