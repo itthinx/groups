@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-31 11:13+0100\n"
-"PO-Revision-Date: 2025-10-31 11:22+0100\n"
+"PO-Revision-Date: 2025-10-31 13:06+0100\n"
 "Last-Translator: Karim\n"
 "Language-Team: itthinx.com\n"
 "Language: de_DE\n"
@@ -69,7 +69,7 @@ msgid ""
 "part of the group's or the capability's name."
 msgstr ""
 "<sup>*</sup> Für jede Kapazität werden Gruppen die diese innehaben in "
-"Klammern gezeigt. Schreiben Sie einen Teil des Namens der Kapazität oder der "
+"Klammern gezeigt. Schreibe einen Teil des Namens der Kapazität oder der "
 "Gruppe um eine Kapazität auszuwählen."
 
 #: lib/admin/groups-admin-capabilities.php:135
@@ -226,7 +226,7 @@ msgid ""
 "Become a member of the <em>Premium</em> group - this is required so you can "
 "choose the <em>premium</em> capability to restrict access to a post."
 msgstr ""
-"Werden Sie Mitglied der <em>Premium</em> Gruppe - dies ist nötig um die "
+"Werde Mitglied der <em>Premium</em> Gruppe - dies ist nötig um die "
 "<em>premium</em> Kapazität auswählen zu können mit der Zugang zu einem "
 "Beitrag beschränkt wird."
 
@@ -253,9 +253,9 @@ msgid ""
 msgstr ""
 "ACHTUNG: Is diese Option aktiviert während das Plugin deaktiviert wird, dann "
 "werden ALLE Einstellungen und Daten des Plugins GELÖSCHT für <strong>alle "
-"Sites</strong>. Wenn Sie diese Option anwenden möchten, dann wäre jetzt ein "
-"guter Zeitpunkt um eine Sicherheitskopie anzulegen. Sollten Sie diese Option "
-"aktivieren, dann erklären Sie sich damit einverstanden alleine "
+"Webseiten</strong>. Wenn du diese Option anwenden möchtest, dann wäre jetzt "
+"ein guter Zeitpunkt um eine Sicherheitskopie anzulegen. Solltest du diese "
+"Option aktivieren, dann erklärst du dich damit einverstanden alleine "
 "verantwortlich für etwaige Datenverluste sowie jede weitere Konsequenzen zu "
 "sein."
 
@@ -268,10 +268,10 @@ msgid ""
 "consequences thereof."
 msgstr ""
 "ACHTUNG: Is diese Option aktiviert während das Plugin deaktiviert wird, dann "
-"werden ALLE Einstellungen und Daten des Plugins GELÖSCHT. Wenn Sie diese "
-"Option anwenden möchten, dann wäre jetzt ein guter Zeitpunkt um eine "
-"Sicherheitskopie anzulegen. Sollten Sie diese Option aktivieren, dann "
-"erklären Sie sich damit einverstanden alleine verantwortlich für etwaige "
+"werden ALLE Einstellungen und Daten des Plugins GELÖSCHT. Wenn du diese "
+"Option anwenden möchtest, dann wäre jetzt ein guter Zeitpunkt um eine "
+"Sicherheitskopie anzulegen. Solltest du diese Option aktivieren, dann "
+"erklärst du sich damit einverstanden alleine verantwortlich für etwaige "
 "Datenverluste sowie jede weitere Konsequenzen zu sein."
 
 #: lib/admin/groups-admin-groups-edit.php:169
@@ -348,11 +348,11 @@ msgid ""
 "available yet, you can use the quick-create box to create a group and "
 "capability enabled for access restriction on the fly."
 msgstr ""
-"Wählen Sie eine oder mehrere Kapazitäten zur Zugriffsbeschränkung aus. "
-"Gruppen die durch ihre Kapazitäten den Zugriff beschränken, werden in "
-"Klammern angezeigt. Sind noch keine Kapazitäten vorhanden, können Sie das "
-"Instant-Kästchen verwenden, um eine Gruppe und zugehörige Kapazität spontan "
-"zu erstellen."
+"Wähle eine oder mehrere Kapazitäten zur Zugriffsbeschränkung aus. Gruppen "
+"die durch ihre Kapazitäten den Zugriff beschränken, werden in Klammern "
+"angezeigt. Sind noch keine Kapazitäten vorhanden, kannst du das Instant-"
+"Kästchen verwenden, um eine Gruppe und zugehörige Kapazität spontan zu "
+"erstellen."
 
 #: lib/access/class-groups-access-meta-boxes.php:159
 msgid ""
@@ -404,7 +404,7 @@ msgstr "Unterstütze Groups mit Bitcoin"
 msgid ""
 "Could you please spare a minute and give it a review over at WordPress.org?"
 msgstr ""
-"Könnten Sie bitte eine Minute freimachen und eine Rezension auf WordPress."
+"Könntest du bitte eine Minute freimachen und eine Rezension auf WordPress."
 "org abgeben?"
 
 #: lib/core/class-groups-pagination.php:152
@@ -481,8 +481,8 @@ msgid ""
 "Edit the post for which you want to restrict access and choose<sup>*</sup> "
 "the <em>premium</em> capability."
 msgstr ""
-"Bearbeiten Sie den Beitrag für den Sie Zugang beschränken möchten und "
-"wählen<sup>*</sup> Sie die <em>premium</em> Kapazität aus."
+"Bearbeite den Beitrag für den du den Zugang beschränken möchtest und "
+"wähle<sup>*</sup> die <em>premium</em> Kapazität aus."
 
 #: lib/admin/class-groups-admin-welcome.php:210
 msgid "Efficient User Interface"
@@ -521,9 +521,8 @@ msgid ""
 "Enter <em>Premium</em> in the quick-create field located in the Access "
 "restrictions panel and save or update the post (or hit Enter)."
 msgstr ""
-"Geben Sie <em>Premium</em> im Instant-Feld ein, welches sich in der "
-"Schaltfläche der Zugangsbeschränkungen befindet, Speichern bzw. "
-"Aktualisieren Sie den Beitrag."
+"Gebe <em>Premium</em> im Instant-Feld ein, welches sich in der Schaltfläche "
+"der Zugangsbeschränkungen befindet, Speichere bzw. Aktualisiere den Beitrag."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:135
 #: lib/access/class-groups-access-meta-boxes.php:149
@@ -551,22 +550,22 @@ msgid ""
 "Go to <strong>Groups > Capabilities</strong> and add the <em>premium</em> "
 "capability."
 msgstr ""
-"Gehen Sie auf <strong>Groups > Kapazitäten</strong> und fügen Sie die "
-"Kapazität <em>premium</em> hinzu."
+"Gehe auf <strong>Groups > Kapazitäten</strong> und füge die Kapazität "
+"<em>premium</em> hinzu."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:156
 msgid ""
 "Go to <strong>Groups > Groups</strong> and add the <em>Premium</em> group."
 msgstr ""
-"Gehen Sie auf <strong>Groups > Gruppen</strong> und fügen Sie die Gruppe "
-"<em>Premium</em> hinzu."
+"Gehe auf <strong>Groups > Gruppen</strong> und füge die Gruppe <em>Premium</"
+"em> hinzu."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:158
 msgid ""
 "Go to <strong>Groups > Groups</strong> and assign the <em>premium</em> "
 "capability to the <em>Premium</em> group."
 msgstr ""
-"Gehen Sie auf <strong>Groups > Gruppen</strong> und weisen Sie die Kapazität "
+"Gehe auf <strong>Groups > Gruppen</strong> und weise die Kapazität "
 "<em>premium</em> der Gruppe <em>Premium</em> zu."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:159
@@ -574,8 +573,8 @@ msgid ""
 "Go to <strong>Groups > Options</strong> and enable the <em>premium</em> "
 "capability to restrict access."
 msgstr ""
-"Gehen Sie auf <strong>Groups > Optionen</strong> und aktivieren Sie die "
-"Kapazität <em>premium</em> zur Zugangsbeschränkung."
+"Gehe auf <strong>Groups > Optionen</strong> und aktiviere die Kapazität "
+"<em>premium</em> zur Zugangsbeschränkung."
 
 #: lib/core/class-groups-pagination.php:136
 msgid "Go to the first page"
@@ -741,7 +740,7 @@ msgid ""
 "Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</"
 "strong> groups."
 msgstr ""
-"Hier können Sie Gruppen <strong>hinzufügen</strong>, <strong>bearbeiten</"
+"Hier kannst du Gruppen <strong>hinzufügen</strong>, <strong>bearbeiten</"
 "strong> und <strong>löschen</strong>."
 
 #: lib/blocks/src/blocks/groups-non-member/block.js:73
@@ -779,8 +778,8 @@ msgstr ""
 #: lib/admin/groups-admin-options.php:306
 msgid "If you lock yourself out, please ask an administrator to help."
 msgstr ""
-"Sollten Sie sich selbst ausschließen, so fragen Sie bitte einen Verwalter "
-"nach Hilfe."
+"Solltest du dich selbst ausschließen, so frage bitte einen Verwalter nach "
+"Hilfe."
 
 #: lib/admin/groups-admin-options.php:368
 msgid ""
@@ -853,7 +852,7 @@ msgid ""
 "Let's assume that you want to limit the visibility of a post to members of "
 "the <em>Premium</em> group."
 msgstr ""
-"Angenommen Sie wollen einen Beitrag nur Mitgliedern der <em>Premium</em> "
+"Angenommen du willst einen Beitrag nur Mitgliedern der <em>Premium</em> "
 "Gruppe sichtbar machen."
 
 #: lib/blocks/src/blocks/groups-member/block.js:129
@@ -875,7 +874,7 @@ msgstr ""
 
 #: lib/admin/class-groups-admin-notice.php:136
 msgid "Many thanks for using <strong>Groups</strong>!"
-msgstr "Vielen Dank, dass Sie <strong>Groups</strong> verwenden!"
+msgstr "Vielen Dank, dass du <strong>Groups</strong> verwendest!"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:510
 msgid "Media"
@@ -953,8 +952,7 @@ msgid ""
 "Note that you must be a member of a group that has such a capability "
 "assigned."
 msgstr ""
-"Beachten Sie, dass Sie Mitglied einer Gruppe die diese Kapazität hat sein "
-"müssen."
+"Beachte dass du Mitglied einer Gruppe die diese Kapazität hat sein musst."
 
 #: lib/access/class-groups-access-meta-boxes.php:143
 msgid "Note that you must be a member of a group to use it to restrict access."
@@ -968,8 +966,8 @@ msgid ""
 "products or events by simply assigning them to one or more groups."
 msgstr ""
 "Man kann jetzt Beiträge, Seiten und alle anderen Eintragstypen wie Produkte "
-"oder Evente einfach schützen, indem man diese einer oder mehreren Gruppen "
-"zuweist."
+"oder Ereignisse einfach schützen, indem man diese einer oder mehreren "
+"Gruppen zuweist."
 
 #: lib/admin/groups-admin-options.php:370
 msgid ""
@@ -1044,16 +1042,16 @@ msgstr "Berechtigungen"
 msgid ""
 "Please confirm removal of the following groups. This action cannot be undone."
 msgstr ""
-"Bitte bestätigen Sie dass folgende Gruppen gelöscht werden. Diese Aktion "
-"kann nicht rückgängig gemacht werden."
+"Bitte bestätige dass folgende Gruppen gelöscht werden. Diese Aktion kann "
+"nicht rückgängig gemacht werden."
 
 #: lib/admin/groups-admin-capabilities-remove.php:135
 msgid ""
 "Please confirm to remove the following capabilities. This action cannot be "
 "undone."
 msgstr ""
-"Bitte bestätigen Sie dass folgende Kapazitäten gelöscht werden. Diese Aktion "
-"kann nicht rückgängig gemacht werden."
+"Bitte bestätige dass folgende Kapazitäten gelöscht werden. Diese Aktion kann "
+"nicht rückgängig gemacht werden."
 
 #: lib/core/class-groups-help.php:160
 #, php-format
@@ -1061,7 +1059,7 @@ msgid ""
 "Please give it a <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
 "rating."
 msgstr ""
-"Bitte geben Sie eine <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
+"Bitte gib eine <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
 "Bewertung ab."
 
 #: lib/admin/class-groups-admin-welcome.php:80
@@ -1383,7 +1381,7 @@ msgid ""
 "These permissions apply to Groups management. They do not apply to access "
 "permissions derived from Groups capabilities."
 msgstr ""
-"Diese Berechtigungen dienen der Verwaltung von Groups. Sie finden keine "
+"Diese Berechtigungen dienen der Verwaltung von Groups. Diese finden keine "
 "Anwendung bei Berechtigungen die von Groups Kapazitäten abgeleitet werden."
 
 #: lib/admin/groups-admin-options.php:362
@@ -1461,8 +1459,8 @@ msgid ""
 "Try the quick-create field first. Unless you need a more complex setup, "
 "there is no reason to go this way instead."
 msgstr ""
-"Probieren Sie das Instant-Feld zuerst aus. Es gibt keinen Grund diesen Weg "
-"zu gehen, ausser Sie benötigen eine komplexere Einrichtung."
+"Probiere das Instant-Feld zuerst aus. Es gibt keinen Grund diesen Weg zu "
+"gehen, ausser du benötigst eine komplexere Einrichtung."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:212
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:213
@@ -1475,8 +1473,8 @@ msgid ""
 "Use the <em>Access restrictions</em> box to limit the visibility of posts, "
 "pages and other post types."
 msgstr ""
-"Verwenden Sie das Kästchen <em>Zugangsbeschränkungen</em> um die "
-"Sichtbarkeit von Beiträgen, Seiten und anderen Beitragstypen einzuschränken."
+"Verwende das Kästchen <em>Zugangsbeschränkungen</em> um die Sichtbarkeit von "
+"Beiträgen, Seiten und anderen Beitragstypen einzuschränken."
 
 #: lib/access/class-groups-access-meta-boxes.php:135
 msgid ""
@@ -1567,7 +1565,7 @@ msgstr "Ja, auf geht’s!"
 #: lib/views/class-groups-shortcodes.php:651
 #, php-format
 msgid "You are a member of the %s group."
-msgstr "Sie sind Mitglied der Gruppe %s."
+msgstr "Du bist Mitglied der Gruppe %s."
 
 #: lib/admin/groups-admin-options.php:360
 msgid ""
@@ -1596,14 +1594,14 @@ msgid ""
 "enabled to enforce read access. In order to be able to use the capability, "
 "your user account will be assigned to the group."
 msgstr ""
-"Sie können hier eine neue Gruppe und Kapazität erstellen. Die Kapazität wird "
+"Du kannst hier eine neue Gruppe und Kapazität erstellen. Die Kapazität wird "
 "der Gruppe zugewiesen und zur Zugriffsbeschränkung aktiviert. Gruppennamen "
 "unterscheiden Groß- und Kleinschreibung, der Name der Kapazität ist die "
 "Version des Gruppennamens in Kleinschreibung. Existiert die Gruppe bereits, "
 "dann wird die Kapazität erstellt und der bestehenden Gruppe zugewiesen. "
 "Existiert die Kapazität bereits, dann wird sie der Gruppe zugewiesen. "
 "Existieren beide, dann wird die Kapazität zur Zugriffsbeschränkung "
-"aktiviert. Um die Kapazität verwenden zu können, wird ihr Benutzerkonto der "
+"aktiviert. Um die Kapazität verwenden zu können, wird dein Benutzerkonto der "
 "Gruppe hinzugefügt."
 
 #: lib/access/class-groups-access-meta-boxes.php:222
@@ -1637,7 +1635,7 @@ msgid ""
 "You can select one or more capabilities that are enabled for access "
 "restriction."
 msgstr ""
-"Sie können eine oder mehrere Kapazitäten auswählen die zur "
+"Du kannst eine oder mehrere Kapazitäten auswählen die zur "
 "Zugriffsbeschränkung aktiviert sind."
 
 #: lib/access/class-groups-access-meta-boxes.php:140
@@ -1650,24 +1648,24 @@ msgstr ""
 #: lib/blocks/src/class-groups-blocks.php:93
 #: lib/access/class-groups-access-meta-boxes.php:263
 msgid "You cannot set any access restrictions."
-msgstr "Sie können keine Zugriffsbeschränkungen setzen."
+msgstr "Du kannst keine Zugriffsbeschränkungen setzen."
 
 #: lib/views/class-groups-shortcodes.php:646
 #, php-format
 msgid "You have joined the %s group."
-msgstr "Sie sind der Gruppe %s beigetreten."
+msgstr "Du bist der Gruppe %s beigetreten."
 
 #: lib/views/class-groups-shortcodes.php:824
 #, php-format
 msgid "You have left the %s group."
-msgstr "Sie haben die Gruppe %s verlassen."
+msgstr "Du hast die Gruppe %s verlassen."
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:298
 msgid ""
 "You must be in a group that has at least one capability enabled to enforce "
 "read access."
 msgstr ""
-"Sie müssen in einer Gruppe sein die zumindest eine Kapazität hat die zur "
+"Du musst in einer Gruppe sein die zumindest eine Kapazität hat die zur "
 "Zugriffsbeschränkung aktiviert ist."
 
 #: lib/access/class-groups-access-meta-boxes.php:269
