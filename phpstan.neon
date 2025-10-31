@@ -4,3 +4,5 @@ parameters:
 		- '#^Constant GROUPS_CORE_URL not found\.$#'
 		- '#^Constant GROUPS_PLUGIN_URL not found\.$#'
 		- identifier: varTag.noVariable
+		- identifier: requireOnce.fileNotFound
+		- identifier: include.fileNotFound

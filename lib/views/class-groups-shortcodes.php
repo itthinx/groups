@@ -505,26 +505,8 @@ class Groups_Shortcodes {
 		$display_is_member = is_string( $options['display_is_member'] ) ? strtolower( $options['display_is_member'] ) : $options['display_is_member'];
 		$redirect = is_string( $options['redirect'] ) ? strtolower( $options['redirect'] ) : $options['redirect'];
 		$submit_text = $options['submit_text'];
-
-		switch ( $display_message ) {
-			case 'false':
-			case 'no':
-			case false:
-				$display_message = false;
-				break;
-			default:
-				$display_message = true;
-		}
-
-		switch ( $display_is_member ) {
-			case 'true':
-			case 'yes':
-			case true:
-				$display_is_member = true;
-				break;
-			default:
-				$display_is_member = false;
-		}
+		$display_message = in_array( $display_message, array( 'true', 'yes', true ) );
+		$display_is_member = in_array( $display_is_member, array( 'true', 'yes', true ) );
 
 		if ( !is_bool( $redirect ) ) {
 			switch( $redirect ) {
@@ -623,7 +605,7 @@ class Groups_Shortcodes {
 					$groups_join_data[$hash] = $data;
 					update_user_meta( $user_id, 'groups-join-data', $groups_join_data );
 
-					$submit_text = sprintf( $options['submit_text'], wp_filter_nohtml_kses( $current_group->name ) );
+					$submit_text = sprintf( $options['submit_text'], stripslashes( wp_filter_nohtml_kses( $current_group->name ) ) );
 					$output .= sprintf(
 						'<div class="groups-join%s">',
 						strlen( $class ) > 0 ? ' ' . esc_attr( $class ) : '',
@@ -643,12 +625,12 @@ class Groups_Shortcodes {
 					if ( $joined ) {
 						$output .= '<div class="groups-join joined">';
 						/* translators: group name */
-						$output .= sprintf( esc_html__( 'You have joined the %s group.', 'groups' ), wp_filter_nohtml_kses( $join_group->name ) );
+						$output .= sprintf( esc_html__( 'You have joined the %s group.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $current_group->name ) ) );
 						$output .= '</div>';
 					} else if ( $display_is_member && $current_group !== false ) {
 						$output .= '<div class="groups-join member">';
 						/* translators: group name */
-						$output .= sprintf( esc_html__( 'You are a member of the %s group.', 'groups' ), wp_filter_nohtml_kses( $current_group->name ) );
+						$output .= sprintf( esc_html__( 'You are a member of the %s group.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $current_group->name ) ) );
 						$output .= '</div>';
 					}
 				}
@@ -699,15 +681,7 @@ class Groups_Shortcodes {
 		$redirect = is_string( $options['redirect'] ) ? strtolower( $options['redirect'] ) : $options['redirect'];
 		$submit_text = $options['submit_text'];
 
-		switch ( $display_message ) {
-			case 'false':
-			case 'no':
-			case false:
-				$display_message = false;
-				break;
-			default:
-				$display_message = true;
-		}
+		$display_message = in_array( $display_message, array( 'true', 'yes', true ) );
 
 		if ( !is_bool( $redirect ) ) {
 			switch( $redirect ) {
@@ -801,7 +775,7 @@ class Groups_Shortcodes {
 					$groups_leave_data[$hash] = $data;
 					update_user_meta( $user_id, 'groups-leave-data', $groups_leave_data );
 
-					$submit_text = sprintf( $options['submit_text'], wp_filter_nohtml_kses( $current_group->name ) );
+					$submit_text = sprintf( $options['submit_text'], stripslashes( wp_filter_nohtml_kses( $current_group->name ) ) );
 					$output .= sprintf(
 						'<div class="groups-leave%s">',
 						strlen( $class ) > 0 ? ' ' . esc_attr( $class ) : '',
@@ -821,7 +795,7 @@ class Groups_Shortcodes {
 					if ( $left ) {
 						$output .= '<div class="groups-join left">';
 						/* translators: group name */
-						$output .= sprintf( esc_html__( 'You have left the %s group.', 'groups' ), wp_filter_nohtml_kses( $leave_group->name ) );
+						$output .= sprintf( esc_html__( 'You have left the %s group.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $current_group->name ) ) );
 						$output .= '</div>';
 					}
 				}
