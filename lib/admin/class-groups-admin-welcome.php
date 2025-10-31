@@ -112,8 +112,8 @@ class Groups_Admin_Welcome {
 		if ( version_compare( $groups_version, $groups_welcome_dismiss ) > 0 ) {
 			// @see Groups_Controller::activate()
 			if ( get_transient( 'groups_plugin_activated' ) ) {
-				$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
-				$doing_cron = defined( 'DOING_CRON' ) && DOING_CRON;
+				$doing_ajax = wp_doing_ajax();
+				$doing_cron = wp_doing_cron();
 				// we'll delete the transients in the welcome screen handler
 				if (
 					!$doing_ajax &&

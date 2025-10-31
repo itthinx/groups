@@ -1,20 +1,21 @@
 {
 	"name": "groups-blocks",
-	"version": "3.2.1",
+	"version": "3.8.0",
 	"description": "Groups Blocks",
 	"main": "build/index.js",
 	"author": "itthinx",
 	"license": "GPL-3.0",
 	"devDependencies": {
-		"@wordpress/scripts": "^25.1.0"
+		"@wordpress/scripts": "^30.0.6"
 	},
 	"dependencies": {
-		"@wordpress/data": "^8.1.0",
-		"classnames": "^2.3.1",
+		"@wordpress/data": "^10.8.4",
+		"classnames": "^2.5.1",
 		"react-select": "^5.0.0"
 	},
 	"peerDependencies": {
-		"react" : "^18.0.0"
+		"react" : "^18.3.1",
+		"react-dom": "^18.3.1"
 	},
 	"scripts": {
 		"start": "wp-scripts start",
