@@ -369,7 +369,11 @@ function groups_admin_options() {
 		echo ' ';
 		esc_html_e( 'Once you have adjusted your access restrictions based on groups, you can disable legacy access control.', 'groups' );
 		echo ' ';
-		echo wp_kses_post( __( 'Please refer to the <a target="_blank" href="https://docs.itthinx.com/document/groups/">Documentation</a> for details on how to switch to and use the new access restrictions.', 'groups' ) );
+		echo sprintf(
+			/* translators: documentation pages link */
+			__( 'Please refer to the %s for details on how to switch to and use the new access restrictions.', 'groups' ),
+			sprintf( '<a target="_blank" href="https://docs.itthinx.com/document/groups/">%s</a>', __( 'Documentation', 'groups' ) )
+		);
 		echo '</p>';
 		echo '</div>'; // .indent
 	}

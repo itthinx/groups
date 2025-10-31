@@ -9,6 +9,9 @@
 * Dev - Revised the join and leave shortcode processing logic.
 * Dev - Added the groups_join_submit_max_time_delta filter.
 * Dev - Added the groups_leave_submit_max_time_delta filter.
+* Dev - Improved several instances of translatable strings.
+* Update - Updated the translation template.
+* Update - Updated the translations.
 
 2025-09-08 - version 3.7.0
 * Update - WordPress 6.8 compatible.
