@@ -371,8 +371,8 @@ function groups_admin_options() {
 		echo ' ';
 		echo sprintf(
 			/* translators: documentation pages link */
-			__( 'Please refer to the %s for details on how to switch to and use the new access restrictions.', 'groups' ),
-			sprintf( '<a target="_blank" href="https://docs.itthinx.com/document/groups/">%s</a>', __( 'Documentation', 'groups' ) )
+			esc_html__( 'Please refer to the %s for details on how to switch to and use the new access restrictions.', 'groups' ),
+			sprintf( '<a target="_blank" href="https://docs.itthinx.com/document/groups/">%s</a>', esc_html__( 'Documentation', 'groups' ) )
 		);
 		echo '</p>';
 		echo '</div>'; // .indent
