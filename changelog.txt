@@ -17,6 +17,7 @@
 * Dev - Replaced use of DOING_CRON with wp_doing_cron().
 * Dev - Added validation hint to ignore requireOnce.fileNotFound due to false positives.
 * Dev - Added validation hint to ignore include.fileNotFound due to false positives.
+* Dev - Added validation hint to ignore includeOnce.fileNotFound due to false positives.
 
 2025-09-08 - version 3.7.0
 * Update - WordPress 6.8 compatible.

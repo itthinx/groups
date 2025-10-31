@@ -6,3 +6,4 @@ parameters:
 		- identifier: varTag.noVariable
 		- identifier: requireOnce.fileNotFound
 		- identifier: include.fileNotFound
+		- identifier: includeOnce.fileNotFound
