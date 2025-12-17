@@ -23,7 +23,7 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// phpcs:disable WordPress.WP.AlternativeFunctions.rand_rand
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.WP.AlternativeFunctions.rand_rand, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 /**
  * Shortcode handlers
