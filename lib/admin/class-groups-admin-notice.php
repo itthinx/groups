@@ -210,6 +210,7 @@ class Groups_Admin_Notice {
 		$bitcoin_box .= '</div>'; // .groups-bitcoin-image
 		$bitcoin_box .= '<div class="groups-bitcoin-description">';
 		$bitcoin_box .= sprintf(
+			/* translators: HTML */
 			esc_html__( 'Support the developers and contribute Bitcoin to %s', 'groups' ),
 			'<span class="groups-bitcoin-address">' . esc_html( $bitcoin_address ) . '</span>' .
 			'&ensp;' .
