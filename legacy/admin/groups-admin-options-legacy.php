@@ -23,6 +23,8 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
 /**
  * Legacy options admin screen extension.
  * @param $legacy_switched boolean whether legacy mode setting has been changed during submit

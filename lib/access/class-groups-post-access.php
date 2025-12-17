@@ -1315,19 +1315,21 @@ class Groups_Post_Access {
 			 */
 			if ( apply_filters( 'groups_post_access_filter_get_terms', true, $terms, $taxonomies, $query_vars, $term_query ) ) {
 				foreach ( $terms as $term ) {
-					$query_args = array(
-						'cat'              => $term->term_id, // this category term
-						'fields'           => 'ids',
-						'post_type'        => 'post',
-						'post_status'      => 'publish',
-						'numberposts'      => -1, // all
-						'suppress_filters' => false, // apply restrictions
-						'orderby'          => 'none', // performance
-						'no_found_rows'    => true, // performance
-						'nopaging'         => true // all
-					);
-					$post_ids = get_posts( $query_args );
-					$term->count = count( $post_ids );
+					if ( is_object( $term ) && property_exists( $term, 'term_id' ) ) {
+						$query_args = array(
+							'cat'              => $term->term_id, // this category term
+							'fields'           => 'ids',
+							'post_type'        => 'post',
+							'post_status'      => 'publish',
+							'numberposts'      => -1, // all
+							'suppress_filters' => false, // apply restrictions
+							'orderby'          => 'none', // performance
+							'no_found_rows'    => true, // performance
+							'nopaging'         => true // all
+						);
+						$post_ids = get_posts( $query_args );
+						$term->count = count( $post_ids );
+					}
 				}
 				_pad_term_counts( $terms, $taxonomies[0] );
 				$remove_empty = false;
@@ -1352,8 +1354,10 @@ class Groups_Post_Access {
 				if ( $remove_empty ) {
 					$_terms = array();
 					foreach ( $terms as $term ) {
-						if ( $term->count > 0 ) {
-							$_terms[] = $term;
+						if ( is_object( $term ) && property_exists( $term, 'count' ) ) {
+							if ( $term->count > 0 ) {
+								$_terms[] = $term;
+							}
 						}
 					}
 					$terms = $_terms;

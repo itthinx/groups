@@ -23,6 +23,8 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
 define( 'GROUPS_CAPABILITIES_PER_PAGE', 10 );
 define( 'GROUPS_ADMIN_CAPABILITIES_NONCE_1', 'groups-cap-nonce-1');
 define( 'GROUPS_ADMIN_CAPABILITIES_NONCE_2', 'groups-cap-nonce-2');

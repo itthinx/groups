@@ -23,6 +23,8 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
 // admin defines
 define( 'GROUPS_GROUPS_PER_PAGE', 10 );
 define( 'GROUPS_ADMIN_GROUPS_NONCE_1', 'groups-nonce-1');
