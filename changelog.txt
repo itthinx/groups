@@ -5,6 +5,7 @@
 * Update - WooCommerce 10.4 compatible.
 * Dev - Avoid handling non-objects when processing term counts in the get_terms filter.
 * Dev - Added translators comment.
+* Dev - Validation hints for WordPress.WP.AlternativeFunctions.rand_rand.
 
 2025-10-31 - version 3.8.0
 * Update - WordPress 6.8 compatible.
