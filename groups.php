@@ -25,7 +25,7 @@
  * Requires at least: 6.7
  * Requires PHP: 7.4
  * WC requires at least: 10.0
- * WC tested up to: 10.3
+ * WC tested up to: 10.4
  * Author: itthinx
  * Author URI: https://www.itthinx.com
  * Donate-Link: https://www.itthinx.com/shop/
