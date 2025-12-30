@@ -95,7 +95,7 @@ class Groups_Controller {
 		register_deactivation_hook( GROUPS_FILE, array( __CLASS__, 'deactivate' ) );
 		add_action( 'init', array( __CLASS__, 'init' ) );
 		add_filter( 'load_textdomain_mofile', array( __CLASS__, 'load_textdomain_mofile' ), 10, 2 ); // as of 3.10.0 this filter is removed within its function while processing, any changes made here should be reflected there, too
-		// @todo add_filter( 'load_script_translation_file', array( __CLASS__, 'load_script_translation_file' ), 10, 3 );
+		add_filter( 'load_script_translation_file', array( __CLASS__, 'load_script_translation_file' ), 10, 3 ); // @since 3.10.0
 		// priority 9 because it needs to be called before Groups_Registered's
 		// wpmu_new_blog kicks in
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 9, 2 );
@@ -268,8 +268,27 @@ class Groups_Controller {
 		return $mofile;
 	}
 
+	/**
+	 * Load our script translations.
+	 *
+	 * @since 3.10.0
+	 *
+	 * @param string $file
+	 * @param string $handle
+	 * @param string $domain
+	 *
+	 * @return string
+	 */
 	public static function load_script_translation_file( $file, $handle, $domain ) {
 		if ( $domain === 'groups' ) {
+			$mofile = self::get_mofile();
+			if ( $mofile !== null ) {
+				$base = basename( $mofile, '.mo' );
+				$path = GROUPS_CORE_DIR . '/languages/js/' . $base . '.json';
+				if ( file_exists( $path ) ) {
+					$file = $path;
+				}
+			}
 		}
 		return $file;
 	}

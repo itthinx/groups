@@ -168,7 +168,8 @@ class Groups_Blocks {
 
 		wp_set_script_translations(
 			'groups_blocks-block-js',
-			'groups'
+			'groups',
+			GROUPS_CORE_DIR . '/languages/js' // @since 3.10.0
 		);
 
 		// Frontend Styles - currently none required.

@@ -7,6 +7,10 @@
 * Dev - Performance improvement to avoid redundant mofile determination when already processed.
 * Fix - Solves infinite recursion issues with execution flows originating calls to our controller's load_textdomain_mofile filter for unrelated domains.
 * Update - Updated the translation template.
+* Add - Added script translation files.
+* Fix - Missing translations in blocks are loaded using script translation files.
+* Update - Using generic translation file for Portuguese.
+* Update - Using generic translation file for Dutch.
 
 2025-12-17 - version 3.9.0
 * Update - WordPress 6.9 compatible.
