@@ -1,6 +1,6 @@
 == Groups by itthinx - changelog.txt
 
-2025-12-30 - version 3.10.0
+2026-01-02 - version 3.10.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.4 compatible.
 * Fix - Do not process mofile for unrelated domain in our controller's load_textdomain_mofile filter.
