@@ -190,6 +190,7 @@ class Groups_Blocks {
 		register_block_type(
 			'groups/groups-member',
 			array(
+				'api_version'     => '3',
 				'editor_script'   => 'groups_blocks-block-js',
 				'editor_style'    => 'groups_blocks-block-editor-css',
 				'style'           => 'groups_blocks-style-css',
@@ -199,6 +200,7 @@ class Groups_Blocks {
 		register_block_type(
 			'groups/groups-non-member',
 			array(
+				'api_version'     => '3',
 				'editor_script'   => 'groups_blocks-block-js',
 				'editor_style'    => 'groups_blocks-block-editor-css',
 				'style'           => 'groups_blocks-style-css',

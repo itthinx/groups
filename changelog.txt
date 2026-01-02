@@ -11,6 +11,7 @@
 * Fix - Missing translations in blocks are loaded using script translation files.
 * Update - Using generic translation file for Portuguese.
 * Update - Using generic translation file for Dutch.
+* Update - Explicitly declaring blocks API version 3 to indicate iframe editor compatibiliy.
 
 2025-12-17 - version 3.9.0
 * Update - WordPress 6.9 compatible.
