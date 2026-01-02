@@ -13,6 +13,7 @@
  *
  * This header and all notices must be kept intact.
  *
+ * @author Karim Rahimpur
  * @author Denitsa Slavcheva
  * @package groups
  * @since groups 2.8.0
@@ -26,8 +27,9 @@
 	}
 }
 
-.wp-block-groups-groups-member,
-.wp-block-groups-groups-member__selected {
+.groups-member-block-editor-inside {
+	position: relative;
+	min-height: 40px;
 	border: 1px dashed #33333333;
 	border-radius: 2px;
 	padding: 0;
