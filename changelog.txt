@@ -1,6 +1,6 @@
 == Groups by itthinx - changelog.txt
 
-2026-01-03 - version 3.10.0
+2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.4 compatible.
 * Update - Updated blocks to API version 3 and iframe editor compatibility.
