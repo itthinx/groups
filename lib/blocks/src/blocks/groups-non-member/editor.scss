@@ -19,7 +19,7 @@
  * @since groups 2.8.0
  */
 
-.groups-inspector__control {
+.groups-non-member-block-inspector-select {
 	width: 100%;
 
 	> div > div {
@@ -52,8 +52,4 @@
 body.rtl .wp-block-groups-groups-non-member::before {
 	left: 4px;
 	right: unset;
-}
-
-.wp-block-groups-groups-non-member__inner-block {
-	padding-left: 5px;
 }

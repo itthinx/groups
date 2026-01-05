@@ -48,17 +48,15 @@ class Groups_Blocks {
 	 * Create the REST API endpoints.
 	 */
 	public static function groups_rest() {
+		// Provide groups.
+		// Access to the endpoint is restricted to users that can administer Groups restrictions.
 		register_rest_route(
-			// namespace - TODO version portion, change when merging to Groups plugin.
-			'groups/groups-blocks',
-			// resource path
-			'/groups',
+			'groups/groups-blocks', // namespace
+			'/groups', // route
 			array(
-				// Get the list of existing groups.
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( __CLASS__, 'get_groups' ),
-					// Restrict access for the endpoint only to users that can administrate groups restrictions.
 					'permission_callback' => function () {
 						return Groups_Access_Meta_Boxes::user_can_restrict(); // nosemgrep: scanner.php.wp.security.rest-route.permission-callback.incorrect-return
 					},
@@ -90,6 +88,7 @@ class Groups_Blocks {
 				);
 			}
 		}
+error_log( ' ?????????? ' . var_export( $groups_options, true ) ); // @todo remove
 		return $groups_options;
 	}
 
