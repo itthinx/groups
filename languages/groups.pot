@@ -7,7 +7,7 @@
 msgid   ""
 msgstr  "Project-Id-Version: PACKAGE VERSION\n"
         "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2025-12-30 13:23+0100\n"
+        "POT-Creation-Date: 2026-01-05 19:14+0100\n"
         "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
         "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
         "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -345,11 +345,11 @@ msgstr  ""
 msgid   "Click to toggle the display of groups that grant the capabilities."
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-member/block.js:139
+#: lib/blocks/src/blocks/groups-member/block.js:153
 msgid   "Content will be shown to users that are members of these groups:"
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:139
+#: lib/blocks/src/blocks/groups-non-member/block.js:153
 msgid   "Content will be shown to users that are not members of these groups:"
 msgstr  ""
 
@@ -635,11 +635,11 @@ msgstr  ""
 msgid   "Groups Capabilities"
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-member/block.js:72
+#: lib/blocks/src/blocks/groups-member/block.js:59
 msgid   "Groups Member"
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:72
+#: lib/blocks/src/blocks/groups-non-member/block.js:59
 msgid   "Groups Non-member"
 msgstr  ""
 
@@ -664,7 +664,7 @@ msgid   "Here you can <strong>add</strong>, <strong>edit</strong> and "
         "<strong>remove</strong> groups."
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-non-member/block.js:73
+#: lib/blocks/src/blocks/groups-non-member/block.js:60
 msgid   "Hide content from group members"
 msgstr  ""
 
@@ -751,9 +751,9 @@ msgid   "Let's assume that you want to limit the visibility of a post to "
         "members of the <em>Premium</em> group."
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-member/block.js:129
-#: lib/blocks/src/blocks/groups-non-member/block.js:129
-msgid   "Loading..."
+#: lib/blocks/src/blocks/groups-member/block.js:143
+#: lib/blocks/src/blocks/groups-non-member/block.js:143
+msgid   "Loading"
 msgstr  ""
 
 #: lib/views/class-groups-shortcodes.php:128
@@ -1056,8 +1056,8 @@ msgstr  ""
 msgid   "Save"
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-member/block.js:136
-#: lib/blocks/src/blocks/groups-non-member/block.js:136
+#: lib/blocks/src/blocks/groups-member/block.js:150
+#: lib/blocks/src/blocks/groups-non-member/block.js:150
 msgid   "Select Groups"
 msgstr  ""
 
@@ -1065,7 +1065,7 @@ msgstr  ""
 msgid   "Show access restrictions for these post types."
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-member/block.js:73
+#: lib/blocks/src/blocks/groups-member/block.js:60
 msgid   "Show content for group members"
 msgstr  ""
 
@@ -1420,7 +1420,8 @@ msgid   "You can select one or more groups to restrict access to its members."
 msgstr  ""
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:292
-#: lib/blocks/src/class-groups-blocks.php:93
+#: lib/blocks/src/blocks/groups-member/block.js:139
+#: lib/blocks/src/blocks/groups-non-member/block.js:139
 #: lib/access/class-groups-access-meta-boxes.php:263
 msgid   "You cannot set any access restrictions."
 msgstr  ""
@@ -1453,17 +1454,107 @@ msgstr  ""
 msgid   "Your support matters!"
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-member/block.js:76
-#: lib/blocks/src/blocks/groups-non-member/block.js:76
+#: lib/blocks/src/blocks/groups-member/block.js:64
+#: lib/blocks/src/blocks/groups-non-member/block.js:64
 msgid   "access"
 msgstr  ""
 
-#: lib/blocks/src/blocks/groups-member/block.js:76
-#: lib/blocks/src/blocks/groups-non-member/block.js:76
+#: lib/blocks/src/blocks/groups-member/block.js:65
+#: lib/blocks/src/blocks/groups-non-member/block.js:65
+msgid   "block"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:66
+#: lib/blocks/src/blocks/groups-non-member/block.js:66
+msgid   "blocks"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:67
+#: lib/blocks/src/blocks/groups-non-member/block.js:67
+msgid   "content"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:68
+#: lib/blocks/src/blocks/groups-non-member/block.js:68
+msgid   "control"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:69
+#: lib/blocks/src/blocks/groups-non-member/block.js:69
+msgid   "from"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:70
+#: lib/blocks/src/blocks/groups-non-member/block.js:70
+msgid   "group"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:71
+#: lib/blocks/src/blocks/groups-non-member/block.js:71
 msgid   "groups"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:72
+#: lib/blocks/src/blocks/groups-non-member/block.js:72
+msgid   "hide"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:73
+#: lib/blocks/src/blocks/groups-non-member/block.js:73
+msgid   "member"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:74
+#: lib/blocks/src/blocks/groups-non-member/block.js:74
+msgid   "members"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:75
+#: lib/blocks/src/blocks/groups-non-member/block.js:75
+msgid   "membership"
 msgstr  ""
 
 #: lib/blocks/src/blocks/groups-member/block.js:76
 #: lib/blocks/src/blocks/groups-non-member/block.js:76
-msgid   "members"
+msgid   "memberships"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:77
+#: lib/blocks/src/blocks/groups-non-member/block.js:77
+msgid   "only"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:78
+#: lib/blocks/src/blocks/groups-non-member/block.js:78
+msgid   "protect"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:79
+#: lib/blocks/src/blocks/groups-non-member/block.js:79
+msgid   "restrict"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:80
+#: lib/blocks/src/blocks/groups-non-member/block.js:80
+msgid   "show"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:81
+#: lib/blocks/src/blocks/groups-non-member/block.js:81
+msgid   "to"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:84
+#: lib/blocks/src/blocks/groups-non-member/block.js:84
+msgid   "user"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:82
+#: lib/blocks/src/blocks/groups-non-member/block.js:82
+msgid   "visibility"
+msgstr  ""
+
+#: lib/blocks/src/blocks/groups-member/block.js:83
+#: lib/blocks/src/blocks/groups-non-member/block.js:83
+msgid   "visible"
 msgstr  ""
