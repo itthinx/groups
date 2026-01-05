@@ -48,6 +48,11 @@
 		height: 24px;
 		font-size: 20px;
 	}
+
+	.groups-member-block-editor-inside,
+	.groups-non-member-block-editor-inside {
+		margin: 32px 4px 4px 4px;
+	}
 }
 
 body.rtl .groups-member-block-editor-inside::before {
