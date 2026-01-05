@@ -48,17 +48,15 @@ class Groups_Blocks {
 	 * Create the REST API endpoints.
 	 */
 	public static function groups_rest() {
+		// Provide groups.
+		// Access to the endpoint is restricted to users that can administer Groups restrictions.
 		register_rest_route(
-			// namespace - TODO version portion, change when merging to Groups plugin.
-			'groups/groups-blocks',
-			// resource path
-			'/groups',
+			'groups/groups-blocks', // namespace
+			'/groups', // route
 			array(
-				// Get the list of existing groups.
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( __CLASS__, 'get_groups' ),
-					// Restrict access for the endpoint only to users that can administrate groups restrictions.
 					'permission_callback' => function () {
 						return Groups_Access_Meta_Boxes::user_can_restrict(); // nosemgrep: scanner.php.wp.security.rest-route.permission-callback.incorrect-return
 					},
@@ -89,8 +87,6 @@ class Groups_Blocks {
 					'label' => $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '',
 				);
 			}
-		} else {
-			$groups_options = esc_html__( 'You cannot set any access restrictions.', 'groups' );
 		}
 		return $groups_options;
 	}
@@ -168,7 +164,8 @@ class Groups_Blocks {
 
 		wp_set_script_translations(
 			'groups_blocks-block-js',
-			'groups'
+			'groups',
+			GROUPS_CORE_DIR . '/languages/js' // @since 3.10.0
 		);
 
 		// Frontend Styles - currently none required.
@@ -189,6 +186,7 @@ class Groups_Blocks {
 		register_block_type(
 			'groups/groups-member',
 			array(
+				'api_version'     => '3',
 				'editor_script'   => 'groups_blocks-block-js',
 				'editor_style'    => 'groups_blocks-block-editor-css',
 				'style'           => 'groups_blocks-style-css',
@@ -198,6 +196,7 @@ class Groups_Blocks {
 		register_block_type(
 			'groups/groups-non-member',
 			array(
+				'api_version'     => '3',
 				'editor_script'   => 'groups_blocks-block-js',
 				'editor_style'    => 'groups_blocks-block-editor-css',
 				'style'           => 'groups_blocks-style-css',

@@ -38,6 +38,15 @@ class Groups_Controller {
 	const GROUPS_200 = '2.0.0';
 
 	/**
+	 * Holds mofile when determined.
+	 *
+	 * @since 3.10.0
+	 *
+	 * @var string
+	 */
+	private static $mofile = null;
+
+	/**
 	 * Cache-safe switching in case any multi-site hiccups might occur.
 	 *
 	 * Clears the cache after switching to the given blog to avoid using
@@ -85,7 +94,8 @@ class Groups_Controller {
 		register_activation_hook( GROUPS_FILE, array( __CLASS__, 'activate' ) );
 		register_deactivation_hook( GROUPS_FILE, array( __CLASS__, 'deactivate' ) );
 		add_action( 'init', array( __CLASS__, 'init' ) );
-		add_filter( 'load_textdomain_mofile', array( __CLASS__, 'load_textdomain_mofile' ), 10, 2 );
+		add_filter( 'load_textdomain_mofile', array( __CLASS__, 'load_textdomain_mofile' ), 10, 2 ); // as of 3.10.0 this filter is removed within its function while processing, any changes made here should be reflected there, too
+		add_filter( 'load_script_translation_file', array( __CLASS__, 'load_script_translation_file' ), 10, 3 ); // @since 3.10.0
 		// priority 9 because it needs to be called before Groups_Registered's
 		// wpmu_new_blog kicks in
 		add_action( 'wpmu_new_blog', array( __CLASS__, 'wpmu_new_blog' ), 9, 2 );
@@ -180,6 +190,12 @@ class Groups_Controller {
 	 * @return string mofile
 	 */
 	private static function get_mofile() {
+
+		// @since 3.10.0 determine the file only once and avoid redundant work
+		if ( self::$mofile !== null ) {
+			return self::$mofile;
+		}
+
 		$locale = get_locale();
 		if ( function_exists( 'get_user_locale' ) ) {
 			$locale = get_user_locale();
@@ -221,6 +237,9 @@ class Groups_Controller {
 				$mofile = $the_mofile;
 			}
 		}
+
+		self::$mofile = $mofile;
+
 		return $mofile;
 	}
 
@@ -233,8 +252,10 @@ class Groups_Controller {
 	 * @return string mofile
 	 */
 	public static function load_textdomain_mofile( $mofile, $domain ) {
-		$own_mofile = self::get_mofile();
-		if ( $domain == 'groups' ) {
+		if ( $domain === 'groups' ) {
+			// @since 3.10.0 remove the filter while processing and avoid potential infinite recursion during processing
+			remove_filter( 'load_textdomain_mofile', array( __CLASS__, 'load_textdomain_mofile' ), 10 );
+			$own_mofile = self::get_mofile();
 			if ( $own_mofile != $mofile ) {
 				if ( !is_textdomain_loaded( $domain ) ) {
 					if ( is_readable( $own_mofile ) ) {
@@ -242,8 +263,34 @@ class Groups_Controller {
 					}
 				}
 			}
+			add_filter( 'load_textdomain_mofile', array( __CLASS__, 'load_textdomain_mofile' ), 10, 2 ); // see self::boot() where this filter is originally added
 		}
 		return $mofile;
+	}
+
+	/**
+	 * Load our script translations.
+	 *
+	 * @since 3.10.0
+	 *
+	 * @param string $file
+	 * @param string $handle
+	 * @param string $domain
+	 *
+	 * @return string
+	 */
+	public static function load_script_translation_file( $file, $handle, $domain ) {
+		if ( $domain === 'groups' ) {
+			$mofile = self::get_mofile();
+			if ( $mofile !== null ) {
+				$base = basename( $mofile, '.mo' );
+				$path = GROUPS_CORE_DIR . '/languages/js/' . $base . '.json';
+				if ( file_exists( $path ) ) {
+					$file = $path;
+				}
+			}
+		}
+		return $file;
 	}
 
 	/**

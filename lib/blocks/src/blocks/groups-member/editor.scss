@@ -13,12 +13,14 @@
  *
  * This header and all notices must be kept intact.
  *
+ * @author Karim Rahimpur
  * @author Denitsa Slavcheva
  * @package groups
  * @since groups 2.8.0
  */
 
-.groups-inspector__control {
+
+.groups-member-block-inspector-select {
 	width: 100%;
 
 	> div > div {
@@ -26,8 +28,9 @@
 	}
 }
 
-.wp-block-groups-groups-member,
-.wp-block-groups-groups-member__selected {
+.groups-member-block-editor-inside {
+	position: relative;
+	min-height: 40px;
 	border: 1px dashed #33333333;
 	border-radius: 2px;
 	padding: 0;
@@ -45,13 +48,14 @@
 		height: 24px;
 		font-size: 20px;
 	}
+
+	.groups-member-block-editor-inside,
+	.groups-non-member-block-editor-inside {
+		margin: 32px 4px 4px 4px;
+	}
 }
 
-body.rtl .wp-block-groups-groups-member::before {
+body.rtl .groups-member-block-editor-inside::before {
 	left: 4px;
 	right: unset;
-}
-
-.wp-block-groups-groups-member__inner-block {
-	padding-left: 5px;
 }

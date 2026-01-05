@@ -1,6 +1,6 @@
 {
 	"name": "groups-blocks",
-	"version": "3.8.0",
+	"version": "3.10.0",
 	"description": "Groups Blocks",
 	"main": "build/index.js",
 	"author": "itthinx",
@@ -14,7 +14,7 @@
 		"react-select": "^5.0.0"
 	},
 	"peerDependencies": {
-		"react" : "^18.3.1",
+		"react": "^18.3.1",
 		"react-dom": "^18.3.1"
 	},
 	"scripts": {

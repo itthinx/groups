@@ -2,7 +2,7 @@
 /**
  * groups.php
  *
- * Copyright (c) 2011-2025 "kento" Karim Rahimpur www.itthinx.com
+ * Copyright (c) 2011-2026 "kento" Karim Rahimpur www.itthinx.com
  *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
@@ -21,7 +21,7 @@
  * Plugin Name: Groups
  * Plugin URI: https://www.itthinx.com/plugins/groups
  * Description: Groups provides group-based user membership management, group-based capabilities and content access control.
- * Version: 3.9.0
+ * Version: 3.10.0
  * Requires at least: 6.7
  * Requires PHP: 7.4
  * WC requires at least: 10.0
@@ -36,7 +36,7 @@
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'GROUPS_CORE_VERSION', '3.9.0' );
+define( 'GROUPS_CORE_VERSION', '3.10.0' );
 define( 'GROUPS_FILE', __FILE__ );
 if ( !defined( 'GROUPS_CORE_DIR' ) ) {
 	define( 'GROUPS_CORE_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );

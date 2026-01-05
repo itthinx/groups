@@ -1,5 +1,26 @@
 == Groups by itthinx - changelog.txt
 
+2026-01-05 - version 3.10.0
+* Update - WordPress 6.9 compatible.
+* Update - WooCommerce 10.4 compatible.
+* Update - Updated blocks to API version 3 and iframe editor compatibility.
+* Update - Improved the UI and UX of the Groups Member block.
+* Update - Improved the UI and UX of the Groups Non-member block.
+* Update - Groups Member blocks can be transformed into Groups Non-member blocks.
+* Update - Groups Non-member blocks can be transformed into Groups Member blocks.
+* Dev - Refactored the Groups Member block.
+* Dev - Refactored the Groups Non-member block.
+* Dev - Fixed React and Javascript issues in block implementations.
+* Fix - Do not process mofile for unrelated domain in our controller's load_textdomain_mofile filter.
+* Dev - Performance improvement to avoid redundant mofile determination when already processed.
+* Fix - Solves infinite recursion issues with execution flows originating calls to our controller's load_textdomain_mofile filter for unrelated domains.
+* Fix - Missing translations in blocks are loaded using script translation files.
+* Update - Updated the translation template.
+* Update - Updated included translations.
+* Add - Added script translation files.
+* Update - Using generic translation file for Portuguese.
+* Update - Using generic translation file for Dutch.
+
 2025-12-17 - version 3.9.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.4 compatible.
