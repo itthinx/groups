@@ -6,6 +6,8 @@
 * Update - Updated blocks to API version 3 and iframe editor compatibility.
 * Update - Improved the UI and UX of the Groups Member block.
 * Update - Improved the UI and UX of the Groups Non-member block.
+* Update - Groups Member blocks can be transformed into Groups Non-member blocks.
+* Update - Groups Non-member blocks can be transformed into Groups Member blocks.
 * Fix - Missing translations in blocks are loaded using script translation files.
 * Dev - Refactored the Groups Member block.
 * Dev - Refactored the Groups Non-member block.
