@@ -88,7 +88,6 @@ class Groups_Blocks {
 				);
 			}
 		}
-error_log( ' ?????????? ' . var_export( $groups_options, true ) ); // @todo remove
 		return $groups_options;
 	}
 
