@@ -89,8 +89,6 @@ class Groups_Blocks {
 					'label' => $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '',
 				);
 			}
-		} else {
-			$groups_options = esc_html__( 'You cannot set any access restrictions.', 'groups' );
 		}
 		return $groups_options;
 	}
