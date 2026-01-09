@@ -133,6 +133,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders information about a group.
+	 *
 	 * Attributes:
 	 * - "group"  : group name or id
 	 * - "show"   : what to show, can be "name", "description", "count"
@@ -153,6 +154,7 @@ class Groups_Shortcodes {
 				'group' => '',
 				'show' => '',
 				'format' => '',
+				'none' => '0',
 				'single' => '1',
 				'plural' => '%d'
 			),
@@ -182,10 +184,20 @@ class Groups_Shortcodes {
 					} else {
 						$count = intval( $count );
 					}
-					$output .= _n( $options['single'], sprintf( $options['plural'], $count ), $count, 'groups' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
+					switch ( $count ) {
+						case 0:
+							$output .= wp_kses_post( $options['none'] );
+							break;
+						case 1:
+							$output .= wp_kses_post( $options['single'] );
+							break;
+						default:
+							$output .= wp_kses_post( sprintf( $options['plural'], $count ) );
+					}
 					break;
-				// @todo experimental - could use pagination, sorting, link to profile, ...
 				case 'users' :
+					// Renders a basic user list, do not extend. For more detailed information,
+					// create a separate shortcode that could use pagination, sorting, link to profile, ...
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
 						"SELECT * FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -194,7 +206,8 @@ class Groups_Shortcodes {
 					if ( $users ) {
 						$output .= '<ul>';
 						foreach( $users as $user ) {
-							$output .= '<li>' . wp_filter_nohtml_kses( $user->user_login ) . '</li>';
+							$display_name = !empty( $user->display_name ) ? $user->display_name : $user->user_login;
+							$output .= '<li>' . wp_filter_nohtml_kses( $display_name ) . '</li>';
 						}
 						$output .= '</ul>';
 					}
@@ -206,6 +219,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders the current or a specific user's groups.
+	 *
 	 * Attributes:
 	 * - "user_id" OR "user_login" OR "user_email" to identify the user, if none given assumes the current user
 	 * - "format" : one of "list" "div" "ul" or "ol" - "list" and "ul" are equivalent
@@ -378,6 +392,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders a list of the site's groups.
+	 *
 	 * Attributes:
 	 * - "format" : one of "list" "div" "ul" or "ol" - "list" and "ul" are equivalent
 	 * - "list_class" : defaults to "groups"
