@@ -849,17 +849,17 @@ class Groups_Shortcodes {
 		}
 
 		// Try to handle a relative URL, determine missing parts
-		$parts = parse_url( $redirect_url );
+		$parts = wp_parse_url( $redirect_url );
 		if ( !isset( $parts['scheme'] ) ) {
 			$parts['scheme'] = is_ssl() ? 'https' : 'http';
 		}
 		if ( !isset( $parts['host'] ) ) {
-			$parts['host'] = parse_url( home_url(), PHP_URL_HOST );
+			$parts['host'] = wp_parse_url( home_url(), PHP_URL_HOST );
 		}
 		if ( !isset( $parts['path'] ) ) {
-			$parts['path'] = parse_url( home_url(), PHP_URL_PATH );
+			$parts['path'] = wp_parse_url( home_url(), PHP_URL_PATH );
 		} else {
-			$home_path = parse_url( home_url(), PHP_URL_PATH );
+			$home_path = wp_parse_url( home_url(), PHP_URL_PATH );
 			if ( strpos( $parts['path'], $home_path ) !== 0 ) {
 				$parts['path'] = trailingslashit( $home_path ) . ltrim( $parts['path'], '/\\' );
 			}
