@@ -73,8 +73,8 @@ class Groups_Shortcodes {
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$atts = shortcode_atts(
 			array(
-				'redirect'        => $current_url,
-				'show_logout'     => 'no'
+				'redirect'    => $current_url,
+				'show_logout' => 'no'
 			),
 			$atts
 		);
@@ -151,10 +151,10 @@ class Groups_Shortcodes {
 		$output = "";
 		$options = shortcode_atts(
 			array(
-				'group' => '',
-				'show' => '',
+				'group'  => '',
+				'show'   => '',
 				'format' => '',
-				'none' => '0',
+				'none'   => '0',
 				'single' => '1',
 				'plural' => '%d'
 			),
