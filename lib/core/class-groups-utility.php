@@ -412,6 +412,40 @@ class Groups_Utility {
 		}
 		return $result;
 	}
+
+	/**
+	 * Unslash, sanitize and verify nonce.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @see wp_unslash()
+	 * @see sanitize_text_field()
+	 * @see wp_verify_nonce()
+	 *
+	 * @param string $nonce
+	 * @param string $action
+	 *
+	 * @return int|boolean
+	 */
+	public static function verify_nonce( $nonce, $action = -1 ) {
+		return wp_verify_nonce( sanitize_text_field( wp_unslash( $nonce ) ), $action );
+	}
+}
+
+/**
+ * Unslash, sanitize and verify nonce.
+ *
+ * @since 3.11.0
+ *
+ * @see Groups_Utility::verify_nonce()
+ *
+ * @param string $nonce
+ * @param string $action
+ *
+ * @return int|boolean
+ */
+function groups_verify_nonce( $nonce, $action = -1 ) {
+	return Groups_Utility::verify_nonce( $nonce, $action );
 }
 
 Groups_Utility::boot();
