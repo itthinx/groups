@@ -43,7 +43,7 @@ function groups_admin_options_legacy( $legacy_switched ) {
 			$valid_read_caps = array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
 			$read_caps = groups_sanitize_post( GROUPS_READ_POST_CAPABILITIES );
 			if ( is_array( $read_caps ) ) {
-				foreach( $read_caps as $read_cap ) {
+				foreach ( $read_caps as $read_cap ) {
 					$read_cap = sanitize_text_field( $read_cap );
 					if ( $valid_cap = Groups_Capability::read( $read_cap ) ) {
 						if ( !in_array( $valid_cap->capability, $valid_read_caps ) ) {
@@ -70,7 +70,7 @@ function groups_admin_options_legacy( $legacy_switched ) {
 	$applicable_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
 	echo '<div class="select-capability-container" style="width:62%;">';
 	printf( '<select class="select capability" name="%s" multiple="multiple">', esc_attr( GROUPS_READ_POST_CAPABILITIES . '[]' ) );
-	foreach( $capabilities as $capability ) {
+	foreach ( $capabilities as $capability ) {
 		$selected = in_array( $capability->capability, $applicable_read_caps ) ? ' selected="selected" ' : '';
 		if ( $capability->capability == Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) {
 			$selected .= ' disabled="disabled" ';

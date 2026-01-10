@@ -237,7 +237,7 @@ class Groups_Access_Meta_Boxes {
 				esc_attr( $read_help )
 			);
 			$output .= '<option value=""></option>';
-			foreach( $groups as $group ) {
+			foreach ( $groups as $group ) {
 				$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
 				$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 				$output .= '</option>';
@@ -362,7 +362,7 @@ class Groups_Access_Meta_Boxes {
 									$include = self::get_user_can_restrict_group_ids();
 									$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 									$user_group_ids_deep = array();
-									foreach( $groups as $group ) {
+									foreach ( $groups as $group ) {
 										$user_group_ids_deep[] = $group->group_id;
 									}
 									$group_ids = array();
@@ -372,7 +372,7 @@ class Groups_Access_Meta_Boxes {
 									}
 
 									// assign requested groups and create and assign new groups if allowed
-									foreach( $submitted_group_ids as $group_id ) {
+									foreach ( $submitted_group_ids as $group_id ) {
 										if ( is_numeric( $group_id ) ) {
 											if ( in_array( $group_id, $user_group_ids_deep ) ) {
 												$group_ids[] = $group_id;
@@ -458,7 +458,7 @@ class Groups_Access_Meta_Boxes {
 
 				// $output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
 				// $output .= '<ul>';
-				// foreach( $groups as $group ) {
+				// foreach ( $groups as $group ) {
 				// 		$checked = in_array( $group->group_id, $groups_read ) ? ' checked="checked" ' : '';
 				// 		$output .= '<li>';
 				// 		$output .= '<label>';
@@ -482,7 +482,7 @@ class Groups_Access_Meta_Boxes {
 					Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . esc_attr__( 'You can create a new group by indicating the group\'s name.', 'groups' ) : ''
 				);
 				$output .= '<option value=""></option>';
-				foreach( $groups as $group ) {
+				foreach ( $groups as $group ) {
 					$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
 					$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 					$output .= '</option>';
@@ -543,7 +543,7 @@ class Groups_Access_Meta_Boxes {
 					$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 					$group_ids = array();
 					if ( !empty( $attachment[self::GROUPS_READ] ) && is_array( $attachment[self::GROUPS_READ] ) ) {
-						foreach( $groups as $group ) {
+						foreach ( $groups as $group ) {
 							if ( in_array( $group->group_id, $attachment[self::GROUPS_READ] ) ) {
 								$group_ids[] = $group->group_id;
 							}

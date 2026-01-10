@@ -129,7 +129,7 @@ class Groups_Admin_Posts_Legacy {
 					$selected = in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '';
 					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr( __( '(only unrestricted)', 'groups' ) ) );
 
-					foreach( $applicable_read_caps as $capability ) {
+					foreach ( $applicable_read_caps as $capability ) {
 						$selected = in_array( $capability, $previous_selected ) ? ' selected="selected" ' : '';
 						$output .= sprintf( '<option value="%s" %s >%s</option>', esc_attr( $capability ), esc_attr( $selected ), wp_filter_nohtml_kses( $capability ) );
 					}
@@ -190,7 +190,7 @@ class Groups_Admin_Posts_Legacy {
 						esc_attr( __( 'Choose access restrictions &hellip;', 'groups' ) )
 					);
 
-					foreach( $valid_read_caps as $capability ) {
+					foreach ( $valid_read_caps as $capability ) {
 						$output .= sprintf( '<option value="%s" >%s</option>', esc_attr( $capability ), wp_filter_nohtml_kses( $capability ) );
 					}
 					$output .= '</select>';
@@ -225,7 +225,7 @@ class Groups_Admin_Posts_Legacy {
 			if ( is_array( $bulk_capabilities ) ) {
 				if ( Groups_Access_Meta_Boxes_Legacy::user_can_restrict() ) {
 					$valid_read_caps = Groups_Access_Meta_Boxes_Legacy::get_valid_read_caps_for_user();
-					foreach( $bulk_capabilities as $capability_name ) {
+					foreach ( $bulk_capabilities as $capability_name ) {
 						if ( $capability = Groups_Capability::read_by_capability( $capability_name ) ) {
 							if ( in_array( $capability->capability, $valid_read_caps ) ) {
 								switch ( groups_sanitize_request( 'capabilities-action' ) ) {

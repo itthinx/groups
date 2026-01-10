@@ -627,7 +627,7 @@ class Groups_Group implements I_Capable {
 							"SELECT group_id FROM $group_table WHERE parent_id IS NOT NULL AND parent_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $successor_group_ids ) {
-							foreach( $successor_group_ids as $successor_group_id ) {
+							foreach ( $successor_group_ids as $successor_group_id ) {
 								$successor_group_id = Groups_Utility::id( $successor_group_id->group_id );
 								if ( !in_array( $successor_group_id, $group_ids ) ) {
 									$group_ids[] = $successor_group_id;

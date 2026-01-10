@@ -95,7 +95,7 @@ class Groups_Admin_Post_Columns_Legacy {
 				if ( count( $valid_read_caps ) > 0 ) {
 					sort( $valid_read_caps );
 					$output = '<ul>';
-					foreach( $valid_read_caps as $valid_read_cap ) {
+					foreach ( $valid_read_caps as $valid_read_cap ) {
 						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 							if ( in_array( $valid_read_cap, $read_caps ) ) {
 								$output .= '<li>';

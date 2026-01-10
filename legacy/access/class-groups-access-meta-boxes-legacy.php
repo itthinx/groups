@@ -222,14 +222,14 @@ class Groups_Access_Meta_Boxes_Legacy {
 				__( 'Choose one or more capabilities to restrict access. Groups that grant access through the capabilities are shown in parenthesis. If no capabilities are available yet, you can use the quick-create box to create a group and capability enabled for access restriction on the fly.', 'groups' )
 			);
 			$output .= '<option value=""></option>';
-			foreach( $valid_read_caps as $valid_read_cap ) {
+			foreach ( $valid_read_caps as $valid_read_cap ) {
 				if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 					if ( $user->can( $capability->capability ) ) {
 						$c = new Groups_Capability( $capability->capability_id );
 						$groups = $c->get_groups();
 						$group_names = array();
 						if ( !empty( $groups ) ) {
-							foreach( $groups as $group ) {
+							foreach ( $groups as $group ) {
 								$group_names[] = $group->get_name();
 							}
 						}
@@ -467,7 +467,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 								// set
 								if ( self::user_can_restrict() ) {
 									$valid_read_caps = self::get_valid_read_caps_for_user();
-									foreach( $valid_read_caps as $valid_read_cap ) {
+									foreach ( $valid_read_caps as $valid_read_cap ) {
 										if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 											$posted_capabilities = groups_sanitize_post( self::CAPABILITY );
 											if ( is_array( $posted_capabilities ) && in_array( $capability->capability_id, $posted_capabilities ) ) {
@@ -538,7 +538,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 
 				// $output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
 				// $output .= '<ul>';
-				// foreach( $valid_read_caps as $valid_read_cap ) {
+				// foreach ( $valid_read_caps as $valid_read_cap ) {
 				// 	if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 				// 		$checked = in_array( $capability->capability, $read_caps ) ? ' checked="checked" ' : '';
 				// 		$output .= '<li>';
@@ -563,14 +563,14 @@ class Groups_Access_Meta_Boxes_Legacy {
 					__( 'Choose one or more capabilities to restrict access. Groups that grant access through the capabilities are shown in parenthesis. If no capabilities are available yet, you can use the quick-create box to create a group and capability enabled for access restriction on the fly.', 'groups' )
 				);
 				$output .= '<option value=""></option>';
-				foreach( $valid_read_caps as $valid_read_cap ) {
+				foreach ( $valid_read_caps as $valid_read_cap ) {
 					if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 						if ( $user->can( $capability->capability ) ) {
 							$c = new Groups_Capability( $capability->capability_id );
 							$groups = $c->get_groups();
 							$group_names = array();
 							if ( !empty( $groups ) ) {
-								foreach( $groups as $group ) {
+								foreach ( $groups as $group ) {
 									$group_names[] = $group->get_name();
 								}
 							}
@@ -645,7 +645,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 				}
 				if ( $post_id !== null ) {
 					$valid_read_caps = self::get_valid_read_caps_for_user();
-					foreach( $valid_read_caps as $valid_read_cap ) {
+					foreach ( $valid_read_caps as $valid_read_cap ) {
 						if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 							if ( !empty( $attachment[self::CAPABILITY] ) && is_array( $attachment[self::CAPABILITY] ) && in_array( $capability->capability_id, $attachment[self::CAPABILITY] ) ) {
 								Groups_Post_Access_Legacy::create( array(
@@ -673,7 +673,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 		$has_read_cap = false;
 		$user = new Groups_User( get_current_user_id() );
 		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
-		foreach( $valid_read_caps as $valid_read_cap ) {
+		foreach ( $valid_read_caps as $valid_read_cap ) {
 			if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 				if ( $user->can( $capability->capability_id ) ) {
 					$has_read_cap = true;
@@ -691,7 +691,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 		$result = array();
 		$user = new Groups_User( $user_id === null ? get_current_user_id() : $user_id );
 		$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
-		foreach( $valid_read_caps as $valid_read_cap ) {
+		foreach ( $valid_read_caps as $valid_read_cap ) {
 			if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
 				if ( $user->can( $capability->capability ) ) {
 					$result[] = $valid_read_cap;

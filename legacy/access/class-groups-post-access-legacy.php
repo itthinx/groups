@@ -412,7 +412,7 @@ class Groups_Post_Access_Legacy {
 				$groups_user = new Groups_User( $user_id );
 				$read_caps = self::get_read_post_capabilities( $post_id );
 				if ( !empty( $read_caps ) ) {
-					foreach( $read_caps as $read_cap ) {
+					foreach ( $read_caps as $read_cap ) {
 						if ( $groups_user->can( $read_cap ) ) {
 							$result = true;
 							break;
