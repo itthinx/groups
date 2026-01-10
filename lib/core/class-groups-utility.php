@@ -569,6 +569,17 @@ class Groups_Utility {
 		}
 		return $result;
 	}
+
+	/**
+	 * Provide the current URL, sanitized.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @return string
+	 */
+	public static function get_current_url() {
+		return sanitize_url( ( is_ssl() ? 'https://' : 'http://' ) . ( $_SERVER['HTTP_HOST'] ?? '' ) . ( $_SERVER['REQUEST_URI'] ?? '' ) );
+	}
 }
 
 /**
@@ -683,6 +694,17 @@ function groups_sanitize_get( $name ) {
  */
 function groups_sanitize_request( $name ) {
 	return Groups_Utility::sanitize_request( $name );
+}
+
+/**
+ * Provide the current URL, sanitized.
+ *
+ * @since 3.11.0
+ *
+ * @return string
+ */
+function groups_get_current_url() {
+	return Groups_Utility::get_current_url();
 }
 
 Groups_Utility::boot();

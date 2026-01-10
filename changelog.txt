@@ -6,19 +6,20 @@
 * Fix - [CVE-2026-0549] Prevent potential stored XSS via shortcode.
 * Dev - Replaced uses of parse_url() with wp_parse_url().
 * Update - The [groups_group_info] shows user display_name instead of user_login when listing users and supports the none attribute.
-* Add - Adds the groups_verify_nonce() function.
-* Add - Adds the groups_verify_post_nonce() function.
-* Add - Adds the groups_verify_get_nonce() function.
-* Add - Adds the groups_verify_request_nonce() function.
-* Add - Adds the groups_sanitize_input() function.
-* Add - Adds the groups_sanitize_post() function.
-* Add - Adds the groups_sanitize_get() function.
-* Add - Adds the groups_sanitize_request() function.
+* Add - Adds the groups_verify_nonce() API function.
+* Add - Adds the groups_verify_post_nonce() API function.
+* Add - Adds the groups_verify_get_nonce() API function.
+* Add - Adds the groups_verify_request_nonce() API function.
+* Add - Adds the groups_sanitize_input() API function.
+* Add - Adds the groups_sanitize_post() API function.
+* Add - Adds the groups_sanitize_get() API function.
+* Add - Adds the groups_sanitize_request() API function.
 * Update - Legacy access restrictions phaseout: removed quick-create feature when block editor is used, removed show groups option.
 * Update - Revised input sanitation in remnant legacy code pending phaseout.
 * Dev - Validation hints for WordPress.DB.SlowDBQuery.slow_db_query_meta_query in legacy code.
 * Update - Revised sanitation of the legacy options handling code pending phaseout.
 * Update - Revised input sanitation in controller for activation processing.
+* Add - Adds the groups_get_current_url() API function.
 
 2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.
