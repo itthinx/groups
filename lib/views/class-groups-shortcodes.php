@@ -166,7 +166,7 @@ class Groups_Shortcodes {
 			$current_group = Groups_Group::read_by_name( $group );
 		}
 		if ( $current_group ) {
-			switch( $options['show'] ) {
+			switch ( $options['show'] ) {
 				case 'name' :
 					$output .= wp_filter_nohtml_kses( $current_group->name );
 					break;
@@ -310,21 +310,21 @@ class Groups_Shortcodes {
 						}
 					}
 				}
-				switch( $options['order_by'] ) {
+				switch ( $options['order_by'] ) {
 					case 'group_id' :
 						usort( $groups, array( __CLASS__, 'sort_id' ) );
 						break;
 					default :
 						usort( $groups, array( __CLASS__, 'sort_name' ) );
 				}
-				switch( $options['order'] ) {
+				switch ( $options['order'] ) {
 					case 'desc' :
 					case 'DESC' :
 						$groups = array_reverse( $groups );
 						break;
 				}
 
-				switch( $options['format'] ) {
+				switch ( $options['format'] ) {
 					case 'list' :
 					case 'ul' :
 						$output .= '<ul class="' . esc_attr( $options['list_class'] ) . '">';
@@ -335,8 +335,8 @@ class Groups_Shortcodes {
 					default :
 						$output .= '<div class="' . esc_attr( $options['list_class'] ) . '">';
 				}
-				foreach( $groups as $group ) {
-					switch( $options['format'] ) {
+				foreach ( $groups as $group ) {
+					switch ( $options['format'] ) {
 						case 'list' :
 						case 'ul' :
 						case 'ol' :
@@ -350,7 +350,7 @@ class Groups_Shortcodes {
 							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $name ) ) . '</div>';
 					}
 				}
-				switch( $options['format'] ) {
+				switch ( $options['format'] ) {
 					case 'list' :
 					case 'ul' :
 						$output .= '</ul>';
@@ -418,7 +418,7 @@ class Groups_Shortcodes {
 			),
 			$atts
 		);
-		switch( $options['order_by'] ) {
+		switch ( $options['order_by'] ) {
 			case 'group_id' :
 			case 'name' :
 				$order_by = $options['order_by'];
@@ -426,7 +426,7 @@ class Groups_Shortcodes {
 			default :
 				$order_by = 'name';
 		}
-		switch( $options['order'] ) {
+		switch ( $options['order'] ) {
 			case 'asc' :
 			case 'ASC' :
 			case 'desc' :
@@ -440,7 +440,7 @@ class Groups_Shortcodes {
 		// nosemgrep: audit.php.wp.security.sqli.shortcode-attr
 		$groups = $wpdb->get_results( "SELECT group_id FROM $group_table ORDER BY $order_by $order" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( is_array( $groups ) && count( $groups ) > 0 ) {
-			switch( $options['format'] ) {
+			switch ( $options['format'] ) {
 				case 'list' :
 				case 'ul' :
 					$output .= '<ul class="' . esc_attr( $options['list_class'] ) . '">';
@@ -451,9 +451,9 @@ class Groups_Shortcodes {
 				default :
 					$output .= '<div class="' . esc_attr( $options['list_class'] ) . '">';
 			}
-			foreach( $groups as $group ) {
+			foreach ( $groups as $group ) {
 				$group = new Groups_Group( $group->group_id );
-				switch( $options['format'] ) {
+				switch ( $options['format'] ) {
 					case 'list' :
 					case 'ul' :
 					case 'ol' :
@@ -463,7 +463,7 @@ class Groups_Shortcodes {
 						$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $group->get_name() ) ) . '</div>';
 				}
 			}
-			switch( $options['format'] ) {
+			switch ( $options['format'] ) {
 				case 'list' :
 				case 'ul' :
 					$output .= '</ul>';
@@ -526,7 +526,7 @@ class Groups_Shortcodes {
 		$display_is_member = in_array( $display_is_member, array( 'true', 'yes', true ) );
 
 		if ( !is_bool( $redirect ) ) {
-			switch( $redirect ) {
+			switch ( $redirect ) {
 				case 'true':
 				case 'yes':
 					$redirect = true;
@@ -559,17 +559,17 @@ class Groups_Shortcodes {
 				$joined        = false;
 				$submitted     = false;
 				$invalid_nonce = false;
-				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'join' ) {
+				if ( groups_sanitize_post( 'groups_action' ) === 'join' ) {
 					$submitted = true;
 					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
+					if ( !groups_verify_post_nonce( $nonce, $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
 						$invalid_nonce = true;
 					}
 				}
 				if ( $submitted && !$invalid_nonce ) {
 					// add user to group
-					if ( isset( $_POST['groups-join-data'] ) ) {
-						$hash = trim( sanitize_text_field( $_POST['groups-join-data'] ) );
+					if ( isset( $_POST['groups-join-data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						$hash = trim( groups_sanitize_post( 'groups-join-data' ) );
 						$groups_join_data = get_user_meta( $user_id, 'groups-join-data', true );
 						if ( is_array( $groups_join_data ) && isset( $groups_join_data[$hash] ) ) {
 							if ( isset( $groups_join_data[$hash]['group_id'] ) && isset( $groups_join_data[$hash]['time'] ) ) {
@@ -701,7 +701,7 @@ class Groups_Shortcodes {
 		$display_message = in_array( $display_message, array( 'true', 'yes', true ) );
 
 		if ( !is_bool( $redirect ) ) {
-			switch( $redirect ) {
+			switch ( $redirect ) {
 				case 'true':
 				case 'yes':
 					$redirect = true;
@@ -734,17 +734,17 @@ class Groups_Shortcodes {
 				$left          = false;
 				$submitted     = false;
 				$invalid_nonce = false;
-				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'leave' ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( groups_sanitize_post( 'groups_action' ) === 'leave' ) {
 					$submitted = true;
 					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
+					if ( !groups_verify_post_nonce( $nonce, $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
 						$invalid_nonce = true;
 					}
 				}
 				if ( $submitted && !$invalid_nonce ) {
 					// remove user from group
-					if ( isset( $_POST['groups-leave-data'] ) ) {
-						$hash = trim( sanitize_text_field( $_POST['groups-leave-data'] ) );
+					if ( isset( $_POST['groups-leave-data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						$hash = trim( groups_sanitize_post( 'groups-leave-data' ) );
 						$groups_leave_data = get_user_meta( $user_id, 'groups-leave-data', true );
 						if ( is_array( $groups_leave_data ) && isset( $groups_leave_data[$hash] ) ) {
 							if ( isset( $groups_leave_data[$hash]['group_id'] ) && isset( $groups_leave_data[$hash]['time'] ) ) {
