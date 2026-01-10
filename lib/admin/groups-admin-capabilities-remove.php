@@ -81,11 +81,11 @@ function groups_admin_capabilities_remove_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'capabilities-remove' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_NONCE, 'capabilities-remove' ) ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability_id = isset( $_POST['capability-id-field'] ) ? $_POST['capability-id-field'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$capability_id = groups_sanitize_post( 'capability-id-field' );
 	$capability = Groups_Capability::read( $capability_id );
 	if ( $capability ) {
 		if ( $capability->capability !== Groups_Post_Access::READ_POST_CAPABILITY ) {
@@ -106,7 +106,7 @@ function groups_admin_capabilities_bulk_remove() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$capability_ids = groups_sanitize_post( 'capability_ids' );
 
 	if ( $capability_ids === null || !is_array( $capability_ids ) ) {
 		wp_die( esc_html__( 'No such capabilities.', 'groups' ) );
@@ -170,11 +170,11 @@ function groups_admin_capabilities_bulk_remove_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_ACTION_NONCE, 'admin' ) ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$capability_ids = isset( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$capability_ids = groups_sanitize_post( 'capability_ids' );
 
 	if ( $capability_ids !== null && is_array( $capability_ids ) ) {
 		foreach ( $capability_ids as $capability_id ) {
