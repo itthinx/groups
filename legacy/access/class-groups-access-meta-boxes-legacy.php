@@ -180,9 +180,17 @@ class Groups_Access_Meta_Boxes_Legacy {
 	 */
 	public static function capability( $object = null, $box = null ) {
 
+		$is_block_editor = false;
+		if ( function_exists( 'get_current_screen' ) ) {
+			$current_screen = get_current_screen();
+			$is_block_editor = method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor();
+		}
+
 		$output = '';
 
-		$show_groups = Groups_Options::get_user_option( self::SHOW_GROUPS, true );
+		// @since 3.11.0 dropped and always on
+		// $show_groups = Groups_Options::get_user_option( self::SHOW_GROUPS, true );
+		$show_groups = true;
 
 		$post_id = isset( $object->ID ) ? $object->ID : null;
 		$post_type = isset( $object->post_type ) ? $object->post_type : null;
@@ -272,21 +280,22 @@ class Groups_Access_Meta_Boxes_Legacy {
 			$output .= sprintf( esc_html__( "Only groups or users that have one of the selected capabilities are allowed to read this %s.", 'groups' ), esc_html( $post_singular_name ) );
 			$output .= '</p>';
 
-			$output .= '<p class="description">';
-			$output .= sprintf( '<label title="%s">', __( 'Click to toggle the display of groups that grant the capabilities.', 'groups' ) );
-			$output .= sprintf( '<input id="access-show-groups" type="checkbox" name="%s" %s />', esc_attr( self::SHOW_GROUPS ), $show_groups ? ' checked="checked" ' : '' );
-			$output .= ' ';
-			$output .= esc_html__( 'Show groups', 'groups' );
-			$output .= '</label>';
-			$output .= '</p>';
-			$output .= '<script type="text/javascript">';
-			$output .= 'if (typeof jQuery !== "undefined"){';
-			$output .= !$show_groups ? 'jQuery("span.groups.description").hide();' : '';
-			$output .= 'jQuery("#access-show-groups").click(function(){';
-			$output .= 'jQuery("span.groups.description").toggle();';
-			$output .= '});';
-			$output .= '}';
-			$output .= '</script>';
+			// @since 3.11.0 dropped and always on
+			// $output .= '<p class="description">';
+			// $output .= sprintf( '<label title="%s">', __( 'Click to toggle the display of groups that grant the capabilities.', 'groups' ) );
+			// $output .= sprintf( '<input id="access-show-groups" type="checkbox" name="%s" %s />', esc_attr( self::SHOW_GROUPS ), $show_groups ? ' checked="checked" ' : '' );
+			// $output .= ' ';
+			// $output .= esc_html__( 'Show groups', 'groups' );
+			// $output .= '</label>';
+			// $output .= '</p>';
+			// $output .= '<script type="text/javascript">';
+			// $output .= 'if (typeof jQuery !== "undefined"){';
+			// $output .= !$show_groups ? 'jQuery("span.groups.description").hide();' : '';
+			// $output .= 'jQuery("#access-show-groups").click(function(){';
+			// $output .= 'jQuery("span.groups.description").toggle();';
+			// $output .= '});';
+			// $output .= '}';
+			// $output .= '</script>';
 		} else {
 			$output .= '<p class="description">';
 			$output .= esc_html__( 'You cannot set any access restrictions.', 'groups' );
@@ -303,7 +312,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 		}
 
 		// quick-create
-		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+		if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) && !$is_block_editor ) {
 			$style = 'cursor:help;vertical-align:middle;';
 			$output .= '<div class="quick-create-group-capability" style="margin:4px 0">';
 			$output .= '<label>';
@@ -445,10 +454,10 @@ class Groups_Access_Meta_Boxes_Legacy {
 													)
 												);
 												// put the capability ID in $_POST[self::CAPABILITY] so it is treated below
-												if ( empty( $_POST[self::CAPABILITY] ) ) {
+												if ( empty( $_POST[self::CAPABILITY] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 													$_POST[self::CAPABILITY] = array();
 												}
-												if ( !in_array( $capability->capability_id, $_POST[self::CAPABILITY] ) ) {
+												if ( !in_array( $capability->capability_id, $_POST[self::CAPABILITY] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 													$_POST[self::CAPABILITY][] = $capability->capability_id;
 												}
 											}
@@ -460,7 +469,8 @@ class Groups_Access_Meta_Boxes_Legacy {
 									$valid_read_caps = self::get_valid_read_caps_for_user();
 									foreach( $valid_read_caps as $valid_read_cap ) {
 										if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-											if ( !empty( $_POST[self::CAPABILITY] ) && is_array( $_POST[self::CAPABILITY] ) && in_array( $capability->capability_id, $_POST[self::CAPABILITY] ) ) {
+											$posted_capabilities = groups_sanitize_post( self::CAPABILITY );
+											if ( is_array( $posted_capabilities ) && in_array( $capability->capability_id, $posted_capabilities ) ) {
 												Groups_Post_Access_Legacy::create( array(
 													'post_id' => $post_id,
 													'capability' => $capability->capability
@@ -472,7 +482,8 @@ class Groups_Access_Meta_Boxes_Legacy {
 									}
 								}
 								// show groups
-								Groups_Options::update_user_option( self::SHOW_GROUPS, !empty( $_POST[self::SHOW_GROUPS] ) );
+								// @since 3.11.0 dropped and always on
+								// Groups_Options::update_user_option( self::SHOW_GROUPS, !empty( $_POST[self::SHOW_GROUPS] ) );
 							}
 						}
 					}

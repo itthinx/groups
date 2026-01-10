@@ -61,7 +61,7 @@ class Groups_Admin_Posts_Legacy {
 		global $pagenow;
 
 		if ( $pagenow == 'edit.php' ) {
-			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				Groups_UIE::enqueue( 'select' );

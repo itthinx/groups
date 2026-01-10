@@ -14,6 +14,7 @@
 * Add - Adds the groups_sanitize_post() function.
 * Add - Adds the groups_sanitize_get() function.
 * Add - Adds the groups_sanitize_request() function.
+* Update - Legacy access restrictions phaseout: removed quick-create feature when block editor is used, removed show groups option.
 
 2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.

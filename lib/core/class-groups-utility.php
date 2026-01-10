@@ -441,7 +441,9 @@ class Groups_Utility {
 	 */
 	public static function verify_post_nonce( $name, $action = -1 ) {
 		$result = false;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_POST[$name] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$result = self::verify_nonce( $_POST[$name], $action );
 		}
 		return $result;
@@ -457,7 +459,9 @@ class Groups_Utility {
 	 */
 	public static function verify_get_nonce( $name, $action = -1 ) {
 		$result = false;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET[$name] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$result = self::verify_nonce( $_GET[$name], $action );
 		}
 		return $result;
@@ -473,7 +477,9 @@ class Groups_Utility {
 	 */
 	public static function verify_request_nonce( $name, $action = -1 ) {
 		$result = false;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_REQUEST[$name] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$result = self::verify_nonce( $_REQUEST[$name], $action );
 		}
 		return $result;
