@@ -563,7 +563,7 @@ class Groups_Utility {
 	public static function sanitize_request( $name ) {
 		$result = null;
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing,  WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_REQUEST[$name] ) && ( is_numeric( $_REQUEST[$name] ) || is_string( $_REQUEST[$name] || is_array( $_REQUEST[$name] ) ) ) ) {
+		if ( isset( $_REQUEST[$name] ) && ( is_numeric( $_REQUEST[$name] ) || is_string( $_REQUEST[$name] ) || is_array( $_REQUEST[$name] ) ) ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 			$result = self::sanitize_input( $_REQUEST[$name] );
 		}
