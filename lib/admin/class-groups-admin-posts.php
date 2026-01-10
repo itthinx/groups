@@ -181,7 +181,7 @@ class Groups_Admin_Posts {
 							)
 						)
 					);
-					foreach( $groups as $group ) {
+					foreach ( $groups as $group ) {
 						$selected = in_array( $group->group_id, $previous_selected ) ? ' selected="selected" ' : '';
 						$output .= sprintf(
 							'<option value="%s" %s >%s</option>',
@@ -260,7 +260,7 @@ class Groups_Admin_Posts {
 						esc_attr__( 'Choose access restriction groups &hellip;', 'groups' )
 					);
 
-					foreach( $groups as $group ) {
+					foreach ( $groups as $group ) {
 						$output .= sprintf(
 							'<option value="%s" >%s</option>',
 							esc_attr( $group->group_id ),
@@ -301,10 +301,10 @@ class Groups_Admin_Posts {
 						$include = Groups_Access_Meta_Boxes::get_user_can_restrict_group_ids();
 						$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 						$group_ids = array();
-						foreach( $groups as $group ) {
+						foreach ( $groups as $group ) {
 							$group_ids[] = $group->group_id;
 						}
-						foreach( $_REQUEST[$field] as $group_id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						foreach ( $_REQUEST[$field] as $group_id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							if ( $group = Groups_Group::read( $group_id ) ) {
 								if ( in_array( $group->group_id, $group_ids ) ) {
 									switch ( $_REQUEST['groups-action'] ) {
@@ -613,7 +613,7 @@ class Groups_Admin_Posts {
 			if ( !is_array( $post_types ) ) {
 				$post_types = array( $post_types );
 			}
-			foreach( $post_types as $post_type ) {
+			foreach ( $post_types as $post_type ) {
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 				if (
 					!isset( $post_types_option[$post_type]['add_meta_box'] ) ||
@@ -653,7 +653,7 @@ class Groups_Admin_Posts {
 			if ( !is_array( $post_types ) ) {
 				$post_types = array( $post_types );
 			}
-			foreach( $post_types as $post_type ) {
+			foreach ( $post_types as $post_type ) {
 				if (
 					!isset( $post_types_option[$post_type]['add_meta_box'] ) ||
 					$post_types_option[$post_type]['add_meta_box']

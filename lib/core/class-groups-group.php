@@ -235,7 +235,7 @@ class Groups_Group implements I_Capable {
 				case 'capabilities_deep' :
 					$result = array();
 					$capability_ids = $this->capability_ids_deep; // @phpstan-ignore property.notFound
-					foreach( $capability_ids as $capability_id ) {
+					foreach ( $capability_ids as $capability_id ) {
 						$result[] = new Groups_Capability( $capability_id );
 					}
 					break;
@@ -256,7 +256,7 @@ class Groups_Group implements I_Capable {
 							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $parent_group_ids ) {
-							foreach( $parent_group_ids as $parent_group_id ) {
+							foreach ( $parent_group_ids as $parent_group_id ) {
 								$parent_group_id = Groups_Utility::id( $parent_group_id->parent_id );
 								if ( !in_array( $parent_group_id, $group_ids ) ) {
 									$group_ids[] = $parent_group_id;
@@ -285,7 +285,7 @@ class Groups_Group implements I_Capable {
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $users ) {
-						foreach( $users as $user ) {
+						foreach ( $users as $user ) {
 							$groups_user = new Groups_User();
 							$groups_user->set_user( new WP_User( $user ) );
 							$result[] = $groups_user;
@@ -300,7 +300,7 @@ class Groups_Group implements I_Capable {
 						Groups_Utility::id( $this->group->group_id )
 					) );
 					if ( $user_ids ) {
-						foreach( $user_ids as $user_id ) {
+						foreach ( $user_ids as $user_id ) {
 							$result[] = $user_id->ID;
 						}
 					}
@@ -353,7 +353,7 @@ class Groups_Group implements I_Capable {
 							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $parent_group_ids ) {
-							foreach( $parent_group_ids as $parent_group_id ) {
+							foreach ( $parent_group_ids as $parent_group_id ) {
 								$parent_group_id = Groups_Utility::id( $parent_group_id->parent_id );
 								if ( !in_array( $parent_group_id, $group_ids ) ) {
 									$group_ids[] = $parent_group_id;

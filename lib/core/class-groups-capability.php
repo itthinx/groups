@@ -192,7 +192,7 @@ class Groups_Capability {
 					) );
 					if ( $rows ) {
 						$result = array();
-						foreach( $rows as $row ) {
+						foreach ( $rows as $row ) {
 							$result[] = $row->group_id;
 						}
 					}
@@ -205,7 +205,7 @@ class Groups_Capability {
 					) );
 					if ( $rows ) {
 						$result = array();
-						foreach( $rows as $row ) {
+						foreach ( $rows as $row ) {
 							$result[] = new Groups_Group( $row->group_id );
 						}
 					}

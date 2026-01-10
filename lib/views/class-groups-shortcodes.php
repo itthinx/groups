@@ -205,7 +205,7 @@ class Groups_Shortcodes {
 					) );
 					if ( $users ) {
 						$output .= '<ul>';
-						foreach( $users as $user ) {
+						foreach ( $users as $user ) {
 							$display_name = !empty( $user->display_name ) ? $user->display_name : $user->user_login;
 							$output .= '<li>' . wp_filter_nohtml_kses( $display_name ) . '</li>';
 						}

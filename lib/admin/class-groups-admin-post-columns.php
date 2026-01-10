@@ -128,7 +128,7 @@ class Groups_Admin_Post_Columns {
 				if ( count( $groups_read ) > 0 ) {
 					$groups = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $groups_read ) );
 					if ( ( count( $groups ) > 0 ) ) {
-						foreach( $groups as $group ) {
+						foreach ( $groups as $group ) {
 							$entries[] = $group->name ? stripslashes( wp_strip_all_tags( $group->name ) ) : '';
 						}
 					}
@@ -143,7 +143,7 @@ class Groups_Admin_Post_Columns {
 					if ( count( $taxonomies ) > 0 ) {
 						$terms = wp_get_object_terms( $post_id, $taxonomies );
 						if ( !( $terms instanceof WP_Error ) ) {
-							foreach( $terms as $term ) {
+							foreach ( $terms as $term ) {
 								if ( in_array( $term->taxonomy, $taxonomies ) ) {
 									$term_group_ids = Groups_Restrict_Categories::get_term_read_groups( $term->term_id );
 									if ( count( $term_group_ids ) > 0 ) {
@@ -162,7 +162,7 @@ class Groups_Admin_Post_Columns {
 											}
 											$term_taxonomy_title = !empty( $term->name ) ? $term->name : '';
 											$term_taxonomy_title.= !empty( $taxonomy_label ) ? ' ' . $taxonomy_label : '';
-											foreach( $term_group_ids as $group_id ) {
+											foreach ( $term_group_ids as $group_id ) {
 												if ( $group = Groups_Group::read( $group_id ) ) {
 													$entries[] = sprintf(
 														'%s <a href="%s" title="%s" style="cursor: help">%s</a>',
@@ -183,7 +183,7 @@ class Groups_Admin_Post_Columns {
 				if ( !empty( $entries ) ) {
 					sort( $entries );
 					$output .= '<ul>';
-					foreach( $entries as $entry ) {
+					foreach ( $entries as $entry ) {
 						$output .= '<li>';
 						$output .= $entry; // entries are already escaped for output
 						$output .= '</li>';

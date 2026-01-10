@@ -116,7 +116,7 @@ class Groups_Utility {
 				$wpdb->siteid
 			) );
 			if ( is_array( $blogs ) ) {
-				foreach( $blogs as $blog ) {
+				foreach ( $blogs as $blog ) {
 					$result[] = $blog->blog_id;
 				}
 			}
@@ -229,7 +229,7 @@ class Groups_Utility {
 	 * @param int $level
 	 */
 	public static function render_tree_options( &$tree, &$output, $level = 0, $selected = array() ) {
-		foreach( $tree as $group_id => $object ) {
+		foreach ( $tree as $group_id => $object ) {
 			$output .= sprintf(
 				'<option class="node" value="%d" %s>',
 				esc_attr( $group_id ),
@@ -258,7 +258,7 @@ class Groups_Utility {
 	 */
 	public static function render_tree( &$tree, &$output, $linked = false ) {
 		$output .= '<ul class="groups-tree">';
-		foreach( $tree as $group_id => $object ) {
+		foreach ( $tree as $group_id => $object ) {
 			$output .= '<li class="groups-tree-node">';
 			// If specific filtering is done on the group data, we might need to pass it through this call and use the name of the $group object instead:
 			// $group = Groups_Group::read( $group_id );
@@ -302,7 +302,7 @@ class Groups_Utility {
 			$tree = array();
 			$root_groups = $wpdb->get_results( "SELECT group_id FROM $group_table WHERE parent_id IS NULL ORDER BY name" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			if ( $root_groups ) {
-				foreach( $root_groups as $root_group ) {
+				foreach ( $root_groups as $root_group ) {
 					$group_id = Groups_Utility::id( $root_group->group_id );
 					$tree[$group_id] = array();
 				}
@@ -310,12 +310,12 @@ class Groups_Utility {
 			self::get_group_tree( $tree );
 			self::$cache['tree'] = $tree;
 		} else {
-			foreach( $tree as $group_id => $nodes ) {
+			foreach ( $tree as $group_id => $nodes ) {
 				$children = $wpdb->get_results( $wpdb->prepare(
 					"SELECT group_id FROM $group_table WHERE parent_id = %d ORDER BY name", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					Groups_Utility::id( $group_id )
 				) );
-				foreach( $children as $child ) {
+				foreach ( $children as $child ) {
 					$tree[$group_id][$child->group_id] = array();
 				}
 				self::get_group_tree( $tree[$group_id] );
@@ -336,7 +336,7 @@ class Groups_Utility {
 	 * @param int $level
 	 */
 	public static function render_group_tree_options( &$tree, &$output, $level = 0, $selected = array() ) {
-		foreach( $tree as $group_id => $nodes ) {
+		foreach ( $tree as $group_id => $nodes ) {
 			$output .= sprintf(
 				'<option class="node" value="%d" %s>',
 				esc_attr( $group_id ),
@@ -366,7 +366,7 @@ class Groups_Utility {
 	 */
 	public static function render_group_tree( &$tree, &$output, $linked = false ) {
 		$output .= '<ul class="groups-tree">';
-		foreach( $tree as $group_id => $nodes ) {
+		foreach ( $tree as $group_id => $nodes ) {
 			$output .= '<li class="groups-tree-node">';
 			$group = Groups_Group::read( $group_id );
 			if ( $group ) {

@@ -102,7 +102,7 @@ function groups_admin_groups_add() {
 		'<select class="select capability" name="capability_ids[]" multiple="multiple" placeholder="%s">',
 		esc_attr__( 'Choose capabilities &hellip;', 'groups' )
 	);
-	foreach( $capabilities as $capability ) {
+	foreach ( $capabilities as $capability ) {
 		$output .= sprintf(
 			'<option value="%s" %s>%s</option>',
 			esc_attr( $capability->capability_id ),
@@ -161,7 +161,7 @@ function groups_admin_groups_add_submit() {
 		$caps = groups_sanitize_post( 'capability_ids' );
 		if ( is_array( $caps ) ) {
 			$caps = array_map( 'sanitize_text_field', $caps );
-			foreach( $caps as $cap ) {
+			foreach ( $caps as $cap ) {
 				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
 			}
 		}

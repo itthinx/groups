@@ -132,7 +132,7 @@ class Groups_Post_Access {
 		// REST API
 		$post_types = self::get_handles_post_types();
 		if ( !empty( $post_types ) ) {
-			foreach( $post_types as $post_type => $handles ) {
+			foreach ( $post_types as $post_type => $handles ) {
 				if ( $handles ) {
 					add_filter( "rest_prepare_{$post_type}", array( __CLASS__, 'rest_prepare_post' ), 10, 3 );
 				}
@@ -296,7 +296,7 @@ class Groups_Post_Access {
 					// if there is at least one post type we handle, we need to filter
 					$handled = 0;
 					$handles_post_types = self::get_handles_post_types();
-					foreach( $post_types as $post_type ) {
+					foreach ( $post_types as $post_type ) {
 						if ( !isset( $handles_post_types[$post_type] ) || $handles_post_types[$post_type] ) {
 							$handled++;
 						}
@@ -318,7 +318,7 @@ class Groups_Post_Access {
 
 			$handles_post_types = Groups_Post_Access::get_handles_post_types();
 			$post_types = array();
-			foreach( $handles_post_types as $post_type => $handles ) {
+			foreach ( $handles_post_types as $post_type => $handles ) {
 				if ( $handles ) {
 					$post_types[] = $post_type;
 				}
@@ -729,7 +729,7 @@ class Groups_Post_Access {
 				}
 				$group_ids = self::get_read_group_ids( $post_id );
 				if ( $group_ids ) {
-					foreach( $groups_read as $group_id ) {
+					foreach ( $groups_read as $group_id ) {
 						$result = in_array( $group_id, $group_ids );
 						if ( !$result ) {
 							break;
@@ -766,12 +766,12 @@ class Groups_Post_Access {
 			$groups_read = array_map( array( 'Groups_Utility', 'id' ), $groups_read );
 			$current_groups_read = self::get_read_group_ids( $post_id );
 			$current_groups_read = array_map( array( 'Groups_Utility', 'id' ), $current_groups_read );
-			foreach( $groups_read as $group_id ) {
+			foreach ( $groups_read as $group_id ) {
 				if ( !in_array( $group_id, $current_groups_read ) ) {
 					add_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
 				}
 			}
-			foreach( $current_groups_read as $group_id ) {
+			foreach ( $current_groups_read as $group_id ) {
 				if ( !in_array( $group_id, $groups_read ) ) {
 					delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
 				}
@@ -804,7 +804,7 @@ class Groups_Post_Access {
 			}
 			$groups_read = array_map( array( 'Groups_Utility', 'id' ), $groups_read );
 			if ( !empty( $groups_read ) ) {
-				foreach( $groups_read as $group_id ) {
+				foreach ( $groups_read as $group_id ) {
 					$result = delete_post_meta( $post_id, self::POSTMETA_PREFIX . self::READ, $group_id );
 				}
 			} else {
@@ -952,7 +952,7 @@ class Groups_Post_Access {
 			if ( isset( $type_counts[$sub_group] ) ) {
 				$counts = $type_counts[$sub_group];
 			} else {
-				foreach( $counts as $post_status => $count ) {
+				foreach ( $counts as $post_status => $count ) {
 					$query_args = array(
 						'fields'           => 'ids',
 						'post_type'        => $type,
@@ -1049,7 +1049,7 @@ class Groups_Post_Access {
 		$result = array();
 		$post_types_option = Groups_Options::get_option( self::POST_TYPES, array() );
 		$post_types = get_post_types( array(), 'objects' );
-		foreach( $post_types as $post_type => $object ) {
+		foreach ( $post_types as $post_type => $object ) {
 			$public              = isset( $object->public ) ? $object->public : false;
 			$exclude_from_search = isset( $object->exclude_from_search ) ? $object->exclude_from_search : false;
 			$publicly_queryable  = isset( $object->publicly_queryable ) ? $object->publicly_queryable : false;
@@ -1073,7 +1073,7 @@ class Groups_Post_Access {
 	public static function set_handles_post_types( $post_types ) {
 		$post_types_option = Groups_Options::get_option( self::POST_TYPES, array() );
 		$available_post_types = get_post_types();
-		foreach( $available_post_types as $post_type ) {
+		foreach ( $available_post_types as $post_type ) {
 			$post_types_option[$post_type]['add_meta_box'] = isset( $post_types[$post_type] ) && $post_types[$post_type];
 		}
 		Groups_Options::update_option( self::POST_TYPES, $post_types_option );

@@ -490,7 +490,7 @@ function groups_admin_groups() {
 		esc_attr__( 'Capabilities &hellip;', 'groups' ),
 		esc_attr__( 'Capabilities &hellip;', 'groups' )
 	);
-	foreach( $capabilities as $capability ) {
+	foreach ( $capabilities as $capability ) {
 		$capabilities_select .= sprintf(
 			'<option value="%s">%s</option>',
 			esc_attr( $capability->capability_id ),

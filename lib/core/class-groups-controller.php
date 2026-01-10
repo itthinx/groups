@@ -405,7 +405,7 @@ class Groups_Controller {
 			// (a regex results in "IF" used as array index holding only last query to create table).
 			//require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			//dbDelta( $queries );
-			foreach( $queries as $query ) {
+			foreach ( $queries as $query ) {
 				$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			}
 		}
@@ -661,7 +661,7 @@ class Groups_Controller {
 		global $wp_roles;
 		$complies = false;
 		$roles = $wp_roles->role_objects;
-		foreach( $roles as $role ) {
+		foreach ( $roles as $role ) {
 			if ( $role->has_cap( GROUPS_ACCESS_GROUPS ) && ( $role->has_cap( GROUPS_ADMINISTER_OPTIONS ) ) ) {
 				$complies = true;
 				break;

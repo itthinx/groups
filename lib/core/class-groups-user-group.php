@@ -258,7 +258,7 @@ class Groups_User_Group {
 			Groups_Utility::id( $user_id )
 		) );
 		if ( $rows ) {
-			foreach( $rows as $row ) {
+			foreach ( $rows as $row ) {
 				// don't optimize that in preference of a standard deletion
 				// process (trigger actions ...)
 				self::delete( $row->user_id, $row->group_id );
@@ -297,7 +297,7 @@ class Groups_User_Group {
 				Groups_Utility::id( $user_id )
 			) );
 			if ( $rows ) {
-				foreach( $rows as $row ) {
+				foreach ( $rows as $row ) {
 					// don't optimize that, favour standard deletion
 					self::delete( $row->user_id, $row->group_id );
 				}

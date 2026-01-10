@@ -69,7 +69,7 @@ function groups_admin_options() {
 			$post_types = get_post_types();
 			$selected_post_types = !empty( $_POST['add_meta_boxes'] ) && is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$handle_post_types = array();
-			foreach( $post_types as $post_type ) {
+			foreach ( $post_types as $post_type ) {
 				$handle_post_types[$post_type] = in_array( $post_type, $selected_post_types );
 			}
 			Groups_Post_Access::set_handles_post_types( $handle_post_types );
@@ -246,7 +246,7 @@ function groups_admin_options() {
 	uasort( $post_type_objects, 'groups_admin_options_compare_post_types' );
 
 	echo '<ul>';
-	foreach( $post_type_objects as $post_type => $post_type_object ) {
+	foreach ( $post_type_objects as $post_type => $post_type_object ) {
 		echo '<li>';
 		echo '<label>';
 		$label = $post_type;

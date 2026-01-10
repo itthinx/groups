@@ -169,7 +169,7 @@ class Groups_Admin_Users {
 					esc_attr__( 'Choose groups &hellip;', 'groups' ),
 					esc_attr__( 'Choose groups &hellip;', 'groups' )
 				);
-				foreach( $groups as $group ) {
+				foreach ( $groups as $group ) {
 					$is_member = false;
 					$groups_select .= sprintf(
 						'<option value="%d" %s>%s</option>',
@@ -237,13 +237,13 @@ class Groups_Admin_Users {
 			$user_counts = array();
 			$counts = apply_filters('groups_admin_users_views_users_counts', $wpdb->get_results( "SELECT COUNT(user_id) AS count, group_id FROM $user_group_table GROUP BY group_id" ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			if ( !empty( $counts ) && is_array( $counts ) ) {
-				foreach( $counts as $count ) {
+				foreach ( $counts as $count ) {
 					if ( isset( $count->count ) && is_numeric( $count->count ) ) {
 						$user_counts[$count->group_id] = max( 0, intval( $count->count ) );
 					}
 				}
 			}
-			foreach( $groups as $group ) {
+			foreach ( $groups as $group ) {
 				// Do not use $user_count = count( $group->users ); here,
 				// as it creates a lot of unneccessary objects and can lead
 				// to out of memory issues on large user bases.
@@ -293,7 +293,7 @@ class Groups_Admin_Users {
 			if ( $users !== null && $action !== null && is_array( $users ) ) {
 				$users = array_map( 'intval', $users );
 				if ( wp_verify_nonce( $_REQUEST['bulk-user-group-nonce'], 'user-group' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					foreach( $users as $user_id ) {
+					foreach ( $users as $user_id ) {
 						switch ( $action ) {
 							case 'add':
 								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -364,7 +364,7 @@ class Groups_Admin_Users {
 				if ( $groups !== null && count( $groups ) > 0 ) {
 					usort( $groups, array( __CLASS__, 'by_group_name' ) );
 					$output = '<ul>';
-					foreach( $groups as $group ) {
+					foreach ( $groups as $group ) {
 						$output .= '<li>';
 						$output .= $group->get_name() ? stripslashes( wp_filter_nohtml_kses( $group->get_name() ) ) : '';
 						$output .= '</li>';

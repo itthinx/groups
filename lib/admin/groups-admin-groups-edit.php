@@ -126,7 +126,7 @@ function groups_admin_groups_edit( $group_id ) {
 		'<select class="select capability" name="capability_ids[]" multiple="multiple" placeholder="%s">',
 		esc_attr__( 'Choose capabilities &hellip;', 'groups' )
 	);
-	foreach( $capabilities as $capability ) {
+	foreach ( $capabilities as $capability ) {
 		$selected = in_array( $capability->capability_id, $group_capabilities_array ) ? ' selected="selected" ' : '';
 		$output .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $capability->capability_id ), $selected, stripslashes( wp_filter_nohtml_kses( $capability->capability ) ) );
 	}
@@ -242,13 +242,13 @@ function groups_admin_groups_edit_submit() {
 				$caps = array();
 			}
 			// delete
-			foreach( $group_capabilities_array as $group_cap ) {
+			foreach ( $group_capabilities_array as $group_cap ) {
 				if ( !in_array( $group_cap, $caps ) ) {
 					Groups_Group_Capability::delete( $group_id, $group_cap );
 				}
 			}
 			// add
-			foreach( $caps as $cap ) {
+			foreach ( $caps as $cap ) {
 				if ( !in_array( $cap, $group_capabilities_array ) ) {
 					Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
 				}
