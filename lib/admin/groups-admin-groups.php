@@ -683,7 +683,7 @@ function groups_admin_groups() {
 							'<a href="%s">%s</a>',
 							esc_url( $edit_url ),
 							$result->name ? stripslashes( wp_filter_nohtml_kses( $result->name ) ) : ''
-							);
+						);
 						$output .= ' ';
 						$user_ids = $group->get_user_ids();
 						$user_count = is_array( $user_ids ) ? count( $user_ids ) : 0; // guard against null when there are no users
@@ -691,7 +691,7 @@ function groups_admin_groups() {
 							'(<a href="%s">%s</a>)',
 							esc_url( $users_url ),
 							$user_count
-							);
+						);
 						$output .= $row_actions_html;
 						$output .= '</td>';
 						break;
