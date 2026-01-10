@@ -578,8 +578,8 @@ class Groups_Utility {
 	 * @return string
 	 */
 	public static function get_current_url() {
-		$host = wp_unslash( $_SERVER['HTTP_HOST'] ?? '' );
-		$uri  = wp_unslash( $_SERVER['REQUEST_URI'] ?? '' );
+		$host = wp_unslash( $_SERVER['HTTP_HOST'] ?? '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$uri  = wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		return sanitize_url( ( is_ssl() ? 'https://' : 'http://' ) . $host . $uri );
 	}
 }
