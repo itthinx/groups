@@ -578,7 +578,9 @@ class Groups_Utility {
 	 * @return string
 	 */
 	public static function get_current_url() {
-		return sanitize_url( ( is_ssl() ? 'https://' : 'http://' ) . ( $_SERVER['HTTP_HOST'] ?? '' ) . ( $_SERVER['REQUEST_URI'] ?? '' ) );
+		$host = wp_unslash( $_SERVER['HTTP_HOST'] ?? '' );
+		$uri  = wp_unslash( $_SERVER['REQUEST_URI'] ?? '' );
+		return sanitize_url( ( is_ssl() ? 'https://' : 'http://' ) . $host . $uri );
 	}
 }
 

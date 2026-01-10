@@ -39,6 +39,7 @@ class Groups_Pagination {
 	private $_pagination_args = null;
 
 	/**
+	 * Create an instance.
 	 *
 	 * @param int $total_items how many items there are to display
 	 * @param int $total_pages how many pages there are, normally leave set to null
@@ -60,10 +61,12 @@ class Groups_Pagination {
 	 * @return int the current page number
 	 */
 	public function get_pagenum() {
-		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
-		if ( !isset( $_REQUEST['paged'] ) ) { // needed with rewritten page added
+		$paged = groups_sanitize_request( 'paged' );
+		$pagenum = absint( $paged ?? 0 );
+		if ( !$paged ) { // needed with rewritten page added
+			$current_url = groups_get_current_url();
 			$matches = array();
-			if ( preg_match( "/(\/page\/)(\d+)/", $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $matches ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( preg_match( "/(\/page\/)(\d+)/", $current_url, $matches ) ) {
 				$pagenum = absint( $matches[2] );
 			}
 		}
@@ -116,7 +119,7 @@ class Groups_Pagination {
 
 		$current = $this->get_pagenum();
 
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$current_url = groups_get_current_url();
 
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
 

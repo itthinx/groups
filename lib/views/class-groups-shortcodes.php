@@ -70,7 +70,7 @@ class Groups_Shortcodes {
 	 * @return string the rendered form or empty
 	 */
 	public static function groups_login( $atts, $content = null ) {
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$current_url = groups_get_current_url();
 		$atts = shortcode_atts(
 			array(
 				'redirect'    => $current_url,
@@ -114,7 +114,7 @@ class Groups_Shortcodes {
 	 * @return string logout link, is empty if not logged in
 	 */
 	public static function groups_logout( $atts, $content = null ) {
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$current_url = groups_get_current_url();
 		$atts = shortcode_atts(
 			array(
 				'redirect' => $current_url
@@ -845,7 +845,7 @@ class Groups_Shortcodes {
 		if ( is_string( $redirect ) && trim( $redirect ) !== '' ) {
 			$redirect_url = trim( $redirect );
 		} else {
-			$redirect_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$redirect_url = groups_get_current_url();
 		}
 
 		// Try to handle a relative URL, determine missing parts
