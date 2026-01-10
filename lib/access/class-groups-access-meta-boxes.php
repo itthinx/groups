@@ -366,7 +366,10 @@ class Groups_Access_Meta_Boxes {
 										$user_group_ids_deep[] = $group->group_id;
 									}
 									$group_ids = array();
-									$submitted_group_ids = !empty( $_POST[self::GROUPS_READ] ) && is_array( $_POST[self::GROUPS_READ] ) ? $_POST[self::GROUPS_READ] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+									$submitted_group_ids = groups_sanitize_post( self::GROUPS_READ ) ?? array();
+									if ( !is_array( $submitted_group_ids ) ) {
+										$submitted_group_ids = array();
+									}
 
 									// assign requested groups and create and assign new groups if allowed
 									foreach( $submitted_group_ids as $group_id ) {

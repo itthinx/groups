@@ -15,14 +15,15 @@
 * Add - Adds the groups_sanitize_get() API function.
 * Add - Adds the groups_sanitize_request() API function.
 * Update - Legacy access restrictions phaseout: removed quick-create feature when block editor is used, removed show groups option.
-* Update - Revised input sanitation in remnant legacy code pending phaseout.
+* Dev - Revised input sanitation in remnant legacy code pending phaseout to use own API functions.
 * Dev - Validation hints for WordPress.DB.SlowDBQuery.slow_db_query_meta_query in legacy code.
-* Update - Revised sanitation of the legacy options handling code pending phaseout.
-* Update - Revised input sanitation in controller for activation processing.
+* Dev - Revised sanitation of the legacy options handling code pending phaseout to use own API functions.
+* Dev - Revised input sanitation in controller for activation processing to use own API functions.
 * Add - Adds the groups_get_current_url() API function.
-* Update - Unified instances of current URL obtention via own groups_get_current_url() API function.
-* Update - Revised pagination processing sanitation.
+* Dev - Unified instances of current URL obtention via own groups_get_current_url() API function.
+* Dev - Revised pagination processing sanitation to use own API functions.
 * Dev - Validation hints for WordPress.Security.ValidatedSanitizedInput.InputNotSanitized.
+* Dev - Revised access meta box sanitation to use own API functions.
 
 2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.
