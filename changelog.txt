@@ -25,7 +25,7 @@
 * Dev - Validation hints for WordPress.Security.ValidatedSanitizedInput.InputNotSanitized.
 * Dev - Revised access meta box sanitation to use own API functions.
 * Dev - Revised group admin screens sanitation to use own API funtions.
-* Dev - Revised capability admin screens sanitation to use own API funtions.
+* Dev - Revised capability admin screens output escaping and sanitation to use own API funtions.
 
 2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.
