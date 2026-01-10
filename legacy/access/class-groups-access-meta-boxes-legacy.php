@@ -338,6 +338,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	 *
 	 * @param boolean $maybe_empty
 	 * @param array $postarr
+	 *
 	 * @return boolean
 	 */
 	public static function wp_insert_post_empty_content( $maybe_empty, $postarr ) {
@@ -374,8 +375,8 @@ class Groups_Access_Meta_Boxes_Legacy {
 			if ( $post_type_object && $post_type != 'attachment' ) {
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-					if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_CAPABILITY ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					if ( groups_verify_post_nonce( self::NONCE, self::SET_CAPABILITY ) ) {
+						$post_type = groups_sanitize_post( 'post_type' );
 						if ( $post_type !== null ) {
 							// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
 							// "... Some capability checks (like 'edit_post' or 'delete_page') require this [the post ID] be provided."
@@ -399,10 +400,11 @@ class Groups_Access_Meta_Boxes_Legacy {
 							if ( current_user_can( $edit_post_type, $post_id ) ) {
 								// quick-create ?
 								if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-									if ( !empty( $_POST['quick-group-capability'] ) ) {
+									$quick_group_capability = groups_sanitize_post( 'quick-group-capability' );
+									if ( !empty( $quick_group_capability ) ) {
 										$creator_id = get_current_user_id();
 										$datetime   = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-										$name       = ucfirst( strtolower( trim( $_POST['quick-group-capability'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+										$name       = ucfirst( strtolower( trim( $quick_group_capability ) ) );
 										if ( strlen( $name ) > 0 ) {
 											// create or obtain the group
 											if ( $group = Groups_Group::read_by_name( $name ) ) {
@@ -494,8 +496,10 @@ class Groups_Access_Meta_Boxes_Legacy {
 
 	/**
 	 * Render capabilities box for attachment post type (Media).
+	 *
 	 * @param array $form_fields
 	 * @param object $post
+	 *
 	 * @return array
 	 */
 	public static function attachment_fields_to_edit( $form_fields, $post ) {
@@ -521,21 +525,21 @@ class Groups_Access_Meta_Boxes_Legacy {
 				// and https://core.trac.wordpress.org/ticket/28053 - this is an issue with multiple value fields and should
 				// be fixed within WordPress.
 
-// 				$output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
-// 				$output .= '<ul>';
-// 				foreach( $valid_read_caps as $valid_read_cap ) {
-// 					if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
-// 						$checked = in_array( $capability->capability, $read_caps ) ? ' checked="checked" ' : '';
-// 						$output .= '<li>';
-// 						$output .= '<label>';
-// 						$output .= '<input name="attachments[' . $post->ID . '][' . self::CAPABILITY . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $capability->capability_id ) . '" />';
-// 						$output .= stripslashes( wp_filter_nohtml_kses( $capability->capability ) );
-// 						$output .= '</label>';
-// 						$output .= '</li>';
-// 					}
-// 				}
-// 				$output .= '</ul>';
-// 				$output .= '</div>';
+				// $output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
+				// $output .= '<ul>';
+				// foreach( $valid_read_caps as $valid_read_cap ) {
+				// 	if ( $capability = Groups_Capability::read_by_capability( $valid_read_cap ) ) {
+				// 		$checked = in_array( $capability->capability, $read_caps ) ? ' checked="checked" ' : '';
+				// 		$output .= '<li>';
+				// 		$output .= '<label>';
+				// 		$output .= '<input name="attachments[' . $post->ID . '][' . self::CAPABILITY . '][]" ' . $checked . ' type="checkbox" value="' . esc_attr( $capability->capability_id ) . '" />';
+				// 		$output .= stripslashes( wp_filter_nohtml_kses( $capability->capability ) );
+				// 		$output .= '</label>';
+				// 		$output .= '</li>';
+				// 	}
+				// }
+				// $output .= '</ul>';
+				// $output .= '</div>';
 
 				$show_groups = Groups_Options::get_user_option( self::SHOW_GROUPS, true );
 				$output .= '<div class="select-capability-container">';
@@ -610,8 +614,10 @@ class Groups_Access_Meta_Boxes_Legacy {
 	/**
 	 * Save capabilities for attachment post type (Media).
 	 * When multiple attachments are saved, this is called once for each.
+	 *
 	 * @param array $post post data
 	 * @param array $attachment attachment field data
+	 *
 	 * @return array
 	 */
 	public static function attachment_fields_to_save( $post, $attachment ) {
@@ -649,6 +655,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	/**
 	 * Returns true if the current user has at least one of the capabilities
 	 * that can be used to restrict access to posts.
+	 *
 	 * @return boolean
 	 */
 	public static function user_can_restrict() {

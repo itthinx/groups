@@ -422,13 +422,146 @@ class Groups_Utility {
 	 * @see sanitize_text_field()
 	 * @see wp_verify_nonce()
 	 *
-	 * @param string $nonce
-	 * @param string $action
+	 * @param string $nonce nonce value
+	 * @param string|number $action
 	 *
 	 * @return int|boolean
 	 */
 	public static function verify_nonce( $nonce, $action = -1 ) {
 		return wp_verify_nonce( sanitize_text_field( wp_unslash( $nonce ) ), $action );
+	}
+
+	/**
+	 * Unslash, sanitize and verify named nonce provided via $_POST.
+	 *
+	 * @param string $name nonce name
+	 * @param string|number $action
+	 *
+	 * @return int|boolean
+	 */
+	public static function verify_post_nonce( $name, $action = -1 ) {
+		$result = false;
+		if ( isset( $_POST[$name] ) ) {
+			$result = self::verify_nonce( $_POST[$name], $action );
+		}
+		return $result;
+	}
+
+	/**
+	 * Unslash, sanitize and verify named nonce provided via $_GET.
+	 *
+	 * @param string $name nonce name
+	 * @param string|number $action
+	 *
+	 * @return int|boolean
+	 */
+	public static function verify_get_nonce( $name, $action = -1 ) {
+		$result = false;
+		if ( isset( $_GET[$name] ) ) {
+			$result = self::verify_nonce( $_GET[$name], $action );
+		}
+		return $result;
+	}
+
+	/**
+	 * Unslash, sanitize and verify named nonce provided via $_REQUEST.
+	 *
+	 * @param string $name nonce name
+	 * @param string|number $action
+	 *
+	 * @return int|boolean
+	 */
+	public static function verify_request_nonce( $name, $action = -1 ) {
+		$result = false;
+		if ( isset( $_REQUEST[$name] ) ) {
+			$result = self::verify_nonce( $_REQUEST[$name], $action );
+		}
+		return $result;
+	}
+
+	/**
+	 * Sanitize the given input value, applies wp_unslash() and then sanitize_text_field() while
+	 * preserving the original type of the value.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param string|number|boolean|array $value
+	 *
+	 * @return null|string|boolean|array
+	 */
+	public static function sanitize_input( $value ) {
+		$result = null;
+		if ( is_numeric( $value ) || is_string( $value ) ) {
+			$original_value = $value;
+			$result = sanitize_text_field( wp_unslash( $value ) );
+			if ( is_int( $original_value ) ) {
+				$result = intval( $result );
+			} else if ( is_float( $original_value ) ) {
+				$result = floatval( $result );
+			} else if ( is_bool( $original_value ) ) {
+				$result = boolval( $result );
+			}
+		} else if ( is_array( $value ) ) {
+			$result = array_map( array( __CLASS__, 'sanitize_input' ), $value );
+		}
+		return $result;
+	}
+
+	/**
+	 * Sanitized form data from $_POST.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param string $name
+	 *
+	 * @return null|string
+	 */
+	public static function sanitize_post( $name ) {
+		$result = null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,  WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_POST[$name] ) && ( is_numeric( $_POST[$name] ) || is_string( $_POST[$name] ) || is_array( $_POST[$name] ) ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+			$result = self::sanitize_input( $_POST[$name] );
+		}
+		return $result;
+	}
+
+	/**
+	 * Sanitized form data from $_GET.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param string $name
+	 *
+	 * @return null|string
+	 */
+	public static function sanitize_get( $name ) {
+		$result = null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,  WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET[$name] ) && ( is_numeric( $_GET[$name] ) || is_string( $_GET[$name] ) || is_array( $_GET[$name] ) ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+			$result = self::sanitize_input( $_GET[$name] );
+		}
+		return $result;
+	}
+
+	/**
+	 * Sanitized form data from $_REQUEST.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param string $name
+	 *
+	 * @return null|string
+	 */
+	public static function sanitize_request( $name ) {
+		$result = null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,  WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_REQUEST[$name] ) && ( is_numeric( $_REQUEST[$name] ) || is_string( $_REQUEST[$name] || is_array( $_REQUEST[$name] ) ) ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+			$result = self::sanitize_input( $_REQUEST[$name] );
+		}
+		return $result;
 	}
 }
 
@@ -440,12 +573,110 @@ class Groups_Utility {
  * @see Groups_Utility::verify_nonce()
  *
  * @param string $nonce
- * @param string $action
+ * @param string|number $action
  *
  * @return int|boolean
  */
 function groups_verify_nonce( $nonce, $action = -1 ) {
 	return Groups_Utility::verify_nonce( $nonce, $action );
+}
+
+/**
+ * Unslash, sanitize and verify named nonce provided via $_POST.
+ *
+ * @since 3.11.0
+ *
+ * @see Groups_Utility::verify_nonce()
+ *
+ * @param string $name nonce name
+ * @param string|number $action
+ *
+ * @return int|boolean
+ */
+function groups_verify_post_nonce( $name, $action = -1 ) {
+	return Groups_Utility::verify_post_nonce( $name, $action );
+}
+
+/**
+ * Unslash, sanitize and verify named nonce provided via $_GET.
+ *
+ * @since 3.11.0
+ *
+ * @see Groups_Utility::verify_nonce()
+ *
+ * @param string $name nonce name
+ * @param string|number $action
+ *
+ * @return int|boolean
+ */
+function groups_verify_get_nonce( $name, $action = -1 ) {
+	return Groups_Utility::verify_get_nonce( $name, $action );
+}
+
+/**
+ * Unslash, sanitize and verify named nonce provided via $_GET.
+ *
+ * @since 3.11.0
+ *
+ * @see Groups_Utility::verify_nonce()
+ *
+ * @param string $name nonce name
+ * @param string|number $action
+ *
+ * @return int|boolean
+ */
+function groups_verify_request_nonce( $name, $action = -1 ) {
+	return Groups_Utility::verify_request_nonce( $name, $action );
+}
+
+/**
+ * @see Groups_Utility::sanitize_input()
+ *
+ * @param string|number|boolean|array $value
+ *
+ * @return null|string|boolean|array
+ */
+function groups_sanitize_input( $value ) {
+	return Groups_Utility::sanitize_input( $value );
+}
+
+/**
+ * @since 3.11.0
+ *
+ * @see Groups_Utility::sanitize_post()
+ *
+ * @param string $name
+ *
+ * @return null|string
+ */
+function groups_sanitize_post( $name ) {
+	return Groups_Utility::sanitize_post( $name );
+}
+
+/**
+ * @since 3.11.0
+ *
+ * @see Groups_Utility::sanitize_get()
+ *
+ * @param string $name
+ *
+ * @return null|string
+ */
+function groups_sanitize_get( $name ) {
+	return Groups_Utility::sanitize_get( $name );
+}
+
+/**
+ * @since 3.11.0
+ *
+ * @see Groups_Utility::sanitize_request()
+ *
+ * @param string $name
+ *
+ * @return null|string
+ */
+function groups_sanitize_request( $name ) {
+	return Groups_Utility::sanitize_request( $name );
 }
 
 Groups_Utility::boot();
