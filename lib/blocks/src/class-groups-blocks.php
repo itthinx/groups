@@ -153,9 +153,8 @@ class Groups_Blocks {
 			array()
 		);
 
-		// @todo if 'wp-edit-widgets' or 'wp-customize-widgets' script then don't use wp-editor ... so ?
 		// Scripts.
-		wp_register_script(
+		wp_register_script( // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 			'groups_blocks-block-js', // Handle.
 			GROUPS_PLUGIN_URL . 'lib/blocks/build/index.js',
 			$editor_dependencies,

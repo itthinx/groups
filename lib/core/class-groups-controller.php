@@ -200,7 +200,7 @@ class Groups_Controller {
 		if ( function_exists( 'get_user_locale' ) ) {
 			$locale = get_user_locale();
 		}
-		$locale = apply_filters( 'plugin_locale', $locale, 'groups' );
+		$locale = apply_filters( 'plugin_locale', $locale, 'groups' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$mofile = GROUPS_CORE_DIR . '/languages/groups-' . $locale . '.mo';
 		// @since 3.3.0 load language-generic translation if available
 		if ( !file_exists( $mofile ) ) {

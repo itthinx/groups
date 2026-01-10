@@ -36,7 +36,7 @@ if ( !isset( $groups_version ) ) {
 
 // <= 3.2.1
 if ( !function_exists( 'is_user_member_of_blog' ) ) {
-	function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
+	function is_user_member_of_blog( $user_id, $blog_id = 0 ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 		return false !== get_user_by( 'id', $user_id );
 	}
 }
@@ -145,7 +145,7 @@ require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
  *
  * @return string prefixed DB table name
  */
-function _groups_get_tablename( $name ) {
+function _groups_get_tablename( $name ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	/**
@@ -186,7 +186,7 @@ function _groups_get_tablename( $name ) {
  *
  * @return boolean
  */
-function _groups_admin_override( $user_id = null ) {
+function _groups_admin_override( $user_id = null ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	$result = false;
 	if ( ( $user_id === null ) && function_exists( 'get_current_user_id' ) ) {
 		$user_id = get_current_user_id();

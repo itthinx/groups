@@ -383,14 +383,14 @@ class Groups_Admin_Posts {
 								// );
 								// we'll limit it to show just unrestricted entries
 								// until the above is solved
-								$query->query_vars['meta_query'] = array (
+								$query->query_vars['meta_query'] = array ( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 									array (
 										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 										'compare' => 'NOT EXISTS'
 									)
 								);
 							} else {
-								$query->query_vars['meta_query'] = array (
+								$query->query_vars['meta_query'] = array ( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 									array (
 										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 										'value'   => $group_ids,
@@ -399,7 +399,7 @@ class Groups_Admin_Posts {
 								);
 							}
 						} else if ( $include_unrestricted ) {
-							$query->query_vars['meta_query'] = array (
+							$query->query_vars['meta_query'] = array ( //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 								array (
 									'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 									'compare' => 'NOT EXISTS'

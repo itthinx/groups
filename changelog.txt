@@ -26,6 +26,10 @@
 * Dev - Revised access meta box sanitation to use own API functions.
 * Dev - Revised group admin screens sanitation to use own API funtions.
 * Dev - Revised capability admin screens output escaping and sanitation to use own API funtions.
+* Dev - Validation hints for WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound.
+* Dev - Validation hints for WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound.
+* Dev - Validation hints for WordPress.WP.EnqueuedResourceParameters.NotInFooter.
+* Dev - Validation hints for WordPress.DB.SlowDBQuery.slow_db_query_meta_query.
 
 2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.
