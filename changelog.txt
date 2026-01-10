@@ -18,6 +18,7 @@
 * Update - Revised input sanitation in remnant legacy code pending phaseout.
 * Dev - Validation hints for WordPress.DB.SlowDBQuery.slow_db_query_meta_query in legacy code.
 * Update - Revised sanitation of the legacy options handling code pending phaseout.
+* Update - Revised input sanitation in controller for activation processing.
 
 2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.
