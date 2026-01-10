@@ -203,7 +203,7 @@ class Groups_Group implements I_Capable {
 		global $wpdb;
 		$result = null;
 		if ( $this->group !== null ) {
-			switch( $name ) {
+			switch ( $name ) {
 				case 'group_id' :
 				case 'parent_id' :
 				case 'creator_id' :
@@ -778,7 +778,7 @@ class Groups_Group implements I_Capable {
 			$array_fields = explode( ',', sanitize_text_field( $fields ) );
 			$fields = '';
 			foreach ( $array_fields as $field ) {
-				switch( trim( $field ) ) {
+				switch ( trim( $field ) ) {
 					case 'group_id' :
 					case 'parent_id' :
 					case 'creator_id' :
@@ -798,7 +798,7 @@ class Groups_Group implements I_Capable {
 			$order = '';
 		} else {
 			$order = strtoupper( sanitize_text_field( trim( $order ) ) );
-			switch( $order ) {
+			switch ( $order ) {
 				case 'ASC' :
 				case 'DESC' :
 					break;
@@ -811,7 +811,7 @@ class Groups_Group implements I_Capable {
 			$order_by = '';
 		} else {
 			$order_by = sanitize_text_field( $order_by );
-			switch( trim( $order_by ) ) {
+			switch ( trim( $order_by ) ) {
 				case 'group_id' :
 				case 'parent_id' :
 				case 'creator_id' :

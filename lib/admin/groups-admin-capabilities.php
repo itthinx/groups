@@ -93,7 +93,7 @@ function groups_admin_capabilities() {
 					if ( is_array( $capability_ids ) && ( $bulk !== null ) ) {
 						foreach ( $capability_ids as $capability_id ) {
 							$bulk_action = groups_sanitize_post( 'bulk-action' );
-							switch( $bulk_action ) {
+							switch ( $bulk_action ) {
 								case 'remove' :
 									if ( isset( $_POST['confirm'] ) ) {
 										groups_admin_capabilities_bulk_remove_submit();

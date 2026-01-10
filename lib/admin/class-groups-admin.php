@@ -102,7 +102,7 @@ class Groups_Admin {
 	public static function add_message( $message, $type = 'info' ) {
 		if ( is_string( $message ) ) {
 			$class = 'updated';
-			switch( $type ) {
+			switch ( $type ) {
 				case 'error' :
 					$class = 'error';
 			}

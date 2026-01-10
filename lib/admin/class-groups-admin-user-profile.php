@@ -49,7 +49,7 @@ class Groups_Admin_User_Profile {
 	public static function admin_enqueue_scripts() {
 		$screen = get_current_screen();
 		if ( isset( $screen->id ) ) {
-			switch( $screen->id ) {
+			switch ( $screen->id ) {
 				case 'user' : // creating a new user
 				case 'user-edit' :
 				case 'profile' :

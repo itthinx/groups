@@ -175,7 +175,7 @@ class Groups_Capability {
 
 		$result = null;
 		if ( $this->capability !== null ) {
-			switch( $name ) {
+			switch ( $name ) {
 				case 'capability_id' :
 				case 'capability' :
 				case 'class' :

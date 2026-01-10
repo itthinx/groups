@@ -307,7 +307,7 @@ class Groups_Admin_Posts {
 						foreach( $_REQUEST[$field] as $group_id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							if ( $group = Groups_Group::read( $group_id ) ) {
 								if ( in_array( $group->group_id, $group_ids ) ) {
-									switch( $_REQUEST['groups-action'] ) {
+									switch ( $_REQUEST['groups-action'] ) {
 										case 'add-group' :
 											Groups_Post_Access::create( array(
 												'post_id' => $post_id,
@@ -581,7 +581,7 @@ class Groups_Admin_Posts {
 	 */
 	public static function posts_orderby( $orderby, $query ) {
 		if ( self::extend_for_orderby_groups_read( $query ) ) {
-			switch( $query->get( 'order' ) ) {
+			switch ( $query->get( 'order' ) ) {
 				case 'desc' :
 				case 'DESC' :
 					$order = 'DESC';

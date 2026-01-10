@@ -96,7 +96,7 @@ class Groups_User_Group {
 	public function __get( $name ) {
 		$result = null;
 		if ( $this->user_group !== null ) {
-			switch( $name ) {
+			switch ( $name ) {
 				case 'user_id' :
 				case 'group_id' :
 					$result = $this->user_group->$name;

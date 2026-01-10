@@ -228,7 +228,7 @@ class Groups_Admin_Posts_Legacy {
 					foreach( $bulk_capabilities as $capability_name ) {
 						if ( $capability = Groups_Capability::read_by_capability( $capability_name ) ) {
 							if ( in_array( $capability->capability, $valid_read_caps ) ) {
-								switch( groups_sanitize_request( 'capabilities-action' ) ) {
+								switch ( groups_sanitize_request( 'capabilities-action' ) ) {
 									case 'add-capability' :
 										Groups_Post_Access_Legacy::create( array(
 											'post_id' => $post_id,
