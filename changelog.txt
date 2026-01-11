@@ -1,6 +1,6 @@
 == Groups by itthinx - changelog.txt
 
-2026-01-10 - version 3.11.0
+2026-01-11 - version 3.11.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.4 compatible.
 * Fix - [CVE-2026-0549] Prevent potential stored XSS via shortcode.
