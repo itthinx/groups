@@ -146,7 +146,10 @@ class Groups_Admin_User_Profile {
 							$user_id
 						);
 						if ( $groups ) {
-							$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+							$user_group_ids = groups_sanitize_post( 'group_ids' );
+							if ( !is_array( $user_group_ids ) ) {
+								$user_group_ids = array();
+							}
 							foreach ( $groups as $group ) {
 								if ( in_array( $group->group_id, $user_group_ids ) ) {
 									// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
@@ -276,7 +279,10 @@ class Groups_Admin_User_Profile {
 				$user_id
 			);
 			if ( $groups ) {
-				$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$user_group_ids = groups_sanitize_post( 'group_ids' );
+				if ( !is_array( $user_group_ids ) ) {
+					$user_group_ids = array();
+				}
 				foreach ( $groups as $group ) {
 					if ( in_array( $group->group_id, $user_group_ids ) ) {
 						// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:

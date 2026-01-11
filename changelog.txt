@@ -33,7 +33,7 @@
 * Dev - Improved code formatting.
 * Dev - Revised options, welcome, notice processing sanitation to use own API functions.
 * Dev - Revised posts etc. admin screens sanitation to use own API funtions, revised logic and removed unused declarations.
-* Dev - Revised users screen sanitation to use own API functions.
+* Dev - Revised users and user profile screen sanitation to use own API functions.
 
 2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.
