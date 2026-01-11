@@ -487,7 +487,7 @@ class Groups_Admin_Posts {
 				}
 			}
 
-			if ( !empty( $group_ids ) ) {
+			if ( !empty( $group_ids ) ) { // @phpstan-ignore empty.variable
 				$groups = ' ( ' . implode( ',', esc_sql( $group_ids ) ) . ' ) ';
 				$condition =
 					"SELECT post_id FROM $wpdb->postmeta " .
