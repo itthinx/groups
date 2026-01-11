@@ -63,11 +63,11 @@ function groups_admin_options() {
 	//
 	// handle options form submission
 	//
-	if ( isset( $_POST['submit'] ) ) {
-		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( isset( $_POST['submit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( groups_verify_post_nonce( GROUPS_ADMIN_OPTIONS_NONCE, 'admin' ) ) {
 
 			$post_types = get_post_types();
-			$selected_post_types = !empty( $_POST['add_meta_boxes'] ) && is_array( $_POST['add_meta_boxes'] ) ? $_POST['add_meta_boxes'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$selected_post_types = groups_sanitize_post( 'add_meta_boxes' ) ?? array();
 			$handle_post_types = array();
 			foreach ( $post_types as $post_type ) {
 				$handle_post_types[$post_type] = in_array( $post_type, $selected_post_types );
@@ -75,22 +75,22 @@ function groups_admin_options() {
 			Groups_Post_Access::set_handles_post_types( $handle_post_types );
 
 			// tree view
-			if ( !empty( $_POST[GROUPS_SHOW_TREE_VIEW] ) ) {
+			if ( !empty( $_POST[GROUPS_SHOW_TREE_VIEW] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 				Groups_Options::update_option( GROUPS_SHOW_TREE_VIEW, true );
 			} else {
 				Groups_Options::update_option( GROUPS_SHOW_TREE_VIEW, false );
 			}
 
 			// show in user profiles
-			Groups_Options::update_option( GROUPS_SHOW_IN_USER_PROFILE, !empty( $_POST[GROUPS_SHOW_IN_USER_PROFILE] ) );
+			Groups_Options::update_option( GROUPS_SHOW_IN_USER_PROFILE, !empty( $_POST[GROUPS_SHOW_IN_USER_PROFILE] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			// roles & capabilities
 			$rolenames = $wp_roles->get_names();
 			foreach ( $rolenames as $rolekey => $rolename ) {
 				$role = $wp_roles->get_role( $rolekey );
 				foreach ( $caps as $capkey => $capname ) {
-					$role_cap_id = $rolekey.'-'.$capkey;
-					if ( !empty($_POST[$role_cap_id] ) ) {
+					$role_cap_id = $rolekey . '-' . $capkey;
+					if ( !empty( groups_sanitize_post( $role_cap_id ) ) ) {
 						$role->add_cap( $capkey );
 					} else {
 						$role->remove_cap( $capkey );
@@ -101,7 +101,7 @@ function groups_admin_options() {
 
 			if ( !$is_sitewide_plugin ) {
 				// delete data
-				if ( !empty( $_POST['delete-data'] ) ) {
+				if ( !empty( $_POST['delete-data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					Groups_Options::update_option( 'groups_delete_data', true );
 				} else {
 					Groups_Options::update_option( 'groups_delete_data', false );
@@ -109,7 +109,7 @@ function groups_admin_options() {
 			}
 
 			// legacy enable ?
-			if ( !empty( $_POST[GROUPS_LEGACY_ENABLE] ) ) {
+			if ( !empty( $_POST[GROUPS_LEGACY_ENABLE] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 				Groups_Options::update_option( GROUPS_LEGACY_ENABLE, true );
 			} else {
 				Groups_Options::update_option( GROUPS_LEGACY_ENABLE, false );
@@ -121,10 +121,7 @@ function groups_admin_options() {
 
 	echo '<div class="groups-options wrap">';
 
-	echo
-		'<h1>' .
-		esc_html__( 'Groups Options', 'groups' ) .
-		'</h1>';
+	echo '<h1>' . esc_html__( 'Groups Options', 'groups' ) . '</h1>';
 
 	echo Groups_Admin::render_messages(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -173,7 +170,7 @@ function groups_admin_options() {
 
 	$delete_data = Groups_Options::get_option( 'groups_delete_data', false );
 
-	if ( isset( $_GET['dismiss-groups-extensions-box'] ) && isset( $_GET['groups-extensions-box-nonce'] ) && wp_verify_nonce( $_GET['groups-extensions-box-nonce'], 'dismiss-box' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( groups_sanitize_get( 'dismiss-groups-extensions-box' ) && groups_verify_get_nonce( 'groups-extensions-box-nonce', 'dismiss-box' ) ) {
 		Groups_Options::update_user_option( 'show-extensions-box', time() );
 	}
 	$extensions_box = '';
@@ -398,18 +395,13 @@ function groups_network_admin_options() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	echo
-		'<div>' .
-		'<h1>' .
-		esc_html__( 'Groups network options', 'groups' ) .
-		'</h1>' .
-		'</div>';
+	echo '<h1>' . esc_html__( 'Groups network options', 'groups' ) . '</h1>';
 
 	// handle options form submission
-	if ( isset( $_POST['submit'] ) ) {
-		if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( isset( $_POST['submit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( groups_verify_post_nonce( GROUPS_ADMIN_OPTIONS_NONCE, 'admin' ) ) {
 			// delete data
-			if ( !empty( $_POST['delete-data'] ) ) {
+			if ( !empty( $_POST['delete-data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 				Groups_Options::update_option( 'groups_network_delete_data', true );
 			} else {
 				Groups_Options::update_option( 'groups_network_delete_data', false );

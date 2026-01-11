@@ -87,10 +87,11 @@ class Groups_Admin_Users {
 	 */
 	public static function pre_user_query( $user_query ) {
 		global $pagenow, $wpdb;
-		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
-			if ( isset( $_REQUEST['filter_group_ids'] ) && is_array( $_REQUEST['filter_group_ids'] ) ) {
+		if ( ( $pagenow == 'users.php' ) && empty( groups_sanitize_get( 'page' ) ) ) {
+			$filter_group_ids = groups_sanitize_request( 'filter_group_ids' );
+			if ( is_array( $filter_group_ids ) ) {
 				$group_ids = array();
-				foreach ( $_REQUEST['filter_group_ids'] as $group_id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				foreach ( $filter_group_ids as $group_id ) {
 					$group_id = Groups_Utility::id( $group_id );
 					if ( $group_id !== false ) {
 						$group_ids[] = $group_id;
@@ -100,7 +101,7 @@ class Groups_Admin_Users {
 				if ( $n > 0 ) {
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$group_ids = implode( ',', esc_sql( $group_ids ) );
-					$conjunctive = !empty( $_REQUEST['filter_groups_conjunctive'] );
+					$conjunctive = !empty( groups_sanitize_request( 'filter_groups_conjunctive' ) );
 					if ( !$conjunctive ) {
 						$user_query->query_where .= " AND $wpdb->users.ID IN ( SELECT DISTINCT user_id FROM $user_group_table WHERE group_id IN ( $group_ids ) ) ";
 					} else {
@@ -124,7 +125,7 @@ class Groups_Admin_Users {
 
 		global $pagenow;
 
-		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
+		if ( ( $pagenow == 'users.php' ) && empty( groups_sanitize_get( 'page' ) ) ) {
 			Groups_UIE::enqueue( 'select' );
 			wp_enqueue_style( 'groups_admin_user' );
 		}
@@ -137,7 +138,7 @@ class Groups_Admin_Users {
 
 		global $pagenow;
 
-		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
+		if ( ( $pagenow == 'users.php' ) && empty( groups_sanitize_get( 'page' ) ) ) {
 			// @since 2.18.0 moved to groups_admin_user.css
 		}
 	}
@@ -158,7 +159,7 @@ class Groups_Admin_Users {
 
 		$output = '';
 
-		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
+		if ( ( $pagenow == 'users.php' ) && empty( groups_sanitize_get( 'page' ) ) ) {
 			// groups select
 			$groups_table = _groups_get_tablename( 'group' );
 			$groups = apply_filters( 'groups_admin_users_restrict_manage_users_groups', $wpdb->get_results( "SELECT * FROM $groups_table ORDER BY name" ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -223,7 +224,7 @@ class Groups_Admin_Users {
 	 */
 	public static function views_users( $views ) {
 		global $pagenow, $wpdb;
-		if ( ( $pagenow == 'users.php' ) && empty( $_GET['page'] ) ) {
+		if ( ( $pagenow == 'users.php' ) && empty( groups_sanitize_get( 'page' ) ) ) {
 			$output = '<form id="filter-groups-form" action="" method="get">';
 			$output .= '<div class="groups-filter-container">';
 			$output .= '<div class="groups-select-container">';
@@ -243,12 +244,16 @@ class Groups_Admin_Users {
 					}
 				}
 			}
+			$filter_group_ids = groups_sanitize_request( 'filter_group_ids' );
+			if ( !is_array( $filter_group_ids ) ) {
+				$filter_group_ids = array();
+			}
 			foreach ( $groups as $group ) {
 				// Do not use $user_count = count( $group->users ); here,
 				// as it creates a lot of unneccessary objects and can lead
 				// to out of memory issues on large user bases.
 				$user_count = isset( $user_counts[$group->group_id] ) ? $user_counts[$group->group_id] : 0;
-				$selected = isset( $_REQUEST['filter_group_ids'] ) && is_array( $_REQUEST['filter_group_ids'] ) && in_array( $group->group_id, $_REQUEST['filter_group_ids'] );
+				$selected = in_array( $group->group_id, $filter_group_ids );
 				$output .= sprintf(
 					'<option value="%d" %s>%s</option>',
 					Groups_Utility::id( $group->group_id ),
@@ -263,7 +268,7 @@ class Groups_Admin_Users {
 			$output .= '</select>';
 			$output .= '</div>'; // .groups-select-container
 			$output .= '</div>'; // .groups-filter-container
-			$conjunctive = !empty( $_REQUEST['filter_groups_conjunctive'] );
+			$conjunctive = !empty( groups_sanitize_request( 'filter_groups_conjunctive' ) );
 			$output .= sprintf( '<label title="%s" style="margin-right: 4px;">', esc_html_x( 'Users must belong to all chosen groups', 'label title for conjunctive groups filter checkbox', 'groups' ) );
 			$output .= sprintf( '<input class="filter-groups-conjunctive" name="filter_groups_conjunctive" type="checkbox" value="1" %s />', $conjunctive ? ' checked="checked" ' : '' );
 			$output .= esc_html_x( '&cap;', 'label for conjunctive groups filter checkbox', 'groups' );
@@ -281,22 +286,22 @@ class Groups_Admin_Users {
 	 */
 	public static function load_users() {
 		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			$users = isset( $_REQUEST['users'] ) ? $_REQUEST['users'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$users = groups_sanitize_request( 'users' );
 			$action = null;
-			if ( !empty( $_REQUEST['groups'] ) ) {
-				if ( $_GET['groups-action'] == "add-group" ) {
+			if ( !empty( $_REQUEST['groups'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				if ( groups_sanitize_get( 'groups-action' ) === 'add-group' ) {
 					$action = 'add';
-				} else if ( $_GET['groups-action'] == "remove-group" ) {
+				} else if ( groups_sanitize_get( 'groups-action' ) === 'remove-group' ) {
 					$action = 'remove';
 				}
 			}
 			if ( $users !== null && $action !== null && is_array( $users ) ) {
 				$users = array_map( 'intval', $users );
-				if ( wp_verify_nonce( $_REQUEST['bulk-user-group-nonce'], 'user-group' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( groups_verify_request_nonce( 'bulk-user-group-nonce', 'user-group' ) ) {
 					foreach ( $users as $user_id ) {
 						switch ( $action ) {
 							case 'add':
-								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+								$group_ids = groups_sanitize_get( 'group_ids' );
 								if ( $group_ids !== null && is_array( $group_ids ) ) {
 									foreach ( $group_ids as $group_id ) {
 										// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
@@ -312,7 +317,7 @@ class Groups_Admin_Users {
 								}
 								break;
 							case 'remove':
-								$group_ids = isset( $_GET['group_ids'] ) ? $_GET['group_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+								$group_ids = groups_sanitize_get( 'group_ids' );
 								if ( $group_ids !== null && is_array( $group_ids ) ) {
 									foreach ( $group_ids as $group_id ) {
 										// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
