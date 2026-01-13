@@ -90,7 +90,7 @@ function groups_admin_groups() {
 			case 'groups-action' :
 				if ( groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_ACTION_NONCE, 'admin' ) ) {
 					$group_ids = groups_sanitize_post( 'group_ids' );
-					$bulk_action = groups_sanitize_post( 'bulk' );
+					$bulk_action = groups_sanitize_post( 'bulk-action' );
 					if ( is_array( $group_ids ) && ( $bulk_action !== null ) ) {
 						foreach ( $group_ids as $group_id ) {
 							switch ( $bulk_action ) {
