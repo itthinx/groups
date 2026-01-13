@@ -121,13 +121,13 @@ class Groups_Admin_Posts_Legacy {
 					$output .= sprintf(
 						'<select class="select capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 						esc_attr( Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY ),
-						esc_attr( __( 'Access restrictions &hellip;', 'groups' ) ) ,
-						esc_attr( __( 'Access restrictions &hellip;', 'groups' ) )
+						esc_attr__( 'Access restrictions &hellip;', 'groups' ),
+						esc_attr__( 'Access restrictions &hellip;', 'groups' )
 					);
 
 					$previous_selected = groups_sanitize_get( Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) ?? array();
 					$selected = in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '';
-					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr( __( '(only unrestricted)', 'groups' ) ) );
+					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr__( '(only unrestricted)', 'groups' ) );
 
 					foreach ( $applicable_read_caps as $capability ) {
 						$selected = in_array( $capability, $previous_selected ) ? ' selected="selected" ' : '';
@@ -172,12 +172,12 @@ class Groups_Admin_Posts_Legacy {
 
 					$output .= '<label style="display:inline;">';
 					$output .= '<span class="title">';
-					$output .= __( 'Access Restrictions', 'groups' );
+					$output .= esc_html__( 'Access Restrictions', 'groups' );
 					$output .= '</span>';
 					$output .= '<select class="capabilities-action" name="capabilities-action">';
-					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', 'groups' ) . '</option>';
-					$output .= '<option value="add-capability">' . __( 'Add restriction', 'groups' ) . '</option>';
-					$output .= '<option value="remove-capability">' . __( 'Remove restriction', 'groups' ) . '</option>';
+					$output .= '<option selected="selected" value="-1">' . esc_html__( '&mdash; No Change &mdash;', 'groups' ) . '</option>';
+					$output .= '<option value="add-capability">' . esc_html__( 'Add restriction', 'groups' ) . '</option>';
+					$output .= '<option value="remove-capability">' . esc_html__( 'Remove restriction', 'groups' ) . '</option>';
 					$output .= '</select>';
 					$output .= '</label>';
 
@@ -186,8 +186,8 @@ class Groups_Admin_Posts_Legacy {
 					$output .= sprintf(
 						'<select class="select bulk-capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 						esc_attr( Groups_Post_Access_Legacy::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access_Legacy::READ_POST_CAPABILITY ),
-						esc_attr( __( 'Choose access restrictions &hellip;', 'groups' ) ) ,
-						esc_attr( __( 'Choose access restrictions &hellip;', 'groups' ) )
+						esc_attr__( 'Choose access restrictions &hellip;', 'groups' ),
+						esc_attr__( 'Choose access restrictions &hellip;', 'groups' )
 					);
 
 					foreach ( $valid_read_caps as $capability ) {

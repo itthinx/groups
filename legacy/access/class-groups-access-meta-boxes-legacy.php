@@ -209,7 +209,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 
 		if ( self::user_can_restrict() ) {
 			$user = new Groups_User( get_current_user_id() );
-			$output .= __( 'Enforce read access', 'groups' );
+			$output .= esc_html__( 'Enforce read access', 'groups' );
 
 			$read_caps = get_post_meta( $post_id, Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
 			$valid_read_caps = Groups_Options::get_option( Groups_Post_Access_Legacy::READ_POST_CAPABILITIES, array( Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) );
@@ -217,9 +217,9 @@ class Groups_Access_Meta_Boxes_Legacy {
 			$output .= sprintf(
 				'<select class="select capability" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
 				self::CAPABILITY . '[]',
-				__( 'Type and choose &hellip;', 'groups'),
-				__( 'Type and choose &hellip;', 'groups'),
-				__( 'Choose one or more capabilities to restrict access. Groups that grant access through the capabilities are shown in parenthesis. If no capabilities are available yet, you can use the quick-create box to create a group and capability enabled for access restriction on the fly.', 'groups' )
+				esc_attr__( 'Type and choose &hellip;', 'groups'),
+				esc_attr__( 'Type and choose &hellip;', 'groups'),
+				esc_attr__( 'Choose one or more capabilities to restrict access. Groups that grant access through the capabilities are shown in parenthesis. If no capabilities are available yet, you can use the quick-create box to create a group and capability enabled for access restriction on the fly.', 'groups' )
 			);
 			$output .= '<option value=""></option>';
 			foreach ( $valid_read_caps as $valid_read_cap ) {
@@ -277,7 +277,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 
 			$output .= '<p class="description">';
 			/* translators: group name */
-			$output .= sprintf( esc_html__( "Only groups or users that have one of the selected capabilities are allowed to read this %s.", 'groups' ), esc_html( $post_singular_name ) );
+			$output .= sprintf( esc_html__( 'Only groups or users that have one of the selected capabilities are allowed to read this %s.', 'groups' ), esc_html( $post_singular_name ) );
 			$output .= '</p>';
 
 			// @since 3.11.0 dropped and always on
@@ -304,7 +304,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 				$style = 'cursor:pointer;vertical-align:middle;';
 				$output .= sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=groups-admin-options' ) ) );
 			}
-			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You must be in a group that has at least one capability enabled to enforce read access.', 'groups' ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
+			$output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr__( 'You must be in a group that has at least one capability enabled to enforce read access.', 'groups' ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
 			if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
 				$output .= '</a>';
 			}
@@ -316,11 +316,11 @@ class Groups_Access_Meta_Boxes_Legacy {
 			$style = 'cursor:help;vertical-align:middle;';
 			$output .= '<div class="quick-create-group-capability" style="margin:4px 0">';
 			$output .= '<label>';
-			$output .= sprintf( '<input style="width:100%%;margin-right:-20px;" id="quick-group-capability" name="quick-group-capability" class="quick-group-capability" type="text" value="" placeholder="%s"/>', __( 'Quick-create group &amp; capability', 'groups' ) );
+			$output .= sprintf( '<input style="width:100%%;margin-right:-20px;" id="quick-group-capability" name="quick-group-capability" class="quick-group-capability" type="text" value="" placeholder="%s"/>', esc_attr__( 'Quick-create group &amp; capability', 'groups' ) );
 			$output .= sprintf(
 				'<img id="quick-create-help-icon" style="%s" alt="?" title="%s" src="%s" />',
 				$style,
-				esc_attr( __( 'You can create a new group and capability here. The capability will be assigned to the group and enabled to enforce read access. Group names are case-sensitive, the name of the capability is the lower-case version of the name of the group. If the group already exists, a new capability is created and assigned to the existing group. If the capability already exists, it will be assigned to the group. If both already exist, the capability is enabled to enforce read access. In order to be able to use the capability, your user account will be assigned to the group.', 'groups' ) ),
+				esc_attr__( 'You can create a new group and capability here. The capability will be assigned to the group and enabled to enforce read access. Group names are case-sensitive, the name of the capability is the lower-case version of the name of the group. If the group already exists, a new capability is created and assigned to the existing group. If the capability already exists, it will be assigned to the group. If both already exist, the capability is enabled to enforce read access. In order to be able to use the capability, your user account will be assigned to the group.', 'groups' ),
 				esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' )
 			);
 			$output .= '</label>';
@@ -521,10 +521,10 @@ class Groups_Access_Meta_Boxes_Legacy {
 		if ( !isset( $post_types_option['attachment']['add_meta_box'] ) || $post_types_option['attachment']['add_meta_box'] ) {
 			if ( self::user_can_restrict() ) {
 				$user = new Groups_User( get_current_user_id() );
-				$output = "";
+				$output = '';
 				$post_singular_name = __( 'Media', 'groups' );
 
-				$output .= __( "Enforce read access", 'groups' );
+				$output .= esc_html__( 'Enforce read access', 'groups' );
 				$read_caps = get_post_meta( $post->ID, Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY );
 				$valid_read_caps = self::get_valid_read_caps_for_user();
 

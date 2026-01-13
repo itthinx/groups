@@ -75,7 +75,7 @@ class Groups_Admin_Post_Columns_Legacy {
 		$column_headers[self::CAPABILITIES] = sprintf(
 			/* translators: explanation */
 			__( '<span title="%s">Access Restrictions</span>', 'groups' ),
-			esc_attr( __( 'One or more capabilities required to read the entry.', 'groups' ) )
+			esc_attr__( 'One or more capabilities required to read the entry.', 'groups' )
 		);
 		return $column_headers;
 	}

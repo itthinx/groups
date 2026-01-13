@@ -115,7 +115,9 @@ class Groups_Pagination {
 		$total_pages = isset( $this->_pagination_args['total_pages'] ) ? $this->_pagination_args['total_pages'] : 0;
 
 		/* translators: number of items */
-		$output = '<span class="displaying-num">' . sprintf( _n( '%s item', '%s items', $total_items, 'groups' ), number_format_i18n( $total_items ) ) . '</span>';
+		$output = '<span class="displaying-num">';
+		$output .= sprintf( esc_html( _n( '%s item', '%s items', $total_items, 'groups' ) ), esc_html( number_format_i18n( $total_items ) ) );
+		$output .= '</span>';
 
 		$current = $this->get_pagenum();
 
@@ -159,7 +161,7 @@ class Groups_Pagination {
 			);
 
 		$html_total_pages = sprintf( '<span class="total-pages">%s</span>', number_format_i18n( $total_pages ) );
-		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
+		$page_links[] = '<span class="paging-input">' . sprintf( esc_html_x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'button next-page' . $disable_last,
