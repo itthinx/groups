@@ -38,6 +38,24 @@ class Groups_Shortcodes {
 	const MAX_TIME_DELTA = 3600;
 
 	/**
+	 * Hashed content map.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @var array
+	 */
+	private static $map = array();
+
+	/**
+	 * During preprocessing.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @var boolean
+	 */
+	private static $preprocessing = false;
+
+	/**
 	 * Adds shortcodes.
 	 */
 	public static function init() {
@@ -55,6 +73,10 @@ class Groups_Shortcodes {
 		add_shortcode( 'groups_join', array( __CLASS__, 'groups_join' ) );
 		// leave a group
 		add_shortcode( 'groups_leave', array( __CLASS__, 'groups_leave' ) );
+		// @since 3.11.0 content preprocessing
+		add_filter( 'pre_render_block', array( __CLASS__, 'pre_render_block' ), 0, 3 );
+		// @since 3.11.0 map processing
+		add_filter( 'render_block', array( __CLASS__, 'render_block' ), 0, 3 );
 	}
 
 	/**
@@ -148,7 +170,7 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_group_info( $atts, $content = null ) {
 		global $wpdb;
-		$output = "";
+		$output = '';
 		$options = shortcode_atts(
 			array(
 				'group'  => '',
@@ -498,7 +520,7 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_join( $atts, $content = null ) {
 
-		global $groups_join_data_init;
+		global $groups_join_data_init, $post;
 
 		$nonce_action = 'groups_action';
 		$nonce        = 'nonce_join';
@@ -554,6 +576,29 @@ class Groups_Shortcodes {
 		if ( !$current_group ) {
 			$current_group = Groups_Group::read_by_name( $group );
 		}
+		// bail out if no valid group
+		if ( !$current_group ) {
+			return '';
+		}
+
+		// @since 3.11.0 Restrict the functionality to authors with appropriate permission
+		$author_can_restrict_group_ids = array();
+		$author_id = isset( $post ) && !empty( $post->post_author ) ? $post->post_author : get_the_author_meta( 'ID' );
+		$author_id = is_numeric( $author_id ) ? intval( $author_id ) : null;
+		if ( $author_id !== null ) {
+			$author = new Groups_User( $author_id );
+			if ( $author->can( GROUPS_RESTRICT_ACCESS ) ) {
+				if ( $author->can( GROUPS_ADMINISTER_GROUPS ) ) {
+					$author_can_restrict_group_ids = Groups_Group::get_group_ids();
+				} else {
+					$author_can_restrict_group_ids = $author->get_group_ids_deep();
+				}
+			}
+		}
+		if ( !in_array( $current_group->group_id, $author_can_restrict_group_ids ) ) {
+			return '';
+		}
+
 		if ( $current_group ) {
 			if ( $user_id = get_current_user_id() ) {
 				$joined        = false;
@@ -653,6 +698,27 @@ class Groups_Shortcodes {
 				}
 			}
 		}
+
+		if ( self::$preprocessing ) {
+			// surround content with hashmarks
+			// <!-- groups:{hash} -->{content}<!-- /groups:{hash} -->
+			$hash = md5( $output );
+			$prefix = sprintf( '<!-- groups:%s -->', $hash );
+			$suffix = sprintf( '<!-- /groups:%s -->', $hash );
+			self::$map[$hash] = array(
+				'prefix' => $prefix,
+				'suffix' => $suffix,
+				'content' => $output
+			);
+
+			$output = sprintf(
+				'%s%s%s',
+				$prefix,
+				$output,
+				$suffix
+			);
+		}
+
 		return $output;
 	}
 
@@ -675,7 +741,7 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_leave( $atts, $content = null ) {
 
-		global $groups_leave_data_init;
+		global $groups_leave_data_init, $post;
 
 		$nonce_action = 'groups_action';
 		$nonce        = 'nonce_leave';
@@ -729,6 +795,29 @@ class Groups_Shortcodes {
 		if ( !$current_group ) {
 			$current_group = Groups_Group::read_by_name( $group );
 		}
+		// bail out if no valid group
+		if ( !$current_group ) {
+			return '';
+		}
+
+		// @since 3.11.0 Restrict the functionality to authors with appropriate permission
+		$author_can_restrict_group_ids = array();
+		$author_id = isset( $post ) && !empty( $post->post_author ) ? $post->post_author : get_the_author_meta( 'ID' );
+		$author_id = is_numeric( $author_id ) ? intval( $author_id ) : null;
+		if ( $author_id !== null ) {
+			$author = new Groups_User( $author_id );
+			if ( $author->can( GROUPS_RESTRICT_ACCESS ) ) {
+				if ( $author->can( GROUPS_ADMINISTER_GROUPS ) ) {
+					$author_can_restrict_group_ids = Groups_Group::get_group_ids();
+				} else {
+					$author_can_restrict_group_ids = $author->get_group_ids_deep();
+				}
+			}
+		}
+		if ( !in_array( $current_group->group_id, $author_can_restrict_group_ids ) ) {
+			return '';
+		}
+
 		if ( $current_group ) {
 			if ( $user_id = get_current_user_id() ) {
 				$left          = false;
@@ -818,6 +907,27 @@ class Groups_Shortcodes {
 				}
 			}
 		}
+
+		if ( self::$preprocessing ) {
+			// surround content with hashmarks
+			// <!-- groups:{hash} -->{content}<!-- /groups:{hash} -->
+			$hash = md5( $output );
+			$prefix = sprintf( '<!-- groups:%s -->', $hash );
+			$suffix = sprintf( '<!-- /groups:%s -->', $hash );
+			self::$map[$hash] = array(
+				'prefix' => $prefix,
+				'suffix' => $suffix,
+				'content' => $output
+			);
+
+			$output = sprintf(
+				'%s%s%s',
+				$prefix,
+				$output,
+				$suffix
+			);
+		}
+
 		return $output;
 	}
 
@@ -893,5 +1003,122 @@ class Groups_Shortcodes {
 		}
 	}
 
+	/**
+	 * Determine which blocks to preprocess.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @return array
+	 */
+	public static function get_preprocess_blocks() {
+		$blocks = apply_filters(
+			'groups_shortcodes_preprocess_blocks',
+			array(
+				'core/latest-posts'
+			)
+		);
+		if ( !is_array( $blocks ) ) {
+			$blocks = array();
+		}
+		return $blocks;
+	}
+
+	/**
+	 * Content preprocessing.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param string|null $pre_render
+	 * @param array $parsed_block
+	 * @param WP_Block|null $parent_block
+	 *
+	 * @return string|null
+	 */
+	public static function pre_render_block( $pre_render, $parsed_block, $parent_block ) {
+		if ( in_array( $parsed_block['blockName'], self::get_preprocess_blocks() ) ) {
+			// start preprocessing
+			self::$preprocessing = true;
+			add_filter( 'the_posts', array( __CLASS__, 'preprocess_the_posts' ), 10, 2 );
+		}
+		return $pre_render;
+	}
+
+	/**
+	 * Map processing.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param string $block_content
+	 * @param array $parsed_block
+	 * @param WP_Block $block
+	 *
+	 * @return string
+	 */
+	public static function render_block( $block_content, $parsed_block, $block ) {
+		// Remove hashmarks leaving the content within.
+		if ( in_array( $parsed_block['blockName'], self::get_preprocess_blocks() ) ) {
+			// stop preprocessing
+			remove_filter( 'the_posts', array( __CLASS__, 'preprocess_the_posts' ), 10 );
+			self::$preprocessing = false;
+			foreach ( self::$map as $hash => $data ) {
+				$prefix  = $data['prefix'] ?? '';
+				$suffix  = $data['suffix'] ?? '';
+				$content = $data['content'] ?? '';
+				$start   = $prefix !== '' ? strpos( $block_content, $prefix ) : false;
+				$end     = $suffix !== '' ? strpos( $block_content, $suffix ) : false;
+				if ( $start !== false && $end !== false ) {
+					$block_content = substr( $block_content, 0, $start ) . $content . substr( $block_content, $end + strlen( $suffix ) );
+				}
+			}
+		}
+		return $block_content;
+	}
+
+	/**
+	 * Preprocess posts.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param WP_Post[] $posts
+	 * @param WP_Query $query
+	 *
+	 * @return WP_Post[]
+	 */
+	public static function preprocess_the_posts( $posts, $query ) {
+		global $shortcode_tags, $post;
+		if ( !empty( $shortcode_tags ) ) {
+			// remember the global post object
+			$original_post = $post;
+			// remember the global registered shortcodes
+			$original_shortcode_tags = $shortcode_tags;
+			// limit processing to these shortcodes
+			$do_shortcode_tags = array();
+			if ( isset( $shortcode_tags['groups_join'] ) ) {
+				$do_shortcode_tags['groups_join'] = $shortcode_tags['groups_join'];
+			}
+			if ( isset( $shortcode_tags['groups_leave'] ) ) {
+				$do_shortcode_tags['groups_leave'] = $shortcode_tags['groups_leave'];
+			}
+			$shortcode_tags = $do_shortcode_tags;
+			// preprocess content for each post
+			$processed_posts = array();
+			while ( !empty( $posts ) ) {
+				// set the global $post to process within do_shortcode()
+				$post = array_shift( $posts );
+				$post->post_excerpt = do_shortcode( $post->post_excerpt );
+				$post->post_content = do_shortcode( $post->post_content );
+				array_push( $processed_posts, $post );
+			}
+			// modified posts to return
+			$posts = $processed_posts;
+			// restore the global registered shortcodes
+			$shortcode_tags = $original_shortcode_tags;
+			// restore the global post
+			$post = $original_post;
+		}
+		return $posts;
+	}
+
 }
+
 Groups_Shortcodes::init();

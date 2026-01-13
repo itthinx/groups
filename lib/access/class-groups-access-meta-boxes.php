@@ -585,7 +585,7 @@ class Groups_Access_Meta_Boxes {
 		if ( $user_id === null ) {
 			$user_id = get_current_user_id();
 		}
-		$user = new Groups_User( $user_id);
+		$user = new Groups_User( $user_id );
 		return $user->can( GROUPS_RESTRICT_ACCESS );
 	}
 
@@ -616,7 +616,7 @@ class Groups_Access_Meta_Boxes {
 				$group_ids = $user->get_group_ids_deep();
 			}
 			if ( !empty( $group_ids ) && is_array( $group_ids ) ) {
-				$group_ids = array_map (array( 'Groups_Utility','id'), $group_ids );
+				$group_ids = array_map( array( 'Groups_Utility','id' ), $group_ids );
 			}
 		}
 		return apply_filters( 'groups_access_meta_boxes_user_can_restrict_group_ids', $group_ids, $user_id );

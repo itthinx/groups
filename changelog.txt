@@ -1,9 +1,13 @@
 == Groups by itthinx - changelog.txt
 
-2026-01-11 - version 3.11.0
+2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.4 compatible.
 * Fix - [CVE-2026-0549] Prevent potential stored XSS via shortcode.
+* Update - The [groups_join] shortcode limits functionality to authors with permission to restrict access.
+* Fix - Fixed a warning when an invalid group is passed to the [groups_join] shortcode.
+* Update - The [groups_leave] shortcode limits functionality to authors with permission to restrict access.
+* Fix - Fixed a warning when an invalid group is passed to the [groups_leave] shortcode.
 * Dev - Replaced uses of parse_url() with wp_parse_url().
 * Update - The [groups_group_info] shows user display_name instead of user_login when listing users and supports the none attribute.
 * Add - Adds the groups_verify_nonce() API function.
