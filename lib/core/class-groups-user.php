@@ -142,7 +142,7 @@ class Groups_User implements I_Capable {
 				Groups_Utility::id( $group_id )
 			) );
 			if ( $users ) {
-				foreach( $users as $user ) {
+				foreach ( $users as $user ) {
 					self::clear_cache( $user->ID );
 				}
 			}
@@ -426,7 +426,7 @@ class Groups_User implements I_Capable {
 						) );
 						if ( $rows ) {
 							$result = array();
-							foreach( $rows as $row ) {
+							foreach ( $rows as $row ) {
 								$result[] = $row->group_id;
 							}
 						}
@@ -509,7 +509,7 @@ class Groups_User implements I_Capable {
 						) );
 						if ( $rows ) {
 							$result = array();
-							foreach( $rows as $row ) {
+							foreach ( $rows as $row ) {
 								$result[] = new Groups_Group( $row->group_id );
 							}
 						}
@@ -524,7 +524,7 @@ class Groups_User implements I_Capable {
 						unset( $cached );
 					} else {
 						$result = array();
-						foreach( $this->group_ids_deep as $group_id ) { // @phpstan-ignore property.notFound
+						foreach ( $this->group_ids_deep as $group_id ) { // @phpstan-ignore property.notFound
 							$result[] = new Groups_Group( $group_id );
 						}
 						Groups_Cache::set( self::GROUPS . $this->user->ID, $result, self::CACHE_GROUP );
@@ -670,7 +670,7 @@ class Groups_User implements I_Capable {
 				Groups_Utility::id( $this->user->ID )
 			) );
 			if ( $user_capabilities ) {
-				foreach( $user_capabilities as $user_capability ) {
+				foreach ( $user_capabilities as $user_capability ) {
 					$capabilities[]   = $user_capability->capability;
 					$capability_ids[] = $user_capability->capability_id;
 				}
@@ -681,7 +681,7 @@ class Groups_User implements I_Capable {
 				$role_caps = $this->user->get_role_caps();
 				if ( !empty( $role_caps ) && is_array( $role_caps ) ) {
 					$caps = array();
-					foreach( $role_caps as $role_cap => $has ) {
+					foreach ( $role_caps as $role_cap => $has ) {
 						if ( $has && !in_array( $role_cap, $capabilities ) ) {
 							$caps[] = $role_cap;
 						}
@@ -691,7 +691,7 @@ class Groups_User implements I_Capable {
 						// recognized. Note that this also effectively filters out
 						// all roles and that this is desired.
 						if ( $role_capabilities = $wpdb->get_results( "SELECT capability_id, capability FROM $capability_table c WHERE capability IN ('" . implode( "','", esc_sql( $caps ) ) . "')" ) ) { // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-							foreach( $role_capabilities as $role_capability ) {
+							foreach ( $role_capabilities as $role_capability ) {
 								$capabilities[]   = $role_capability->capability;
 								$capability_ids[] = $role_capability->capability_id;
 							}
@@ -703,7 +703,7 @@ class Groups_User implements I_Capable {
 			// Get all groups the user belongs to directly or through
 			// inheritance along with their capabilities.
 			if ( $user_groups ) {
-				foreach( $user_groups as $user_group ) {
+				foreach ( $user_groups as $user_group ) {
 					$group_ids[] = Groups_Utility::id( $user_group->group_id );
 				}
 				if ( count( $group_ids ) > 0 ) {
@@ -717,7 +717,7 @@ class Groups_User implements I_Capable {
 							"SELECT parent_id FROM $group_table WHERE parent_id IS NOT NULL AND group_id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						);
 						if ( $parent_group_ids ) {
-							foreach( $parent_group_ids as $parent_group_id ) {
+							foreach ( $parent_group_ids as $parent_group_id ) {
 								$parent_group_id = Groups_Utility::id( $parent_group_id->parent_id );
 								if ( !in_array( $parent_group_id, $group_ids ) ) {
 									$group_ids[] = $parent_group_id;

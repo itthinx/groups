@@ -205,7 +205,7 @@ class Groups_WordPress {
 				// would trigger this same function and we would end up
 				// in an infinite loop
 				remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY );
-				foreach( $caps as $cap ) {
+				foreach ( $caps as $cap ) {
 					if ( $groups_user->can( $cap ) ) {
 						$allcaps[$cap] = true;
 					}

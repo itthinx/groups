@@ -78,10 +78,10 @@ class Groups_Admin_Notice {
 		if ( class_exists( 'Groups_User' ) && method_exists( 'Groups_User', 'current_user_can' ) ) {
 			if ( Groups_User::current_user_can( 'activate_plugins' ) ) {
 				$user_id = get_current_user_id();
-				if ( !empty( $_GET[self::HIDE_REVIEW_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'hide' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( !empty( groups_sanitize_get( self::HIDE_REVIEW_NOTICE ) ) && groups_verify_get_nonce( 'groups_notice', 'hide' ) ) {
 					add_user_meta( $user_id, self::HIDE_REVIEW_NOTICE, true );
 				}
-				if ( !empty( $_GET[self::REMIND_LATER_NOTICE] ) && wp_verify_nonce( $_GET['groups_notice'], 'later' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( !empty( groups_sanitize_get( self::REMIND_LATER_NOTICE ) ) && groups_verify_get_nonce( 'groups_notice', 'later' ) ) {
 					update_user_meta( $user_id, self::REMIND_LATER_NOTICE, time() + self::REMIND_LAPSE );
 				}
 				$hide_review_notice = get_user_meta( $user_id, self::HIDE_REVIEW_NOTICE, true );
@@ -117,7 +117,7 @@ class Groups_Admin_Notice {
 	 */
 	public static function admin_notices() {
 
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$current_url = groups_get_current_url();
 		$hide_url    = wp_nonce_url( add_query_arg( self::HIDE_REVIEW_NOTICE, true, $current_url ), 'hide', 'groups_notice' );
 		$remind_url  = wp_nonce_url( add_query_arg( self::REMIND_LATER_NOTICE, true, $current_url ), 'later', 'groups_notice' );
 

@@ -87,7 +87,7 @@ class Groups_Admin_Posts {
 		global $pagenow;
 
 		if ( $pagenow == 'edit.php' ) {
-			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				Groups_UIE::enqueue( 'select' );
@@ -104,7 +104,7 @@ class Groups_Admin_Posts {
 		global $pagenow;
 
 		if ( $pagenow == 'edit.php' ) {
-			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				echo '<style type="text/css">';
@@ -132,13 +132,13 @@ class Groups_Admin_Posts {
 	 */
 	public static function restrict_manage_posts() {
 
-		global $pagenow, $wpdb;
+		global $pagenow;
 
 		if ( is_admin() ) {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
@@ -154,21 +154,18 @@ class Groups_Admin_Posts {
 						esc_attr__( 'Groups &hellip;', 'groups' )
 					);
 
-					$previous_selected = array();
-					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) ) {
-						$previous_selected = $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ]; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						if ( !is_array( $previous_selected ) ) {
-							$previous_selected = array();
-						}
+					$read = groups_sanitize_get( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+					if ( !is_array( $read ) ) {
+						$read = array();
 					}
 					$output .= sprintf(
 						'<option value="%s" %s >%s</option>', self::NOT_RESTRICTED,
-						esc_attr( in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '' ),
+						esc_attr( in_array( self::NOT_RESTRICTED, $read ) ? ' selected="selected" ' : '' ),
 						esc_attr__( '(none)', 'groups' )
 					);
 					$output .= sprintf(
 						'<option value="%s" %s >%s</option>', self::RESTRICTED,
-						esc_attr( in_array( self::RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '' ),
+						esc_attr( in_array( self::RESTRICTED, $read ) ? ' selected="selected" ' : '' ),
 						esc_attr__( '(any)', 'groups' )
 					);
 
@@ -181,8 +178,8 @@ class Groups_Admin_Posts {
 							)
 						)
 					);
-					foreach( $groups as $group ) {
-						$selected = in_array( $group->group_id, $previous_selected ) ? ' selected="selected" ' : '';
+					foreach ( $groups as $group ) {
+						$selected = in_array( $group->group_id, $read ) ? ' selected="selected" ' : '';
 						$output .= sprintf(
 							'<option value="%s" %s >%s</option>',
 							esc_attr( $group->group_id ),
@@ -201,7 +198,7 @@ class Groups_Admin_Posts {
 						method_exists( 'Groups_Restrict_Categories', 'get_term_read_groups' ) // >= Groups Restrict Categories 2.0.0, the method isn't used here but it wouldn't make any sense to query unless we're >= 2.0.0
 					) {
 						$output .= sprintf( '<label class="groups-read-terms" title="%s">', esc_attr__( 'Also look for groups related to terms', 'groups' ) );
-						$output .= sprintf( '<input type="checkbox" name="groups-read-terms" value="1" %s />', empty( $_GET['groups-read-terms'] ) ? '' : ' checked="checked" ' );
+						$output .= sprintf( '<input type="checkbox" name="groups-read-terms" value="1" %s />', empty( groups_sanitize_get( 'groups-read-terms' ) ) ? '' : ' checked="checked" ' );
 						$output .= esc_html__( 'Terms', 'groups' );
 						$output .= '</label>';
 					}
@@ -221,12 +218,12 @@ class Groups_Admin_Posts {
 	 */
 	public static function bulk_edit_custom_box( $column_name, $post_type ) {
 
-		global $pagenow, $wpdb;
+		global $pagenow;
 
 		if ( $column_name == self::GROUPS_READ ) {
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
@@ -248,7 +245,6 @@ class Groups_Admin_Posts {
 					$output .= '</select>';
 					$output .= '</label>';
 
-					$user    = new Groups_User( get_current_user_id() );
 					$include = Groups_Access_Meta_Boxes::get_user_can_restrict_group_ids( get_current_user_id() );
 					$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 
@@ -260,7 +256,7 @@ class Groups_Admin_Posts {
 						esc_attr__( 'Choose access restriction groups &hellip;', 'groups' )
 					);
 
-					foreach( $groups as $group ) {
+					foreach ( $groups as $group ) {
 						$output .= sprintf(
 							'<option value="%s" >%s</option>',
 							esc_attr( $group->group_id ),
@@ -293,21 +289,21 @@ class Groups_Admin_Posts {
 	 * @param int $post_id
 	 */
 	public static function save_post( $post_id ) {
-		if ( isset( $_REQUEST['groups-action'] ) ) {
-			if ( wp_verify_nonce( $_REQUEST['bulk-post-group-nonce'], 'post-group' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				$field = Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ;
-				if ( !empty( $_REQUEST[$field] ) && is_array( $_REQUEST[$field] ) ) {
+		if ( isset( $_REQUEST['groups-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( groups_verify_request_nonce( 'bulk-post-group-nonce', 'post-group' ) ) {
+				$read = groups_sanitize_request( Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ );
+				if ( !empty( $read ) && is_array( $read ) ) {
 					if ( Groups_Access_Meta_Boxes::user_can_restrict() ) {
 						$include = Groups_Access_Meta_Boxes::get_user_can_restrict_group_ids();
 						$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 						$group_ids = array();
-						foreach( $groups as $group ) {
+						foreach ( $groups as $group ) {
 							$group_ids[] = $group->group_id;
 						}
-						foreach( $_REQUEST[$field] as $group_id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						foreach ( $read as $group_id ) {
 							if ( $group = Groups_Group::read( $group_id ) ) {
 								if ( in_array( $group->group_id, $group_ids ) ) {
-									switch( $_REQUEST['groups-action'] ) {
+									switch ( groups_sanitize_request( 'groups-action' ) ) {
 										case 'add-group' :
 											Groups_Post_Access::create( array(
 												'post_id' => $post_id,
@@ -328,8 +324,7 @@ class Groups_Admin_Posts {
 	}
 
 	/**
-	 * Query modifier to take the selected access restriction groups into
-	 * account.
+	 * Query modifier to take the selected access restriction groups into account.
 	 *
 	 * @deprecated not used
 	 *
@@ -343,22 +338,25 @@ class Groups_Admin_Posts {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
-					if ( !empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) &&
-						is_array( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] )
-					) {
+					$read = groups_sanitize_get( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+					if ( !is_array( $read ) ) {
+						$read = array();
+					}
+
+					if ( count( $read ) > 0 ) {
 
 						$include_unrestricted = false;
-						if ( in_array( self::NOT_RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) ) {
+						if ( in_array( self::NOT_RESTRICTED, $read ) ) {
 							$include_unrestricted = true;
 						}
 
 						$group_ids = array();
-						foreach ( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] as $group_id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						foreach ( $read as $group_id ) {
 							if ( Groups_Group::read( $group_id ) ) {
 								$group_ids[] = $group_id;
 							}
@@ -383,14 +381,14 @@ class Groups_Admin_Posts {
 								// );
 								// we'll limit it to show just unrestricted entries
 								// until the above is solved
-								$query->query_vars['meta_query'] = array (
+								$query->query_vars['meta_query'] = array ( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 									array (
 										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 										'compare' => 'NOT EXISTS'
 									)
 								);
 							} else {
-								$query->query_vars['meta_query'] = array (
+								$query->query_vars['meta_query'] = array ( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 									array (
 										'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 										'value'   => $group_ids,
@@ -399,7 +397,7 @@ class Groups_Admin_Posts {
 								);
 							}
 						} else if ( $include_unrestricted ) {
-							$query->query_vars['meta_query'] = array (
+							$query->query_vars['meta_query'] = array ( //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 								array (
 									'key'     => Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ,
 									'compare' => 'NOT EXISTS'
@@ -434,7 +432,7 @@ class Groups_Admin_Posts {
 
 			$filter_terms = false;
 			if (
-				!empty( $_GET['groups-read-terms'] ) &&
+				!empty( $_GET['groups-read-terms'] ) && // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				function_exists( 'get_term_meta' ) && // >= WordPress 4.4.0 as we query the termmeta table
 				class_exists( 'Groups_Restrict_Categories' ) &&
 				method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
@@ -443,7 +441,12 @@ class Groups_Admin_Posts {
 				$filter_terms = true;
 			}
 
-			if ( in_array( self::NOT_RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) ) {
+			$read = groups_sanitize_get( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+			if ( !is_array( $read ) ) {
+				$read = array();
+			}
+
+			if ( in_array( self::NOT_RESTRICTED, $read ) ) {
 				$condition =
 					"SELECT ID post_id FROM $wpdb->posts " .
 					"WHERE ID NOT IN (" .
@@ -461,7 +464,7 @@ class Groups_Admin_Posts {
 				$post_in[] = $condition;
 			}
 
-			if ( in_array( self::RESTRICTED, $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) ) {
+			if ( in_array( self::RESTRICTED, $read ) ) {
 				$condition = "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'groups-read'";
 				if ( $filter_terms ) {
 					$condition .=
@@ -476,7 +479,7 @@ class Groups_Admin_Posts {
 			}
 
 			$group_ids = array();
-			foreach ( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] as $group_id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			foreach ( $read as $group_id ) {
 				if ( $group_id = Groups_Utility::id( $group_id ) ) {
 					if ( Groups_Group::read( $group_id ) ) {
 						$group_ids[] = $group_id;
@@ -484,7 +487,7 @@ class Groups_Admin_Posts {
 				}
 			}
 
-			if ( !empty( $group_ids ) ) {
+			if ( !empty( $group_ids ) ) { // @phpstan-ignore empty.variable
 				$groups = ' ( ' . implode( ',', esc_sql( $group_ids ) ) . ' ) ';
 				$condition =
 					"SELECT post_id FROM $wpdb->postmeta " .
@@ -503,7 +506,7 @@ class Groups_Admin_Posts {
 
 			if ( count( $post_in ) > 0 ) {
 				if (
-					!empty( $_GET['groups-read-terms'] ) &&
+					!empty( $_GET['groups-read-terms'] ) && // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					function_exists( 'get_term_meta' ) && // >= WordPress 4.4.0 as we query the termmeta table
 					class_exists( 'Groups_Restrict_Categories' ) &&
 					method_exists( 'Groups_Restrict_Categories', 'get_controlled_taxonomies' ) &&
@@ -581,7 +584,7 @@ class Groups_Admin_Posts {
 	 */
 	public static function posts_orderby( $orderby, $query ) {
 		if ( self::extend_for_orderby_groups_read( $query ) ) {
-			switch( $query->get( 'order' ) ) {
+			switch ( $query->get( 'order' ) ) {
 				case 'desc' :
 				case 'DESC' :
 					$order = 'DESC';
@@ -613,7 +616,7 @@ class Groups_Admin_Posts {
 			if ( !is_array( $post_types ) ) {
 				$post_types = array( $post_types );
 			}
-			foreach( $post_types as $post_type ) {
+			foreach ( $post_types as $post_type ) {
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 				if (
 					!isset( $post_types_option[$post_type]['add_meta_box'] ) ||
@@ -653,7 +656,7 @@ class Groups_Admin_Posts {
 			if ( !is_array( $post_types ) ) {
 				$post_types = array( $post_types );
 			}
-			foreach( $post_types as $post_type ) {
+			foreach ( $post_types as $post_type ) {
 				if (
 					!isset( $post_types_option[$post_type]['add_meta_box'] ) ||
 					$post_types_option[$post_type]['add_meta_box']
@@ -665,10 +668,8 @@ class Groups_Admin_Posts {
 						!empty( $screen->id ) &&
 						( $screen->id == 'edit-' . $post_type )
 					) {
-						if (
-							!empty( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] ) &&
-							is_array( $_GET[Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ] )
-						) {
+						$read = groups_sanitize_get( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ );
+						if ( !empty( $read ) && is_array( $read ) ) {
 							$result = true;
 							break;
 						}

@@ -237,7 +237,7 @@ class Groups_Access_Meta_Boxes {
 				esc_attr( $read_help )
 			);
 			$output .= '<option value=""></option>';
-			foreach( $groups as $group ) {
+			foreach ( $groups as $group ) {
 				$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
 				$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 				$output .= '</option>';
@@ -335,8 +335,8 @@ class Groups_Access_Meta_Boxes {
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
 					if ( self::user_can_restrict() ) {
-						if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-							$post_type = isset( $_POST['post_type'] ) ? sanitize_text_field( $_POST['post_type'] ) : null;
+						if ( groups_verify_post_nonce( self::NONCE, self::SET_GROUPS ) ) {
+							$post_type = groups_sanitize_post( 'post_type' );
 							if ( $post_type !== null ) {
 
 								// See http://codex.wordpress.org/Function_Reference/current_user_can 20130119 WP 3.5
@@ -362,14 +362,17 @@ class Groups_Access_Meta_Boxes {
 									$include = self::get_user_can_restrict_group_ids();
 									$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 									$user_group_ids_deep = array();
-									foreach( $groups as $group ) {
+									foreach ( $groups as $group ) {
 										$user_group_ids_deep[] = $group->group_id;
 									}
 									$group_ids = array();
-									$submitted_group_ids = !empty( $_POST[self::GROUPS_READ] ) && is_array( $_POST[self::GROUPS_READ] ) ? $_POST[self::GROUPS_READ] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+									$submitted_group_ids = groups_sanitize_post( self::GROUPS_READ ) ?? array();
+									if ( !is_array( $submitted_group_ids ) ) {
+										$submitted_group_ids = array();
+									}
 
 									// assign requested groups and create and assign new groups if allowed
-									foreach( $submitted_group_ids as $group_id ) {
+									foreach ( $submitted_group_ids as $group_id ) {
 										if ( is_numeric( $group_id ) ) {
 											if ( in_array( $group_id, $user_group_ids_deep ) ) {
 												$group_ids[] = $group_id;
@@ -455,7 +458,7 @@ class Groups_Access_Meta_Boxes {
 
 				// $output .= '<div style="padding:0 1em;margin:1em 0;border:1px solid #ccc;border-radius:4px;">';
 				// $output .= '<ul>';
-				// foreach( $groups as $group ) {
+				// foreach ( $groups as $group ) {
 				// 		$checked = in_array( $group->group_id, $groups_read ) ? ' checked="checked" ' : '';
 				// 		$output .= '<li>';
 				// 		$output .= '<label>';
@@ -479,7 +482,7 @@ class Groups_Access_Meta_Boxes {
 					Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . esc_attr__( 'You can create a new group by indicating the group\'s name.', 'groups' ) : ''
 				);
 				$output .= '<option value=""></option>';
-				foreach( $groups as $group ) {
+				foreach ( $groups as $group ) {
 					$output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
 					$output .= $group->name ? stripslashes( wp_filter_nohtml_kses( $group->name ) ) : '';
 					$output .= '</option>';
@@ -540,7 +543,7 @@ class Groups_Access_Meta_Boxes {
 					$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
 					$group_ids = array();
 					if ( !empty( $attachment[self::GROUPS_READ] ) && is_array( $attachment[self::GROUPS_READ] ) ) {
-						foreach( $groups as $group ) {
+						foreach ( $groups as $group ) {
 							if ( in_array( $group->group_id, $attachment[self::GROUPS_READ] ) ) {
 								$group_ids[] = $group->group_id;
 							}
@@ -582,7 +585,7 @@ class Groups_Access_Meta_Boxes {
 		if ( $user_id === null ) {
 			$user_id = get_current_user_id();
 		}
-		$user = new Groups_User( $user_id);
+		$user = new Groups_User( $user_id );
 		return $user->can( GROUPS_RESTRICT_ACCESS );
 	}
 
@@ -613,7 +616,7 @@ class Groups_Access_Meta_Boxes {
 				$group_ids = $user->get_group_ids_deep();
 			}
 			if ( !empty( $group_ids ) && is_array( $group_ids ) ) {
-				$group_ids = array_map (array( 'Groups_Utility','id'), $group_ids );
+				$group_ids = array_map( array( 'Groups_Utility','id' ), $group_ids );
 			}
 		}
 		return apply_filters( 'groups_access_meta_boxes_user_can_restrict_group_ids', $group_ids, $user_id );

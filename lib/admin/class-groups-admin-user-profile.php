@@ -49,7 +49,7 @@ class Groups_Admin_User_Profile {
 	public static function admin_enqueue_scripts() {
 		$screen = get_current_screen();
 		if ( isset( $screen->id ) ) {
-			switch( $screen->id ) {
+			switch ( $screen->id ) {
 				case 'user' : // creating a new user
 				case 'user-edit' :
 				case 'profile' :
@@ -71,7 +71,7 @@ class Groups_Admin_User_Profile {
 		global $wpdb;
 		if ( $type == 'add-new-user' ) {
 			if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-				$output = '<h3>' . _x( 'Groups', 'Groups section heading (add user)', 'groups' ) . '</h3>';
+				$output = '<h3>' . esc_html_x( 'Groups', 'Groups section heading (add user)', 'groups' ) . '</h3>';
 				$groups_table = _groups_get_tablename( 'group' );
 				/**
 				 * Allow to filter the groups.
@@ -98,7 +98,7 @@ class Groups_Admin_User_Profile {
 						esc_attr__( 'Choose groups &hellip;', 'groups' ),
 						esc_attr__( 'Choose groups &hellip;', 'groups' )
 					);
-					foreach( $groups as $group ) {
+					foreach ( $groups as $group ) {
 						$output .= sprintf(
 							'<option value="%d">%s</option>',
 							Groups_Utility::id( $group->group_id ),
@@ -146,8 +146,11 @@ class Groups_Admin_User_Profile {
 							$user_id
 						);
 						if ( $groups ) {
-							$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-							foreach( $groups as $group ) {
+							$user_group_ids = groups_sanitize_post( 'group_ids' );
+							if ( !is_array( $user_group_ids ) ) {
+								$user_group_ids = array();
+							}
+							foreach ( $groups as $group ) {
 								if ( in_array( $group->group_id, $user_group_ids ) ) {
 									// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 									if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {
@@ -171,14 +174,14 @@ class Groups_Admin_User_Profile {
 		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			self::edit_user_profile( $user );
 		} else {
-			$output = '<h3>' . _x( 'Groups', 'Groups section heading (user profile)', 'groups' ) . '</h3>';
+			$output = '<h3>' . esc_html_x( 'Groups', 'Groups section heading (user profile)', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$groups = $user->get_groups();
 			if ( is_array( $groups ) ) {
 				if ( count( $groups ) > 0 ) {
 					usort( $groups, array( __CLASS__, 'by_group_name' ) );
 					$output .= '<ul>';
-					foreach( $groups as $group ) {
+					foreach ( $groups as $group ) {
 						$output .= '<li>';
 						$output .= $group->get_name() ? stripslashes( wp_filter_nohtml_kses( $group->get_name() ) ) : '';
 						$output .= '</li>';
@@ -198,7 +201,7 @@ class Groups_Admin_User_Profile {
 	public static function edit_user_profile( $user ) {
 		global $wpdb;
 		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
-			$output = '<h3>' . _x( 'Groups', 'Groups section heading (edit user)', 'groups' ) . '</h3>';
+			$output = '<h3>' . esc_html_x( 'Groups', 'Groups section heading (edit user)', 'groups' ) . '</h3>';
 			$user = new Groups_User( $user->ID );
 			$groups_table = _groups_get_tablename( 'group' );
 			/**
@@ -226,7 +229,7 @@ class Groups_Admin_User_Profile {
 					esc_attr__( 'Choose groups &hellip;', 'groups' ),
 					esc_attr__( 'Choose groups &hellip;', 'groups' )
 				);
-				foreach( $groups as $group ) {
+				foreach ( $groups as $group ) {
 					// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 					$is_member = Groups_User_Group::read( $user->get_user_id(), $group->group_id ) ? true : false;
 					$output .= sprintf(
@@ -276,8 +279,11 @@ class Groups_Admin_User_Profile {
 				$user_id
 			);
 			if ( $groups ) {
-				$user_group_ids = isset( $_POST['group_ids'] ) && is_array( $_POST['group_ids'] ) ? $_POST['group_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				foreach( $groups as $group ) {
+				$user_group_ids = groups_sanitize_post( 'group_ids' );
+				if ( !is_array( $user_group_ids ) ) {
+					$user_group_ids = array();
+				}
+				foreach ( $groups as $group ) {
 					if ( in_array( $group->group_id, $user_group_ids ) ) {
 						// Do NOT use Groups_User::user_is_member( ... ) here, as this must not be filtered:
 						if ( !Groups_User_Group::read( $user_id, $group->group_id ) ) {

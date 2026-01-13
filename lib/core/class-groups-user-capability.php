@@ -187,7 +187,7 @@ class Groups_User_Capability {
 			Groups_Utility::id( $user_id )
 		) );
 		if ( $rows ) {
-			foreach( $rows as $row ) {
+			foreach ( $rows as $row ) {
 				// don't optimize that in preference of a standard deletion
 				// process (trigger actions ...)
 				self::delete( $row->user_id, $row->capability_id );
@@ -210,7 +210,7 @@ class Groups_User_Capability {
 			Groups_Utility::id( $capability_id )
 		) );
 		if ( $rows ) {
-			foreach( $rows as $row ) {
+			foreach ( $rows as $row ) {
 				// do NOT 'optimize' (must trigger actions ... same as above)
 				self::delete( $row->user_id, $row->capability_id );
 			}

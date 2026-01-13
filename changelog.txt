@@ -1,5 +1,45 @@
 == Groups by itthinx - changelog.txt
 
+2026-01-13 - version 3.11.0
+* Update - WordPress 6.9 compatible.
+* Update - WooCommerce 10.4 compatible.
+* Fix - [CVE-2026-0549] Prevent potential stored XSS via shortcode.
+* Update - The [groups_join] shortcode limits functionality to authors with permission to restrict access.
+* Fix - Fixed a warning when an invalid group is passed to the [groups_join] shortcode.
+* Update - The [groups_leave] shortcode limits functionality to authors with permission to restrict access.
+* Fix - Fixed a warning when an invalid group is passed to the [groups_leave] shortcode.
+* Dev - Replaced uses of parse_url() with wp_parse_url().
+* Update - The [groups_group_info] shows user display_name instead of user_login when listing users and supports the none attribute.
+* Add - Adds the groups_verify_nonce() API function.
+* Add - Adds the groups_verify_post_nonce() API function.
+* Add - Adds the groups_verify_get_nonce() API function.
+* Add - Adds the groups_verify_request_nonce() API function.
+* Add - Adds the groups_sanitize_input() API function.
+* Add - Adds the groups_sanitize_post() API function.
+* Add - Adds the groups_sanitize_get() API function.
+* Add - Adds the groups_sanitize_request() API function.
+* Update - Legacy access restrictions phaseout: removed quick-create feature when block editor is used, removed show groups option.
+* Dev - Revised input sanitation in remnant legacy code pending phaseout to use own API functions.
+* Dev - Validation hints for WordPress.DB.SlowDBQuery.slow_db_query_meta_query in legacy code.
+* Dev - Revised sanitation of the legacy options handling code pending phaseout to use own API functions.
+* Dev - Revised input sanitation in controller for activation processing to use own API functions.
+* Add - Adds the groups_get_current_url() API function.
+* Dev - Unified instances of current URL obtention via own groups_get_current_url() API function.
+* Dev - Revised pagination processing sanitation to use own API functions.
+* Dev - Validation hints for WordPress.Security.ValidatedSanitizedInput.InputNotSanitized.
+* Dev - Revised access meta box sanitation to use own API functions.
+* Dev - Revised group admin screens sanitation to use own API funtions.
+* Dev - Revised capability admin screens output escaping and sanitation to use own API funtions.
+* Dev - Validation hints for WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound.
+* Dev - Validation hints for WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound.
+* Dev - Validation hints for WordPress.WP.EnqueuedResourceParameters.NotInFooter.
+* Dev - Validation hints for WordPress.DB.SlowDBQuery.slow_db_query_meta_query.
+* Dev - Improved code formatting.
+* Dev - Revised options, welcome, notice processing sanitation to use own API functions.
+* Dev - Revised posts etc. admin screens sanitation to use own API funtions, revised logic and removed unused declarations.
+* Dev - Revised users and user profile screen sanitation to use own API functions.
+* Fix - Revised instances of missing output escaping.
+
 2026-01-05 - version 3.10.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.4 compatible.

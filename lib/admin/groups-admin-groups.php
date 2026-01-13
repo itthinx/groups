@@ -54,9 +54,9 @@ function groups_admin_groups() {
 	//
 	// handle actions
 	//
-	if ( isset( $_POST['action'] ) ) {
+	if ( isset( $_POST['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		//  handle action submit - do it
-		switch( $_POST['action'] ) {
+		switch ( groups_sanitize_post( 'action' ) ) {
 			case 'add' :
 				if ( !( $group_id = groups_admin_groups_add_submit() ) ) {
 					return groups_admin_groups_add();
@@ -71,7 +71,7 @@ function groups_admin_groups() {
 				break;
 			case 'edit' :
 				if ( !( $group_id = groups_admin_groups_edit_submit() ) ) {
-					return groups_admin_groups_edit( $_POST['group-id-field'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					return groups_admin_groups_edit( groups_sanitize_post( 'group-id-field' ) );
 				} else {
 					$group = Groups_Group::read( $group_id );
 					Groups_Admin::add_message( sprintf(
@@ -88,33 +88,30 @@ function groups_admin_groups() {
 				break;
 			// bulk actions on groups: add capabilities, remove capabilities, remove groups
 			case 'groups-action' :
-				if ( wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_ACTION_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					$group_ids = isset( $_POST['group_ids'] ) ? $_POST['group_ids'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					$bulk_action = null;
-					if ( isset( $_POST['bulk'] ) ) {
-						$bulk_action = $_POST['bulk-action']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					}
+				if ( groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_ACTION_NONCE, 'admin' ) ) {
+					$group_ids = groups_sanitize_post( 'group_ids' );
+					$bulk_action = groups_sanitize_post( 'bulk-action' );
 					if ( is_array( $group_ids ) && ( $bulk_action !== null ) ) {
 						foreach ( $group_ids as $group_id ) {
 							switch ( $bulk_action ) {
 								case 'add-capability' :
-									$capabilities_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-									if ( $capabilities_id !== null && is_array( $_POST['capability_id'] ) ) {
+									$capabilities_id = groups_sanitize_post( 'capability_id' );
+									if ( is_array( $capabilities_id ) ) {
 										foreach ( $capabilities_id as $capability_id ) {
 											Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $capability_id ) );
 										}
 									}
 									break;
 								case 'remove-capability' :
-									$capabilities_id = isset( $_POST['capability_id'] ) ? $_POST['capability_id'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-									if ( $capabilities_id !== null && is_array( $_POST['capability_id'] ) ) {
+									$capabilities_id = groups_sanitize_post( 'capability_id' );
+									if ( is_array( $capabilities_id ) ) {
 										foreach ( $capabilities_id as $capability_id ) {
 											Groups_Group_Capability::delete( $group_id, $capability_id );
 										}
 									}
 									break;
 								case 'remove-group' :
-									$bulk_confirm = isset( $_POST['confirm'] ) ? true : false;
+									$bulk_confirm = isset( $_POST['confirm'] ) ? true : false; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 									if ( $bulk_confirm ) {
 										groups_admin_groups_bulk_remove_submit();
 									} else {
@@ -129,7 +126,7 @@ function groups_admin_groups() {
 										 * @param string $bulk_action the requested bulk action
 										 * @param string|int $group_id the requested group ID
 										 */
-										do_action( 'groups_admin_groups_handle_bulk_action', sanitize_text_field( $bulk_action ), $group_id );
+										do_action( 'groups_admin_groups_handle_bulk_action', $bulk_action, $group_id );
 									}
 							}
 						}
@@ -148,7 +145,7 @@ function groups_admin_groups() {
 					 *
 					 * @return boolean whether the posted data was accepted and action was taken
 					 */
-					if ( apply_filters( 'groups_admin_groups_handle_action_submit', false, sanitize_text_field( $_POST['action'] ) ) ) {
+					if ( apply_filters( 'groups_admin_groups_handle_action_submit', false, groups_sanitize_post( 'action' ) ) ) {
 						/**
 						 * Fires after the posted data for an action was accepted.
 						 *
@@ -158,7 +155,7 @@ function groups_admin_groups() {
 						 *
 						 * @param string $action the requested action
 						 */
-						do_action( 'groups_admin_groups_handle_action_confirm', sanitize_text_field( $_POST['action'] ) );
+						do_action( 'groups_admin_groups_handle_action_confirm', groups_sanitize_post( 'action' ) );
 					} else {
 						/**
 						 * Fires after the posted data for an action was rejected.
@@ -169,29 +166,29 @@ function groups_admin_groups() {
 						 *
 						 * @param string $action the requested action
 						 */
-						do_action( 'groups_admin_groups_handle_action_reject', sanitize_text_field( $_POST['action'] ) );
+						do_action( 'groups_admin_groups_handle_action_reject', groups_sanitize_post( 'action' ) );
 						return;
 					}
 				}
 		}
-	} else if ( isset ( $_GET['action'] ) ) {
+	} else if ( isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		// handle action request - show form
-		switch( $_GET['action'] ) {
+		switch ( groups_sanitize_get( 'action' ) ) {
 			case 'add' :
 				return groups_admin_groups_add();
 				break;
 			case 'edit' :
-				if ( isset( $_GET['group_id'] ) ) {
-					return groups_admin_groups_edit( $_GET['group_id'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( isset( $_GET['group_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+					return groups_admin_groups_edit( groups_sanitize_get( 'group_id' ) );
 				}
 				break;
 			case 'remove' :
-				if ( isset( $_GET['group_id'] ) ) {
-					return groups_admin_groups_remove( $_GET['group_id'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( isset( $_GET['group_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+					return groups_admin_groups_remove( groups_sanitize_get( 'group_id' ) );
 				}
 				break;
 			default:
-				if ( isset( $_GET['group_id'] ) ) {
+				if ( isset( $_GET['group_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 					if ( has_action( 'groups_admin_groups_handle_action' ) ) {
 						/**
 						 * Handle the requested action and produce the corresponding output.
@@ -199,7 +196,7 @@ function groups_admin_groups() {
 						 * @param string $action the requested action
 						 * @param string|int $group_id the requested group ID
 						 */
-						do_action( 'groups_admin_groups_handle_action', sanitize_text_field( $_GET['action'] ), sanitize_text_field( $_GET['group_id'] ) );
+						do_action( 'groups_admin_groups_handle_action', groups_sanitize_get( 'action' ), groups_sanitize_get( 'group_id' ) );
 						return;
 					}
 				}
@@ -210,11 +207,11 @@ function groups_admin_groups() {
 	// group table
 	//
 	if (
-		isset( $_POST['clear_filters'] ) ||
-		isset( $_POST['group_id'] ) ||
-		isset( $_POST['group_name'] )
+		isset( $_POST['clear_filters'] ) || // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		isset( $_POST['group_id'] ) || // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		isset( $_POST['group_name'] ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
 	) {
-		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_FILTER_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_FILTER_NONCE, 'admin' ) ) {
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
@@ -223,40 +220,41 @@ function groups_admin_groups() {
 	$group_id   = Groups_Options::get_user_option( 'groups_group_id', null );
 	$group_name = Groups_Options::get_user_option( 'groups_group_name', null );
 
-	if ( isset( $_POST['clear_filters'] ) ) {
+	if ( isset( $_POST['clear_filters'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		Groups_Options::delete_user_option( 'groups_group_id' );
 		Groups_Options::delete_user_option( 'groups_group_name' );
 		$group_id = null;
 		$group_name = null;
-	} else if ( isset( $_POST['submitted'] ) ) {
+	} else if ( isset( $_POST['submitted'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		// filter by name
-		if ( !empty( $_POST['group_name'] ) ) {
-			$group_name = sanitize_text_field( $_POST['group_name'] );
+		if ( !empty( $_POST['group_name'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$group_name = groups_sanitize_post( 'group_name' );
 			Groups_Options::update_user_option( 'groups_group_name', $group_name );
 		}
 		// filter by group id
-		if ( !empty( $_POST['group_id'] ) ) {
-			$group_id = intval( $_POST['group_id'] );
+		if ( !empty( $_POST['group_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$group_id = intval( groups_sanitize_post( 'group_id' ) );
 			Groups_Options::update_user_option( 'groups_group_id', $group_id );
-		} else if ( isset( $_POST['group_id'] ) ) { // empty && isset => '' => all
+		} else if ( isset( $_POST['group_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			// empty && isset => '' => all
 			$group_id = null;
 			Groups_Options::delete_user_option( 'groups_group_id' );
 		}
 	}
 
-	if ( isset( $_POST['row_count'] ) ) {
-		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE_1], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( isset( $_POST['row_count'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_NONCE_1, 'admin' ) ) {
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
-	if ( isset( $_POST['paged'] ) ) {
-		if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE_2], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( isset( $_POST['paged'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_NONCE_2, 'admin' ) ) {
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$current_url = groups_get_current_url();
 	$current_url = remove_query_arg( 'paged', $current_url );
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'group_id', $current_url );
@@ -286,23 +284,23 @@ function groups_admin_groups() {
 
 	$output .= Groups_Admin::render_messages();
 
-	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
+	$row_count = intval( groups_sanitize_post( 'row_count' ) ?? 0 );
 
 	if ($row_count <= 0) {
 		$row_count = Groups_Options::get_user_option( 'groups_per_page', GROUPS_GROUPS_PER_PAGE );
 	} else {
 		Groups_Options::update_user_option('groups_per_page', $row_count );
 	}
-	$offset = isset( $_GET['offset'] ) ? intval( $_GET['offset'] ) : 0;
+	$offset = intval( groups_sanitize_get( 'offset' ) ?? 0 );
 	if ( $offset < 0 ) {
 		$offset = 0;
 	}
-	$paged = isset( $_REQUEST['paged'] ) ? intval( $_REQUEST['paged'] ) : 0;
+	$paged = intval( groups_sanitize_request( 'paged' ) ?? 0 );
 	if ( $paged < 0 ) {
 		$paged = 0;
 	}
 
-	$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$orderby = groups_sanitize_get( 'orderby' );
 	switch ( $orderby ) {
 		case 'group_id' :
 		case 'name' :
@@ -312,7 +310,7 @@ function groups_admin_groups() {
 			$orderby = 'name';
 	}
 
-	$order = isset( $_GET['order'] ) ? $_GET['order'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$order = groups_sanitize_get( 'order' );
 	switch ( $order ) {
 		case 'asc' :
 		case 'ASC' :
@@ -492,7 +490,7 @@ function groups_admin_groups() {
 		esc_attr__( 'Capabilities &hellip;', 'groups' ),
 		esc_attr__( 'Capabilities &hellip;', 'groups' )
 	);
-	foreach( $capabilities as $capability ) {
+	foreach ( $capabilities as $capability ) {
 		$capabilities_select .= sprintf(
 			'<option value="%s">%s</option>',
 			esc_attr( $capability->capability_id ),
@@ -683,7 +681,7 @@ function groups_admin_groups() {
 							'<a href="%s">%s</a>',
 							esc_url( $edit_url ),
 							$result->name ? stripslashes( wp_filter_nohtml_kses( $result->name ) ) : ''
-							);
+						);
 						$output .= ' ';
 						$user_ids = $group->get_user_ids();
 						$user_count = is_array( $user_ids ) ? count( $user_ids ) : 0; // guard against null when there are no users
@@ -691,7 +689,7 @@ function groups_admin_groups() {
 							'(<a href="%s">%s</a>)',
 							esc_url( $users_url ),
 							$user_count
-							);
+						);
 						$output .= $row_actions_html;
 						$output .= '</td>';
 						break;

@@ -52,7 +52,7 @@ class Groups_UIE {
 	 * @param string $extension choices: selectize
 	 */
 	public static function set_extension( $element, $extension ) {
-		switch( $element ) {
+		switch ( $element ) {
 			case 'select' :
 				self::$select = $extension;
 				break;
@@ -64,7 +64,7 @@ class Groups_UIE {
 	 */
 	public static function enqueue( $element = null ) {
 		global $groups_version;
-		switch( $element ) {
+		switch ( $element ) {
 			case 'select' :
 				switch ( self::$select ) {
 					case 'selectize' :
@@ -138,7 +138,7 @@ class Groups_UIE {
 		$output .= ');';
 		$output .= '}';
 		$output .= '</script>';
-	return $output;
+		return $output;
 	}
 }
 Groups_UIE::init();

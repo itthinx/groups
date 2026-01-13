@@ -143,7 +143,7 @@ class Groups_Access_Shortcodes {
 			$capability = $options['capability'];
 			$capabilities = array_map( 'trim', explode( ',', $capability ) );
 			$show_content = false;
-			foreach( $capabilities as $capability ) {
+			foreach ( $capabilities as $capability ) {
 				if ( $groups_user->can( $capability ) ) {
 					$show_content = true;
 					break;
@@ -178,7 +178,7 @@ class Groups_Access_Shortcodes {
 			$capability = $options['capability'];
 			$capabilities = array_map( 'trim', explode( ',', $capability ) );
 			$show_content = true;
-			foreach( $capabilities as $capability ) {
+			foreach ( $capabilities as $capability ) {
 				if ( $groups_user->can( $capability ) ) {
 					$show_content = false;
 					break;

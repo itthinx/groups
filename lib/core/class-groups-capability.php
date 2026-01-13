@@ -175,7 +175,7 @@ class Groups_Capability {
 
 		$result = null;
 		if ( $this->capability !== null ) {
-			switch( $name ) {
+			switch ( $name ) {
 				case 'capability_id' :
 				case 'capability' :
 				case 'class' :
@@ -192,7 +192,7 @@ class Groups_Capability {
 					) );
 					if ( $rows ) {
 						$result = array();
-						foreach( $rows as $row ) {
+						foreach ( $rows as $row ) {
 							$result[] = $row->group_id;
 						}
 					}
@@ -205,7 +205,7 @@ class Groups_Capability {
 					) );
 					if ( $rows ) {
 						$result = array();
-						foreach( $rows as $row ) {
+						foreach ( $rows as $row ) {
 							$result[] = new Groups_Group( $row->group_id );
 						}
 					}

@@ -39,6 +39,7 @@ class Groups_Pagination {
 	private $_pagination_args = null;
 
 	/**
+	 * Create an instance.
 	 *
 	 * @param int $total_items how many items there are to display
 	 * @param int $total_pages how many pages there are, normally leave set to null
@@ -60,10 +61,12 @@ class Groups_Pagination {
 	 * @return int the current page number
 	 */
 	public function get_pagenum() {
-		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
-		if ( !isset( $_REQUEST['paged'] ) ) { // needed with rewritten page added
+		$paged = groups_sanitize_request( 'paged' );
+		$pagenum = absint( $paged ?? 0 );
+		if ( !$paged ) { // needed with rewritten page added
+			$current_url = groups_get_current_url();
 			$matches = array();
-			if ( preg_match( "/(\/page\/)(\d+)/", $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $matches ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( preg_match( "/(\/page\/)(\d+)/", $current_url, $matches ) ) {
 				$pagenum = absint( $matches[2] );
 			}
 		}
@@ -111,12 +114,14 @@ class Groups_Pagination {
 		$total_items = isset( $this->_pagination_args['total_items'] ) ? $this->_pagination_args['total_items'] : 0;
 		$total_pages = isset( $this->_pagination_args['total_pages'] ) ? $this->_pagination_args['total_pages'] : 0;
 
+		$output = '<span class="displaying-num">';
 		/* translators: number of items */
-		$output = '<span class="displaying-num">' . sprintf( _n( '%s item', '%s items', $total_items, 'groups' ), number_format_i18n( $total_items ) ) . '</span>';
+		$output .= sprintf( esc_html( _n( '%s item', '%s items', $total_items, 'groups' ) ), esc_html( number_format_i18n( $total_items ) ) );
+		$output .= '</span>';
 
 		$current = $this->get_pagenum();
 
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$current_url = groups_get_current_url();
 
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
 
@@ -156,7 +161,7 @@ class Groups_Pagination {
 			);
 
 		$html_total_pages = sprintf( '<span class="total-pages">%s</span>', number_format_i18n( $total_pages ) );
-		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
+		$page_links[] = '<span class="paging-input">' . sprintf( esc_html_x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
 		$page_links[] = sprintf( '<a class="%s" title="%s" href="%s">%s</a>',
 			'button next-page' . $disable_last,

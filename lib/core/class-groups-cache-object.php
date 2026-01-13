@@ -83,7 +83,7 @@ class Groups_Cache_Object {
 	 * @param mixed $value
 	 */
 	public function __set( $name, $value ) {
-		switch( $name ) {
+		switch ( $name ) {
 			case 'key' :
 				if ( is_string( $value ) ) {
 					$this->key = $value;

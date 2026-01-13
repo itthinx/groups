@@ -139,7 +139,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
 	echo '<ul class="woocommerce add-ons">';
-	foreach( $entries as $key => $entry ) {
+	foreach ( $entries as $key => $entry ) {
 		echo '<li class="add-on">';
 		echo sprintf( '<a href="%s">', esc_url( $entry['url'] ) );
 		echo '<h3>';
@@ -221,7 +221,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
 	echo '<ul class="groups add-ons">';
-	foreach( $entries as $key => $entry ) {
+	foreach ( $entries as $key => $entry ) {
 		echo '<li class="add-on">';
 		echo sprintf( '<a href="%s">', esc_url( $entry['url'] ) );
 		echo '<h3>';
@@ -268,7 +268,7 @@ function groups_admin_add_ons_content( $params = array( 'offset' => 0 ) ) {
 	usort( $entries, 'groups_admin_add_ons_sort' );
 
 	echo '<ul class="other add-ons">';
-	foreach( $entries as $key => $entry ) {
+	foreach ( $entries as $key => $entry ) {
 		echo '<li class="add-on">';
 		echo sprintf( '<a href="%s">', esc_url( $entry['url'] ) );
 		echo '<h3>';

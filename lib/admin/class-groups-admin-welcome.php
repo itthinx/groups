@@ -101,10 +101,10 @@ class Groups_Admin_Welcome {
 		global $groups_version;
 		if (
 			Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) &&
-			isset( $_GET['groups-welcome-dismiss'] ) &&
-			isset( $_GET['_groups_welcome_nonce'] )
+			isset( $_GET['groups-welcome-dismiss'] ) && // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			isset( $_GET['_groups_welcome_nonce'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		) {
-			if ( wp_verify_nonce( $_GET['_groups_welcome_nonce'], 'groups_welcome_dismiss' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( groups_verify_get_nonce( '_groups_welcome_nonce', 'groups_welcome_dismiss' ) ) {
 				Groups_Options::update_user_option( 'groups-welcome-dismiss', $groups_version );
 			}
 		}
@@ -118,7 +118,7 @@ class Groups_Admin_Welcome {
 				if (
 					!$doing_ajax &&
 					!$doing_cron &&
-					( empty( $_GET['page'] ) || $_GET['page'] !== 'groups-welcome' ) &&
+					( empty( $_GET['page'] ) || groups_sanitize_get( 'page' ) !== 'groups-welcome' ) && // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					!is_network_admin() &&
 					Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) &&
 					apply_filters( 'groups_welcome_show', true )

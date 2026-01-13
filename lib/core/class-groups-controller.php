@@ -200,7 +200,7 @@ class Groups_Controller {
 		if ( function_exists( 'get_user_locale' ) ) {
 			$locale = get_user_locale();
 		}
-		$locale = apply_filters( 'plugin_locale', $locale, 'groups' );
+		$locale = apply_filters( 'plugin_locale', $locale, 'groups' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$mofile = GROUPS_CORE_DIR . '/languages/groups-' . $locale . '.mo';
 		// @since 3.3.0 load language-generic translation if available
 		if ( !file_exists( $mofile ) ) {
@@ -405,7 +405,7 @@ class Groups_Controller {
 			// (a regex results in "IF" used as array index holding only last query to create table).
 			//require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			//dbDelta( $queries );
-			foreach( $queries as $query ) {
+			foreach ( $queries as $query ) {
 				$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			}
 		}
@@ -592,29 +592,24 @@ class Groups_Controller {
 	private static function is_single_activate() {
 		$is = false;
 		$groups_basename = plugin_basename( GROUPS_FILE );
-		if ( isset( $_REQUEST['action'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			switch ( $_REQUEST['action'] ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$action = groups_sanitize_request( 'action' );
+		if ( is_string( $action ) ) {
+			switch ( $action ) {
 				case 'activate':
 					// Single plugin activation of Groups:
-					if ( !empty( $_REQUEST['plugin'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						$slug = wp_unslash( $_REQUEST['plugin'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						if ( $slug === $groups_basename ) {
-							$is = true;
-						}
+					$slug = groups_sanitize_request( 'plugin' );
+					if ( $slug === $groups_basename ) {
+						$is = true;
 					}
 					break;
 				case 'activate-selected':
 					// Bulk plugin activation of Groups but it is the only plugin being activated:
-					if ( !empty( $_REQUEST['checked'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						if ( is_array( $_REQUEST['checked'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-							if ( count( $_REQUEST['checked'] ) === 1 ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-								$slugs = wp_unslash( $_REQUEST['checked'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-								$slug = array_pop( $slugs );
-								if ( $slug === $groups_basename ) {
-									$is = true;
-									break;
-								}
-							}
+					$slugs = groups_sanitize_request( 'checked' );
+					if ( is_array( $slugs ) && count( $slugs ) === 1 ) {
+						$slug = array_pop( $slugs );
+						if ( $slug === $groups_basename ) {
+							$is = true;
+							break;
 						}
 					}
 					break;
@@ -666,7 +661,7 @@ class Groups_Controller {
 		global $wp_roles;
 		$complies = false;
 		$roles = $wp_roles->role_objects;
-		foreach( $roles as $role ) {
+		foreach ( $roles as $role ) {
 			if ( $role->has_cap( GROUPS_ACCESS_GROUPS ) && ( $role->has_cap( GROUPS_ADMINISTER_OPTIONS ) ) ) {
 				$complies = true;
 				break;

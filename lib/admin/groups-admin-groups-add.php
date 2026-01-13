@@ -38,14 +38,14 @@ function groups_admin_groups_add() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$current_url = groups_get_current_url();
 	$current_url = remove_query_arg( 'paged', $current_url );
 	$current_url = remove_query_arg( 'action', $current_url );
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
-	$parent_id   = isset( $_POST['parent-id-field'] ) ? sanitize_text_field( $_POST['parent-id-field'] ) : '';
-	$name        = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : '';
-	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
+	$parent_id   = groups_sanitize_post( 'parent-id-field' ) ?? '';
+	$name        = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 	$parent_select = '<select name="parent-id-field">';
 	$parent_select .= sprintf(
@@ -93,7 +93,7 @@ function groups_admin_groups_add() {
 
 	$capability_table = _groups_get_tablename( "capability" );
 	$capabilities     = $wpdb->get_results( "SELECT * FROM $capability_table ORDER BY capability" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$selected_capabilities = isset( $_POST['capability_ids'] ) && is_array( $_POST['capability_ids'] ) ? $_POST['capability_ids'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$selected_capabilities = groups_sanitize_post( 'capability_ids' ) ?? array();
 
 	$output .= '<div class="select-capability-container" style="width:62%;">';
 	$output .= '<label>';
@@ -102,7 +102,7 @@ function groups_admin_groups_add() {
 		'<select class="select capability" name="capability_ids[]" multiple="multiple" placeholder="%s">',
 		esc_attr__( 'Choose capabilities &hellip;', 'groups' )
 	);
-	foreach( $capabilities as $capability ) {
+	foreach ( $capabilities as $capability ) {
 		$output .= sprintf(
 			'<option value="%s" %s>%s</option>',
 			esc_attr( $capability->capability_id ),
@@ -146,25 +146,23 @@ function groups_admin_groups_add_submit() {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
-	if ( !wp_verify_nonce( $_POST[GROUPS_ADMIN_GROUPS_NONCE], 'groups-add' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_NONCE, 'groups-add' ) ) {
 		wp_die( esc_html__( 'Access denied.', 'groups' ) );
 	}
 
 	$creator_id  = get_current_user_id();
 	$datetime    = date( 'Y-m-d H:i:s', time() ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-	$parent_id   = isset( $_POST['parent-id-field'] ) ? sanitize_text_field( $_POST['parent-id-field'] ) : null;
-	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : '';
-	$name        = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : null;
+	$parent_id   = groups_sanitize_post( 'parent-id-field' );
+	$description = isset( $_POST['description-field'] ) ? sanitize_textarea_field( $_POST['description-field'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+	$name        = isset( $_POST['name-field'] ) ? sanitize_text_field( $_POST['name-field'] ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 	$group_id = Groups_Group::create( compact( "creator_id", "datetime", "parent_id", "description", "name" ) );
 	if ( $group_id ) {
-		if ( !empty( $_POST['capability_ids'] ) ) {
-			$caps = $_POST['capability_ids']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			if ( is_array( $caps ) ) {
-				$caps = array_map( 'sanitize_text_field', $caps );
-				foreach( $caps as $cap ) {
-					Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
-				}
+		$caps = groups_sanitize_post( 'capability_ids' );
+		if ( is_array( $caps ) ) {
+			$caps = array_map( 'sanitize_text_field', $caps );
+			foreach ( $caps as $cap ) {
+				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
 			}
 		}
 		do_action( 'groups_admin_groups_add_submit_success', $group_id );

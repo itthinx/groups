@@ -38,6 +38,24 @@ class Groups_Shortcodes {
 	const MAX_TIME_DELTA = 3600;
 
 	/**
+	 * Hashed content map.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @var array
+	 */
+	private static $map = array();
+
+	/**
+	 * During preprocessing.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @var boolean
+	 */
+	private static $preprocessing = false;
+
+	/**
 	 * Adds shortcodes.
 	 */
 	public static function init() {
@@ -55,6 +73,10 @@ class Groups_Shortcodes {
 		add_shortcode( 'groups_join', array( __CLASS__, 'groups_join' ) );
 		// leave a group
 		add_shortcode( 'groups_leave', array( __CLASS__, 'groups_leave' ) );
+		// @since 3.11.0 content preprocessing
+		add_filter( 'pre_render_block', array( __CLASS__, 'pre_render_block' ), 0, 3 );
+		// @since 3.11.0 map processing
+		add_filter( 'render_block', array( __CLASS__, 'render_block' ), 0, 3 );
 	}
 
 	/**
@@ -70,11 +92,11 @@ class Groups_Shortcodes {
 	 * @return string the rendered form or empty
 	 */
 	public static function groups_login( $atts, $content = null ) {
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$current_url = groups_get_current_url();
 		$atts = shortcode_atts(
 			array(
-				'redirect'        => $current_url,
-				'show_logout'     => 'no'
+				'redirect'    => $current_url,
+				'show_logout' => 'no'
 			),
 			$atts
 		);
@@ -114,7 +136,7 @@ class Groups_Shortcodes {
 	 * @return string logout link, is empty if not logged in
 	 */
 	public static function groups_logout( $atts, $content = null ) {
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$current_url = groups_get_current_url();
 		$atts = shortcode_atts(
 			array(
 				'redirect' => $current_url
@@ -133,6 +155,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders information about a group.
+	 *
 	 * Attributes:
 	 * - "group"  : group name or id
 	 * - "show"   : what to show, can be "name", "description", "count"
@@ -147,12 +170,13 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_group_info( $atts, $content = null ) {
 		global $wpdb;
-		$output = "";
+		$output = '';
 		$options = shortcode_atts(
 			array(
-				'group' => '',
-				'show' => '',
+				'group'  => '',
+				'show'   => '',
 				'format' => '',
+				'none'   => '0',
 				'single' => '1',
 				'plural' => '%d'
 			),
@@ -164,7 +188,7 @@ class Groups_Shortcodes {
 			$current_group = Groups_Group::read_by_name( $group );
 		}
 		if ( $current_group ) {
-			switch( $options['show'] ) {
+			switch ( $options['show'] ) {
 				case 'name' :
 					$output .= wp_filter_nohtml_kses( $current_group->name );
 					break;
@@ -182,10 +206,20 @@ class Groups_Shortcodes {
 					} else {
 						$count = intval( $count );
 					}
-					$output .= _n( $options['single'], sprintf( $options['plural'], $count ), $count, 'groups' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
+					switch ( $count ) {
+						case 0:
+							$output .= wp_kses_post( $options['none'] );
+							break;
+						case 1:
+							$output .= wp_kses_post( $options['single'] );
+							break;
+						default:
+							$output .= wp_kses_post( sprintf( $options['plural'], $count ) );
+					}
 					break;
-				// @todo experimental - could use pagination, sorting, link to profile, ...
 				case 'users' :
+					// Renders a basic user list, do not extend. For more detailed information,
+					// create a separate shortcode that could use pagination, sorting, link to profile, ...
 					$user_group_table = _groups_get_tablename( 'user_group' );
 					$users = $wpdb->get_results( $wpdb->prepare(
 						"SELECT * FROM $wpdb->users LEFT JOIN $user_group_table ON $wpdb->users.ID = $user_group_table.user_id WHERE $user_group_table.group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -193,8 +227,9 @@ class Groups_Shortcodes {
 					) );
 					if ( $users ) {
 						$output .= '<ul>';
-						foreach( $users as $user ) {
-							$output .= '<li>' . wp_filter_nohtml_kses( $user->user_login ) . '</li>';
+						foreach ( $users as $user ) {
+							$display_name = !empty( $user->display_name ) ? $user->display_name : $user->user_login;
+							$output .= '<li>' . wp_filter_nohtml_kses( $display_name ) . '</li>';
 						}
 						$output .= '</ul>';
 					}
@@ -206,6 +241,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders the current or a specific user's groups.
+	 *
 	 * Attributes:
 	 * - "user_id" OR "user_login" OR "user_email" to identify the user, if none given assumes the current user
 	 * - "format" : one of "list" "div" "ul" or "ol" - "list" and "ul" are equivalent
@@ -296,21 +332,21 @@ class Groups_Shortcodes {
 						}
 					}
 				}
-				switch( $options['order_by'] ) {
+				switch ( $options['order_by'] ) {
 					case 'group_id' :
 						usort( $groups, array( __CLASS__, 'sort_id' ) );
 						break;
 					default :
 						usort( $groups, array( __CLASS__, 'sort_name' ) );
 				}
-				switch( $options['order'] ) {
+				switch ( $options['order'] ) {
 					case 'desc' :
 					case 'DESC' :
 						$groups = array_reverse( $groups );
 						break;
 				}
 
-				switch( $options['format'] ) {
+				switch ( $options['format'] ) {
 					case 'list' :
 					case 'ul' :
 						$output .= '<ul class="' . esc_attr( $options['list_class'] ) . '">';
@@ -321,8 +357,8 @@ class Groups_Shortcodes {
 					default :
 						$output .= '<div class="' . esc_attr( $options['list_class'] ) . '">';
 				}
-				foreach( $groups as $group ) {
-					switch( $options['format'] ) {
+				foreach ( $groups as $group ) {
+					switch ( $options['format'] ) {
 						case 'list' :
 						case 'ul' :
 						case 'ol' :
@@ -336,7 +372,7 @@ class Groups_Shortcodes {
 							$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $name ) ) . '</div>';
 					}
 				}
-				switch( $options['format'] ) {
+				switch ( $options['format'] ) {
 					case 'list' :
 					case 'ul' :
 						$output .= '</ul>';
@@ -378,6 +414,7 @@ class Groups_Shortcodes {
 
 	/**
 	 * Renders a list of the site's groups.
+	 *
 	 * Attributes:
 	 * - "format" : one of "list" "div" "ul" or "ol" - "list" and "ul" are equivalent
 	 * - "list_class" : defaults to "groups"
@@ -403,7 +440,7 @@ class Groups_Shortcodes {
 			),
 			$atts
 		);
-		switch( $options['order_by'] ) {
+		switch ( $options['order_by'] ) {
 			case 'group_id' :
 			case 'name' :
 				$order_by = $options['order_by'];
@@ -411,7 +448,7 @@ class Groups_Shortcodes {
 			default :
 				$order_by = 'name';
 		}
-		switch( $options['order'] ) {
+		switch ( $options['order'] ) {
 			case 'asc' :
 			case 'ASC' :
 			case 'desc' :
@@ -425,7 +462,7 @@ class Groups_Shortcodes {
 		// nosemgrep: audit.php.wp.security.sqli.shortcode-attr
 		$groups = $wpdb->get_results( "SELECT group_id FROM $group_table ORDER BY $order_by $order" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( is_array( $groups ) && count( $groups ) > 0 ) {
-			switch( $options['format'] ) {
+			switch ( $options['format'] ) {
 				case 'list' :
 				case 'ul' :
 					$output .= '<ul class="' . esc_attr( $options['list_class'] ) . '">';
@@ -436,9 +473,9 @@ class Groups_Shortcodes {
 				default :
 					$output .= '<div class="' . esc_attr( $options['list_class'] ) . '">';
 			}
-			foreach( $groups as $group ) {
+			foreach ( $groups as $group ) {
 				$group = new Groups_Group( $group->group_id );
-				switch( $options['format'] ) {
+				switch ( $options['format'] ) {
 					case 'list' :
 					case 'ul' :
 					case 'ol' :
@@ -448,7 +485,7 @@ class Groups_Shortcodes {
 						$output .= '<div class="' . esc_attr( $options['item_class'] ) . '">' . stripslashes( esc_html( $group->get_name() ) ) . '</div>';
 				}
 			}
-			switch( $options['format'] ) {
+			switch ( $options['format'] ) {
 				case 'list' :
 				case 'ul' :
 					$output .= '</ul>';
@@ -483,7 +520,7 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_join( $atts, $content = null ) {
 
-		global $groups_join_data_init;
+		global $groups_join_data_init, $post;
 
 		$nonce_action = 'groups_action';
 		$nonce        = 'nonce_join';
@@ -511,7 +548,7 @@ class Groups_Shortcodes {
 		$display_is_member = in_array( $display_is_member, array( 'true', 'yes', true ) );
 
 		if ( !is_bool( $redirect ) ) {
-			switch( $redirect ) {
+			switch ( $redirect ) {
 				case 'true':
 				case 'yes':
 					$redirect = true;
@@ -539,22 +576,45 @@ class Groups_Shortcodes {
 		if ( !$current_group ) {
 			$current_group = Groups_Group::read_by_name( $group );
 		}
+		// bail out if no valid group
+		if ( !$current_group ) {
+			return '';
+		}
+
+		// @since 3.11.0 Restrict the functionality to authors with appropriate permission
+		$author_can_restrict_group_ids = array();
+		$author_id = isset( $post ) && !empty( $post->post_author ) ? $post->post_author : get_the_author_meta( 'ID' );
+		$author_id = is_numeric( $author_id ) ? intval( $author_id ) : null;
+		if ( $author_id !== null ) {
+			$author = new Groups_User( $author_id );
+			if ( $author->can( GROUPS_RESTRICT_ACCESS ) ) {
+				if ( $author->can( GROUPS_ADMINISTER_GROUPS ) ) {
+					$author_can_restrict_group_ids = Groups_Group::get_group_ids();
+				} else {
+					$author_can_restrict_group_ids = $author->get_group_ids_deep();
+				}
+			}
+		}
+		if ( !in_array( $current_group->group_id, $author_can_restrict_group_ids ) ) {
+			return '';
+		}
+
 		if ( $current_group ) {
 			if ( $user_id = get_current_user_id() ) {
 				$joined        = false;
 				$submitted     = false;
 				$invalid_nonce = false;
-				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'join' ) {
+				if ( groups_sanitize_post( 'groups_action' ) === 'join' ) {
 					$submitted = true;
 					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
+					if ( !groups_verify_post_nonce( $nonce, $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
 						$invalid_nonce = true;
 					}
 				}
 				if ( $submitted && !$invalid_nonce ) {
 					// add user to group
-					if ( isset( $_POST['groups-join-data'] ) ) {
-						$hash = trim( sanitize_text_field( $_POST['groups-join-data'] ) );
+					if ( isset( $_POST['groups-join-data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						$hash = trim( groups_sanitize_post( 'groups-join-data' ) );
 						$groups_join_data = get_user_meta( $user_id, 'groups-join-data', true );
 						if ( is_array( $groups_join_data ) && isset( $groups_join_data[$hash] ) ) {
 							if ( isset( $groups_join_data[$hash]['group_id'] ) && isset( $groups_join_data[$hash]['time'] ) ) {
@@ -638,6 +698,27 @@ class Groups_Shortcodes {
 				}
 			}
 		}
+
+		if ( self::$preprocessing ) {
+			// surround content with hashmarks
+			// <!-- groups:{hash} -->{content}<!-- /groups:{hash} -->
+			$hash = md5( $output );
+			$prefix = sprintf( '<!-- groups:%s -->', $hash );
+			$suffix = sprintf( '<!-- /groups:%s -->', $hash );
+			self::$map[$hash] = array(
+				'prefix' => $prefix,
+				'suffix' => $suffix,
+				'content' => $output
+			);
+
+			$output = sprintf(
+				'%s%s%s',
+				$prefix,
+				$output,
+				$suffix
+			);
+		}
+
 		return $output;
 	}
 
@@ -660,7 +741,7 @@ class Groups_Shortcodes {
 	 */
 	public static function groups_leave( $atts, $content = null ) {
 
-		global $groups_leave_data_init;
+		global $groups_leave_data_init, $post;
 
 		$nonce_action = 'groups_action';
 		$nonce        = 'nonce_leave';
@@ -686,7 +767,7 @@ class Groups_Shortcodes {
 		$display_message = in_array( $display_message, array( 'true', 'yes', true ) );
 
 		if ( !is_bool( $redirect ) ) {
-			switch( $redirect ) {
+			switch ( $redirect ) {
 				case 'true':
 				case 'yes':
 					$redirect = true;
@@ -714,22 +795,45 @@ class Groups_Shortcodes {
 		if ( !$current_group ) {
 			$current_group = Groups_Group::read_by_name( $group );
 		}
+		// bail out if no valid group
+		if ( !$current_group ) {
+			return '';
+		}
+
+		// @since 3.11.0 Restrict the functionality to authors with appropriate permission
+		$author_can_restrict_group_ids = array();
+		$author_id = isset( $post ) && !empty( $post->post_author ) ? $post->post_author : get_the_author_meta( 'ID' );
+		$author_id = is_numeric( $author_id ) ? intval( $author_id ) : null;
+		if ( $author_id !== null ) {
+			$author = new Groups_User( $author_id );
+			if ( $author->can( GROUPS_RESTRICT_ACCESS ) ) {
+				if ( $author->can( GROUPS_ADMINISTER_GROUPS ) ) {
+					$author_can_restrict_group_ids = Groups_Group::get_group_ids();
+				} else {
+					$author_can_restrict_group_ids = $author->get_group_ids_deep();
+				}
+			}
+		}
+		if ( !in_array( $current_group->group_id, $author_can_restrict_group_ids ) ) {
+			return '';
+		}
+
 		if ( $current_group ) {
 			if ( $user_id = get_current_user_id() ) {
 				$left          = false;
 				$submitted     = false;
 				$invalid_nonce = false;
-				if ( !empty( $_POST['groups_action'] ) && $_POST['groups_action'] == 'leave' ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( groups_sanitize_post( 'groups_action' ) === 'leave' ) {
 					$submitted = true;
 					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
+					if ( !groups_verify_post_nonce( $nonce, $nonce_action ) ) { // nosemgrep: scanner.php.wp.security.csrf.nonce-check-not-dying
 						$invalid_nonce = true;
 					}
 				}
 				if ( $submitted && !$invalid_nonce ) {
 					// remove user from group
-					if ( isset( $_POST['groups-leave-data'] ) ) {
-						$hash = trim( sanitize_text_field( $_POST['groups-leave-data'] ) );
+					if ( isset( $_POST['groups-leave-data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						$hash = trim( groups_sanitize_post( 'groups-leave-data' ) );
 						$groups_leave_data = get_user_meta( $user_id, 'groups-leave-data', true );
 						if ( is_array( $groups_leave_data ) && isset( $groups_leave_data[$hash] ) ) {
 							if ( isset( $groups_leave_data[$hash]['group_id'] ) && isset( $groups_leave_data[$hash]['time'] ) ) {
@@ -803,6 +907,27 @@ class Groups_Shortcodes {
 				}
 			}
 		}
+
+		if ( self::$preprocessing ) {
+			// surround content with hashmarks
+			// <!-- groups:{hash} -->{content}<!-- /groups:{hash} -->
+			$hash = md5( $output );
+			$prefix = sprintf( '<!-- groups:%s -->', $hash );
+			$suffix = sprintf( '<!-- /groups:%s -->', $hash );
+			self::$map[$hash] = array(
+				'prefix' => $prefix,
+				'suffix' => $suffix,
+				'content' => $output
+			);
+
+			$output = sprintf(
+				'%s%s%s',
+				$prefix,
+				$output,
+				$suffix
+			);
+		}
+
 		return $output;
 	}
 
@@ -830,21 +955,21 @@ class Groups_Shortcodes {
 		if ( is_string( $redirect ) && trim( $redirect ) !== '' ) {
 			$redirect_url = trim( $redirect );
 		} else {
-			$redirect_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$redirect_url = groups_get_current_url();
 		}
 
 		// Try to handle a relative URL, determine missing parts
-		$parts = parse_url( $redirect_url );
+		$parts = wp_parse_url( $redirect_url );
 		if ( !isset( $parts['scheme'] ) ) {
 			$parts['scheme'] = is_ssl() ? 'https' : 'http';
 		}
 		if ( !isset( $parts['host'] ) ) {
-			$parts['host'] = parse_url( home_url(), PHP_URL_HOST );
+			$parts['host'] = wp_parse_url( home_url(), PHP_URL_HOST );
 		}
 		if ( !isset( $parts['path'] ) ) {
-			$parts['path'] = parse_url( home_url(), PHP_URL_PATH );
+			$parts['path'] = wp_parse_url( home_url(), PHP_URL_PATH );
 		} else {
-			$home_path = parse_url( home_url(), PHP_URL_PATH );
+			$home_path = wp_parse_url( home_url(), PHP_URL_PATH );
 			if ( strpos( $parts['path'], $home_path ) !== 0 ) {
 				$parts['path'] = trailingslashit( $home_path ) . ltrim( $parts['path'], '/\\' );
 			}
@@ -878,5 +1003,122 @@ class Groups_Shortcodes {
 		}
 	}
 
+	/**
+	 * Determine which blocks to preprocess.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @return array
+	 */
+	public static function get_preprocess_blocks() {
+		$blocks = apply_filters(
+			'groups_shortcodes_preprocess_blocks',
+			array(
+				'core/latest-posts'
+			)
+		);
+		if ( !is_array( $blocks ) ) {
+			$blocks = array();
+		}
+		return $blocks;
+	}
+
+	/**
+	 * Content preprocessing.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param string|null $pre_render
+	 * @param array $parsed_block
+	 * @param WP_Block|null $parent_block
+	 *
+	 * @return string|null
+	 */
+	public static function pre_render_block( $pre_render, $parsed_block, $parent_block ) {
+		if ( in_array( $parsed_block['blockName'], self::get_preprocess_blocks() ) ) {
+			// start preprocessing
+			self::$preprocessing = true;
+			add_filter( 'the_posts', array( __CLASS__, 'preprocess_the_posts' ), 10, 2 );
+		}
+		return $pre_render;
+	}
+
+	/**
+	 * Map processing.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param string $block_content
+	 * @param array $parsed_block
+	 * @param WP_Block $block
+	 *
+	 * @return string
+	 */
+	public static function render_block( $block_content, $parsed_block, $block ) {
+		// Remove hashmarks leaving the content within.
+		if ( in_array( $parsed_block['blockName'], self::get_preprocess_blocks() ) ) {
+			// stop preprocessing
+			remove_filter( 'the_posts', array( __CLASS__, 'preprocess_the_posts' ), 10 );
+			self::$preprocessing = false;
+			foreach ( self::$map as $hash => $data ) {
+				$prefix  = $data['prefix'] ?? '';
+				$suffix  = $data['suffix'] ?? '';
+				$content = $data['content'] ?? '';
+				$start   = $prefix !== '' ? strpos( $block_content, $prefix ) : false;
+				$end     = $suffix !== '' ? strpos( $block_content, $suffix ) : false;
+				if ( $start !== false && $end !== false ) {
+					$block_content = substr( $block_content, 0, $start ) . $content . substr( $block_content, $end + strlen( $suffix ) );
+				}
+			}
+		}
+		return $block_content;
+	}
+
+	/**
+	 * Preprocess posts.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @param WP_Post[] $posts
+	 * @param WP_Query $query
+	 *
+	 * @return WP_Post[]
+	 */
+	public static function preprocess_the_posts( $posts, $query ) {
+		global $shortcode_tags, $post;
+		if ( !empty( $shortcode_tags ) ) {
+			// remember the global post object
+			$original_post = $post;
+			// remember the global registered shortcodes
+			$original_shortcode_tags = $shortcode_tags;
+			// limit processing to these shortcodes
+			$do_shortcode_tags = array();
+			if ( isset( $shortcode_tags['groups_join'] ) ) {
+				$do_shortcode_tags['groups_join'] = $shortcode_tags['groups_join'];
+			}
+			if ( isset( $shortcode_tags['groups_leave'] ) ) {
+				$do_shortcode_tags['groups_leave'] = $shortcode_tags['groups_leave'];
+			}
+			$shortcode_tags = $do_shortcode_tags;
+			// preprocess content for each post
+			$processed_posts = array();
+			while ( !empty( $posts ) ) {
+				// set the global $post to process within do_shortcode()
+				$post = array_shift( $posts );
+				$post->post_excerpt = do_shortcode( $post->post_excerpt );
+				$post->post_content = do_shortcode( $post->post_content );
+				array_push( $processed_posts, $post );
+			}
+			// modified posts to return
+			$posts = $processed_posts;
+			// restore the global registered shortcodes
+			$shortcode_tags = $original_shortcode_tags;
+			// restore the global post
+			$post = $original_post;
+		}
+		return $posts;
+	}
+
 }
+
 Groups_Shortcodes::init();

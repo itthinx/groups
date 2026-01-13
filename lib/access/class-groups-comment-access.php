@@ -91,7 +91,7 @@ class Groups_Comment_Access {
 		}
 
 		$_comments = array();
-		foreach( $comments as $comment ) {
+		foreach ( $comments as $comment ) {
 			if ( isset( $comment->comment_post_ID ) ) {
 				if ( Groups_Post_Access::user_can_read_post( $comment->comment_post_ID ) ) {
 					$_comments[] = $comment;
@@ -169,7 +169,7 @@ class Groups_Comment_Access {
 
 		$handles_post_types = Groups_Post_Access::get_handles_post_types();
 		$post_types = array();
-		foreach( $handles_post_types as $post_type => $handles ) {
+		foreach ( $handles_post_types as $post_type => $handles ) {
 			if ( $handles ) {
 				$post_types[] = $post_type;
 			}

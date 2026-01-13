@@ -61,7 +61,7 @@ class Groups_Admin_Posts_Legacy {
 		global $pagenow;
 
 		if ( $pagenow == 'edit.php' ) {
-			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				Groups_UIE::enqueue( 'select' );
@@ -77,7 +77,7 @@ class Groups_Admin_Posts_Legacy {
 		global $pagenow;
 
 		if ( $pagenow == 'edit.php' ) {
-			$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 			if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 				echo '<style type="text/css">';
@@ -108,7 +108,7 @@ class Groups_Admin_Posts_Legacy {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
@@ -121,21 +121,15 @@ class Groups_Admin_Posts_Legacy {
 					$output .= sprintf(
 						'<select class="select capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 						esc_attr( Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY ),
-						esc_attr( __( 'Access restrictions &hellip;', 'groups' ) ) ,
-						esc_attr( __( 'Access restrictions &hellip;', 'groups' ) )
+						esc_attr__( 'Access restrictions &hellip;', 'groups' ),
+						esc_attr__( 'Access restrictions &hellip;', 'groups' )
 					);
 
-					$previous_selected = array();
-					if ( !empty( $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY] ) ) {
-						$previous_selected = $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY]; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						if ( !is_array( $previous_selected ) ) {
-							$previous_selected = array();
-						}
-					}
+					$previous_selected = groups_sanitize_get( Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY ) ?? array();
 					$selected = in_array( self::NOT_RESTRICTED, $previous_selected ) ? ' selected="selected" ' : '';
-					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr( __( '(only unrestricted)', 'groups' ) ) );
+					$output .= sprintf( '<option value="%s" %s >%s</option>', self::NOT_RESTRICTED, esc_attr( $selected ), esc_attr__( '(only unrestricted)', 'groups' ) );
 
-					foreach( $applicable_read_caps as $capability ) {
+					foreach ( $applicable_read_caps as $capability ) {
 						$selected = in_array( $capability, $previous_selected ) ? ' selected="selected" ' : '';
 						$output .= sprintf( '<option value="%s" %s >%s</option>', esc_attr( $capability ), esc_attr( $selected ), wp_filter_nohtml_kses( $capability ) );
 					}
@@ -165,7 +159,7 @@ class Groups_Admin_Posts_Legacy {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
@@ -178,12 +172,12 @@ class Groups_Admin_Posts_Legacy {
 
 					$output .= '<label style="display:inline;">';
 					$output .= '<span class="title">';
-					$output .= __( 'Access Restrictions', 'groups' );
+					$output .= esc_html__( 'Access Restrictions', 'groups' );
 					$output .= '</span>';
 					$output .= '<select class="capabilities-action" name="capabilities-action">';
-					$output .= '<option selected="selected" value="-1">' . __( '&mdash; No Change &mdash;', 'groups' ) . '</option>';
-					$output .= '<option value="add-capability">' . __( 'Add restriction', 'groups' ) . '</option>';
-					$output .= '<option value="remove-capability">' . __( 'Remove restriction', 'groups' ) . '</option>';
+					$output .= '<option selected="selected" value="-1">' . esc_html__( '&mdash; No Change &mdash;', 'groups' ) . '</option>';
+					$output .= '<option value="add-capability">' . esc_html__( 'Add restriction', 'groups' ) . '</option>';
+					$output .= '<option value="remove-capability">' . esc_html__( 'Remove restriction', 'groups' ) . '</option>';
 					$output .= '</select>';
 					$output .= '</label>';
 
@@ -192,11 +186,11 @@ class Groups_Admin_Posts_Legacy {
 					$output .= sprintf(
 						'<select class="select bulk-capability" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
 						esc_attr( Groups_Post_Access_Legacy::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access_Legacy::READ_POST_CAPABILITY ),
-						esc_attr( __( 'Choose access restrictions &hellip;', 'groups' ) ) ,
-						esc_attr( __( 'Choose access restrictions &hellip;', 'groups' ) )
+						esc_attr__( 'Choose access restrictions &hellip;', 'groups' ),
+						esc_attr__( 'Choose access restrictions &hellip;', 'groups' )
 					);
 
-					foreach( $valid_read_caps as $capability ) {
+					foreach ( $valid_read_caps as $capability ) {
 						$output .= sprintf( '<option value="%s" >%s</option>', esc_attr( $capability ), wp_filter_nohtml_kses( $capability ) );
 					}
 					$output .= '</select>';
@@ -225,26 +219,25 @@ class Groups_Admin_Posts_Legacy {
 	 * @param int $post_id
 	 */
 	public static function save_post( $post_id ) {
-		if ( isset( $_REQUEST['capabilities-action'] ) ) {
-			if ( wp_verify_nonce( $_REQUEST['bulk-post-capability-nonce'], 'post-capability' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				$field = Groups_Post_Access_Legacy::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access_Legacy::READ_POST_CAPABILITY;
-				if ( !empty( $_REQUEST[$field] ) && is_array( $_REQUEST[$field] ) ) {
-					if ( Groups_Access_Meta_Boxes_Legacy::user_can_restrict() ) {
-						$valid_read_caps = Groups_Access_Meta_Boxes_Legacy::get_valid_read_caps_for_user();
-						foreach( $_REQUEST[$field] as $capability_name ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-							if ( $capability = Groups_Capability::read_by_capability( $capability_name ) ) {
-								if ( in_array( $capability->capability, $valid_read_caps ) ) {
-									switch( $_REQUEST['capabilities-action'] ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-										case 'add-capability' :
-											Groups_Post_Access_Legacy::create( array(
-												'post_id' => $post_id,
-												'capability' => $capability->capability
-											) );
-											break;
-										case 'remove-capability' :
-											Groups_Post_Access_Legacy::delete( $post_id, $capability->capability );
-											break;
-									}
+		if ( groups_verify_request_nonce( 'bulk-post-capability-nonce', 'post-capability' ) ) {
+			$field = Groups_Post_Access_Legacy::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access_Legacy::READ_POST_CAPABILITY;
+			$bulk_capabilities = groups_sanitize_request( $field );
+			if ( is_array( $bulk_capabilities ) ) {
+				if ( Groups_Access_Meta_Boxes_Legacy::user_can_restrict() ) {
+					$valid_read_caps = Groups_Access_Meta_Boxes_Legacy::get_valid_read_caps_for_user();
+					foreach ( $bulk_capabilities as $capability_name ) {
+						if ( $capability = Groups_Capability::read_by_capability( $capability_name ) ) {
+							if ( in_array( $capability->capability, $valid_read_caps ) ) {
+								switch ( groups_sanitize_request( 'capabilities-action' ) ) {
+									case 'add-capability' :
+										Groups_Post_Access_Legacy::create( array(
+											'post_id' => $post_id,
+											'capability' => $capability->capability
+										) );
+										break;
+									case 'remove-capability' :
+										Groups_Post_Access_Legacy::delete( $post_id, $capability->capability );
+										break;
 								}
 							}
 						}
@@ -268,22 +261,22 @@ class Groups_Admin_Posts_Legacy {
 
 			if ( $pagenow == 'edit.php' ) { // check that we're on the right screen
 
-				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$post_type = groups_sanitize_get( 'post_type' ) ?? 'post';
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access_Legacy::POST_TYPES, array() );
 
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
 
-					if ( !empty( $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY] ) &&
-						is_array( $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY] )
-					) {
+					$field = Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY;
+					$restricting = groups_sanitize_get( $field );
+					if ( is_array( $restricting ) ) {
 
 						$include_unrestricted = false;
-						if ( in_array( self::NOT_RESTRICTED, $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY] ) ) {
+						if ( in_array( self::NOT_RESTRICTED, $restricting ) ) {
 							$include_unrestricted = true;
 						}
 
 						$capabilities = array();
-						foreach ( $_GET[Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY] as $capability ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						foreach ( $restricting as $capability ) {
 							if ( Groups_Capability::read_by_capability( $capability ) ) {
 								$capabilities[] = $capability;
 							}
@@ -294,20 +287,20 @@ class Groups_Admin_Posts_Legacy {
 								// meta_query does not handle a conjunction
 								// on the same meta field correctly
 								// (at least not up to WordPress 3.7.1)
-// 								$query->query_vars['meta_query'] = array (
-// 									'relation' => 'OR',
-// 									array (
-// 										'key' => Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY,
-// 										'value' => $capabilities,
-// 										'compare' => 'IN'
-// 									),
-// 									array (
-// 										'key' => Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY,
-// 										'compare' => 'NOT EXISTS'
-// 									)
-// 								);
-								// we'll limit it to show just unrestricted entries
-								// until the above is solved
+								// $query->query_vars['meta_query'] = array (
+								// 	'relation' => 'OR',
+								// 	array (
+								// 		'key' => Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY,
+								// 		'value' => $capabilities,
+								// 		'compare' => 'IN'
+								// 	),
+								// 	array (
+								// 		'key' => Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY,
+								// 		'compare' => 'NOT EXISTS'
+								// 	)
+								// );
+								// we limit it to show just unrestricted entries
+								// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 								$query->query_vars['meta_query'] = array (
 									array (
 										'key'     => Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY,
@@ -315,6 +308,7 @@ class Groups_Admin_Posts_Legacy {
 									)
 								);
 							} else {
+								// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 								$query->query_vars['meta_query'] = array (
 									array (
 										'key'     => Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY,
@@ -324,6 +318,7 @@ class Groups_Admin_Posts_Legacy {
 								);
 							}
 						} else if ( $include_unrestricted ) {
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 							$query->query_vars['meta_query'] = array (
 								array (
 									'key'     => Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY,

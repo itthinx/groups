@@ -102,7 +102,7 @@ class Groups_Admin {
 	public static function add_message( $message, $type = 'info' ) {
 		if ( is_string( $message ) ) {
 			$class = 'updated';
-			switch( $type ) {
+			switch ( $type ) {
 				case 'error' :
 					$class = 'error';
 			}
@@ -174,8 +174,8 @@ class Groups_Admin {
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 
-		if ( isset( $_POST[GROUPS_ADMIN_OPTIONS_NONCE] ) && wp_verify_nonce( $_POST[GROUPS_ADMIN_OPTIONS_NONCE], 'admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$show_tree_view = !empty( $_POST[GROUPS_SHOW_TREE_VIEW] );
+		if ( groups_verify_post_nonce( GROUPS_ADMIN_OPTIONS_NONCE, 'admin' ) ) {
+			$show_tree_view = !empty( groups_sanitize_post( GROUPS_SHOW_TREE_VIEW ) );
 		} else {
 			$show_tree_view = Groups_Options::get_option( GROUPS_SHOW_TREE_VIEW, GROUPS_SHOW_TREE_VIEW_DEFAULT );
 		}
