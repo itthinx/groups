@@ -114,8 +114,8 @@ class Groups_Pagination {
 		$total_items = isset( $this->_pagination_args['total_items'] ) ? $this->_pagination_args['total_items'] : 0;
 		$total_pages = isset( $this->_pagination_args['total_pages'] ) ? $this->_pagination_args['total_pages'] : 0;
 
-		/* translators: number of items */
 		$output = '<span class="displaying-num">';
+		/* translators: number of items */
 		$output .= sprintf( esc_html( _n( '%s item', '%s items', $total_items, 'groups' ) ), esc_html( number_format_i18n( $total_items ) ) );
 		$output .= '</span>';
 
