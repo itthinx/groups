@@ -899,7 +899,7 @@ class Groups_Shortcodes {
 					$output .= '</div>';
 				} else if ( $display_message ) {
 					if ( $left ) {
-						$output .= '<div class="groups-join left">';
+						$output .= '<div class="groups-leave left">';
 						/* translators: group name */
 						$output .= sprintf( esc_html__( 'You have left the %s group.', 'groups' ), stripslashes( wp_filter_nohtml_kses( $current_group->name ) ) );
 						$output .= '</div>';
