@@ -6,6 +6,8 @@
 * Fix - Fixes a fatal error due to missing resources when users with limited privileges access the dashboard sections related to Groups.
 * Fix - Use consistent CSS class for confirmation with [groups_leave] shortcode.
 * Dev - Use own namespace for selectize resources.
+* Dev - Now applies .groups-selectize class to selectize wrapper.
+* Update - Updated selectize.js to 0.15.2 build from https://github.com/itthinx/selectize.js/tree/groups-selectize
 
 2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.

@@ -501,7 +501,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 			wp_enqueue_script( 'selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
 		}
 		if ( !wp_style_is( 'selectize' ) ) {
-			wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
+			wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.groups.css', array(), $groups_version );
 		}
 	}
 

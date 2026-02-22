@@ -72,7 +72,7 @@ class Groups_UIE {
 							wp_enqueue_script( 'groups-selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
 						}
 						if ( !wp_style_is( 'groups-selectize' ) ) {
-							wp_enqueue_style( 'groups-selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
+							wp_enqueue_style( 'groups-selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.groups.css', array(), $groups_version );
 						}
 						if ( !wp_style_is( 'groups-uie' ) ) {
 							wp_enqueue_style( 'groups-uie', GROUPS_PLUGIN_URL . 'css/groups-uie.css', array(), $groups_version );
@@ -101,7 +101,7 @@ class Groups_UIE {
 			if ( self::$select === 'selectize' ) {
 				$call_output .= 'if ( typeof jQuery !== "undefined" && typeof jQuery.fn.selectize === "function" ) {';
 				$call_output .= sprintf(
-					'jQuery("%s").selectize({%splugins: ["remove_button"]});',
+					'jQuery("%s").selectize({%splugins: ["remove_button"],wrapperClass:"groups-selectize"});',
 					$selector,
 					$create ? 'create:true,' : ''
 				);
