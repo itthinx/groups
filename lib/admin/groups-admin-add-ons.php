@@ -45,11 +45,10 @@ function groups_admin_add_ons() {
 	$extensions_box .= esc_html__( 'By getting an official extension, you fund the work that is necessary to maintain and improve Groups.', 'groups' );
 	$extensions_box .= '</p>';
 	$extensions_box .= '</div>';
-	$extensions_box .= Groups_Admin_Notice::get_groups_bitcoin_box( array( 'type' => 'horizontal', 'where' => 'add-ons' ) );
+	require_once GROUPS_ADMIN_LIB . '/class-groups-admin-bitcoin.php';
+	$extensions_box .= Groups_Admin_Bitcoin::get_groups_bitcoin_box( array( 'type' => 'horizontal', 'where' => 'add-ons' ) );
 	$extensions_box .= '</div>';
 	echo $extensions_box; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-// 	echo Groups_Admin_Notice::get_groups_bitcoin_box( array( 'type' => 'horizontal', 'where' => 'add-ons' ) );
 
 	echo '</div>'; // .groups-extensions-support-contribute
 

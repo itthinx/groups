@@ -196,7 +196,8 @@ function groups_admin_options() {
 		$extensions_box .= '</div>';
 	}
 
-	$bitcoin_box = Groups_Admin_Notice::get_groups_bitcoin_box( array( 'where' => 'options' ) );
+	require_once GROUPS_ADMIN_LIB . '/class-groups-admin-bitcoin.php';
+	$bitcoin_box = Groups_Admin_Bitcoin::get_groups_bitcoin_box( array( 'where' => 'options' ) );
 
 	//
 	// print the options form
