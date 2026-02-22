@@ -4,7 +4,8 @@
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.5 compatible.
 * Fix - Fixes a fatal error due to missing resources when users with limited privileges access the dashboard sections related to Groups.
-* Fix - Inconsistent CSS class used for confirmation with [groups_leave].
+* Fix - Use consistent CSS class for confirmation with [groups_leave] shortcode.
+* Dev - Use own namespace for selectize resources.
 
 2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.

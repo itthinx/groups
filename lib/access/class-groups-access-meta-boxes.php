@@ -414,11 +414,11 @@ class Groups_Access_Meta_Boxes {
 	 */
 	private static function enqueue() {
 		global $groups_version;
-		if ( !wp_script_is( 'selectize' ) ) {
-			wp_enqueue_script( 'selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
+		if ( !wp_script_is( 'groups-selectize' ) ) {
+			wp_enqueue_script( 'groups-selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
 		}
-		if ( !wp_style_is( 'selectize' ) ) {
-			wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
+		if ( !wp_style_is( 'groups-selectize' ) ) {
+			wp_enqueue_style( 'groups-selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
 		}
 	}
 

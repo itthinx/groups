@@ -68,11 +68,11 @@ class Groups_UIE {
 			case 'select' :
 				switch ( self::$select ) {
 					case 'selectize' :
-						if ( !wp_script_is( 'selectize' ) ) {
-							wp_enqueue_script( 'selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
+						if ( !wp_script_is( 'groups-selectize' ) ) {
+							wp_enqueue_script( 'groups-selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
 						}
-						if ( !wp_style_is( 'selectize' ) ) {
-							wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
+						if ( !wp_style_is( 'groups-selectize' ) ) {
+							wp_enqueue_style( 'groups-selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
 						}
 						if ( !wp_style_is( 'groups-uie' ) ) {
 							wp_enqueue_style( 'groups-uie', GROUPS_PLUGIN_URL . 'css/groups-uie.css', array(), $groups_version );
@@ -85,10 +85,12 @@ class Groups_UIE {
 
 	/**
 	 * Render select script and style.
+	 *
 	 * @param string $selector identifying the select, default: select.groups-uie
 	 * @param boolean $script render the script, default: true
 	 * @param boolean $on_document_ready whether to trigger on document ready, default: true
 	 * @param boolean $create allow to create items, default: false (only with selectize)
+	 *
 	 * @return string HTML
 	 */
 	public static function render_select( $selector = 'select.groups-uie', $script = true, $on_document_ready = true, $create = false ) {
@@ -127,6 +129,13 @@ class Groups_UIE {
 		return $output;
 	}
 
+	/**
+	 * Render the title attribute for elements matching the selector.
+	 *
+	 * @param string $selector
+	 *
+	 * @return string
+	 */
 	public static function render_add_titles( $selector ) {
 		$output = '<script type="text/javascript">';
 		$output .= 'if ( typeof jQuery !== "undefined" ) {';
