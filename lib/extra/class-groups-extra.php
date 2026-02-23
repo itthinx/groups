@@ -33,6 +33,7 @@ class Groups_Extra {
 	 */
 	public static function boot() {
 		add_action( 'init', array( __CLASS__, 'init' ) );
+		add_action( 'admin_init', array( __CLASS__, 'admin_init' ) );
 		add_action( 'before_woocommerce_init', array( __CLASS__, 'before_woocommerce_init' ) );
 	}
 
@@ -43,6 +44,15 @@ class Groups_Extra {
 		add_filter( 'woocommerce_product_is_visible', array( __CLASS__, 'woocommerce_product_is_visible' ), 10, 2 );
 		add_filter( 'groups_comment_access_comment_count_where', array( __CLASS__, 'groups_comment_access_comment_count_where'), 10, 2 );
 		add_filter( 'groups_post_access_posts_where_query_get_post_types', array( __CLASS__, 'groups_post_access_posts_where_query_get_post_types' ), 10, 3 );
+	}
+
+	/**
+	 * Add admin filters and actions.
+	 *
+	 * @since 4.0.0
+	 */
+	public static function admin_init() {
+		add_action( 'current_screen', array( __CLASS__, 'current_screen' ), PHP_INT_MIN );
 	}
 
 	/**
@@ -114,5 +124,39 @@ class Groups_Extra {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', GROUPS_FILE, true );
 		}
 	}
+
+	/**
+	 * Do not redirect to the add product tasklist if there are no products when filtering.
+	 *
+	 * @since 4.0.0
+	 *
+	 * Automattic\WooCommerce\Admin\Features\OnboardingTasks\Tasks\Products's maybe_redirect_to_add_product_tasklist hooks on the current_screen action
+	 */
+	public static function current_screen() {
+		global $wp_filter;
+
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+			if ( 'edit' === $screen->base && 'product' === $screen->post_type ) {
+				$filtering = false;
+				if ( class_exists( 'Groups_Post_Access_Legacy' ) ) {
+					$field = Groups_Post_Access_Legacy::POSTMETA_PREFIX . Groups_Post_Access_Legacy::READ_POST_CAPABILITY;
+					$filtering = !empty( groups_sanitize_get( $field ) );
+				}
+				$filtering = $filtering || !empty( groups_sanitize_get( Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ ) );
+				$filtering = $filtering || !empty( groups_sanitize_get( 'groups-woocommerce-product-groups' ) );
+				if ( $filtering ) {
+					foreach ( $wp_filter['current_screen']->callbacks as $priority => $callbacks ) {
+						foreach ( $callbacks as $callback => $data ) {
+							if ( strpos( $callback, 'maybe_redirect_to_add_product_tasklist' ) !== false ) {
+								remove_action( 'current_screen', $callback, $priority );
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 }
 Groups_Extra::boot();

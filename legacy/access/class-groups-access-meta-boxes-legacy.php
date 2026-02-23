@@ -496,13 +496,7 @@ class Groups_Access_Meta_Boxes_Legacy {
 	 * Enqueue scripts and styles.
 	 */
 	private static function enqueue() {
-		global $groups_version;
-		if ( !wp_script_is( 'selectize' ) ) {
-			wp_enqueue_script( 'selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
-		}
-		if ( !wp_style_is( 'selectize' ) ) {
-			wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.groups.css', array(), $groups_version );
-		}
+		Groups_UIE::enqueue( 'select' );
 	}
 
 	/**

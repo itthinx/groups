@@ -232,8 +232,8 @@ class Groups_Access_Meta_Boxes {
 			$output .= sprintf(
 				'<select class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
 				self::GROUPS_READ . '[]',
-				esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
-				esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
+				esc_attr( __( 'Choose groups &hellip;', 'groups' ) ),
+				esc_attr( __( 'Choose groups &hellip;', 'groups' ) ),
 				esc_attr( $read_help )
 			);
 			$output .= '<option value=""></option>';
@@ -413,13 +413,7 @@ class Groups_Access_Meta_Boxes {
 	 * Enqueue scripts and styles.
 	 */
 	private static function enqueue() {
-		global $groups_version;
-		if ( !wp_script_is( 'groups-selectize' ) ) {
-			wp_enqueue_script( 'groups-selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
-		}
-		if ( !wp_style_is( 'groups-selectize' ) ) {
-			wp_enqueue_style( 'groups-selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.groups.css', array(), $groups_version );
-		}
+		Groups_UIE::enqueue( 'select' );
 	}
 
 	/**
@@ -476,8 +470,8 @@ class Groups_Access_Meta_Boxes {
 					'<select id="%s" class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
 					esc_attr( $select_id ),
 					'attachments[' . esc_attr( $post->ID ) . '][' . esc_attr( self::GROUPS_READ ) . '][]',
-					esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
-					esc_attr( __( 'Anyone &hellip;', 'groups' ) ),
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ),
+					esc_attr( __( 'Choose groups &hellip;', 'groups' ) ),
 					esc_attr__( 'You can restrict the visibility to group members. Choose one or more groups to restrict access. If no groups are chosen, this entry is visible to anyone.', 'groups' ) .
 					Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ? ' ' . esc_attr__( 'You can create a new group by indicating the group\'s name.', 'groups' ) : ''
 				);
