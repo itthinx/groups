@@ -201,6 +201,10 @@ class Groups_Post_Access {
 	 * @return array
 	 */
 	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
+		// get user object before removing filter
+		$user = function_exists( 'get_current_user_id' ) ? new Groups_User( get_current_user_id() ) : null;
+		// @since 4.0.0 avoid potential infinite recursion
+		remove_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10 );
 		if ( isset( $args[0] ) ) {
 			if ( strpos( $cap, 'edit_' ) === 0 || strpos( $cap, 'delete_' ) === 0 ) {
 				if ( $post_type = get_post_type( $args[0] ) ) {
@@ -220,7 +224,12 @@ class Groups_Post_Access {
 						}
 					}
 
-					if ( $cap === $edit_post_type || $cap === $delete_post_type ) {
+					if (
+						$cap === $edit_post_type ||
+						$cap === $delete_post_type ||
+						$cap === 'edit_post' ||
+						$cap === 'delete_post'
+					) {
 						$post_id = null;
 						if ( is_numeric( $args[0] ) ) {
 							$post_id = $args[0];
@@ -230,12 +239,25 @@ class Groups_Post_Access {
 						if ( $post_id ) {
 							if ( !self::user_can_read_post( $post_id, $user_id ) ) {
 								$caps[] = 'do_not_allow';
+							} else {
+								// post with access restrictions requires user to have access restriction rights
+								if ( $post_type = get_post_type( $post_id ) ) {
+									if ( self::handles_post_type( $post_type ) ) {
+										$group_ids = self::get_read_group_ids( $post_id );
+										if ( !empty( $group_ids ) ) {
+											if ( $user === null || !$user->can( GROUPS_RESTRICT_ACCESS ) ) {
+												$caps[] = 'do_not_allow';
+											}
+										}
+									}
+								}
 							}
 						}
 					}
 				}
 			}
 		}
+		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
 		return $caps;
 	}
 

@@ -12,6 +12,7 @@
 * Update - Updated selectize.js to 0.15.2 build from https://github.com/itthinx/selectize.js/tree/groups-selectize
 * Dev - Added the groups_uie_which_select filter.
 * Dev - Avoid onboarding redirect to create product when filtering has no results in Products/All Products admin section.
+* Update - Users who can edit posts must have access restriction rights to modify restricted posts.
 
 2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.
