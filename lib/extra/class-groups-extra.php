@@ -44,6 +44,7 @@ class Groups_Extra {
 		add_filter( 'woocommerce_product_is_visible', array( __CLASS__, 'woocommerce_product_is_visible' ), 10, 2 );
 		add_filter( 'groups_comment_access_comment_count_where', array( __CLASS__, 'groups_comment_access_comment_count_where'), 10, 2 );
 		add_filter( 'groups_post_access_posts_where_query_get_post_types', array( __CLASS__, 'groups_post_access_posts_where_query_get_post_types' ), 10, 3 );
+		add_filter( 'woocommerce_duplicate_product_capability', array( __CLASS__, 'woocommerce_duplicate_product_capability' ) );
 	}
 
 	/**
@@ -158,5 +159,35 @@ class Groups_Extra {
 		}
 	}
 
+	/**
+	 * Do not allow users to duplicate restricted products if they lack restriction rights.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $capability
+	 *
+	 * @return string
+	 */
+	public static function woocommerce_duplicate_product_capability( $capability ) {
+		global $post;
+		if (
+			isset( $post ) &&
+			is_object( $post ) &&
+			!empty( $post->post_type ) &&
+			$post->post_type === 'product'
+		) {
+			// Groups_User::can() does not support the $object and additional $args
+			// so we cannot use it here to check whether the user can edit the product;
+			// instead we use Groups_User::current_user_can() which does support it
+			// $user = new Groups_User( get_current_user_id() );
+			// if ( !$user->can( 'edit_product', $post ) ) {
+			// 	$capability = 'do_not_allow';
+			// }
+			if ( !Groups_User::current_user_can( 'edit_product', $post ) ) {
+				$capability = 'do_not_allow';
+			}
+		}
+		return $capability;
+	}
 }
 Groups_Extra::boot();
