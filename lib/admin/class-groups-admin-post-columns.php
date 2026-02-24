@@ -167,7 +167,8 @@ class Groups_Admin_Post_Columns {
 													$entries[] = sprintf(
 														'%s <a href="%s" title="%s" style="cursor: help">%s</a>',
 														$group->name ? stripslashes( wp_strip_all_tags( $group->name ) ) : '',
-														esc_url( $edit_term_link ?? '' ), // @since 4.0.0 guarded as $edit_term_link can be null causing deprecated notice
+														// @since 4.0.0 guarded as $edit_term_link can be null causing deprecated notice
+														esc_url( $edit_term_link ?? '' ), // @phpstan-ignore nullCoalesce.variable
 														esc_attr( $term_taxonomy_title),
 														esc_html( $term->name )
 													);
