@@ -292,7 +292,7 @@ class Groups_Capability {
 		$result = false;
 		$cached = Groups_Cache::get( self::READ_CAPABILITY_BY_ID . '_' . $capability_id, self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$result = $cached->value;
+			$result = $cached->get_value();
 			unset( $cached );
 		} else {
 			$capability_table = _groups_get_tablename( 'capability' );
@@ -320,7 +320,7 @@ class Groups_Capability {
 		$_capability = $capability;
 		$cached = Groups_Cache::get( self::READ_BY_CAPABILITY . '_' . $_capability, self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$result = $cached->value;
+			$result = $cached->get_value();
 			unset( $cached );
 		} else {
 			$result = false;

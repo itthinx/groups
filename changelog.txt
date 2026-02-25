@@ -16,6 +16,7 @@
 * Update - Check users have access restriction rights to duplicate products (WooCommerce).
 * Fix - Avoid a potential PHP Fatal error during groups_user_can filter processing when additional parameters cannot be unpacked.
 * Fix - Avoid a PHP Deprecated notice where passing null to esc_url would pass it on to ltrim.
+* Update - Improved cache handling, expiration and invalidation.
 
 2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.

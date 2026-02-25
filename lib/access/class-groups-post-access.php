@@ -598,7 +598,7 @@ class Groups_Post_Access {
 				}
 				Groups_Cache::set( 'eligible_post_ids', $post_ids, $cache_group );
 			} else {
-				$post_ids = $cached->value;
+				$post_ids = $cached->get_value();
 			}
 
 			if ( is_array( $post_ids ) && count( $post_ids ) > 0 ) {
@@ -898,7 +898,7 @@ class Groups_Post_Access {
 			$cached = Groups_Cache::get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP );
 
 			if ( $cached !== null ) {
-				$result = $cached->value;
+				$result = $cached->get_value();
 				unset( $cached );
 			} else {
 				// admin override and Groups admins see everything
@@ -969,7 +969,7 @@ class Groups_Post_Access {
 			if ( $cached === null ) {
 				$type_counts = array();
 			} else {
-				$type_counts = $cached->value;
+				$type_counts = $cached->get_value();
 			}
 			if ( isset( $type_counts[$sub_group] ) ) {
 				$counts = $type_counts[$sub_group];
@@ -1029,7 +1029,7 @@ class Groups_Post_Access {
 			$hyper_group = Groups_Cache::get_group( '' );
 			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
 			if ( $cached !== null ) {
-				$type_counts = $cached->value;
+				$type_counts = $cached->get_value();
 				unset( $type_counts[$hyper_group] );
 				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
 			}

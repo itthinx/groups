@@ -81,6 +81,11 @@ class Groups_Cache {
 		$value = wp_cache_get( $key, $group, false, $found );
 		if ( !( $value instanceof Groups_Cache_Object ) ) {
 			$value = null;
+		} else {
+			if ( $value->has_expired() ) {
+				wp_cache_delete( $key, $group );
+				$value = null;
+			}
 		}
 		return $value;
 	}
@@ -91,10 +96,11 @@ class Groups_Cache {
 	 * @param string $key
 	 * @param string $value
 	 * @param string $group
+	 * @param int|null $expires
 	 *
 	 * @return boolean true if successful, otherwise false
 	 */
-	public static function set( $key, $value, $group = self::CACHE_GROUP ) {
+	public static function set( $key, $value, $group = self::CACHE_GROUP, $expires = null ) {
 		$object = new Groups_Cache_Object( $key, $value );
 		return wp_cache_set( $key, $object, $group );
 	}

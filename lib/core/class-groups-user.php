@@ -382,7 +382,7 @@ class Groups_User implements I_Capable {
 				case 'capability_ids' :
 					$cached = Groups_Cache::get( self::CAPABILITY_IDS_BASE . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
-						$result = $cached->value;
+						$result = $cached->get_value();
 						unset( $cached );
 					} else {
 						$user_capability_table = _groups_get_tablename( 'user_capability' );
@@ -404,7 +404,7 @@ class Groups_User implements I_Capable {
 					if ( $this->user !== null ) {
 						$cached = Groups_Cache::get( self::CAPABILITY_IDS . $this->user->ID, self::CACHE_GROUP );
 						if ( $cached !== null ) {
-							$capability_ids = $cached->value;
+							$capability_ids = $cached->get_value();
 							unset( $cached );
 						} else {
 							$this->init_cache( $capability_ids );
@@ -416,7 +416,7 @@ class Groups_User implements I_Capable {
 				case 'group_ids' :
 					$cached = Groups_Cache::get( self::GROUP_IDS_BASE . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
-						$result = $cached->value;
+						$result = $cached->get_value();
 						unset( $cached );
 					} else {
 						$user_group_table = _groups_get_tablename( 'user_group' );
@@ -438,7 +438,7 @@ class Groups_User implements I_Capable {
 					if ( $this->user !== null ) {
 						$cached = Groups_Cache::get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP );
 						if ( $cached !== null ) {
-							$group_ids = $cached->value;
+							$group_ids = $cached->get_value();
 							unset( $cached );
 						} else {
 							$this->init_cache( $capability_ids, $capabilities, $group_ids );
@@ -450,7 +450,7 @@ class Groups_User implements I_Capable {
 				case 'capabilities' :
 					$cached = Groups_Cache::get( self::CAPABILITIES_BASE . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
-						$result = $cached->value;
+						$result = $cached->get_value();
 						unset( $cached );
 					} else {
 						$user_capability_table = _groups_get_tablename( 'user_capability' );
@@ -473,12 +473,12 @@ class Groups_User implements I_Capable {
 						// @since 3.6. provide cached objects
 						$cached = Groups_Cache::get( self::CAPABILITIES_DEEP . $this->user->ID, self::CACHE_GROUP );
 						if ( $cached !== null ) {
-							$result = $cached->value;
+							$result = $cached->get_value();
 							unset( $cached );
 						} else {
 							$cached = Groups_Cache::get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
 							if ( $cached !== null ) {
-								$capabilities = $cached->value;
+								$capabilities = $cached->get_value();
 								unset( $cached );
 							} else {
 								$this->init_cache( $capability_ids, $capabilities );
@@ -499,7 +499,7 @@ class Groups_User implements I_Capable {
 				case 'groups' :
 					$cached = Groups_Cache::get( self::GROUPS_BASE . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
-						$result = $cached->value;
+						$result = $cached->get_value();
 						unset( $cached );
 					} else {
 						$user_group_table = _groups_get_tablename( 'user_group' );
@@ -520,7 +520,7 @@ class Groups_User implements I_Capable {
 				case 'groups_deep' :
 					$cached = Groups_Cache::get( self::GROUPS . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
-						$result = $cached->value;
+						$result = $cached->get_value();
 						unset( $cached );
 					} else {
 						$result = array();
@@ -555,7 +555,7 @@ class Groups_User implements I_Capable {
 					$capability_id = Groups_Utility::id( $capability );
 					$cached = Groups_Cache::get( self::CAPABILITY_IDS . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
-						$capability_ids = $cached->value;
+						$capability_ids = $cached->get_value();
 						unset( $cached );
 					} else {
 						$this->init_cache( $capability_ids );
@@ -564,7 +564,7 @@ class Groups_User implements I_Capable {
 				} else if ( is_string( $capability ) ) {
 					$cached = Groups_Cache::get( self::CAPABILITIES . $this->user->ID, self::CACHE_GROUP );
 					if ( $cached !== null ) {
-						$capabilities = $cached->value;
+						$capabilities = $cached->get_value();
 						unset( $cached );
 					} else {
 						$this->init_cache( $capability_ids, $capabilities );
@@ -645,7 +645,10 @@ class Groups_User implements I_Capable {
 		$capability_ids = array();
 		$group_ids      = array();
 
-		if ( ( $this->user !== null ) && ( Groups_Cache::get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP ) === null ) ) {
+		if (
+			( $this->user !== null ) &&
+			( Groups_Cache::get( self::GROUP_IDS . $this->user->ID, self::CACHE_GROUP ) === null )
+		) {
 			$group_table            = _groups_get_tablename( 'group' );
 			$capability_table       = _groups_get_tablename( 'capability' );
 			$group_capability_table = _groups_get_tablename( 'group_capability' );

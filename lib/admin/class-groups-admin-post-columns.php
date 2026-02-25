@@ -209,7 +209,7 @@ class Groups_Admin_Post_Columns {
 		$user_id = get_current_user_id();
 		$cached = Groups_Cache::get( self::EDIT_TERM_LINK . '_' . $term_id . '_' . $user_id, self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$result = $cached->value;
+			$result = $cached->get_value();
 			unset( $cached );
 		} else {
 			$result = get_edit_term_link( $term_id, $taxonomy );

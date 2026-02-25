@@ -188,7 +188,7 @@ class Groups_WordPress {
 			$cached  = Groups_Cache::get( self::HAS_CAP . '_' . $user_id . '_' . $hash, self::CACHE_GROUP );
 
 			if ( $cached !== null ) {
-				$_allcaps = $cached->value;
+				$_allcaps = $cached->get_value();
 				unset( $cached );
 				// Capabilities that were added after our value was cached must be added and
 				// those entries that provide different values must be adopted. This is necessary
