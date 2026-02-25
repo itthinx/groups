@@ -120,7 +120,19 @@ class Groups_Cache {
 			$expires = null;
 		}
 		$object = new Groups_Cache_Object( $key, $value, $expires );
-		$expires = $expires === null ? 0 : $expires;
+		if ( $expires === null || $expires === 0 ) {
+			/**
+			 * Indefinite value.
+			 *
+			 * @since 4.0.0
+			 *
+			 * @param int $value
+			 *
+			 * @return int
+			 */
+			$expires = apply_filters( 'groups_cache_set_expires_indefinite', PHP_INT_MAX );
+			$expires = is_numeric( $expires ) ? max( 0, intval( $expires ) ) : PHP_INT_MAX;
+		}
 		return wp_cache_set( $key, $object, $group, $expires );
 	}
 
