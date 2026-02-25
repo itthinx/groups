@@ -101,8 +101,27 @@ class Groups_Cache {
 	 * @return boolean true if successful, otherwise false
 	 */
 	public static function set( $key, $value, $group = self::CACHE_GROUP, $expires = null ) {
-		$object = new Groups_Cache_Object( $key, $value );
-		return wp_cache_set( $key, $object, $group );
+		/**
+		 * Filter when cache entry expires.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param int|null $expires
+		 * @param string $key
+		 * @param mixed $value
+		 * @param string $group
+		 *
+		 * @return int|null
+		 */
+		$expires = apply_filters( 'groups_cache_set_expires', $expires, $key, $value, $group );
+		if ( is_numeric( $expires ) ) {
+			$expires = max( 0, intval( $expires ) );
+		} else {
+			$expires = null;
+		}
+		$object = new Groups_Cache_Object( $key, $value, $expires );
+		$expires = $expires === null ? 0 : $expires;
+		return wp_cache_set( $key, $object, $group, $expires );
 	}
 
 	/**
