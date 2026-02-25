@@ -127,6 +127,9 @@ require_once GROUPS_BLOCKS_LIB . '/src/class-groups-blocks.php';
  */
 require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
 
+// @since 4.0.0
+require_once GROUPS_CORE_LIB . '/class-groups-cache-robot.php';
+
 // widgets
 // include_once GROUPS_CORE_LIB . '/class-groups-widgets.php';
 // add_action( 'widgets_init', 'groups_widgets_init' );
