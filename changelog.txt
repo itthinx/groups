@@ -17,6 +17,18 @@
 * Fix - Avoid a potential PHP Fatal error during groups_user_can filter processing when additional parameters cannot be unpacked.
 * Fix - Avoid a PHP Deprecated notice where passing null to esc_url would pass it on to ltrim.
 * Update - Improved cache handling, expiration and invalidation.
+* Dev - Added the groups_cache_set_expires filter.
+* Dev - Added the groups_cache_set_expires_indefinite filter.
+* Dev - Added the groups_cache_robot_comment_groups filter.
+* Dev - Added the groups_cache_robot_post_groups filter.
+* Dev - Added the groups_cache_robot_term_groups filter.
+* Dev - Added the groups_cache_robot_user_groups filter.
+* Dev - Added the groups_cache_robot_flush_comment filter.
+* Dev - Added the groups_cache_robot_flush_post filter.
+* Dev - Added the groups_cache_robot_flush_user filter.
+* Dev - Added the groups_cache_robot_flush_term filter.
+* Dev - Added the groups_cache_robot_flush_all filter.
+* Dev - Added the groups_cache_robot_flush_groups filter.
 
 2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.

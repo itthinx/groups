@@ -108,7 +108,7 @@ class Groups_Cache_Robot {
 		 *
 		 * @return string[]
 		 */
-		self::$term_groups = apply_filters( 'groups_cache_robot_post_groups', self::$term_groups );
+		self::$term_groups = apply_filters( 'groups_cache_robot_term_groups', self::$term_groups );
 
 		/**
 		 * Filter user groups.
@@ -117,7 +117,7 @@ class Groups_Cache_Robot {
 		 *
 		 * @return string[]
 		 */
-		self::$user_groups = apply_filters( 'groups_cache_robot_post_groups', self::$user_groups );
+		self::$user_groups = apply_filters( 'groups_cache_robot_user_groups', self::$user_groups );
 
 		// comments
 		add_action( 'deleted_comment', array( __CLASS__, 'comment' ), 10, 2 );
@@ -299,7 +299,7 @@ class Groups_Cache_Robot {
 		 *
 		 * @return string[]
 		 */
-		self::$flush_groups = apply_filters( 'groups_cache_robot_post_groups', self::$flush_groups );
+		self::$flush_groups = apply_filters( 'groups_cache_robot_flush_groups', self::$flush_groups );
 		if ( is_array( self::$flush_groups ) && count( self::$flush_groups ) > 0 ) {
 			if (
 				function_exists( 'wp_cache_supports' ) &&
