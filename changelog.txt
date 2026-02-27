@@ -29,6 +29,12 @@
 * Dev - Added the groups_cache_robot_flush_term filter.
 * Dev - Added the groups_cache_robot_flush_all filter.
 * Dev - Added the groups_cache_robot_flush_groups filter.
+* Dev - Added lock for concurrent access resilience.
+* Update - Added the internal lock API.
+* Update - Added soft lock for general options access and modification.
+* Dev - Added the groups_lock_path filter.
+* Dev - Added the groups_lock_timeout filter.
+* Dev - Added the groups_lock_sleep filter.
 
 2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.

@@ -577,12 +577,14 @@ class Groups_Post_Access {
 				}
 			}
 
+			Groups_Options::lock();
 			// remember the cache group for purging
 			$stored_cache_groups = Groups_Options::get_option( 'eligible_post_ids_cache_groups', array() );
 			if ( !in_array( $cache_group, $stored_cache_groups ) ) {
 				$stored_cache_groups[] = $cache_group;
 				Groups_Options::update_option( 'eligible_post_ids_cache_groups', $stored_cache_groups );
 			}
+			Groups_Options::release();
 
 			$post_ids = array( -1 );
 			$cached = Groups_Cache::get( 'eligible_post_ids', $cache_group );
@@ -665,6 +667,7 @@ class Groups_Post_Access {
 	 */
 	public static function purge_eligible_post_ids_cached( $post_type = null ) {
 		$changed = false;
+		Groups_Options::lock();
 		$stored_cache_groups = Groups_Options::get_option( 'eligible_post_ids_cache_groups', array() );
 		foreach ( $stored_cache_groups as $cache_group ) {
 			if ( $post_type === null || strpos( $cache_group, $post_type ) !== false ) {
@@ -680,6 +683,7 @@ class Groups_Post_Access {
 				Groups_Options::delete_option( 'eligible_post_ids_cache_groups' );
 			}
 		}
+		Groups_Options::release();
 	}
 
 	/**

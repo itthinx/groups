@@ -43,6 +43,13 @@ class Groups_Options {
 	const general = 'general';
 
 	/**
+	 * @var Groups_Lock
+	 *
+	 * @since 4.0.0
+	 */
+	private static $lock = null;
+
+	/**
 	 * Registers Groups options (not autoloaded).
 	 */
 	public static function init() {
@@ -56,6 +63,7 @@ class Groups_Options {
 	/**
 	 * Returns the current Groups options and initializes them
 	 * through init() if needed.
+	 *
 	 * @return array Groups options
 	 */
 	private static function get_options() {
@@ -65,6 +73,33 @@ class Groups_Options {
 			$options = get_option( self::option_key );
 		}
 		return $options;
+	}
+
+	/**
+	 * Soft lock for general option access and modification.
+	 *
+	 * @since 4.0.0
+	 */
+	public static function lock() {
+		if ( self::$lock === null ) {
+			try {
+				self::$lock = new Groups_Lock( 'groups-options' );
+				self::$lock->writer();
+			} catch ( Groups_Lock_Exception $lex ) {
+				self::$lock = null;
+			}
+		}
+	}
+
+	/**
+	 * Release soft lock for general option access.
+	 *
+	 * @since 4.0.0
+	 */
+	public static function release() {
+		if ( self::$lock !== null ) {
+			self::$lock->release();
+		}
 	}
 
 	/**
