@@ -202,7 +202,7 @@ class Groups_Cache_Object {
 			$expired = true;
 		} else {
 			if ( $this->expires !== null ) {
-				if ( time() > $this->created + $this->expires ) {
+				if ( time() > ( $this->created + $this->expires ) ) {
 					$expired = true;
 				}
 			}

@@ -969,7 +969,7 @@ class Groups_Post_Access {
 		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
 			$sub_group = Groups_Cache::get_group( '' );
 			// @since 2.20.0 cached per post type gathering counts per subgroup
-			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
+			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP ); // @todo uni or simple key
 			if ( $cached === null ) {
 				$type_counts = array();
 			} else {
@@ -1012,9 +1012,10 @@ class Groups_Post_Access {
 					$counts->$post_status = $count;
 				}
 				$type_counts[$sub_group] = $counts;
-				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
+				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP ); // @todo uni or simple key
 			}
 		}
+
 		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 ); // @since 3.3.1 reestablish filter for next use
 		return $counts;
 	}
@@ -1031,11 +1032,11 @@ class Groups_Post_Access {
 	private static function purge_count_posts_cached( $type ) {
 		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
 			$hyper_group = Groups_Cache::get_group( '' );
-			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
+			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP ); // @todo uni or simple key
 			if ( $cached !== null ) {
 				$type_counts = $cached->get_value();
 				unset( $type_counts[$hyper_group] );
-				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
+				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP ); // @todo uni or simple key
 			}
 		}
 	}

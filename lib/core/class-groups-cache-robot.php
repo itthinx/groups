@@ -134,7 +134,7 @@ class Groups_Cache_Robot {
 		add_action( 'trashed_post', array( __CLASS__, 'post' ), 10, 2 );
 		add_action( 'untrashed_post', array( __CLASS__, 'post' ), 10, 2 );
 		add_action( 'save_post', array( __CLASS__, 'post' ), 10, 3 );
-		add_action( 'transition_post_status', array( __CLASS__, 'post' ), 10, 3 );
+		// save_post covers add_action( 'transition_post_status', array( __CLASS__, 'post' ), 10, 3 );
 
 		// users
 		add_action( 'wp_update_user', array( __CLASS__, 'user' ), 10, 3 );
@@ -167,6 +167,11 @@ class Groups_Cache_Robot {
 		add_action( 'groups_updated_user_capability', array( __CLASS__, 'all' ), 10, 2 );
 		add_action( 'groups_deleted_user_capability', array( __CLASS__, 'all' ), 10, 2 );
 
+		// general options updated
+		add_action( 'groups_updated_option', array( __CLASS__, 'all' ), 10, 2 );
+		add_action( 'groups_deleted_option', array( __CLASS__, 'all' ) );
+		add_action( 'groups_flushed_options', array( __CLASS__, 'all' ), 10, 0 );
+
 		add_action( 'shutdown', array( __CLASS__, 'shutdown' ) );
 	}
 
@@ -188,6 +193,39 @@ class Groups_Cache_Robot {
 	 * @param mixed ...$args
 	 */
 	public static function comment( ...$args ) {
+
+		$apply = false;
+
+		$action = current_action();
+		if ( $action !== false ) {
+			switch ( $action ) {
+				case 'deleted_comment':
+				case 'trashed_comment':
+				case 'untrashed_comment':
+				case 'spammed_comment':
+				case 'unspammed_comment':
+					$apply = self::apply_comment( $args[1] ?? null );
+					break;
+				case 'wp_insert_comment':
+					$apply = self::apply_comment( $args[1] ?? null );
+					if ( $apply ) {
+						$comment = $args[1] ?? null;
+						if ( $comment instanceof WP_Comment ) {
+							if ( !$comment->comment_approved ) {
+								$apply = false;
+							}
+						}
+					}
+					break;
+				case 'transition_comment_status':
+					$apply = self::apply_comment( $args[2] ?? null );
+					break;
+				case 'edit_comment':
+					$apply = self::apply_comment( $args[0] ?? null );
+					break;
+			}
+		}
+
 		/**
 		 * Add comment groups to flush?
 		 *
@@ -204,11 +242,59 @@ class Groups_Cache_Robot {
 	}
 
 	/**
+	 * Apply to comment.
+	 *
+	 * @param WP_Comment|int $comment
+	 *
+	 * @return boolean
+	 */
+	private static function apply_comment( $comment ) {
+		$apply = false;
+		if ( is_numeric( $comment ) ) {
+			$comment = WP_Comment::get_instance( $comment );
+		}
+		if ( $comment instanceof WP_Comment ) {
+			$post_type = get_post_type( $comment->comment_post_ID );
+			if ( $post_type ) {
+				$apply = Groups_Post_Access::handles_post_type( $post_type );
+			}
+		}
+		return $apply;
+	}
+
+	/**
 	 * Schedule post groups to flush.
 	 *
 	 * @param mixed ...$args
 	 */
 	public static function post( ...$args ) {
+
+		$apply = false;
+
+		$action = current_action();
+		if ( $action !== false ) {
+			switch ( $action ) {
+				case 'save_post':
+				case 'deleted_post':
+					$post = $args[1] ?? null;
+					if ( $post instanceof WP_Post ) {
+						if ( Groups_Post_Access::handles_post_type( $post->post_type ) ) {
+							$apply = true;
+						}
+					}
+					break;
+				case 'trashed_post':
+				case 'untrashed_post':
+					$post_type = get_post_type( $args[0] ?? -1 );
+					if ( is_string( $post_type ) ) {
+						if ( Groups_Post_Access::handles_post_type( $post_type ) ) {
+							$apply = true;
+						}
+					}
+					break;
+			}
+		}
+
 		/**
 		 * Add post groups to flush?
 		 *
@@ -218,7 +304,7 @@ class Groups_Cache_Robot {
 		 *
 		 * @return boolean
 		 */
-		$apply = apply_filters( 'groups_cache_robot_flush_post', true, current_action(), $args );
+		$apply = apply_filters( 'groups_cache_robot_flush_post', $apply, current_action(), $args );
 		if ( $apply ) {
 			self::$flush_groups = self::join( self::$flush_groups, self::$post_groups );
 		}
@@ -251,6 +337,27 @@ class Groups_Cache_Robot {
 	 * @param mixed ...$args
 	 */
 	public static function term( ...$args ) {
+
+		$apply = false;
+
+		$action = current_action();
+		if ( $action !== false ) {
+			switch ( $action ) {
+				case 'delete_term':
+					$apply = self::apply_taxonomy( $args[2] ?? '' );
+					break;
+				case 'saved_term':
+					$apply = self::apply_taxonomy( $args[2] ?? '' );
+					break;
+				case 'set_object_terms':
+					$apply = self::apply_taxonomy( $args[3] ?? '' );
+					break;
+				case 'deleted_term_relationships':
+					$apply = self::apply_taxonomy( $args[2] ?? '' );
+					break;
+			}
+		}
+
 		/**
 		 * Add term groups to flush?
 		 *
@@ -260,10 +367,32 @@ class Groups_Cache_Robot {
 		 *
 		 * @return boolean
 		 */
-		$apply = apply_filters( 'groups_cache_robot_flush_term', true, current_action(), $args );
+		$apply = apply_filters( 'groups_cache_robot_flush_term', $apply, current_action(), $args );
 		if ( $apply ) {
 			self::$flush_groups = self::join( self::$flush_groups, self::$term_groups );
 		}
+	}
+
+	/**
+	 * Apply to taxonomy.
+	 *
+	 * @param string $taxonomy
+	 *
+	 * @return boolean
+	 */
+	private static function apply_taxonomy( $taxonomy ) {
+		$apply = false;
+		$taxonomy = get_taxonomy( $taxonomy ?? '' );
+		if ( $taxonomy instanceof WP_Taxonomy ) {
+			$post_types = $taxonomy->object_type ?? array();
+			foreach ( $post_types as $post_type ) {
+				if ( Groups_Post_Access::handles_post_type( $post_type ) ) {
+					$apply = true;
+					break;
+				}
+			}
+		}
+		return $apply;
 	}
 
 	/**

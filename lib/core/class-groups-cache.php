@@ -69,6 +69,15 @@ class Groups_Cache {
 	const USER_CACHE_GROUP = 0x04;
 
 	/**
+	 * Default expiration.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @var int
+	 */
+	const EXPIRES_DEFAULT = 86400;
+
+	/**
 	 * Retrieve an entry from cache.
 	 *
 	 * @param string $key
@@ -78,10 +87,14 @@ class Groups_Cache {
 	 */
 	public static function get( $key, $group = self::CACHE_GROUP ) {
 		$found = null;
+		/**
+		 * @var Groups_Cache_Object|boolean $value
+		 */
 		$value = wp_cache_get( $key, $group, false, $found );
 		if ( !( $value instanceof Groups_Cache_Object ) ) {
 			$value = null;
 		} else {
+			// verify validity (safeguard if cache has not expired entry appropriately)
 			if ( $value->has_expired() ) {
 				wp_cache_delete( $key, $group );
 				$value = null;
@@ -96,7 +109,7 @@ class Groups_Cache {
 	 * @param string $key
 	 * @param string $value
 	 * @param string $group
-	 * @param int|null $expires
+	 * @param int|null $expires default expiration applies if not provided
 	 *
 	 * @return boolean true if successful, otherwise false
 	 */
@@ -117,7 +130,7 @@ class Groups_Cache {
 		if ( is_numeric( $expires ) ) {
 			$expires = max( 0, intval( $expires ) );
 		} else {
-			$expires = null;
+			$expires = self::EXPIRES_DEFAULT;
 		}
 		$object = new Groups_Cache_Object( $key, $value, $expires );
 		if ( $expires === null || $expires === 0 ) {
