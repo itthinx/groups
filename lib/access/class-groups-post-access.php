@@ -557,32 +557,13 @@ class Groups_Post_Access {
 	public static function get_next_post_where( $where, $in_same_term, $excluded_terms, $taxonomy, $post ) {
 		if (
 			!empty( $post ) && // @phpstan-ignore empty.variable
-			self::handles_post_type( $post->post_type )
+			self::handles_post_type( $post->post_type ?? '' )
 		) {
-			$cache_group = self::CACHE_GROUP . '_' . $post->post_type;
-
-			$group_ids = array();
-			$user_id = get_current_user_id();
-			if ( $user_id ) {
-				$groups_user = new Groups_User( $user_id );
-				$group_ids = $groups_user->get_group_ids_deep();
-				if ( is_array( $group_ids ) ) {
-					sort( $group_ids );
-					$cache_group .= '_' . implode( '_', $group_ids );
-				}
-			}
-
-			Groups_Options::lock();
-			// remember the cache group for purging
-			$stored_cache_groups = Groups_Options::get_option( 'eligible_post_ids_cache_groups', array() );
-			if ( !in_array( $cache_group, $stored_cache_groups ) ) {
-				$stored_cache_groups[] = $cache_group;
-				Groups_Options::update_option( 'eligible_post_ids_cache_groups', $stored_cache_groups );
-			}
-			Groups_Options::release();
+			// @since 4.0.0 cached values are purged by Groups_Cache_Robot when flushing the cache group for a post type
+			$cache_group = self::get_post_type_cache_group( $post->post_type );
 
 			$post_ids = array( -1 );
-			$cached = Groups_Cache::get( 'eligible_post_ids', $cache_group );
+			$cached = Groups_Cache::get_ext( 'eligible_post_ids', $cache_group );
 			if ( $cached === null ) {
 				// run it through get_posts with suppress_filters set to false so that our posts_where filter is applied and assures only accessible posts are seen
 				$post_ids = get_posts( array( 'post_type' => $post->post_type, 'numberposts' => -1, 'suppress_filters' => false, 'fields' => 'ids' ) );
@@ -593,7 +574,7 @@ class Groups_Post_Access {
 				} else {
 					$post_ids = array( -1 );
 				}
-				Groups_Cache::set( 'eligible_post_ids', $post_ids, $cache_group );
+				Groups_Cache::set_ext( 'eligible_post_ids', $post_ids, $cache_group );
 			} else {
 				$post_ids = $cached->get_value();
 			}
@@ -622,7 +603,6 @@ class Groups_Post_Access {
 		} else {
 			$post_type = get_post_type( $post_id );
 			if ( self::handles_post_type( $post_type ) ) {
-				self::purge_eligible_post_ids_cached( $post_type );
 			}
 		}
 	}
@@ -650,34 +630,6 @@ class Groups_Post_Access {
 			}
 		}
 		return $post;
-	}
-
-	/**
-	 * Deletes all stored eligible post IDs cached for the given post type, or all post types (by default).
-	 *
-	 * @since 2.17.0
-	 *
-	 * @param string|null $post_type
-	 */
-	public static function purge_eligible_post_ids_cached( $post_type = null ) {
-		$changed = false;
-		Groups_Options::lock();
-		$stored_cache_groups = Groups_Options::get_option( 'eligible_post_ids_cache_groups', array() );
-		foreach ( $stored_cache_groups as $cache_group ) {
-			if ( $post_type === null || strpos( $cache_group, $post_type ) !== false ) {
-				Groups_Cache::delete( 'eligible_post_ids' , $cache_group );
-				$stored_cache_groups = array_diff( $stored_cache_groups, array( $cache_group ) );
-				$changed = true;
-			}
-		}
-		if ( $changed ) {
-			if ( count( $stored_cache_groups ) > 0 ) {
-				Groups_Options::update_option( 'eligible_post_ids_cache_groups', $stored_cache_groups );
-			} else {
-				Groups_Options::delete_option( 'eligible_post_ids_cache_groups' );
-			}
-		}
-		Groups_Options::release();
 	}
 
 	/**
@@ -947,8 +899,6 @@ class Groups_Post_Access {
 	 * independent of the post type, we will come here for any post status, so don't be surprised
 	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
 	 *
-	 * Counts in cache are purged by Groups_Cache_Robot when flushing the cache group for a post type.
-	 *
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
@@ -959,6 +909,7 @@ class Groups_Post_Access {
 		// @since 3.3.1 remove temporarily to avoid potential infinite recursion https://github.com/itthinx/groups/pull/160
 		remove_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10 );
 		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
+			// @since 4.0.0 counts in cache are purged by Groups_Cache_Robot when flushing the cache group for a post type
 			$cache_group = self::get_post_type_cache_group( $type );
 			$cached = Groups_Cache::get_ext( 'count_posts', $cache_group );
 			if ( $cached !== null ) {

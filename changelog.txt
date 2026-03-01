@@ -37,6 +37,7 @@
 * Dev - Added the groups_lock_sleep filter.
 * Update - Made more resilient to dumb caches that do not invalidate updated options.
 * Dev - Revised cache procedure for post counts.
+* Dev - Revised cache procedure for eligible posts on previous/next.
 * Dev - Added support for the GROUPS_CACHE_DEBUG constant to enable cache-related debug logging.
 * Dev - Added support for the GROUPS_DEBUG constant.
 * Update - Added the log API.
