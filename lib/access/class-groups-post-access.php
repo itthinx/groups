@@ -73,11 +73,6 @@ class Groups_Post_Access {
 	const POST_TYPES = 'post_types';
 
 	/**
-	 * @var string
-	 */
-	const COUNT_POSTS = 'count-posts';
-
-	/**
 	 * @since 2.20.0
 	 *
 	 * @var \WP_Block block for which to filter
@@ -628,7 +623,6 @@ class Groups_Post_Access {
 			$post_type = get_post_type( $post_id );
 			if ( self::handles_post_type( $post_type ) ) {
 				self::purge_eligible_post_ids_cached( $post_type );
-				self::purge_count_posts_cached( $post_type );
 			}
 		}
 	}
@@ -953,30 +947,22 @@ class Groups_Post_Access {
 	 * independent of the post type, we will come here for any post status, so don't be surprised
 	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
 	 *
-	 * Counts in cache are purged when posts are saved using the purge_count_posts_cached() method.
+	 * Counts in cache are purged by Groups_Cache_Robot when flushing the cache group for a post type.
 	 *
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
 	 *
 	 * @return object
-	 *
-	 * @see Groups_Post_Access::purge_count_posts_cached()
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
 		// @since 3.3.1 remove temporarily to avoid potential infinite recursion https://github.com/itthinx/groups/pull/160
 		remove_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10 );
 		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
-			$sub_group = Groups_Cache::get_group( '' );
-			// @since 2.20.0 cached per post type gathering counts per subgroup
-			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP ); // @todo uni or simple key
-			if ( $cached === null ) {
-				$type_counts = array();
-			} else {
-				$type_counts = $cached->get_value();
-			}
-			if ( isset( $type_counts[$sub_group] ) ) {
-				$counts = $type_counts[$sub_group];
+			$cache_group = self::get_post_type_cache_group( $type );
+			$cached = Groups_Cache::get_ext( 'count_posts', $cache_group );
+			if ( $cached !== null ) {
+				$counts = $cached->get_value();
 			} else {
 				foreach ( $counts as $post_status => $count ) {
 					$query_args = array(
@@ -1011,34 +997,12 @@ class Groups_Post_Access {
 					unset( $posts );
 					$counts->$post_status = $count;
 				}
-				$type_counts[$sub_group] = $counts;
-				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP ); // @todo uni or simple key
+				Groups_Cache::set_ext( 'count_posts', $counts, $cache_group );
 			}
 		}
-
-		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 ); // @since 3.3.1 reestablish filter for next use
+		// @since 3.3.1 reestablish filter for next use
+		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 );
 		return $counts;
-	}
-
-	/**
-	 * Purge the cached post counts for the post type.
-	 *
-	 * @param string $type post type
-	 *
-	 * @since 2.20.0
-	 *
-	 * @see Groups_Post_Access::wp_count_posts()
-	 */
-	private static function purge_count_posts_cached( $type ) {
-		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
-			$hyper_group = Groups_Cache::get_group( '' );
-			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP ); // @todo uni or simple key
-			if ( $cached !== null ) {
-				$type_counts = $cached->get_value();
-				unset( $type_counts[$hyper_group] );
-				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP ); // @todo uni or simple key
-			}
-		}
 	}
 
 	/**
@@ -1077,11 +1041,11 @@ class Groups_Post_Access {
 		$post_types_option = Groups_Options::get_option( self::POST_TYPES, array() );
 		$post_types = get_post_types( array(), 'objects' );
 		foreach ( $post_types as $post_type => $object ) {
-			$public              = isset( $object->public ) ? $object->public : false;
-			$exclude_from_search = isset( $object->exclude_from_search ) ? $object->exclude_from_search : false;
-			$publicly_queryable  = isset( $object->publicly_queryable ) ? $object->publicly_queryable : false;
-			$show_ui             = isset( $object->show_ui ) ? $object->show_ui : false;
-			$show_in_nav_menus   = isset( $object->show_in_nav_menus ) ? $object->show_in_nav_menus : false;
+			$public = isset( $object->public ) ? $object->public : false;
+			// $exclude_from_search = isset( $object->exclude_from_search ) ? $object->exclude_from_search : false;
+			// $publicly_queryable  = isset( $object->publicly_queryable ) ? $object->publicly_queryable : false;
+			// $show_ui             = isset( $object->show_ui ) ? $object->show_ui : false;
+			// $show_in_nav_menus   = isset( $object->show_in_nav_menus ) ? $object->show_in_nav_menus : false;
 
 			// by default, handle any post type whose public attribute is true
 			$managed =
@@ -1397,6 +1361,26 @@ class Groups_Post_Access {
 		self::$filter_get_terms_widget = null;
 
 		return $terms;
+	}
+
+	/**
+	 * Cache group for post type.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string|WP_Post_Type $post_type
+	 *
+	 * @return string
+	 */
+	public static function get_post_type_cache_group( $post_type ) {
+		if ( $post_type instanceof WP_Post_Type ) {
+			$post_type = $post_type->name;
+		}
+		$post_type = is_string( $post_type ) ? trim( sanitize_key( $post_type ) ) : 'void';
+		if ( strlen( $post_type ) === 0 ) {
+			$post_type = 'void';
+		}
+		return self::CACHE_GROUP . '_pt_' . $post_type;
 	}
 }
 Groups_Post_Access::init();

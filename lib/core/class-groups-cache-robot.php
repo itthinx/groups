@@ -54,6 +54,11 @@ class Groups_Cache_Robot {
 	private static $flush_groups = array();
 
 	/**
+	 * @var boolean
+	 */
+	private static $debug = false;
+
+	/**
 	 * Register groups and actions.
 	 */
 	public static function init() {
@@ -63,6 +68,10 @@ class Groups_Cache_Robot {
 		//   in flush scheduled will only cause a single group flush to be processed
 		//   during shutdown.
 		// * If group flush is not supported, full cache is flushed.
+
+		if ( defined( 'GROUPS_CACHE_DEBUG' ) && GROUPS_CACHE_DEBUG ) {
+			self::$debug = true;
+		}
 
 		if ( class_exists( 'Groups_Post_Access_Legacy' ) ) {
 			self::$post_groups[] = Groups_Post_Access_Legacy::CACHE_GROUP;
@@ -270,16 +279,29 @@ class Groups_Cache_Robot {
 	public static function post( ...$args ) {
 
 		$apply = false;
+		$post_type = null;
 
 		$action = current_action();
 		if ( $action !== false ) {
 			switch ( $action ) {
 				case 'save_post':
+					$post = $args[1] ?? null;
+					if ( $post instanceof WP_Post ) {
+						if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || wp_is_post_revision( $post ) || wp_is_post_autosave( $post ) ) ) {
+						} else {
+							if ( Groups_Post_Access::handles_post_type( $post->post_type ) ) {
+								$apply = true;
+								$post_type = $post->post_type;
+							}
+						}
+					}
+					break;
 				case 'deleted_post':
 					$post = $args[1] ?? null;
 					if ( $post instanceof WP_Post ) {
 						if ( Groups_Post_Access::handles_post_type( $post->post_type ) ) {
 							$apply = true;
+							$post_type = $post->post_type;
 						}
 					}
 					break;
@@ -307,6 +329,9 @@ class Groups_Cache_Robot {
 		$apply = apply_filters( 'groups_cache_robot_flush_post', $apply, current_action(), $args );
 		if ( $apply ) {
 			self::$flush_groups = self::join( self::$flush_groups, self::$post_groups );
+			if ( $post_type !== null ) {
+				self::$flush_groups[] = Groups_Post_Access::get_post_type_cache_group( $post_type );
+			}
 		}
 	}
 
@@ -414,6 +439,13 @@ class Groups_Cache_Robot {
 			self::$flush_groups = self::join( self::$flush_groups, self::$post_groups );
 			self::$flush_groups = self::join( self::$flush_groups, self::$user_groups );
 			self::$flush_groups = self::join( self::$flush_groups, self::$term_groups );
+
+			$post_types = Groups_Post_Access::get_handles_post_types();
+			foreach ( $post_types as $post_type => $handles ) {
+				if ( $handles ) {
+					self::$flush_groups[] = Groups_Post_Access::get_post_type_cache_group( $post_type );
+				}
+			}
 		}
 	}
 
@@ -436,12 +468,29 @@ class Groups_Cache_Robot {
 			) {
 				foreach( self::$flush_groups as $group ) {
 					if ( is_string( $group ) ) {
-						wp_cache_flush_group( $group );
+						$flushed = wp_cache_flush_group( $group );
+						if ( self::$debug ) {
+							Groups_Log::log(
+								sprintf(
+									'Cache flush [%4s] [%s]',
+									$flushed ? 'ok' : 'fail',
+									json_encode( $group )
+								)
+							);
+						}
 					}
 				}
 			} else {
 				if ( function_exists( 'wp_cache_flush' ) ) {
-					wp_cache_flush();
+					$flushed = wp_cache_flush();
+					if ( self::$debug ) {
+						Groups_Log::log(
+							sprintf(
+								'Cache flush [%4s]',
+								$flushed ? 'ok' : 'fail'
+							)
+						);
+					}
 				}
 			}
 			self::$flush_groups = array();

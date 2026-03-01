@@ -45,6 +45,8 @@ if ( !function_exists( 'is_user_member_of_blog' ) ) {
  * Load core :
  */
 
+require_once GROUPS_VIEWS_LIB . '/class-groups-log.php';
+
 require_once GROUPS_CORE_LIB . '/class-groups-lock.php';
 require_once GROUPS_CORE_LIB . '/class-groups-lock-exception.php';
 

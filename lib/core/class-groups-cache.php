@@ -78,6 +78,36 @@ class Groups_Cache {
 	const EXPIRES_DEFAULT = 86400;
 
 	/**
+	 * @since 4.0.0
+	 *
+	 * @var boolean
+	 */
+	private static $debug = false;
+
+	/**
+	 * @since 4.0.0
+	 *
+	 * @var int
+	 */
+	private static $hit = 0;
+
+	/**
+	 * @since 4.0.0
+	 *
+	 * @var integer
+	 */
+	private static $count = 0;
+
+	/**
+	 * Initialize.
+	 */
+	public static function init() {
+		if ( defined( 'GROUPS_CACHE_DEBUG' ) && GROUPS_CACHE_DEBUG ) {
+			self::$debug = true;
+		}
+	}
+
+	/**
 	 * Retrieve an entry from cache.
 	 *
 	 * @param string $key
@@ -86,6 +116,8 @@ class Groups_Cache {
 	 * @return Groups_Cache_Object|null returns a cache object on hit, null on cache miss
 	 */
 	public static function get( $key, $group = self::CACHE_GROUP ) {
+		self::$count++;
+		$hit = false;
 		$found = null;
 		/**
 		 * @var Groups_Cache_Object|boolean $value
@@ -98,9 +130,39 @@ class Groups_Cache {
 			if ( $value->has_expired() ) {
 				wp_cache_delete( $key, $group );
 				$value = null;
+			} else {
+				self::$hit++;
+				$hit = true;
 			}
 		}
+		if ( self::$debug ) {
+			$ratio = self::$hit / self::$count;
+			Groups_Log::log(
+				sprintf(
+					'Cache get [%4s] [%s|%s] [%.2f]',
+					$hit ? 'hit' : 'miss',
+					json_encode( $key ),
+					json_encode( $group ),
+					$ratio
+				)
+			);
+		}
 		return $value;
+	}
+
+	/**
+	 * Retrieve an entry from cache, extended key.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $key
+	 * @param string $group
+	 *
+	 * @return Groups_Cache_Object|NULL
+	 */
+	public static function get_ext( $key, $group = self::CACHE_GROUP ) {
+		$key = self::extend_key( $key );
+		return self::get( $key, $group );
 	}
 
 	/**
@@ -146,7 +208,34 @@ class Groups_Cache {
 			$expires = apply_filters( 'groups_cache_set_expires_indefinite', PHP_INT_MAX );
 			$expires = is_numeric( $expires ) ? max( 0, intval( $expires ) ) : PHP_INT_MAX;
 		}
-		return wp_cache_set( $key, $object, $group, $expires );
+
+		$set = wp_cache_set( $key, $object, $group, $expires );
+		if ( self::$debug ) {
+			Groups_Log::log(
+				sprintf(
+					'Cache set [%4s] [%s|%s]',
+					$set ? 'ok' : 'fail',
+					json_encode( $key ),
+					json_encode( $group )
+				)
+			);
+		}
+		return $set;
+	}
+
+	/**
+	 * Store an entry in cache, extended key.
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @param string $group
+	 * @param int|null $expires default expiration applies if not provided
+	 *
+	 * @return boolean true if successful, otherwise false
+	 */
+	public static function set_ext( $key, $value, $group = self::CACHE_GROUP, $expires = null ) {
+		$key = self::extend_key( $key );
+		return self::set( $key, $value, $group, $expires );
 	}
 
 	/**
@@ -158,6 +247,30 @@ class Groups_Cache {
 	 * @return boolean true if successful, otherwise false
 	 */
 	public static function delete( $key, $group = self::CACHE_GROUP ) {
+		$delete = wp_cache_delete( $key, $group );
+		if ( self::$debug ) {
+			Groups_Log::log(
+				sprintf(
+					'Cache del [%4s] [%s|%s]',
+					$delete ? 'ok' : 'fail',
+					json_encode( $key ),
+					json_encode( $group )
+				)
+			);
+		}
+		return $delete;
+	}
+
+	/**
+	 * Delete a cache entry, extended key.
+	 *
+	 * @param string $key
+	 * @param string $group
+	 *
+	 * @return boolean true if successful, otherwise false
+	 */
+	public static function delete_ext( $key, $group = self::CACHE_GROUP ) {
+		$key = self::extend_key( $key );
 		return wp_cache_delete( $key, $group );
 	}
 
@@ -221,19 +334,19 @@ class Groups_Cache {
 		}
 
 		/**
-		 * Additional specialization if needed by third-party extensions.
+		 * Apply suffix to extended group.
 		 *
 		 * @param string $suffix
 		 * @param string $group
 		 * @param int $flags
 		 *
-		 * @var string $group_suffix
+		 * @return string
 		 */
 		$group_suffix = apply_filters( 'groups_cache_group_suffix', '', $group, $flags );
 		if ( !is_string( $group_suffix ) ) {
 			$group_suffix = '';
 		} else {
-			$group_suffix = trim( $group_suffix );
+			$group_suffix = trim( sanitize_key( $group_suffix ) );
 		}
 		if ( strlen( $group_suffix ) > 0 ) {
 			$group = $group . '_' . $group_suffix;
@@ -241,4 +354,86 @@ class Groups_Cache {
 
 		return $group;
 	}
+
+	/**
+	 * Provide a specialized (groups-roles-user-based) version of the $key.
+	 *
+	 * The $flags parameter is self::GROUPS_CACHE_GROUP | self::ROLES_CACHE_GROUP by default,
+	 * meaning a user's groups and roles are used to specialize the $key.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $key group key
+	 * @param int $flags determines what to take into account, null uses groups and roles by default
+	 *
+	 * @return string
+	 */
+	public static function extend_key( $key, $flags = null ) {
+		if ( $flags === null ) {
+			$flags = self::GROUPS_CACHE_GROUP | self::ROLES_CACHE_GROUP;
+		}
+
+		$group_ids = array();
+		$roles = array();
+		$user_id = null;
+
+		if ( function_exists( 'wp_get_current_user' ) ) {
+			$user = wp_get_current_user();
+			if ( $user->exists() ) {
+				if ( $flags & self::GROUPS_CACHE_GROUP ) {
+					if ( is_array( $user->roles ) ) {
+						$roles = $user->roles;
+						sort( $roles );
+					}
+				}
+				if ( $flags & self::ROLES_CACHE_GROUP ) {
+					if ( class_exists( '\Groups_User' ) ) {
+						$groups_user = new \Groups_User( $user->ID );
+						$group_ids = $groups_user->get_group_ids_deep();
+						$group_ids = array_map( 'intval', $group_ids );
+						sort( $group_ids, SORT_NUMERIC );
+					}
+				}
+				if ( $flags & self::USER_CACHE_GROUP ) {
+					$user_id = $user->ID;
+				}
+			}
+		}
+
+		if ( count( $roles ) > 0 ) {
+			$key .= '_';
+			$key .= implode( '_', $roles );
+		}
+		if ( count( $group_ids ) > 0 ) {
+			$key .= '_';
+			$key .= implode( '_', $group_ids );
+		}
+		if ( $user_id !== null ) {
+			$key .= '_';
+			$key .= $user_id;
+		}
+
+		/**
+		 * Apply suffix to extended key.
+		 *
+		 * @param string $suffix
+		 * @param string $key
+		 * @param int $flags
+		 *
+		 * @return string
+		 */
+		$suffix = apply_filters( 'groups_cache_extend_key_suffix', '', $key, $flags );
+		if ( !is_string( $suffix ) ) {
+			$suffix = '';
+		} else {
+			$suffix = trim( sanitize_key( $suffix ) );
+		}
+		if ( strlen( $suffix ) > 0 ) {
+			$key = $key . '_' . $suffix;
+		}
+
+		return $key;
+	}
 }
+
+Groups_Cache::init();
