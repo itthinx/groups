@@ -247,6 +247,15 @@ class Groups_Cache_Robot {
 		$apply = apply_filters( 'groups_cache_robot_flush_comment', true, current_action(), $args );
 		if ( $apply ) {
 			self::$flush_groups = self::join( self::$flush_groups, self::$comment_groups );
+			if ( self::$debug ) {
+				Groups_Log::log(
+					sprintf(
+						'Cache flush+ [comment] [%s] %s',
+						current_action() ?? 'no action',
+						json_encode( self::$flush_groups )
+					)
+				);
+			}
 		}
 	}
 
@@ -287,7 +296,7 @@ class Groups_Cache_Robot {
 				case 'save_post':
 					$post = $args[1] ?? null;
 					if ( $post instanceof WP_Post ) {
-						if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || wp_is_post_revision( $post ) || wp_is_post_autosave( $post ) ) ) {
+						if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || wp_is_post_revision( $post ) || wp_is_post_autosave( $post ) || $post->post_status === 'auto-draft' ) {
 						} else {
 							if ( Groups_Post_Access::handles_post_type( $post->post_type ) ) {
 								$apply = true;
@@ -331,6 +340,15 @@ class Groups_Cache_Robot {
 			self::$flush_groups = self::join( self::$flush_groups, self::$post_groups );
 			if ( $post_type !== null ) {
 				self::$flush_groups[] = Groups_Post_Access::get_post_type_cache_group( $post_type );
+				if ( self::$debug ) {
+					Groups_Log::log(
+						sprintf(
+							'Cache flush+ [post] [%s] %s',
+							current_action() ?? 'no action',
+							json_encode( self::$flush_groups )
+						)
+					);
+				}
 			}
 		}
 	}
@@ -353,6 +371,15 @@ class Groups_Cache_Robot {
 		$apply = apply_filters( 'groups_cache_robot_flush_user', true, current_action(), $args );
 		if ( $apply ) {
 			self::$flush_groups = self::join( self::$flush_groups, self::$user_groups );
+			if ( self::$debug ) {
+				Groups_Log::log(
+					sprintf(
+						'Cache flush+ [user] [%s] %s',
+						current_action() ?? 'no action',
+						json_encode( self::$flush_groups )
+					)
+				);
+			}
 		}
 	}
 
@@ -395,6 +422,15 @@ class Groups_Cache_Robot {
 		$apply = apply_filters( 'groups_cache_robot_flush_term', $apply, current_action(), $args );
 		if ( $apply ) {
 			self::$flush_groups = self::join( self::$flush_groups, self::$term_groups );
+			if ( self::$debug ) {
+				Groups_Log::log(
+					sprintf(
+						'Cache flush+ [term] [%s] %s',
+						current_action() ?? 'no action',
+						json_encode( self::$flush_groups )
+					)
+				);
+			}
 		}
 	}
 
@@ -444,6 +480,15 @@ class Groups_Cache_Robot {
 			foreach ( $post_types as $post_type => $handles ) {
 				if ( $handles ) {
 					self::$flush_groups[] = Groups_Post_Access::get_post_type_cache_group( $post_type );
+					if ( self::$debug ) {
+						Groups_Log::log(
+							sprintf(
+								'Cache flush+ [all] [%s] %s',
+								current_action() ?? 'no action',
+								json_encode( self::$flush_groups )
+							)
+						);
+					}
 				}
 			}
 		}
