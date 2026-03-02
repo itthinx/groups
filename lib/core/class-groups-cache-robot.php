@@ -407,7 +407,7 @@ class Groups_Cache_Robot {
 	 */
 	private static function apply_taxonomy( $taxonomy ) {
 		$apply = false;
-		$taxonomy = get_taxonomy( $taxonomy ?? '' );
+		$taxonomy = get_taxonomy( $taxonomy ?? '' ); // @phpstan:ignore nullCoalesce.variable
 		if ( $taxonomy instanceof WP_Taxonomy ) {
 			$post_types = $taxonomy->object_type ?? array();
 			foreach ( $post_types as $post_type ) {
