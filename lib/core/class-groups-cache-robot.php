@@ -402,7 +402,16 @@ class Groups_Cache_Robot {
 					$apply = self::apply_taxonomy( $args[2] ?? '' );
 					break;
 				case 'set_object_terms':
-					$apply = self::apply_taxonomy( $args[3] ?? '' );
+					if ( self::apply_taxonomy( $args[3] ?? '' ) ) {
+						$post_id = $args[0] ?? null;
+						if ( $post_id !== null ) {
+							$post_status = get_post_status( $post_id );
+							if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) || $post_status === 'auto-draft' ) {
+							} else {
+								$apply = true;
+							}
+						}
+					}
 					break;
 				case 'deleted_term_relationships':
 					$apply = self::apply_taxonomy( $args[2] ?? '' );

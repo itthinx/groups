@@ -139,11 +139,11 @@ class Groups_Cache {
 			$ratio = self::$hit / self::$count;
 			Groups_Log::log(
 				sprintf(
-					'Cache get [%4s] [%s|%s] [%.2f]',
+					'Cache get [%4s] [%s|%s] [%6.2f%%]',
 					$hit ? 'hit' : 'miss',
 					json_encode( $key ),
 					json_encode( $group ),
-					$ratio
+					$ratio * 100.0
 				)
 			);
 		}
