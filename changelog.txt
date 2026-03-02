@@ -1,6 +1,6 @@
 == Groups by itthinx - changelog.txt
 
-2026-02-28 - version 4.0.0
+2026-03-02 - version 4.0.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.5 compatible.
 * Fix - Fixes a fatal error due to missing resources when users with limited privileges access the dashboard sections related to Groups.
