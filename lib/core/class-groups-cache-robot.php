@@ -92,42 +92,6 @@ class Groups_Cache_Robot {
 
 		self::$user_groups[] = Groups_WordPress::CACHE_GROUP;
 
-		/**
-		 * Filter comment groups.
-		 *
-		 * @param string[] $groups
-		 *
-		 * @return string[]
-		 */
-		self::$comment_groups = apply_filters( 'groups_cache_robot_comment_groups', self::$comment_groups );
-
-		/**
-		 * Filter post groups.
-		 *
-		 * @param string[] $groups
-		 *
-		 * @return string[]
-		 */
-		self::$post_groups = apply_filters( 'groups_cache_robot_post_groups', self::$post_groups );
-
-		/**
-		 * Filter term groups.
-		 *
-		 * @param string[] $groups
-		 *
-		 * @return string[]
-		 */
-		self::$term_groups = apply_filters( 'groups_cache_robot_term_groups', self::$term_groups );
-
-		/**
-		 * Filter user groups.
-		 *
-		 * @param string[] $groups
-		 *
-		 * @return string[]
-		 */
-		self::$user_groups = apply_filters( 'groups_cache_robot_user_groups', self::$user_groups );
-
 		// comments
 		add_action( 'deleted_comment', array( __CLASS__, 'comment' ), 10, 2 );
 		add_action( 'trashed_comment', array( __CLASS__, 'comment' ), 10, 2 );
@@ -182,6 +146,70 @@ class Groups_Cache_Robot {
 		add_action( 'groups_flushed_options', array( __CLASS__, 'all' ), 10, 0 );
 
 		add_action( 'shutdown', array( __CLASS__, 'shutdown' ) );
+	}
+
+	/**
+	 * Comment groups.
+	 *
+	 * @return string[]
+	 */
+	private static function get_comment_groups() {
+		/**
+		 * Filter comment groups.
+		 *
+		 * @param string[] $groups
+		 *
+		 * @return string[]
+		 */
+		return apply_filters( 'groups_cache_robot_comment_groups', self::$comment_groups );
+	}
+
+	/**
+	 * Post groups.
+	 *
+	 * @return string[]
+	 */
+	private static function get_post_groups() {
+		/**
+		 * Filter post groups.
+		 *
+		 * @param string[] $groups
+		 *
+		 * @return string[]
+		 */
+		return apply_filters( 'groups_cache_robot_post_groups', self::$post_groups );
+	}
+
+	/**
+	 * Term groups.
+	 *
+	 * @return string[]
+	 */
+	private static function get_term_groups() {
+		/**
+		 * Filter term groups.
+		 *
+		 * @param string[] $groups
+		 *
+		 * @return string[]
+		 */
+		return apply_filters( 'groups_cache_robot_term_groups', self::$term_groups );
+	}
+
+	/**
+	 * User groups.
+	 *
+	 * @return string[]
+	 */
+	private static function get_user_groups() {
+		/**
+		 * Filter user groups.
+		 *
+		 * @param string[] $groups
+		 *
+		 * @return string[]
+		 */
+		return apply_filters( 'groups_cache_robot_user_groups', self::$user_groups );
 	}
 
 	/**
@@ -246,7 +274,7 @@ class Groups_Cache_Robot {
 		 */
 		$apply = apply_filters( 'groups_cache_robot_flush_comment', true, current_action(), $args );
 		if ( $apply ) {
-			self::$flush_groups = self::join( self::$flush_groups, self::$comment_groups );
+			self::$flush_groups = self::join( self::$flush_groups, self::get_comment_groups() );
 			if ( self::$debug ) {
 				Groups_Log::log(
 					sprintf(
@@ -337,7 +365,7 @@ class Groups_Cache_Robot {
 		 */
 		$apply = apply_filters( 'groups_cache_robot_flush_post', $apply, current_action(), $args );
 		if ( $apply ) {
-			self::$flush_groups = self::join( self::$flush_groups, self::$post_groups );
+			self::$flush_groups = self::join( self::$flush_groups, self::get_post_groups() );
 			if ( $post_type !== null ) {
 				self::$flush_groups[] = Groups_Post_Access::get_post_type_cache_group( $post_type );
 				if ( self::$debug ) {
@@ -370,7 +398,7 @@ class Groups_Cache_Robot {
 		 */
 		$apply = apply_filters( 'groups_cache_robot_flush_user', true, current_action(), $args );
 		if ( $apply ) {
-			self::$flush_groups = self::join( self::$flush_groups, self::$user_groups );
+			self::$flush_groups = self::join( self::$flush_groups, self::get_user_groups() );
 			if ( self::$debug ) {
 				Groups_Log::log(
 					sprintf(
@@ -430,7 +458,7 @@ class Groups_Cache_Robot {
 		 */
 		$apply = apply_filters( 'groups_cache_robot_flush_term', $apply, current_action(), $args );
 		if ( $apply ) {
-			self::$flush_groups = self::join( self::$flush_groups, self::$term_groups );
+			self::$flush_groups = self::join( self::$flush_groups, self::get_term_groups() );
 			if ( self::$debug ) {
 				Groups_Log::log(
 					sprintf(
@@ -480,10 +508,10 @@ class Groups_Cache_Robot {
 		 */
 		$apply = apply_filters( 'groups_cache_robot_flush_all', true, current_action(), $args );
 		if ( $apply ) {
-			self::$flush_groups = self::join( self::$flush_groups, self::$comment_groups );
-			self::$flush_groups = self::join( self::$flush_groups, self::$post_groups );
-			self::$flush_groups = self::join( self::$flush_groups, self::$user_groups );
-			self::$flush_groups = self::join( self::$flush_groups, self::$term_groups );
+			self::$flush_groups = self::join( self::$flush_groups, self::get_comment_groups() );
+			self::$flush_groups = self::join( self::$flush_groups, self::get_post_groups() );
+			self::$flush_groups = self::join( self::$flush_groups, self::get_user_groups() );
+			self::$flush_groups = self::join( self::$flush_groups, self::get_term_groups() );
 
 			$post_types = Groups_Post_Access::get_handles_post_types();
 			foreach ( $post_types as $post_type => $handles ) {
