@@ -41,6 +41,7 @@
 * Dev - Added support for the GROUPS_CACHE_DEBUG constant to enable cache-related debug logging.
 * Dev - Added support for the GROUPS_DEBUG constant.
 * Update - Added the log API.
+* Dev - Revised logic for switch_to_blog and restore_current_blog.
 
 2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.
