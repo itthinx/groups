@@ -27,6 +27,28 @@
 .selectize-dropdown.capability .selectize-dropdown-content .option {
 	text-align: initial;
 }
-.select-read-groups-container .selectize-control.groups-read div.selectize-input {
+div.select-read-groups-container .selectize-control.groups-read div.selectize-input {
 	box-sizing: border-box;
+}
+
+div.select-read-groups-container {
+	box-sizing: border-box;
+}
+
+.groups-ts-wrapper {
+	width: 95%;
+}
+.groups-ts-wrapper .groups-ts-control > input {
+	width: auto;
+	height: auto;
+}
+
+.groups-ts-wrapper.has-items .groups-ts-control > input::placeholder {
+	opacity: 0.84;
+}
+
+.groups-ts-wrapper.has-items .groups-ts-control:hover > input::placeholder,
+.groups-ts-wrapper.has-items .groups-ts-control > input:focus::placeholder,
+.groups-ts-wrapper.has-items .groups-ts-control > input:hover::placeholder {
+	opacity: 1.0;
 }

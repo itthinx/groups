@@ -137,3 +137,21 @@ define( 'GROUPS_LEGACY_ENABLE', 'groups-legacy-enable' );
  * @var boolean GROUPS_LEGACY_ENABLE_DEFAULT
  */
 define( 'GROUPS_LEGACY_ENABLE_DEFAULT', false );
+
+if ( !defined( 'GROUPS_DEBUG' ) ) {
+	/**
+	 * @since 4.0.0
+	 *
+	 * @var boolean
+	 */
+	define( 'GROUPS_DEBUG', false );
+}
+
+if ( !defined( 'GROUPS_CACHE_DEBUG' ) ) {
+	/**
+	 * @since 4.0.0
+	 *
+	 * @var boolean
+	 */
+	define( 'GROUPS_CACHE_DEBUG', false );
+}

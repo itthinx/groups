@@ -73,11 +73,6 @@ class Groups_Post_Access {
 	const POST_TYPES = 'post_types';
 
 	/**
-	 * @var string
-	 */
-	const COUNT_POSTS = 'count-posts';
-
-	/**
 	 * @since 2.20.0
 	 *
 	 * @var \WP_Block block for which to filter
@@ -201,6 +196,10 @@ class Groups_Post_Access {
 	 * @return array
 	 */
 	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
+		// get user object before removing filter
+		$user = function_exists( 'get_current_user_id' ) ? new Groups_User( get_current_user_id() ) : null;
+		// @since 4.0.0 avoid potential infinite recursion
+		remove_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10 );
 		if ( isset( $args[0] ) ) {
 			if ( strpos( $cap, 'edit_' ) === 0 || strpos( $cap, 'delete_' ) === 0 ) {
 				if ( $post_type = get_post_type( $args[0] ) ) {
@@ -220,7 +219,12 @@ class Groups_Post_Access {
 						}
 					}
 
-					if ( $cap === $edit_post_type || $cap === $delete_post_type ) {
+					if (
+						$cap === $edit_post_type ||
+						$cap === $delete_post_type ||
+						$cap === 'edit_post' ||
+						$cap === 'delete_post'
+					) {
 						$post_id = null;
 						if ( is_numeric( $args[0] ) ) {
 							$post_id = $args[0];
@@ -230,12 +234,25 @@ class Groups_Post_Access {
 						if ( $post_id ) {
 							if ( !self::user_can_read_post( $post_id, $user_id ) ) {
 								$caps[] = 'do_not_allow';
+							} else {
+								// post with access restrictions requires user to have access restriction rights
+								if ( $post_type = get_post_type( $post_id ) ) {
+									if ( self::handles_post_type( $post_type ) ) {
+										$group_ids = self::get_read_group_ids( $post_id );
+										if ( !empty( $group_ids ) ) {
+											if ( $user === null || !$user->can( GROUPS_RESTRICT_ACCESS ) ) {
+												$caps[] = 'do_not_allow';
+											}
+										}
+									}
+								}
 							}
 						}
 					}
 				}
 			}
 		}
+		add_filter( 'map_meta_cap', array( __CLASS__, 'map_meta_cap' ), 10, 4 );
 		return $caps;
 	}
 
@@ -540,30 +557,13 @@ class Groups_Post_Access {
 	public static function get_next_post_where( $where, $in_same_term, $excluded_terms, $taxonomy, $post ) {
 		if (
 			!empty( $post ) && // @phpstan-ignore empty.variable
-			self::handles_post_type( $post->post_type )
+			self::handles_post_type( $post->post_type ?? '' )
 		) {
-			$cache_group = self::CACHE_GROUP . '_' . $post->post_type;
-
-			$group_ids = array();
-			$user_id = get_current_user_id();
-			if ( $user_id ) {
-				$groups_user = new Groups_User( $user_id );
-				$group_ids = $groups_user->get_group_ids_deep();
-				if ( is_array( $group_ids ) ) {
-					sort( $group_ids );
-					$cache_group .= '_' . implode( '_', $group_ids );
-				}
-			}
-
-			// remember the cache group for purging
-			$stored_cache_groups = Groups_Options::get_option( 'eligible_post_ids_cache_groups', array() );
-			if ( !in_array( $cache_group, $stored_cache_groups ) ) {
-				$stored_cache_groups[] = $cache_group;
-				Groups_Options::update_option( 'eligible_post_ids_cache_groups', $stored_cache_groups );
-			}
+			// @since 4.0.0 cached values are purged by Groups_Cache_Robot when flushing the cache group for a post type
+			$cache_group = self::get_post_type_cache_group( $post->post_type );
 
 			$post_ids = array( -1 );
-			$cached = Groups_Cache::get( 'eligible_post_ids', $cache_group );
+			$cached = Groups_Cache::get_ext( 'eligible_post_ids', $cache_group );
 			if ( $cached === null ) {
 				// run it through get_posts with suppress_filters set to false so that our posts_where filter is applied and assures only accessible posts are seen
 				$post_ids = get_posts( array( 'post_type' => $post->post_type, 'numberposts' => -1, 'suppress_filters' => false, 'fields' => 'ids' ) );
@@ -574,9 +574,9 @@ class Groups_Post_Access {
 				} else {
 					$post_ids = array( -1 );
 				}
-				Groups_Cache::set( 'eligible_post_ids', $post_ids, $cache_group );
+				Groups_Cache::set_ext( 'eligible_post_ids', $post_ids, $cache_group );
 			} else {
-				$post_ids = $cached->value;
+				$post_ids = $cached->get_value();
 			}
 
 			if ( is_array( $post_ids ) && count( $post_ids ) > 0 ) {
@@ -603,8 +603,6 @@ class Groups_Post_Access {
 		} else {
 			$post_type = get_post_type( $post_id );
 			if ( self::handles_post_type( $post_type ) ) {
-				self::purge_eligible_post_ids_cached( $post_type );
-				self::purge_count_posts_cached( $post_type );
 			}
 		}
 	}
@@ -632,32 +630,6 @@ class Groups_Post_Access {
 			}
 		}
 		return $post;
-	}
-
-	/**
-	 * Deletes all stored eligible post IDs cached for the given post type, or all post types (by default).
-	 *
-	 * @since 2.17.0
-	 *
-	 * @param string|null $post_type
-	 */
-	public static function purge_eligible_post_ids_cached( $post_type = null ) {
-		$changed = false;
-		$stored_cache_groups = Groups_Options::get_option( 'eligible_post_ids_cache_groups', array() );
-		foreach ( $stored_cache_groups as $cache_group ) {
-			if ( $post_type === null || strpos( $cache_group, $post_type ) !== false ) {
-				Groups_Cache::delete( 'eligible_post_ids' , $cache_group );
-				$stored_cache_groups = array_diff( $stored_cache_groups, array( $cache_group ) );
-				$changed = true;
-			}
-		}
-		if ( $changed ) {
-			if ( count( $stored_cache_groups ) > 0 ) {
-				Groups_Options::update_option( 'eligible_post_ids_cache_groups', $stored_cache_groups );
-			} else {
-				Groups_Options::delete_option( 'eligible_post_ids_cache_groups' );
-			}
-		}
 	}
 
 	/**
@@ -876,7 +848,7 @@ class Groups_Post_Access {
 			$cached = Groups_Cache::get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP );
 
 			if ( $cached !== null ) {
-				$result = $cached->value;
+				$result = $cached->get_value();
 				unset( $cached );
 			} else {
 				// admin override and Groups admins see everything
@@ -927,30 +899,21 @@ class Groups_Post_Access {
 	 * independent of the post type, we will come here for any post status, so don't be surprised
 	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
 	 *
-	 * Counts in cache are purged when posts are saved using the purge_count_posts_cached() method.
-	 *
 	 * @param object $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
 	 *
 	 * @return object
-	 *
-	 * @see Groups_Post_Access::purge_count_posts_cached()
 	 */
 	public static function wp_count_posts( $counts, $type, $perm ) {
 		// @since 3.3.1 remove temporarily to avoid potential infinite recursion https://github.com/itthinx/groups/pull/160
 		remove_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10 );
 		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
-			$sub_group = Groups_Cache::get_group( '' );
-			// @since 2.20.0 cached per post type gathering counts per subgroup
-			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
-			if ( $cached === null ) {
-				$type_counts = array();
-			} else {
-				$type_counts = $cached->value;
-			}
-			if ( isset( $type_counts[$sub_group] ) ) {
-				$counts = $type_counts[$sub_group];
+			// @since 4.0.0 counts in cache are purged by Groups_Cache_Robot when flushing the cache group for a post type
+			$cache_group = self::get_post_type_cache_group( $type );
+			$cached = Groups_Cache::get_ext( 'count_posts', $cache_group );
+			if ( $cached !== null ) {
+				$counts = $cached->get_value();
 			} else {
 				foreach ( $counts as $post_status => $count ) {
 					$query_args = array(
@@ -985,33 +948,12 @@ class Groups_Post_Access {
 					unset( $posts );
 					$counts->$post_status = $count;
 				}
-				$type_counts[$sub_group] = $counts;
-				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
+				Groups_Cache::set_ext( 'count_posts', $counts, $cache_group );
 			}
 		}
-		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 ); // @since 3.3.1 reestablish filter for next use
+		// @since 3.3.1 reestablish filter for next use
+		add_filter( 'wp_count_posts', array( __CLASS__, 'wp_count_posts' ), 10, 3 );
 		return $counts;
-	}
-
-	/**
-	 * Purge the cached post counts for the post type.
-	 *
-	 * @param string $type post type
-	 *
-	 * @since 2.20.0
-	 *
-	 * @see Groups_Post_Access::wp_count_posts()
-	 */
-	private static function purge_count_posts_cached( $type ) {
-		if ( !empty( $type ) && is_string( $type ) && self::handles_post_type( $type ) ) {
-			$hyper_group = Groups_Cache::get_group( '' );
-			$cached = Groups_Cache::get( self::COUNT_POSTS . '_' . $type, self::CACHE_GROUP );
-			if ( $cached !== null ) {
-				$type_counts = $cached->value;
-				unset( $type_counts[$hyper_group] );
-				Groups_Cache::set( self::COUNT_POSTS . '_' . $type, $type_counts, self::CACHE_GROUP );
-			}
-		}
 	}
 
 	/**
@@ -1050,11 +992,11 @@ class Groups_Post_Access {
 		$post_types_option = Groups_Options::get_option( self::POST_TYPES, array() );
 		$post_types = get_post_types( array(), 'objects' );
 		foreach ( $post_types as $post_type => $object ) {
-			$public              = isset( $object->public ) ? $object->public : false;
-			$exclude_from_search = isset( $object->exclude_from_search ) ? $object->exclude_from_search : false;
-			$publicly_queryable  = isset( $object->publicly_queryable ) ? $object->publicly_queryable : false;
-			$show_ui             = isset( $object->show_ui ) ? $object->show_ui : false;
-			$show_in_nav_menus   = isset( $object->show_in_nav_menus ) ? $object->show_in_nav_menus : false;
+			$public = isset( $object->public ) ? $object->public : false;
+			// $exclude_from_search = isset( $object->exclude_from_search ) ? $object->exclude_from_search : false;
+			// $publicly_queryable  = isset( $object->publicly_queryable ) ? $object->publicly_queryable : false;
+			// $show_ui             = isset( $object->show_ui ) ? $object->show_ui : false;
+			// $show_in_nav_menus   = isset( $object->show_in_nav_menus ) ? $object->show_in_nav_menus : false;
 
 			// by default, handle any post type whose public attribute is true
 			$managed =
@@ -1370,6 +1312,26 @@ class Groups_Post_Access {
 		self::$filter_get_terms_widget = null;
 
 		return $terms;
+	}
+
+	/**
+	 * Cache group for post type.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string|WP_Post_Type $post_type
+	 *
+	 * @return string
+	 */
+	public static function get_post_type_cache_group( $post_type ) {
+		if ( $post_type instanceof WP_Post_Type ) {
+			$post_type = $post_type->name;
+		}
+		$post_type = is_string( $post_type ) ? trim( sanitize_key( $post_type ) ) : 'void';
+		if ( strlen( $post_type ) === 0 ) {
+			$post_type = 'void';
+		}
+		return self::CACHE_GROUP . '_pt_' . $post_type;
 	}
 }
 Groups_Post_Access::init();

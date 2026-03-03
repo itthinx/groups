@@ -241,7 +241,7 @@ class Groups_Comment_Access {
 		$user_id = get_current_user_id();
 		$cached = Groups_Cache::get( self::COMMENT_COUNTS . '_' . $user_id . '_' . intval( $post_id ), self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$count = $cached->value;
+			$count = $cached->get_value();
 			unset( $cached );
 		} else {
 			$count = self::get_comment_count( $post_id );

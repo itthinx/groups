@@ -1,5 +1,48 @@
 == Groups by itthinx - changelog.txt
 
+2026-03-03 - version 4.0.0
+* Update - WordPress 6.9 compatible.
+* Update - WooCommerce 10.5 compatible.
+* Fix - Fixes a fatal error due to missing resources when users with limited privileges access the dashboard sections related to Groups.
+* Fix - Use consistent CSS class for confirmation with [groups_leave] shortcode.
+* Dev - Use own namespace for selectize resources.
+* Dev - Now applies .groups-selectize class to selectize wrapper.
+* Add - Added Tom Select 2.5.2 build from https://github.com/itthinx/tom-select/tree/groups-tom-select
+* Update - Using Tom Select by default as the UI control for select fields instead of Selectize.
+* Update - Updated selectize.js to 0.15.2 build from https://github.com/itthinx/selectize.js/tree/groups-selectize
+* Dev - Added the groups_uie_which_select filter.
+* Dev - Avoid onboarding redirect to create product when filtering has no results in Products/All Products admin section.
+* Update - Users who can edit posts must have access restriction rights to modify restricted posts.
+* Update - Check users have access restriction rights to duplicate products (WooCommerce).
+* Fix - Avoid a potential PHP Fatal error during groups_user_can filter processing when additional parameters cannot be unpacked.
+* Fix - Avoid a PHP Deprecated notice where passing null to esc_url would pass it on to ltrim.
+* Update - Improved cache handling, expiration and invalidation.
+* Dev - Added the groups_cache_set_expires filter.
+* Dev - Added the groups_cache_set_expires_indefinite filter.
+* Dev - Added the groups_cache_robot_comment_groups filter.
+* Dev - Added the groups_cache_robot_post_groups filter.
+* Dev - Added the groups_cache_robot_term_groups filter.
+* Dev - Added the groups_cache_robot_user_groups filter.
+* Dev - Added the groups_cache_robot_flush_comment filter.
+* Dev - Added the groups_cache_robot_flush_post filter.
+* Dev - Added the groups_cache_robot_flush_user filter.
+* Dev - Added the groups_cache_robot_flush_term filter.
+* Dev - Added the groups_cache_robot_flush_all filter.
+* Dev - Added the groups_cache_robot_flush_groups filter.
+* Dev - Added lock for concurrent access resilience.
+* Update - Added the internal lock API.
+* Update - Added soft lock for general options access and modification.
+* Dev - Added the groups_lock_path filter.
+* Dev - Added the groups_lock_timeout filter.
+* Dev - Added the groups_lock_sleep filter.
+* Update - Made more resilient to dumb caches that do not invalidate updated options.
+* Dev - Revised cache procedure for post counts.
+* Dev - Revised cache procedure for eligible posts on previous/next.
+* Dev - Added support for the GROUPS_CACHE_DEBUG constant to enable cache-related debug logging.
+* Dev - Added support for the GROUPS_DEBUG constant.
+* Update - Added the log API.
+* Dev - Revised logic for switch_to_blog and restore_current_blog.
+
 2026-01-13 - version 3.11.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.4 compatible.

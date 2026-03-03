@@ -143,6 +143,10 @@ class Groups_WordPress {
 							} else if ( is_object( $object ) && method_exists( $object, 'get_id' ) ) {
 								$object_id = $object->get_id();
 							}
+							// @since 4.0.0 make sure that $args can be unpacked
+							if ( !( is_array( $args ) || is_object( $args ) && $args instanceof Traversable ) ) {
+								$args = array();
+							}
 							// PHP >= 8.1.0 named arguments can be used after unpacking ...$args
 							// With prior PHP versions, the order in which values appear in an $args array
 							// determines the order of the parameters passed.
@@ -184,7 +188,7 @@ class Groups_WordPress {
 			$cached  = Groups_Cache::get( self::HAS_CAP . '_' . $user_id . '_' . $hash, self::CACHE_GROUP );
 
 			if ( $cached !== null ) {
-				$_allcaps = $cached->value;
+				$_allcaps = $cached->get_value();
 				unset( $cached );
 				// Capabilities that were added after our value was cached must be added and
 				// those entries that provide different values must be adopted. This is necessary

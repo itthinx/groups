@@ -406,7 +406,7 @@ class Groups_Post_Access_Legacy {
 			}
 			$cached = Groups_Cache::get( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, self::CACHE_GROUP );
 			if ( $cached !== null ) {
-				$result = $cached->value;
+				$result = $cached->get_value();
 				unset( $cached ) ;
 			} else {
 				$groups_user = new Groups_User( $user_id );

@@ -43,19 +43,27 @@ class Groups_Options {
 	const general = 'general';
 
 	/**
+	 * @var Groups_Lock
+	 *
+	 * @since 4.0.0
+	 */
+	private static $lock = null;
+
+	/**
 	 * Registers Groups options (not autoloaded).
 	 */
 	public static function init() {
 		$options = get_option( self::option_key );
 		if ( $options === false ) {
 			$options = array( self::general => array() );
-			add_option( self::option_key, $options, '', 'no' );
+			add_option( self::option_key, $options, '', false );
 		}
 	}
 
 	/**
 	 * Returns the current Groups options and initializes them
 	 * through init() if needed.
+	 *
 	 * @return array Groups options
 	 */
 	private static function get_options() {
@@ -65,6 +73,33 @@ class Groups_Options {
 			$options = get_option( self::option_key );
 		}
 		return $options;
+	}
+
+	/**
+	 * Soft lock for general option access and modification.
+	 *
+	 * @since 4.0.0
+	 */
+	public static function lock() {
+		if ( self::$lock === null ) {
+			try {
+				self::$lock = new Groups_Lock( 'groups-options' );
+				self::$lock->writer();
+			} catch ( Groups_Lock_Exception $lex ) {
+				self::$lock = null;
+			}
+		}
+	}
+
+	/**
+	 * Release soft lock for general option access.
+	 *
+	 * @since 4.0.0
+	 */
+	public static function release() {
+		if ( self::$lock !== null ) {
+			self::$lock->release();
+		}
 	}
 
 	/**
@@ -121,7 +156,10 @@ class Groups_Options {
 	public static function update_option( $option, $new_value ) {
 		$options = self::get_options();
 		$options[self::general][$option] = $new_value;
-		update_option( self::option_key, $options );
+		wp_cache_delete( self::option_key, 'options' );
+		if ( update_option( self::option_key, $options ) ) {
+			do_action( 'groups_updated_option', $option, $new_value );
+		}
 	}
 
 	/**
@@ -143,7 +181,10 @@ class Groups_Options {
 		if ( $user_id !== null ) {
 			$options = self::get_options();
 			$options[$user_id][$option] = $new_value;
-			update_option( self::option_key, $options );
+			wp_cache_delete( self::option_key, 'options' );
+			if ( update_option( self::option_key, $options ) ) {
+				do_action( 'groups_updated_user_option', $option, $new_value, $user_id );
+			}
 		}
 	}
 
@@ -156,7 +197,10 @@ class Groups_Options {
 		$options = self::get_options();
 		if ( isset( $options[self::general][$option] ) ) {
 			unset( $options[self::general][$option] );
-			update_option( self::option_key, $options );
+			wp_cache_delete( self::option_key, 'options' );
+			if ( update_option( self::option_key, $options ) ) {
+				do_action( 'groups_deleted_option', $option );
+			}
 		}
 	}
 
@@ -179,7 +223,10 @@ class Groups_Options {
 			$options = self::get_options();
 			if ( isset( $options[$user_id][$option] ) ) {
 				unset( $options[$user_id][$option] );
-				update_option( self::option_key, $options );
+				wp_cache_delete( self::option_key, 'options' );
+				if ( update_option( self::option_key, $options ) ) {
+					do_action( 'groups_deleted_user_option', $user_id );
+				}
 			}
 		}
 	}
@@ -188,6 +235,9 @@ class Groups_Options {
 	 * Deletes all settings - this includes user and general options.
 	 */
 	public static function flush_options() {
-		delete_option( self::option_key );
+		wp_cache_delete( self::option_key, 'options' );
+		if ( delete_option( self::option_key ) ) {
+			do_action( 'groups_flushed_options' );
+		}
 	}
 }

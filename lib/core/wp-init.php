@@ -45,6 +45,11 @@ if ( !function_exists( 'is_user_member_of_blog' ) ) {
  * Load core :
  */
 
+require_once GROUPS_VIEWS_LIB . '/class-groups-log.php';
+
+require_once GROUPS_CORE_LIB . '/class-groups-lock.php';
+require_once GROUPS_CORE_LIB . '/class-groups-lock-exception.php';
+
 require_once GROUPS_CORE_LIB . '/class-groups-cache.php';
 require_once GROUPS_CORE_LIB . '/class-groups-cache-object.php';
 
@@ -126,6 +131,9 @@ require_once GROUPS_BLOCKS_LIB . '/src/class-groups-blocks.php';
  * Extras ...
  */
 require_once GROUPS_EXTRA_LIB . '/class-groups-extra.php';
+
+// @since 4.0.0
+require_once GROUPS_CORE_LIB . '/class-groups-cache-robot.php';
 
 // widgets
 // include_once GROUPS_CORE_LIB . '/class-groups-widgets.php';

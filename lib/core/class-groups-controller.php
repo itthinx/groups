@@ -54,35 +54,39 @@ class Groups_Controller {
 	 *
 	 * Some implementations don't have wp_cache_switch_to_blog() nor the deprecated
 	 * wp_cache_reset(), e.g. WP Engine's object-cache.php which has wp_cache_flush().
+	 * Cache plugins are responsible for acting accordingly when switch_to_blog() or
+	 * restore_current_blog() is invoked. In 4.0.0 we dropped any additional calls
+	 * other than those to switch_to_blog() and restore_current_blog().
 	 *
 	 * @since 2.10.0 giving preference to call wp_cache_init() since it will reset the blog_id
 	 * @since 2.10.0 removed alternative call to wp_cache_reset()
+	 * @since 4.0.0 multisite guard added; not calling functions already called within switch_to_blog; cache plugins should act appropriately
 	 *
-	 * See  wp_cache_reset() in wp-includes/cache.php
 	 * @see wp_cache_switch_to_blog()
 	 * @see wp_cache_init()
 	 * @see wp_cache_flush()
 	 * @see wp_cache_reset()
+	 * @see self::restore_current_blog()
+	 *
 	 * @link http://core.trac.wordpress.org/ticket/14941
 	 *
 	 * @param int $blog_id
 	 */
 	public static function switch_to_blog( $blog_id ) {
-		switch_to_blog( $blog_id );
-		if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
-			wp_cache_switch_to_blog( $blog_id ); // introduced in WP 3.5.0
-		} else if ( function_exists( 'wp_cache_init' ) ) {
-			wp_cache_init();
-		} else if ( function_exists( 'wp_cache_flush' ) ) {
-			wp_cache_flush();
+		if ( is_multisite() ) {
+			switch_to_blog( $blog_id );
 		}
 	}
 
 	/**
 	 * Switch back to previous blog.
+	 *
+	 * @see self::switch_to_blog()
 	 */
 	public static function restore_current_blog() {
-		restore_current_blog();
+		if ( is_multisite() ) {
+			restore_current_blog();
+		}
 	}
 
 	/**

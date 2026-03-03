@@ -518,7 +518,7 @@ class Groups_Group implements I_Capable {
 		$result = false;
 		$cached = Groups_Cache::get( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$result = $cached->value;
+			$result = $cached->get_value();
 			unset( $cached );
 		} else {
 			$group_table = _groups_get_tablename( 'group' );
@@ -545,7 +545,7 @@ class Groups_Group implements I_Capable {
 		global $wpdb;
 		$cached = Groups_Cache::get( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$result = $cached->value;
+			$result = $cached->get_value();
 			unset( $cached );
 		} else {
 			$result = false;

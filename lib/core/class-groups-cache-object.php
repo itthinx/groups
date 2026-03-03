@@ -46,20 +46,43 @@ class Groups_Cache_Object {
 	private $value = null;
 
 	/**
+	 * Timestamp.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @var int
+	 */
+	private $created = null;
+
+	/**
+	 * Expiration.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @var int
+	 */
+	private $expires = null;
+
+	/**
 	 * Create a cache entry object that holds a value for the given key.
 	 *
 	 * @param string $key
 	 * @param mixed $value
+	 * @param int $expires
 	 */
-	public function __construct( $key, $value ) {
+	public function __construct( $key, $value, $expires = null ) {
 		if ( is_string( $key ) ) {
 			$this->key = $key;
 		}
 		$this->value = $value;
+		$this->created = time();
+		$this->expires = is_numeric( $expires ) ? max( 0, intval( $expires ) ) : null;
 	}
 
 	/**
 	 * Getter implementation for key and value properties.
+	 *
+	 * @deprecated use proper getters
 	 *
 	 * @param string $name
 	 *
@@ -78,6 +101,8 @@ class Groups_Cache_Object {
 
 	/**
 	 * Setter for key and value properties.
+	 *
+	 * @deprecated use proper setters
 	 *
 	 * @param string $name
 	 * @param mixed $value
@@ -139,5 +164,49 @@ class Groups_Cache_Object {
 	 */
 	public function set_value( $value ) {
 		$this->value = $value;
+	}
+
+	/**
+	 * Set expires.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param int|null $expires
+	 */
+	public function set_expires( $expires ) {
+		$this->expires = is_numeric( $expires ) ? max( 0, intval( $expires ) ) : null;
+	}
+
+	/**
+	 * Provide expires.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return int|null
+	 */
+	public function get_expires() {
+		return $this->expires;
+	}
+
+	/**
+	 * Expired.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return boolean
+	 */
+	public function has_expired() {
+		$expired = false;
+		// auto-invalidate objects without timestamp
+		if ( $this->created === null ) {
+			$expired = true;
+		} else {
+			if ( $this->expires !== null ) {
+				if ( time() > ( $this->created + $this->expires ) ) {
+					$expired = true;
+				}
+			}
+		}
+		return $expired;
 	}
 }

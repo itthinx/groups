@@ -83,7 +83,6 @@ class Groups_Admin {
 	 * Loads scripts.
 	 */
 	public static function admin_print_scripts() {
-		global $groups_version;
 		// wp_enqueue_script( 'groups-admin', GROUPS_PLUGIN_URL . 'js/groups-admin.js', array( ), $groups_version );
 		Groups_UIE::enqueue( 'select' );
 	}

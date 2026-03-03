@@ -1,4 +1,6 @@
 <?php
+use Automattic\WooCommerce\EmailEditorVendor\Sabberworm\CSS\Property\Selector;
+
 /**
  * class-groups-uie.php
  *
@@ -34,10 +36,11 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_UIE {
 
 	/**
-	 * Extension used for select
+	 * Extension used for select.
+	 *
 	 * @var string
 	 */
-	private static $select = 'selectize';
+	private static $select = 'tom-select';
 
 	/**
 	 * Setup.
@@ -49,14 +52,34 @@ class Groups_UIE {
 	 * Extension chooser - determines what UI extension is used for an element.
 	 *
 	 * @param string $element choices: select
-	 * @param string $extension choices: selectize
+	 * @param string $extension choices: tom-select, selectize
 	 */
 	public static function set_extension( $element, $extension ) {
 		switch ( $element ) {
 			case 'select' :
-				self::$select = $extension;
+				self::$select = sanitize_key( $extension );
 				break;
 		}
+	}
+
+	/**
+	 * Tell which select is being used.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return mixed
+	 */
+	public static function which_select() {
+		/**
+		 * Allow to filter the select to use.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param string $select which select
+		 *
+		 * @return string
+		 */
+		return sanitize_key( apply_filters( 'groups_uie_which_select', self::$select ) ?? '' );
 	}
 
 	/**
@@ -66,13 +89,25 @@ class Groups_UIE {
 		global $groups_version;
 		switch ( $element ) {
 			case 'select' :
-				switch ( self::$select ) {
-					case 'selectize' :
-						if ( !wp_script_is( 'selectize' ) ) {
-							wp_enqueue_script( 'selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
+				switch ( self::which_select() ) {
+					case 'selectize':
+						if ( !wp_script_is( 'groups-selectize' ) ) {
+							wp_enqueue_script( 'groups-selectize', GROUPS_PLUGIN_URL . 'js/selectize/selectize.min.js', array( 'jquery' ), $groups_version, false );
 						}
-						if ( !wp_style_is( 'selectize' ) ) {
-							wp_enqueue_style( 'selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.bootstrap2.css', array(), $groups_version );
+						if ( !wp_style_is( 'groups-selectize' ) ) {
+							wp_enqueue_style( 'groups-selectize', GROUPS_PLUGIN_URL . 'css/selectize/selectize.css', array(), $groups_version );
+						}
+						if ( !wp_style_is( 'groups-uie' ) ) {
+							wp_enqueue_style( 'groups-uie', GROUPS_PLUGIN_URL . 'css/groups-uie.css', array(), $groups_version );
+						}
+						break;
+					default:
+						if ( !wp_script_is( 'groups-tom-select' ) ) {
+							// Tom Select does not require jQuery but we add it as a dependency for remnant code that assumes its presence.
+							wp_enqueue_script( 'groups-tom-select', GROUPS_PLUGIN_URL . 'js/tom-select/tom-select.complete.min.js', array( 'jquery' ), $groups_version, false );
+						}
+						if ( !wp_style_is( 'groups-tom-select' ) ) {
+							wp_enqueue_style( 'groups-tom-select', GROUPS_PLUGIN_URL . 'css/tom-select/tom-select.groups.css', array(), $groups_version );
 						}
 						if ( !wp_style_is( 'groups-uie' ) ) {
 							wp_enqueue_style( 'groups-uie', GROUPS_PLUGIN_URL . 'css/groups-uie.css', array(), $groups_version );
@@ -85,10 +120,12 @@ class Groups_UIE {
 
 	/**
 	 * Render select script and style.
+	 *
 	 * @param string $selector identifying the select, default: select.groups-uie
 	 * @param boolean $script render the script, default: true
 	 * @param boolean $on_document_ready whether to trigger on document ready, default: true
 	 * @param boolean $create allow to create items, default: false (only with selectize)
+	 *
 	 * @return string HTML
 	 */
 	public static function render_select( $selector = 'select.groups-uie', $script = true, $on_document_ready = true, $create = false ) {
@@ -96,14 +133,25 @@ class Groups_UIE {
 		if ( $script ) {
 
 			$call_output = '';
-			if ( self::$select === 'selectize' ) {
-				$call_output .= 'if ( typeof jQuery !== "undefined" && typeof jQuery.fn.selectize === "function" ) {';
-				$call_output .= sprintf(
-					'jQuery("%s").selectize({%splugins: ["remove_button"]});',
-					$selector,
-					$create ? 'create:true,' : ''
-				);
-				$call_output .= '}';
+			switch ( self::$select ) {
+				case 'selectize':
+					$call_output .= 'if ( typeof jQuery !== "undefined" && typeof jQuery.fn.selectize === "function" ) {';
+					$call_output .= sprintf(
+						'jQuery("%s").selectize({%splugins: ["remove_button"],wrapperClass:"groups-selectize"});',
+						$selector,
+						$create ? 'create:true,' : ''
+					);
+					$call_output .= '}';
+					break;
+				default:
+					$call_output .= 'if ( typeof jQuery !== "undefined" && typeof tomSelect === "function" ) {';
+					$call_output .= sprintf(
+						'tomSelect("%s",{%splugins: ["remove_button","clear_button"],wrapperClass:"groups-ts-wrapper",controlClass:"groups-ts-control",dropdownClass:"groups-ts-dropdown",dropdownContentClass:"groups-ts-dropdown-content"});',
+						$selector,
+						$create ? 'create:true,' : ''
+						);
+					$call_output .= '}';
+					break;
 			}
 
 			// Our selectize options will be hidden unless the block editor's components panel allows to overflow.
@@ -127,6 +175,13 @@ class Groups_UIE {
 		return $output;
 	}
 
+	/**
+	 * Render the title attribute for elements matching the selector.
+	 *
+	 * @param string $selector
+	 *
+	 * @return string
+	 */
 	public static function render_add_titles( $selector ) {
 		$output = '<script type="text/javascript">';
 		$output .= 'if ( typeof jQuery !== "undefined" ) {';

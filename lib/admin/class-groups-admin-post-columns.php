@@ -167,7 +167,8 @@ class Groups_Admin_Post_Columns {
 													$entries[] = sprintf(
 														'%s <a href="%s" title="%s" style="cursor: help">%s</a>',
 														$group->name ? stripslashes( wp_strip_all_tags( $group->name ) ) : '',
-														esc_url( $edit_term_link ),
+														// @since 4.0.0 guarded as $edit_term_link can be null causing deprecated notice
+														esc_url( $edit_term_link ?? '' ), // @phpstan-ignore nullCoalesce.variable
 														esc_attr( $term_taxonomy_title),
 														esc_html( $term->name )
 													);
@@ -208,7 +209,7 @@ class Groups_Admin_Post_Columns {
 		$user_id = get_current_user_id();
 		$cached = Groups_Cache::get( self::EDIT_TERM_LINK . '_' . $term_id . '_' . $user_id, self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$result = $cached->value;
+			$result = $cached->get_value();
 			unset( $cached );
 		} else {
 			$result = get_edit_term_link( $term_id, $taxonomy );
