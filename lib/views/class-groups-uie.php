@@ -144,12 +144,19 @@ class Groups_UIE {
 					$call_output .= '}';
 					break;
 				default:
+					$max_options = apply_filters( 'groups_uie_render_select_display_limit', null );
+					if ( is_numeric( $max_options ) ) {
+						$max_options = max( 1, intval( $max_options ) );
+					} else {
+						$max_options = null;
+					}
 					$call_output .= 'if ( typeof jQuery !== "undefined" && typeof tomSelect === "function" ) {';
 					$call_output .= sprintf(
-						'tomSelect("%s",{%splugins: ["remove_button","clear_button"],wrapperClass:"groups-ts-wrapper",controlClass:"groups-ts-control",dropdownClass:"groups-ts-dropdown",dropdownContentClass:"groups-ts-dropdown-content"});',
+						'tomSelect("%s",{%splugins: ["remove_button","clear_button"],maxOptions:%s,wrapperClass:"groups-ts-wrapper",controlClass:"groups-ts-control",dropdownClass:"groups-ts-dropdown",dropdownContentClass:"groups-ts-dropdown-content"});',
 						$selector,
-						$create ? 'create:true,' : ''
-						);
+						$create ? 'create:true,' : '',
+						$max_options === null ? 'null' : $max_options
+					);
 					$call_output .= '}';
 					break;
 			}
