@@ -3,6 +3,7 @@
 2026-03-24 - version 4.1.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.6 compatible.
+* Update - Resolves an issue that would render wrong post counts and all post statuses under Forums > All Forums with bbPress due to it altering the post_status of a query indiscriminately during the pre_get_posts action.
 
 2026-03-03 - version 4.0.0
 * Update - WordPress 6.9 compatible.
