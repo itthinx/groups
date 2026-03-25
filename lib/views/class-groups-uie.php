@@ -144,6 +144,17 @@ class Groups_UIE {
 					$call_output .= '}';
 					break;
 				default:
+					/**
+					 * Allows to determine the maximum number of options displayed in the dropdown.
+					 *
+					 * Provide a number > 0, or null for no limit.
+					 * Defaults to null for unlimited options displayed.
+					 * This limits the number of options that are displayed, but not the total available options.
+					 *
+					 * @since 4.1.0
+					 *
+					 * @param int|null $max_options
+					 */
 					$max_options = apply_filters( 'groups_uie_render_select_display_limit', null );
 					if ( is_numeric( $max_options ) ) {
 						$max_options = max( 1, intval( $max_options ) );
