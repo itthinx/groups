@@ -29,6 +29,24 @@ if ( !defined( 'ABSPATH' ) ) {
 class Groups_Extra {
 
 	/**
+	 * bbPress pre_get_posts filter priority.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @var int
+	 */
+	private static $bbp_pre_get_posts_priority = null;
+
+	/**
+	 * Post status before bbPress alters.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @var string|string[]
+	 */
+	private static $bbp_pre_get_posts_post_status = null;
+
+	/**
 	 * Early actions.
 	 */
 	public static function boot() {
@@ -45,6 +63,8 @@ class Groups_Extra {
 		add_filter( 'groups_comment_access_comment_count_where', array( __CLASS__, 'groups_comment_access_comment_count_where'), 10, 2 );
 		add_filter( 'groups_post_access_posts_where_query_get_post_types', array( __CLASS__, 'groups_post_access_posts_where_query_get_post_types' ), 10, 3 );
 		add_filter( 'woocommerce_duplicate_product_capability', array( __CLASS__, 'woocommerce_duplicate_product_capability' ) );
+		add_filter( 'groups_post_access_wp_count_posts_before_query', array( __CLASS__, 'groups_post_access_wp_count_posts_before_query' ), 10, 4 );
+		add_filter( 'groups_post_access_wp_count_posts_after_query', array( __CLASS__, 'groups_post_access_wp_count_posts_after_query' ), 10, 4 );
 	}
 
 	/**
@@ -188,6 +208,63 @@ class Groups_Extra {
 			}
 		}
 		return $capability;
+	}
+
+	/**
+	 * Fires before get_posts query.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array $query_args
+	 * @param object $counts
+	 * @param string $type
+	 * @param string $perm
+	 */
+	public static function groups_post_access_wp_count_posts_before_query( $query_args, $counts, $type, $perm ) {
+		// Workaound issue introduced by bbPress action on pre_get_posts which introduces additional types ... related https://bbpress.trac.wordpress.org/ticket/2512
+		if ( $type === 'forum' ) {
+			$priority = has_action( 'pre_get_posts', 'bbp_pre_get_posts_normalize_forum_visibility' );
+			if ( $priority !== false ) {
+				// Instead of removing the action, we revert the altered post_status:
+				// remove_action( 'pre_get_posts', 'bbp_pre_get_posts_normalize_forum_visibility', $priority );
+				add_action( 'pre_get_posts', array( __CLASS__, 'bbp_fix_pre_get_posts' ), $priority + 1 );
+				self::$bbp_pre_get_posts_priority = $priority;
+				self::$bbp_pre_get_posts_post_status = $query_args['post_status'];
+			}
+		}
+	}
+
+	/**
+	 * Fires after get_posts query.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array $query_args
+	 * @param object $counts
+	 * @param string $type
+	 * @param string $perm
+	 */
+	public static function groups_post_access_wp_count_posts_after_query( $query_args, $counts, $type, $perm ) {
+		if ( self::$bbp_pre_get_posts_priority !== null ) {
+			// see note in ...before... action
+			// add_action( 'pre_get_posts', 'bbp_pre_get_posts_normalize_forum_visibility', self::$bbp_pre_get_posts_priority );
+			remove_action( 'pre_get_posts', array( __CLASS__, 'bbp_fix_pre_get_posts' ), self::$bbp_pre_get_posts_priority + 1 );
+			self::$bbp_pre_get_posts_priority = null;
+			self::$bbp_pre_get_posts_post_status = null;
+		}
+	}
+
+	/**
+	 * Reestablish altered post_status.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param WP_Query $query
+	 */
+	public static function bbp_fix_pre_get_posts( $query ) {
+		if ( self::$bbp_pre_get_posts_post_status !== null ) {
+			$query->set( 'post_status', self::$bbp_pre_get_posts_post_status );
+		}
 	}
 }
 Groups_Extra::boot();

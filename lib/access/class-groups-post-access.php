@@ -943,7 +943,9 @@ class Groups_Post_Access {
 							continue;
 						}
 					}
+					do_action( 'groups_post_access_wp_count_posts_before_query', $query_args, $counts, $type, $perm );
 					$posts = get_posts( $query_args );
+					do_action( 'groups_post_access_wp_count_posts_after_query', $query_args, $counts, $type, $perm );
 					$count = count( $posts );
 					unset( $posts );
 					$counts->$post_status = $count;

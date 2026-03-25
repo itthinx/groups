@@ -144,12 +144,30 @@ class Groups_UIE {
 					$call_output .= '}';
 					break;
 				default:
+					/**
+					 * Allows to determine the maximum number of options displayed in the dropdown.
+					 *
+					 * Provide a number > 0, or null for no limit.
+					 * Defaults to null for unlimited options displayed.
+					 * This limits the number of options that are displayed, but not the total available options.
+					 *
+					 * @since 4.1.0
+					 *
+					 * @param int|null $max_options
+					 */
+					$max_options = apply_filters( 'groups_uie_render_select_display_limit', null );
+					if ( is_numeric( $max_options ) ) {
+						$max_options = max( 1, intval( $max_options ) );
+					} else {
+						$max_options = null;
+					}
 					$call_output .= 'if ( typeof jQuery !== "undefined" && typeof tomSelect === "function" ) {';
 					$call_output .= sprintf(
-						'tomSelect("%s",{%splugins: ["remove_button","clear_button"],wrapperClass:"groups-ts-wrapper",controlClass:"groups-ts-control",dropdownClass:"groups-ts-dropdown",dropdownContentClass:"groups-ts-dropdown-content"});',
+						'tomSelect("%s",{%splugins: ["remove_button","clear_button"],maxOptions:%s,wrapperClass:"groups-ts-wrapper",controlClass:"groups-ts-control",dropdownClass:"groups-ts-dropdown",dropdownContentClass:"groups-ts-dropdown-content"});',
 						$selector,
-						$create ? 'create:true,' : ''
-						);
+						$create ? 'create:true,' : '',
+						$max_options === null ? 'null' : $max_options
+					);
 					$call_output .= '}';
 					break;
 			}
