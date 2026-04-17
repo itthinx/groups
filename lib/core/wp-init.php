@@ -75,6 +75,7 @@ if ( is_admin() ) {
 	require_once GROUPS_ADMIN_LIB . '/class-groups-admin-posts.php';
 	require_once GROUPS_ADMIN_LIB . '/class-groups-admin-post-columns.php';
 	if ( $groups_legacy_enable ) {
+		require_once GROUPS_ADMIN_LIB . '/class-groups-admin-deprecation-notice.php'; // @since 4.2.0
 		require_once GROUPS_LEGACY_LIB . '/admin/class-groups-admin-posts-legacy.php';
 		require_once GROUPS_LEGACY_LIB . '/admin/class-groups-admin-post-columns-legacy.php';
 	}
