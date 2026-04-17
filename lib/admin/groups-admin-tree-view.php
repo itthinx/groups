@@ -42,7 +42,7 @@ function groups_admin_tree_view() {
 	$tree = Groups_Utility::get_tree();
 	$tree_output = '';
 	$linked = Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS );
-	Groups_Utility::render_tree( $tree, $tree_output, $linked );
+	Groups_Utility::render_tree( $tree, $tree_output, $linked, true );
 	$output .= $tree_output;
 
 	$output .= '</div>'; // .groups-tree-view

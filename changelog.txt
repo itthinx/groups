@@ -1,5 +1,11 @@
 == Groups by itthinx - changelog.txt
 
+2026-04-17 - version 4.2.0
+* Update - WordPress 6.9 compatible.
+* Update - WooCommerce 10.7 compatible.
+* Update - The Groups > Tree view now shows group IDs.
+* Update - Include a notice on removal of legacy access control based on capabilities.
+
 2026-03-24 - version 4.1.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.6 compatible.

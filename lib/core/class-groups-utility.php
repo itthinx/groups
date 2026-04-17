@@ -255,8 +255,9 @@ class Groups_Utility {
 	 *
 	 * @param array $tree
 	 * @param string $output
+	 * @param boolean $show_ids
 	 */
-	public static function render_tree( &$tree, &$output, $linked = false ) {
+	public static function render_tree( &$tree, &$output, $linked = false, $show_ids = false ) {
 		$output .= '<ul class="groups-tree">';
 		foreach ( $tree as $group_id => $object ) {
 			$output .= '<li class="groups-tree-node">';
@@ -272,12 +273,20 @@ class Groups_Utility {
 				);
 				$output .= sprintf( '<a href="%s">', $edit_url );
 			}
-			$output .= $object->name ? stripslashes( wp_filter_nohtml_kses( $object->name ) ) : '';
+			if ( $show_ids ) {
+				$output .= sprintf(
+					'%s [#%d]',
+					$object->name ? stripslashes( wp_filter_nohtml_kses( $object->name ) ) : '',
+					$group_id
+				);
+			} else {
+				$output .= $object->name ? stripslashes( wp_filter_nohtml_kses( $object->name ) ) : '';
+			}
 			if ( $linked ) {
 				$output .= '</a>';
 			}
 			if ( !empty( $object->children ) ) {
-				self::render_tree( $object->children, $output, $linked );
+				self::render_tree( $object->children, $output, $linked, $show_ids );
 			}
 			$output .= '</li>';
 		}
