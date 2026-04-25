@@ -1,0 +1,10 @@
+Translations of the [Groups](https://wordpress.org/plugins/groups/) plugin for WordPress have been contributed by the following and others:
+
+- Brazilian Portuguese by [Walter Jaworski](http://wjaworski.com), [Eric Sornoso](https://Mealfan.com)
+- Dutch translation by [Carsten Alsemgeest](http://presis.nl)
+- French translation by [Stéphane Passedouet](http://www.pheeric.com)
+- German translation by [itthinx](https://www.itthinx.com)
+- Lithuanian translation by [Vincent G](http://www.Host1Free.com)
+- Simplified Chinese by [itthinx](https://www.itthinx.com)
+- Spanish translation by [itthinx](https://www.itthinx.com), [Juan Amor](http://www.lamadjinpa.es)
+- Swedish translation by [Andréas Lundgren](http://adevade.com)
