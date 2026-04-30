@@ -6,6 +6,8 @@
 * Add - Added the Simplified Chinese translation.
 * Update - Updated the translation template.
 * Update - Updated the included translations.
+* Dev - Revised Groups_User user object evaluation logic.
+* Fix - Resolves potential issues with object-specific capability verification on non-primitive capabilities that require additional parameters.
 
 2026-04-17 - version 4.2.0
 * Update - WordPress 6.9 compatible.

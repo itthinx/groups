@@ -230,10 +230,11 @@ class Groups_User implements I_Capable {
 		// So we will have just the same problem as with current_user_can() unless we avoid getting functions involved which are not yet defined.
 		// user_can() calls $user->has_cap() to produce the result, same here:
 		if ( !( $user instanceof WP_User ) ) {
-			$user = intval( $user );
-			$user = new WP_User( $user );
-			if ( $user === 0 ) {
-				$user->init( new stdClass() );
+			if ( is_numeric( $user ) ) {
+				$user_id = intval( $user );
+				$user = new WP_User( $user_id );
+			} else {
+				$user = new WP_User( 0 );
 			}
 		}
 		if ( $user instanceof WP_User ) {
@@ -539,6 +540,13 @@ class Groups_User implements I_Capable {
 	}
 
 	/**
+	 * Use only to check for primitive capabilities.
+	 *
+	 * Use Groups_User::user_can() instead with parameters supplied.
+	 *
+	 * @param mixed $object not supported
+	 * @param array $args not supported
+	 *
 	 * @see I_Capable::can()
 	 */
 	public function can( $capability, $object = null, $args = null ) {
