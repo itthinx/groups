@@ -137,19 +137,21 @@ class Groups_WordPress {
 					$user_id = $groups_user->get_user_id();
 					if ( $user_id !== null ) {
 
-						// @todo remove
-// 						if ( !empty( $args ) ) {
-// 							error_log( __METHOD__ . ' ========== args = ' . json_encode( $args ) ); // @todo remove
-// 						}
-
-						// @todo check
-// 						$pass_args = null;
-// 						if ( is_array( $args ) ) {
-// 							$pass_args = $args;
-// 							$cap = array_shift( $args ); // user_has_cap filter $args[0] -> requested capability
-// 							$uid = array_shift( $args ); // user_has_cap filter $args[1] -> concerned user ID
-// 							$oid = array_shift( $args ); // user_has_cap filter $args[2] -> typically object ID
-// 						}
+						// reduce to remnant args; we have $args[0] as $capability, $args[1] as $user_id and $args[2] as $object and pass them along explicitly
+						if ( is_array( $args ) ) {
+							array_shift( $args ); // $capability <-> user_has_cap filter $args[0] -> requested capability
+							array_shift( $args ); // $user_id    <-> user_has_cap filter $args[1] -> concerned user ID
+							array_shift( $args ); // $object     <-> user_has_cap filter $args[2] -> typically object ID
+						} else if ( $args instanceof Traversable ) {
+							$pass_args = array();
+							$i = 0;
+							foreach ( $args as $arg ) {
+								if ( $i > 2 ) {
+									$pass_args[] = $arg;
+								}
+							}
+							$args = $pass_args;
+						}
 
 						if ( $object === null ) {
 							$result = self::unfiltered_user_can( $user_id, $capability );
@@ -192,6 +194,7 @@ class Groups_WordPress {
 	 *
 	 * Hooked on the user_has_cap filter. See WP_User::has_cap().
 	 *
+	 * @see user_can()
 	 * @see WP_User::has_cap()
 	 *
 	 * @param array $allcaps capability names mapped to boolean values representing whether the user has the capability
@@ -229,16 +232,23 @@ class Groups_WordPress {
 				}
 				$allcaps = $_allcaps;
 			} else {
+				$requested_cap = $args[0] ?? ''; // will always be supplied, just in case
+				$object_id = $args[2] ?? null;
 				$groups_user = new Groups_User( $user_id );
 				// we need to deactivate this because invoking $groups_user->can()
 				// would trigger this same function and we would end up
 				// in an infinite loop
 				remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY );
 				foreach ( $caps as $cap ) {
-					// For a known primitive capability, check if the user has it. This requires no parameters from $args.
-					if ( Groups_Capability::read_by_capability( $cap ) ) {
-						if ( $groups_user->can( $cap ) ) {
-							$allcaps[$cap] = true;
+					// Check for known primitive capability, if user has it. This requires no parameters from $args.
+					if (
+						$cap === $requested_cap && $object_id === null || // COND A
+						$cap !== $requested_cap // COND B
+					) {
+						if ( Groups_Capability::read_by_capability( $cap ) ) {
+							if ( $groups_user->can( $cap ) ) {
+								$allcaps[$cap] = true;
+							}
 						}
 					}
 				}
