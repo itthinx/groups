@@ -632,7 +632,7 @@ class Groups_Group implements I_Capable {
 		if ( $cached !== null ) {
 			$name_map = $cached->get_value();
 			$result = $name_map[$name] ?? false; // will be false if case does not match
-			if ( $result === false && count( $name_map ) >= $max_map ) {
+			if ( $result === false ) {
 				// requested not in map
 				$group_table = _groups_get_tablename( 'group' );
 				$group = $wpdb->get_row( $wpdb->prepare(
@@ -644,14 +644,18 @@ class Groups_Group implements I_Capable {
 					// push requested to map
 					if ( !isset( $name_map[$group->name] ) ) {
 						$name_map = array( $group->name => $group ) + $name_map;
-						array_pop( $name_map );
+						if ( count( $name_map ) > $max_map ) {
+							array_pop( $name_map );
+						}
 						Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
 					}
 					// where case insensitive collation yields result also push to map using original $name
 					// so it can also be retrieved from cached map by $name as key
 					if ( !isset( $name_map[$name] ) ) {
 						$name_map = array( $name => $group ) + $name_map;
-						array_pop( $name_map );
+						if ( count( $name_map ) > $max_map ) {
+							array_pop( $name_map );
+						}
 						Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
 					}
 				}
@@ -670,7 +674,7 @@ class Groups_Group implements I_Capable {
 			}
 			if ( isset( $name_map[$name] ) ) {
 				$result = $name_map[$name];
-			} else if ( count( $name_map ) >= $max_map ) {
+			} else {
 				$group = $wpdb->get_row( $wpdb->prepare(
 					"SELECT * FROM $group_table WHERE name = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					$name
@@ -679,7 +683,9 @@ class Groups_Group implements I_Capable {
 					$result = $group;
 					if ( !isset( $map[$group->group_id] ) ) {
 						$map = array( $group->group_id => $group ) + $map; // numerical key is automatically cast to int
-						array_pop( $map );
+						if ( count( $name_map ) > $max_map ) {
+							array_pop( $map );
+						}
 					}
 					if ( !isset( $name_map[$group->name] ) ) {
 						$name_map = array( $group->name => $group ) + $name_map;
@@ -687,7 +693,9 @@ class Groups_Group implements I_Capable {
 					}
 					if ( !isset( $name_map[$name] ) ) {
 						$name_map = array( $name => $group ) + $name_map;
-						array_pop( $name_map );
+						if ( count( $name_map ) > $max_map ) {
+							array_pop( $name_map );
+						}
 					}
 				}
 			}
