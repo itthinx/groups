@@ -211,7 +211,8 @@ function groups_admin_groups_edit_submit() {
 			return false;
 		}
 
-		if ( $other_group = Groups_Group::read_by_name( $name ) ) {
+		$other_group = Groups_Group::read_by_name( $name );
+		if ( $other_group ) {
 			if ( $other_group->group_id != $group_id ) {
 				Groups_Admin::add_message(
 					sprintf(

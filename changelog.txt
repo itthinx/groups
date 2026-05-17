@@ -1,6 +1,6 @@
 == Groups by itthinx - changelog.txt
 
-2026-05-07 - version 4.3.0
+2026-05-17 - version 4.3.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.8 compatible.
 * Add - Added the Simplified Chinese translation.
@@ -9,6 +9,11 @@
 * Dev - Revised Groups_User user object evaluation logic.
 * Fix - Resolves potential issues with object-specific capability verification on non-primitive capabilities that require additional parameters.
 * Dev - Revised capability evaluation to focus on known primitive capabilities.
+* Dev - Added the groups_group_read_max_map filter.
+* Dev - Added the groups_group_read_by_name_max_map filter.
+* Dev - Performance optimizations on capability object handling.
+* Dev - Performance optimizations on group object handling.
+* Dev - Use existing group's name when declining to create homonymous group so case (in)sensitivity is explicit.
 
 2026-04-17 - version 4.2.0
 * Update - WordPress 6.9 compatible.

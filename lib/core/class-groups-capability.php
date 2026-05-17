@@ -37,13 +37,27 @@ class Groups_Capability {
 
 	/**
 	 * @var string key
+	 *
+	 * @deprecated since 4.3.0
 	 */
 	const READ_BY_CAPABILITY = 'read_by_capability';
 
 	/**
 	 * @var string key
+	 *
+	 * @deprecated since 4.3.0
 	 */
 	const READ_CAPABILITY_BY_ID = 'read_capability_by_id';
+
+	/**
+	 * @var string key
+	 */
+	const ID_MAP = 'map_capability_by_id';
+
+	/**
+	 * @var string key
+	 */
+	const NAME_MAP = 'map_capability_by_name';
 
 	/**
 	 * @var object persisted capability object
@@ -267,8 +281,9 @@ class Groups_Capability {
 				$capability_table = _groups_get_tablename( 'capability' );
 				if ( $wpdb->insert( $capability_table, $data, $formats ) ) {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
-						// read_by_capability above created a cache entry which needs to be reset
-						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $capability, self::CACHE_GROUP );
+						// refresh cache
+						Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+						Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 						do_action( 'groups_created_capability', $result );
 					}
 				}
@@ -280,7 +295,7 @@ class Groups_Capability {
 	/**
 	 * Retrieve a capability.
 	 *
-	 * Use Groups_Capability::read_capability() if you are trying to retrieve a capability by its unique label.
+	 * Use Groups_Capability::read_by_capability() if you are trying to retrieve a capability by its name.
 	 *
 	 * @see Groups_Capability::read_by_capability()
 	 * @param int $capability_id capability's id
@@ -289,50 +304,70 @@ class Groups_Capability {
 	 */
 	public static function read( $capability_id ) {
 		global $wpdb;
+
+		$capability_id = Groups_Utility::id( $capability_id );
+		if ( $capability_id === false || $capability_id === 0 ) {
+			return false;
+		}
+
 		$result = false;
-		$cached = Groups_Cache::get( self::READ_CAPABILITY_BY_ID . '_' . $capability_id, self::CACHE_GROUP );
+
+		$cached = Groups_Cache::get( self::ID_MAP, self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$result = $cached->get_value();
-			unset( $cached );
+			$map = $cached->get_value();
+			$result = $map[$capability_id] ?? false;
 		} else {
+			$map = array();
+			$name_map = array();
 			$capability_table = _groups_get_tablename( 'capability' );
-			$capability = $wpdb->get_row( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				Groups_Utility::id( $capability_id )
-			) );
-			if ( isset( $capability->capability_id ) ) {
-				$result = $capability;
+			$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table" );
+			if ( is_array( $capabilities ) ) {
+				foreach ( $capabilities as $capability ) {
+					$map[$capability->capability_id] = $capability; // numerical key is automatically cast to int
+					$name_map[$capability->capability] = $capability;
+				}
 			}
-			Groups_Cache::set( self::READ_CAPABILITY_BY_ID . '_' . $capability_id, $result, self::CACHE_GROUP );
+			if ( isset( $map[$capability_id] ) ) {
+				$result = $map[$capability_id];
+			}
+			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
+			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
 		}
 		return $result;
 	}
 
 	/**
-	 * Retrieve a capability by its unique label.
+	 * Retrieve a capability by its name.
 	 *
-	 * @param string $capability capability's unique label
+	 * @param string $name capability name
 	 *
 	 * @return object upon success, otherwise false
 	 */
-	public static function read_by_capability( $capability ) {
+	public static function read_by_capability( $name ) {
 		global $wpdb;
-		$_capability = $capability;
-		$cached = Groups_Cache::get( self::READ_BY_CAPABILITY . '_' . $_capability, self::CACHE_GROUP );
+
+		$result = false;
+
+		$cached = Groups_Cache::get( self::NAME_MAP, self::CACHE_GROUP );
 		if ( $cached !== null ) {
-			$result = $cached->get_value();
-			unset( $cached );
+			$name_map = $cached->get_value();
+			$result = $name_map[$name] ?? false;
 		} else {
-			$result = false;
+			$map = array();
+			$name_map = array();
 			$capability_table = _groups_get_tablename( 'capability' );
-			$capability = $wpdb->get_row( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$capability
-			) );
-			if ( isset( $capability->capability_id ) ) {
-				$result = $capability;
+			$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table" );
+			if ( is_array( $capabilities ) ) {
+				foreach ( $capabilities as $capability ) {
+					$map[$capability->capability_id] = $capability; // numerical key is automatically cast to int
+					$name_map[$capability->capability] = $capability;
+				}
 			}
-			Groups_Cache::set( self::READ_BY_CAPABILITY . '_' . $_capability, $result, self::CACHE_GROUP );
+			if ( isset( $name_map[$name] ) ) {
+				$result = $name_map[$name];
+			}
+			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
+			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
 		}
 		return $result;
 	}
@@ -362,7 +397,6 @@ class Groups_Capability {
 			$old_capability = Groups_Capability::read( $capability_id );
 			if ( $old_capability ) {
 				if ( $capability !== null ) {
-					$old_capability_capability = $old_capability->capability;
 					$old_capability->capability = $capability;
 				}
 				if ( $class !== null ) {
@@ -388,12 +422,8 @@ class Groups_Capability {
 				) );
 				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
-					if ( !empty( $old_capability ) && !empty( $old_capability->capability ) ) { // @phpstan-ignore empty.variable
-						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability->capability, self::CACHE_GROUP );
-					}
-					if ( !empty( $old_capability_capability ) ) {
-						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability_capability, self::CACHE_GROUP );
-					}
+					Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+					Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 					do_action( 'groups_updated_capability', $result );
 				}
 			}
@@ -417,15 +447,17 @@ class Groups_Capability {
 		if ( $capability = Groups_Capability::read( $capability_id ) ) {
 			$capability_table = _groups_get_tablename( 'capability' );
 			// get rid of it
-			if ( $rows = $wpdb->query( $wpdb->prepare(
+			$rows = $wpdb->query( $wpdb->prepare(
 				"DELETE FROM $capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $capability_id )
-			) ) ) {
+			) );
+			if ( $rows !== false && $rows > 0 ) {
 				$result = $capability_id;
 				if ( !empty( $capability->capability ) ) {
-					Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $capability->capability, self::CACHE_GROUP );
 					do_action( 'groups_deleted_capability_capability', $capability->capability );
 				}
+				Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+				Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 				do_action( 'groups_deleted_capability', $result );
 			}
 		}
