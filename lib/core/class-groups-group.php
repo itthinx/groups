@@ -574,8 +574,8 @@ class Groups_Group implements I_Capable {
 			$map = array();
 			$name_map = array();
 			$group_table = _groups_get_tablename( 'group' );
-			$query = $wpdb->prepare( "SELECT * FROM $group_table LIMIT %d", $max_map );
-			$groups = $wpdb->get_results( $query );
+			$query = $wpdb->prepare( "SELECT * FROM $group_table LIMIT %d", $max_map ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$groups = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			if ( is_array( $groups ) ) {
 				foreach ( $groups as $group ) {
 					$map[$group->group_id] = $group; // numerical key is automatically cast to int
@@ -664,8 +664,8 @@ class Groups_Group implements I_Capable {
 			$map = array();
 			$name_map = array();
 			$group_table = _groups_get_tablename( 'group' );
-			$query = $wpdb->prepare( "SELECT * FROM $group_table LIMIT %d", $max_map );
-			$groups = $wpdb->get_results( $query );
+			$query = $wpdb->prepare( "SELECT * FROM $group_table LIMIT %d", $max_map ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$groups = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			if ( is_array( $groups ) ) {
 				foreach ( $groups as $group ) {
 					$map[$group->group_id] = $group; // numerical key is automatically cast to int

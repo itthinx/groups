@@ -320,7 +320,7 @@ class Groups_Capability {
 			$map = array();
 			$name_map = array();
 			$capability_table = _groups_get_tablename( 'capability' );
-			$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table" );
+			$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			if ( is_array( $capabilities ) ) {
 				foreach ( $capabilities as $capability ) {
 					$map[$capability->capability_id] = $capability; // numerical key is automatically cast to int
@@ -356,7 +356,7 @@ class Groups_Capability {
 			$map = array();
 			$name_map = array();
 			$capability_table = _groups_get_tablename( 'capability' );
-			$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table" );
+			$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			if ( is_array( $capabilities ) ) {
 				foreach ( $capabilities as $capability ) {
 					$map[$capability->capability_id] = $capability; // numerical key is automatically cast to int
