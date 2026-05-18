@@ -14,6 +14,7 @@
 * Dev - Performance optimizations on capability object handling.
 * Dev - Performance optimizations on group object handling.
 * Dev - Use existing group's name when declining to create homonymous group so case (in)sensitivity is explicit.
+* Dev - Revised admin styles.
 
 2026-04-17 - version 4.2.0
 * Update - WordPress 6.9 compatible.
