@@ -1,7 +1,7 @@
 == Groups by itthinx - changelog.txt
 
 2026-05-17 - version 4.3.0
-* Update - WordPress 6.9 compatible.
+* Update - WordPress 7.0 compatible.
 * Update - WooCommerce 10.8 compatible.
 * Add - Added the Simplified Chinese translation.
 * Update - Updated the translation template.
