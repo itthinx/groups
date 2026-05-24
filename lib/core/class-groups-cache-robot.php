@@ -532,9 +532,18 @@ class Groups_Cache_Robot {
 	}
 
 	/**
-	 * Flush scheduled groups.
+	 * Flush scheduled groups on shutdown.
 	 */
 	public static function shutdown() {
+		self::flush();
+	}
+
+	/**
+	 * Flush scheduled groups immediately.
+	 *
+	 * @since 4.3.0
+	 */
+	public static function flush() {
 		/**
 		 * Filter groups to flush.
 		 *

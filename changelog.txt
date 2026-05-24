@@ -1,6 +1,6 @@
 == Groups by itthinx - changelog.txt
 
-2026-05-17 - version 4.3.0
+2026-05-24 - version 4.3.0
 * Update - WordPress 7.0 compatible.
 * Update - WooCommerce 10.8 compatible.
 * Add - Added the Simplified Chinese translation.
@@ -15,6 +15,7 @@
 * Dev - Performance optimizations on group object handling.
 * Dev - Use existing group's name when declining to create homonymous group so case (in)sensitivity is explicit.
 * Dev - Revised admin styles.
+* Dev - Cache robot can be used to flush scheduled immediately.
 
 2026-04-17 - version 4.2.0
 * Update - WordPress 6.9 compatible.
