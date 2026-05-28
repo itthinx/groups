@@ -79,8 +79,9 @@ class Groups_Lock {
 	 * @throws Groups_Lock_Exception
 	 *
 	 * @param string $name lock name, generic lock used by default
+	 * @param int $timeout lock timeout in microseconds, default used when null, 0 is blocking
 	 */
-	public function __construct( $name = null ) {
+	public function __construct( $name = null, $timeout = null ) {
 		if (
 			function_exists( 'fopen' ) &&
 			function_exists( 'flock' ) &&
@@ -111,6 +112,10 @@ class Groups_Lock {
 			 * @return string
 			 */
 			$path = apply_filters( 'groups_lock_path', $path, $name, $blog_id );
+
+			if ( $timeout !== null && is_numeric( $timeout ) ) {
+				$this->timeout = max( 0, intval( $timeout ) );
+			}
 
 			/**
 			 * Modify the lock timeout (microseconds).
@@ -173,6 +178,17 @@ class Groups_Lock {
 	 */
 	public function is_usable() {
 		return $this->path !== null && is_readable( $this->path );
+	}
+
+	/**
+	 * Lock is locked.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @return boolean
+	 */
+	public function is_locked() {
+		return $this->h !== null;
 	}
 
 	/**

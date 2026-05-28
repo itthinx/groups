@@ -78,6 +78,15 @@ class Groups_Cache {
 	const EXPIRES_DEFAULT = 86400;
 
 	/**
+	 * Lock timeout in microseconds.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @var int
+	 */
+	const LOCK_TIMEOUT = 30000000;
+
+	/**
 	 * @since 4.0.0
 	 *
 	 * @var boolean
@@ -97,6 +106,13 @@ class Groups_Cache {
 	 * @var integer
 	 */
 	private static $count = 0;
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @var Groups_Lock[]
+	 */
+	private static $locks = null;
 
 	/**
 	 * Initialize.
@@ -163,6 +179,52 @@ class Groups_Cache {
 	public static function get_ext( $key, $group = self::CACHE_GROUP ) {
 		$key = self::extend_key( $key );
 		return self::get( $key, $group );
+	}
+
+	/**
+	 * Retrieve an entry from cache, mutex read.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param string $key
+	 * @param string $group
+	 *
+	 * @return Groups_Cache_Object|null returns a cache object on hit, null on cache miss
+	 */
+	public static function get_lock( $key, $group = self::CACHE_GROUP ) {
+		$name = $key . '-' . $group;
+		$lock = null;
+		try {
+			if ( isset( self::$locks[$name] ) ) {
+				$lock = self::$locks[$name];
+			} else {
+				$timeout = apply_filters( 'groups_cache_get_lock_timeout', self::LOCK_TIMEOUT, $key, $group );
+				if ( is_numeric( $timeout ) ) {
+					$timeout = max( 0, intval( $timeout ) );
+				} else {
+					$timeout = null;
+				}
+				$lock = new Groups_Lock( $name, $timeout );
+			}
+			$lock->reader();
+		} catch ( Groups_Lock_Exception $lex ) {
+			$lock = null;
+			if ( self::$debug ) {
+				Groups_Log::log(
+					sprintf(
+						'Cache read lock fail [%s] [%s]',
+						json_encode( $name ),
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		$result = self::get( $key, $group );
+		if ( $lock !== null ) {
+			$lock->release();
+			self::$locks[$name] = $lock;
+		}
+		return $result;
 	}
 
 	/**
@@ -239,6 +301,54 @@ class Groups_Cache {
 	}
 
 	/**
+	 * Store an entry in cache, mutex write.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @param string $group
+	 * @param int|null $expires default expiration applies if not provided
+	 *
+	 * @return boolean true if successful, otherwise false
+	 */
+	public static function set_lock( $key, $value, $group = self::CACHE_GROUP, $expires = null ) {
+		$name = $key . '-' . $group;
+		$lock = null;
+		try {
+			if ( isset( self::$locks[$name] ) ) {
+				$lock = self::$locks[$name];
+			} else {
+				$timeout = apply_filters( 'groups_cache_set_lock_timeout', self::LOCK_TIMEOUT, $key, $group );
+				if ( is_numeric( $timeout ) ) {
+					$timeout = max( 0, intval( $timeout ) );
+				} else {
+					$timeout = null;
+				}
+				$lock = new Groups_Lock( $name, $timeout );
+			}
+			$lock->writer();
+		} catch ( Groups_Lock_Exception $lex ) {
+			$lock = null;
+			if ( self::$debug ) {
+				Groups_Log::log(
+					sprintf(
+						'Cache write lock fail [%s] [%s]',
+						json_encode( $name ),
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		$result = self::set( $key, $value, $group, $expires );
+		if ( $lock !== null ) {
+			$lock->release();
+			self::$locks[$name] = $lock;
+		}
+		return $result;
+	}
+
+	/**
 	 * Delete a cache entry.
 	 *
 	 * @param string $key
@@ -272,6 +382,50 @@ class Groups_Cache {
 	public static function delete_ext( $key, $group = self::CACHE_GROUP ) {
 		$key = self::extend_key( $key );
 		return wp_cache_delete( $key, $group );
+	}
+
+	/**
+	 * Delete a cache entry, mutex write.
+	 *
+	 * @param string $key
+	 * @param string $group
+	 *
+	 * @return boolean true if successful, otherwise false
+	 */
+	public static function delete_lock( $key, $group = self::CACHE_GROUP ) {
+		$name = $key . '-' . $group;
+		$lock = null;
+		try {
+			if ( isset( self::$locks[$name] ) ) {
+				$lock = self::$locks[$name];
+			} else {
+				$timeout = apply_filters( 'groups_cache_delete_lock_timeout', self::LOCK_TIMEOUT, $key, $group );
+				if ( is_numeric( $timeout ) ) {
+					$timeout = max( 0, intval( $timeout ) );
+				} else {
+					$timeout = null;
+				}
+				$lock = new Groups_Lock( $name, $timeout );
+			}
+			$lock->writer();
+		} catch ( Groups_Lock_Exception $lex ) {
+			$lock = null;
+			if ( self::$debug ) {
+				Groups_Log::log(
+					sprintf(
+						'Cache delete lock fail [%s] [%s]',
+						json_encode( $name ),
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		$result = self::delete( $key, $group );
+		if ( $lock !== null ) {
+			$lock->release();
+			self::$locks[$name] = $lock;
+		}
+		return $result;
 	}
 
 	/**

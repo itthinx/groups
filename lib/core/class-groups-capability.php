@@ -60,11 +60,126 @@ class Groups_Capability {
 	const NAME_MAP = 'map_capability_by_name';
 
 	/**
+	 * Lock timeout in microseconds.
+	 *
+	 * @var int
+	 */
+	const LOCK_TIMEOUT = 30000000;
+
+	/**
+	 * Lock name.
+	 *
+	 * @var string
+	 */
+	const LOCK = 'groups_capability_lock';
+
+	/**
+	 * Mutex lock.
+	 *
+	 * @var Groups_Lock
+	 */
+	private static $lock = null;
+
+	/**
 	 * @var object persisted capability object
 	 *
 	 * @access private - do not access this property directly, the visibility will be made private in the future
 	 */
 	public $capability = null;
+
+	/**
+	 * Lock object.
+	 *
+	 * @throws Groups_Lock_Exception
+	 *
+	 * @return Groups_Lock
+	 */
+	private static function get_lock() {
+		$lock = null;
+		if ( self::$lock !== null ) {
+			$lock = self::$lock;
+		} else {
+			$timeout = apply_filters( 'groups_capability_lock_timeout', self::LOCK_TIMEOUT );
+			if ( is_numeric( $timeout ) ) {
+				$timeout = max( 0, intval( $timeout ) );
+			} else {
+				$timeout = null;
+			}
+			$lock = new Groups_Lock( self::LOCK, $timeout );
+			self::$lock = $lock;
+		}
+		return $lock;
+	}
+
+	/**
+	 * Mutex locked.
+	 *
+	 * @return boolean
+	 */
+	private static function is_locked() {
+		return self::$lock !== null && self::$lock->is_locked();
+	}
+
+	/**
+	 * Mutex reader.
+	 *
+	 * @return boolean
+	 */
+	private static function reader() {
+		$locked = false;
+		try {
+			$lock = self::get_lock();
+			$locked = $lock->reader();
+		} catch ( Groups_Lock_Exception $lex ) {
+			if ( defined( 'GROUPS_DEBUG' ) && GROUPS_DEBUG ) {
+				Groups_Log::log(
+					sprintf(
+						'Capability read lock fail [%s] [%s]',
+						self::LOCK,
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		return $locked;
+	}
+
+	/**
+	 * Mutex writer.
+	 *
+	 * @return boolean
+	 */
+	private static function writer() {
+		$locked = false;
+		try {
+			$lock = self::get_lock();
+			$locked = $lock->writer();
+		} catch ( Groups_Lock_Exception $lex ) {
+			if ( defined( 'GROUPS_DEBUG' ) && GROUPS_DEBUG ) {
+				Groups_Log::log(
+					sprintf(
+						'Capability write lock fail [%s] [%s]',
+						self::LOCK,
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		return $locked;
+	}
+
+	/**
+	 * Mutex release.
+	 *
+	 * @return boolean
+	 */
+	private static function release() {
+		$released = false;
+		if ( self::$lock !== null ) {
+			$released = self::$lock->release();
+		}
+		return $released;
+	}
 
 	/**
 	 * Create by capability id.
@@ -75,6 +190,9 @@ class Groups_Capability {
 	 */
 	public function __construct( $capability_id ) {
 		$this->capability = self::read( $capability_id );
+		if ( $this->capability === false ) {
+			$this->capability = null;
+		}
 	}
 
 	/**
@@ -257,6 +375,9 @@ class Groups_Capability {
 		$description = isset( $map['description'] ) ? $map['description'] : null;
 
 		if ( !empty( $capability ) ) {
+
+			self::writer();
+
 			if ( self::read_by_capability( $capability ) === false ) {
 				$data = array(
 					'capability' => $capability
@@ -284,10 +405,16 @@ class Groups_Capability {
 						// refresh cache
 						Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
 						Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
-						do_action( 'groups_created_capability', $result );
 					}
 				}
 			}
+
+			self::release();
+
+			if ( $result !== false ) {
+				do_action( 'groups_created_capability', $result );
+			}
+
 		}
 		return $result;
 	}
@@ -312,6 +439,11 @@ class Groups_Capability {
 
 		$result = false;
 
+		$is_locked = self::is_locked();
+		if ( !$is_locked ) {
+			self::writer();
+		}
+
 		$cached = Groups_Cache::get( self::ID_MAP, self::CACHE_GROUP );
 		if ( $cached !== null ) {
 			$map = $cached->get_value();
@@ -333,6 +465,11 @@ class Groups_Capability {
 			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
 			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
 		}
+
+		if ( !$is_locked ) {
+			self::release();
+		}
+
 		return $result;
 	}
 
@@ -347,6 +484,11 @@ class Groups_Capability {
 		global $wpdb;
 
 		$result = false;
+
+		$is_locked = self::is_locked();
+		if ( !$is_locked ) {
+			self::writer();
+		}
 
 		$cached = Groups_Cache::get( self::NAME_MAP, self::CACHE_GROUP );
 		if ( $cached !== null ) {
@@ -369,6 +511,11 @@ class Groups_Capability {
 			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
 			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
 		}
+
+		if ( !$is_locked ) {
+			self::release();
+		}
+
 		return $result;
 	}
 
@@ -393,6 +540,9 @@ class Groups_Capability {
 		$description = isset( $map['description'] ) ? $map['description'] : null;
 
 		if ( $capability_id !== null ) {
+
+			self::writer();
+
 			$capability_table = _groups_get_tablename( 'capability' );
 			$old_capability = Groups_Capability::read( $capability_id );
 			if ( $old_capability ) {
@@ -424,9 +574,15 @@ class Groups_Capability {
 					$result = $capability_id;
 					Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
 					Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
-					do_action( 'groups_updated_capability', $result );
 				}
 			}
+
+			self::release();
+
+			if ( $result !== false ) {
+				do_action( 'groups_updated_capability', $result );
+			}
+
 		}
 		return $result;
 	}
@@ -443,6 +599,8 @@ class Groups_Capability {
 		global $wpdb;
 		$result = false;
 
+		self::writer();
+
 		// avoid nonsense requests
 		if ( $capability = Groups_Capability::read( $capability_id ) ) {
 			$capability_table = _groups_get_tablename( 'capability' );
@@ -458,9 +616,15 @@ class Groups_Capability {
 				}
 				Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
 				Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
-				do_action( 'groups_deleted_capability', $result );
 			}
 		}
+
+		self::release();
+
+		if ( $result !== false ) {
+			do_action( 'groups_deleted_capability', $result );
+		}
+
 		return $result;
 	}
 }

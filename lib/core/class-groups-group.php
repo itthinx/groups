@@ -67,11 +67,126 @@ class Groups_Group implements I_Capable {
 	const MAX_MAP = 10000;
 
 	/**
+	 * Lock timeout in microseconds.
+	 *
+	 * @var int
+	 */
+	const LOCK_TIMEOUT = 30000000;
+
+	/**
+	 * Lock name.
+	 *
+	 * @var string
+	 */
+	const LOCK = 'groups_group_lock';
+
+	/**
+	 * Mutex lock.
+	 *
+	 * @var Groups_Lock
+	 */
+	private static $lock = null;
+
+	/**
 	 * @var Object Persisted group.
 	 *
 	 * @access private - do not access this property directly, the visibility will be made private in the future
 	 */
 	public $group = null;
+
+	/**
+	 * Lock object.
+	 *
+	 * @throws Groups_Lock_Exception
+	 *
+	 * @return Groups_Lock
+	 */
+	private static function get_lock() {
+		$lock = null;
+		if ( self::$lock !== null ) {
+			$lock = self::$lock;
+		} else {
+			$timeout = apply_filters( 'groups_group_lock_timeout', self::LOCK_TIMEOUT );
+			if ( is_numeric( $timeout ) ) {
+				$timeout = max( 0, intval( $timeout ) );
+			} else {
+				$timeout = null;
+			}
+			$lock = new Groups_Lock( self::LOCK, $timeout );
+			self::$lock = $lock;
+		}
+		return $lock;
+	}
+
+	/**
+	 * Mutex locked.
+	 *
+	 * @return boolean
+	 */
+	private static function is_locked() {
+		return self::$lock !== null && self::$lock->is_locked();
+	}
+
+	/**
+	 * Mutex reader.
+	 *
+	 * @return boolean
+	 */
+	private static function reader() {
+		$locked = false;
+		try {
+			$lock = self::get_lock();
+			$locked = $lock->reader();
+		} catch ( Groups_Lock_Exception $lex ) {
+			if ( defined( 'GROUPS_DEBUG' ) && GROUPS_DEBUG ) {
+				Groups_Log::log(
+					sprintf(
+						'Group read lock fail [%s] [%s]',
+						self::LOCK,
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		return $locked;
+	}
+
+	/**
+	 * Mutex writer.
+	 *
+	 * @return boolean
+	 */
+	private static function writer() {
+		$locked = false;
+		try {
+			$lock = self::get_lock();
+			$locked = $lock->writer();
+		} catch ( Groups_Lock_Exception $lex ) {
+			if ( defined( 'GROUPS_DEBUG' ) && GROUPS_DEBUG ) {
+				Groups_Log::log(
+					sprintf(
+						'Group write lock fail [%s] [%s]',
+						self::LOCK,
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		return $locked;
+	}
+
+	/**
+	 * Mutex release.
+	 *
+	 * @return boolean
+	 */
+	private static function release() {
+		$released = false;
+		if ( self::$lock !== null ) {
+			$released = self::$lock->release();
+		}
+		return $released;
+	}
 
 	/**
 	 * Create by group id.
@@ -82,6 +197,9 @@ class Groups_Group implements I_Capable {
 	 */
 	public function __construct( $group_id ) {
 		$this->group = self::read( $group_id );
+		if ( $this->group === false ) {
+			$this->group = null;
+		}
 	}
 
 	/**
@@ -461,6 +579,8 @@ class Groups_Group implements I_Capable {
 
 		if ( !empty( $name ) ) {
 
+			self::writer();
+
 			$group_table = _groups_get_tablename( 'group' );
 
 			$data = array( 'name' => $name );
@@ -518,10 +638,16 @@ class Groups_Group implements I_Capable {
 						// purge maps to force update after creating this group
 						Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
 						Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
-						do_action( 'groups_created_group', $result );
 					}
 				}
 			}
+
+			self::release();
+
+			if ( $result !== false ) {
+				do_action( 'groups_created_group', $result );
+			}
+
 		}
 		return $result;
 	}
@@ -548,6 +674,11 @@ class Groups_Group implements I_Capable {
 			$max_map = self::MAX_MAP;
 		} else {
 			$max_map = max( 0, intval( $max_map ) );
+		}
+
+		$is_locked = self::is_locked();
+		if ( !$is_locked ) {
+			self::writer();
 		}
 
 		$cached = Groups_Cache::get( self::ID_MAP, self::CACHE_GROUP );
@@ -606,6 +737,11 @@ class Groups_Group implements I_Capable {
 			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
 			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
 		}
+
+		if ( !$is_locked ) {
+			self::release();
+		}
+
 		return $result;
 	}
 
@@ -626,6 +762,11 @@ class Groups_Group implements I_Capable {
 			$max_map = self::MAX_MAP;
 		} else {
 			$max_map = max( 0, intval( $max_map ) );
+		}
+
+		$is_locked = self::is_locked();
+		if ( !$is_locked ) {
+			self::writer();
 		}
 
 		$cached = Groups_Cache::get( self::NAME_MAP, self::CACHE_GROUP );
@@ -702,6 +843,11 @@ class Groups_Group implements I_Capable {
 			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
 			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
 		}
+
+		if ( !$is_locked ) {
+			self::release();
+		}
+
 		return $result;
 	}
 
@@ -724,6 +870,9 @@ class Groups_Group implements I_Capable {
 		$parent_id = isset( $map['parent_id'] ) ? $map['parent_id'] : null;
 
 		if ( isset( $group_id ) && !empty( $name ) ) {
+
+			self::writer();
+
 			$group_table = _groups_get_tablename( 'group' );
 			if ( !isset( $description ) || ( $description === null ) ) {
 				$description = '';
@@ -793,6 +942,8 @@ class Groups_Group implements I_Capable {
 				Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 			}
 
+			self::release();
+
 			do_action( 'groups_updated_group', $result );
 		}
 		return $result;
@@ -809,6 +960,8 @@ class Groups_Group implements I_Capable {
 
 		global $wpdb;
 		$result = false;
+
+		self::writer();
 
 		if ( $group = self::read( $group_id ) ) {
 
@@ -839,15 +992,19 @@ class Groups_Group implements I_Capable {
 				$group->group_id
 			) ) ) {
 				$result = $group->group_id;
-
 				if ( !empty( $group->group_id ) || !empty( $group->name ) ) {
 					Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
 					Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 				}
-
-				do_action( 'groups_deleted_group', $result );
 			}
 		}
+
+		self::release();
+
+		if ( $result !== false ) {
+			do_action( 'groups_deleted_group', $result );
+		}
+
 		return $result;
 	}
 
