@@ -937,7 +937,7 @@ class Groups_Group implements I_Capable {
 			}
 			$result = $group_id;
 
-			if ( !empty( $group_id ) || !empty( $name ) ) {
+			if ( !empty( $group_id ) || !empty( $name ) ) { // @phpstan-ignore empty.variable
 				Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
 				Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 			}
