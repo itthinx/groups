@@ -39,13 +39,53 @@ class Groups_Group implements I_Capable {
 
 	/**
 	 * @var string key
+	 *
+	 * @deprecated since 4.3.0
 	 */
 	const READ_GROUP_BY_ID = 'read_group_by_id';
 
 	/**
 	 * @var string key
+	 *
+	 * @deprecated since 4.3.0
 	 */
 	const READ_BY_NAME = 'read_by_name';
+
+	/**
+	 * @var string key
+	 */
+	const ID_MAP = 'map_group_by_id';
+
+	/**
+	 * @var string key
+	 */
+	const NAME_MAP = 'map_group_by_name';
+
+	/**
+	 * @var int map limit
+	 */
+	const MAX_MAP = 10000;
+
+	/**
+	 * Lock timeout in microseconds.
+	 *
+	 * @var int
+	 */
+	const LOCK_TIMEOUT = 30000000;
+
+	/**
+	 * Lock name.
+	 *
+	 * @var string
+	 */
+	const LOCK = 'groups_group_lock';
+
+	/**
+	 * Mutex lock.
+	 *
+	 * @var Groups_Lock
+	 */
+	private static $lock = null;
 
 	/**
 	 * @var Object Persisted group.
@@ -53,6 +93,100 @@ class Groups_Group implements I_Capable {
 	 * @access private - do not access this property directly, the visibility will be made private in the future
 	 */
 	public $group = null;
+
+	/**
+	 * Lock object.
+	 *
+	 * @throws Groups_Lock_Exception
+	 *
+	 * @return Groups_Lock
+	 */
+	private static function get_lock() {
+		$lock = null;
+		if ( self::$lock !== null ) {
+			$lock = self::$lock;
+		} else {
+			$timeout = apply_filters( 'groups_group_lock_timeout', self::LOCK_TIMEOUT );
+			if ( is_numeric( $timeout ) ) {
+				$timeout = max( 0, intval( $timeout ) );
+			} else {
+				$timeout = null;
+			}
+			$lock = new Groups_Lock( self::LOCK, $timeout );
+			self::$lock = $lock;
+		}
+		return $lock;
+	}
+
+	/**
+	 * Mutex locked.
+	 *
+	 * @return boolean
+	 */
+	private static function is_locked() {
+		return self::$lock !== null && self::$lock->is_locked();
+	}
+
+	/**
+	 * Mutex reader.
+	 *
+	 * @return boolean
+	 */
+	private static function reader() {
+		$locked = false;
+		try {
+			$lock = self::get_lock();
+			$locked = $lock->reader();
+		} catch ( Groups_Lock_Exception $lex ) {
+			if ( defined( 'GROUPS_DEBUG' ) && GROUPS_DEBUG ) {
+				Groups_Log::log(
+					sprintf(
+						'Group read lock fail [%s] [%s]',
+						self::LOCK,
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		return $locked;
+	}
+
+	/**
+	 * Mutex writer.
+	 *
+	 * @return boolean
+	 */
+	private static function writer() {
+		$locked = false;
+		try {
+			$lock = self::get_lock();
+			$locked = $lock->writer();
+		} catch ( Groups_Lock_Exception $lex ) {
+			if ( defined( 'GROUPS_DEBUG' ) && GROUPS_DEBUG ) {
+				Groups_Log::log(
+					sprintf(
+						'Group write lock fail [%s] [%s]',
+						self::LOCK,
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		return $locked;
+	}
+
+	/**
+	 * Mutex release.
+	 *
+	 * @return boolean
+	 */
+	private static function release() {
+		$released = false;
+		if ( self::$lock !== null ) {
+			$released = self::$lock->release();
+		}
+		return $released;
+	}
 
 	/**
 	 * Create by group id.
@@ -63,6 +197,9 @@ class Groups_Group implements I_Capable {
 	 */
 	public function __construct( $group_id ) {
 		$this->group = self::read( $group_id );
+		if ( $this->group === false ) {
+			$this->group = null;
+		}
 	}
 
 	/**
@@ -442,6 +579,8 @@ class Groups_Group implements I_Capable {
 
 		if ( !empty( $name ) ) {
 
+			self::writer();
+
 			$group_table = _groups_get_tablename( 'group' );
 
 			$data = array( 'name' => $name );
@@ -496,12 +635,19 @@ class Groups_Group implements I_Capable {
 			if ( !$error ) {
 				if ( $wpdb->insert( $group_table, $data, $formats ) ) {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
-						// must clear cache for this name in case it has been requested previously as it now exists
-						Groups_Cache::delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
-						do_action( 'groups_created_group', $result );
+						// purge maps to force update after creating this group
+						Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+						Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 					}
 				}
 			}
+
+			self::release();
+
+			if ( $result !== false ) {
+				do_action( 'groups_created_group', $result );
+			}
+
 		}
 		return $result;
 	}
@@ -515,22 +661,87 @@ class Groups_Group implements I_Capable {
 	 */
 	public static function read( $group_id ) {
 		global $wpdb;
-		$result = false;
-		$cached = Groups_Cache::get( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
-		if ( $cached !== null ) {
-			$result = $cached->get_value();
-			unset( $cached );
-		} else {
-			$group_table = _groups_get_tablename( 'group' );
-			$group = $wpdb->get_row( $wpdb->prepare(
-				"SELECT * FROM $group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				Groups_Utility::id( $group_id )
-			) );
-			if ( isset( $group->group_id ) ) {
-				$result = $group;
-			}
-			Groups_Cache::set( self::READ_GROUP_BY_ID . '_' . $group_id, $result, self::CACHE_GROUP );
+
+		$group_id = Groups_Utility::id( $group_id );
+		if ( $group_id === false ) {
+			return false;
 		}
+
+		$result = false;
+
+		$max_map = apply_filters( 'groups_group_read_max_map', self::MAX_MAP );
+		if ( !is_numeric( $max_map ) ) {
+			$max_map = self::MAX_MAP;
+		} else {
+			$max_map = max( 0, intval( $max_map ) );
+		}
+
+		$is_locked = self::is_locked();
+		if ( !$is_locked ) {
+			self::writer();
+		}
+
+		$cached = Groups_Cache::get( self::ID_MAP, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$map = $cached->get_value();
+			$result = $map[$group_id] ?? false;
+			if ( $result === false && count( $map ) >= $max_map ) {
+				// requested is not in map
+				$group_table = _groups_get_tablename( 'group' );
+				$group = $wpdb->get_row( $wpdb->prepare(
+					"SELECT * FROM $group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$group_id
+				) );
+				if ( isset( $group->group_id ) ) {
+					$result = $group;
+					// push requested to map
+					$map = array( $group->group_id => $group ) + $map; // numerical key is automatically cast to int
+					array_pop( $map );
+					Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
+				}
+			}
+		} else {
+			// map not cached, prime the maps
+			$map = array();
+			$name_map = array();
+			$group_table = _groups_get_tablename( 'group' );
+			$query = $wpdb->prepare( "SELECT * FROM $group_table LIMIT %d", $max_map ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$groups = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			if ( is_array( $groups ) ) {
+				foreach ( $groups as $group ) {
+					$map[$group->group_id] = $group; // numerical key is automatically cast to int
+					$name_map[$group->name] = $group;
+				}
+			}
+			if ( isset( $map[$group_id] ) ) {
+				$result = $map[$group_id];
+			} else if ( count( $map ) >= $max_map ) {
+				// requested is not in map
+				$group = $wpdb->get_row( $wpdb->prepare(
+					"SELECT * FROM $group_table WHERE group_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$group_id
+				) );
+				if ( isset( $group->group_id ) ) {
+					$result = $group;
+					// push requested to maps
+					if ( !isset( $map[intval( $group->group_id )] ) ) { // double-check
+						$map = array( $group->group_id => $group ) + $map; // numerical key is automatically cast to int
+						array_pop( $map );
+					}
+					if ( !isset( $name_map[$group->name] ) ) {
+						$name_map = array( $group->name => $group ) + $name_map;
+						array_pop( $name_map );
+					}
+				}
+			}
+			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
+			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
+		}
+
+		if ( !$is_locked ) {
+			self::release();
+		}
+
 		return $result;
 	}
 
@@ -543,23 +754,100 @@ class Groups_Group implements I_Capable {
 	 */
 	public static function read_by_name( $name ) {
 		global $wpdb;
-		$cached = Groups_Cache::get( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
-		if ( $cached !== null ) {
-			$result = $cached->get_value();
-			unset( $cached );
+
+		$result = false;
+
+		$max_map = apply_filters( 'groups_group_read_by_name_max_map', self::MAX_MAP );
+		if ( !is_numeric( $max_map ) ) {
+			$max_map = self::MAX_MAP;
 		} else {
-			$result = false;
-			$group_table = _groups_get_tablename( 'group' );
-			$query = $wpdb->prepare(
-				"SELECT * FROM $group_table WHERE name = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$name
-			);
-			$group = $wpdb->get_row( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			if ( isset( $group->group_id ) ) {
-				$result = $group;
-			}
-			Groups_Cache::set( self::READ_BY_NAME . '_' . $name, $result, self::CACHE_GROUP );
+			$max_map = max( 0, intval( $max_map ) );
 		}
+
+		$is_locked = self::is_locked();
+		if ( !$is_locked ) {
+			self::writer();
+		}
+
+		$cached = Groups_Cache::get( self::NAME_MAP, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$name_map = $cached->get_value();
+			$result = $name_map[$name] ?? false; // will be false if case does not match
+			if ( $result === false ) {
+				// requested not in map
+				$group_table = _groups_get_tablename( 'group' );
+				$group = $wpdb->get_row( $wpdb->prepare(
+					"SELECT * FROM $group_table WHERE name = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$name
+				) );
+				if ( isset( $group->group_id ) ) {
+					$result = $group;
+					// push requested to map
+					if ( !isset( $name_map[$group->name] ) ) {
+						$name_map = array( $group->name => $group ) + $name_map;
+						if ( count( $name_map ) > $max_map ) {
+							array_pop( $name_map );
+						}
+						Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
+					}
+					// where case insensitive collation yields result also push to map using original $name
+					// so it can also be retrieved from cached map by $name as key
+					if ( !isset( $name_map[$name] ) ) {
+						$name_map = array( $name => $group ) + $name_map;
+						if ( count( $name_map ) > $max_map ) {
+							array_pop( $name_map );
+						}
+						Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
+					}
+				}
+			}
+		} else {
+			$map = array();
+			$name_map = array();
+			$group_table = _groups_get_tablename( 'group' );
+			$query = $wpdb->prepare( "SELECT * FROM $group_table LIMIT %d", $max_map ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$groups = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			if ( is_array( $groups ) ) {
+				foreach ( $groups as $group ) {
+					$map[$group->group_id] = $group; // numerical key is automatically cast to int
+					$name_map[$group->name] = $group;
+				}
+			}
+			if ( isset( $name_map[$name] ) ) {
+				$result = $name_map[$name];
+			} else {
+				$group = $wpdb->get_row( $wpdb->prepare(
+					"SELECT * FROM $group_table WHERE name = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$name
+				) );
+				if ( isset( $group->group_id ) ) {
+					$result = $group;
+					if ( !isset( $map[$group->group_id] ) ) {
+						$map = array( $group->group_id => $group ) + $map; // numerical key is automatically cast to int
+						if ( count( $name_map ) > $max_map ) {
+							array_pop( $map );
+						}
+					}
+					if ( !isset( $name_map[$group->name] ) ) {
+						$name_map = array( $group->name => $group ) + $name_map;
+						array_pop( $name_map );
+					}
+					if ( !isset( $name_map[$name] ) ) {
+						$name_map = array( $name => $group ) + $name_map;
+						if ( count( $name_map ) > $max_map ) {
+							array_pop( $name_map );
+						}
+					}
+				}
+			}
+			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
+			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
+		}
+
+		if ( !$is_locked ) {
+			self::release();
+		}
+
 		return $result;
 	}
 
@@ -582,7 +870,9 @@ class Groups_Group implements I_Capable {
 		$parent_id = isset( $map['parent_id'] ) ? $map['parent_id'] : null;
 
 		if ( isset( $group_id ) && !empty( $name ) ) {
-			$old_group = Groups_Group::read( $group_id );
+
+			self::writer();
+
 			$group_table = _groups_get_tablename( 'group' );
 			if ( !isset( $description ) || ( $description === null ) ) {
 				$description = '';
@@ -646,15 +936,14 @@ class Groups_Group implements I_Capable {
 				}
 			}
 			$result = $group_id;
-			if ( !empty( $group_id ) ) {
-				Groups_Cache::delete( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
+
+			if ( !empty( $group_id ) || !empty( $name ) ) { // @phpstan-ignore empty.variable
+				Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+				Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 			}
-			if ( !empty( $name ) ) { // @phpstan-ignore empty.variable
-				Groups_Cache::delete( self::READ_BY_NAME . '_' . $name, self::CACHE_GROUP );
-			}
-			if ( !empty( $old_group ) && !empty( $old_group->name ) ) { // @phpstan-ignore empty.variable
-				Groups_Cache::delete( self::READ_BY_NAME . '_' . $old_group->name, self::CACHE_GROUP );
-			}
+
+			self::release();
+
 			do_action( 'groups_updated_group', $result );
 		}
 		return $result;
@@ -671,6 +960,8 @@ class Groups_Group implements I_Capable {
 
 		global $wpdb;
 		$result = false;
+
+		self::writer();
 
 		if ( $group = self::read( $group_id ) ) {
 
@@ -701,15 +992,19 @@ class Groups_Group implements I_Capable {
 				$group->group_id
 			) ) ) {
 				$result = $group->group_id;
-				if ( !empty( $group->group_id ) ) {
-					Groups_Cache::delete( self::READ_GROUP_BY_ID . '_' . $group_id, self::CACHE_GROUP );
+				if ( !empty( $group->group_id ) || !empty( $group->name ) ) {
+					Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+					Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 				}
-				if ( !empty( $group->name ) ) {
-					Groups_Cache::delete( self::READ_BY_NAME . '_' . $group->name, self::CACHE_GROUP );
-				}
-				do_action( 'groups_deleted_group', $result );
 			}
 		}
+
+		self::release();
+
+		if ( $result !== false ) {
+			do_action( 'groups_deleted_group', $result );
+		}
+
 		return $result;
 	}
 

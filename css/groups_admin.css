@@ -129,7 +129,6 @@ div.capability.edit label {
 }
 .groups-overview .page-options input[type="text"],
 .capabilities-overview .page-options input[type="text"] {
-	width: 2.8em;
 	text-align: center;
 }
 .groups-overview .tablenav.top,
@@ -147,7 +146,7 @@ div.capability.edit label {
 .capabilities-overview th.capability_id,
 .capabilities-overview th.edit,
 .capabilities-overview th.remove {
-	width:10%;
+	width: 10%;
 }
 
 .groups-overview td.capabilities,

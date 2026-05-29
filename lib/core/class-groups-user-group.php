@@ -62,6 +62,9 @@ class Groups_User_Group {
 	 */
 	public function __construct( $user_id, $group_id ) {
 		$this->user_group = self::read( $user_id, $group_id );
+		if ( $this->user_group === false ) {
+			$this->user_group = null;
+		}
 	}
 
 	/**

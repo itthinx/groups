@@ -176,9 +176,9 @@ function groups_admin_options() {
 	$extensions_box = '';
 	$show_extensions_box = Groups_Options::get_user_option( 'show-extensions-box', 0 );
 	if ( ( time() - $show_extensions_box ) > GROUPS_SHOW_EXTENSIONS_BOX_INTERVAL ) {
-		$dismiss_url = wp_nonce_url( add_query_arg( 'dismiss-groups-extensions-box', '1', admin_url( 'admin.php?page=groups-admin-options' ) ), 'dismiss-box', 'groups-extensions-box-nonce' );
+		// $dismiss_url = wp_nonce_url( add_query_arg( 'dismiss-groups-extensions-box', '1', admin_url( 'admin.php?page=groups-admin-options' ) ), 'dismiss-box', 'groups-extensions-box-nonce' );
 		$extensions_box = '<div id="groups-extensions-box">';
-		$extensions_box .= sprintf( '<a title="%s" class="close" href="%s"></a>', esc_attr_x( 'Dismiss', 'title of dismiss notice link', 'groups' ), esc_url( $dismiss_url ) );
+		// $extensions_box .= sprintf( '<a title="%s" class="close" href="%s"></a>', esc_attr_x( 'Dismiss', 'title of dismiss notice link', 'groups' ), esc_url( $dismiss_url ) );
 		$extensions_box .= '<h3>';
 		$extensions_box .= esc_html__( 'Your support matters!', 'groups' );
 		$extensions_box .= '</h3>';

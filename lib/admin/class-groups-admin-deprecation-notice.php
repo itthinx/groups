@@ -88,7 +88,7 @@ class Groups_Admin_Deprecation_Notice {
 					}
 					if ( $show ) {
 						echo '<div class="error">';
-						echo '<h2>';
+						echo '<h2 style="margin-top: 1em">'; // counter .update-core-php h2 which sets it to 4em
 						echo esc_html__( 'Groups', 'groups' );
 						echo sprintf(
 							'<a style="text-decoration:none; color:inherit; text-align:right; float:right;" href="%s" title="%s" aria-label="%s"><span class="dashicons dashicons-dismiss"></span></a>',

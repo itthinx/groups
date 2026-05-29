@@ -1,5 +1,29 @@
 == Groups by itthinx - changelog.txt
 
+2026-05-29 - version 4.3.0
+* Update - WordPress 7.0 compatible.
+* Update - WooCommerce 10.8 compatible.
+* Add - Added the Simplified Chinese translation.
+* Update - Updated the translation template.
+* Update - Updated the included translations.
+* Dev - Revised Groups_User user object evaluation logic.
+* Fix - Resolves potential issues with object-specific capability verification on non-primitive capabilities that require additional parameters.
+* Dev - Revised capability evaluation to focus on known primitive capabilities.
+* Dev - Added the groups_group_read_max_map filter.
+* Dev - Added the groups_group_read_by_name_max_map filter.
+* Dev - Performance optimizations on capability object handling.
+* Dev - Performance optimizations on group object handling.
+* Dev - Improved concurrency safeness with optimized group and capability object handling.
+* Dev - Use existing group's name when declining to create homonymous group so case (in)sensitivity is explicit.
+* Dev - Revised admin styles.
+* Dev - Cache robot can be used to flush scheduled immediately.
+* Dev - Fixed group, capability and user group constructor read fail would store false instead of null as underlying object property.
+* Dev - Added the groups_cache_get_lock_timeout filter.
+* Dev - Added the groups_cache_set_lock_timeout filter.
+* Dev - Added the groups_cache_delete_lock_timeout filter.
+* Dev - Added the groups_group_lock_timeout filter.
+* Dev - Added the groups_capability_lock_timeout filter.
+
 2026-04-17 - version 4.2.0
 * Update - WordPress 6.9 compatible.
 * Update - WooCommerce 10.7 compatible.

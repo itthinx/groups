@@ -37,13 +37,48 @@ class Groups_Capability {
 
 	/**
 	 * @var string key
+	 *
+	 * @deprecated since 4.3.0
 	 */
 	const READ_BY_CAPABILITY = 'read_by_capability';
 
 	/**
 	 * @var string key
+	 *
+	 * @deprecated since 4.3.0
 	 */
 	const READ_CAPABILITY_BY_ID = 'read_capability_by_id';
+
+	/**
+	 * @var string key
+	 */
+	const ID_MAP = 'map_capability_by_id';
+
+	/**
+	 * @var string key
+	 */
+	const NAME_MAP = 'map_capability_by_name';
+
+	/**
+	 * Lock timeout in microseconds.
+	 *
+	 * @var int
+	 */
+	const LOCK_TIMEOUT = 30000000;
+
+	/**
+	 * Lock name.
+	 *
+	 * @var string
+	 */
+	const LOCK = 'groups_capability_lock';
+
+	/**
+	 * Mutex lock.
+	 *
+	 * @var Groups_Lock
+	 */
+	private static $lock = null;
 
 	/**
 	 * @var object persisted capability object
@@ -51,6 +86,100 @@ class Groups_Capability {
 	 * @access private - do not access this property directly, the visibility will be made private in the future
 	 */
 	public $capability = null;
+
+	/**
+	 * Lock object.
+	 *
+	 * @throws Groups_Lock_Exception
+	 *
+	 * @return Groups_Lock
+	 */
+	private static function get_lock() {
+		$lock = null;
+		if ( self::$lock !== null ) {
+			$lock = self::$lock;
+		} else {
+			$timeout = apply_filters( 'groups_capability_lock_timeout', self::LOCK_TIMEOUT );
+			if ( is_numeric( $timeout ) ) {
+				$timeout = max( 0, intval( $timeout ) );
+			} else {
+				$timeout = null;
+			}
+			$lock = new Groups_Lock( self::LOCK, $timeout );
+			self::$lock = $lock;
+		}
+		return $lock;
+	}
+
+	/**
+	 * Mutex locked.
+	 *
+	 * @return boolean
+	 */
+	private static function is_locked() {
+		return self::$lock !== null && self::$lock->is_locked();
+	}
+
+	/**
+	 * Mutex reader.
+	 *
+	 * @return boolean
+	 */
+	private static function reader() {
+		$locked = false;
+		try {
+			$lock = self::get_lock();
+			$locked = $lock->reader();
+		} catch ( Groups_Lock_Exception $lex ) {
+			if ( defined( 'GROUPS_DEBUG' ) && GROUPS_DEBUG ) {
+				Groups_Log::log(
+					sprintf(
+						'Capability read lock fail [%s] [%s]',
+						self::LOCK,
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		return $locked;
+	}
+
+	/**
+	 * Mutex writer.
+	 *
+	 * @return boolean
+	 */
+	private static function writer() {
+		$locked = false;
+		try {
+			$lock = self::get_lock();
+			$locked = $lock->writer();
+		} catch ( Groups_Lock_Exception $lex ) {
+			if ( defined( 'GROUPS_DEBUG' ) && GROUPS_DEBUG ) {
+				Groups_Log::log(
+					sprintf(
+						'Capability write lock fail [%s] [%s]',
+						self::LOCK,
+						$lex->getMessage()
+					)
+				);
+			}
+		}
+		return $locked;
+	}
+
+	/**
+	 * Mutex release.
+	 *
+	 * @return boolean
+	 */
+	private static function release() {
+		$released = false;
+		if ( self::$lock !== null ) {
+			$released = self::$lock->release();
+		}
+		return $released;
+	}
 
 	/**
 	 * Create by capability id.
@@ -61,6 +190,9 @@ class Groups_Capability {
 	 */
 	public function __construct( $capability_id ) {
 		$this->capability = self::read( $capability_id );
+		if ( $this->capability === false ) {
+			$this->capability = null;
+		}
 	}
 
 	/**
@@ -243,6 +375,9 @@ class Groups_Capability {
 		$description = isset( $map['description'] ) ? $map['description'] : null;
 
 		if ( !empty( $capability ) ) {
+
+			self::writer();
+
 			if ( self::read_by_capability( $capability ) === false ) {
 				$data = array(
 					'capability' => $capability
@@ -267,12 +402,19 @@ class Groups_Capability {
 				$capability_table = _groups_get_tablename( 'capability' );
 				if ( $wpdb->insert( $capability_table, $data, $formats ) ) {
 					if ( $result = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
-						// read_by_capability above created a cache entry which needs to be reset
-						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $capability, self::CACHE_GROUP );
-						do_action( 'groups_created_capability', $result );
+						// refresh cache
+						Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+						Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 					}
 				}
 			}
+
+			self::release();
+
+			if ( $result !== false ) {
+				do_action( 'groups_created_capability', $result );
+			}
+
 		}
 		return $result;
 	}
@@ -280,7 +422,7 @@ class Groups_Capability {
 	/**
 	 * Retrieve a capability.
 	 *
-	 * Use Groups_Capability::read_capability() if you are trying to retrieve a capability by its unique label.
+	 * Use Groups_Capability::read_by_capability() if you are trying to retrieve a capability by its name.
 	 *
 	 * @see Groups_Capability::read_by_capability()
 	 * @param int $capability_id capability's id
@@ -289,51 +431,91 @@ class Groups_Capability {
 	 */
 	public static function read( $capability_id ) {
 		global $wpdb;
-		$result = false;
-		$cached = Groups_Cache::get( self::READ_CAPABILITY_BY_ID . '_' . $capability_id, self::CACHE_GROUP );
-		if ( $cached !== null ) {
-			$result = $cached->get_value();
-			unset( $cached );
-		} else {
-			$capability_table = _groups_get_tablename( 'capability' );
-			$capability = $wpdb->get_row( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				Groups_Utility::id( $capability_id )
-			) );
-			if ( isset( $capability->capability_id ) ) {
-				$result = $capability;
-			}
-			Groups_Cache::set( self::READ_CAPABILITY_BY_ID . '_' . $capability_id, $result, self::CACHE_GROUP );
+
+		$capability_id = Groups_Utility::id( $capability_id );
+		if ( $capability_id === false || $capability_id === 0 ) {
+			return false;
 		}
+
+		$result = false;
+
+		$is_locked = self::is_locked();
+		if ( !$is_locked ) {
+			self::writer();
+		}
+
+		$cached = Groups_Cache::get( self::ID_MAP, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$map = $cached->get_value();
+			$result = $map[$capability_id] ?? false;
+		} else {
+			$map = array();
+			$name_map = array();
+			$capability_table = _groups_get_tablename( 'capability' );
+			$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			if ( is_array( $capabilities ) ) {
+				foreach ( $capabilities as $capability ) {
+					$map[$capability->capability_id] = $capability; // numerical key is automatically cast to int
+					$name_map[$capability->capability] = $capability;
+				}
+			}
+			if ( isset( $map[$capability_id] ) ) {
+				$result = $map[$capability_id];
+			}
+			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
+			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
+		}
+
+		if ( !$is_locked ) {
+			self::release();
+		}
+
 		return $result;
 	}
 
 	/**
-	 * Retrieve a capability by its unique label.
+	 * Retrieve a capability by its name.
 	 *
-	 * @param string $capability capability's unique label
+	 * @param string $name capability name
 	 *
 	 * @return object upon success, otherwise false
 	 */
-	public static function read_by_capability( $capability ) {
+	public static function read_by_capability( $name ) {
 		global $wpdb;
-		$_capability = $capability;
-		$cached = Groups_Cache::get( self::READ_BY_CAPABILITY . '_' . $_capability, self::CACHE_GROUP );
-		if ( $cached !== null ) {
-			$result = $cached->get_value();
-			unset( $cached );
-		} else {
-			$result = false;
-			$capability_table = _groups_get_tablename( 'capability' );
-			$capability = $wpdb->get_row( $wpdb->prepare(
-				"SELECT * FROM $capability_table WHERE capability = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$capability
-			) );
-			if ( isset( $capability->capability_id ) ) {
-				$result = $capability;
-			}
-			Groups_Cache::set( self::READ_BY_CAPABILITY . '_' . $_capability, $result, self::CACHE_GROUP );
+
+		$result = false;
+
+		$is_locked = self::is_locked();
+		if ( !$is_locked ) {
+			self::writer();
 		}
+
+		$cached = Groups_Cache::get( self::NAME_MAP, self::CACHE_GROUP );
+		if ( $cached !== null ) {
+			$name_map = $cached->get_value();
+			$result = $name_map[$name] ?? false;
+		} else {
+			$map = array();
+			$name_map = array();
+			$capability_table = _groups_get_tablename( 'capability' );
+			$capabilities = $wpdb->get_results( "SELECT * FROM $capability_table" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			if ( is_array( $capabilities ) ) {
+				foreach ( $capabilities as $capability ) {
+					$map[$capability->capability_id] = $capability; // numerical key is automatically cast to int
+					$name_map[$capability->capability] = $capability;
+				}
+			}
+			if ( isset( $name_map[$name] ) ) {
+				$result = $name_map[$name];
+			}
+			Groups_Cache::set( self::ID_MAP, $map, self::CACHE_GROUP );
+			Groups_Cache::set( self::NAME_MAP, $name_map, self::CACHE_GROUP );
+		}
+
+		if ( !$is_locked ) {
+			self::release();
+		}
+
 		return $result;
 	}
 
@@ -358,11 +540,13 @@ class Groups_Capability {
 		$description = isset( $map['description'] ) ? $map['description'] : null;
 
 		if ( $capability_id !== null ) {
+
+			self::writer();
+
 			$capability_table = _groups_get_tablename( 'capability' );
 			$old_capability = Groups_Capability::read( $capability_id );
 			if ( $old_capability ) {
 				if ( $capability !== null ) {
-					$old_capability_capability = $old_capability->capability;
 					$old_capability->capability = $capability;
 				}
 				if ( $class !== null ) {
@@ -388,15 +572,17 @@ class Groups_Capability {
 				) );
 				if ( ( $rows !== false ) ) {
 					$result = $capability_id;
-					if ( !empty( $old_capability ) && !empty( $old_capability->capability ) ) { // @phpstan-ignore empty.variable
-						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability->capability, self::CACHE_GROUP );
-					}
-					if ( !empty( $old_capability_capability ) ) {
-						Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $old_capability_capability, self::CACHE_GROUP );
-					}
-					do_action( 'groups_updated_capability', $result );
+					Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+					Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 				}
 			}
+
+			self::release();
+
+			if ( $result !== false ) {
+				do_action( 'groups_updated_capability', $result );
+			}
+
 		}
 		return $result;
 	}
@@ -413,22 +599,32 @@ class Groups_Capability {
 		global $wpdb;
 		$result = false;
 
+		self::writer();
+
 		// avoid nonsense requests
 		if ( $capability = Groups_Capability::read( $capability_id ) ) {
 			$capability_table = _groups_get_tablename( 'capability' );
 			// get rid of it
-			if ( $rows = $wpdb->query( $wpdb->prepare(
+			$rows = $wpdb->query( $wpdb->prepare(
 				"DELETE FROM $capability_table WHERE capability_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				Groups_Utility::id( $capability_id )
-			) ) ) {
+			) );
+			if ( $rows !== false && $rows > 0 ) {
 				$result = $capability_id;
 				if ( !empty( $capability->capability ) ) {
-					Groups_Cache::delete( self::READ_BY_CAPABILITY . '_' . $capability->capability, self::CACHE_GROUP );
 					do_action( 'groups_deleted_capability_capability', $capability->capability );
 				}
-				do_action( 'groups_deleted_capability', $result );
+				Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
+				Groups_Cache::delete( self::NAME_MAP, self::CACHE_GROUP );
 			}
 		}
+
+		self::release();
+
+		if ( $result !== false ) {
+			do_action( 'groups_deleted_capability', $result );
+		}
+
 		return $result;
 	}
 }

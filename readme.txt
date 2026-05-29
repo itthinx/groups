@@ -3,9 +3,9 @@ Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
 Requires at least: 6.7
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.2.0
+Stable tag: 4.3.0
 License: GPLv3
 
 Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
@@ -183,17 +183,7 @@ Get development notifications, contribute code or open issues at the Groups repo
 
 ### Translations ###
 
-Translations have been contributed by many from the WordPress community, via the GitHub repository [Groups](https://github.com/itthinx/groups/), the section for Groups on [Translating WordPress](https://translate.wordpress.org/projects/wp-plugins/groups/) or as direct contributions.
-
-This includes translations from the following contributors and many others to ...
-
-Brazilian Portuguese by [Walter Jaworski](http://wjaworski.com), [Eric Sornoso](https://Mealfan.com),
-Dutch translation by [Carsten Alsemgeest](http://presis.nl),
-French translation by [Stéphane Passedouet](http://www.pheeric.com),
-German translation by [itthinx](https://www.itthinx.com),
-Lithuanian translation by [Vincent G](http://www.Host1Free.com),
-Spanish translation by [itthinx](https://www.itthinx.com), [Juan Amor](http://www.lamadjinpa.es),
-Swedish translation by [Andréas Lundgren](http://adevade.com).
+Translations have been contributed by many, including [Translators](https://github.com/itthinx/groups/blob/master/translators.txt) from the WordPress community, via the GitHub repository [Groups](https://github.com/itthinx/groups/), the section for Groups on [Translating WordPress](https://translate.wordpress.org/projects/wp-plugins/groups/) or as direct contributions.
 
 Many thanks for your help!
 

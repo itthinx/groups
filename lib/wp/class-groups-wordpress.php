@@ -118,7 +118,7 @@ class Groups_WordPress {
 	 * @return boolean
 	 */
 	public static function groups_user_can( $result, $groups_user, $capability, $object, $args ) {
-		// The intention here is to complement capabilities from groups with those from the user.
+		// The intention here is to complement capabilities from groups with those of the user.
 		// Our user_has_cap filter extends user capabilities with those from groups, i.e. the reverse complementary.
 		// Thus, our user_has_cap filter should not be involved here. Also, we want to avoid any potential circular
 		// dependency which could arise from having our groups_user_can fired again while we attend to that action here.
@@ -129,17 +129,40 @@ class Groups_WordPress {
 			// produce a deprecation warning "Usage of user levels by plugins
 			// and themes is deprecated", not because we actually use a
 			// deprecated user level, but because it doesn't exist.
-			if ( Groups_Capability::read_by_capability( $capability ) ) {
+			if (
+				!is_numeric( $capability ) ||
+				Groups_Capability::read_by_capability( $capability )
+			) {
 				if ( $groups_user instanceof Groups_User ) {
 					$user_id = $groups_user->get_user_id();
 					if ( $user_id !== null ) {
+
+						// reduce to remnant args; we have $args[0] as $capability, $args[1] as $user_id and $args[2] as $object and pass them along explicitly
+						if ( is_array( $args ) ) {
+							array_shift( $args ); // $capability <-> user_has_cap filter $args[0] -> requested capability
+							array_shift( $args ); // $user_id    <-> user_has_cap filter $args[1] -> concerned user ID
+							array_shift( $args ); // $object     <-> user_has_cap filter $args[2] -> typically object ID
+						} else if ( $args instanceof Traversable ) {
+							$pass_args = array();
+							$i = 0;
+							foreach ( $args as $arg ) {
+								if ( $i > 2 ) {
+									$pass_args[] = $arg;
+								}
+							}
+							$args = $pass_args;
+						}
+
 						if ( $object === null ) {
 							$result = self::unfiltered_user_can( $user_id, $capability );
 						} else {
 							// @since 3.0.0
 							$object_id = null;
 							if ( is_numeric( $object ) ) {
-								$object_id = Groups_Utility::id( $object_id );
+								$object_id = Groups_Utility::id( $object );
+								if ( $object_id === false ) {
+									$object_id = null;
+								}
 							} else if ( is_object( $object ) && method_exists( $object, 'get_id' ) ) {
 								$object_id = $object->get_id();
 							}
@@ -169,10 +192,15 @@ class Groups_WordPress {
 	/**
 	 * Extend user capabilities with Groups user capabilities.
 	 *
-	 * @param array $allcaps the capabilities the user has
-	 * @param array $caps the requested capabilities
-	 * @param array $args capability context which can provide the requested capability as $args[0], the user ID as $args[1] and the related object's ID as $args[2]
-	 * @param WP_User $user the user object
+	 * Hooked on the user_has_cap filter. See WP_User::has_cap().
+	 *
+	 * @see user_can()
+	 * @see WP_User::has_cap()
+	 *
+	 * @param array $allcaps capability names mapped to boolean values representing whether the user has the capability
+	 * @param array $caps    required primitive capabilities for the requested capability
+	 * @param array $args    the requested capability in $args[0], the user ID in $args[1] and optionally the related object's ID in $args[2] and potentially further parameters in $args[3] and so on ...
+	 * @param WP_User $user  the user object
 	 *
 	 * @return array
 	 */
@@ -204,14 +232,24 @@ class Groups_WordPress {
 				}
 				$allcaps = $_allcaps;
 			} else {
+				$requested_cap = $args[0] ?? ''; // will always be supplied, just in case
+				$object_id = $args[2] ?? null;
 				$groups_user = new Groups_User( $user_id );
 				// we need to deactivate this because invoking $groups_user->can()
 				// would trigger this same function and we would end up
 				// in an infinite loop
 				remove_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY );
 				foreach ( $caps as $cap ) {
-					if ( $groups_user->can( $cap ) ) {
-						$allcaps[$cap] = true;
+					// Check for known primitive capability, if user has it. This requires no parameters from $args.
+					if (
+						$cap === $requested_cap && $object_id === null || // COND A
+						$cap !== $requested_cap // COND B
+					) {
+						if ( Groups_Capability::read_by_capability( $cap ) ) {
+							if ( $groups_user->can( $cap ) ) {
+								$allcaps[$cap] = true;
+							}
+						}
 					}
 				}
 				add_filter( 'user_has_cap', array( __CLASS__, 'user_has_cap' ), self::USER_HAS_CAP_FILTER_PRIORITY, 4 );

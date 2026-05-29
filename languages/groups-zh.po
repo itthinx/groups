@@ -1,17 +1,17 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Simplified Chinese translation for Groups plugin
+# Copyright (C) 2026 the Groups plugin authors
+# This file is distributed under the same license as the Groups plugin package.
+# itthinx.com, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-24 19:34+0200\n"
-"PO-Revision-Date: 2026-04-25 12:58+0200\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: id_ID\n"
+"PO-Revision-Date: 2026-04-25 13:01+0200\n"
+"Last-Translator: itthinx, proaktion\n"
+"Language-Team: Simplified Chinese <itthinx.com>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,44 +22,44 @@ msgstr ""
 #, php-format
 msgctxt "paging"
 msgid "%1$s of %2$s"
-msgstr "%1$s dari %2$s"
+msgstr "%1$s / %2$s"
 
 #: lib/core/class-groups-pagination.php:119
 #, php-format
 msgid "%s item"
 msgid_plural "%s items"
-msgstr[0] "%s barang"
+msgstr[0] "%s 个项目"
 
 #: lib/admin/class-groups-admin-users.php:274
 msgctxt "label for conjunctive groups filter checkbox"
 msgid "&cap;"
-msgstr "&topi;"
+msgstr "&cap;"
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:178
 #: lib/admin/class-groups-admin-posts.php:242
 msgid "&mdash; No Change &mdash;"
-msgstr "& mdash; Tidak Ada Perubahan & mdash;"
+msgstr "&mdash; 无更改 &mdash;"
 
 #: lib/admin/class-groups-admin-posts.php:169
 msgid "(any)"
-msgstr "(apa saja)"
+msgstr "(任何)"
 
 #: lib/admin/class-groups-admin-posts.php:164
 msgid "(none)"
-msgstr "(tidak ada)"
+msgstr "(无)"
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:130
 msgid "(only unrestricted)"
-msgstr "(hanya tidak dibatasi)"
+msgstr "(仅未受限制)"
 
 #: lib/admin/class-groups-admin-users.php:379
 msgid "--"
-msgstr "-"
+msgstr "--"
 
 #: legacy/admin/class-groups-admin-post-columns-legacy.php:77
 #, php-format
 msgid "<span title=\"%s\">Access Restrictions</span>"
-msgstr "<span title=\"%s\">Pembatasan Akses</span>"
+msgstr "<span title=\"%s\">访问限制</span>"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:164
 msgid ""
@@ -67,25 +67,24 @@ msgid ""
 "assigned are shown within parenthesis. You can choose a capability by typing "
 "part of the group's or the capability's name."
 msgstr ""
-"<sup> * </sup> Untuk setiap kapabilitas, grup yang memiliki kapabilitas yang "
-"ditugaskan ditampilkan dalam kurung. Anda dapat memilih kapabilitas dengan "
-"mengetik bagian dari grup atau nama kapabilitas."
+"<sup>*</sup> 对于每个权限，显示分配了该权限的组（以括号显示）。您可以通过输入"
+"组名或权限名的一部分来选择权限。"
 
 #: lib/admin/groups-admin-capabilities.php:137
 msgid "A Duck!"
-msgstr "Seekor bebek!"
+msgstr "一只鸭子！"
 
 #: lib/admin/groups-admin-options.php:302
 msgid "A minimum set of permissions will be preserved."
-msgstr "Serangkaian izin minimum akan dipertahankan."
+msgstr "将保留最低权限集。"
 
 #: lib/admin/groups-admin-options.php:55
 msgid "Access Groups"
-msgstr "Akses Grup"
+msgstr "访问组"
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:175
 msgid "Access Restrictions"
-msgstr "Batasan Akses"
+msgstr "访问限制"
 
 #: lib/admin/groups-admin-tree-view.php:34
 #: lib/admin/groups-admin-groups-edit.php:40
@@ -120,11 +119,11 @@ msgstr "Batasan Akses"
 #: lib/admin/groups-admin-capabilities.php:183
 #: lib/admin/groups-admin-capabilities.php:189
 msgid "Access denied."
-msgstr "Akses ditolak."
+msgstr "拒绝访问。"
 
 #: lib/admin/groups-admin-options.php:232
 msgid "Access restricions"
-msgstr "Pembatasan akses"
+msgstr "访问限制"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:97
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:107
@@ -132,76 +131,73 @@ msgstr "Pembatasan akses"
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:124
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:610
 msgid "Access restrictions"
-msgstr "Pembatasan akses"
+msgstr "访问限制"
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:124
 #: legacy/admin/class-groups-admin-posts-legacy.php:125
 msgid "Access restrictions &hellip;"
-msgstr "Pembatasan akses & hellip;"
+msgstr "访问限制 &hellip;"
 
 #: lib/admin/groups-admin-groups-add.php:127
 #: lib/admin/groups-admin-groups.php:275
 #: lib/admin/groups-admin-capabilities-add.php:69
 #: lib/admin/groups-admin-capabilities.php:212
 msgid "Add"
-msgstr "Menambahkan"
+msgstr "添加"
 
 #: lib/admin/groups-admin-capabilities-add.php:45
 msgid "Add a new capability"
-msgstr "Tambahkan kemampuan baru"
+msgstr "添加新权限"
 
 #: lib/admin/groups-admin-groups-add.php:61
 msgid "Add a new group"
-msgstr "Tambahkan grup baru"
+msgstr "添加新组"
 
 #: lib/admin/groups-admin-groups.php:515
 msgid "Add capability"
-msgstr "Tambahkan kemampuan"
+msgstr "添加权限"
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:179
 #: lib/admin/class-groups-admin-posts.php:243
 msgid "Add restriction"
-msgstr "Tambahkan batasan"
+msgstr "添加限制"
 
 #: lib/admin/class-groups-admin-users.php:192
 msgid "Add to group"
-msgstr "Tambahkan ke grup"
+msgstr "添加到组"
 
 #: lib/admin/class-groups-admin.php:227 lib/admin/groups-admin-add-ons.php:32
 #: lib/admin/class-groups-admin-welcome.php:231
 msgid "Add-Ons"
-msgstr "Add-on"
+msgstr "附加组件"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:150
 msgid ""
 "Adding the group and capability manually and enabling it for access "
 "restriction"
-msgstr ""
-"Menambahkan grup dan kemampuan secara manual dan memungkinkannya untuk "
-"pembatasan akses"
+msgstr "手动添加组和权限，并启用访问限制"
 
 #: lib/admin/groups-admin-options.php:56
 msgid "Administer Groups"
-msgstr "Administer Groups"
+msgstr "管理 Groups"
 
 #: lib/admin/groups-admin-options.php:57
 msgid "Administer Groups plugin options"
-msgstr "Mengelola opsi plugin Grup"
+msgstr "管理 Groups 插件选项"
 
 #: lib/admin/groups-admin-options.php:218
 msgid "Administrator Access Override"
-msgstr "Pengesampingan Akses Administrator"
+msgstr "管理员访问覆盖"
 
 #: lib/admin/groups-admin-options.php:221
 msgid ""
 "Administrators override all access permissions derived from Groups "
 "capabilities."
-msgstr ""
-"Administrator mengganti semua izin akses yang berasal dari kemampuan Grup."
+msgstr "管理员覆盖所有从 Groups 权限派生的访问权限。"
 
 #: lib/admin/class-groups-admin-posts.php:200
 msgid "Also look for groups related to terms"
-msgstr "Cari juga grup yang terkait dengan istilah"
+msgstr "也查找与术语相关的组"
 
 #: lib/admin/groups-admin-groups.php:440 lib/admin/groups-admin-groups.php:477
 #: lib/admin/groups-admin-groups.php:528
@@ -210,28 +206,26 @@ msgstr "Cari juga grup yang terkait dengan istilah"
 #: lib/admin/groups-admin-capabilities.php:384
 #: lib/admin/class-groups-admin-users.php:195
 msgid "Apply"
-msgstr "Menerapkan"
+msgstr "应用"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:160
 msgid ""
 "Become a member of the <em>Premium</em> group - this is required so you can "
 "choose the <em>premium</em> capability to restrict access to a post."
 msgstr ""
-"Menjadi anggota grup <em> Premium </em> - ini diperlukan agar Anda dapat "
-"memilih kemampuan <em> premium </em> untuk membatasi akses ke sebuah posting."
+"成为 <em>Premium</em> 组的成员 - 这是必需的，以便您可以选择 <em>premium</em> "
+"权限来限制对文章的访问。"
 
 #: lib/admin/groups-admin-groups.php:513
 #: lib/admin/groups-admin-capabilities.php:381
 msgid "Bulk Actions"
-msgstr "Aksi besar"
+msgstr "批量操作"
 
 #: lib/admin/groups-admin-options.php:194 lib/admin/groups-admin-add-ons.php:45
 msgid ""
 "By getting an official extension, you fund the work that is necessary to "
 "maintain and improve Groups."
-msgstr ""
-"Dengan mendapatkan perpanjangan resmi, Anda mendanai pekerjaan yang "
-"diperlukan untuk mempertahankan dan meningkatkan Grup."
+msgstr "通过获取官方扩展，您资助了维护和改进 Groups 所必需的工作。"
 
 #: lib/admin/groups-admin-options.php:428
 msgid ""
@@ -241,11 +235,9 @@ msgid ""
 "By enabling this option you agree to be solely responsible for any loss of "
 "data or any other consequences thereof."
 msgstr ""
-"PERHATIAN: Jika opsi ini aktif saat plugin dinonaktifkan, SEMUA pengaturan "
-"plugin dan data akan DIHAPUS untuk <strong> semua situs </strong>. Jika Anda "
-"akan menggunakan opsi ini, sekarang saat yang tepat untuk membuat cadangan. "
-"Dengan mengaktifkan opsi ini, Anda setuju untuk sepenuhnya bertanggung jawab "
-"atas kehilangan data atau konsekuensi lainnya."
+"警告：如果此选项在插件停用期间处于激活状态，<strong>所有站点</strong>的所有插"
+"件设置和数据将被<strong>删除</strong>。如果您要使用此选项，现在是备份的好时"
+"机。启用此选项即表示您同意自行承担任何数据丢失或其他后果。"
 
 #: lib/admin/groups-admin-options.php:316
 msgid ""
@@ -255,11 +247,9 @@ msgid ""
 "you agree to be solely responsible for any loss of data or any other "
 "consequences thereof."
 msgstr ""
-"PERHATIAN: Jika opsi ini aktif saat plugin dinonaktifkan, SEMUA pengaturan "
-"dan data plugin akan DIHAPUS. Jika Anda akan menggunakan opsi ini, sekarang "
-"saat yang tepat untuk membuat cadangan. Dengan mengaktifkan opsi ini, Anda "
-"setuju untuk sepenuhnya bertanggung jawab atas kehilangan data atau "
-"konsekuensi lainnya."
+"警告：如果此选项在插件停用期间处于激活状态，所有插件设置和数据将被<strong>删"
+"除</strong>。如果您要使用此选项，现在是备份的好时机。启用此选项即表示您同意自"
+"行承担任何数据丢失或其他后果。"
 
 #: lib/admin/groups-admin-groups-edit.php:171
 #: lib/admin/groups-admin-groups-add.php:129
@@ -270,7 +260,7 @@ msgstr ""
 #: lib/admin/groups-admin-capabilities-edit.php:81
 #: lib/admin/groups-admin-capabilities-add.php:71
 msgid "Cancel"
-msgstr "Membatalkan"
+msgstr "取消"
 
 #: legacy/admin/groups-admin-options-legacy.php:62
 #: lib/admin/groups-admin-groups-edit.php:124
@@ -278,16 +268,16 @@ msgstr "Membatalkan"
 #: lib/admin/class-groups-admin.php:201 lib/admin/groups-admin-groups.php:395
 #: lib/admin/groups-admin-capabilities.php:203
 msgid "Capabilities"
-msgstr "Kemampuan"
+msgstr "权限"
 
 #: lib/core/class-groups-help.php:71
 msgctxt "Help tab title and heading"
 msgid "Capabilities"
-msgstr "Kemampuan"
+msgstr "权限"
 
 #: lib/admin/groups-admin-groups.php:490 lib/admin/groups-admin-groups.php:491
 msgid "Capabilities &hellip;"
-msgstr "Kemampuan & hellip;"
+msgstr "权限 &hellip;"
 
 #: lib/admin/groups-admin-capabilities-remove.php:56
 #: lib/admin/groups-admin-capabilities-edit.php:64
@@ -295,26 +285,26 @@ msgstr "Kemampuan & hellip;"
 #: lib/admin/groups-admin-capabilities.php:324
 #: lib/admin/groups-admin-capabilities.php:340
 msgid "Capability"
-msgstr "Kemampuan"
+msgstr "权限"
 
 #: lib/admin/groups-admin-capabilities.php:336
 msgid "Capability ID"
-msgstr "ID kemampuan"
+msgstr "权限 ID"
 
 #: lib/admin/class-groups-admin-posts.php:255
 #: lib/admin/class-groups-admin-posts.php:256
 msgid "Choose access restriction groups &hellip;"
-msgstr "Pilih grup pembatasan akses & hellip;"
+msgstr "选择访问限制组 &hellip;"
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:189
 #: legacy/admin/class-groups-admin-posts-legacy.php:190
 msgid "Choose access restrictions &hellip;"
-msgstr "Pilih batasan akses & hellip;"
+msgstr "选择访问限制 &hellip;"
 
 #: lib/admin/groups-admin-groups-edit.php:127
 #: lib/admin/groups-admin-groups-add.php:103
 msgid "Choose capabilities &hellip;"
-msgstr "Pilih kemampuan & hellip;"
+msgstr "选择权限 &hellip;"
 
 #: lib/access/class-groups-access-meta-boxes.php:235
 #: lib/access/class-groups-access-meta-boxes.php:236
@@ -329,7 +319,7 @@ msgstr "Pilih kemampuan & hellip;"
 #: lib/admin/class-groups-admin-users.php:233
 #: lib/admin/class-groups-admin-users.php:234
 msgid "Choose groups &hellip;"
-msgstr "Pilih grup & hellip;"
+msgstr "选择组 &hellip;"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:222
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:557
@@ -339,73 +329,66 @@ msgid ""
 "available yet, you can use the quick-create box to create a group and "
 "capability enabled for access restriction on the fly."
 msgstr ""
-"Pilih satu atau beberapa kemampuan untuk membatasi akses. Grup yang "
-"memberikan akses melalui kemampuan ditampilkan dalam tanda kurung. Jika "
-"belum ada kemampuan yang tersedia, Anda dapat menggunakan kotak buat cepat "
-"untuk membuat grup dan kemampuan yang diaktifkan untuk pembatasan akses "
-"dengan cepat."
+"选择一个或多个权限以限制访问。通过权限授予访问权限的组显示在括号中。如果尚无"
+"可用权限，您可以使用快速创建框即时创建组和权限并启用访问限制。"
 
 #: lib/access/class-groups-access-meta-boxes.php:159
 msgid ""
 "Choose or enter <em>Premium</em> in the <em>Read</em> field located in the "
 "<em>Groups</em> box and save or update the post (or hit Enter)."
 msgstr ""
-"Pilih atau masukkan <em> Premium </em> di bidang <em> Baca </em> yang "
-"terletak di kotak <em> Grup </em> dan simpan atau perbarui posting (atau "
-"tekan Enter)."
+"在 <em>Groups</em> 框中的 <em>Read</em> 字段中选择或输入 <em>Premium</em>，然"
+"后保存或更新文章（或按 Enter 键）。"
 
 #: lib/admin/groups-admin-groups.php:441
 #: lib/admin/groups-admin-capabilities.php:345
 msgid "Clear"
-msgstr "Bersih"
+msgstr "清除"
 
 #: lib/admin/groups-admin-capabilities.php:207
 msgid "Click to add a new capability"
-msgstr "Klik untuk menambahkan kemampuan baru"
+msgstr "单击添加新权限"
 
 #: lib/admin/groups-admin-groups.php:270
 msgid "Click to add a new group"
-msgstr "Klik untuk menambahkan grup baru"
+msgstr "单击添加新组"
 
 #: lib/admin/groups-admin-capabilities.php:223
 msgid "Click to refresh capabilities"
-msgstr "Klik untuk menyegarkan kemampuan"
+msgstr "单击刷新权限"
 
 #: lib/blocks/src/blocks/groups-member/block.js:153
 msgid "Content will be shown to users that are members of these groups:"
-msgstr "Konten akan ditampilkan kepada pengguna yang menjadi anggota grup ini:"
+msgstr "内容将显示给这些组的成员用户："
 
 #: lib/blocks/src/blocks/groups-non-member/block.js:153
 msgid "Content will be shown to users that are not members of these groups:"
-msgstr "Konten akan ditampilkan kepada pengguna yang bukan anggota grup ini:"
+msgstr "内容将显示给非这些组成员的用户："
 
 #: lib/admin/class-groups-admin-bitcoin.php:61
 msgid "Contribute Bitcoin to Groups"
-msgstr "Sumbangkan Bitcoin ke Groups"
+msgstr "向 Groups 捐赠 Bitcoin"
 
 #: lib/admin/class-groups-admin-notice.php:138
 msgid ""
 "Could you please spare a minute and give it a review over at WordPress.org?"
-msgstr ""
-"Bisakah Anda menyisihkan waktu sebentar dan memberikan ulasan di WordPress."
-"org?"
+msgstr "您能抽出一分钟时间到 WordPress.org 给我们评价吗？"
 
 #: lib/core/class-groups-pagination.php:157
 msgid "Current page"
-msgstr "Halaman saat ini"
+msgstr "当前页"
 
 #: lib/admin/groups-admin-options.php:308
 msgid "Deactivation and data persistence"
-msgstr "Deaktivasi dan kegigihan data"
+msgstr "停用和数据持久化"
 
 #: lib/admin/groups-admin-options.php:424
 msgid "Delete all Groups plugin data for ALL sites on network deactivation"
-msgstr ""
-"Hapus semua data plugin Grup untuk SEMUA situs di penonaktifan jaringan"
+msgstr "在网络停用时删除所有站点的 Groups 插件数据"
 
 #: lib/admin/groups-admin-options.php:312
 msgid "Delete all Groups plugin data on deactivation"
-msgstr "Hapus semua data plugin Grup pada penonaktifan"
+msgstr "停用时删除所有 Groups 插件数据"
 
 #: lib/admin/groups-admin-groups-edit.php:99
 #: lib/admin/groups-admin-groups-add.php:85
@@ -414,181 +397,168 @@ msgstr "Hapus semua data plugin Grup pada penonaktifan"
 #: lib/admin/groups-admin-capabilities-add.php:60
 #: lib/admin/groups-admin-capabilities.php:325
 msgid "Description"
-msgstr "Deskripsi"
+msgstr "描述"
 
 #: lib/admin/groups-admin-options.php:274
 msgid ""
 "Disabling this setting for a post type also disables existing access "
 "restrictions on individual posts of that type."
-msgstr ""
-"Menonaktifkan pengaturan ini untuk jenis posting juga menonaktifkan "
-"pembatasan akses yang ada pada setiap posting dari jenis itu."
+msgstr "为文章类型禁用此设置也会禁用该类型各个文章上现有的访问限制。"
 
 #: lib/admin/groups-admin-add-ons.php:70
 msgid "Discover our favorite Extensions for Groups and WooCommerce"
-msgstr "Temukan Ekstensi favorit kami untuk Groups dan WooCommerce"
+msgstr "探索我们为 Groups 和 WooCommerce 推荐的扩展"
 
 #: lib/admin/class-groups-admin-notice.php:144
 #: lib/admin/class-groups-admin-welcome.php:188
 #: lib/admin/class-groups-admin-welcome.php:189
 msgid "Dismiss"
-msgstr "Memberhentikan"
+msgstr "关闭"
 
 #: lib/admin/groups-admin-options.php:181
 msgctxt "title of dismiss notice link"
 msgid "Dismiss"
-msgstr "Memberhentikan"
+msgstr "关闭"
 
 #: lib/core/class-groups-help.php:92
 #: lib/admin/class-groups-admin-deprecation-notice.php:114
 #: lib/admin/groups-admin-options.php:373
 #: lib/admin/class-groups-admin-welcome.php:217
 msgid "Documentation"
-msgstr "Dokumentasi"
+msgstr "文档"
 
 #: lib/admin/groups-admin-groups.php:620
 #: lib/admin/groups-admin-capabilities.php:459
 msgid "Edit"
-msgstr "Edit"
+msgstr "编辑"
 
 #: lib/admin/groups-admin-capabilities-edit.php:54
 msgid "Edit a capability"
-msgstr "Edit kemampuan"
+msgstr "编辑权限"
 
 #: lib/admin/groups-admin-groups-edit.php:70
 msgid "Edit a group"
-msgstr "Edit grup"
+msgstr "编辑组"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:161
 msgid ""
 "Edit the post for which you want to restrict access and choose<sup>*</sup> "
 "the <em>premium</em> capability."
-msgstr ""
-"Edit pos yang ingin Anda batasi akses dan pilih kemampuan <sup> * </sup> "
-"<em> premium </em>."
+msgstr "编辑您要限制访问的文章并选择<sup>*</sup> <em>premium</em> 权限。"
 
 #: lib/admin/class-groups-admin-welcome.php:210
 msgid "Efficient User Interface"
-msgstr "Antarmuka Pengguna yang Efisien"
+msgstr "高效用户界面"
 
 #: lib/admin/groups-admin-options.php:328
 msgid "Enable legacy access control based on capabilities."
-msgstr "Aktifkan kontrol akses lawas berdasarkan kemampuan."
+msgstr "启用基于权限的旧版访问控制。"
 
 #: lib/admin/groups-admin-options.php:227
 msgid "Enabling this on production sites is <strong>not</strong> recommended."
-msgstr ""
-"Disarankan untuk mengaktifkan ini di situs produksi <strong> tidak </strong>."
+msgstr "不建议在生产站点上启用此功能。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:212
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:521
 msgid "Enforce read access"
-msgstr "Menegakkan akses baca"
+msgstr "强制读取访问"
 
 #: lib/admin/groups-admin-options.php:188
 #, php-format
 msgid ""
 "Enhanced functionality is available via official %1$sExtensions%2$s for "
 "Groups."
-msgstr ""
-"Fungsionalitas yang disempurnakan tersedia melalui %1$sEkstensi%2$s resmi "
-"untuk Grup."
+msgstr "通过 Groups 的官方 %1$s扩展%2$s 可获得增强功能。"
 
 #: lib/admin/groups-admin-add-ons.php:42
 msgid "Enhanced functionality is available via official extensions for Groups."
-msgstr ""
-"Fungsionalitas yang disempurnakan tersedia melalui ekstensi resmi untuk Grup."
+msgstr "通过 Groups 的官方扩展可获得增强功能。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:143
 msgid ""
 "Enter <em>Premium</em> in the quick-create field located in the Access "
 "restrictions panel and save or update the post (or hit Enter)."
 msgstr ""
-"Masukkan <em> Premium </em> di bidang pembuatan cepat yang terletak di panel "
-"Pembatasan akses dan simpan atau perbarui posting (atau tekan Enter)."
+"在访问限制面板的快速创建字段中输入 <em>Premium</em>，然后保存或更新文章（或"
+"按 Enter 键）。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:135
 #: lib/access/class-groups-access-meta-boxes.php:149
 msgid "Example:"
-msgstr "Contoh:"
+msgstr "示例："
 
 #: lib/admin/class-groups-admin-users.php:276
 msgid "Filter"
-msgstr "Filter"
+msgstr "筛选"
 
 #: lib/admin/groups-admin-groups.php:422
 #: lib/admin/groups-admin-capabilities.php:334
 msgid "Filters"
-msgstr "Filter"
+msgstr "筛选"
 
 #: lib/admin/class-groups-admin-notice.php:166
 #, php-format
 msgid "Follow %1$s and visit %2$s to stay tuned for free and premium tools."
-msgstr ""
-"Ikuti %1$s dan kunjungi %2$s untuk mendapatkan alat gratis dan premium."
+msgstr "关注 %1$s 并访问 %2$s 以获取免费和付费工具更新。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:157
 msgid ""
 "Go to <strong>Groups > Capabilities</strong> and add the <em>premium</em> "
 "capability."
-msgstr ""
-"Buka <strong> Grup> Kemampuan </strong> dan tambahkan kemampuan <em> premium "
-"</em>."
+msgstr "转到 <strong>Groups > 权限</strong> 并添加 <em>premium</em> 权限。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:156
 msgid ""
 "Go to <strong>Groups > Groups</strong> and add the <em>Premium</em> group."
-msgstr ""
-"Buka <strong> Grup> Grup </strong> dan tambahkan grup <em> Premium </em>."
+msgstr "转到 <strong>Groups > 组</strong> 并添加 <em>Premium</em> 组。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:158
 msgid ""
 "Go to <strong>Groups > Groups</strong> and assign the <em>premium</em> "
 "capability to the <em>Premium</em> group."
 msgstr ""
-"Buka <strong> Grup> Grup </strong> dan berikan kemampuan <em> premium </em> "
-"ke grup <em> Premium </em>."
+"转到 <strong>Groups > 组</strong> 并将 <em>premium</em> 权限分配给 "
+"<em>Premium</em> 组。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:159
 msgid ""
 "Go to <strong>Groups > Options</strong> and enable the <em>premium</em> "
 "capability to restrict access."
 msgstr ""
-"Buka <strong> Grup> Opsi </strong> dan aktifkan kemampuan <em> premium </em> "
-"untuk membatasi akses."
+"转到 <strong>Groups > 选项</strong> 并启用 <em>premium</em> 权限以限制访问。"
 
 #: lib/core/class-groups-pagination.php:141
 msgid "Go to the first page"
-msgstr "Pergi ke halaman pertama"
+msgstr "转到第一页"
 
 #: lib/core/class-groups-pagination.php:175
 msgid "Go to the last page"
-msgstr "Pergi ke halaman terakhir"
+msgstr "转到最后一页"
 
 #: lib/core/class-groups-pagination.php:168
 msgid "Go to the next page"
-msgstr "Pergi ke halaman berikutnya"
+msgstr "转到下一页"
 
 #: lib/core/class-groups-pagination.php:148
 msgid "Go to the previous page"
-msgstr "Pergi ke halaman sebelumnya"
+msgstr "转到上一页"
 
 #: lib/admin/groups-admin-groups-remove.php:56
 #: lib/admin/groups-admin-groups.php:393
 msgid "Group"
-msgstr "Kelompok"
+msgstr "组"
 
 #: lib/admin/class-groups-admin-users.php:191
 msgid "Group Actions"
-msgstr "Tindakan Kelompok"
+msgstr "组操作"
 
 #: lib/admin/groups-admin-groups.php:423
 msgid "Group ID"
-msgstr "ID grup"
+msgstr "组 ID"
 
 #: lib/admin/groups-admin-groups.php:426
 msgid "Group Name"
-msgstr "Nama grup"
+msgstr "组名称"
 
 #: lib/admin/class-groups-admin-deprecation-notice.php:92
 msgid "Groups"
@@ -597,82 +567,82 @@ msgstr "Groups"
 #: lib/access/class-groups-access-meta-boxes.php:505
 msgctxt "Attachment field label"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin-posts.php:239
 msgctxt "Bulk edit field label"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin-post-columns.php:110
 msgctxt "Column header"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin-users.php:351
 msgctxt "Column header (Users)"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin-user-profile.php:74
 msgctxt "Groups section heading (add user)"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin-user-profile.php:204
 msgctxt "Groups section heading (edit user)"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin-user-profile.php:177
 msgctxt "Groups section heading (user profile)"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/access/class-groups-access-meta-boxes.php:131
 msgctxt "Help heading"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/access/class-groups-access-meta-boxes.php:128
 msgctxt "Help tab title"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/core/class-groups-help.php:68 lib/core/class-groups-help.php:69
 msgctxt "Help tab title and heading"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/core/class-groups-help.php:63
 msgctxt "Help title"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/access/class-groups-access-meta-boxes.php:114
 msgctxt "Meta box title"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin.php:250
 msgctxt "Network menu page title"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin.php:285
 msgctxt "Plugin action link"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin.php:146
 msgctxt "menu item title"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/class-groups-admin.php:164 lib/admin/groups-admin-groups.php:267
 msgctxt "page-title"
 msgid "Groups"
-msgstr "Grup"
+msgstr "组"
 
 #: lib/admin/groups-admin-options.php:343
 #, php-format
@@ -680,70 +650,68 @@ msgid ""
 "Groups %s features a simpler model for access restrictions based on groups "
 "instead of capabilities used in Groups 1.x."
 msgstr ""
-"Groups %s menampilkan model yang lebih sederhana untuk pembatasan akses "
-"berdasarkan pada kelompok alih-alih kemampuan yang digunakan dalam Groups 1."
-"x."
+"Groups %s 采用更简单的访问限制模型，基于组而不是 Groups 1.x 中使用的权限。"
 
 #: lib/admin/class-groups-admin-posts.php:153
 #: lib/admin/class-groups-admin-posts.php:154
 msgid "Groups &hellip;"
-msgstr "Grup & hellip;"
+msgstr "组 &hellip;"
 
 #: lib/admin/class-groups-admin.php:226
 msgid "Groups Add-Ons"
-msgstr "Pengaya Groups"
+msgstr "Groups 附加组件"
 
 #: lib/admin/class-groups-admin.php:200
 msgid "Groups Capabilities"
-msgstr "Kemampuan Grup"
+msgstr "Groups 权限"
 
 #: lib/blocks/src/blocks/groups-member/block.js:59
 msgid "Groups Member"
-msgstr "Anggota Grup"
+msgstr "Groups 成员"
 
 #: lib/blocks/src/blocks/groups-non-member/block.js:59
 msgid "Groups Non-member"
-msgstr "Grup Non-anggota"
+msgstr "Groups 非成员"
 
 #: lib/admin/groups-admin-options.php:124
 msgid "Groups Options"
-msgstr "Opsi Grup"
+msgstr "Groups 选项"
 
 #: lib/admin/class-groups-admin.php:317
 msgid "Groups is configured to delete its plugin data on deactivation."
-msgstr "Grup dikonfigurasikan untuk menghapus data pengaya pada penonaktifan."
+msgstr "Groups 配置为在停用时删除其插件数据。"
 
 #: lib/admin/groups-admin-options.php:399
 msgid "Groups network options"
-msgstr "Opsi jaringan grup"
+msgstr "Groups 网络选项"
 
 #: lib/admin/class-groups-admin.php:213
 msgid "Groups options"
-msgstr "Opsi grup"
+msgstr "Groups 选项"
 
 #: lib/core/class-groups-help.php:99
 msgid ""
 "Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</"
 "strong> groups."
 msgstr ""
-"Di sini Anda dapat <strong> menambahkan </strong>, <strong> mengedit </"
-"strong> dan <strong> menghapus </strong> grup."
+"您可以在此<strong>添加</strong>、<strong>编辑</strong>和<strong>删除</strong>"
+"组。"
 
 #: lib/blocks/src/blocks/groups-non-member/block.js:60
 msgid "Hide content from group members"
-msgstr "Sembunyikan konten dari anggota grup"
+msgstr "对组成员隐藏内容"
 
 #: lib/admin/class-groups-admin-notice.php:142
 msgid "I have already done that or do not want to submit a review."
-msgstr "Saya sudah melakukannya atau tidak ingin mengirimkan ulasan."
+msgstr "我已经操作过或不想提交评价。"
 
 #: lib/admin/class-groups-admin-notice.php:157
 msgid "I want to submit a review later, remind me!"
-msgstr "Saya ingin mengirimkan ulasan nanti, ingatkan saya!"
+msgstr "我想稍后提交评价，请提醒我！"
 
 #: lib/admin/class-groups-admin-notice.php:150
 msgid "I want to submit a review right now!"
-msgstr "Saya ingin mengirimkan ulasan sekarang juga!"
+msgstr "我现在就想提交评价！"
 
 #: lib/admin/groups-admin-groups.php:392
 #: lib/admin/groups-admin-capabilities.php:323
@@ -757,14 +725,12 @@ msgid ""
 "restrictions or place appropriate access restrictions based on groups on the "
 "desired entries."
 msgstr ""
-"Jika Anda memiliki batasan akses yang didasarkan pada kemampuan, entri "
-"tersebut sekarang tidak akan dilindungi, kecuali jika Anda mengaktifkan "
-"pembatasan akses lawas atau menempatkan pembatasan akses yang sesuai "
-"berdasarkan grup pada entri yang diinginkan."
+"如果您之前设置了基于权限的访问限制，除非启用旧版访问限制或在所需条目上基于组"
+"设置适当的访问限制，否则条目将不再受保护。"
 
 #: lib/admin/groups-admin-options.php:304
 msgid "If you lock yourself out, please ask an administrator to help."
-msgstr "Jika Anda mengunci diri, silakan minta administrator untuk membantu."
+msgstr "如果您被锁定，请请求管理员帮助。"
 
 #: lib/admin/groups-admin-options.php:366
 msgid ""
@@ -773,14 +739,12 @@ msgid ""
 "appropriate groups on your protected posts, pages and other entries to "
 "restrict access."
 msgstr ""
-"Jika Anda ingin beralih ke pembatasan akses berdasarkan grup (disarankan) "
-"alih-alih kemampuan, Anda dapat dengan mudah melakukannya dengan mengatur "
-"grup yang sesuai pada posting, halaman, dan entri lain yang dilindungi untuk "
-"membatasi akses."
+"如果您想切换到基于组的访问限制（推荐），只需在受保护的文章、页面和其他条目上"
+"设置适当的组即可轻松完成。"
 
 #: lib/admin/class-groups-admin-welcome.php:72
 msgid "Important"
-msgstr "Penting"
+msgstr "重要"
 
 #: lib/access/class-groups-access-meta-boxes.php:165
 msgid ""
@@ -788,25 +752,22 @@ msgid ""
 "names are case-sensitive. In order to be able to use the new group, your "
 "user account will be assigned to it."
 msgstr ""
-"Di bidang yang sama, Anda dapat membuat grup baru dan membatasi akses. Nama "
-"grup peka huruf besar-kecil. Agar dapat menggunakan grup baru, akun pengguna "
-"Anda akan ditugaskan untuk itu."
+"在同一个字段中，您可以创建新组并限制访问。组名区分大小写。为了能够使用新组，"
+"您的用户账户将被分配到该组。"
 
 #: legacy/admin/groups-admin-options-legacy.php:65
 msgid ""
 "Include these capabilities to enforce read access on posts. The selected "
 "capabilities will be offered to restrict access to posts."
-msgstr ""
-"Sertakan kemampuan ini untuk menegakkan akses baca pada posting. Kemampuan "
-"yang dipilih akan ditawarkan untuk membatasi akses ke posting."
+msgstr "包含这些权限以强制执行文章的读取访问。所选权限将用于限制对文章的访问。"
 
 #: lib/admin/groups-admin-groups-edit.php:153
 msgid "Inherited capabilities:"
-msgstr "Kemampuan yang diwariskan:"
+msgstr "继承的权限："
 
 #: lib/access/class-groups-post-access.php:181
 msgid "Invalid post ID."
-msgstr "ID kiriman tidak valid."
+msgstr "无效的文章 ID。"
 
 #: lib/admin/class-groups-admin-deprecation-notice.php:108
 msgid ""
@@ -814,66 +775,62 @@ msgid ""
 "support for legacy access control based on capabilities is completely "
 "removed."
 msgstr ""
-"Penting untuk beralih ke pembatasan akses berdasarkan grup, sebelum dukungan "
-"untuk kontrol akses lama berdasarkan kemampuan dihapus sepenuhnya."
+"在完全删除对基于功能的传统访问控制的支持之前，切换到基于组的访问限制非常重"
+"要。"
 
 #: lib/admin/class-groups-admin-welcome.php:75
 msgid ""
 "It seems that you have updated from Groups 1.x where access restrictions "
 "were based on capabilities."
-msgstr ""
-"Tampaknya Anda telah memperbarui dari Grup 1.x di mana pembatasan akses "
-"didasarkan pada kemampuan."
+msgstr "看起来您是从 Groups 1.x 版本升级而来，该版本的访问限制基于权限。"
 
 #: lib/views/class-groups-shortcodes.php:538
 #, php-format
 msgid "Join the %s group"
-msgstr "Bergabunglah dengan grup %s"
+msgstr "加入 %s 组"
 
 #: lib/views/class-groups-shortcodes.php:758
 #, php-format
 msgid "Leave the %s group"
-msgstr "Tinggalkan grup %s"
+msgstr "离开 %s 组"
 
 #: lib/admin/groups-admin-options.php:324
 msgid "Legacy Settings"
-msgstr "Pengaturan Warisan"
+msgstr "旧版设置"
 
 #: lib/admin/class-groups-admin-deprecation-notice.php:102
 msgid "Legacy access control based on capabilities is enabled."
-msgstr "Kontrol akses lama berdasarkan kemampuan diaktifkan."
+msgstr "启用基于功能的传统访问控制。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:137
 #: lib/access/class-groups-access-meta-boxes.php:152
 msgid ""
 "Let's assume that you want to limit the visibility of a post to members of "
 "the <em>Premium</em> group."
-msgstr ""
-"Mari kita asumsikan bahwa Anda ingin membatasi visibilitas posting ke "
-"anggota grup <em> Premium </em>."
+msgstr "假设您想将文章的可见性限制为 <em>Premium</em> 组的成员。"
 
 #: lib/blocks/src/blocks/groups-member/block.js:143
 #: lib/blocks/src/blocks/groups-non-member/block.js:143
 msgid "Loading"
-msgstr "Memuat"
+msgstr "正在加载"
 
 #: lib/views/class-groups-shortcodes.php:150
 msgid "Log out"
-msgstr "Keluar"
+msgstr "退出登录"
 
 #: lib/admin/class-groups-admin-welcome.php:213
 msgid ""
 "Manage groups and users with a minimal footprint on the administrative "
 "screens."
-msgstr "Kelola grup dan pengguna dengan jejak minimal di layar administratif."
+msgstr "在管理界面中以最小的占用空间管理组和用户。"
 
 #: lib/admin/class-groups-admin-notice.php:136
 msgid "Many thanks for using <strong>Groups</strong>!"
-msgstr "Banyak terima kasih telah menggunakan <strong> Grup </strong>!"
+msgstr "感谢您使用 <strong>Groups</strong>！"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:519
 msgid "Media"
-msgstr "Media"
+msgstr "媒体"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:240
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:575
@@ -881,28 +838,28 @@ msgstr "Media"
 msgid "Members of the %1$s group can access this %2$s through this capability."
 msgid_plural ""
 "Members of the %1$s groups can access this %2$s through this capability."
-msgstr[0] "Anggota grup %1$s dapat mengakses %2$s ini melalui kemampuan ini."
+msgstr[0] "%1$s 组的成员可以通过此权限访问此 %2$s。"
 
 #: lib/admin/groups-admin-add-ons.php:159
 msgid "More recommended Extensions for Groups"
-msgstr "Ekstensi yang disarankan untuk Groups"
+msgstr "更多推荐的 Groups 扩展"
 
 #: lib/admin/groups-admin-groups-edit.php:81
 #: lib/admin/groups-admin-groups-add.php:71
 msgid "Name"
-msgstr "Nama"
+msgstr "名称"
 
 #: lib/admin/groups-admin-options.php:419
 msgid "Network deactivation and data persistence"
-msgstr "Deaktivasi jaringan dan kegigihan data"
+msgstr "网络停用和数据持久化"
 
 #: lib/admin/groups-admin-capabilities.php:217
 msgid "New Capability"
-msgstr "Kemampuan Baru"
+msgstr "新权限"
 
 #: lib/admin/groups-admin-groups.php:280
 msgid "New Group"
-msgstr "Grup baru"
+msgstr "新组"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:249
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:584
@@ -911,76 +868,68 @@ msgid ""
 "members using this capability, you should assign it to a group and enable "
 "the capability for access restriction."
 msgstr ""
-"Tidak ada grup yang memberikan akses melalui kemampuan ini. Untuk memberikan "
-"akses kepada anggota grup menggunakan kemampuan ini, Anda harus "
-"menugaskannya ke grup dan mengaktifkan kemampuan untuk pembatasan akses."
+"没有组通过此权限授予访问权限。要使用此权限向组成员授予访问权限，您应将其分配"
+"给组并启用权限的访问限制功能。"
 
 #: lib/admin/groups-admin-capabilities.php:134
 msgid "No new capabilities have been found."
-msgstr "Tidak ada kemampuan baru yang ditemukan."
+msgstr "未找到新权限。"
 
 #: lib/admin/groups-admin-capabilities-remove.php:112
 msgid "No such capabilities."
-msgstr "Tidak ada kemampuan seperti itu."
+msgstr "没有这样的能力。"
 
 #: lib/admin/groups-admin-capabilities-remove.php:40
 #: lib/admin/groups-admin-capabilities-edit.php:40
 msgid "No such capability."
-msgstr "Tidak ada kemampuan seperti itu."
+msgstr "无此权限。"
 
 #: lib/admin/groups-admin-groups-edit.php:46
 #: lib/admin/groups-admin-groups-remove.php:40
 msgid "No such group."
-msgstr "Tidak ada grup seperti itu."
+msgstr "无此组。"
 
 #: lib/admin/groups-admin-groups-remove.php:110
 msgid "No such groups."
-msgstr "Tidak ada grup seperti itu."
+msgstr "无此组。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:132
 msgid ""
 "Note that you must be a member of a group that has such a capability "
 "assigned."
-msgstr ""
-"Perhatikan bahwa Anda harus menjadi anggota grup yang memiliki kemampuan "
-"seperti itu."
+msgstr "请注意，您必须是已分配此类权限的组的成员。"
 
 #: lib/access/class-groups-access-meta-boxes.php:143
 msgid "Note that you must be a member of a group to use it to restrict access."
-msgstr ""
-"Perhatikan bahwa Anda harus menjadi anggota grup untuk menggunakannya untuk "
-"membatasi akses."
+msgstr "请注意，您必须是组的成员才能使用它来限制访问。"
 
 #: lib/admin/class-groups-admin-welcome.php:206
 msgid ""
 "Now you can protect your posts, pages and any other custom post type like "
 "products or events by simply assigning them to one or more groups."
 msgstr ""
-"Sekarang Anda dapat melindungi posting, halaman, dan jenis posting kustom "
-"lainnya seperti produk atau acara hanya dengan menetapkannya ke satu atau "
-"beberapa grup."
+"现在，您只需将文章、页面和其他自定义文章类型（如产品或事件）分配给一个或多个"
+"组即可加以保护。"
 
 #: lib/admin/groups-admin-options.php:368
 msgid ""
 "Once you have adjusted your access restrictions based on groups, you can "
 "disable legacy access control."
-msgstr ""
-"Setelah menyesuaikan batasan akses berdasarkan grup, Anda dapat "
-"menonaktifkan kontrol akses lawas."
+msgstr "一旦您调整了基于组的访问限制，即可禁用旧版访问控制。"
 
 #: lib/admin/groups-admin-capabilities.php:132
 #, php-format
 msgid "One capability has been added."
 msgid_plural "%d capabilities have been added."
-msgstr[0] "%d kemampuan telah ditambahkan."
+msgstr[0] "已添加 %d 个权限。"
 
 #: legacy/admin/class-groups-admin-post-columns-legacy.php:78
 msgid "One or more capabilities required to read the entry."
-msgstr "Diperlukan satu atau lebih kemampuan untuk membaca entri."
+msgstr "阅读此条目需要一个或多个权限。"
 
 #: lib/admin/class-groups-admin-post-columns.php:109
 msgid "One or more groups granting access to entries."
-msgstr "Satu atau lebih grup yang memberikan akses ke entri."
+msgstr "一个或多个授予条目访问权限的组。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:280
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:606
@@ -988,59 +937,53 @@ msgstr "Satu atau lebih grup yang memberikan akses ke entri."
 msgid ""
 "Only groups or users that have one of the selected capabilities are allowed "
 "to read this %s."
-msgstr ""
-"Hanya grup atau pengguna yang memiliki salah satu kemampuan terpilih yang "
-"diizinkan membaca %s ."
+msgstr "只有具有所选权限之一的组或用户才能阅读此 %s。"
 
 #: lib/admin/class-groups-admin.php:214
 msgid "Options"
-msgstr "Pilihan"
+msgstr "选项"
 
 #: lib/core/class-groups-help.php:70
 msgctxt "Help tab title and heading"
 msgid "Options"
-msgstr "Pilihan"
+msgstr "选项"
 
 #: lib/admin/class-groups-admin.php:277
 msgctxt "Plugin action link"
 msgid "Options"
-msgstr "Pilihan"
+msgstr "选项"
 
 #: lib/admin/groups-admin-options.php:118
 msgid "Options saved."
-msgstr "Opsi disimpan."
+msgstr "选项已保存。"
 
 #: lib/admin/groups-admin-add-ons.php:241
 msgid "Other recommended Tools"
-msgstr "Alat lain yang direkomendasikan"
+msgstr "其他推荐工具"
 
 #: lib/admin/groups-admin-groups-edit.php:92
 #: lib/admin/groups-admin-groups-add.php:78
 msgid "Parent"
-msgstr "Induk"
+msgstr "父级"
 
 #: lib/admin/class-groups-admin-welcome.php:234
 msgid "Perfect complements to memberships and access control with Groups."
-msgstr "Pelengkap sempurna untuk keanggotaan dan kontrol akses dengan Grup."
+msgstr "与群 Groups 的会员资格和访问控制的完美补充。"
 
 #: lib/admin/groups-admin-options.php:298
 msgid "Permissions"
-msgstr "Izin"
+msgstr "权限"
 
 #: lib/admin/groups-admin-groups-remove.php:134
 msgid ""
 "Please confirm removal of the following groups. This action cannot be undone."
-msgstr ""
-"Harap konfirmasikan penghapusan grup berikut. Tindakan ini tidak bisa "
-"dibatalkan."
+msgstr "请确认删除以下组。此操作无法撤销。"
 
 #: lib/admin/groups-admin-capabilities-remove.php:135
 msgid ""
 "Please confirm to remove the following capabilities. This action cannot be "
 "undone."
-msgstr ""
-"Harap konfirmasi untuk menghapus kemampuan berikut. Tindakan ini tidak bisa "
-"dibatalkan."
+msgstr "请确认删除以下权限。此操作无法撤销。"
 
 #: lib/core/class-groups-help.php:160
 #, php-format
@@ -1048,13 +991,12 @@ msgid ""
 "Please give it a <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
 "rating."
 msgstr ""
-"Tolong beri nilai <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;</"
-"a>."
+"请给它一个 <a href=\"%s\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> 评分。"
 
 #: lib/admin/class-groups-admin-welcome.php:80
 #, php-format
 msgid "Please make sure to read the %1$sMigration Guide%2$s."
-msgstr "Pastikan untuk membaca %1$sPanduan Migrasi%2$s."
+msgstr "请务必阅读 %1$s迁移指南%2$s。"
 
 #: lib/admin/class-groups-admin-deprecation-notice.php:113
 #: lib/admin/groups-admin-options.php:372
@@ -1062,55 +1004,53 @@ msgstr "Pastikan untuk membaca %1$sPanduan Migrasi%2$s."
 msgid ""
 "Please refer to the %s for details on how to switch to and use the new "
 "access restrictions."
-msgstr ""
-"Silakan merujuk ke %s untuk rincian tentang cara beralih dan menggunakan "
-"pembatasan akses baru."
+msgstr "有关如何切换和使用新访问限制的详细信息，请参阅 %s。"
 
 #: lib/access/class-groups-access-meta-boxes.php:499
 #, php-format
 msgid "Please use %s for files that require complete protection."
-msgstr "Harap gunakan %s untuk file yang membutuhkan perlindungan lengkap."
+msgstr "请对需要完全保护的文件使用 %s。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:197
 #: lib/access/class-groups-access-meta-boxes.php:191
 msgid "Post"
-msgstr "Pos"
+msgstr "文章"
 
 #: lib/admin/groups-admin-options.php:236
 msgid "Post types"
-msgstr "Jenis posting"
+msgstr "文章类型"
 
 #: lib/admin/class-groups-admin-welcome.php:201
 msgid "Protect Content Easily"
-msgstr "Lindungi Konten dengan Mudah"
+msgstr "轻松保护内容"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:319
 msgid "Quick-create group &amp; capability"
-msgstr "Buat grup cepat & amp; kemampuan"
+msgstr "快速创建组和权限"
 
 #: lib/access/class-groups-access-meta-boxes.php:229
 #: lib/access/class-groups-access-meta-boxes.php:443
 msgid "Read"
-msgstr "Baca baca"
+msgstr "读取"
 
 #: legacy/access/class-groups-post-access-legacy.php:52
 msgid "Read Post"
-msgstr "Baca Posting"
+msgstr "读取文章"
 
 #: lib/admin/groups-admin-capabilities.php:228
 #: lib/admin/groups-admin-capabilities.php:233
 msgid "Refresh"
-msgstr "Menyegarkan"
+msgstr "刷新"
 
 #: lib/auto/class-groups-registered.php:98
 msgid "Registered"
-msgstr "Terdaftar"
+msgstr "已注册"
 
 #: lib/admin/class-groups-admin-deprecation-notice.php:96
 #: lib/admin/class-groups-admin-deprecation-notice.php:97
 #: lib/admin/class-groups-admin-notice.php:159
 msgid "Remind me later"
-msgstr "Ingatkan aku nanti"
+msgstr "稍后提醒我"
 
 #: lib/admin/groups-admin-groups-remove.php:60
 #: lib/admin/groups-admin-groups-remove.php:145
@@ -1120,62 +1060,62 @@ msgstr "Ingatkan aku nanti"
 #: lib/admin/groups-admin-capabilities.php:382
 #: lib/admin/groups-admin-capabilities.php:468
 msgid "Remove"
-msgstr "Menghapus"
+msgstr "移除"
 
 #: lib/admin/groups-admin-capabilities-remove.php:49
 msgid "Remove a capability"
-msgstr "Hapus kemampuan"
+msgstr "移除权限"
 
 #: lib/admin/groups-admin-groups-remove.php:49
 msgid "Remove a group"
-msgstr "Hapus grup"
+msgstr "移除组"
 
 #: lib/admin/groups-admin-capabilities-remove.php:129
 msgid "Remove capabilities"
-msgstr "Hapus kemampuan"
+msgstr "移除权限"
 
 #: lib/admin/groups-admin-groups.php:516
 msgid "Remove capability"
-msgstr "Hapus kemampuan"
+msgstr "移除权限"
 
 #: lib/admin/class-groups-admin-users.php:193
 msgid "Remove from group"
-msgstr "Hapus dari grup"
+msgstr "从组中移除"
 
 #: lib/admin/groups-admin-groups.php:514
 msgid "Remove group"
-msgstr "Hapus grup"
+msgstr "移除组"
 
 #: lib/admin/groups-admin-groups-remove.php:127
 msgid "Remove groups"
-msgstr "Hapus grup"
+msgstr "移除组"
 
 #: legacy/admin/class-groups-admin-posts-legacy.php:180
 #: lib/admin/class-groups-admin-posts.php:244
 msgid "Remove restriction"
-msgstr "Hapus batasan"
+msgstr "移除限制"
 
 #: lib/admin/groups-admin-options.php:58
 msgid "Restrict Access"
-msgstr "Batasi Akses"
+msgstr "限制访问"
 
 #: lib/access/class-groups-access-meta-boxes.php:256
 #, php-format
 msgid "Restricts the visibility of this %s to members of the chosen groups."
-msgstr "Membatasi visibilitas %s kepada anggota grup yang dipilih."
+msgstr "将此 %s 的可见性限制为所选组的成员。"
 
 #: lib/access/class-groups-access-meta-boxes.php:491
 msgid "Restricts the visibility of this entry to members of the chosen groups."
-msgstr "Membatasi visibilitas entri ini kepada anggota grup yang dipilih."
+msgstr "将此条目的可见性限制为所选组的成员。"
 
 #: lib/admin/groups-admin-groups.php:474
 #: lib/admin/groups-admin-capabilities.php:367
 msgid "Results per page"
-msgstr "Hasil per halaman"
+msgstr "每页结果数"
 
 #: lib/admin/groups-admin-options.php:136
 msgid "Role"
-msgstr "Peran"
+msgstr "角色"
 
 #: lib/admin/groups-admin-groups-edit.php:169
 #: lib/admin/groups-admin-capabilities-edit.php:79
@@ -1183,229 +1123,214 @@ msgstr "Peran"
 #: lib/admin/groups-admin-options.php:382
 #: lib/admin/groups-admin-options.php:432
 msgid "Save"
-msgstr "Menyimpan"
+msgstr "保存"
 
 #: lib/blocks/src/blocks/groups-member/block.js:150
 #: lib/blocks/src/blocks/groups-non-member/block.js:150
 msgid "Select Groups"
-msgstr "Pilih Grup"
+msgstr "选择组"
 
 #: lib/admin/groups-admin-options.php:240
 msgid "Show access restrictions for these post types."
-msgstr "Tampilkan batasan akses untuk jenis posting ini."
+msgstr "显示这些文章类型的访问限制。"
 
 #: lib/blocks/src/blocks/groups-member/block.js:60
 msgid "Show content for group members"
-msgstr "Tampilkan konten untuk anggota grup"
+msgstr "为组成员显示内容"
 
 #: lib/admin/groups-admin-options.php:284
 msgid "Show groups in user profiles."
-msgstr "Tampilkan grup di profil pengguna."
+msgstr "在用户资料中显示组。"
 
 #: lib/admin/groups-admin-options.php:293
 msgid "Show the Groups tree view."
-msgstr "Tampilkan tampilan hierarki Grup."
+msgstr "显示 Groups 树形视图。"
 
 #: lib/admin/groups-admin-options.php:276
 msgid ""
 "Some post types shown may not offer access restrictions even though they "
 "appear enabled here."
-msgstr ""
-"Beberapa jenis posting yang ditampilkan mungkin tidak menawarkan pembatasan "
-"akses meskipun tampaknya diaktifkan di sini."
+msgstr "此处显示的一些文章类型可能不提供访问限制，即使它们在此处显示为已启用。"
 
 #: lib/admin/class-groups-admin-deprecation-notice.php:104
 msgid "Support for this deprecated feature will soon be removed."
-msgstr ""
-"Dukungan untuk fitur yang tidak digunakan lagi ini akan segera dihapus."
+msgstr "对这一已弃用功能的支持很快就会被删除。"
 
 #: lib/admin/class-groups-admin-bitcoin.php:69
 #, php-format
 msgid "Support the developers and contribute Bitcoin to %s"
-msgstr "Dukung pengembang dan sumbangkan Bitcoin ke %s"
+msgstr "支持开发者并为 %s 捐赠 Bitcoin"
 
 #: lib/admin/groups-admin-options.php:339
 #, php-format
 msgid "Switching to Groups %s"
-msgstr "Beralih ke Grup %s"
+msgstr "切换到 Groups %s"
 
 #: lib/admin/class-groups-admin-posts.php:202
 msgid "Terms"
-msgstr "Ketentuan"
+msgstr "术语"
 
 #: lib/core/class-groups-help.php:153
 #, php-format
 msgid "Thank you for using %1$s by %2$s."
-msgstr "Terima kasih telah menggunakan %1$s oleh %2$s."
+msgstr "感谢您使用 %2$s 的 %1$s。"
 
 #: lib/admin/class-groups-admin-welcome.php:193
 msgid ""
 "Thanks for using Groups! We have made it even easier to protect your content "
 "and hope you like it :)"
-msgstr ""
-"Terima kasih telah menggunakan Grup! Kami telah membuatnya lebih mudah untuk "
-"melindungi konten Anda dan berharap Anda menyukainya :)"
+msgstr "感谢使用 Groups！我们使其更容易保护您的内容，希望您喜欢 :)"
 
 #: lib/admin/groups-admin-capabilities-edit.php:122
 #, php-format
 msgid ""
 "The <em>%s</em> capability already exists and cannot be assigned to this one."
-msgstr ""
-"Kemampuan <em>%s</em> sudah ada dan tidak dapat ditetapkan untuk yang ini."
+msgstr "权限 <em>%s</em> 已存在，无法分配给此权限。"
 
 #: lib/admin/groups-admin-capabilities-add.php:105
 #, php-format
 msgid "The <em>%s</em> capability already exists."
-msgstr "Kemampuan <em>%s</em> sudah ada."
+msgstr "权限 <em>%s</em> 已存在。"
 
 #: lib/admin/groups-admin-capabilities-edit.php:133
 #, php-format
 msgid "The <em>%s</em> capability could not be updated."
-msgstr "Kemampuan <em>%s</em> tidak dapat diperbarui."
+msgstr "无法更新权限 <em>%s</em>。"
 
 #: lib/admin/groups-admin-capabilities.php:66
 #, php-format
 msgid "The <em>%s</em> capability has been created."
-msgstr "Kemampuan <em>%s</em> telah dibuat."
+msgstr "权限 <em>%s</em> 已创建。"
 
 #: lib/admin/groups-admin-capabilities.php:78
 #, php-format
 msgid "The <em>%s</em> capability has been updated."
-msgstr "Kemampuan <em>%s</em> telah diperbarui."
+msgstr "权限 <em>%s</em> 已更新。"
 
 #: lib/admin/groups-admin-groups-edit.php:219
 #, php-format
 msgid ""
 "The <em>%s</em> group already exists and cannot be used to name this one."
-msgstr ""
-"Grup <em>%s</em> sudah ada dan tidak dapat digunakan untuk memberi nama grup "
-"ini."
+msgstr "组 <em>%s</em> 已存在，不能用作此组的名称。"
 
 #: lib/admin/groups-admin-groups-add.php:174
 #, php-format
 msgid "The <em>%s</em> group already exists."
-msgstr "Grup <em>%s</em> sudah ada."
+msgstr "组 <em>%s</em> 已存在。"
 
 #: lib/admin/groups-admin-groups.php:67
 #, php-format
 msgid "The <em>%s</em> group has been created."
-msgstr "Grup <em>%s</em> telah dibuat."
+msgstr "组 <em>%s</em> 已创建。"
 
 #: lib/admin/groups-admin-groups.php:79
 #, php-format
 msgid "The <em>%s</em> group has been updated."
-msgstr "Grup <em>%s</em> telah diperbarui."
+msgstr "组 <em>%s</em> 已更新。"
 
 #: lib/admin/groups-admin-capabilities-edit.php:137
 #: lib/admin/groups-admin-capabilities-add.php:102
 msgid "The <em>Capability</em> must not be empty."
-msgstr "<em> Kemampuan </em> tidak boleh kosong."
+msgstr "权限不能为空。"
 
 #: lib/admin/groups-admin-groups-edit.php:210
 msgid "The <em>Name</em> must not be empty."
-msgstr "<em> Nama </em> tidak boleh kosong."
+msgstr "名称不能为空。"
 
 #: lib/access/class-groups-access-meta-boxes.php:495
 msgid ""
 "The attachment page is restricted to authorized users, but due to technical "
 "limitations, the file can still be accessed directly via its URL."
 msgstr ""
-"Halaman lampiran dibatasi untuk pengguna yang berwenang, tetapi karena "
-"keterbatasan teknis, file masih dapat diakses langsung melalui URL-nya."
+"附件页面仅限授权用户访问，但由于技术限制，文件仍可通过其 URL 直接访问。"
 
 #: lib/admin/groups-admin-capabilities.php:85
 msgid "The capability has been deleted."
-msgstr "Kemampuan telah dihapus."
+msgstr "权限已被删除。"
 
 #: lib/admin/groups-admin-groups-edit.php:137
 msgid "The chosen capabilities are assigned to the group."
-msgstr "Kemampuan yang dipilih ditugaskan ke grup."
+msgstr "所选权限已分配给组。"
 
 #: lib/core/class-groups-help.php:89
 #, php-format
 msgid "The complete documentation is available on the %s pages for Groups."
-msgstr "Dokumentasi lengkap tersedia di halaman %s untuk Groups."
+msgstr "完整文档可在 Groups 的 %s 页面获取。"
 
 #: lib/admin/groups-admin-options.php:351
 msgid "The following is only of interest if you have upgraded from Groups 1.x:"
-msgstr ""
-"Yang berikut ini hanya menarik jika Anda telah meningkatkan dari Grup 1.x:"
+msgstr "以下内容仅在您从 Groups 1.x 升级时才有兴趣。"
 
 #: lib/admin/groups-admin-groups.php:86
 msgid "The group has been deleted."
-msgstr "Grup telah dihapus."
+msgstr "组已被删除。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:148
 msgid "The manual way:"
-msgstr "Cara manual:"
+msgstr "手动方式："
 
 #: lib/admin/groups-admin-groups-add.php:171
 msgid "The name must not be empty."
-msgstr "Nama tidak boleh kosong."
+msgstr "名称不能为空。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:139
 msgid "The quick way:"
-msgstr "Cara cepat:"
+msgstr "快速方式："
 
 #: lib/admin/class-groups-admin-user-profile.php:110
 #: lib/admin/class-groups-admin-user-profile.php:244
 msgid "The user is a member of the chosen groups."
-msgstr "Pengguna adalah anggota grup yang dipilih."
+msgstr "用户是所选组的成员。"
 
 #: lib/admin/groups-admin-groups.php:745
 #: lib/admin/groups-admin-capabilities.php:494
 msgid "There are no results."
-msgstr "Tidak ada hasil."
+msgstr "没有结果。"
 
 #: lib/admin/groups-admin-groups-add.php:117
 msgid "These capabilities will be assigned to the group."
-msgstr "Kemampuan ini akan ditugaskan ke grup."
+msgstr "这些权限将分配给组。"
 
 #: lib/admin/groups-admin-options.php:299
 msgid ""
 "These permissions apply to Groups management. They do not apply to access "
 "permissions derived from Groups capabilities."
-msgstr ""
-"Izin ini berlaku untuk manajemen Grup. Mereka tidak berlaku untuk izin akses "
-"yang berasal dari kemampuan Grup."
+msgstr "这些权限适用于 Groups 管理。不适用于从 Groups 权限派生的访问权限。"
 
 #: lib/admin/groups-admin-options.php:360
 msgid "This could be important!"
-msgstr "Ini bisa jadi penting!"
+msgstr "这可能很重要！"
 
 #: lib/admin/groups-admin-options.php:272
 msgid ""
 "This determines for which post types access restriction settings are offered."
-msgstr ""
-"Ini menentukan pengaturan pembatasan akses jenis posting apa yang ditawarkan."
+msgstr "这决定了为哪些文章类型提供访问限制设置。"
 
 #: lib/admin/groups-admin-groups.php:721
 msgid "This group has no capabilities."
-msgstr "Grup ini tidak memiliki kemampuan."
+msgstr "此组没有权限。"
 
 #: lib/admin/groups-admin-options.php:356
 msgid ""
 "This means that if you had access restrictions in place that were based on "
 "capabilities, your entries will still be protected."
-msgstr ""
-"Ini berarti bahwa jika Anda memiliki batasan akses yang didasarkan pada "
-"kemampuan, entri Anda akan tetap terlindungi."
+msgstr "这意味着，如果您设置了基于权限的访问限制，您的条目仍将受到保护。"
 
 #: lib/access/class-groups-post-access.php:801
 msgid ""
 "This method is deprecated. You should use Groups_Post_Access_Legacy::"
 "get_read_post_capabilities() to retrieve the capabilities instead."
 msgstr ""
-"Metode ini sudah usang. Anda harus menggunakan Groups_Post_Access_Legacy :: "
-"get_read_post_capabilities () untuk mengambil kemampuan sebagai gantinya."
+"此方法已弃用。您应改用 Groups_Post_Access_Legacy::"
+"get_read_post_capabilities() 来检索权限。"
 
 #: lib/admin/groups-admin-options.php:224
 msgid ""
 "To disable, do not define the constant <code>GROUPS_ADMINISTRATOR_OVERRIDE</"
 "code> or set it to <code>false</code>."
 msgstr ""
-"Untuk menonaktifkan, jangan mendefinisikan konstanta <code> "
-"GROUPS_ADMINISTRATOR_OVERRIDE </code> atau setel ke <code> false </code>."
+"要禁用，请不要定义常量 <code>GROUPS_ADMINISTRATOR_OVERRIDE</code> 或将其设置"
+"为 <code>false</code>。"
 
 #: lib/admin/groups-admin-options.php:347
 msgid ""
@@ -1413,72 +1338,64 @@ msgid ""
 "a previous version, we have included legacy access control based on "
 "capabilities."
 msgstr ""
-"Untuk mempermudah transisi ke model baru bagi mereka yang bermigrasi dari "
-"versi sebelumnya, kami telah menyertakan kontrol akses lawas berdasarkan "
-"kemampuan."
+"为了使从以前版本迁移的用户更容易过渡到新模型，我们包含了基于权限的旧版访问控"
+"制。"
 
 #: lib/admin/groups-admin-options.php:345
 msgid ""
 "To put it simple, previously you would have used capabilities to restrict "
 "access to posts and now you simply use groups."
-msgstr ""
-"Sederhananya, sebelumnya Anda akan menggunakan kemampuan untuk membatasi "
-"akses ke posting dan sekarang Anda cukup menggunakan grup."
+msgstr "简单地说，以前您需要使用权限来限制对文章的访问，现在您只需使用组即可。"
 
 #: lib/admin/class-groups-admin.php:186 lib/admin/class-groups-admin.php:187
 msgid "Tree"
-msgstr "Pohon"
+msgstr "树形"
 
 #: lib/admin/groups-admin-tree-view.php:39
 msgid "Tree of Groups"
-msgstr "Pohon Kelompok"
+msgstr "Groups 树形图"
 
 #: lib/admin/groups-admin-options.php:289
 msgid "Tree view"
-msgstr "Tampilan pohon"
+msgstr "树形视图"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:153
 msgid ""
 "Try the quick-create field first. Unless you need a more complex setup, "
 "there is no reason to go this way instead."
 msgstr ""
-"Cobalah bidang buat cepat terlebih dahulu. Kecuali jika Anda membutuhkan "
-"pengaturan yang lebih kompleks, tidak ada alasan untuk melakukannya."
+"首先尝试快速创建字段。除非您需要更复杂的设置，否则没有理由选择其他方式。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:220
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:221
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:556
 msgid "Type and choose &hellip;"
-msgstr "Ketik dan pilih & hellip;"
+msgstr "输入并选择 &hellip;"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:127
 msgid ""
 "Use the <em>Access restrictions</em> box to limit the visibility of posts, "
 "pages and other post types."
-msgstr ""
-"Gunakan kotak <em> Batasan akses </em> untuk membatasi visibilitas posting, "
-"halaman, dan jenis posting lainnya."
+msgstr "使用 <em>访问限制</em> 框限制文章、页面和其他文章类型的可见性。"
 
 #: lib/access/class-groups-access-meta-boxes.php:135
 msgid ""
 "Use the <em>Groups</em> box to limit the visibility of posts, pages and "
 "other post types."
-msgstr ""
-"Gunakan kotak <em> Grup </em> untuk membatasi visibilitas posting, halaman, "
-"dan jenis posting lainnya."
+msgstr "使用 <em>组</em> 框限制文章、页面和其他文章类型的可见性。"
 
 #: lib/admin/groups-admin-options.php:280
 msgid "User profiles"
-msgstr "Profil pengguna"
+msgstr "用户资料"
 
 #: lib/admin/class-groups-admin-users.php:272
 msgctxt "label title for conjunctive groups filter checkbox"
 msgid "Users must belong to all chosen groups"
-msgstr "Pengguna harus termasuk dalam semua grup yang dipilih"
+msgstr "用户必须属于所有选定组"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:141
 msgid "Using the quick-create field"
-msgstr "Menggunakan bidang buat cepat"
+msgstr "使用快速创建字段"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:146
 msgid ""
@@ -1491,44 +1408,40 @@ msgid ""
 "capability is enabled to enforce read access. In order to be able to use the "
 "capability, your user account will be assigned to the group."
 msgstr ""
-"Menggunakan bidang pembuatan cepat, Anda dapat membuat grup dan kemampuan "
-"baru. Kemampuan akan ditugaskan ke grup dan diaktifkan untuk menegakkan "
-"akses baca. Nama grup peka huruf besar-kecil, nama kemampuan adalah versi "
-"huruf kecil dari nama grup. Jika grup sudah ada, kemampuan baru dibuat dan "
-"ditugaskan ke grup yang ada. Jika kemampuan sudah ada, itu akan ditugaskan "
-"ke grup. Jika keduanya sudah ada, kemampuan diaktifkan untuk menegakkan "
-"akses baca. Agar dapat menggunakan kapabilitas, akun pengguna Anda akan "
-"ditugaskan ke grup."
+"使用快速创建字段，您可以创建新组和权限。权限将分配给组并启用强制读取访问。组"
+"名区分大小写，权限名称是组名的小写版本。如果组已存在，将创建新权限并分配给现"
+"有组。如果权限已存在，它将被分配给组。如果两者都已存在，则启用权限以强制读取"
+"访问。为了能够使用权限，您的用户账户将被分配到该组。"
 
 #: lib/admin/class-groups-admin-welcome.php:149
 msgid "View the Welcome screen for this version of Groups"
-msgstr "Lihat layar Selamat Datang untuk versi Grup ini"
+msgstr "查看此版本 Groups 的欢迎屏幕"
 
 #: lib/admin/class-groups-admin.php:313
 msgid "Warning!"
-msgstr "Peringatan!"
+msgstr "警告！"
 
 #: lib/admin/class-groups-admin-welcome.php:204
 msgid "We have made it even easier to protect your content!"
-msgstr "Kami telah membuatnya lebih mudah untuk melindungi konten Anda!"
+msgstr "我们使其更容易保护您的内容！"
 
 #: lib/admin/class-groups-admin-welcome.php:150
 msgid "Welcome"
-msgstr "Selamat datang"
+msgstr "欢迎"
 
 #: lib/admin/class-groups-admin-welcome.php:47
 #: lib/admin/class-groups-admin-welcome.php:48
 msgid "Welcome to Groups"
-msgstr "Selamat datang di Grup"
+msgstr "欢迎使用 Groups"
 
 #: lib/admin/class-groups-admin-welcome.php:182
 #, php-format
 msgid "Welcome to Groups %s"
-msgstr "Selamat datang di Grup %s"
+msgstr "欢迎使用 Groups %s"
 
 #: lib/admin/class-groups-admin-welcome.php:197
 msgid "What's New?"
-msgstr "Apa yang baru?"
+msgstr "新增功能？"
 
 #: lib/admin/class-groups-admin-welcome.php:222
 #, php-format
@@ -1536,34 +1449,29 @@ msgid ""
 "Whether you are new to Groups or have been using it before, please make sure "
 "to visit the %1$sDocumentation%2$s pages to know more about how to use it."
 msgstr ""
-"Baik Anda baru di Grup atau pernah menggunakannya sebelumnya, pastikan untuk "
-"mengunjungi %1$sDokumentasi%2$s halaman untuk mengetahui lebih banyak "
-"tentang cara menggunakannya."
+"无论您是首次使用 Groups 还是之前使用过，请务必访问 %1$s文档%2$s 页面以了解其"
+"使用方法。"
 
 #: lib/admin/class-groups-admin-notice.php:152
 msgid "Yes, here we go!"
-msgstr "Ya, ini dia!"
+msgstr "是的，开始！"
 
 #: lib/views/class-groups-shortcodes.php:695
 #, php-format
 msgid "You are a member of the %s group."
-msgstr "Anda adalah anggota grup %s."
+msgstr "您是 %s 组的成员。"
 
 #: lib/admin/groups-admin-options.php:358
 msgid ""
 "You are running the system with legacy access control based on capabilities "
 "disabled."
-msgstr ""
-"Anda menjalankan sistem dengan kontrol akses lawas berdasarkan kemampuan "
-"yang dinonaktifkan."
+msgstr "您正在禁用基于权限的旧版访问控制的情况下运行系统。"
 
 #: lib/admin/groups-admin-options.php:354
 msgid ""
 "You are running the system with legacy access control based on capabilities "
 "enabled."
-msgstr ""
-"Anda menjalankan sistem dengan kontrol akses lama berdasarkan kapabilitas "
-"yang diaktifkan."
+msgstr "您正在启用基于权限的旧版访问控制的情况下运行系统。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:323
 msgid ""
@@ -1576,18 +1484,15 @@ msgid ""
 "enabled to enforce read access. In order to be able to use the capability, "
 "your user account will be assigned to the group."
 msgstr ""
-"Anda dapat membuat grup dan kemampuan baru di sini. Kemampuan akan "
-"ditugaskan ke grup dan diaktifkan untuk menegakkan akses baca. Nama grup "
-"peka huruf besar-kecil, nama kemampuan adalah versi huruf kecil dari nama "
-"grup. Jika grup sudah ada, kemampuan baru dibuat dan ditugaskan ke grup yang "
-"ada. Jika kemampuan sudah ada, itu akan ditugaskan ke grup. Jika keduanya "
-"sudah ada, kemampuan diaktifkan untuk menegakkan akses baca. Agar dapat "
-"menggunakan kapabilitas, akun pengguna Anda akan ditugaskan ke grup."
+"您可以在此处创建新组和权限。权限将分配给组并启用强制读取访问。组名区分大小"
+"写，权限名称是组名的小写版本。如果组已存在，将创建新权限并分配给现有组。如果"
+"权限已存在，它将被分配给组。如果两者都已存在，则启用权限以强制读取访问。为了"
+"能够使用权限，您的用户账户将被分配到该组。"
 
 #: lib/access/class-groups-access-meta-boxes.php:222
 #: lib/access/class-groups-access-meta-boxes.php:476
 msgid "You can create a new group by indicating the group's name."
-msgstr "Anda dapat membuat grup baru dengan menunjukkan nama grup."
+msgstr "您可以通过指定组名来创建新组。"
 
 #: lib/access/class-groups-access-meta-boxes.php:216
 #, php-format
@@ -1596,257 +1501,174 @@ msgid ""
 "more groups that are allowed to read this %2$s. If no groups are chosen, the "
 "%3$s is visible to anyone."
 msgstr ""
-"Anda dapat membatasi keterlihatan %1$s untuk anggota grup. Pilih satu atau "
-"lebih grup yang diizinkan membaca ini %2$s . Jika tidak ada grup yang "
-"dipilih, %3$s dapat dilihat oleh siapa saja."
+"您可以将此 %1$s 的可见性限制为组成员。选择一个或多个允许读取此 %2$s 的组。如"
+"果未选择组，则 %3$s 对所有人可见。"
 
 #: lib/access/class-groups-access-meta-boxes.php:475
 msgid ""
 "You can restrict the visibility to group members. Choose one or more groups "
 "to restrict access. If no groups are chosen, this entry is visible to anyone."
 msgstr ""
-"Anda dapat membatasi visibilitas ke anggota grup. Pilih satu atau beberapa "
-"grup untuk membatasi akses. Jika tidak ada grup yang dipilih, entri ini "
-"dapat dilihat oleh siapa saja."
+"您可以将可见性限制为组成员。选择一个或多个组以限制访问。如果未选择组，则此条"
+"目对所有人可见。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:130
 msgid ""
 "You can select one or more capabilities that are enabled for access "
 "restriction."
-msgstr ""
-"Anda dapat memilih satu atau beberapa kemampuan yang diaktifkan untuk "
-"pembatasan akses."
+msgstr "您可以选择一个或多个已启用访问限制的权限。"
 
 #: lib/access/class-groups-access-meta-boxes.php:140
 msgid "You can select one or more groups to restrict access to its members."
-msgstr ""
-"Anda dapat memilih satu atau beberapa grup untuk membatasi akses ke "
-"anggotanya."
+msgstr "您可以选择一个或多个组以限制其成员的访问权限。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:301
 #: lib/blocks/src/blocks/groups-member/block.js:139
 #: lib/blocks/src/blocks/groups-non-member/block.js:139
 #: lib/access/class-groups-access-meta-boxes.php:263
 msgid "You cannot set any access restrictions."
-msgstr "Anda tidak dapat menetapkan batasan akses apa pun."
+msgstr "您无法设置任何访问限制。"
 
 #: lib/views/class-groups-shortcodes.php:690
 #, php-format
 msgid "You have joined the %s group."
-msgstr "Anda telah bergabung dengan grup %s."
+msgstr "您已加入 %s 组。"
 
 #: lib/views/class-groups-shortcodes.php:904
 #, php-format
 msgid "You have left the %s group."
-msgstr "Anda telah meninggalkan grup %s."
+msgstr "您已离开 %s 组。"
 
 #: legacy/access/class-groups-access-meta-boxes-legacy.php:307
 msgid ""
 "You must be in a group that has at least one capability enabled to enforce "
 "read access."
-msgstr ""
-"Anda harus berada dalam grup yang memiliki setidaknya satu kemampuan yang "
-"diaktifkan untuk menegakkan akses baca."
+msgstr "您必须处于至少启用一个权限以强制读取访问的组中。"
 
 #: lib/access/class-groups-access-meta-boxes.php:269
 msgid "You need to have permission to set access restrictions."
-msgstr "Anda harus memiliki izin untuk menetapkan batasan akses."
+msgstr "您需要有权限才能设置访问限制。"
 
 #: lib/access/class-groups-post-access.php:660
 msgid ""
 "You should use Groups_Post_Access_Legacy::create() to pass a capability "
 "restriction instead."
-msgstr ""
-"Anda harus menggunakan Groups_Post_Access_Legacy :: create () untuk "
-"memberikan batasan kemampuan."
+msgstr "您应改用 Groups_Post_Access_Legacy::create() 来传递权限限制。"
 
 #: lib/admin/groups-admin-options.php:183 lib/admin/groups-admin-add-ons.php:39
 msgid "Your support matters!"
-msgstr "Dukungan Anda penting!"
+msgstr "您的支持很重要！"
 
 #: lib/blocks/src/blocks/groups-member/block.js:64
 #: lib/blocks/src/blocks/groups-non-member/block.js:64
 msgid "access"
-msgstr "mengakses"
+msgstr "访问"
 
 #: lib/blocks/src/blocks/groups-member/block.js:65
 #: lib/blocks/src/blocks/groups-non-member/block.js:65
 msgid "block"
-msgstr "blok"
+msgstr "区块"
 
 #: lib/blocks/src/blocks/groups-member/block.js:66
 #: lib/blocks/src/blocks/groups-non-member/block.js:66
 msgid "blocks"
-msgstr "block"
+msgstr "区块"
 
 #: lib/blocks/src/blocks/groups-member/block.js:67
 #: lib/blocks/src/blocks/groups-non-member/block.js:67
 msgid "content"
-msgstr "konten"
+msgstr "内容"
 
 #: lib/blocks/src/blocks/groups-member/block.js:68
 #: lib/blocks/src/blocks/groups-non-member/block.js:68
 msgid "control"
-msgstr "kontrol"
+msgstr "控制"
 
 #: lib/blocks/src/blocks/groups-member/block.js:69
 #: lib/blocks/src/blocks/groups-non-member/block.js:69
 msgid "from"
-msgstr "dari"
+msgstr "从"
 
 #: lib/blocks/src/blocks/groups-member/block.js:70
 #: lib/blocks/src/blocks/groups-non-member/block.js:70
 msgid "group"
-msgstr "grup"
+msgstr "组"
 
 #: lib/blocks/src/blocks/groups-member/block.js:71
 #: lib/blocks/src/blocks/groups-non-member/block.js:71
 msgid "groups"
-msgstr "kelompok"
+msgstr "组"
 
 #: lib/blocks/src/blocks/groups-member/block.js:72
 #: lib/blocks/src/blocks/groups-non-member/block.js:72
 msgid "hide"
-msgstr "sembunyikan"
+msgstr "隐藏"
 
 #: lib/blocks/src/blocks/groups-member/block.js:73
 #: lib/blocks/src/blocks/groups-non-member/block.js:73
 msgid "member"
-msgstr "anggota"
+msgstr "成员"
 
 #: lib/blocks/src/blocks/groups-member/block.js:74
 #: lib/blocks/src/blocks/groups-non-member/block.js:74
 msgid "members"
-msgstr "anggota"
+msgstr "成员"
 
 #: lib/blocks/src/blocks/groups-member/block.js:75
 #: lib/blocks/src/blocks/groups-non-member/block.js:75
 msgid "membership"
-msgstr "keanggotaan"
+msgstr "成员资格"
 
 #: lib/blocks/src/blocks/groups-member/block.js:76
 #: lib/blocks/src/blocks/groups-non-member/block.js:76
 msgid "memberships"
-msgstr "keanggotaan"
+msgstr "成员资格"
 
 #: lib/blocks/src/blocks/groups-member/block.js:77
 #: lib/blocks/src/blocks/groups-non-member/block.js:77
 msgid "only"
-msgstr "hanya"
+msgstr "仅"
 
 #: lib/blocks/src/blocks/groups-member/block.js:78
 #: lib/blocks/src/blocks/groups-non-member/block.js:78
 msgid "protect"
-msgstr "lindungi"
+msgstr "保护"
 
 #: lib/blocks/src/blocks/groups-member/block.js:79
 #: lib/blocks/src/blocks/groups-non-member/block.js:79
 msgid "restrict"
-msgstr "batasi"
+msgstr "限制"
 
 #: lib/blocks/src/blocks/groups-member/block.js:80
 #: lib/blocks/src/blocks/groups-non-member/block.js:80
 msgid "show"
-msgstr "perlihatkan"
+msgstr "显示"
 
 #: lib/blocks/src/blocks/groups-member/block.js:81
 #: lib/blocks/src/blocks/groups-non-member/block.js:81
 msgid "to"
-msgstr "ke"
+msgstr "到"
 
 #: lib/blocks/src/blocks/groups-member/block.js:84
 #: lib/blocks/src/blocks/groups-non-member/block.js:84
 msgid "user"
-msgstr "pengguna"
+msgstr "用户"
 
 #: lib/blocks/src/blocks/groups-member/block.js:82
 #: lib/blocks/src/blocks/groups-non-member/block.js:82
 msgid "visibility"
-msgstr "visibilitas"
+msgstr "可见性"
 
 #: lib/blocks/src/blocks/groups-member/block.js:83
 #: lib/blocks/src/blocks/groups-non-member/block.js:83
 msgid "visible"
-msgstr "terlihat"
+msgstr "可见"
 
 #~ msgid "Anyone &hellip;"
-#~ msgstr "Siapa saja & hellip;"
+#~ msgstr "任何人都 &hellip;"
 
 #~ msgid "Click to toggle the display of groups that grant the capabilities."
-#~ msgstr "Klik untuk mengganti tampilan grup yang memberikan kemampuan."
+#~ msgstr "单击切换显示授予权限的组。"
 
 #~ msgid "Show groups"
-#~ msgstr "Perlihatkan grup"
-
-#~ msgid ""
-#~ "Thank you for using <a href=\"https://www.itthinx.com/plugins/groups\" "
-#~ "target=\"_blank\">Groups</a> by <a href=\"https://www.itthinx.com\" "
-#~ "target=\"_blank\">itthinx</a>."
-#~ msgstr ""
-#~ "Terima kasih telah menggunakan <a href=\"https://www.itthinx.com/plugins/"
-#~ "groups\" target=\"_blank\">Groups</a> oleh <a href=\"https://www.itthinx."
-#~ "com\" target=\"_blank\">itthinx</a>."
-
-#~ msgid "I have already done that."
-#~ msgstr "Saya sudah melakukannya."
-
-#, php-format
-#~ msgid ""
-#~ "You can also follow <a href=\"%s\">@itthinx</a> on Twitter or visit <a "
-#~ "href=\"%s\" target=\"_blank\">itthinx.com</a> to check out other free and "
-#~ "premium plugins we provide."
-#~ msgstr ""
-#~ "Anda juga dapat mengikuti <a href=\"%s\">@itthinx</a> di Twitter atau "
-#~ "mengunjungi <a href=\"%s\" target=\"_blank\">itthinx.com</a> untuk "
-#~ "memeriksa plugin gratis dan premium lainnya yang kami sediakan."
-
-#, php-format
-#~ msgid ""
-#~ "Please make sure to read the notes on <strong>Switching to Groups %s</"
-#~ "strong> below."
-#~ msgstr ""
-#~ "Pastikan untuk membaca catatan di <strong>Beralih ke Grup %s</strong> di "
-#~ "bawah ini."
-
-#~ msgid "Recommended plugins by itthinx"
-#~ msgstr "Plugin yang disarankan oleh itthinx"
-
-#~ msgid ""
-#~ "And you can now filter the list of users by one or multiple groups with "
-#~ "one convenient field."
-#~ msgstr ""
-#~ "Dan sekarang Anda dapat memfilter daftar pengguna dengan satu atau "
-#~ "beberapa grup dengan satu bidang yang mudah."
-
-#~ msgid ""
-#~ "Another improvement is better filtering by groups and a reduced footprint "
-#~ "on the Users admin screen."
-#~ msgstr ""
-#~ "Peningkatan lainnya adalah pemfilteran yang lebih baik berdasarkan grup "
-#~ "dan mengurangi jejak pada layar admin Pengguna."
-
-#~ msgid ""
-#~ "Now you can assign new users directly to groups when you create a new "
-#~ "user account from the Dashboard."
-#~ msgstr ""
-#~ "Sekarang Anda dapat menetapkan pengguna baru secara langsung ke grup saat "
-#~ "Anda membuat akun pengguna baru dari Dasbor."
-
-#~ msgid ""
-#~ "Previously we used capabilities to do that, but changing to this new "
-#~ "model makes things even easier."
-#~ msgstr ""
-#~ "Sebelumnya kami menggunakan kemampuan untuk melakukan itu, tetapi "
-#~ "mengubah model baru ini membuat segalanya menjadi lebih mudah."
-
-#, php-format
-#~ msgid "<strong>%s</strong>"
-#~ msgstr "<strong> %s </strong>"
-
-#, php-format
-#~ msgid "Capability : %s"
-#~ msgstr "Kemampuan: %s"
-
-#, php-format
-#~ msgid "Group Name : %s"
-#~ msgstr "Nama Grup: %s"
+#~ msgstr "显示组"

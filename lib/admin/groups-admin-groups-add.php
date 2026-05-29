@@ -169,9 +169,12 @@ function groups_admin_groups_add_submit() {
 	} else {
 		if ( !$name ) {
 			Groups_Admin::add_message( __( 'The name must not be empty.', 'groups' ), 'error' );
-		} else if ( Groups_Group::read_by_name( $name ) ) {
-			/* translators: group name */
-			Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group already exists.', 'groups' ), stripslashes( wp_filter_nohtml_kses( ( $name ) ) ) ), 'error' );
+		} else {
+			$other_group = Groups_Group::read_by_name( $name );
+			if ( $other_group ) {
+				/* translators: group name */
+				Groups_Admin::add_message( sprintf( __( 'The <em>%s</em> group already exists.', 'groups' ), stripslashes( wp_filter_nohtml_kses( ( $other_group->name ) ) ) ), 'error' );
+			}
 		}
 	}
 
