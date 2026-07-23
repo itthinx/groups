@@ -68,6 +68,7 @@ class Groups_Admin {
 		wp_register_style( 'groups_admin_post', GROUPS_PLUGIN_URL . 'css/groups_admin_post.css', array(), $groups_version );
 		wp_register_style( 'groups_admin_user', GROUPS_PLUGIN_URL . 'css/groups_admin_user.css', array(), $groups_version );
 		require_once GROUPS_VIEWS_LIB . '/class-groups-uie.php';
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
 	}
 
 	/**
@@ -76,7 +77,27 @@ class Groups_Admin {
 	 * @see Groups_Admin::admin_menu()
 	 */
 	public static function admin_print_styles() {
-		wp_enqueue_style( 'groups_admin' );
+		if ( !wp_style_is( 'groups_admin' ) ) {
+			wp_enqueue_style( 'groups_admin' );
+		}
+	}
+
+	/**
+	 * Enqueue admin scripts and styles.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $hook_suffix the current admin page
+	 */
+	public static function admin_enqueue_scripts( $hook_suffix ) {
+		// Note that we keep using self::admin_print_styles() and self::admin_print_scripts() via actions registered in self::admin_menu().
+		// So all extension-added children have these loaded automatically, rely on match.
+		if ( strpos( $hook_suffix, '_page_groups-' ) !== false ) {
+			if ( !wp_style_is( 'groups_admin' ) ) {
+				wp_enqueue_style( 'groups_admin' );
+			}
+			Groups_UIE::enqueue( 'select' );
+		}
 	}
 
 	/**
@@ -105,7 +126,7 @@ class Groups_Admin {
 				case 'error' :
 					$class = 'error';
 			}
-			self::$messages[] = '<div class="'.$class.'">' .  balanceTags( stripslashes( wp_filter_kses( $message ) ), true ) . '</div>';
+			self::$messages[] = '<div class="'.$class.'">' . balanceTags( stripslashes( wp_filter_kses( $message ) ), true ) . '</div>';
 		}
 	}
 
@@ -170,8 +191,6 @@ class Groups_Admin {
 			self::MENU_POSITION
 		);
 		$pages[] = $page;
-		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
-		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 
 		if ( groups_verify_post_nonce( GROUPS_ADMIN_OPTIONS_NONCE, 'admin' ) ) {
 			$show_tree_view = !empty( groups_sanitize_post( GROUPS_SHOW_TREE_VIEW ) );
@@ -190,8 +209,6 @@ class Groups_Admin {
 				apply_filters( 'groups_add_submenu_page_function', 'groups_admin_tree_view' )
 			);
 			$pages[] = $page;
-			add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
-			add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 		}
 
 		// capabilities
@@ -204,8 +221,6 @@ class Groups_Admin {
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_capabilities' )
 		);
 		$pages[] = $page;
-		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
-		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 
 		// options
 		$page = add_submenu_page(
@@ -217,8 +232,6 @@ class Groups_Admin {
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_options' )
 		);
 		$pages[] = $page;
-		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
-		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 
 		// add-ons
 		$page = add_submenu_page(
@@ -230,8 +243,11 @@ class Groups_Admin {
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_add_ons' )
 		);
 		$pages[] = $page;
-		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
-		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
+
+		foreach ( $pages as $page ) {
+			add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
+			add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
+		}
 
 		do_action( 'groups_admin_menu', $pages );
 	}
