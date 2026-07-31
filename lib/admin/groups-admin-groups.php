@@ -361,15 +361,14 @@ function groups_admin_groups() {
 
 	switch ( $orderby ) {
 		case 'members':
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 			$query = $wpdb->prepare(
 				// nosemgrep: audit.php.wp.security.sqli.input-in-sinks
-				"SELECT $group_table.*, COUNT($user_group_table.user_id) AS members " .
-				"FROM $group_table LEFT JOIN $user_group_table ON $group_table.group_id = $user_group_table.group_id " .
-				"$filters " .
-				"GROUP BY $group_table.group_id " .
-				"ORDER BY COUNT($user_group_table.user_id) $order " .
-				"LIMIT $row_count OFFSET $offset",
+				"SELECT $group_table.*, COUNT($user_group_table.user_id) AS members " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"FROM $group_table LEFT JOIN $user_group_table ON $group_table.group_id = $user_group_table.group_id " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"$filters " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"GROUP BY $group_table.group_id " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"ORDER BY COUNT($user_group_table.user_id) $order " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 				$filter_params
 			);
 			break;
