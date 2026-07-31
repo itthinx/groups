@@ -3,6 +3,7 @@
 2026-07-31 - version 4.5.0
 * Update - WordPress 7.0 compatible.
 * Update - WooCommerce 11.0 compatible.
+* Update - Updated readme info, title and short description.
 
 2026-07-22 - version 4.4.0
 * Update - WordPress 7.0 compatible.

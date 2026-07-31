@@ -1,4 +1,4 @@
-=== Groups ===
+=== Groups - Memberships and Access Control ===
 Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
@@ -8,7 +8,7 @@ Requires PHP: 7.4
 Stable tag: 4.5.0
 License: GPLv3
 
-Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
+Turn your site into a powerful membership solution. Manage members, teams and access to content easily.
 
 == Description ==
 
