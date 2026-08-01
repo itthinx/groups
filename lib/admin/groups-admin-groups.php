@@ -260,6 +260,7 @@ function groups_admin_groups() {
 	$current_url = remove_query_arg( 'group_id', $current_url );
 
 	$group_table = _groups_get_tablename( 'group' );
+	$user_group_table = _groups_get_tablename( 'user_group' );
 
 	$output .=
 		'<div class="manage-groups wrap">' .
@@ -305,6 +306,7 @@ function groups_admin_groups() {
 		case 'group_id' :
 		case 'name' :
 		case 'description' :
+		case 'members':
 			break;
 		default:
 			$orderby = 'name';
@@ -357,11 +359,26 @@ function groups_admin_groups() {
 		$offset = ( $paged - 1 ) * $row_count;
 	}
 
-	$query = $wpdb->prepare(
-		// nosemgrep: audit.php.wp.security.sqli.input-in-sinks
-		"SELECT * FROM $group_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
-		$filter_params
-	);
+	switch ( $orderby ) {
+		case 'members':
+			$query = $wpdb->prepare(
+				// nosemgrep: audit.php.wp.security.sqli.input-in-sinks
+				"SELECT $group_table.*, COUNT($user_group_table.user_id) AS members " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"FROM $group_table LEFT JOIN $user_group_table ON $group_table.group_id = $user_group_table.group_id " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"$filters " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"GROUP BY $group_table.group_id " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"ORDER BY COUNT($user_group_table.user_id) $order " . // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				$filter_params
+			);
+			break;
+		default:
+			$query = $wpdb->prepare(
+				// nosemgrep: audit.php.wp.security.sqli.input-in-sinks
+				"SELECT * FROM $group_table $filters ORDER BY $orderby $order LIMIT $row_count OFFSET $offset", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				$filter_params
+			);
+	}
 
 	/**
 	 * Allows to modify the query for the groups table.
@@ -391,6 +408,7 @@ function groups_admin_groups() {
 	$columns = array(
 		'group_id'     => array( 'label' => __( 'ID', 'groups' ), 'sortable' => true ),
 		'name'         => array( 'label' => __( 'Group', 'groups' ), 'sortable' => true ),
+		'members'      => array( 'label' => __( 'Members', 'groups' ), 'sortable' => true ),
 		'description'  => array( 'label' => __( 'Description', 'groups' ), 'sortable' => true ),
 		'capabilities' => array( 'label' => __( 'Capabilities', 'groups' ), 'sortable' => false )
 	);
@@ -562,7 +580,12 @@ function groups_admin_groups() {
 			}
 			$heading =
 				sprintf(
-					'<a href="%s"><span>%s</span><span class="sorting-indicator"></span></a>',
+					'<a href="%s"><span>%s</span>'.
+					'<span class="sorting-indicators">' .
+					'<span class="sorting-indicator asc" aria-hidden="true"></span>'.
+					'<span class="sorting-indicator desc" aria-hidden="true"></span>'.
+					'</span>' . // .sorting-indicators
+					'</a>',
 					esc_url( add_query_arg( $options, $current_url ) ),
 					esc_html( $column['label'] )
 				);
@@ -682,15 +705,18 @@ function groups_admin_groups() {
 							esc_url( $edit_url ),
 							$result->name ? stripslashes( wp_filter_nohtml_kses( $result->name ) ) : ''
 						);
-						$output .= ' ';
+						$output .= $row_actions_html;
+						$output .= '</td>';
+						break;
+					case 'members':
+						$output .= '<td class="group-members">';
 						$user_ids = $group->get_user_ids();
 						$user_count = is_array( $user_ids ) ? count( $user_ids ) : 0; // guard against null when there are no users
 						$output .= sprintf(
-							'(<a href="%s">%s</a>)',
+							'<a href="%s">%s</a>',
 							esc_url( $users_url ),
 							$user_count
 						);
-						$output .= $row_actions_html;
 						$output .= '</td>';
 						break;
 					case 'description':

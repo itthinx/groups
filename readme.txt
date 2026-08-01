@@ -1,14 +1,14 @@
-=== Groups ===
+=== Groups - Memberships and Access Control ===
 Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.4.0
+Stable tag: 4.5.0
 License: GPLv3
 
-Groups is an efficient and powerful solution, providing group-based user membership management, group-based capabilities and content access control.
+Turn your site into a powerful membership solution. Manage members, teams and access to content easily.
 
 == Description ==
 
@@ -160,6 +160,7 @@ Groups is a large project that is providing essential functionality to tens of t
 - [Groups Forums](https://www.itthinx.com/shop/groups-forums/) : A powerful and yet light-weight forum system for WordPress sites.
 - [Groups Import Export](https://www.itthinx.com/shop/groups-import-export/) : Provides import and export facilities around users and groups.
 - [Groups Newsletters](https://www.itthinx.com/shop/groups-newsletters/) : Newsletter Campaigns for Subscribers and Groups.
+- [Groups Bundle](https://www.itthinx.com/shop/groups-bundle/) : The bundle includes several extensions at a considerable discount, compared to purchasing the extensions individually.
 - [WooCommerce Product Search](https://woocommerce.com/products/woocommerce-product-search/) : The perfect Search Engine helps customers to find and buy products quickly – essential for every WooCommerce store. The search engine honors access restrictions imposed by Groups and supports caching based on WordPress roles and memberships with Groups.
 - [Restrict Payment Methods](https://woocommerce.com/products/restrict-payment-methods/) : Limit the use of WooCommerce Payment Methods by Group Memberships, Roles, Countries, and Order Amounts.
 - [Widgets Control Pro](https://www.itthinx.com/shop/widgets-control-pro/) : An advanced Widget toolbox that adds visibility management and helps to control where widgets are shown efficiently.

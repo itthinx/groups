@@ -1,5 +1,14 @@
 == Groups by itthinx - changelog.txt
 
+2026-07-31 - version 4.5.0
+* Update - WordPress 7.0 compatible.
+* Update - WooCommerce 11.0 compatible.
+* Update - Updated readme info, title and short description.
+* Add - Added the Members column to the Groups admin screen and made it sortable by least or most group members.
+* Fix - Fixed missing sorting indicators.
+* Update - Revised sorting indicator markup for columns of the Groups admin screen.
+* Update - Revised sorting indicator markup for columns of the Capabilities admin screen.
+
 2026-07-22 - version 4.4.0
 * Update - WordPress 7.0 compatible.
 * Update - WooCommerce 10.9 compatible.

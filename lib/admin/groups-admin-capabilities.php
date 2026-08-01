@@ -409,7 +409,12 @@ function groups_admin_capabilities() {
 			}
 			$column_display_name =
 				sprintf(
-					'<a href="%s"><span>%s</span><span class="sorting-indicator"></span></a>',
+					'<a href="%s"><span>%s</span>'.
+					'<span class="sorting-indicators">' .
+					'<span class="sorting-indicator asc" aria-hidden="true"></span>'.
+					'<span class="sorting-indicator desc" aria-hidden="true"></span>'.
+					'</span>' . // .sorting-indicators
+					'</a>',
 					esc_url( add_query_arg( $options, $current_url ) ),
 					esc_html( $column_display_name )
 				);
