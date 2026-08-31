@@ -52,3 +52,7 @@ div.select-read-groups-container {
 .groups-ts-wrapper.has-items .groups-ts-control > input:hover::placeholder {
 	opacity: 1.0;
 }
+
+#groups-permissions.postbox {
+	overflow: visible;
+}
