@@ -473,19 +473,6 @@ function groups_admin_groups() {
 	 */
 	$output .= apply_filters( 'groups_admin_groups_filters_html', $filters_html );
 
-	if ( $paginate ) {
-		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
-		$pagination = new Groups_Pagination( $count, null, $row_count );
-		$output .= '<form id="posts-filter" method="post" action="">';
-		$output .= '<div>';
-		$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_NONCE_2, true, false );
-		$output .= '</div>';
-		$output .= '<div class="tablenav top">';
-		$output .= $pagination->pagination( 'top' );
-		$output .= '</div>';
-		$output .= '</form>';
-	}
-
 	$output .= '<div class="page-options right">';
 	$output .= '<form id="setrowcount" action="" method="post">';
 	$output .= '<div>';
@@ -558,6 +545,19 @@ function groups_admin_groups() {
 	 * @return string
 	 */
 	$output .= apply_filters( 'groups_admin_groups_bulk_actions_html', $bulk_html );
+
+		if ( $paginate ) {
+			require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
+			$pagination = new Groups_Pagination( $count, null, $row_count );
+			$output .= '<form id="posts-filter" method="post" action="">';
+			$output .= '<div>';
+			$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_NONCE_2, true, false );
+			$output .= '</div>';
+			$output .= '<div class="tablenav top">';
+			$output .= $pagination->pagination( 'top' );
+			$output .= '</div>';
+			$output .= '</form>';
+		}
 
 	$output .= '<table id="" class="wp-list-table widefat fixed" cellspacing="0">';
 	$output .= '<thead>';
