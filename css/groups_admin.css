@@ -129,6 +129,9 @@ div.capability.edit label {
 .capabilities-overview th.remove {
 	width: 10%;
 }
+.groups-overview th.members {
+	width: 10%;
+}
 
 .groups-overview td.capabilities,
 .capabilities-overview td.capability {
