@@ -98,8 +98,6 @@ div.capability.edit label {
 .capabilities-overview .page-options {
 	float: left;
 	display: inline;
-	/*width: 250px;*/
-	padding-bottom: 1em;
 }
 .groups-overview .page-options.right,
 .capabilities-overview .page-options.right {
@@ -407,6 +405,8 @@ div.capability.edit label {
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 4px;
+	margin: 0;
+	float: unset;
 }
 .tablenav .tablenav-pages .paging-input {
 	display: flex;
