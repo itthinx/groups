@@ -27,9 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 // admin defines
 define( 'GROUPS_GROUPS_PER_PAGE', 10 );
-define( 'GROUPS_ADMIN_GROUPS_NONCE_1', 'groups-nonce-1');
-define( 'GROUPS_ADMIN_GROUPS_NONCE_2', 'groups-nonce-2');
-define( 'GROUPS_ADMIN_GROUPS_ACTION_NONCE', 'groups-action-nonce');
+define( 'GROUPS_ADMIN_GROUPS_ACTION_NONCE', 'groups-action-nonce' );
 define( 'GROUPS_ADMIN_GROUPS_FILTER_NONCE', 'groups-filter-nonce' );
 
 require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
@@ -243,13 +241,13 @@ function groups_admin_groups() {
 	}
 
 	if ( isset( $_POST['row_count'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_NONCE_1, 'admin' ) ) {
+		if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_NONCE, 'admin' ) ) {
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
 	if ( isset( $_POST['paged'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_NONCE_2, 'admin' ) ) {
+		if ( !groups_verify_post_nonce( GROUPS_ADMIN_GROUPS_NONCE, 'admin' ) ) {
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
@@ -473,30 +471,6 @@ function groups_admin_groups() {
 	 */
 	$output .= apply_filters( 'groups_admin_groups_filters_html', $filters_html );
 
-	if ( $paginate ) {
-		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
-		$pagination = new Groups_Pagination( $count, null, $row_count );
-		$output .= '<form id="posts-filter" method="post" action="">';
-		$output .= '<div>';
-		$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_NONCE_2, true, false );
-		$output .= '</div>';
-		$output .= '<div class="tablenav top">';
-		$output .= $pagination->pagination( 'top' );
-		$output .= '</div>';
-		$output .= '</form>';
-	}
-
-	$output .= '<div class="page-options right">';
-	$output .= '<form id="setrowcount" action="" method="post">';
-	$output .= '<div>';
-	$output .= '<label for="row_count">' . esc_html__( 'Results per page', 'groups' ) . '</label>';
-	$output .= '<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />';
-	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_NONCE_1, true, false );
-	$output .= '<input class="button" type="submit" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>';
-	$output .= '</div>';
-	$output .= '</form>';
-	$output .= '</div>';
-
 	$capability_table = _groups_get_tablename( "capability" );
 	// $group_capability_table = _groups_get_tablename( "group_capability" );
 
@@ -546,7 +520,6 @@ function groups_admin_groups() {
 	$bulk_html .= sprintf( '<input class="button" type="submit" name="bulk" value="%s" />', esc_attr__( 'Apply', 'groups' ) );
 	$bulk_html .= '<input type="hidden" name="action" value="groups-action"/>';
 	$bulk_html .= '</div>';
-	$bulk_html .= '</div>';
 
 	/**
 	 * Allows to process the HTML of the bulk actions section of the groups table.
@@ -558,6 +531,22 @@ function groups_admin_groups() {
 	 * @return string
 	 */
 	$output .= apply_filters( 'groups_admin_groups_bulk_actions_html', $bulk_html );
+
+	if ( $paginate ) {
+		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
+		$pagination = new Groups_Pagination( $count, null, $row_count );
+		$output .= $pagination->pagination( 'top' );
+	}
+
+	$output .= '<div class="page-options right">';
+	$output .= '<label for="row_count">' . esc_html__( 'Results per page', 'groups' ) . '</label>';
+	$output .= '<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />';
+	$output .= '<input class="button" type="submit" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>';
+	$output .= '</div>'; // .page-options.right
+
+	$output .= '</div>'; // .tablenav.top
+
+	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_NONCE, true, false );
 
 	$output .= '<table id="" class="wp-list-table widefat fixed" cellspacing="0">';
 	$output .= '<thead>';

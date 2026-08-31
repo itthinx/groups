@@ -30,15 +30,16 @@
 }
 .filters fieldset,
 .manage fieldset {
-	display: inline-block;
-	clear: both;
+	display: flex;
+	justify-content: start;
+	gap: 8px 12px;
+	flex-wrap: wrap;
 }
 .filters legend {
 	padding: 0 0 2px 0;
 }
 .filters form label {
 	white-space: nowrap;
-	margin-bottom: 0.62em;
 }
 .manage a.add {
 	text-decoration: none;
@@ -85,19 +86,6 @@ div.group.remove input[type="submit"],
 div.capability.remove input[type="submit"] {
 	margin-right: 1em;
 }
-label.group-id-filter,
-label.group-name-filter,
-label.capability-id-filter,
-label.capability-filter,
-label.field-label {
-	padding-right: 0.62em;
-}
-input.group-id-filter,
-input.group-name-filter,
-input.capability-id-filter,
-input.capability-filter {
-	margin-right: 0.31em;
-}
 
 div.group.new label,
 div.group.edit label,
@@ -106,13 +94,10 @@ div.capability.edit label {
 	display: block;
 }
 
-
 .groups-overview .page-options,
 .capabilities-overview .page-options {
 	float: left;
 	display: inline;
-	/*width: 250px;*/
-	padding-bottom: 1em;
 }
 .groups-overview .page-options.right,
 .capabilities-overview .page-options.right {
@@ -131,11 +116,7 @@ div.capability.edit label {
 .capabilities-overview .page-options input[type="text"] {
 	text-align: center;
 }
-.groups-overview .tablenav.top,
-.capabilities-overview .tablenav.top {
-	display: inline;
-	width: 250px;
-}
+
 .groups-overview th.check-column,
 .capabilities-overview th.check-column {
 	padding: 10px 0 0 3px;
@@ -146,6 +127,9 @@ div.capability.edit label {
 .capabilities-overview th.capability_id,
 .capabilities-overview th.edit,
 .capabilities-overview th.remove {
+	width: 10%;
+}
+.groups-overview th.members {
 	width: 10%;
 }
 
@@ -398,24 +382,51 @@ div.capability.edit label {
 	min-width: 256px;
 }
 .groups-bulk-container {
-	padding-bottom: 1em;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: start;
 }
-.groups-bulk-container,
-.capabilities-bulk-container,
+
+.tablenav {
+	clear: unset;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	vertical-align: unset;
+	height: unset;
+	gap: 4px;
+}
+.tablenav.bottom {
+	justify-content: center;
+}
 .tablenav .tablenav-pages {
-	line-height: 24px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+	margin: 0;
+	float: unset;
 }
-.groups-bulk-container .capabilities-select-container {
-	width: 25%;
-	float: left;
-	vertical-align: middle;
+.tablenav .tablenav-pages .paging-input {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 2px;
 }
-.groups-bulk-container .selectize-control,
-.groups-bulk-container select.bulk-action,
-.capabilities-bulk-container select.bulk-action {
-	margin-right: 4px;
-	vertical-align: middle;
+
+.groups-bulk-container .groups-ts-wrapper {
+	height: 100%;
+	width: 100%;
 }
+.groups-bulk-container .groups-ts-wrapper .groups-ts-control,
+.groups-bulk-container .groups-ts-wrapper .groups-ts-control input[type="text"] {
+	height: 100%;
+}
+
 .groups-bulk-container .selectize-input {
 	font-size: inherit;
 	line-height: 18px;
@@ -430,9 +441,13 @@ div.capability.edit label {
 	height: 28px;
 	line-height: 28px;
 }
+.groups-bulk-container select.bulk-action {
+	margin-right: unset;
+}
 .groups-bulk-container .button,
 .capabilities-bulk-container .button {
 	vertical-align: middle;
+	margin: 0;
 }
 
 .group.new .selectize-control,
@@ -463,6 +478,31 @@ div.capability.edit label {
 	.groups-bulk-container .selectize-input input[type="text"] {
 		height: 32px;
 		font-size: 16px;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	/* do not force oversized margins */
+	.groups-overview .tablenav.top,
+	.capabilities-overview .tablenav.top,
+	.groups-overview .tablenav .tablenav-pages,
+	.capabilities-overview .tablenav .tablenav-pages {
+		margin: 0 0 4px 0;
+	}
+	/* do not force width */
+	.groups-overview .tablenav .tablenav-pages,
+	.capabilities-overview .tablenav .tablenav-pages {
+		width: auto;
+	}
+	/* do not hide actions */
+	.groups-bulk-container .tablenav .view-switch, .tablenav.top .actions,
+	.capabilities-bulk-container .tablenav .view-switch, .tablenav.top .actions {
+		display: unset;
+	}
+	/* do not skew */
+	.groups-overview .tablenav.top .page-options > *,
+	.capabilities-overview .tablenav.top .page-options > * {
+		margin-bottom: unset;
 	}
 }
 

@@ -1,5 +1,13 @@
 == Groups by itthinx - changelog.txt
 
+2026-08-31 - version 4.6.0
+* Update - WordPress 7.1 compatible.
+* Update - WooCommerce 11.1 compatible.
+* Update - Revised filter section display resilience in Groups and Capabilities admin sections.
+* Update - Revised the Groups admin section, restructured markup and improved UI styling.
+* Update - Restructured and improved the UI of the table navigation in the Capabilities admin section.
+* Update - Make all group choices visible in Groups permissions box when editing a product.
+
 2026-07-31 - version 4.5.0
 * Update - WordPress 7.0 compatible.
 * Update - WooCommerce 11.0 compatible.

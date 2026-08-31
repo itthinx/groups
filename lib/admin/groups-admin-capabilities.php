@@ -26,8 +26,7 @@ if ( !defined( 'ABSPATH' ) ) {
 // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 define( 'GROUPS_CAPABILITIES_PER_PAGE', 10 );
-define( 'GROUPS_ADMIN_CAPABILITIES_NONCE_1', 'groups-cap-nonce-1');
-define( 'GROUPS_ADMIN_CAPABILITIES_NONCE_2', 'groups-cap-nonce-2');
+define( 'GROUPS_ADMIN_CAPABILITIES_NONCE', 'groups-admin-caps-nonce');
 define( 'GROUPS_ADMIN_CAPABILITIES_ACTION_NONCE', 'groups-cap-action-nonce');
 define( 'GROUPS_ADMIN_CAPABILITIES_FILTER_NONCE', 'groups-cap-filter-nonce' );
 
@@ -179,13 +178,13 @@ function groups_admin_capabilities() {
 	}
 
 	if ( isset( $_POST['row_count'] ) ) {
-		if ( !groups_verify_post_nonce( GROUPS_ADMIN_CAPABILITIES_NONCE_1, 'admin' ) ) {
+		if ( !groups_verify_post_nonce( GROUPS_ADMIN_CAPABILITIES_NONCE, 'admin' ) ) {
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
 
 	if ( isset( $_POST['paged'] ) ) {
-		if ( !groups_verify_post_nonce( GROUPS_ADMIN_CAPABILITIES_NONCE_2, 'admin' ) ) {
+		if ( !groups_verify_post_nonce( GROUPS_ADMIN_CAPABILITIES_NONCE, 'admin' ) ) {
 			wp_die( esc_html__( 'Access denied.', 'groups' ) );
 		}
 	}
@@ -348,33 +347,10 @@ function groups_admin_capabilities() {
 			'</form>' .
 		'</div>';
 
-	if ( $paginate ) {
-		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
-		$pagination = new Groups_Pagination( $count, null, $row_count );
-		$output .= '<form id="posts-filter" method="post" action="">';
-		$output .= '<div>';
-		$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_NONCE_2, true, false );
-		$output .= '</div>';
-		$output .= '<div class="tablenav top">';
-		$output .= $pagination->pagination( 'top' );
-		$output .= '</div>';
-		$output .= '</form>';
-	}
-
-	$output .= '<div class="page-options right">';
-	$output .= '<form id="setrowcount" action="" method="post">';
-	$output .= '<div>';
-	$output .= '<label for="row_count">' . esc_html__( 'Results per page', 'groups' ) . '</label>';
-	$output .= '<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />';
-	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_NONCE_1, true, false );
-	$output .= '<input class="button" type="submit" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>';
-	$output .= '</div>';
-	$output .= '</form>';
-	$output .= '</div>';
-
 	$output .= '<form id="groups-action" method="post" action="">';
 
 	$output .= '<div class="tablenav top">';
+
 	$output .= '<div class="capabilities-bulk-container">';
 	$output .= '<div class="alignleft actions">';
 	$output .= '<select name="bulk-action">';
@@ -382,10 +358,25 @@ function groups_admin_capabilities() {
 	$output .= '<option value="remove">' . esc_html__( 'Remove', 'groups' ) . '</option>';
 	$output .= '</select>';
 	$output .= '<input class="button" type="submit" name="bulk" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>';
-	$output .= '</div>';
-	$output .= '</div>';
-	$output .= '</div>';
+	$output .= '</div>'; // .alignleft.actions
+	$output .= '</div>'; // .capabilities-bulk-container
+
+	if ( $paginate ) {
+		require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
+		$pagination = new Groups_Pagination( $count, null, $row_count );
+		$output .= $pagination->pagination( 'top' );
+	}
+
+	$output .= '<div class="page-options right">';
+	$output .= '<label for="row_count">' . esc_html__( 'Results per page', 'groups' ) . '</label>';
+	$output .= '<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />';
+	$output .= '<input class="button" type="submit" value="' . esc_attr__( 'Apply', 'groups' ) . '"/>';
+	$output .= '</div>'; // .page-options.right
+
+	$output .= '</div>'; // .tablenav.top
+
 	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_GROUPS_ACTION_NONCE, true, false );
+	$output .= wp_nonce_field( 'admin', GROUPS_ADMIN_CAPABILITIES_NONCE, true, false );
 	$output .= '<input type="hidden" name="action" value="groups-action"/>';
 
 	$output .= '<table id="" class="wp-list-table widefat fixed" cellspacing="0">';
