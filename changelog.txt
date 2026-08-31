@@ -1,5 +1,9 @@
 == Groups by itthinx - changelog.txt
 
+2026-08-31 - version 4.6.0
+* Update - WordPress 7.1 compatible.
+* Update - WooCommerce 11.1 compatible.
+
 2026-07-31 - version 4.5.0
 * Update - WordPress 7.0 compatible.
 * Update - WooCommerce 11.0 compatible.
