@@ -381,7 +381,7 @@ div.capability.edit label {
 .groups-bulk-container {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 8px 12px;
+	gap: 8px;
 	justify-content: start;
 }
 
@@ -415,6 +415,15 @@ div.capability.edit label {
 	gap: 2px;
 }
 
+.groups-bulk-container .groups-ts-wrapper {
+	height: 100%;
+	width: 100%;
+}
+.groups-bulk-container .groups-ts-wrapper .groups-ts-control,
+.groups-bulk-container .groups-ts-wrapper .groups-ts-control input[type="text"] {
+	height: 100%;
+}
+
 .groups-bulk-container .selectize-input {
 	font-size: inherit;
 	line-height: 18px;
@@ -429,9 +438,13 @@ div.capability.edit label {
 	height: 28px;
 	line-height: 28px;
 }
+.groups-bulk-container select.bulk-action {
+	margin-right: unset;
+}
 .groups-bulk-container .button,
 .capabilities-bulk-container .button {
 	vertical-align: middle;
+	margin: 0;
 }
 
 .group.new .selectize-control,
@@ -471,7 +484,7 @@ div.capability.edit label {
 	.capabilities-overview .tablenav.top,
 	.groups-overview .tablenav .tablenav-pages,
 	.capabilities-overview .tablenav .tablenav-pages {
-		margin: unset;
+		margin: 0 0 4px 0;
 	}
 	/* do not force width */
 	.groups-overview .tablenav .tablenav-pages,
