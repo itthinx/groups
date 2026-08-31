@@ -27,8 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 // admin defines
 define( 'GROUPS_GROUPS_PER_PAGE', 10 );
-define( 'GROUPS_ADMIN_GROUPS_NONCE', 'groups-admin-groups-nonce');
-define( 'GROUPS_ADMIN_GROUPS_ACTION_NONCE', 'groups-action-nonce');
+define( 'GROUPS_ADMIN_GROUPS_ACTION_NONCE', 'groups-action-nonce' );
 define( 'GROUPS_ADMIN_GROUPS_FILTER_NONCE', 'groups-filter-nonce' );
 
 require_once GROUPS_CORE_LIB . '/class-groups-pagination.php';
