@@ -30,15 +30,16 @@
 }
 .filters fieldset,
 .manage fieldset {
-	display: inline-block;
-	clear: both;
+	display: flex;
+	justify-content: start;
+	gap: 8px 12px;
+	flex-wrap: wrap;
 }
 .filters legend {
 	padding: 0 0 2px 0;
 }
 .filters form label {
 	white-space: nowrap;
-	margin-bottom: 0.62em;
 }
 .manage a.add {
 	text-decoration: none;
@@ -85,19 +86,6 @@ div.group.remove input[type="submit"],
 div.capability.remove input[type="submit"] {
 	margin-right: 1em;
 }
-label.group-id-filter,
-label.group-name-filter,
-label.capability-id-filter,
-label.capability-filter,
-label.field-label {
-	padding-right: 0.62em;
-}
-input.group-id-filter,
-input.group-name-filter,
-input.capability-id-filter,
-input.capability-filter {
-	margin-right: 0.31em;
-}
 
 div.group.new label,
 div.group.edit label,
@@ -105,7 +93,6 @@ div.capability.new label,
 div.capability.edit label {
 	display: block;
 }
-
 
 .groups-overview .page-options,
 .capabilities-overview .page-options {

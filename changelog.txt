@@ -3,6 +3,7 @@
 2026-08-31 - version 4.6.0
 * Update - WordPress 7.1 compatible.
 * Update - WooCommerce 11.1 compatible.
+* Update - Revised filter section display resilience in Groups and Capabilities admin sections.
 
 2026-07-31 - version 4.5.0
 * Update - WordPress 7.0 compatible.
