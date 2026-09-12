@@ -5,7 +5,7 @@
 * Update - WooCommerce 11.1 compatible.
 * Update - Security update.
 * Dev - Added validation API methods.
-* Fix - Hardened shortcode processing security.
+* Fix - [CVE-2026-77203] Hardened shortcode processing security.
 
 2026-08-31 - version 4.6.0
 * Update - WordPress 7.1 compatible.
