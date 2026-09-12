@@ -54,6 +54,11 @@ class Groups_Access_Shortcodes {
 	 * @return string
 	 */
 	public static function groups_member( $atts, $content = null ) {
+
+		if ( !Groups_Shortcodes::validate( 'groups_member', $atts, $content ) ) {
+			return '';
+		}
+
 		$output = '';
 		$options = shortcode_atts( array( 'group' => '' ), $atts );
 		$show_content = false;
@@ -95,6 +100,11 @@ class Groups_Access_Shortcodes {
 	 * @return string
 	 */
 	public static function groups_non_member( $atts, $content = null ) {
+
+		if ( !Groups_Shortcodes::validate( 'groups_non_member', $atts, $content ) ) {
+			return '';
+		}
+
 		$output = '';
 		$options = shortcode_atts( array( 'group' => '' ), $atts );
 		$show_content = true;
@@ -136,6 +146,11 @@ class Groups_Access_Shortcodes {
 	 * @return string
 	 */
 	public static function groups_can( $atts, $content = null ) {
+
+		if ( !Groups_Shortcodes::validate( 'groups_can', $atts, $content ) ) {
+			return '';
+		}
+
 		$output = '';
 		$options = shortcode_atts( array( 'capability' => '' ), $atts );
 		if ( $content !== null ) {
@@ -171,6 +186,11 @@ class Groups_Access_Shortcodes {
 	 * @return string
 	 */
 	public static function groups_can_not( $atts, $content = null ) {
+
+		if ( !Groups_Shortcodes::validate( 'groups_can_not', $atts, $content ) ) {
+			return '';
+		}
+
 		$output = '';
 		$options = shortcode_atts( array( 'capability' => '' ), $atts );
 		if ( $content !== null ) {
