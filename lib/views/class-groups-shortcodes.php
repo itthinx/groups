@@ -56,6 +56,15 @@ class Groups_Shortcodes {
 	private static $preprocessing = false;
 
 	/**
+	 * Shortcode queue.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @var array
+	 */
+	private static $shortcode_queue = array();
+
+	/**
 	 * Adds shortcodes.
 	 */
 	public static function init() {
@@ -77,6 +86,9 @@ class Groups_Shortcodes {
 		add_filter( 'pre_render_block', array( __CLASS__, 'pre_render_block' ), 0, 3 );
 		// @since 3.11.0 map processing
 		add_filter( 'render_block', array( __CLASS__, 'render_block' ), 0, 3 );
+		// @since 4.7.0 shortcode queue ops
+		add_filter( 'pre_do_shortcode_tag', array( __CLASS__, 'pre_do_shortcode_tag' ), PHP_INT_MAX, 4 );
+		add_filter( 'do_shortcode_tag', array( __CLASS__, 'do_shortcode_tag' ), PHP_INT_MAX, 4 );
 	}
 
 	/**
@@ -92,6 +104,11 @@ class Groups_Shortcodes {
 	 * @return string the rendered form or empty
 	 */
 	public static function groups_login( $atts, $content = null ) {
+
+		if ( !self::validate( 'groups_login', $atts, $content ) ) {
+			return '';
+		}
+
 		$current_url = groups_get_current_url();
 		$atts = shortcode_atts(
 			array(
@@ -136,6 +153,11 @@ class Groups_Shortcodes {
 	 * @return string logout link, is empty if not logged in
 	 */
 	public static function groups_logout( $atts, $content = null ) {
+
+		if ( !self::validate( 'groups_logout', $atts, $content ) ) {
+			return '';
+		}
+
 		$current_url = groups_get_current_url();
 		$atts = shortcode_atts(
 			array(
@@ -169,7 +191,13 @@ class Groups_Shortcodes {
 	 * @return string rendered information
 	 */
 	public static function groups_group_info( $atts, $content = null ) {
+
 		global $wpdb;
+
+		if ( !self::validate( 'groups_group_info', $atts, $content ) ) {
+			return '';
+		}
+
 		$output = '';
 		$options = shortcode_atts(
 			array(
@@ -256,6 +284,11 @@ class Groups_Shortcodes {
 	 * @return string rendered groups for current user
 	 */
 	public static function groups_user_groups( $atts, $content = null ) {
+
+		if ( !self::validate( 'groups_user_groups', $atts, $content ) ) {
+			return '';
+		}
+
 		$output = '';
 		$options = shortcode_atts(
 			array(
@@ -428,7 +461,13 @@ class Groups_Shortcodes {
 	 * @return string rendered groups
 	 */
 	public static function groups_groups( $atts, $content = null ) {
+
 		global $wpdb;
+
+		if ( !self::validate( 'groups_groups', $atts, $content ) ) {
+			return '';
+		}
+
 		$output = '';
 		$options = shortcode_atts(
 			array(
@@ -521,6 +560,10 @@ class Groups_Shortcodes {
 	public static function groups_join( $atts, $content = null ) {
 
 		global $groups_join_data_init, $post;
+
+		if ( !self::validate( 'groups_join', $atts, $content ) ) {
+			return '';
+		}
 
 		$nonce_action = 'groups_action';
 		$nonce        = 'nonce_join';
@@ -742,6 +785,10 @@ class Groups_Shortcodes {
 	public static function groups_leave( $atts, $content = null ) {
 
 		global $groups_leave_data_init, $post;
+
+		if ( !self::validate( 'groups_leave', $atts, $content ) ) {
+			return '';
+		}
 
 		$nonce_action = 'groups_action';
 		$nonce        = 'nonce_leave';
@@ -1119,6 +1166,156 @@ class Groups_Shortcodes {
 		return $posts;
 	}
 
+	/**
+	 * Validate shortcode.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @see do_shortcode()
+	 * @see do_shortcode_tag()
+	 *
+	 * @param string $tag shortcode tag
+	 * @param array $atts shortcode attributes
+	 * @param string $content shortcode content
+	 *
+	 * @return boolean
+	 */
+	public static function validate( $tag, $atts, $content ) {
+
+		global $post;
+
+		// allow direct calls to shortcode processing functions
+		if ( !self::is_processing( $tag, $atts ) ) {
+			return true;
+		}
+
+		$valid = isset( $post ) && !empty( $post->ID ) && !empty( $post->post_content );
+
+		if ( $valid ) {
+			$valid = ! (
+				defined( 'REST_API_REQUEST' ) && REST_API_REQUEST ||
+				defined( 'REST_REQUEST' ) && REST_REQUEST ||
+				defined( 'WP_CLI' ) && WP_CLI ||
+				defined( 'WPCOM_CLI_SCRIPT' ) && WPCOM_CLI_SCRIPT ||
+				is_admin() ||
+				is_feed() ||
+				wp_doing_ajax() || // supersedes DOING_AJAX
+				wp_is_json_request() ||
+				wp_is_jsonp_request()
+			);
+		}
+
+		if ( $valid ) {
+			$valid = false;
+			if ( !empty( $post->post_content ) && has_shortcode( $post->post_content, $tag ) ) {
+				$matches = null;
+				preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $post->post_content, $matches );
+				if ( !empty( $matches[1] ) && is_array( $matches[1] ) && count( $matches[1] ) > 0 ) {
+					$tags = array_intersect( array( $tag ), $matches[1] );
+					if ( !empty( $tags ) ) {
+						// - does not support nested shortcodes
+						// - Groups shortcodes do not support nesting
+						$pattern = '@' . get_shortcode_regex( $tags ) . '@';
+						$m = null;
+						preg_match_all( $pattern, $post->post_content, $m );
+						// shortcode arguments list
+						if ( isset( $m[3] ) && is_array( $m[3] ) && count( $m[3] ) > 0 ) {
+							$found = false;
+							foreach ( $m[3] as $args ) {
+								if ( is_string( $args ) ) {
+									$args = trim( $args );
+									$attributes = shortcode_parse_atts( $args );
+									$match = true;
+									foreach ( $attributes as $key => $value ) {
+										if ( !array_key_exists( $key, $atts ) || $atts[$key] !== $value ) {
+											$match = false;
+											break;
+										}
+									}
+									if ( $match ) {
+										$found = true;
+										break;
+									}
+								}
+							}
+							if ( $found ) {
+								$valid = true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return $valid;
+	}
+
+	/**
+	 * Use return value short-circuit to signal shortcode instance processing.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param boolean|string $output short-circuit value
+	 * @param string $tag shortcode tag/name
+	 * @param array $attr shortcode attributes
+	 * @param array $m regex match
+	 *
+	 * @return boolean|string
+	 */
+	public static function pre_do_shortcode_tag( $output, $tag, $attr, $m ) {
+		$hash = md5( json_encode( $attr ) );
+		self::$shortcode_queue[] = array( 'tag' => $tag, 'hash' => $hash );
+		return $output;
+	}
+
+	/**
+	 * Use output filter to signal shortcode processed.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string $output shortcode output
+	 * @param string $tag shortcode tag/name
+	 * @param array $attr shortcode attributes
+	 * @param array $m regex match
+	 *
+	 * @return string
+	 */
+	public static function do_shortcode_tag( $output, $tag, $attr, $m ) {
+		$queue = array();
+		for ( $i = count( self::$shortcode_queue ) - 1; $i >= 0; $i-- ) {
+			if ( $tag === self::$shortcode_queue[$i]['tag'] ) {
+				$hash = md5( json_encode( $attr ) );
+				if ( $hash !== self::$shortcode_queue[$i]['hash'] ) {
+					array_unshift( $queue, self::$shortcode_queue[$i] );
+				}
+			}
+		}
+		self::$shortcode_queue = $queue;
+		return $output;
+	}
+
+	/**
+	 * Is processing shortcode tag with given attributes.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string $tag
+	 * @param array $atts
+	 *
+	 * @return boolean
+	 */
+	private static function is_processing( $tag, $atts ) {
+		$result = false;
+		for ( $i = 0; $i < count( self::$shortcode_queue ); $i++ ) {
+			if ( $tag === self::$shortcode_queue[$i]['tag'] ) {
+				$hash = md5( json_encode( $atts ) );
+				if ( $hash === self::$shortcode_queue[$i]['hash'] ) {
+					$result = true;
+				}
+			}
+		}
+		return $result;
+	}
 }
 
 Groups_Shortcodes::init();
