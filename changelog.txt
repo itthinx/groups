@@ -3,6 +3,7 @@
 2026-09-12 - version 4.7.0
 * Update - WordPress 7.1 compatible.
 * Update - WooCommerce 11.1 compatible.
+* Update - Security update.
 * Dev - Added validation API methods.
 * Fix - Hardened shortcode processing security.
 
