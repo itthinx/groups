@@ -1224,7 +1224,9 @@ class Groups_Shortcodes {
 							foreach ( $m[3] as $args ) {
 								if ( is_string( $args ) ) {
 									$args = trim( $args );
-									$attributes = shortcode_parse_atts( $args );
+									// decode in case unicode escape sequences used for quotes surrounding attributes need to be decoded for comparison
+									$atts_decoded = json_decode( '"' . $args . '"' );
+									$attributes = shortcode_parse_atts( $atts_decoded ?? $args );
 									$match = true;
 									foreach ( $attributes as $key => $value ) {
 										if ( !array_key_exists( $key, $atts ) || $atts[$key] !== $value ) {
