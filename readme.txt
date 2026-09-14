@@ -5,7 +5,7 @@ Tags: groups, access, access control, member, membership
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.7.0
+Stable tag: 4.7.1
 License: GPLv3
 
 Turn your site into a powerful membership solution. Manage members, teams and access to content easily.
