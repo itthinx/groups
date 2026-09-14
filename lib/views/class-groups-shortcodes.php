@@ -65,6 +65,15 @@ class Groups_Shortcodes {
 	private static $shortcode_queue = array();
 
 	/**
+	 * Widgets contents.
+	 *
+	 * @since 4.7.1
+	 *
+	 * @var array
+	 */
+	private static $widgets_contents = array();
+
+	/**
 	 * Adds shortcodes.
 	 */
 	public static function init() {
@@ -89,6 +98,8 @@ class Groups_Shortcodes {
 		// @since 4.7.0 shortcode queue ops
 		add_filter( 'pre_do_shortcode_tag', array( __CLASS__, 'pre_do_shortcode_tag' ), PHP_INT_MAX, 4 );
 		add_filter( 'do_shortcode_tag', array( __CLASS__, 'do_shortcode_tag' ), PHP_INT_MAX, 4 );
+		// @since 4.7.1 shortcodes in widgets
+		add_filter( 'widget_display_callback', array( __CLASS__, 'widget_display_callback' ), PHP_INT_MAX, 3 );
 	}
 
 	/**
@@ -327,7 +338,7 @@ class Groups_Shortcodes {
 			$groups = $user->get_groups();
 
 			if ( !empty( $groups ) ) {
-			// group attr
+				// group attr
 				if ( $options['group'] !== null ) {
 					$groups = array();
 					$groups_incl = explode( ',', $options['group'] );
@@ -1189,7 +1200,9 @@ class Groups_Shortcodes {
 			return true;
 		}
 
-		$valid = isset( $post ) && !empty( $post->ID ) && !empty( $post->post_content );
+		$valid =
+			isset( $post ) && !empty( $post->ID ) && ( !empty( $post->post_excerpt ) || !empty( $post->post_content ) ) ||
+			!empty( self::$widgets_contents );
 
 		if ( $valid ) {
 			$valid = ! (
@@ -1207,9 +1220,29 @@ class Groups_Shortcodes {
 
 		if ( $valid ) {
 			$valid = false;
-			if ( !empty( $post->post_content ) && has_shortcode( $post->post_content, $tag ) ) {
+
+			// @since 4.7.1 also consider the excerpt and widgets
+			$contents = ( $post->post_excerpt ?? '' ) . ( $post->post_content ?? '' );
+			if ( !empty( self::$widgets_contents ) ) {
+				$contents .= implode( ' ', self::$widgets_contents );
+			}
+			/**
+			 * Allow to filter the contents considered for shortcode validation.
+			 *
+			 * @since 4.7.1
+			 *
+			 * @param string $contents contents considered
+			 * @param string $tag shortcode tag
+			 * @param array $atts shortcode attributes
+			 * @param string $content shortcode content
+			 *
+			 * @return string
+			 */
+			$contents = apply_filters( 'groups_shortcodes_validate_contents', $contents, $tag, $atts, $content );
+
+			if ( !empty( $contents ) && has_shortcode( $contents, $tag ) ) {
 				$matches = null;
-				preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $post->post_content, $matches );
+				preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $contents, $matches );
 				if ( !empty( $matches[1] ) && is_array( $matches[1] ) && count( $matches[1] ) > 0 ) {
 					$tags = array_intersect( array( $tag ), $matches[1] );
 					if ( !empty( $tags ) ) {
@@ -1217,7 +1250,7 @@ class Groups_Shortcodes {
 						// - Groups shortcodes do not support nesting
 						$pattern = '@' . get_shortcode_regex( $tags ) . '@';
 						$m = null;
-						preg_match_all( $pattern, $post->post_content, $m );
+						preg_match_all( $pattern, $contents, $m );
 						// shortcode arguments list
 						if ( isset( $m[3] ) && is_array( $m[3] ) && count( $m[3] ) > 0 ) {
 							$found = false;
@@ -1294,6 +1327,51 @@ class Groups_Shortcodes {
 		}
 		self::$shortcode_queue = $queue;
 		return $output;
+	}
+
+	/**
+	 * Use callback filter to gather shortcodes in widgets.
+	 *
+	 * @since 4.7.1
+	 *
+	 * @param array $instance widget instance settings
+	 * @param WP_Widget $widget widget object
+	 * @param array $args widget arguments
+	 *
+	 * @return array
+	 */
+	public static function widget_display_callback( $instance, $widget, $args ) {
+		if ( !empty( $instance ) && is_array( $instance ) ) {
+			if ( is_object( $widget ) ) {
+				if ( $widget instanceof WP_Widget_Text ) {
+					if ( isset( $instance['text'] ) && is_string( $instance['text'] ) ) {
+						self::$widgets_contents[] = $instance['text'];
+					}
+				} else if ( $widget instanceof WP_Widget_Block ) {
+					if ( isset( $instance['content'] ) && is_string( $instance['content'] ) ) {
+						self::$widgets_contents[] = $instance['content'];
+					}
+				} else {
+					/**
+					 * Allow widgets to provide content that should be checked during shortcode validation.
+					 *
+					 * @since 4.7.1
+					 *
+					 * @param string|null $content widget content to check for shortcodes
+					 * @param array $instance widget instance settings
+					 * @param WP_Widget $widget widget object
+					 * @param array $args widget arguments
+					 *
+					 * @return string|null string content of the widget or null if widget's content should not be considered
+					 */
+					$content = apply_filters( 'groups_shortcodes_widget_display_callback_widget_content', null, $instance, $widget, $args );
+					if ( is_string( $content ) ) {
+						self::$widgets_contents[] = $content;
+					}
+				}
+			}
+		}
+		return $instance;
 	}
 
 	/**
