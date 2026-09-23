@@ -3,6 +3,7 @@
 2026-09-23 - version 4.8.0
 * Update - WordPress 7.1 compatible.
 * Update - WooCommerce 11.2 compatible.
+* Add - Adds support for validation of shortcodes present in WPBakery Page Builder elements as suggested by [@zandererecht24]https://wordpress.org/support/users/zandererecht24/)
 
 2026-09-14 - version 4.7.1
 * Update - WordPress 7.1 compatible.
