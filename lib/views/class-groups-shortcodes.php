@@ -1299,7 +1299,7 @@ class Groups_Shortcodes {
 		}
 
 		/**
-		 * Allow to filter final validation.
+		 * Allow to filter final validation result.
 		 *
 		 * @since 4.8.0
 		 *
