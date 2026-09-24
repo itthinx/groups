@@ -74,6 +74,15 @@ class Groups_Shortcodes {
 	private static $widgets_contents = array();
 
 	/**
+	 * Block template contents.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @var array
+	 */
+	private static $blocks_contents = array();
+
+	/**
 	 * Adds shortcodes.
 	 */
 	public static function init() {
@@ -100,6 +109,9 @@ class Groups_Shortcodes {
 		add_filter( 'do_shortcode_tag', array( __CLASS__, 'do_shortcode_tag' ), PHP_INT_MAX, 4 );
 		// @since 4.7.1 shortcodes in widgets
 		add_filter( 'widget_display_callback', array( __CLASS__, 'widget_display_callback' ), PHP_INT_MAX, 3 );
+		// @since 4.8.0 shortcodes in block templates
+		add_filter( 'render_block_core_template_part_post', array( __CLASS__, 'render_block_core_template_part_post' ), PHP_INT_MAX, 4 );
+		add_filter( 'render_block_core_template_part_file', array( __CLASS__, 'render_block_core_template_part_file' ), PHP_INT_MAX, 4 );
 	}
 
 	/**
@@ -1226,6 +1238,10 @@ class Groups_Shortcodes {
 			if ( !empty( self::$widgets_contents ) ) {
 				$contents .= implode( ' ', self::$widgets_contents );
 			}
+			// @since 4.8.0 content from block template parts
+			if ( !empty( self::$blocks_contents ) ) {
+				$contents .= implode( ' ', self::$blocks_contents );
+			}
 			/**
 			 * Allow to filter the contents considered for shortcode validation.
 			 *
@@ -1372,6 +1388,34 @@ class Groups_Shortcodes {
 			}
 		}
 		return $instance;
+	}
+
+	/**
+	 * Gather block template content for validation.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param string $template_part_id
+	 * @param array $attributes
+	 * @param WP_Post $template_part_post
+	 * @param string $content
+	 */
+	public static function render_block_core_template_part_post( $template_part_id, $attributes, $template_part_post, $content ) {
+		self::$blocks_contents[] = $content;
+	}
+
+	/**
+	 * Gather block template content for validation.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param string $template_part_id
+	 * @param array $attributes
+	 * @param string $template_part_file_path
+	 * @param string $content
+	 */
+	public static function render_block_core_template_part_file( $template_part_id, $attributes, $template_part_file_path, $content ) {
+		self::$blocks_contents[] = $content;
 	}
 
 	/**
