@@ -1458,7 +1458,7 @@ class Groups_Shortcodes {
 		 * @since 4.8.0
 		 *
 		 * @param boolean $result whether shortcode tag is being processed
-		 * @param array $tag shortcode
+		 * @param string $tag shortcode
 		 * @param array $atts attributes
 		 *
 		 * @return boolean
