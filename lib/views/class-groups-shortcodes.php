@@ -1298,6 +1298,20 @@ class Groups_Shortcodes {
 			}
 		}
 
+		/**
+		 * Allow to filter final validation.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param boolean $valid whether shortcode validates
+		 * @param string $tag shortcode tag
+		 * @param array $atts shortcode attributes
+		 * @param string $content shortcode content
+		 *
+		 * @return boolean
+		 */
+		$valid = apply_filters( 'groups_shortcodes_validate', $valid, $tag, $atts, $content );
+
 		return $valid;
 	}
 
@@ -1438,6 +1452,17 @@ class Groups_Shortcodes {
 				}
 			}
 		}
+		/**
+		 * Whether processing shortcode tag.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param boolean $result whether shortcode tag is being processed
+		 * @param array shortcode attributes
+		 *
+		 * @return boolean
+		 */
+		$result = apply_filters( 'groups_shortcodes_is_processing', $result, $tag, $atts );
 		return $result;
 	}
 }
