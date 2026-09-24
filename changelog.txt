@@ -4,7 +4,7 @@
 * Update - WordPress 7.1 compatible.
 * Update - WooCommerce 11.2 compatible.
 * Add - Process block template parts for shortcode validatioon.
-* Add - Adds automatic validation of shortcodes present in WPBakery Page Builder elements as suggested by [@zandererecht24]https://wordpress.org/support/users/zandererecht24/)
+* Add - Adds automatic validation of shortcodes present in WPBakery Page Builder elements as suggested by @zandererecht24
 * Dev - Adds the groups_shortcodes_is_processing filter.
 * Dev - Adds the groups_shortcodes_validate filter.
 
