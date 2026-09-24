@@ -1236,11 +1236,11 @@ class Groups_Shortcodes {
 			// @since 4.7.1 also consider the excerpt and widgets
 			$contents = ( $post->post_excerpt ?? '' ) . ( $post->post_content ?? '' );
 			if ( !empty( self::$widgets_contents ) ) {
-				$contents .= implode( ' ', self::$widgets_contents );
+				$contents .= ' ' . implode( ' ', self::$widgets_contents );
 			}
 			// @since 4.8.0 content from block template parts
 			if ( !empty( self::$blocks_contents ) ) {
-				$contents .= implode( ' ', self::$blocks_contents );
+				$contents .= ' ' . implode( ' ', self::$blocks_contents );
 			}
 			/**
 			 * Allow to filter the contents considered for shortcode validation.
