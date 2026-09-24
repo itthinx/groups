@@ -34,7 +34,7 @@ class Groups_WPBakery {
 	 * Note that we are already past the init action at this point.
 	 */
 	public static function boot() {
-		add_action( 'groups_shortcodes_validate_contents', array( __CLASS__, 'groups_shortcodes_validate_contents' ), 10, 4 );
+		add_filter( 'groups_shortcodes_validate_contents', array( __CLASS__, 'groups_shortcodes_validate_contents' ), 10, 4 );
 	}
 
 	/**
