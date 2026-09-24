@@ -65,6 +65,9 @@ class Groups_Extra {
 		add_filter( 'woocommerce_duplicate_product_capability', array( __CLASS__, 'woocommerce_duplicate_product_capability' ) );
 		add_filter( 'groups_post_access_wp_count_posts_before_query', array( __CLASS__, 'groups_post_access_wp_count_posts_before_query' ), 10, 4 );
 		add_filter( 'groups_post_access_wp_count_posts_after_query', array( __CLASS__, 'groups_post_access_wp_count_posts_after_query' ), 10, 4 );
+		if ( defined( 'WPB_VC_VERSION' ) ) { // @since 4.8.0
+			require_once 'class-groups-wpbakery.php';
+		}
 	}
 
 	/**
