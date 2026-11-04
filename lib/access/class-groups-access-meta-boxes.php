@@ -395,8 +395,21 @@ class Groups_Access_Meta_Boxes {
 										}
 									}
 
+									/**
+									 * Fires before post access group IDs are updated for the post.
+									 *
+									 * @param int $post_id
+									 * @param int[] $group_ids
+									 */
 									do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
 									$update_result = Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
+									/**
+									 * Fires after the post access group IDs were updated for the post.
+									 *
+									 * @param int $post_id
+									 * @param int[] $group_ids
+									 * @param boolean $update_result
+									 */
 									do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
 								}
 
@@ -543,8 +556,21 @@ class Groups_Access_Meta_Boxes {
 							}
 						}
 					}
+					/**
+					 * Fires before post access group IDs are updated for the post.
+					 *
+					 * @param int $post_id
+					 * @param int[] $group_ids
+					 */
 					do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
 					$update_result = Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
+					/**
+					 * Fires after the post access group IDs were updated for the post.
+					 *
+					 * @param int $post_id
+					 * @param int[] $group_ids
+					 * @param boolean $update_result
+					 */
 					do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
 				}
 			}

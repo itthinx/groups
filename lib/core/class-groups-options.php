@@ -158,6 +158,12 @@ class Groups_Options {
 		$options[self::general][$option] = $new_value;
 		wp_cache_delete( self::option_key, 'options' );
 		if ( update_option( self::option_key, $options ) ) {
+			/**
+			 * Fires after a option has been updated.
+			 *
+			 * @param string $option
+			 * @param mixed $new_value
+			 */
 			do_action( 'groups_updated_option', $option, $new_value );
 		}
 	}
@@ -183,6 +189,13 @@ class Groups_Options {
 			$options[$user_id][$option] = $new_value;
 			wp_cache_delete( self::option_key, 'options' );
 			if ( update_option( self::option_key, $options ) ) {
+				/**
+				 * Fires after a user option has been updated.
+				 *
+				 * @param string $option
+				 * @param mixed $new_value
+				 * @param int $user_id
+				 */
 				do_action( 'groups_updated_user_option', $option, $new_value, $user_id );
 			}
 		}
@@ -199,6 +212,11 @@ class Groups_Options {
 			unset( $options[self::general][$option] );
 			wp_cache_delete( self::option_key, 'options' );
 			if ( update_option( self::option_key, $options ) ) {
+				/**
+				 * Fires after an option has been deleted.
+				 *
+				 * @param string $option
+				 */
 				do_action( 'groups_deleted_option', $option );
 			}
 		}
@@ -225,7 +243,13 @@ class Groups_Options {
 				unset( $options[$user_id][$option] );
 				wp_cache_delete( self::option_key, 'options' );
 				if ( update_option( self::option_key, $options ) ) {
-					do_action( 'groups_deleted_user_option', $user_id );
+					/**
+					 * Fires after a user option has been deleted.
+					 *
+					 * @param int $user_id
+					 * @param string $option
+					 */
+					do_action( 'groups_deleted_user_option', $user_id, $option );
 				}
 			}
 		}
@@ -237,6 +261,9 @@ class Groups_Options {
 	public static function flush_options() {
 		wp_cache_delete( self::option_key, 'options' );
 		if ( delete_option( self::option_key ) ) {
+			/**
+			 * Fires after options have been deleted.
+			 */
 			do_action( 'groups_flushed_options' );
 		}
 	}

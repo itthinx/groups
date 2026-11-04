@@ -80,6 +80,12 @@ class Groups_User_Capability {
 					$formats = array( '%d', '%d' );
 					if ( $wpdb->insert( $user_capability_table, $data, $formats ) ) {
 						$result = true;
+						/**
+						 * Fires after a user-capability has been persisted.
+						 *
+						 * @param string|int $user_id
+						 * @param string|int $capability_id
+						 */
 						do_action( 'groups_created_user_capability', $user_id, $capability_id );
 					}
 				}
@@ -132,6 +138,12 @@ class Groups_User_Capability {
 				// make sure user and capability exist
 				if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Capability::read( $capability_id ) ) {
 					$result = true;
+					/**
+					 * Fires after a user-capability has been updated.
+					 *
+					 * @param int $user_id
+					 * @param int $capability_id
+					 */
 					do_action( 'groups_updated_user_capability', $user_id, $capability_id );
 				}
 			}
@@ -166,6 +178,12 @@ class Groups_User_Capability {
 			// must have affected a row, otherwise no great success
 			$result = ( $rows !== false ) && ( $rows > 0 );
 			if ( $result ) {
+				/**
+				 * Fires after a user capability has been deleted.
+				 *
+				 * @param int $user_id
+				 * @param int $capability_id
+				 */
 				do_action( 'groups_deleted_user_capability', $user_id, $capability_id );
 			}
 		}

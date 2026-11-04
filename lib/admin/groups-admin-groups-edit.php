@@ -254,6 +254,11 @@ function groups_admin_groups_edit_submit() {
 					Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
 				}
 			}
+			/**
+			 * Fires after a request to update a group has been successful.
+			 *
+			 * @param int $group_id the ID of the updated group
+			 */
 			do_action( 'groups_admin_groups_edit_submit_success', $group_id );
 		}
 		return $group_id;

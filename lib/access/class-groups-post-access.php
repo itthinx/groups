@@ -943,8 +943,24 @@ class Groups_Post_Access {
 							continue;
 						}
 					}
+					/**
+					 * Fires before the post count query.
+					 *
+					 * @param array $query_args query parameters
+					 * @param array $counts the counts by post status
+					 * @param string $type the post type
+					 * @param string $perm the required permission for posts to be readable
+					 */
 					do_action( 'groups_post_access_wp_count_posts_before_query', $query_args, $counts, $type, $perm );
 					$posts = get_posts( $query_args );
+					/**
+					 * Fires after the post count query.
+					 *
+					 * @param array $query_args query parameters
+					 * @param array $counts the counts by post status
+					 * @param string $type the post type
+					 * @param string $perm required permission for posts to be readable
+					 */
 					do_action( 'groups_post_access_wp_count_posts_after_query', $query_args, $counts, $type, $perm );
 					$count = count( $posts );
 					unset( $posts );

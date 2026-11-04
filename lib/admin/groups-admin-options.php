@@ -330,6 +330,11 @@ function groups_admin_options() {
 			'</p>';
 		if ( $groups_legacy_enable ) {
 			require_once GROUPS_LEGACY_LIB . '/admin/groups-admin-options-legacy.php';
+			/**
+			 * Fires if legacy setting has changed.
+			 *
+			 * @param boolean $legacy
+			 */
 			do_action( 'groups_admin_options_legacy', $groups_legacy_enable !== $previous_legacy_enable );
 		}
 

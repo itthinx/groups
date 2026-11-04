@@ -249,6 +249,11 @@ class Groups_Admin {
 			add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 		}
 
+		/**
+		 * This action fires after Groups has added the core pages.
+		 *
+		 * @param string[] $pages hook suffixes
+		 */
 		do_action( 'groups_admin_menu', $pages );
 	}
 
@@ -274,6 +279,11 @@ class Groups_Admin {
 		add_action( 'admin_print_styles-' . $page, array( __CLASS__, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts-' . $page, array( __CLASS__, 'admin_print_scripts' ) );
 
+		/**
+		 * Fires after Groups core network admin pages have been added.
+		 *
+		 * @param string[] $pages hook suffixes
+		 */
 		do_action( 'groups_network_admin_menu', $pages );
 	}
 

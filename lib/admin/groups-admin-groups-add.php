@@ -165,6 +165,11 @@ function groups_admin_groups_add_submit() {
 				Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
 			}
 		}
+		/**
+		 * Fires after the request to add a group has been successful.
+		 *
+		 * @param int $group_id the ID of the created group
+		 */
 		do_action( 'groups_admin_groups_add_submit_success', $group_id );
 	} else {
 		if ( !$name ) {

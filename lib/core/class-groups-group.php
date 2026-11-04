@@ -645,6 +645,11 @@ class Groups_Group implements I_Capable {
 			self::release();
 
 			if ( $result !== false ) {
+				/**
+				 * Fires after a group has been persisted.
+				 *
+				 * @param string $result
+				 */
 				do_action( 'groups_created_group', $result );
 			}
 
@@ -944,6 +949,11 @@ class Groups_Group implements I_Capable {
 
 			self::release();
 
+			/**
+			 * Fires after a group has been updated.
+			 *
+			 * @param string|int $result
+			 */
 			do_action( 'groups_updated_group', $result );
 		}
 		return $result;
@@ -1002,6 +1012,11 @@ class Groups_Group implements I_Capable {
 		self::release();
 
 		if ( $result !== false ) {
+			/**
+			 * Fires after a group has been deleted.
+			 *
+			 * @param string|int $result
+			 */
 			do_action( 'groups_deleted_group', $result );
 		}
 

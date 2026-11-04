@@ -75,6 +75,12 @@ class Groups_Group_Capability {
 					$formats = array( '%d', '%d' );
 					if ( $wpdb->insert( $group_capability_table, $data, $formats ) ) {
 						$result = true;
+						/**
+						 * Fires after a group-capability relation has been persisted.
+						 *
+						 * @param string|int $group_id
+						 * @param string|int $capability_id
+						 */
 						do_action( 'groups_created_group_capability', $group_id, $capability_id );
 					}
 				}
@@ -126,6 +132,12 @@ class Groups_Group_Capability {
 				// make sure group and capability exist
 				if ( Groups_Group::read( $group_id ) && Groups_Capability::read( $capability_id ) ) {
 					$result = true;
+					/**
+					 * Fires after a group-capability has been deleted.
+					 *
+					 * @param string|int $group_id
+					 * @param string|int $capability_id
+					 */
 					do_action( 'groups_updated_group_capability', $group_id, $capability_id );
 				}
 			}
@@ -160,6 +172,12 @@ class Groups_Group_Capability {
 			// must have affected a row, otherwise no great success
 			$result = ( $rows !== false ) && ( $rows > 0 );
 			if ( $result ) {
+				/**
+				 * Fires after a group-capability has been deleted.
+				 *
+				 * @param string|int $group_id
+				 * @param string|int $capability_id
+				 */
 				do_action( 'groups_deleted_group_capability', $group_id, $capability_id );
 			}
 		}
