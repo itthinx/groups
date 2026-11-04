@@ -969,7 +969,7 @@ class Groups_Post_Access {
 	 * independent of the post type, we will come here for any post status, so don't be surprised
 	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
 	 *
-	 * @param object $counts An object containing the current post_type's post counts by status.
+	 * @param array $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
 	 *

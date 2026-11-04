@@ -436,7 +436,7 @@ class Groups_Access_Meta_Boxes {
 									 *
 									 * @param int $post_id
 									 * @param int[] $group_ids
-									 * @param boolean $update_result
+									 * @param array $update_result
 									 */
 									do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
 								}
@@ -597,7 +597,7 @@ class Groups_Access_Meta_Boxes {
 					 *
 					 * @param int $post_id
 					 * @param int[] $group_ids
-					 * @param boolean $update_result
+					 * @param array $update_result
 					 */
 					do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
 				}
