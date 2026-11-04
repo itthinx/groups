@@ -215,6 +215,8 @@ class Groups_User_Group {
 					/**
 					 * Fires after a user-group has been updated.
 					 *
+					 * Note that currently no changes in the relationship can be recorded.
+					 *
 					 * @param int $user_id
 					 * @param int $group_id
 					 */

@@ -169,9 +169,19 @@ class Groups_Admin_Posts {
 						esc_attr__( '(any)', 'groups' )
 					);
 
+					/**
+					 * Filter groups used to filter access restrictions.
+					 *
+					 * @param array $result
+					 */
 					$groups = apply_filters( 
 						'groups_admin_posts_restrict_manage_posts_get_groups', 
-						Groups_Group::get_groups( 
+						Groups_Group::get_groups(
+							/**
+							 * Filter options used to get groups used to filter access restrictions.
+							 *
+							 * @param array $result
+							 */
 							apply_filters( 
 								'groups_admin_posts_restrict_manage_posts_get_groups_options', 
 								array( 'order_by' => 'name', 'order' => 'ASC' ) 

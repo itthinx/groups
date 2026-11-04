@@ -201,6 +201,13 @@ class Groups_Access_Meta_Boxes {
 
 		$output .= wp_nonce_field( self::SET_GROUPS, self::NONCE, true, false );
 
+		/**
+		 * Filter the output before the read groups box.
+		 *
+		 * @param string $result defaults to ''
+		 * @param object $object
+		 * @param object $box
+		 */
 		$output .= apply_filters( 'groups_access_meta_boxes_groups_before_read_groups', '', $object, $box );
 
 		$output .= '<div class="select-read-groups-container">';
@@ -208,6 +215,13 @@ class Groups_Access_Meta_Boxes {
 		if ( self::user_can_restrict() ) {
 
 			$include     = self::get_user_can_restrict_group_ids();
+			/**
+			 * Filter the options used to obtain available groups shown in the read groups box.
+			 *
+			 * @param array $result
+			 * @param object $object
+			 * @param object $box
+			 */
 			$groups      = Groups_Group::get_groups( apply_filters( 'groups_access_meta_boxes_groups_get_groups_options', array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ), $object, $box ) );
 			$groups_read = Groups_Post_Access::get_read_group_ids( $post_id );
 
@@ -275,8 +289,22 @@ class Groups_Access_Meta_Boxes {
 
 		$output .= '</div>'; // .select-read-groups-container
 
+		/**
+		 * Filter the output after the read groups box.
+		 *
+		 * @param string $result defaults to ''
+		 * @param object $object
+		 * @param object $box
+		 */
 		$output .= apply_filters( 'groups_access_meta_boxes_groups_after_read_groups', '', $object, $box );
 
+		/**
+		 * Filter the output of the read groups box.
+		 *
+		 * @param string $output
+		 * @param object $object
+		 * @param object $box
+		 */
 		$output = apply_filters( 'groups_access_meta_boxes_groups', $output, $object, $box );
 
 		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -639,6 +667,12 @@ class Groups_Access_Meta_Boxes {
 				$group_ids = array_map( array( 'Groups_Utility','id' ), $group_ids );
 			}
 		}
+		/**
+		 * Filter the group IDs that the user can use to restrict access.
+		 *
+		 * @param int[] $group_ids
+		 * @param int $user_id
+		 */
 		return apply_filters( 'groups_access_meta_boxes_user_can_restrict_group_ids', $group_ids, $user_id );
 	}
 

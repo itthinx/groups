@@ -186,6 +186,11 @@ class Groups_Admin {
 			'Groups', // don't translate, reasons: a) Groups menu title consistency and b) http://core.trac.wordpress.org/ticket/18857 translation affects $screen->id
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin',
+			/**
+			 * Determines the function that outputs the Groups menu page.
+			 *
+			 * @param string $result function name
+			 */
 			apply_filters( 'groups_add_menu_page_function', 'groups_admin_groups' ),
 			'none', // @since 2.16.0 CSS icon from SVG
 			self::MENU_POSITION
@@ -206,6 +211,11 @@ class Groups_Admin {
 				__( 'Tree', 'groups' ),
 				GROUPS_ACCESS_GROUPS,
 				'groups-admin-tree-view',
+				/**
+				 * Invoked when a Groups submenu page is added, determines the function that renders the submenu page.
+				 *
+				 * @param string $result function name
+				 */
 				apply_filters( 'groups_add_submenu_page_function', 'groups_admin_tree_view' )
 			);
 			$pages[] = $page;
@@ -218,6 +228,11 @@ class Groups_Admin {
 			__( 'Capabilities', 'groups' ),
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-admin-capabilities',
+			/**
+			 * Invoked when a Groups submenu page is added, determines the function that renders the submenu page.
+			 *
+			 * @param string $result function name
+			 */
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_capabilities' )
 		);
 		$pages[] = $page;
@@ -229,6 +244,11 @@ class Groups_Admin {
 			__( 'Options', 'groups' ),
 			GROUPS_ADMINISTER_OPTIONS,
 			'groups-admin-options',
+			/**
+			 * Invoked when a Groups submenu page is added, determines the function that renders the submenu page.
+			 *
+			 * @param string $result function name
+			 */
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_options' )
 		);
 		$pages[] = $page;
@@ -240,6 +260,11 @@ class Groups_Admin {
 			__( 'Add-Ons', 'groups' ),
 			GROUPS_ACCESS_GROUPS,
 			'groups-admin-add-ons',
+			/**
+			 * Invoked when a Groups submenu page is added, determines the function that renders the submenu page.
+			 *
+			 * @param string $result function name
+			 */
 			apply_filters( 'groups_add_submenu_page_function', 'groups_admin_add_ons' )
 		);
 		$pages[] = $page;
@@ -250,9 +275,9 @@ class Groups_Admin {
 		}
 
 		/**
-		 * This action fires after Groups has added the core pages.
+		 * This action fires after Groups has added the core pages of the Groups menu.
 		 *
-		 * @param string[] $pages hook suffixes
+		 * @param string[] $pages hook suffixes of the registered pages
 		 */
 		do_action( 'groups_admin_menu', $pages );
 	}
@@ -272,6 +297,11 @@ class Groups_Admin {
 			'Groups', // don't translate, see note on same in self::admin_menu()
 			GROUPS_ADMINISTER_GROUPS,
 			'groups-network-admin',
+			/**
+			 * Determines the function that outputs the Groups menu page.
+			 *
+			 * @param string $result function name
+			 */
 			apply_filters( 'groups_add_menu_page_function', 'groups_network_admin_options' ),
 			'none' // @since 2.16.0 CSS icon from SVG
 		);
@@ -282,7 +312,7 @@ class Groups_Admin {
 		/**
 		 * Fires after Groups core network admin pages have been added.
 		 *
-		 * @param string[] $pages hook suffixes
+		 * @param string[] $pages hook suffixes of the registered pages
 		 */
 		do_action( 'groups_network_admin_menu', $pages );
 	}

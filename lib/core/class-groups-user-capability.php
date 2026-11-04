@@ -141,6 +141,8 @@ class Groups_User_Capability {
 					/**
 					 * Fires after a user-capability has been updated.
 					 *
+					 * Note that currently no changes in the relationship can be recorded.
+					 *
 					 * @param int $user_id
 					 * @param int $capability_id
 					 */

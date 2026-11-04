@@ -512,9 +512,7 @@ function groups_admin_groups() {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param string $markup additional markup
-	 *
-	 * @return string
+	 * @param string $result additional markup
 	 */
 	$filters_html .= apply_filters( 'groups_admin_groups_bulk_actions_fields_epilogue', '' );
 	$bulk_html .= sprintf( '<input class="button" type="submit" name="bulk" value="%s" />', esc_attr__( 'Apply', 'groups' ) );
@@ -526,7 +524,7 @@ function groups_admin_groups() {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param string $bulk_html markup
+	 * @param string $result markup
 	 *
 	 * @return string
 	 */

@@ -78,6 +78,8 @@ class Groups_Group_Capability {
 						/**
 						 * Fires after a group-capability relation has been persisted.
 						 *
+						 * The relationship establishes that the group and its members possess the capability.
+						 *
 						 * @param string|int $group_id
 						 * @param string|int $capability_id
 						 */
@@ -134,6 +136,8 @@ class Groups_Group_Capability {
 					$result = true;
 					/**
 					 * Fires after a group-capability has been deleted.
+					 *
+					 * Note that currently no changes in the relationship can be recorded.
 					 *
 					 * @param string|int $group_id
 					 * @param string|int $capability_id

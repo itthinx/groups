@@ -249,6 +249,16 @@ class Groups_Access_Meta_Boxes_Legacy {
 							$label_title = __( 'No groups grant access through this capability. To grant access to group members using this capability, you should assign it to a group and enable the capability for access restriction.', 'groups' );
 						}
 
+						/**
+						 * Filter if capability is selected.
+						 *
+						 * @param boolean $result
+						 * @param string $capability
+						 * @param string|int $capability_id
+						 * @param mixed $read_caps
+						 * @param sintrg|int $post_id
+						 * @param string $post_type
+						 */
 						$selected = apply_filters(
 							'groups_access_restrictions_capability_selected',
 							in_array( $capability->capability, $read_caps ),

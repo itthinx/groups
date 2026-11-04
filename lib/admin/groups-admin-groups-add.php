@@ -120,6 +120,16 @@ function groups_admin_groups_add() {
 	$output .= Groups_UIE::render_select( '.select.capability' );
 	$output .= '</div>';
 
+	/**
+	 * Relates to the admin screen that allows to add a group.
+	 *
+	 * This filter allows to add HTML within the form presented to add a group.
+	 * The filter receives an empty string by default and is expected to return desired additional valid HTML.
+	 * Use this filter for additional fields that should be processed upon form submission.
+	 * Use the groups_admin_groups_add_submit_success action to process the additional data.
+	 *
+	 * @param string $result additional valid HTML to be rendered within the form, default: ''
+	 */
 	$output .= apply_filters( 'groups_admin_groups_add_form_after_fields', '' );
 
 	$output .= '<div class="field">';
@@ -167,6 +177,12 @@ function groups_admin_groups_add_submit() {
 		}
 		/**
 		 * Fires after the request to add a group has been successful.
+		 *
+		 * Relates to the admin screen that allows to add a group.
+		 * It is invoked after the form submission if a new group has been created successfully.
+		 * It can be used to process additional form data as needed.
+		 * The action receives a single argument, the ID of the group.
+		 * Use the groups_admin_groups_add_form_after_fields filter to add appropriate fields to the form.
 		 *
 		 * @param int $group_id the ID of the created group
 		 */
