@@ -64,6 +64,13 @@ class Groups_Comment_Access {
 	 */
 	public static function comments_array( $comments, $post_id ) {
 
+		/**
+		 * Whether to filter the comments array.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param array $comments the comments
+		 * @param int $post_id the post ID
+		 */
 		if ( !apply_filters( 'groups_comment_access_comments_array_apply', true, $comments, $post_id ) ) {
 			return $comments;
 		}
@@ -86,6 +93,13 @@ class Groups_Comment_Access {
 	 */
 	public static function the_comments( $comments, $comment_query ) {
 
+		/**
+		 * Whether to filter the comments.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param array $comments the comments
+		 * @param WP_Comment_Query $comment_query the comment query
+		 */
 		if ( !apply_filters( 'groups_comment_access_the_comments_apply', true, $comments, $comment_query ) ) {
 			return $comments;
 		}
@@ -112,6 +126,13 @@ class Groups_Comment_Access {
 	 */
 	public static function comment_feed_where( $where, $query ) {
 
+		/**
+		 * Whether to apply the comment feed where clause filter.
+		 *
+		 * @param boolean $result whether to filter the where clause
+		 * @param string $where the where clause
+		 * @param WP_Query $query the query
+		 */
 		if ( !apply_filters( 'groups_comment_access_comment_feed_where_apply', true, $where, $query ) ) {
 			return $where;
 		}
@@ -138,6 +159,13 @@ class Groups_Comment_Access {
 	 */
 	public static function comments_clauses( $pieces, $comment_query ) {
 
+		/**
+		 * Whether to apply the comment clauses filter.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param array $pieces the clauses
+		 * @param WP_Comment_Query $comment_query the comment query
+		 */
 		if ( !apply_filters( 'groups_comment_access_comments_clauses_apply', true, $pieces, $comment_query ) ) {
 			return $pieces;
 		}
@@ -226,6 +254,13 @@ class Groups_Comment_Access {
 	 */
 	public static function wp_count_comments( $count, $post_id ) {
 
+		/**
+		 * Whether to filter the comment counts.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param array $count
+		 * @param int $post_id
+		 */
 		if ( !apply_filters( 'groups_comment_access_wp_count_comments_apply', true, $count, $post_id ) ) {
 			return $count;
 		}
@@ -287,6 +322,12 @@ class Groups_Comment_Access {
 
 		$where = self::build_where( $where );
 
+		/**
+		 * Filter the comment count where clause.
+		 *
+		 * @param string $where
+		 * @param int $post_id
+		 */
 		$where = apply_filters( 'groups_comment_access_comment_count_where', $where, $post_id );
 
 		$totals = (array) $wpdb->get_results(

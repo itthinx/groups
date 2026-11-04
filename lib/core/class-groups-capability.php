@@ -99,6 +99,11 @@ class Groups_Capability {
 		if ( self::$lock !== null ) {
 			$lock = self::$lock;
 		} else {
+			/**
+			 * Filter the lock timeout.
+			 *
+			 * @param int $result lock timeout
+			 */
 			$timeout = apply_filters( 'groups_capability_lock_timeout', self::LOCK_TIMEOUT );
 			if ( is_numeric( $timeout ) ) {
 				$timeout = max( 0, intval( $timeout ) );
@@ -412,6 +417,11 @@ class Groups_Capability {
 			self::release();
 
 			if ( $result !== false ) {
+				/**
+				 * Fires after a capability has been persisted.
+				 *
+				 * @param string $result
+				 */
 				do_action( 'groups_created_capability', $result );
 			}
 
@@ -580,6 +590,11 @@ class Groups_Capability {
 			self::release();
 
 			if ( $result !== false ) {
+				/**
+				 * Fires after a capability has been updated.
+				 *
+				 * @param string|int $result
+				 */
 				do_action( 'groups_updated_capability', $result );
 			}
 
@@ -612,6 +627,11 @@ class Groups_Capability {
 			if ( $rows !== false && $rows > 0 ) {
 				$result = $capability_id;
 				if ( !empty( $capability->capability ) ) {
+					/**
+					 * Fires after a capability has been deleted.
+					 *
+					 * @param string $capability
+					 */
 					do_action( 'groups_deleted_capability_capability', $capability->capability );
 				}
 				Groups_Cache::delete( self::ID_MAP, self::CACHE_GROUP );
@@ -622,6 +642,14 @@ class Groups_Capability {
 		self::release();
 
 		if ( $result !== false ) {
+			/**
+			 * Fires after a capability has been deleted.
+			 *
+			 * Notes: No additional details about the capability can be retrieved at this point, as the related data has already been removed.
+			 * An improvement to consider for this action would be to pass details about the deleted capability as a second parameter, for example containing the row data for the deleted capability.
+			 *
+			 * @param string|int $result
+			 */
 			do_action( 'groups_deleted_capability', $result );
 		}
 

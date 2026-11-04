@@ -272,6 +272,12 @@ class Groups_Admin_User_Profile {
 		global $wpdb;
 		if ( Groups_User::current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
 			$groups_table = _groups_get_tablename( 'group' );
+			/**
+			 * Filter groups provided during user profile update.
+			 *
+			 * @param array|null $result
+			 * @param int $user_id
+			 */
 			$groups = apply_filters(
 				'groups_admin_user_profile_edit_user_profile_update_groups',
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared

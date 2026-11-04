@@ -121,6 +121,11 @@ class Groups_Admin_Welcome {
 					( empty( $_GET['page'] ) || groups_sanitize_get( 'page' ) !== 'groups-welcome' ) && // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					!is_network_admin() &&
 					Groups_User::current_user_can( GROUPS_ACCESS_GROUPS ) &&
+					/**
+					 * Whether to show the welcome.
+					 *
+					 * @param boolean $result
+					 */
 					apply_filters( 'groups_welcome_show', true )
 				) {
 					wp_safe_redirect( admin_url( 'index.php?page=groups-welcome' ) );
@@ -138,6 +143,7 @@ class Groups_Admin_Welcome {
 	 *
 	 * @param array $links
 	 * @param string $file plugin file basename
+	 *
 	 * @return array
 	 */
 	public static function plugin_row_meta( $links, $file ) {

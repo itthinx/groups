@@ -101,6 +101,11 @@ class Groups_Post_Access {
 		// post access
 		add_filter( 'posts_where', array( __CLASS__, 'posts_where' ), 10, 2 );
 		add_filter( 'get_pages', array( __CLASS__, 'get_pages' ), 1 );
+		/**
+		 * Whether Groups should apply its the_posts filter. By default, the filter is not applied.
+		 *
+		 * @param boolean $result whether to apply Groups’ the_posts filter
+		 */
 		if ( apply_filters( 'groups_filter_the_posts', false ) ) {
 			add_filter( 'the_posts', array( __CLASS__, 'the_posts' ), 1, 2 );
 		}
@@ -268,6 +273,13 @@ class Groups_Post_Access {
 
 		global $wpdb;
 
+		/**
+		 * Whether to apply the posts_where filter.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param string $where the where conditions
+		 * @param WP_Query $query the query
+		 */
 		if ( apply_filters( 'groups_post_access_posts_where_apply', true, $where, $query ) ) {
 
 			$user_id = get_current_user_id();
@@ -282,8 +294,20 @@ class Groups_Post_Access {
 				return $where;
 			}
 
+			/**
+			 * Whether to filter for all post types.
+			 *
+			 * @param boolean $result whether to filter
+			 */
 			if ( !apply_filters( 'groups_post_access_posts_where_filter_all', false ) ) {
 				$filter = true;
+				/**
+				 * The post types considered for evaluation.
+				 *
+				 * @param string[]|string $post_types the post type(s)
+				 * @param string $where the where conditions
+				 * @param WP_Query $query the query
+				 */
 				$post_types = apply_filters(
 					'groups_post_access_posts_where_query_get_post_types',
 					$query->get( 'post_type', null ),
@@ -397,6 +421,12 @@ class Groups_Post_Access {
 			);
 		}
 
+		/**
+		 * Allow to modify the where clause.
+		 *
+		 * @param string $where
+		 * @param WP_Query $query
+		 */
 		return apply_filters( 'groups_post_access_posts_where', $where, $query );
 	}
 
@@ -409,6 +439,12 @@ class Groups_Post_Access {
 	 */
 	public static function get_pages( $pages ) {
 		$result = array();
+		/**
+		 * Whether to apply the get_pages filter.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param array $pages the pages
+		 */
 		if ( apply_filters( 'groups_post_access_get_pages_apply', true, $pages ) ) {
 			$user_id = get_current_user_id();
 			foreach ( $pages as $page ) {
@@ -432,6 +468,13 @@ class Groups_Post_Access {
 	 */
 	public static function the_posts( $posts, &$query ) {
 		$result = array();
+		/**
+		 * Whether to apply the the_posts filter.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param array $posts the posts
+		 * @param WP_Query $query the query
+		 */
 		if ( apply_filters( 'groups_post_access_the_posts_apply', true, $posts, $query ) ) {
 			$user_id = get_current_user_id();
 			foreach ( $posts as $post ) {
@@ -460,6 +503,14 @@ class Groups_Post_Access {
 	 */
 	public static function wp_get_nav_menu_items( $items = null, $menu = null, $args = null ) {
 		$result = array();
+		/**
+		 * Whether to filter menu items.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param array $items menu items
+		 * @param mixed $menu the menu
+		 * @param array $args
+		 */
 		if ( apply_filters( 'groups_post_access_wp_get_nav_menu_items_apply', true, $items, $menu, $args ) ) {
 			$user_id = get_current_user_id();
 			foreach ( $items as $item ) {
@@ -488,6 +539,12 @@ class Groups_Post_Access {
 	public static function get_the_excerpt( $output ) {
 		global $post;
 		$result = '';
+		/**
+		 * Whether to filter the excerpt.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param string $output the content
+		 */
 		if ( apply_filters( 'groups_post_access_get_the_excerpt_apply', true, $output ) ) {
 			if ( isset( $post->ID ) ) {
 				if ( self::user_can_read_post( $post->ID ) ) {
@@ -513,6 +570,12 @@ class Groups_Post_Access {
 	public static function the_content( $output ) {
 		global $post;
 		$result = '';
+		/**
+		 * Whether to apply the the_content filter.
+		 *
+		 * @param boolean $result whether to filter
+		 * @param string $output the content
+		 */
 		if ( apply_filters( 'groups_post_access_the_content_apply', true, $output ) ) {
 			if ( isset( $post->ID ) ) {
 				if ( self::user_can_read_post( $post->ID ) ) {
@@ -873,6 +936,13 @@ class Groups_Post_Access {
 						}
 					}
 				}
+				/**
+				 * This filter allows to override the Groups’ verdict on whether a user can access a post.
+				 *
+				 * @param boolean $result whether the user can access the post
+				 * @param int $post_id the post ID
+				 * @param int $user_id the user ID
+				 */
 				$result = apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
 				Groups_Cache::set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );
 			}
@@ -899,7 +969,7 @@ class Groups_Post_Access {
 	 * independent of the post type, we will come here for any post status, so don't be surprised
 	 * to see this executed e.g. on post type 'post' with e.g. 'wc-completed' post status.
 	 *
-	 * @param object $counts An object containing the current post_type's post counts by status.
+	 * @param array $counts An object containing the current post_type's post counts by status.
 	 * @param string $type the post type
 	 * @param string $perm The permission to determine if the posts are 'readable' by the current user.
 	 *
@@ -943,8 +1013,24 @@ class Groups_Post_Access {
 							continue;
 						}
 					}
+					/**
+					 * Fires before the post count query.
+					 *
+					 * @param array $query_args query parameters
+					 * @param array $counts the counts by post status
+					 * @param string $type the post type
+					 * @param string $perm the required permission for posts to be readable
+					 */
 					do_action( 'groups_post_access_wp_count_posts_before_query', $query_args, $counts, $type, $perm );
 					$posts = get_posts( $query_args );
+					/**
+					 * Fires after the post count query.
+					 *
+					 * @param array $query_args query parameters
+					 * @param array $counts the counts by post status
+					 * @param string $type the post type
+					 * @param string $perm required permission for posts to be readable
+					 */
 					do_action( 'groups_post_access_wp_count_posts_after_query', $query_args, $counts, $type, $perm );
 					$count = count( $posts );
 					unset( $posts );

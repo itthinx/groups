@@ -160,11 +160,16 @@ function _groups_get_tablename( $name ) { // phpcs:ignore WordPress.NamingConven
 	/**
 	 * Filters the prefix of the database table to query.
 	 *
+	 * This filters the prefix of database tables used by Groups.
+	 * The current WordPress table prefix is used by default.
+	 * Allowed characters used as the prefix are the characters a-z, A-Z, 0-9 the dash - character and the underscore _ character.
+	 *
+	 * The potential application for this particular filter is e.g. to concentrate all database queries related to Groups’ tables on a single database within the context of a WordPress multisite environment.
+	 * This would allow to use shared data across its sites.
+	 *
 	 * @since 2.11.0
 	 *
-	 * @param str $wpdb->prefix The current WordPress table prefix. Allowed characters are a-z, A-Z, 0-9, the dash - and the underscore _.
-	 *
-	 * @return str The possibly-modified table prefix.
+	 * @param string $prefix the table prefix to use
 	 */
 	$prefix = apply_filters( 'groups_get_table_prefix', $wpdb->prefix );
 

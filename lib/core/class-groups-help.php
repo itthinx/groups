@@ -161,6 +161,11 @@ class Groups_Help {
 				esc_attr( 'https://wordpress.org/support/view/plugin-reviews/groups?filter=5#postform' )
 			) .
 			'</span>';
+		/**
+		 * Determines the footer content.
+		 *
+		 * @param string $footer content
+		 */
 		$footer = apply_filters( 'groups_footer', $footer );
 		if ( $render ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

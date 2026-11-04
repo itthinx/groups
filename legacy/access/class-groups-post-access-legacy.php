@@ -63,6 +63,11 @@ class Groups_Post_Access_Legacy {
 		// post access
 		add_filter( 'posts_where', array( __CLASS__, 'posts_where' ), 10, 2 );
 		add_filter( 'get_pages', array( __CLASS__, 'get_pages' ), 1 );
+		/**
+		 * Whether Groups should apply its the_posts filter. By default, the filter is not applied.
+		 *
+		 * @param boolean $result whether to apply Groups’ the_posts filter
+		 */
 		if ( apply_filters( 'groups_filter_the_posts', false ) ) {
 			add_filter( 'the_posts', array( __CLASS__, 'the_posts' ), 1, 2 );
 		}
@@ -421,6 +426,13 @@ class Groups_Post_Access_Legacy {
 				} else {
 					$result = true;
 				}
+				/**
+				 * This filter allows to override the Groups’ verdict on whether a user can access a post.
+				 *
+				 * @param boolean $result whether the user can access the post
+				 * @param int $post_id the post ID
+				 * @param int $user_id the user ID
+				 */
 				$result = apply_filters( 'groups_post_access_user_can_read_post', $result, $post_id, $user_id );
 				Groups_Cache::set( self::CAN_READ_POST . '_' . $user_id . '_' . $post_id, $result, self::CACHE_GROUP );
 			}

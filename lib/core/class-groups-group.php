@@ -106,6 +106,11 @@ class Groups_Group implements I_Capable {
 		if ( self::$lock !== null ) {
 			$lock = self::$lock;
 		} else {
+			/**
+			 * Filter the lock timeout.
+			 *
+			 * @param int $result lock timeout
+			 */
 			$timeout = apply_filters( 'groups_group_lock_timeout', self::LOCK_TIMEOUT );
 			if ( is_numeric( $timeout ) ) {
 				$timeout = max( 0, intval( $timeout ) );
@@ -518,9 +523,9 @@ class Groups_Group implements I_Capable {
 		 * @since 3.0.0 $object
 		 * @since 3.0.0 $args
 		 *
-		 * @param boolean $result
-		 * @param Groups_Group $group
-		 * @param string $capability
+		 * @param boolean $result current evaluation result, true if the group has the capability, false otherwise
+		 * @param Groups_Group $group the group object
+		 * @param string $capability the capability ID or name that is queried for the group
 		 * @param mixed $object
 		 * @param mixed $args
 		 *
@@ -645,6 +650,11 @@ class Groups_Group implements I_Capable {
 			self::release();
 
 			if ( $result !== false ) {
+				/**
+				 * Fires after a group has been persisted.
+				 *
+				 * @param string $result
+				 */
 				do_action( 'groups_created_group', $result );
 			}
 
@@ -669,6 +679,11 @@ class Groups_Group implements I_Capable {
 
 		$result = false;
 
+		/**
+		 * Maximum number of map entries read.
+		 *
+		 * @param int $result
+		 */
 		$max_map = apply_filters( 'groups_group_read_max_map', self::MAX_MAP );
 		if ( !is_numeric( $max_map ) ) {
 			$max_map = self::MAX_MAP;
@@ -757,6 +772,11 @@ class Groups_Group implements I_Capable {
 
 		$result = false;
 
+		/**
+		 * Maximum number of map entries.
+		 *
+		 * @param int $result
+		 */
 		$max_map = apply_filters( 'groups_group_read_by_name_max_map', self::MAX_MAP );
 		if ( !is_numeric( $max_map ) ) {
 			$max_map = self::MAX_MAP;
@@ -944,6 +964,11 @@ class Groups_Group implements I_Capable {
 
 			self::release();
 
+			/**
+			 * Fires after a group has been updated.
+			 *
+			 * @param string|int $result
+			 */
 			do_action( 'groups_updated_group', $result );
 		}
 		return $result;
@@ -1002,6 +1027,13 @@ class Groups_Group implements I_Capable {
 		self::release();
 
 		if ( $result !== false ) {
+			/**
+			 * Fires after a group has been deleted.
+			 *
+			 * Note: As with deleted capabilities, it should be considered to enhance this action with a second parameter, indicating details about the group, as it is impossible to retrieve these at this point.
+			 *
+			 * @param string|int $result
+			 */
 			do_action( 'groups_deleted_group', $result );
 		}
 

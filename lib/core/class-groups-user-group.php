@@ -154,6 +154,12 @@ class Groups_User_Group {
 						$formats = array( '%d', '%d' );
 						if ( $wpdb->insert( $user_group_table, $data, $formats ) ) {
 							$result = true;
+							/**
+							 * Fires after a user-group has been persisted.
+							 *
+							 * @param string|int $user_id
+							 * @param string|int $group_id
+							 */
 							do_action( 'groups_created_user_group', $user_id, $group_id );
 						}
 					}
@@ -206,6 +212,14 @@ class Groups_User_Group {
 				// make sure user and group exist
 				if ( ( false !== Groups_Utility::id( $user_id ) ) && get_user_by( 'id', $user_id ) && Groups_Group::read( $group_id ) ) {
 					$result = true;
+					/**
+					 * Fires after a user-group has been updated.
+					 *
+					 * Note that currently no changes in the relationship can be recorded.
+					 *
+					 * @param int $user_id
+					 * @param int $group_id
+					 */
 					do_action( 'groups_updated_user_group', $user_id, $group_id );
 				}
 			}
@@ -240,6 +254,12 @@ class Groups_User_Group {
 			// must have affected a row, otherwise no great success
 			$result = ( $rows !== false ) && ( $rows > 0 );
 			if ( $result ) {
+				/**
+				 * Fires after a user-group has been deleted.
+				 *
+				 * @param int $user_id
+				 * @param int $group_id
+				 */
 				do_action( 'groups_deleted_user_group', $user_id, $group_id );
 			}
 		}

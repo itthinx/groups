@@ -584,12 +584,14 @@ class Groups_User implements I_Capable {
 		/**
 		 * Filter whether the user has the capability.
 		 *
+		 * Provides the current in $result: true if the user has the capability, false otherwise.
+		 *
 		 * @since 3.0.0 $object
 		 * @since 3.0.0 $args
 		 *
-		 * @param boolean $result
-		 * @param Groups_User $group_user
-		 * @param string $capability
+		 * @param boolean $result whether the user has the capability
+		 * @param Groups_User $group_user the Groups_User object
+		 * @param string $capability the capability ID or name
 		 * @param mixed $object
 		 * @param mixed $args
 		 *
@@ -687,6 +689,13 @@ class Groups_User implements I_Capable {
 				}
 			}
 
+			/**
+			 * This filter allows to reduce the capabilities that are taken into account when evaluation the user capability set during cache initialization.
+			 *
+			 * By default, capabilities that are assigned to the user’s role(s) are added. If false is returned for this filter, they are not added.
+			 *
+			 * @param boolean $result defaults to true, indicating that the user’s role(s) capabilities should also be added to its capability set
+			 */
 			if ( apply_filters( 'groups_user_add_role_capabilities', true ) ) {
 				// Get all capabilities from the WP_User object.
 				$role_caps = $this->user->get_role_caps();

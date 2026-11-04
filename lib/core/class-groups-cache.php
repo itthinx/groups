@@ -198,6 +198,13 @@ class Groups_Cache {
 			if ( isset( self::$locks[$name] ) ) {
 				$lock = self::$locks[$name];
 			} else {
+				/**
+				 * Filter the lock timeout.
+				 *
+				 * @param int $result lock timeout
+				 * @param string $key
+				 * @param string $group
+				 */
 				$timeout = apply_filters( 'groups_cache_get_lock_timeout', self::LOCK_TIMEOUT, $key, $group );
 				if ( is_numeric( $timeout ) ) {
 					$timeout = max( 0, intval( $timeout ) );
@@ -319,6 +326,13 @@ class Groups_Cache {
 			if ( isset( self::$locks[$name] ) ) {
 				$lock = self::$locks[$name];
 			} else {
+				/**
+				 * Filter setting the lock timeout.
+				 *
+				 * @param int $result lock timeout
+				 * @param string $key
+				 * @param string $group
+				 */
 				$timeout = apply_filters( 'groups_cache_set_lock_timeout', self::LOCK_TIMEOUT, $key, $group );
 				if ( is_numeric( $timeout ) ) {
 					$timeout = max( 0, intval( $timeout ) );
@@ -399,6 +413,13 @@ class Groups_Cache {
 			if ( isset( self::$locks[$name] ) ) {
 				$lock = self::$locks[$name];
 			} else {
+				/**
+				 * Filter the delete lock timeout.
+				 *
+				 * @param int $result lock timeout
+				 * @param string $key
+				 * @param string $group
+				 */
 				$timeout = apply_filters( 'groups_cache_delete_lock_timeout', self::LOCK_TIMEOUT, $key, $group );
 				if ( is_numeric( $timeout ) ) {
 					$timeout = max( 0, intval( $timeout ) );

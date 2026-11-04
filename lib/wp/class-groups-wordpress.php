@@ -256,6 +256,14 @@ class Groups_WordPress {
 				Groups_Cache::set( self::HAS_CAP . '_' . $user_id . '_' . $hash, $allcaps, self::CACHE_GROUP );
 			}
 		}
+		/**
+		 * Allows to filter the capabilities mapping for the user.
+		 *
+		 * @param array $allcaps capability names mapped to boolean values
+		 * @param array $caps required primitive capabilities for the requested capability
+		 * @param array $args requested capability data
+		 * @param WP_User $user the user
+		 */
 		$allcaps = apply_filters( 'groups_user_has_cap', $allcaps, $caps, $args, $user );
 		return $allcaps;
 	}

@@ -686,6 +686,11 @@ class Groups_Shortcodes {
 							if ( isset( $groups_join_data[$hash]['group_id'] ) && isset( $groups_join_data[$hash]['time'] ) ) {
 								$group_id = $groups_join_data[$hash]['group_id'];
 								$dt = time() - $groups_join_data[$hash]['time'];
+								/**
+								 * Maximum time delta for submit validation.
+								 *
+								 * @param int $result
+								 */
 								if ( $dt < apply_filters( 'groups_join_submit_max_time_delta', self::MAX_TIME_DELTA ) ) {
 									$joined = Groups_User_Group::create(
 										array(
@@ -909,6 +914,11 @@ class Groups_Shortcodes {
 							if ( isset( $groups_leave_data[$hash]['group_id'] ) && isset( $groups_leave_data[$hash]['time'] ) ) {
 								$group_id = $groups_leave_data[$hash]['group_id'];
 								$dt = time() - $groups_leave_data[$hash]['time'];
+								/**
+								 * Maximum time delta for submit.
+								 *
+								 * @param int $result
+								 */
 								if ( $dt < apply_filters( 'groups_leave_submit_max_time_delta', self::MAX_TIME_DELTA ) ) {
 									$left = Groups_User_Group::delete( $user_id, $group_id );
 									if ( $left ) {
@@ -1081,6 +1091,11 @@ class Groups_Shortcodes {
 	 * @return array
 	 */
 	public static function get_preprocess_blocks() {
+		/**
+		 * Filter the blocks to preprocess.
+		 *
+		 * @param string[] $result blocks to process
+		 */
 		$blocks = apply_filters(
 			'groups_shortcodes_preprocess_blocks',
 			array(

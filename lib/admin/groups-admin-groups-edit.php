@@ -162,6 +162,17 @@ function groups_admin_groups_edit( $group_id ) {
 		$output .= '</div>';
 	}
 
+	/**
+	 * Relates to the admin screen that allows to edit a group.
+	 *
+	 * Allows to add HTML within the form used to edit a group.
+	 * The filter receives an empty string and is expected to return desired additional HTML.
+	 * Use this filter to for additional fields that should be processed upon form submission.
+	 * Use the groups_admin_groups_edit_submit_success action to process the additional data.
+	 *
+	 * @param string $result additional valid HTML to be rendered within the form, default: ''
+	 * @param int $group_id the ID of the group
+	 */
 	$output .= apply_filters( 'groups_admin_groups_edit_form_after_fields', '', $group_id );
 
 	$output .= '<div class="field">';
@@ -254,6 +265,17 @@ function groups_admin_groups_edit_submit() {
 					Groups_Group_Capability::create( array( 'group_id' => $group_id, 'capability_id' => $cap ) );
 				}
 			}
+			/**
+			 * Fires after a request to update a group has been successful.
+			 *
+			 * Relates to the admin screen that allows to edit a group.
+			 * The action is invoked after form submission if a group has been updated.
+			 * It can be used to process additional form data related to the updated existing group.
+			 * The action receives a single argument, the ID of the group.
+			 * Use the groups_admin_groups_edit_form_after_fields filter to add appropriate fields to the form.
+			 *
+			 * @param int $group_id the ID of the updated group
+			 */
 			do_action( 'groups_admin_groups_edit_submit_success', $group_id );
 		}
 		return $group_id;
