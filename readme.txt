@@ -3,9 +3,9 @@ Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
 Requires at least: 6.7
-Tested up to: 7.1
+Tested up to: 7.2
 Requires PHP: 7.4
-Stable tag: 4.9.0
+Stable tag: 4.10.0
 License: GPLv3
 
 Turn your site into a powerful membership solution. Manage members, teams and access to content easily.
@@ -178,7 +178,9 @@ Please try to solve problems there before you rate this plugin or say it doesn't
 
 #### Stay informed or contribute ####
 
-Follow @‌itthinx on [GitHub](https://github.com/itthinx/), [X - Twitter](https://twitter.com/itthinx), [Reddit](https://www.reddit.com/r/itthinx/), [Mastodon](https://mastodon.social/@itthinx), [Rumble](https://rumble.com/user/itthinx), [YouTube](https://www.youtube.com/@itthinx_official) for news related to Groups and other plugins.
+Subscribe to our [Newsletter](https://www.itthinx.com/newsletters/).
+
+Follow @itthinx on [GitHub](https://github.com/itthinx/), [X - Twitter](https://x.com/itthinx), [Reddit](https://www.reddit.com/r/itthinx/), [Mastodon](https://mastodon.social/@itthinx), [Rumble](https://rumble.com/user/itthinx), [YouTube](https://www.youtube.com/@itthinx_official) for news related to Groups and other plugins.
 
 Get development notifications, contribute code or open issues at the Groups repository on [GitHub](https://github.com/itthinx/).
 
