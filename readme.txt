@@ -3,9 +3,9 @@ Contributors: itthinx, proaktion
 Donate link: https://www.itthinx.com/shop/
 Tags: groups, access, access control, member, membership
 Requires at least: 6.7
-Tested up to: 7.1
+Tested up to: 7.2
 Requires PHP: 7.4
-Stable tag: 4.9.0
+Stable tag: 4.10.0
 License: GPLv3
 
 Turn your site into a powerful membership solution. Manage members, teams and access to content easily.
