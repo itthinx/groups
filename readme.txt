@@ -178,7 +178,7 @@ Please try to solve problems there before you rate this plugin or say it doesn't
 
 #### Stay informed or contribute ####
 
-Follow @‌itthinx on [GitHub](https://github.com/itthinx/), [X - Twitter](https://twitter.com/itthinx), [Reddit](https://www.reddit.com/r/itthinx/), [Mastodon](https://mastodon.social/@itthinx), [Rumble](https://rumble.com/user/itthinx), [YouTube](https://www.youtube.com/@itthinx_official) for news related to Groups and other plugins.
+Follow @itthinx on [GitHub](https://github.com/itthinx/), [X - Twitter](https://twitter.com/itthinx), [Reddit](https://www.reddit.com/r/itthinx/), [Mastodon](https://mastodon.social/@itthinx), [Rumble](https://rumble.com/user/itthinx), [YouTube](https://www.youtube.com/@itthinx_official) for news related to Groups and other plugins.
 
 Get development notifications, contribute code or open issues at the Groups repository on [GitHub](https://github.com/itthinx/).
 
